@@ -83,8 +83,11 @@ This split is also the multi-tenancy escape hatch: the core spec is single-autho
 ## Repo layout
 
 ```
-docs/ygg-initial-spec.md   the v0 spec, verbatim — open for comments
-docs/                      successor spec drafts land here
+docs/ygg-initial-spec.md   the v0 concept spec, verbatim — open for comments
+docs/roadmap.md            full roadmap v0.1 → post-1.0
+docs/v0.1-plan.md          implementation plan for v0.1 "Seed"
+DEVLOG.md                  per-session development log
+CLAUDE.md                  agent instructions: session rituals, model routing
 ```
 
 ## License
