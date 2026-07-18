@@ -1,0 +1,27 @@
+{
+  "name": "ygg-ref",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Ygg v0.1 'Seed' reference client — single-author publish worker",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "test": "vitest run",
+    "export": "node --experimental-strip-types scripts/export.ts",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "hono": "^4",
+    "markdown-it": "^14"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "latest",
+    "@cloudflare/workers-types": "^5",
+    "@types/markdown-it": "^14",
+    "@types/node": "^26.1.1",
+    "fast-xml-parser": "^5",
+    "typescript": "^5",
+    "vitest": "^4.1.0",
+    "wrangler": "^4"
+  }
+}
