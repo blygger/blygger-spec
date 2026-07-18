@@ -11,6 +11,7 @@ Ygg is an AI-native decentralized public writing medium — fragments + threads 
 | [`docs/ygg-initial-spec.md`](docs/ygg-initial-spec.md) | Frozen v0 concept spec — never edit; open for public comment (issue #1) |
 | [`docs/roadmap.md`](docs/roadmap.md) | Full roadmap v0.1 → post-1.0, with model-routing annotations |
 | [`docs/v0.1-plan.md`](docs/v0.1-plan.md) | Implementation plan for v0.1 "Seed" — the current work spec |
+| [`docs/wireframes/`](docs/wireframes/) | HTML mockups for the task-9 studio review round (public, studio, edit) |
 | [`DEVLOG.md`](DEVLOG.md) | Per-session development log — **non-skippable**, see ritual below |
 | `README.md` | Public face: idea, protocol on one screen, roadmap summary |
 
@@ -79,6 +80,7 @@ needs to reconstruct design rationale from this alone.
 ## TODO
 
 - [ ] Decide protocol XML namespace URI / whether to acquire a dedicated domain (see v0.1 plan, Open decisions)
-- [ ] Build v0.1 "Seed" per `docs/v0.1-plan.md`
-- [ ] Wireframe review round: public page + studio (HTML mockups) before studio UI implementation
-- [ ] After v0.1 ships: draft `docs/protocol-v0.1.md` as the normative L1 spec (⚠️ FABLE)
+- [x] Build v0.1 "Seed" tasks 1–8 + 10 (session 2) — remaining: task 9 (studio UI, gated) and task 11 (deploy)
+- [ ] **Venkat:** review wireframes in `docs/wireframes/` (delivered session 2) → clears task 9
+- [ ] Build studio UI (task 9) after wireframe review; then deploy (task 11: D1 id, wrangler secrets + `.env.keys` registration, RSS-reader check)
+- [ ] After v0.1 ships: draft `docs/protocol-v0.1.md` as the normative L1 spec (⚠️ FABLE) — fold in the two feed interpretations from DEVLOG session 2
