@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wireframe — /studio</title>
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.55;
+  max-width: 65ch;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+.wf-note { background: rgba(255,200,0,0.15); border: 1px dashed rgba(128,128,128,0.6); padding: 0.5rem 0.75rem; font-size: 0.85rem; margin-bottom: 1rem; }
+header.studio { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+header.studio h1 { font-size: 1.2rem; margin: 0; }
+header.studio nav a { margin-left: 0.75rem; font-size: 0.9rem; }
+.composer { border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; margin-bottom: 1.5rem; }
+.composer textarea { width: 100%; min-height: 5.5rem; border: none; resize: vertical; font: inherit; background: transparent; outline: none; }
+.composer .bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; }
+.composer .count { opacity: 0.6; }
+.composer .count.over { color: #c00; opacity: 1; }
+.composer button, .item-row button { font: inherit; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; cursor: pointer; }
+.composer button.primary { border-color: currentColor; font-weight: 600; }
+.item-row { border-top: 1px solid rgba(128,128,128,0.3); padding: 0.75rem 0; }
+.item-row .state { font-size: 0.8rem; margin-right: 0.4rem; }
+.item-row .state.pub { color: #2a7; }
+.item-row .state.draft { opacity: 0.5; }
+.item-row .excerpt { margin: 0 0 0.3rem; }
+.item-row .excerpt .dirty { font-size: 0.8rem; opacity: 0.6; font-style: italic; }
+.item-row .meta { font-size: 0.8rem; opacity: 0.6; margin-right: 0.75rem; }
+.item-row .actions { display: flex; gap: 0.4rem; align-items: center; }
+.tombstone-row { opacity: 0.55; font-style: italic; }
+</style>
+</head>
+<body>
+<p class="wf-note">WIREFRAME · <code>/studio</code> — owner-only composer + item list (task 9, gated on this review).
+Single column, same measure as the public page. No preview in the composer; editing happens in <code>/studio/edit/{id}</code> (see edit.html).</p>
+
+<header class="studio">
+<h1>ygg studio</h1>
+<nav><a href="#">public page ↗</a><a href="#">settings</a><a href="#">log out</a></nav>
+</header>
+
+<div class="composer">
+<textarea placeholder="compose a fragment…">A protocol is a frozen conversation, and a fragment is</textarea>
+<div class="bar">
+  <span><button>attach image</button></span>
+  <span class="count">742 / 1000</span>
+  <span><button>save draft</button> <button class="primary">publish</button></span>
+</div>
+</div>
+
+<div class="item-row">
+<p class="excerpt"><span class="state pub">●</span>A fragment of text, rendered from markdown, possibly with a link…</p>
+<div class="actions"><span class="meta">v3 · published · edited 2h ago</span>
+<button>edit</button><button>unpublish</button><button>delete</button></div>
+</div>
+
+<div class="item-row">
+<p class="excerpt"><span class="state pub">●</span>Published fragment whose working copy has unpublished edits… <span class="dirty">(edited since v2)</span></p>
+<div class="actions"><span class="meta">v2 · published · saved 10m ago</span>
+<button>edit</button><button>publish v3</button><button>unpublish</button><button>delete</button></div>
+</div>
+
+<div class="item-row">
+<p class="excerpt"><span class="state draft">○</span>A draft fragment, never published, still cooking…</p>
+<div class="actions"><span class="meta">draft · saved 1d ago</span>
+<button>edit</button><button>publish</button><button>discard</button></div>
+</div>
+
+<div class="item-row tombstone-row">
+<p class="excerpt">deleted item (tombstone) — kept in the archive forever</p>
+<div class="actions"><span class="meta">v4 · deleted 5d ago</span></div>
+</div>
+
+</body>
+</html>
