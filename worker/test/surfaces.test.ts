@@ -30,12 +30,12 @@ describe("manifest (§2.4)", () => {
 });
 
 describe("archive index (§2.5)", () => {
-  it("lists every published item + tombstone ordered by updated desc, no window", async () => {
+  it("lists every published item + withdrawn endcap ordered by updated desc, no window", async () => {
     const cookie = await login();
     const a = await createAndPublish(cookie, "first");
     const b = await createAndPublish(cookie, "second");
-    const c = await createAndPublish(cookie, "third, then deleted");
-    await apiJson(cookie, "DELETE", `/api/items/${c}`);
+    const c = await createAndPublish(cookie, "third, then withdrawn");
+    await apiJson(cookie, "POST", `/api/items/${c}/withdraw`, {});
 
     const index = await (await getPublic("/ygg/items/index.json")).json<any>();
     expect(index.updated).toMatch(/Z$/);

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wireframe — public thread page t/{id}/ (rev 3)</title>
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.55;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+.ygg { max-width: 65ch; margin: 0 auto; }
+.ygg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
+.ygg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
+.ygg-header a:hover { text-decoration: underline; }
+.ygg .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
+.ygg .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; font-size: 0.85rem; }
+.ygg .version-nav button {
+  font: inherit; font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem;
+  border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; cursor: pointer;
+}
+.ygg .version-nav button:disabled { opacity: 0.3; cursor: default; }
+.ygg .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.ygg .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
+/* The transclusion block — this styling is protocol-adjacent (readers may rely
+   on .ygg-transclusion existing) but the look is the client's choice. */
+.ygg blockquote.ygg-transclusion {
+  margin: 1.25rem 0; padding: 0.75rem 1rem;
+  border-left: 3px solid rgba(128,128,128,0.55);
+  background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0;
+}
+.ygg blockquote.ygg-transclusion p:first-child { margin-top: 0; }
+.ygg blockquote.ygg-transclusion p:last-of-type { margin-bottom: 0.25rem; }
+.ygg .provenance { font-size: 0.78rem; opacity: 0.65; margin: 0.4rem 0 0; }
+.ygg .provenance a { text-decoration: none; }
+.wf-note { max-width: 65ch; margin: 0 auto 1rem; background: rgba(255,200,0,0.15); border: 1px dashed rgba(128,128,128,0.6); padding: 0.5rem 0.75rem; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<p class="wf-note">WIREFRAME REV 3 · public <b>thread page</b> <code>t/{id}/</code> (new surface, session-3 restructure — v0.1-plan §2.9). Same embeddable <code>.ygg</code> scoping and header/timestamp/scrubber conventions as <code>public.html</code>. Transcluded fragments render as <code>blockquote.ygg-transclusion</code> blocks with the snapshot baked in at publish time — the page never fetches them live — each with a small provenance link to the source fragment's permalink and its snapshotted version. There is no title field in the thread schema; authors who want a heading open their markdown with an H1, as here.</p>
+<div class="ygg">
+<header class="ygg-header">
+<a href="/">Home</a>
+<a href="#" title="RSS feed">RSS ⧉</a>
+</header>
+
+<article class="thread">
+<h1>Why every social medium hardens its early protocols</h1>
+
+<p>Connecting prose written in the thread itself. It sets up the first fragment, which
+made this point in a compressed form last week:</p>
+
+<blockquote class="ygg-transclusion">
+<p>A protocol is a frozen conversation. Whatever the founders argued about is what the
+buttons let you do forever after.</p>
+<p class="provenance"><a href="#">fragment ↗</a> · snapshot of v2</p>
+</blockquote>
+
+<p>More connecting prose. The second fragment approaches the same claim from the
+economics side, and the thread's job is to hold the two next to each other:</p>
+
+<blockquote class="ygg-transclusion">
+<p>Switching costs are memory costs. A medium you can leave without losing your
+archive is a medium that has to keep earning you.</p>
+<p class="provenance"><a href="#">fragment ↗</a> · snapshot of v1</p>
+</blockquote>
+
+<p>Closing prose that does the actual synthesis work — the part that exists only in
+the thread, not in any fragment.</p>
+
+<div class="version-nav">
+<button title="first version">|&lt;</button>
+<button title="previous version">&lt;</button>
+<span class="vn-label">v2 of 2</span>
+<button title="next version" disabled>&gt;</button>
+<button title="latest version" disabled>&gt;|</button>
+</div>
+<p class="version-note">"added the economics fragment"</p>
+<p class="timestamps">
+<span>Created: Jul 20, 2026</span>
+<span>Most recent: Jul 22, 2026, v2</span>
+</p>
+<p><a class="permalink" href="#">Permalink</a></p>
+</article>
+</div>
+</body>
+</html>

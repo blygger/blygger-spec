@@ -42,15 +42,15 @@ describe("public pages (§3.4)", () => {
     expect(html).toContain("sharpened the claim");
   });
 
-  it("tombstone permalinks return 200 with a deleted notice", async () => {
+  it("withdrawn permalinks return 200 with a withdrawn notice", async () => {
     const cookie = await login();
-    const id = await createAndPublish(cookie, "to be deleted");
-    await apiJson(cookie, "DELETE", `/api/items/${id}`);
+    const id = await createAndPublish(cookie, "to be pulled back");
+    await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {});
     const res = await getPublic(`/ygg/f/${id}/`);
     expect(res.status).toBe(200);
     const html = await res.text();
-    expect(html).toContain("deleted");
-    expect(html).not.toContain("to be deleted");
+    expect(html).toContain("withdrawn");
+    expect(html).not.toContain("to be pulled back");
   });
 
   it("archive page lists items as excerpt/date links", async () => {
@@ -68,16 +68,16 @@ describe("public pages (§3.4)", () => {
     expect(await css.text()).toContain("max-width: 65ch");
   });
 
-  it("tombstones are excluded from the feed page but kept in the archive", async () => {
+  it("withdrawn items are excluded from the feed page but kept in the archive", async () => {
     const cookie = await login();
     const keep = await createAndPublish(cookie, "survivor fragment");
-    const kill = await createAndPublish(cookie, "casualty fragment");
-    await apiJson(cookie, "DELETE", `/api/items/${kill}`);
+    const pulled = await createAndPublish(cookie, "retracted fragment");
+    await apiJson(cookie, "POST", `/api/items/${pulled}/withdraw`, {});
     const feed = await (await getPublic("/ygg/")).text();
     expect(feed).toContain("survivor fragment");
-    expect(feed).not.toContain("casualty fragment");
+    expect(feed).not.toContain("retracted fragment");
     const archive = await (await getPublic("/ygg/archive/")).text();
     expect(archive).toContain("survivor fragment");
-    expect(archive).toContain("deleted");
+    expect(archive).toContain("withdrawn");
   });
 });

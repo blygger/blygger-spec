@@ -3,57 +3,97 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>wireframe — public /ygg page</title>
+<title>wireframe — public /ygg page (rev 3)</title>
 <style>
-/* Same stylesheet the worker serves at /ygg/style.css (inlined so this file opens from disk). */
+/* Everything page-specific is scoped under .ygg so this block can be lifted
+   into a host page's own layout without colliding with its styles. The
+   standalone <body> rules below only apply when this file is viewed on its
+   own (i.e. as the default /ygg/ page with no surrounding site). */
 :root { color-scheme: light dark; }
 * { box-sizing: border-box; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.55;
-  max-width: 65ch;
   margin: 0 auto;
   padding: 1.5rem 1rem 4rem;
 }
-header.site { margin-bottom: 1rem; }
-header.site h1 { font-size: 1.4rem; margin: 0; display: inline; }
-header.site h1 a { color: inherit; text-decoration: none; }
-header.site .rss { float: right; font-size: 0.9rem; }
-header.site .bio { margin: 0.25rem 0 0; opacity: 0.8; font-size: 0.95rem; }
-header.site .links { font-size: 0.9rem; margin: 0.25rem 0 0; }
-header.site .links a { margin-right: 0.75rem; }
-article.fragment { border-top: 1px solid rgba(128,128,128,0.35); padding: 1rem 0; }
-article.fragment img { max-width: 100%; height: auto; }
-article.fragment p:first-child { margin-top: 0; }
-.byline { font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem; }
-.byline a { text-decoration: none; }
-.tombstone { opacity: 0.7; font-style: italic; }
-footer.older { text-align: center; padding: 1rem 0; }
-.wf-note { background: rgba(255,200,0,0.15); border: 1px dashed rgba(128,128,128,0.6); padding: 0.5rem 0.75rem; font-size: 0.85rem; margin-bottom: 1rem; }
+.ygg { max-width: 65ch; margin: 0 auto; }
+.ygg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
+.ygg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
+.ygg-header a:hover { text-decoration: underline; }
+.ygg article.fragment { border-top: 1px solid rgba(128,128,128,0.35); padding: 1rem 0; }
+.ygg article.fragment img { max-width: 100%; height: auto; }
+.ygg article.fragment p:first-child { margin-top: 0; }
+.ygg .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
+.ygg .timestamps .permalink { align-self: flex-start; margin-top: 0.15rem; opacity: 0.8; }
+.ygg .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; font-size: 0.85rem; }
+.ygg .version-nav button {
+  font: inherit; font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem;
+  border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; cursor: pointer;
+}
+.ygg .version-nav button:disabled { opacity: 0.3; cursor: default; }
+.ygg .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.ygg .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
+.ygg .withdrawn { opacity: 0.7; font-style: italic; }
+.ygg .kind-chip { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.05rem 0.35rem; opacity: 0.75; vertical-align: middle; }
+.ygg .thread-card p:first-child { margin-bottom: 0.3rem; }
+.ygg footer.older { text-align: center; padding: 1rem 0; }
+.wf-note { max-width: 65ch; margin: 0 auto 1rem; background: rgba(255,200,0,0.15); border: 1px dashed rgba(128,128,128,0.6); padding: 0.5rem 0.75rem; font-size: 0.85rem; }
 .placeholder-img { width: 100%; height: 160px; background: repeating-linear-gradient(45deg, rgba(128,128,128,0.15), rgba(128,128,128,0.15) 10px, rgba(128,128,128,0.25) 10px, rgba(128,128,128,0.25) 20px); display: flex; align-items: center; justify-content: center; opacity: 0.7; }
 </style>
 </head>
 <body>
-<p class="wf-note">WIREFRAME · public <code>/ygg</code> page — this is what the worker already renders (task 8, built). Included for review alongside the studio mockups. Only reader affordance: the RSS link.</p>
-<header class="site">
-<a class="rss" href="#">RSS ⧉</a>
-<h1><a href="#">Venkat's ygg</a></h1>
-<p class="bio">Fragments, threads, and other public thinking.</p>
-<p class="links"><a href="#">Home</a><a href="#">Ribbonfarm</a><a href="#">Contact</a></p>
+<p class="wf-note">WIREFRAME REV 3 · public <code>/ygg</code> page. Carries all rev-2 changes (bare "Home"+RSS header, embeddable <code>.ygg</code> block, Created/Most-recent timestamp lines, version scrubber over changelog notes, plain "Permalink" link) and adds the session-3 protocol revisions: <b>threads</b> appear in the feed as excerpt cards linking to their <code>t/{id}/</code> page (see <code>thread.html</code>); withdrawn items don't appear on this page at all (they live in the archive listing + their permanent endcap URLs).</p>
+<div class="ygg">
+<header class="ygg-header">
+<a href="/">Home</a>
+<a href="/ygg/feed.xml" title="RSS feed">RSS ⧉</a>
 </header>
+
 <article class="fragment">
 <p>A fragment of text, rendered from markdown, possibly with a <a href="#">link</a> and an image below it.</p>
 <div class="placeholder-img">[attached image]</div>
-<p class="byline">v3 · edited 2h ago · “sharpened the claim” · <a href="#" title="permalink">∞</a></p>
+<div class="version-nav">
+<button title="first version">|&lt;</button>
+<button title="previous version">&lt;</button>
+<span class="vn-label">v3 of 3</span>
+<button title="next version" disabled>&gt;</button>
+<button title="latest version" disabled>&gt;|</button>
+</div>
+<p class="version-note">"sharpened the claim"</p>
+<p class="timestamps">
+<span>Created: Jul 17, 2026</span>
+<span>Most recent: Jul 18, 2026, v3</span>
+</p>
+<p><a class="permalink" href="#">Permalink</a></p>
 </article>
+
+<article class="fragment thread-card">
+<p><span class="kind-chip">thread</span> <strong>The first ~300 chars of the thread as plain text…</strong> A protocol is a frozen conversation, and this thread walks through three fragments that triangulate why — starting from the observation that every social medium hardens its early&hellip;</p>
+<p><a href="thread.html">read the thread →</a></p>
+<p class="timestamps">
+<span>Created: Jul 20, 2026</span>
+<span>Most recent: Jul 22, 2026, v2</span>
+</p>
+</article>
+
 <article class="fragment">
 <p>Another fragment. Shorter. Aphoristic, even.</p>
-<p class="byline">v1 · 3d ago · <a href="#" title="permalink">∞</a></p>
+<p class="timestamps">
+<span>Created: Jul 21, 2026</span>
+</p>
+<p><a class="permalink" href="#">Permalink</a></p>
 </article>
+
 <article class="fragment">
 <p>A third fragment with a <em>little</em> markdown flourish and a longer run of text so the reading measure (~65ch) is visible in review.</p>
-<p class="byline">v1 · 6d ago · <a href="#" title="permalink">∞</a></p>
+<p class="timestamps">
+<span>Created: Jul 18, 2026</span>
+</p>
+<p><a class="permalink" href="#">Permalink</a></p>
 </article>
+
 <footer class="older"><a href="#">older items →</a></footer>
+</div>
 </body>
 </html>

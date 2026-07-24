@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>wireframe — /studio</title>
+<title>wireframe — /studio (rev 3)</title>
 <style>
 :root { color-scheme: light dark; }
 * { box-sizing: border-box; }
@@ -24,21 +24,36 @@ header.studio nav a { margin-left: 0.75rem; font-size: 0.9rem; }
 .composer .count { opacity: 0.6; }
 .composer .count.over { color: #c00; opacity: 1; }
 .composer button, .item-row button { font: inherit; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; cursor: pointer; }
-.composer button.primary { border-color: currentColor; font-weight: 600; }
-.item-row { border-top: 1px solid rgba(128,128,128,0.3); padding: 0.75rem 0; }
+.composer button.primary, .item-row button.primary { border-color: currentColor; font-weight: 600; }
+.item-row { border-top: 1px solid rgba(128,128,128,0.3); border-left: 3px solid transparent; padding: 0.75rem 0.5rem 0.75rem 0.6rem; margin-left: -0.6rem; }
 .item-row .state { font-size: 0.8rem; margin-right: 0.4rem; }
 .item-row .state.pub { color: #2a7; }
 .item-row .state.draft { opacity: 0.5; }
 .item-row .excerpt { margin: 0 0 0.3rem; }
-.item-row .excerpt .dirty { font-size: 0.8rem; opacity: 0.6; font-style: italic; }
-.item-row .meta { font-size: 0.8rem; opacity: 0.6; margin-right: 0.75rem; }
-.item-row .actions { display: flex; gap: 0.4rem; align-items: center; }
-.tombstone-row { opacity: 0.55; font-style: italic; }
+.item-row .timestamps { font-size: 0.8rem; opacity: 0.7; margin: 0.4rem 0; display: flex; flex-direction: column; gap: 0.1rem; }
+.item-row .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.5rem; font-size: 0.85rem; }
+.item-row .version-nav button { font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem; }
+.item-row .version-nav button:disabled { opacity: 0.3; cursor: default; }
+.item-row .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.item-row .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
+.item-row .actions { display: flex; gap: 0.4rem; align-items: center; margin-top: 0.5rem; }
+/* Unpublished-changes state: a published item whose working copy has been
+   edited since its last publish. Needs to read as unmistakably "not what's
+   live" at a glance, not just a small italic aside. */
+.item-row.dirty { border-left-color: #c00; background: rgba(200,0,0,0.07); }
+.unpublished-flag {
+  display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em;
+  color: #c00; background: rgba(200,0,0,0.14); border: 1px solid rgba(200,0,0,0.45);
+  border-radius: 3px; padding: 0.1rem 0.4rem; margin-left: 0.5rem; vertical-align: middle;
+}
+.item-row.dirty .timestamps .draft-line { color: #c00; opacity: 1; font-weight: 600; }
+.withdrawn-row { opacity: 0.55; font-style: italic; }
+.kind-chip { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.05rem 0.35rem; opacity: 0.75; vertical-align: middle; margin-right: 0.35rem; }
 </style>
 </head>
 <body>
-<p class="wf-note">WIREFRAME · <code>/studio</code> — owner-only composer + item list (task 9, gated on this review).
-Single column, same measure as the public page. No preview in the composer; editing happens in <code>/studio/edit/{id}</code> (see edit.html).</p>
+<p class="wf-note">WIREFRAME REV 3 · <code>/studio</code> — owner-only composer + item list (tasks 9/15, gated on this review). New in rev 3: <b>threads</b> — a "new thread" action beside the composer (threads are long-form, so they open straight into the editor, <code>thread-edit.html</code>, rather than composing inline) and thread rows carrying a kind chip. Rev-2 content follows:
+Same timestamp format (Created / Most recent, vN), version scrubber, and permalink-text conventions as the revised <code>public.html</code>, applied to the item list. The <code>header.studio</code> nav (public page / settings / log out) is left as-is — unlike the public page's header, these are real functional owner controls, not a presumed content nav, and studio never needs to be embedded in another page. New: a published item with unpublished draft edits ("dirty") now gets an unmistakable red left-border + tint on the whole row plus an explicit "unpublished changes" badge, replacing the easy-to-miss italic aside. Session-3 protocol revision applied: no delete of published items — the only exit is <b>withdraw</b> (permanent public endcap, reversible by republish); <b>pin</b> irrevocably freezes one version at its own permanent URL (confirm dialog required — it survives even withdrawal); withdrawn items stay in the list, editable, with a republish action. Tombstones no longer exist.</p>
 
 <header class="studio">
 <h1>ygg studio</h1>
@@ -54,27 +69,68 @@ Single column, same measure as the public page. No preview in the composer; edit
 </div>
 </div>
 
+<p style="font-size:0.85rem; margin:-0.75rem 0 1.5rem;"><a href="thread-edit.html">+ new thread</a> <span style="opacity:0.6;">— long-form, opens the thread editor</span></p>
+
 <div class="item-row">
-<p class="excerpt"><span class="state pub">●</span>A fragment of text, rendered from markdown, possibly with a link…</p>
-<div class="actions"><span class="meta">v3 · published · edited 2h ago</span>
-<button>edit</button><button>unpublish</button><button>delete</button></div>
+<p class="excerpt"><span class="state pub">●</span><span class="kind-chip">thread</span> Why every social medium hardens its early protocols…</p>
+<div class="version-nav">
+<button title="first version">|&lt;</button>
+<button title="previous version">&lt;</button>
+<span class="vn-label">v2 of 2</span>
+<button title="next version" disabled>&gt;</button>
+<button title="latest version" disabled>&gt;|</button>
+</div>
+<p class="version-note">"added the economics fragment"</p>
+<p class="timestamps">
+<span>Created: Jul 20, 2026</span>
+<span>Most recent: Jul 22, 2026, v2 &mdash; transcludes 2 fragments</span>
+</p>
+<div class="actions"><button>edit</button><button>pin v2&hellip;</button><button>withdraw</button></div>
 </div>
 
 <div class="item-row">
-<p class="excerpt"><span class="state pub">●</span>Published fragment whose working copy has unpublished edits… <span class="dirty">(edited since v2)</span></p>
-<div class="actions"><span class="meta">v2 · published · saved 10m ago</span>
-<button>edit</button><button>publish v3</button><button>unpublish</button><button>delete</button></div>
+<p class="excerpt"><span class="state pub">●</span>A fragment of text, rendered from markdown, possibly with a link…</p>
+<div class="version-nav">
+<button title="first version">|&lt;</button>
+<button title="previous version">&lt;</button>
+<span class="vn-label">v3 of 3</span>
+<button title="next version" disabled>&gt;</button>
+<button title="latest version" disabled>&gt;|</button>
+</div>
+<p class="version-note">"sharpened the claim"</p>
+<p class="timestamps">
+<span>Created: Jul 17, 2026</span>
+<span>Most recent: Jul 18, 2026, v3</span>
+</p>
+<div class="actions"><button>edit</button><button>pin v3&hellip;</button><button>withdraw</button></div>
+</div>
+
+<div class="item-row dirty">
+<p class="excerpt"><span class="state pub">●</span>Published fragment whose working copy has unpublished edits…<span class="unpublished-flag">unpublished changes</span></p>
+<p class="timestamps">
+<span>Created: Jul 17, 2026</span>
+<span>Most recent published: Jul 18, 2026, v2</span>
+<span class="draft-line">Draft saved: 10m ago — not yet published</span>
+</p>
+<div class="actions"><button>edit</button><button class="primary">publish v3</button><button>withdraw</button></div>
 </div>
 
 <div class="item-row">
 <p class="excerpt"><span class="state draft">○</span>A draft fragment, never published, still cooking…</p>
-<div class="actions"><span class="meta">draft · saved 1d ago</span>
-<button>edit</button><button>publish</button><button>discard</button></div>
+<p class="timestamps">
+<span>Created: Jul 23, 2026 — draft, never published</span>
+<span>Saved: 1d ago</span>
+</p>
+<div class="actions"><button>edit</button><button>publish</button><button>discard</button></div>
 </div>
 
-<div class="item-row tombstone-row">
-<p class="excerpt">deleted item (tombstone) — kept in the archive forever</p>
-<div class="actions"><span class="meta">v4 · deleted 5d ago</span></div>
+<div class="item-row withdrawn-row">
+<p class="excerpt">withdrawn item — permanent public endcap; working copy retained, republishable</p>
+<p class="timestamps">
+<span>Created: Jul 12, 2026</span>
+<span>Withdrawn: Jul 19, 2026, v4 &mdash; pinned v2 still citable</span>
+</p>
+<div class="actions"><button>edit</button><button>republish</button></div>
 </div>
 
 </body>

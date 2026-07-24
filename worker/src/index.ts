@@ -3,9 +3,9 @@
 import { Hono } from "hono";
 import { api } from "./api.ts";
 import { verifySession } from "./auth.ts";
-import { getItem, getMedia, getSettings, listPublic } from "./model.ts";
+import { getItem, getMedia, getSettings, getVersion, listPublic } from "./model.ts";
 import { archivePage, feedPage, permalinkPage, STYLE_CSS } from "./pages.ts";
-import { buildArchiveIndex, buildFeedXml, buildItemJson, buildManifest, siteOrigin } from "./protocol.ts";
+import { buildArchiveIndex, buildFeedXml, buildItemJson, buildManifest, buildPinnedVersionJson, siteOrigin } from "./protocol.ts";
 import { studio } from "./studio.ts";
 import type { Env } from "./types.ts";
 import { FEED_PAGE_SIZE } from "./types.ts";
@@ -58,11 +58,25 @@ app.get("/ygg/items/:file", async (c) => {
   const file = c.req.param("file");
   if (!file.endsWith(".json")) return c.notFound();
   const item = await getItem(c.env.DB, file.slice(0, -5));
-  // 404 for drafts/unknown; tombstones are 200 forever (§3.3).
+  // 404 for drafts/unknown; withdrawn endcaps are 200 forever (§3.3).
   if (!item || item.status === "draft") return c.notFound();
   const settings = await getSettings(c.env.DB);
   cors(c);
   return c.json(await buildItemJson(c.env.DB, settings, item, siteOrigin(settings, c.req.url)));
+});
+
+// §2.8 pinned version files: 404 unless pinned; 200 forever once pinned,
+// surviving edits and withdrawal of the live stream.
+app.get("/ygg/items/:id/:vfile", async (c) => {
+  const m = /^v(\d+)\.json$/.exec(c.req.param("vfile"));
+  if (!m) return c.notFound();
+  const item = await getItem(c.env.DB, c.req.param("id"));
+  if (!item || item.status === "draft") return c.notFound();
+  const row = await getVersion(c.env.DB, item.id, Number(m[1]));
+  if (!row || row.pinned !== 1) return c.notFound();
+  const settings = await getSettings(c.env.DB);
+  cors(c);
+  return c.json(buildPinnedVersionJson(settings, item, row, siteOrigin(settings, c.req.url)));
 });
 
 app.get("/ygg/f/:id", async (c) => {

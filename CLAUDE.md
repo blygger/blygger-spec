@@ -11,7 +11,8 @@ Ygg is an AI-native decentralized public writing medium — fragments + threads 
 | [`docs/ygg-initial-spec.md`](docs/ygg-initial-spec.md) | Frozen v0 concept spec — never edit; open for public comment (issue #1) |
 | [`docs/roadmap.md`](docs/roadmap.md) | Full roadmap v0.1 → post-1.0, with model-routing annotations |
 | [`docs/v0.1-plan.md`](docs/v0.1-plan.md) | Implementation plan for v0.1 "Seed" — the current work spec |
-| [`docs/wireframes/`](docs/wireframes/) | HTML mockups for the task-9 studio review round (public, studio, edit) |
+| [`docs/wireframes/`](docs/wireframes/) | HTML mockups, rev 3 (public, studio, edit, thread, thread-edit) — gate for tasks 9/15 |
+| [`docs/proposals/retract-pin-fork-proposal.md`](docs/proposals/retract-pin-fork-proposal.md) | DRAFT — Sonnet's writeup of the retract/tombstone gap + Venkat's unpublish-endcap/Pinned/fork proposal, for Fable evaluation |
 | [`DEVLOG.md`](DEVLOG.md) | Per-session development log — **non-skippable**, see ritual below |
 | `README.md` | Public face: idea, protocol on one screen, roadmap summary |
 
@@ -22,9 +23,11 @@ Ygg is an AI-native decentralized public writing medium — fragments + threads 
 3. **Studio/page split**: every client = private studio (dynamic, unconstrained) + public page (the `/ygg` artifact, protocol-governed). The protocol governs *only* the page.
 4. **Conformance levels** L0–L3, strict supersets; clients ignore unknown constructs; every ygg feed stays a valid RSS feed with self-contained HTML per item.
 5. **AI is never in the protocol.** Generation is studio-side at authoring time; the page publishes output + provenance.
-6. **Roadmap order**: no-AI core first (v0.1 publish → v0.2 subscribe → v0.3 threads → v0.4 AI/TK → v0.5 RAG/polish → v1.0 freeze).
-7. Private content in v1 = unpublished (owner-only). Privileged-group access is deferred to L3.
-8. Licensing: MIT (code), CC-BY-4.0 (`docs/`).
+6. **Roadmap order** (restructured session 3, with Venkat): no-AI core first; both core abstractions in the first release (v0.1 publish: fragments + local threads → v0.2 subscribe → v0.3 threads-cross-client: stubs/nesting/DAG/`forked_from` → v0.4 AI/TK → v0.5 RAG/polish → v1.0 freeze).
+7. Private content in v1 = never-published drafts (owner-only). Privileged-group access is deferred to L3.
+8. **Withdraw + pin model** (session 3, supersedes tombstone/silent-unpublish): no permanent delete of published items — the single exit is *withdraw*, a permanent reversible endcap (`kind: "withdrawn"`, 200 forever, one feed entry, compliant clients roll up to null); *pins* are irrevocable per-version hosting promises (`items/{id}/v{n}.json`) that survive withdrawal; only pinned versions are exposed, pinning never forces a fork; `forked_from` is reserved for v0.3. Rationale: `docs/proposals/retract-pin-fork-proposal.md`.
+9. **Transclusion grammar** (session 3): `![[id]]` on its own line, `![[id@vN]]` reserved; publish-time snapshot baked into self-contained HTML with `{id, version}` provenance; fragments-only nesting in v0.1; **no auto-pin** — pins remain a separate deliberate act; source withdrawal never cascades into thread snapshots. Spec: `docs/v0.1-plan.md` §2.9.
+10. Licensing: MIT (code), CC-BY-4.0 (`docs/`).
 
 ## Model routing
 
@@ -79,8 +82,11 @@ needs to reconstruct design rationale from this alone.
 
 ## TODO
 
-- [ ] Decide protocol XML namespace URI / whether to acquire a dedicated domain (see v0.1 plan, Open decisions)
+- [ ] **Venkat: brand decision** — possible project rename (Yggdrasil mesh-network adjacency, session 3). Gates the domain purchase and deploy; does NOT gate any build work.
+- [ ] Build the brand-name refactor (task 16 in `v0.1-plan.md`): single `BRAND` constant block + `RENAME.md` checklist so the rename is a constants edit. Sonnet-safe, runnable now; acceptance = tests pass with the constant set to `zzz`.
+- [ ] Decide protocol XML namespace URI / dedicated domain **after the brand decision** (leading candidate pre-rename-question was `yggprotocol.org` — available as of 2026-07-24, .org preferred for commons governance). **Hard deadline: before v0.2 ships importers** (they match on the URI, which then becomes permanent). Recommended: settle before the first real deployment. Not a gate for task 11 (workers.dev suffices for the reference instance).
 - [x] Build v0.1 "Seed" tasks 1–8 + 10 (session 2) — remaining: task 9 (studio UI, gated) and task 11 (deploy)
-- [ ] **Venkat:** review wireframes in `docs/wireframes/` (delivered session 2) → clears task 9
-- [ ] Build studio UI (task 9) after wireframe review; then deploy (task 11: D1 id, wrangler secrets + `.env.keys` registration, RSS-reader check)
-- [ ] After v0.1 ships: draft `docs/protocol-v0.1.md` as the normative L1 spec (⚠️ FABLE) — fold in the two feed interpretations from DEVLOG session 2
+- [ ] **Venkat:** review **rev-3** wireframes in `docs/wireframes/` (session 3: rev-2 changes + thread page, thread editor, thread cards, pin actions) → clears tasks 9/15 — **this is the next gate**
+- [ ] Build threads (tasks 13–14: migration 0003, transclusion resolver, thread surfaces) — Sonnet/Opus-safe from `v0.1-plan.md` §2.9
+- [ ] Build studio UI (tasks 9 + 15) after wireframe review — includes the rev-2 public-page changes (task 8 shipped against rev 1), pin-confirm UX, thread editor; then deploy (task 11: D1 id, wrangler secrets + `.env.keys` registration, RSS-reader check)
+- [ ] After v0.1 ships: draft `docs/protocol-v0.1.md` as the normative L1 spec (⚠️ FABLE) — fold in the two feed interpretations from DEVLOG session 2 and the session-3 withdraw/pin decision record (proposal doc)

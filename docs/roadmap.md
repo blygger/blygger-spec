@@ -14,27 +14,34 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 ---
 
-## v0.1 — Seed (publish side) ← CURRENT
+## v0.1 — Seed (publish side, both abstractions) ← CURRENT
 
-**Goal:** a single-author client that publishes fragments to a conformant `/ygg` page. No imports, no threads, no AI. Exit state: a working deployment whose feed reads normally in any RSS reader.
+**Goal:** a single-author client that publishes **fragments and local threads** to a conformant `/ygg` page. No imports, no AI, no cross-client features. Exit state: a working deployment whose feed reads normally in any RSS reader, exercising both core abstractions before anything is deployed to the network.
+
+> **Session-3 restructure (2026-07-24, with Venkat):** the local thread abstraction moved
+> here from v0.3, so the fragment/thread duality is tested in the first release — before
+> v0.2 importers harden the network shapes. What moved is the *abstraction only*: threads
+> composed from the author's own fragments. Everything requiring the subscribe side
+> (stubs, shares, hopper-sourced threads, remote transclusion, detect-stubs) stays in v0.3.
 
 **Protocol deliverables** (shapes defined in `docs/v0.1-plan.md`; normative spec written after they stabilize):
 - ID scheme (128-bit random, base32) and per-version content hashes
-- Item JSON schema for fragments + tombstones; changelog-as-metadata (no diffs)
+- Item JSON schema for fragments + threads + withdrawn endcaps; changelog-as-metadata (no diffs); pinned version files (session-3 revision)
+- Thread item schema with `transclusions` provenance; **`![[id]]` transclusion grammar** (locked session 3 — permanent protocol surface); snapshot-at-publish semantics; fragments-only nesting (thread-in-thread + DAG deferred to v0.3); no auto-pin (pins stay a deliberate act)
 - `ygg.json` manifest, `items/index.json` archive index
-- `feed.xml` RSS + `ygg:` namespace; per-version GUIDs so plain readers surface edits
-- Deletion semantics (tombstones)
+- `feed.xml` RSS + `ygg:` namespace; per-version GUIDs so plain readers surface edits; thread entries carry full self-contained HTML
+- Withdrawal semantics (withdraw endcap, reversible; supersedes tombstones — session 3) + pin semantics (irrevocable per-version hosting promise)
 
-**Client deliverables:** CF Worker (TypeScript, D1, R2): studio (login, compose, edit with edit-notes, publish/unpublish, tombstone, media upload, profile settings) + public page (feed page, permalinks, feed.xml, manifest, item files, media). Static export script.
+**Client deliverables:** CF Worker (TypeScript, D1, R2): studio (login, compose, edit with edit-notes, publish/withdraw/republish, pin, media upload, profile settings, thread editor with `![[id]]` insert) + public page (feed page, fragment permalinks `f/{id}/`, thread pages `t/{id}/`, feed.xml, manifest, item files, media). Static export script.
 
-- **⚠️ FABLE (done, this session):** the state-plane/notification-plane split, ID scheme, per-version GUID decision, tombstone semantics — all decided and recorded in `v0.1-plan.md`. Remaining v0.1 build work is Sonnet/Opus-safe.
-- **⚠️ FABLE (after ship):** draft `docs/protocol-v0.1.md`, the normative L1 spec, from the as-built shapes.
+- **⚠️ FABLE (done, sessions 2–3):** the state-plane/notification-plane split, ID scheme, per-version GUID decision, withdraw/pin semantics, transclusion grammar + snapshot rules — all decided and recorded in `v0.1-plan.md`. Remaining v0.1 build work is Sonnet/Opus-safe.
+- **⚠️ FABLE (after ship):** draft `docs/protocol-v0.1.md`, the normative spec, from the as-built shapes.
 
-**Exit criteria:** deployed instance publishes/edits/deletes fragments; feed validates as RSS 2.0 and reads correctly in a mainstream reader; item files + index enable full-state reconstruction with no feed; static export serves identically from a dumb file host.
+**Exit criteria:** deployed instance publishes/edits/withdraws/pins fragments **and threads**; a thread's transcluded snapshots survive edits and withdrawal of their source fragments; feed validates as RSS 2.0 and both kinds read correctly in a mainstream reader; item files + index enable full-state reconstruction with no feed; static export serves identically from a dumb file host.
 
 ## v0.2 — Roots (subscribe side)
 
-**Goal:** the network exists. A client can follow other ygg pages and legacy RSS feeds, roll up remote edits, and triage into hoppers. Exit state: two ygg clients following each other, plus a legacy blog feed, all readable in one merged feed.
+**Goal:** the network exists. A client can follow other ygg pages and legacy RSS feeds, roll up remote edits (of both fragments and threads), and triage into hoppers. Exit state: two ygg clients following each other, plus a legacy blog feed, all readable in one merged feed.
 
 **Protocol deliverables:**
 - Autodiscovery convention (given a URL, find `/ygg/ygg.json` or fall back to plain RSS)
@@ -44,22 +51,24 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 **Client deliverables:** subscription manager; cron-triggered poller; importer with rollup; merged reading feed (own + imported, reverse-chron by update); manual hoppers (create, add/remove, many-to-many); thumbs up/down stored as signals; hopper-add snapshots a local copy, later versions update it; imported items owner-only by default with a make-public ("retweet-like") action.
 
-- **⚠️ FABLE:** rollup/conflict semantics and backfill edge cases (feed-window gaps, tombstones-vs-cached-copies, clock skew, malformed feeds) — Fable writes the v0.2 plan's importer state machine; Sonnet/Opus implements it.
+- **⚠️ FABLE:** rollup/conflict semantics and backfill edge cases (feed-window gaps, withdrawn-endcaps-vs-cached-copies, clock skew, malformed feeds) — Fable writes the v0.2 plan's importer state machine; Sonnet/Opus implements it.
 
 **Exit criteria:** the two-client + legacy-feed scenario works through simulated outages (subscriber offline past the feed window catches up losslessly via backfill).
 
-## v0.3 — Trunk (threads, no AI yet)
+## v0.3 — Trunk (threads go cross-client, no AI yet)
 
-**Goal:** longform. Threads composed from hoppers with *literal* (verbatim, non-AI) transclusion, plus the share and stub actions. Exit state: the full soapbox-response loop — see, hopper, stub, publish — works without any AI.
+**Goal:** the social layer over threads. Threads composed from hoppers (imported items), the share and stub actions, thread-in-thread nesting, and cross-client transclusion semantics. Exit state: the full soapbox-response loop — see, hopper, stub, publish — works without any AI. (The thread abstraction itself shipped locally in v0.1; this version makes it networked.)
 
 **Protocol deliverables (L2):**
-- Thread item schema; transclusion provenance markup (which fragments, which versions)
 - Stub metadata (marks a thread as a stub of a target item)
-- Threads-tab presentation rules; thread pages at `t/{id}/`
+- Thread-in-thread nesting + DAG rules (v0.1 restricts transclusion to fragments; nesting arrives here)
+- Cross-client transclusion semantics (remote transclusion always operates on the local snapshot — the rule that makes network cycles harmless)
+- Threads-tab presentation rules
+- `forked_from: {id, version}` lineage implementation (shape reserved in v0.1 §2.3, session 3; MUST reference a pinned version)
 
-**Client deliverables:** thread editor (markdown, `[[]]` fragment search-and-insert, autosave); literal transclusion rendering with provenance links; share action (fragment linking a thread, editable summary); one-click stub action (hopper-add + stub thread + quote-like fragment); threads tab ordered by most-recently-updated; local DAG enforcement; "detect stubs" built-in filter (highlights remote stubs of local items; stubbable again for stacks).
+**Client deliverables:** thread composition from hoppers (v0.1's editor gains imported-item sources); share action (fragment linking a thread, editable summary); one-click stub action (hopper-add + stub thread + quote-like fragment); threads tab ordered by most-recently-updated; local DAG enforcement; "detect stubs" built-in filter (highlights remote stubs of local items; stubbable again for stacks).
 
-- **⚠️ FABLE:** the transclusion markup grammar inside `content_md` (this becomes permanent protocol surface); DAG + snapshot semantics across clients (remote transclusion always operates on the local snapshot — the rule that makes network cycles harmless); detect-stubs matching rules.
+- **⚠️ FABLE:** DAG semantics for nested threads; cross-client snapshot edge cases; detect-stubs matching rules. (The transclusion grammar itself was locked in v0.1, session 3.)
 
 **Exit criteria:** stub stacks two levels deep across two clients render correctly on both ends; DAG violations are impossible locally and harmless across the network.
 
@@ -105,4 +114,4 @@ In rough priority order; each gets its own plan when it comes up.
 
 ## Sequencing rationale & risks
 
-Publish-before-subscribe: v0.2's importer needs real conformant feeds to eat, which v0.1 produces — and Venkat's personal deployment (in `Publishing/`) can start dogfooding at v0.1 with zero network features. Threads-before-AI isolates the hardest protocol surface (transclusion markup, v0.3) from the hardest engineering (generation pipeline, v0.4), so protocol churn and AI churn never happen in the same version. The two highest-risk items in the plan are both Fable-gated by design: the transclusion grammar in v0.3 (permanent protocol surface, easy to get subtly wrong) and the plugin API in v0.4 (public contract). The devlog discipline (CLAUDE.md ritual) exists so that model-switching between sessions — Fable for design, Sonnet/Opus for build — doesn't shed context.
+Publish-before-subscribe: v0.2's importer needs real conformant feeds to eat, which v0.1 produces — and Venkat's personal deployment (in `Publishing/`) can start dogfooding at v0.1 with zero network features. Both-abstractions-before-network (session-3 restructure): the original plan locked the transclusion grammar in v0.3, *after* importers had already hardened the network shapes around fragments alone — testing fragments and threads together in v0.1, before anything is deployed, de-risks the protocol's load-bearing duality at the moment changes are still free. Local-threads-before-networked-threads keeps v0.1 free of DAG/conflict machinery (fragments-only nesting has no cycles by construction). Threads-before-AI still holds: the generation pipeline (v0.4) never shares a version with protocol churn. The remaining highest-risk item is the plugin API in v0.4 (public contract), Fable-gated; the transclusion grammar — the other one — was locked in v0.1 session 3 (`![[id]]`, snapshot-at-publish, no auto-pin). The devlog discipline (CLAUDE.md ritual) exists so that model-switching between sessions — Fable for design, Sonnet/Opus for build — doesn't shed context.

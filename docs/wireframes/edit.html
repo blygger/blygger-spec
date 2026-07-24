@@ -38,8 +38,8 @@ input.note { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.5rem; border-ra
 </style>
 </head>
 <body>
-<p class="wf-note">WIREFRAME · <code>/studio/edit/{id}</code> — textarea + live preview side by side, stacked on mobile.
-Edit note is optional; publish bumps to vN+1; delete confirms first. Changelog shown read-only below.</p>
+<p class="wf-note">WIREFRAME REV 3 · <code>/studio/edit/{id}</code> — textarea + live preview side by side, stacked on mobile.
+Edit note is optional; publish bumps to vN+1; withdraw confirms first (permanent public endcap, reversible by republish &mdash; session-3 model, no delete). Changelog shown read-only below, one pin action per published version (irrevocable &mdash; confirm dialog). This view is for <b>fragments</b>; threads use their own editor (<code>thread-edit.html</code>).</p>
 
 <header class="studio">
 <h1>ygg studio — editing <code>7c9wk2…</code></h1>
@@ -66,16 +66,16 @@ Edit note is optional; publish bumps to vN+1; delete confirms first. Changelog s
   <input class="note" type="text" placeholder="what changed? (optional edit note)">
   <button>save draft</button>
   <button class="primary">publish v4</button>
-  <button class="danger">delete</button>
+  <button class="danger">withdraw</button>
 </span>
 </div>
 
 <div class="changelog">
 <h2>changelog</h2>
 <ul>
-<li>v3 · 2026-07-18 09:30 · “sharpened the claim”</li>
-<li>v2 · 2026-07-17 21:12 · “typo”</li>
-<li>v1 · 2026-07-17 18:00</li>
+<li>v3 · 2026-07-18 09:30 · “sharpened the claim” · <button>pin…</button></li>
+<li>v2 · 2026-07-17 21:12 · “typo” · 📌 pinned</li>
+<li>v1 · 2026-07-17 18:00 · <button>pin…</button></li>
 </ul>
 </div>
 

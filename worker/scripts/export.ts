@@ -46,16 +46,25 @@ const index = JSON.parse(new TextDecoder().decode(indexBytes)) as {
   items: { id: string }[];
 };
 const mediaUrls = new Set<string>();
+let pinnedCount = 0;
 for (const { id } of index.items) {
   const itemBytes = await save(`items/${id}.json`, `items/${id}.json`);
   await save(`f/${id}/`, `f/${id}/index.html`);
   const item = JSON.parse(new TextDecoder().decode(itemBytes)) as {
     media: { url: string }[];
+    changelog: { version: number; pinned?: boolean }[];
   };
   for (const m of item.media) mediaUrls.add(m.url);
+  // §2.8 pinned version files, discovered from the changelog.
+  for (const v of item.changelog) {
+    if (v.pinned) {
+      await save(`items/${id}/v${v.version}.json`, `items/${id}/v${v.version}.json`);
+      pinnedCount++;
+    }
+  }
 }
 
 // Media referenced by any item.
 for (const url of mediaUrls) await save(url, url);
 
-console.log(`\nexported ${6 + index.items.length * 2 + mediaUrls.size} files to ${out}`);
+console.log(`\nexported ${6 + index.items.length * 2 + pinnedCount + mediaUrls.size} files to ${out}`);

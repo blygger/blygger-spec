@@ -67,38 +67,53 @@ export async function publish(db: D1Database, item: ItemRow, note: string | null
   return version;
 }
 
-/** Retract from all public surfaces; version history retained. */
-export async function unpublish(db: D1Database, id: string): Promise<void> {
-  await db.prepare("UPDATE items SET status = 'draft' WHERE id = ?").bind(id).run();
-}
-
 /**
- * Delete. Published items become permanent tombstones (version bump, empty
- * content, changelog retained). Never-published drafts are hard-deleted.
+ * Withdraw a published item (v0.1-plan §2.3/§3.1, session-3 revision): publish
+ * a permanent empty-content endcap — version bump, kind 'withdrawn', item file
+ * stays 200 forever, one feed entry. Reversible via publish() (vN+1 restores
+ * 'public'/'fragment'). The working copy is retained; dirty=1 because it now
+ * differs from the published endcap. Pinned versions are untouched and remain
+ * fetchable.
  */
-export async function deleteItem(db: D1Database, item: ItemRow): Promise<"tombstoned" | "discarded"> {
-  if (item.version === 0) {
-    await db.batch([
-      db.prepare("DELETE FROM items WHERE id = ?").bind(item.id),
-      db.prepare("DELETE FROM media WHERE item_id = ?").bind(item.id),
-    ]);
-    return "discarded";
-  }
+export async function withdraw(db: D1Database, item: ItemRow, note: string | null): Promise<number> {
   const now = nowIso();
   const version = item.version + 1;
   const hash = await contentHash("");
   await db.batch([
-    db.prepare("INSERT INTO versions (item_id, version, content_md, content_hash, published_at, note) VALUES (?, ?, '', ?, ?, NULL)")
-      .bind(item.id, version, hash, now),
-    db.prepare("UPDATE items SET status = 'deleted', kind = 'tombstone', version = ?, content_md = '', dirty = 0, updated = ? WHERE id = ?")
+    db.prepare("INSERT INTO versions (item_id, version, content_md, content_hash, published_at, note) VALUES (?, ?, '', ?, ?, ?)")
+      .bind(item.id, version, hash, now, note),
+    db.prepare("UPDATE items SET status = 'withdrawn', kind = 'withdrawn', version = ?, dirty = 1, updated = ? WHERE id = ?")
       .bind(version, now, item.id),
   ]);
-  return "tombstoned";
+  return version;
 }
 
-/** Published items + tombstones, newest `updated` first (public surfaces). */
+/** Hard-delete a never-published draft. Published items are withdrawn, never deleted. */
+export async function discardDraft(db: D1Database, item: ItemRow): Promise<void> {
+  await db.batch([
+    db.prepare("DELETE FROM items WHERE id = ?").bind(item.id),
+    db.prepare("DELETE FROM media WHERE item_id = ?").bind(item.id),
+  ]);
+}
+
+/** Irrevocably pin a version (§2.8). Idempotent; never unset. */
+export async function pinVersion(db: D1Database, itemId: string, version: number): Promise<void> {
+  await db
+    .prepare("UPDATE versions SET pinned = 1, pinned_at = COALESCE(pinned_at, ?) WHERE item_id = ? AND version = ?")
+    .bind(nowIso(), itemId, version)
+    .run();
+}
+
+export async function getVersion(db: D1Database, itemId: string, version: number): Promise<VersionRow | null> {
+  return db
+    .prepare("SELECT * FROM versions WHERE item_id = ? AND version = ?")
+    .bind(itemId, version)
+    .first<VersionRow>();
+}
+
+/** Published items + withdrawn endcaps, newest `updated` first (public surfaces). */
 export async function listPublic(db: D1Database, limit?: number): Promise<ItemRow[]> {
-  const sql = "SELECT * FROM items WHERE status IN ('public','deleted') ORDER BY updated DESC" + (limit ? " LIMIT ?" : "");
+  const sql = "SELECT * FROM items WHERE status IN ('public','withdrawn') ORDER BY updated DESC" + (limit ? " LIMIT ?" : "");
   const stmt = limit ? db.prepare(sql).bind(limit) : db.prepare(sql);
   return (await stmt.all<ItemRow>()).results;
 }
@@ -113,7 +128,7 @@ export async function listVersions(db: D1Database, itemId: string): Promise<Vers
   ).results;
 }
 
-/** The published (latest-version) content of an item; "" for tombstones. */
+/** The published (latest-version) content of an item; the empty endcap row for withdrawn items. */
 export async function publishedVersion(db: D1Database, item: ItemRow): Promise<VersionRow | null> {
   return db
     .prepare("SELECT * FROM versions WHERE item_id = ? AND version = ?")
@@ -128,16 +143,16 @@ export interface FeedEvent {
 
 /**
  * Publish events for the feed window, newest first (§2.6). One entry per
- * publish event; items retracted to draft contribute nothing; tombstoned
- * items contribute only their tombstone event (their content is no longer
- * published, so earlier events would be empty noise).
+ * publish event; withdrawn items contribute only their withdrawal endcap
+ * (their content is no longer published, so earlier events would be empty
+ * noise — DEVLOG session 2 interpretation, carried over from tombstones).
  */
 export async function feedEvents(db: D1Database, limit: number): Promise<FeedEvent[]> {
   const rows = await db
     .prepare(
-      `SELECT v.item_id, v.version, v.content_md, v.content_hash, v.published_at, v.note
+      `SELECT v.item_id, v.version, v.content_md, v.content_hash, v.published_at, v.note, v.pinned, v.pinned_at
        FROM versions v JOIN items i ON i.id = v.item_id
-       WHERE i.status = 'public' OR (i.status = 'deleted' AND v.version = i.version)
+       WHERE i.status = 'public' OR (i.status = 'withdrawn' AND v.version = i.version)
        ORDER BY v.published_at DESC, v.version DESC LIMIT ?`,
     )
     .bind(limit)
@@ -176,7 +191,7 @@ export async function listMediaForItem(db: D1Database, itemId: string): Promise<
 /** Latest public `updated` timestamp, for manifest/index/feed build dates. */
 export async function lastUpdated(db: D1Database): Promise<string> {
   const row = await db
-    .prepare("SELECT MAX(updated) AS m FROM items WHERE status IN ('public','deleted')")
+    .prepare("SELECT MAX(updated) AS m FROM items WHERE status IN ('public','withdrawn')")
     .first<{ m: string | null }>();
   return row?.m ?? nowIso();
 }

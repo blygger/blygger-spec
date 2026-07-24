@@ -7,8 +7,8 @@ export interface Env {
 
 export interface ItemRow {
   id: string;
-  kind: "fragment" | "tombstone";
-  status: "draft" | "public" | "deleted";
+  kind: "fragment" | "withdrawn";
+  status: "draft" | "public" | "withdrawn";
   created: string;
   updated: string;
   version: number;
@@ -23,6 +23,8 @@ export interface VersionRow {
   content_hash: string;
   published_at: string;
   note: string | null;
+  pinned: number;
+  pinned_at: string | null;
 }
 
 export interface MediaRow {

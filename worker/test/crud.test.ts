@@ -1,5 +1,6 @@
-// Task 4 acceptance: draft→publish v1, edit→publish v2, unpublish hides
-// everywhere, delete tombstones, draft-delete hard-removes.
+// Task 4 + task 12 acceptance: draft→publish v1, edit→publish v2, withdraw
+// endcaps (permanent 200, one feed entry, reversible), pins survive
+// withdrawal, draft-delete hard-removes, published-delete rejected.
 import { describe, expect, it } from "vitest";
 import { apiJson, createAndPublish, getPublic, login } from "./helpers.ts";
 
@@ -62,65 +63,105 @@ describe("item lifecycle (§3.1)", () => {
     expect(xml).toContain(`ygg:${id}:v2`);
   });
 
-  it("unpublish hides the item everywhere but keeps history", async () => {
+  it("withdraw publishes a permanent endcap: 200 forever, one feed entry (§2.3)", async () => {
     const cookie = await login();
     const id = await createAndPublish(cookie, "now you see me");
-    await apiJson(cookie, "POST", `/api/items/${id}/unpublish`, {});
-
-    expect((await getPublic(`/ygg/items/${id}.json`)).status).toBe(404);
-    expect((await getPublic(`/ygg/f/${id}/`)).status).toBe(404);
-    const index = await (await getPublic("/ygg/items/index.json")).json<any>();
-    expect(index.items.find((i: any) => i.id === id)).toBeUndefined();
-    expect(await (await getPublic("/ygg/feed.xml")).text()).not.toContain(id);
-
-    // Republish resumes the version sequence — history was retained.
-    const pub = await apiJson(cookie, "POST", `/api/items/${id}/publish`, {});
-    expect(pub.json.version).toBe(2);
-    const item = await (await getPublic(`/ygg/items/${id}.json`)).json<any>();
-    expect(item.changelog.length).toBe(2);
-  });
-
-  it("deleting a published item leaves a permanent tombstone (§2.3)", async () => {
-    const cookie = await login();
-    const id = await createAndPublish(cookie, "doomed");
-    const del = await apiJson(cookie, "DELETE", `/api/items/${id}`);
-    expect(del.json.outcome).toBe("tombstoned");
+    const wd = await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, { note: "second thoughts" });
+    expect(wd.status).toBe(200);
+    expect(wd.json.version).toBe(2);
 
     const res = await getPublic(`/ygg/items/${id}.json`);
     expect(res.status).toBe(200);
     const item = await res.json<any>();
-    expect(item.kind).toBe("tombstone");
+    expect(item.kind).toBe("withdrawn");
     expect(item.version).toBe(2);
     expect(item.content_md).toBe("");
     expect(item.content_html).toBe("");
     expect(item.media).toEqual([]);
     expect(item.changelog.length).toBe(2);
+    expect(item.changelog[1].note).toBe("second thoughts");
 
     const page = await getPublic(`/ygg/f/${id}/`);
     expect(page.status).toBe(200);
-    expect(await page.text()).toContain("deleted");
+    expect(await page.text()).toContain("withdrawn");
 
     const index = await (await getPublic("/ygg/items/index.json")).json<any>();
-    expect(index.items.find((i: any) => i.id === id).kind).toBe("tombstone");
+    expect(index.items.find((i: any) => i.id === id).kind).toBe("withdrawn");
 
     const xml = await (await getPublic("/ygg/feed.xml")).text();
     expect(xml).toContain(`ygg:${id}:v2`);
-    expect(xml).toContain("<title>deleted</title>");
-    // Only the tombstone event remains in the feed for a deleted item.
+    expect(xml).toContain("<title>withdrawn</title>");
+    // Only the withdrawal event remains in the feed for a withdrawn item.
     expect(xml).not.toContain(`ygg:${id}:v1`);
 
-    // Tombstones cannot be edited, republished, or re-deleted.
-    expect((await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "x" })).status).toBe(409);
-    expect((await apiJson(cookie, "POST", `/api/items/${id}/publish`, {})).status).toBe(409);
-    expect((await apiJson(cookie, "DELETE", `/api/items/${id}`)).status).toBe(409);
+    // Cannot re-withdraw.
+    expect((await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {})).status).toBe(409);
   });
 
-  it("deleting a never-published draft hard-removes it", async () => {
+  it("withdrawal is reversible: working copy survives, republish restores (§3.1)", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "phoenix v1");
+    await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {});
+
+    // Working copy retained and editable after withdrawal.
+    expect((await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "phoenix v3" })).status).toBe(200);
+    const pub = await apiJson(cookie, "POST", `/api/items/${id}/publish`, { note: "returned" });
+    expect(pub.json.version).toBe(3);
+
+    const item = await (await getPublic(`/ygg/items/${id}.json`)).json<any>();
+    expect(item.kind).toBe("fragment");
+    expect(item.content_md).toBe("phoenix v3");
+    expect(item.changelog.length).toBe(3);
+    const xml = await (await getPublic("/ygg/feed.xml")).text();
+    expect(xml).toContain(`ygg:${id}:v3`);
+  });
+
+  it("pinned versions are served at items/{id}/v{n}.json and survive withdrawal (§2.8)", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "citable *claim*");
+    await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "revised claim" });
+    await apiJson(cookie, "POST", `/api/items/${id}/publish`, {});
+
+    // Unpinned versions are withheld.
+    expect((await getPublic(`/ygg/items/${id}/v1.json`)).status).toBe(404);
+
+    const pin = await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    expect(pin.status).toBe(200);
+    // Idempotent re-pin.
+    expect((await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 })).json.already).toBe(true);
+
+    const res = await getPublic(`/ygg/items/${id}/v1.json`);
+    expect(res.status).toBe(200);
+    const v1 = await res.json<any>();
+    expect(v1.version).toBe(1);
+    expect(v1.pinned).toBe(true);
+    expect(v1.content_md).toBe("citable *claim*");
+    expect(v1.content_html).toContain("<em>claim</em>");
+    expect(v1.content_hash).toMatch(/^sha256:[0-9a-f]{64}$/);
+
+    // Changelog advertises the pin; v2 stays unpinned.
+    const item = await (await getPublic(`/ygg/items/${id}.json`)).json<any>();
+    expect(item.changelog[0].pinned).toBe(true);
+    expect(item.changelog[1].pinned).toBeUndefined();
+    expect((await getPublic(`/ygg/items/${id}/v2.json`)).status).toBe(404);
+
+    // The pin survives withdrawal of the live stream.
+    await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {});
+    expect((await getPublic(`/ygg/items/${id}/v1.json`)).status).toBe(200);
+
+    // Endcap versions cannot be pinned.
+    expect((await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 3 })).status).toBe(409);
+  });
+
+  it("discarding a never-published draft hard-removes it; published delete is rejected", async () => {
     const cookie = await login();
     const { json } = await apiJson(cookie, "POST", "/api/items", { content_md: "scratch" });
     const del = await apiJson(cookie, "DELETE", `/api/items/${json.id}`);
     expect(del.json.outcome).toBe("discarded");
     expect((await apiJson(cookie, "PUT", `/api/items/${json.id}`, { content_md: "x" })).status).toBe(404);
+
+    const id = await createAndPublish(cookie, "not deletable");
+    expect((await apiJson(cookie, "DELETE", `/api/items/${id}`)).status).toBe(409);
   });
 
   it("enforces the 1,000-char fragment cap at publish (§2.7)", async () => {

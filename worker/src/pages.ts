@@ -26,7 +26,7 @@ article.fragment img { max-width: 100%; height: auto; }
 article.fragment p:first-child { margin-top: 0; }
 .byline { font-size: 0.85rem; opacity: 0.7; margin-top: 0.5rem; }
 .byline a { text-decoration: none; }
-.tombstone { opacity: 0.7; font-style: italic; }
+.withdrawn { opacity: 0.7; font-style: italic; }
 ul.archive { list-style: none; padding: 0; }
 ul.archive li { padding: 0.3rem 0; border-top: 1px solid rgba(128,128,128,0.25); }
 ul.archive .meta { font-size: 0.85rem; opacity: 0.7; margin-left: 0.5rem; }
@@ -92,17 +92,17 @@ export async function feedPage(db: D1Database, settings: Settings, items: ItemRo
   const blocks: string[] = [];
   for (const item of fragments) blocks.push(await fragmentBlock(db, item));
   const body = `${siteHeader(settings)}
-${blocks.join("\n") || '<p class="tombstone">Nothing published yet.</p>'}
+${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
 ${hasMore ? '<footer class="older"><a href="/ygg/archive/">older items →</a></footer>' : ""}`;
   return layout(settings.site_title, body);
 }
 
 export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow): Promise<string> {
-  if (item.kind === "tombstone") {
+  if (item.kind === "withdrawn") {
     const body = `${siteHeader(settings)}
-<article class="fragment tombstone"><p>This item was deleted.</p>
+<article class="fragment withdrawn"><p>This item was withdrawn.</p>
 <p class="byline">v${item.version} · ${relativeTime(item.updated)}</p></article>`;
-    return layout(`deleted — ${settings.site_title}`, body);
+    return layout(`withdrawn — ${settings.site_title}`, body);
   }
   const body = `${siteHeader(settings)}\n${await fragmentBlock(db, item)}`;
   return layout(settings.site_title, body);
@@ -111,8 +111,8 @@ export async function permalinkPage(db: D1Database, settings: Settings, item: It
 export async function archivePage(db: D1Database, settings: Settings, items: ItemRow[]): Promise<string> {
   const rows: string[] = [];
   for (const item of items) {
-    if (item.kind === "tombstone") {
-      rows.push(`<li class="tombstone">deleted<span class="meta">${item.updated.slice(0, 10)}</span></li>`);
+    if (item.kind === "withdrawn") {
+      rows.push(`<li class="withdrawn">withdrawn<span class="meta">${item.updated.slice(0, 10)}</span></li>`);
       continue;
     }
     const latest = await publishedVersion(db, item);

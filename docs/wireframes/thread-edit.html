@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wireframe — /studio thread editor (rev 3)</title>
+<style>
+:root { color-scheme: light dark; }
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.55;
+  max-width: 110ch;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 4rem;
+}
+.wf-note { background: rgba(255,200,0,0.15); border: 1px dashed rgba(128,128,128,0.6); padding: 0.5rem 0.75rem; font-size: 0.85rem; margin-bottom: 1rem; }
+header.studio { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+header.studio h1 { font-size: 1.2rem; margin: 0; }
+header.studio nav a { margin-left: 0.75rem; font-size: 0.9rem; }
+.error-banner {
+  border: 1px solid rgba(200,0,0,0.5); background: rgba(200,0,0,0.09); color: #c00;
+  border-radius: 4px; padding: 0.5rem 0.75rem; font-size: 0.85rem; margin-bottom: 0.75rem;
+}
+.error-banner code { color: inherit; }
+.panes { display: flex; gap: 1rem; align-items: stretch; }
+.pane { flex: 1; border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; min-height: 24rem; }
+.pane h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.6; margin: 0 0 0.5rem; }
+.pane textarea { width: 100%; height: 20rem; border: none; resize: vertical; font: inherit; font-family: ui-monospace, Menlo, monospace; font-size: 0.85rem; background: transparent; outline: none; }
+.preview blockquote.ygg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(128,128,128,0.55); background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
+.preview blockquote.ygg-transclusion p { margin: 0 0 0.25rem; }
+.preview .provenance { font-size: 0.75rem; opacity: 0.65; }
+.preview .unresolved { border-left-color: #c00; background: rgba(200,0,0,0.07); color: #c00; font-style: italic; }
+.bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; font-size: 0.85rem; }
+button { font: inherit; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; cursor: pointer; }
+button.primary { border-color: currentColor; font-weight: 600; }
+.palette { border: 1px solid rgba(128,128,128,0.5); border-radius: 6px; padding: 0.5rem; margin-top: 1rem; max-width: 60ch; box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
+.palette .search { width: 100%; font: inherit; padding: 0.3rem 0.5rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; }
+.palette ul { list-style: none; margin: 0.5rem 0 0; padding: 0; font-size: 0.9rem; }
+.palette li { padding: 0.35rem 0.5rem; border-top: 1px solid rgba(128,128,128,0.2); cursor: pointer; }
+.palette li.sel { background: rgba(128,128,128,0.15); border-radius: 4px; }
+.palette .meta { font-size: 0.78rem; opacity: 0.6; margin-left: 0.5rem; }
+.note-row { margin-top: 0.75rem; font-size: 0.85rem; display: flex; gap: 0.5rem; align-items: center; }
+.note-row input { flex: 1; font: inherit; padding: 0.3rem 0.5rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; }
+</style>
+</head>
+<body>
+<p class="wf-note">WIREFRAME REV 3 · <b>thread editor</b> <code>/studio/edit/{id}</code> for <code>kind: thread</code> (new, session-3 restructure — v0.1-plan §2.9, task 15). Left: markdown source with <code>![[id]]</code> directives on their own lines. Right: live preview with transclusions resolved against current published fragments (the real snapshot happens at publish). Typing <code>![[</code> opens the fragment-search palette (own published fragments only — drafts, withdrawn items, and threads are not offered, matching what publish would accept). Unresolvable directives render as a red block in preview and publishing fails with the error banner shown. No character cap for threads. Withdraw replaces delete, as everywhere.</p>
+
+<header class="studio">
+<h1>ygg studio — editing thread</h1>
+<nav><a href="#">back to list</a><a href="#">public page ↗</a></nav>
+</header>
+
+<div class="error-banner">Cannot publish: <code>![[9zzzzzzzzzzzzzzzzzzzzzzzzz]]</code> does not resolve — item is withdrawn. Remove the directive or republish the fragment first.</div>
+
+<div class="panes">
+<div class="pane">
+<h2>markdown source</h2>
+<textarea># Why every social medium hardens its early protocols
+
+Connecting prose written in the thread itself. It sets up the
+first fragment, which made this point in compressed form:
+
+![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+
+More connecting prose. The second fragment approaches the same
+claim from the economics side:
+
+![[2wz9xe1h4tk9fwb6j1hmfz2awv]]
+
+A third reference that will fail to resolve:
+
+![[9zzzzzzzzzzzzzzzzzzzzzzzzz]]
+
+Closing prose that does the synthesis work.</textarea>
+</div>
+<div class="pane preview">
+<h2>preview</h2>
+<h3>Why every social medium hardens its early protocols</h3>
+<p>Connecting prose written in the thread itself. It sets up the first fragment, which made this point in compressed form:</p>
+<blockquote class="ygg-transclusion">
+<p>A protocol is a frozen conversation. Whatever the founders argued about is what the buttons let you do forever after.</p>
+<p class="provenance">fragment · will snapshot v2</p>
+</blockquote>
+<p>More connecting prose. The second fragment approaches the same claim from the economics side:</p>
+<blockquote class="ygg-transclusion">
+<p>Switching costs are memory costs. A medium you can leave without losing your archive is a medium that has to keep earning you.</p>
+<p class="provenance">fragment · will snapshot v1</p>
+</blockquote>
+<p>A third reference that will fail to resolve:</p>
+<blockquote class="ygg-transclusion unresolved">
+<p>⚠ unresolvable: item is withdrawn</p>
+</blockquote>
+<p>Closing prose that does the synthesis work.</p>
+</div>
+</div>
+
+<div class="note-row"><label for="note">What changed?</label><input id="note" placeholder="optional edit note, shows in changelog + feed title"></div>
+<div class="bar">
+  <span><button>attach image</button></span>
+  <span><button>save draft</button> <button class="primary">publish v3</button> <button>withdraw</button></span>
+</div>
+
+<div class="palette">
+<input class="search" value="switching" placeholder="transclude a fragment…">
+<ul>
+<li class="sel">Switching costs are memory costs. A medium you can leave…<span class="meta">v1 · Jul 21</span></li>
+<li>A protocol is a frozen conversation. Whatever the founders…<span class="meta">v2 · Jul 18</span></li>
+</ul>
+</div>
+<p style="font-size:0.8rem;opacity:0.6;">↑ the <code>![[</code> palette, shown detached for review — in the live editor it floats at the caret.</p>
+
+</body>
+</html>
