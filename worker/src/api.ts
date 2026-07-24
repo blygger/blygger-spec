@@ -2,6 +2,7 @@
 
 import { Hono } from "hono";
 import {
+  authoredKind,
   createDraft,
   discardDraft,
   getItem,
@@ -11,6 +12,7 @@ import {
   publish,
   putSettings,
   saveWorkingCopy,
+  TransclusionResolveError,
   withdraw,
 } from "./model.ts";
 import type { Env } from "./types.ts";
@@ -29,9 +31,10 @@ const MEDIA_MAX_BYTES = 5 * 1024 * 1024;
 export const api = new Hono<{ Bindings: Env }>({ strict: false });
 
 api.post("/items", async (c) => {
-  const body = await c.req.json<{ content_md?: string }>().catch(() => ({}) as { content_md?: string });
-  const item = await createDraft(c.env.DB, body.content_md ?? "");
-  return c.json({ id: item.id, status: item.status }, 201);
+  const body = await c.req.json<{ content_md?: string; kind?: string }>().catch(() => ({}) as { content_md?: string; kind?: string });
+  const kind = body.kind === "thread" ? "thread" : "fragment";
+  const item = await createDraft(c.env.DB, body.content_md ?? "", kind);
+  return c.json({ id: item.id, kind: item.kind, status: item.status }, 201);
 });
 
 api.put("/items/:id", async (c) => {
@@ -46,17 +49,25 @@ api.put("/items/:id", async (c) => {
 });
 
 api.post("/items/:id/publish", async (c) => {
-  // Also the republish path for withdrawn items: vN+1 restores 'public'/'fragment'.
+  // Also the republish path for withdrawn items: vN+1 restores 'public'/authored kind.
   const item = await getItem(c.env.DB, c.req.param("id"));
   if (!item) return c.json({ error: "not found" }, 404);
-  // Studio-side fragment cap (§2.7): enforced at publish time, never by readers.
-  if (item.content_md.length > FRAGMENT_MAX_CHARS) {
+  const kind = await authoredKind(c.env.DB, item);
+  // Studio-side fragment cap (§2.7): fragments only — threads are long-form, no cap.
+  if (kind === "fragment" && item.content_md.length > FRAGMENT_MAX_CHARS) {
     return c.json({ error: `fragment exceeds ${FRAGMENT_MAX_CHARS} characters` }, 400);
   }
   const body = await c.req.json<{ note?: string }>().catch(() => ({}) as { note?: string });
   const note = typeof body.note === "string" && body.note.trim() ? body.note.trim() : null;
-  const version = await publish(c.env.DB, item, note);
-  return c.json({ ok: true, version });
+  try {
+    const version = await publish(c.env.DB, item, note);
+    return c.json({ ok: true, version });
+  } catch (e) {
+    if (e instanceof TransclusionResolveError) {
+      return c.json({ error: "one or more transclusions do not resolve", errors: e.errors }, 400);
+    }
+    throw e;
+  }
 });
 
 api.post("/items/:id/withdraw", async (c) => {

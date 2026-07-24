@@ -7,7 +7,7 @@ export interface Env {
 
 export interface ItemRow {
   id: string;
-  kind: "fragment" | "withdrawn";
+  kind: "fragment" | "thread" | "withdrawn";
   status: "draft" | "public" | "withdrawn";
   created: string;
   updated: string;
@@ -16,13 +16,22 @@ export interface ItemRow {
   dirty: number;
 }
 
+export interface Transclusion {
+  id: string;
+  version: number;
+}
+
 export interface VersionRow {
   item_id: string;
   version: number;
   content_md: string;
+  /** Publish-time rendering; for threads this holds the baked transclusion snapshots (migration 0003). */
+  content_html: string;
   content_hash: string;
   published_at: string;
   note: string | null;
+  /** JSON [{id,version}] for threads; null for fragments (migration 0003). */
+  transclusions: string | null;
   pinned: number;
   pinned_at: string | null;
 }

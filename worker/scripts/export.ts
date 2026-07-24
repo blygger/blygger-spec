@@ -49,11 +49,15 @@ const mediaUrls = new Set<string>();
 let pinnedCount = 0;
 for (const { id } of index.items) {
   const itemBytes = await save(`items/${id}.json`, `items/${id}.json`);
-  await save(`f/${id}/`, `f/${id}/index.html`);
   const item = JSON.parse(new TextDecoder().decode(itemBytes)) as {
     media: { url: string }[];
     changelog: { version: number; pinned?: boolean }[];
+    transclusions?: unknown[];
   };
+  // A thread item (live or withdrawn-but-authored-as-thread) carries a
+  // transclusions field (§2.9); fragments never do.
+  const isThread = "transclusions" in item;
+  await save(`${isThread ? "t" : "f"}/${id}/`, `${isThread ? "t" : "f"}/${id}/index.html`);
   for (const m of item.media) mediaUrls.add(m.url);
   // §2.8 pinned version files, discovered from the changelog.
   for (const v of item.changelog) {

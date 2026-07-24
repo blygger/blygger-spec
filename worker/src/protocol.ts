@@ -1,8 +1,10 @@
 // Protocol surface builders: item JSON, manifest, archive index, feed.xml
 // — v0.1-plan §2.3–2.6. These shapes are protocol; do not change casually.
 
-import { excerpt, renderMarkdown } from "./markdown.ts";
+import { excerpt, excerptFromHtml } from "./markdown.ts";
+import { injectProvenance } from "./pages.ts";
 import {
+  authoredKind,
   feedEvents,
   lastUpdated,
   listMediaForItem,
@@ -10,7 +12,7 @@ import {
   listVersions,
   publishedVersion,
 } from "./model.ts";
-import type { ItemRow, Settings, VersionRow } from "./types.ts";
+import type { ItemRow, Settings, Transclusion, VersionRow } from "./types.ts";
 import { FEED_WINDOW, GENERATOR, YGG_LEVEL, YGG_NS, YGG_VERSION } from "./types.ts";
 import { absolutizeHtml, cdata, escapeXml, rfc822 } from "./util.ts";
 
@@ -29,6 +31,7 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
   const isWithdrawn = item.kind === "withdrawn";
   const latest = await publishedVersion(db, item);
   const contentMd = isWithdrawn ? "" : (latest?.content_md ?? "");
+  const contentHtml = isWithdrawn ? "" : (latest?.content_html ?? "");
   const media = isWithdrawn ? [] : await listMediaForItem(db, item.id);
   const changelog = (await listVersions(db, item.id)).map((v) => ({
     version: v.version,
@@ -36,6 +39,14 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
     note: v.note,
     ...(v.pinned === 1 ? { pinned: true } : {}),
   }));
+  // Thread items additionally carry transclusions provenance (§2.9); a
+  // withdrawn thread's endcap empties it to [] alongside content_md/media.
+  const isThread = isWithdrawn ? (await authoredKind(db, item)) === "thread" : item.kind === "thread";
+  const transclusions: Transclusion[] | undefined = isThread
+    ? isWithdrawn
+      ? []
+      : (JSON.parse(latest?.transclusions ?? "[]") as Transclusion[])
+    : undefined;
   return {
     ygg: YGG_VERSION,
     id: item.id,
@@ -46,19 +57,21 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
     updated: item.updated,
     version: item.version,
     content_md: contentMd,
-    content_html: isWithdrawn ? "" : renderMarkdown(contentMd),
+    content_html: contentHtml,
     content_hash: latest?.content_hash ?? "",
     media: media.map((m) => ({ url: m.r2_key, mime: m.mime, alt: m.alt ?? "" })),
+    ...(transclusions !== undefined ? { transclusions } : {}),
     changelog,
   };
 }
 
 /** §2.8 pinned version file — permanent, survives edits and withdrawal. */
 export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: VersionRow, origin: string) {
+  const isThread = row.transclusions !== null;
   return {
     ygg: YGG_VERSION,
     id: item.id,
-    kind: "fragment",
+    kind: isThread ? "thread" : "fragment",
     version: row.version,
     at: row.published_at,
     note: row.note,
@@ -66,8 +79,9 @@ export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: V
     origin,
     author: author(settings, origin),
     content_md: row.content_md,
-    content_html: renderMarkdown(row.content_md),
+    content_html: row.content_html,
     content_hash: row.content_hash,
+    ...(isThread ? { transclusions: JSON.parse(row.transclusions as string) as Transclusion[] } : {}),
   };
 }
 
@@ -108,10 +122,14 @@ export async function buildArchiveIndex(db: D1Database) {
 }
 
 /** Feed entry title: edit note if present + ~60 chars of plain text; withdrawal events say "withdrawn". */
-export function feedTitle(item: ItemRow, note: string | null, contentMd: string): string {
+export function feedTitle(item: ItemRow, note: string | null, excerptText: string): string {
   if (item.kind === "withdrawn") return "withdrawn";
-  const ex = excerpt(contentMd, 60);
-  return note ? `${note} — ${ex}` : ex;
+  return note ? `${note} — ${excerptText}` : excerptText;
+}
+
+function latestTransclusions(latest: VersionRow | null): Transclusion[] {
+  if (!latest?.transclusions) return [];
+  return JSON.parse(latest.transclusions) as Transclusion[];
 }
 
 /** §2.6 feed.xml: RSS 2.0 + ygg namespace, per-version GUIDs, 50-entry window. */
@@ -126,17 +144,20 @@ export async function buildFeedXml(db: D1Database, settings: Settings, origin: s
     const isWithdrawn = item.kind === "withdrawn";
     const latest = isWithdrawn ? null : await publishedVersion(db, item);
     const latestMd = latest?.content_md ?? "";
-    let html = isWithdrawn ? "" : absolutizeHtml(renderMarkdown(latestMd), origin);
+    const isThread = isWithdrawn ? (await authoredKind(db, item)) === "thread" : item.kind === "thread";
+    const rawHtml = latest?.content_html ?? "";
+    let html = isWithdrawn ? "" : absolutizeHtml(isThread ? injectProvenance(rawHtml, latestTransclusions(latest)) : rawHtml, origin);
     if (!isWithdrawn) {
       for (const m of await listMediaForItem(db, item.id)) {
         html += `<p><img src="${origin}${m.r2_key}" alt="${escapeXml(m.alt ?? "")}"></p>`;
       }
     }
+    const excerptText = isWithdrawn ? "" : isThread ? excerptFromHtml(rawHtml, 60) : excerpt(latestMd, 60);
     itemsXml.push(
       `    <item>
       <guid isPermaLink="false">ygg:${item.id}:v${version.version}</guid>
-      <link>${origin}f/${item.id}/</link>
-      <title>${escapeXml(feedTitle(item, version.note, latestMd))}</title>
+      <link>${origin}${isThread ? "t" : "f"}/${item.id}/</link>
+      <title>${escapeXml(feedTitle(item, version.note, excerptText))}</title>
       <description>${isWithdrawn ? "" : cdata(html)}</description>
       <pubDate>${rfc822(version.published_at)}</pubDate>
       <ygg:id>${item.id}</ygg:id>

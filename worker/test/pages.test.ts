@@ -4,20 +4,17 @@ import { describe, expect, it } from "vitest";
 import { apiJson, createAndPublish, getPublic, login } from "./helpers.ts";
 
 describe("public pages (§3.4)", () => {
-  it("feed page shows header, fragment, byline, permalink, RSS link", async () => {
+  it("feed page shows header, fragment, permalink, RSS link", async () => {
     const cookie = await login();
-    await apiJson(cookie, "PUT", "/api/settings", {
-      site_title: "Venkat's ygg",
-      author_bio: "bio line",
-      author_links: [{ label: "Home", url: "https://venkateshrao.com" }],
-    });
+    await apiJson(cookie, "PUT", "/api/settings", { site_title: "Venkat's ygg" });
     const id = await createAndPublish(cookie, "a *rendered* fragment");
     const html = await (await getPublic("/ygg/")).text();
-    expect(html).toContain("Venkat&#39;s ygg");
-    expect(html).toContain("bio line");
-    expect(html).toContain("https://venkateshrao.com");
+    // Title tag carries site identity; the embeddable page body itself is
+    // deliberately minimal (bare Home+RSS header, no title/bio/links) per
+    // the rev-2/3 wireframe review (docs/wireframes/public.html).
+    expect(html).toContain("<title>Venkat&#39;s ygg</title>");
     expect(html).toContain("<em>rendered</em>");
-    expect(html).toContain("v1");
+    expect(html).toContain("Created:");
     expect(html).toContain(`/ygg/f/${id}/`);
     expect(html).toContain("/ygg/feed.xml");
   });
@@ -31,14 +28,14 @@ describe("public pages (§3.4)", () => {
     expect(html).toContain("&lt;script&gt;");
   });
 
-  it("edited fragments show version, 'edited', and the note", async () => {
+  it("edited fragments show the version scrubber, 'Most recent', and the note", async () => {
     const cookie = await login();
     const id = await createAndPublish(cookie, "draft one");
     await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "sharpened" });
     await apiJson(cookie, "POST", `/api/items/${id}/publish`, { note: "sharpened the claim" });
     const html = await (await getPublic(`/ygg/f/${id}/`)).text();
-    expect(html).toContain("v2");
-    expect(html).toContain("edited");
+    expect(html).toContain("v2 of 2");
+    expect(html).toContain("Most recent");
     expect(html).toContain("sharpened the claim");
   });
 

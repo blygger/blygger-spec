@@ -26,3 +26,26 @@ export function excerpt(contentMd: string, n = 60): string {
   const text = plainText(contentMd);
   return text.length <= n ? text : text.slice(0, n).trimEnd() + "…";
 }
+
+/**
+ * Plain text from already-rendered HTML — used for thread content, which
+ * stores baked content_html (transclusion snapshots) rather than
+ * independently re-renderable markdown.
+ */
+export function plainTextFromHtml(html: string): string {
+  return html
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** First ~n chars of already-rendered HTML's plain text, ellipsized. */
+export function excerptFromHtml(html: string, n = 60): string {
+  const text = plainTextFromHtml(html);
+  return text.length <= n ? text : text.slice(0, n).trimEnd() + "…";
+}

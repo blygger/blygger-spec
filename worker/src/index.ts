@@ -3,8 +3,8 @@
 import { Hono } from "hono";
 import { api } from "./api.ts";
 import { verifySession } from "./auth.ts";
-import { getItem, getMedia, getSettings, getVersion, listPublic } from "./model.ts";
-import { archivePage, feedPage, permalinkPage, STYLE_CSS } from "./pages.ts";
+import { authoredKind, getItem, getMedia, getSettings, getVersion, listPublic } from "./model.ts";
+import { archivePage, feedPage, permalinkPage, STYLE_CSS, threadPage } from "./pages.ts";
 import { buildArchiveIndex, buildFeedXml, buildItemJson, buildManifest, buildPinnedVersionJson, siteOrigin } from "./protocol.ts";
 import { studio } from "./studio.ts";
 import type { Env } from "./types.ts";
@@ -82,8 +82,18 @@ app.get("/ygg/items/:id/:vfile", async (c) => {
 app.get("/ygg/f/:id", async (c) => {
   const item = await getItem(c.env.DB, c.req.param("id"));
   if (!item || item.status === "draft") return c.notFound();
+  if ((await authoredKind(c.env.DB, item)) !== "fragment") return c.notFound();
   const settings = await getSettings(c.env.DB);
   return c.html(await permalinkPage(c.env.DB, settings, item));
+});
+
+// §2.9 thread permalink page.
+app.get("/ygg/t/:id", async (c) => {
+  const item = await getItem(c.env.DB, c.req.param("id"));
+  if (!item || item.status === "draft") return c.notFound();
+  if ((await authoredKind(c.env.DB, item)) !== "thread") return c.notFound();
+  const settings = await getSettings(c.env.DB);
+  return c.html(await threadPage(c.env.DB, settings, item));
 });
 
 app.get("/ygg/archive", async (c) => {

@@ -1,7 +1,11 @@
 // Data access + publish-flow semantics — v0.1-plan §3.1.
 
+import { renderMarkdown } from "./markdown.ts";
+import { resolveTransclusions, TransclusionResolveError } from "./transclusion.ts";
 import type { ItemRow, MediaRow, Settings, VersionRow } from "./types.ts";
 import { contentHash, newId, nowIso } from "./util.ts";
+
+export { TransclusionResolveError };
 
 export async function getSettings(db: D1Database): Promise<Settings> {
   const rows = await db.prepare("SELECT key, value FROM settings").all<{ key: string; value: string }>();
@@ -35,14 +39,33 @@ export async function getItem(db: D1Database, id: string): Promise<ItemRow | nul
   return db.prepare("SELECT * FROM items WHERE id = ?").bind(id).first<ItemRow>();
 }
 
-export async function createDraft(db: D1Database, contentMd: string): Promise<ItemRow> {
+export async function createDraft(
+  db: D1Database,
+  contentMd: string,
+  kind: "fragment" | "thread" = "fragment",
+): Promise<ItemRow> {
   const id = newId();
   const now = nowIso();
   await db
-    .prepare("INSERT INTO items (id, kind, status, created, updated, version, content_md, dirty) VALUES (?, 'fragment', 'draft', ?, ?, 0, ?, 1)")
-    .bind(id, now, now, contentMd)
+    .prepare("INSERT INTO items (id, kind, status, created, updated, version, content_md, dirty) VALUES (?, ?, 'draft', ?, ?, 0, ?, 1)")
+    .bind(id, kind, now, now, contentMd)
     .run();
   return (await getItem(db, id))!;
+}
+
+/**
+ * The item's authored kind — 'fragment' or 'thread' — independent of the
+ * transient 'withdrawn' state a live item.kind carries after withdrawal.
+ * For a withdrawn item, derived from the last real (non-endcap) version's
+ * transclusions column, per §3.1 republish rules.
+ */
+export async function authoredKind(db: D1Database, item: ItemRow): Promise<"fragment" | "thread"> {
+  if (item.kind === "fragment" || item.kind === "thread") return item.kind;
+  const prev = await db
+    .prepare("SELECT transclusions FROM versions WHERE item_id = ? AND version = ?")
+    .bind(item.id, item.version - 1)
+    .first<{ transclusions: string | null }>();
+  return prev?.transclusions ? "thread" : "fragment";
 }
 
 /** Save the working copy. Does not touch `updated` for ever-published items — that field is publish-facing. */
@@ -53,16 +76,34 @@ export async function saveWorkingCopy(db: D1Database, id: string, contentMd: str
     .run();
 }
 
-/** Publish the working copy as version N+1. */
+/**
+ * Publish the working copy as version N+1. Fragments render content_html
+ * directly; threads resolve every `![[id]]` directive against currently
+ * published local fragments and bake the snapshot into content_html, storing
+ * provenance in transclusions (§2.9). Throws TransclusionResolveError,
+ * without writing anything, if any directive fails to resolve.
+ */
 export async function publish(db: D1Database, item: ItemRow, note: string | null): Promise<number> {
   const now = nowIso();
   const version = item.version + 1;
+  const kind = await authoredKind(db, item);
+  let contentHtml: string;
+  let transclusionsJson: string | null = null;
+  if (kind === "thread") {
+    const resolved = await resolveTransclusions(db, item.content_md);
+    if (resolved.errors.length) throw new TransclusionResolveError(resolved.errors);
+    contentHtml = resolved.html;
+    transclusionsJson = JSON.stringify(resolved.transclusions);
+  } else {
+    contentHtml = renderMarkdown(item.content_md);
+  }
   const hash = await contentHash(item.content_md);
   await db.batch([
-    db.prepare("INSERT INTO versions (item_id, version, content_md, content_hash, published_at, note) VALUES (?, ?, ?, ?, ?, ?)")
-      .bind(item.id, version, item.content_md, hash, now, note),
-    db.prepare("UPDATE items SET status = 'public', kind = 'fragment', version = ?, dirty = 0, updated = ? WHERE id = ?")
-      .bind(version, now, item.id),
+    db.prepare(
+      "INSERT INTO versions (item_id, version, content_md, content_html, content_hash, published_at, note, transclusions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    ).bind(item.id, version, item.content_md, contentHtml, hash, now, note, transclusionsJson),
+    db.prepare("UPDATE items SET status = 'public', kind = ?, version = ?, dirty = 0, updated = ? WHERE id = ?")
+      .bind(kind, version, now, item.id),
   ]);
   return version;
 }

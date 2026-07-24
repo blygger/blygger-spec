@@ -3,6 +3,111 @@
 Per-session development log. Non-skippable: every coding session appends an entry
 (template and writing standard in [`CLAUDE.md`](CLAUDE.md)). Newest first.
 
+## Session 4 — 2026-07-24 — Threads shipped (tasks 13–15); studio UI built; public pages brought to rev-3
+**Model:** Sonnet 5 · **Time:** ~13:34–14:40 PT · **Committed:** yes · **Deployed:** — (task 11 still pending)
+
+**What & why:** Opened by re-checking the rev-3 wireframes from session 3 (withdraw/pin +
+threads) against `v0.1-plan.md` — they already matched the new spec, so Venkat reviewed
+the existing set live in-browser rather than a rebuild, and approved it. That cleared the
+task-9/15 gate, so this session built the full remainder of v0.1: threads end-to-end and
+the studio UI, plus the rev-2/3 public-page changes that task 8 had shipped against the
+rev-1 mockup only.
+
+**Threads (tasks 13–14), §2.9:** migration 0003 adds `versions.content_html` and
+`versions.transclusions`. New `src/transclusion.ts` implements the locked `![[id]]`
+grammar as a line-walker shared between two callers: `resolveTransclusions()` (strict,
+used by `model.publish()` — throws `TransclusionResolveError` listing every bad reference
+if any directive fails, aborting the whole publish) and `previewTransclusions()`
+(studio-only, never aborts — renders a red "unresolvable" placeholder per bad directive
+instead, so the editor can show what publish will reject before the author hits publish).
+`model.ts` gained `authoredKind()` — an item's real kind ('fragment'/'thread') independent
+of the transient `'withdrawn'` state; for a withdrawn item it's derived from the last
+real (non-endcap) version's `transclusions` column, since `items.kind` itself is
+overwritten to `'withdrawn'` and can't be trusted. `publish()` now resolves transclusions
+and bakes the snapshot into `content_html` for threads, and (as a side effect of storing
+`content_html` at publish time for *every* version, not just threads) fragments' rendered
+HTML is now precomputed at publish rather than re-rendered per request — pinned
+fragment/thread version files now serve the stored value directly. `f/{id}/` and `t/{id}/`
+routes now 404 on kind mismatch (via `authoredKind`), so a thread id never resolves at the
+fragment permalink or vice versa.
+
+**Protocol-locked vs. presentation, a decision worth recording:** §2.9 only specifies the
+`blockquote.ygg-transclusion` + `data-ygg-id`/`data-ygg-version` wrapper as baked
+`content_html` — no provenance link. The wireframe's "fragment ↗ · snapshot of vN" line is
+therefore presentation, not protocol: `pages.ts`'s `injectProvenance()` adds it after the
+fact (root-relative link, matching every other HTML link in this codebase) for the thread
+page and, pre-`absolutizeHtml`, for feed.xml's self-contained thread entries — but never
+touches the stored `content_html` itself. Item JSON's `content_html` field for threads is
+the bare baked blockquote, no provenance.
+
+**A withdrawn thread's `transclusions` field:** implemented as present-but-`[]` (matching
+the "empties `content_md`/`content_html`/`media`" pattern for the endcap), while withdrawn
+*fragments* carry no `transclusions` field at all — matching §2.3's "thread items
+additionally carry" framing. Distinguishing withdrawn-thread from withdrawn-fragment
+required `authoredKind()`, since `item.kind` alone is just `'withdrawn'` at that point.
+
+**Studio UI (task 9) + thread editor (task 15):** built directly against
+`docs/wireframes/studio.html`/`edit.html`/`thread-edit.html` — server-rendered HTML +
+vanilla JS calling the existing `/api/*` endpoints (no client framework, per CLAUDE.md).
+Composer (quick-post, creates-then-optionally-publishes), item list with state dot/dirty
+flag/kind chip/pin+withdraw+republish actions, fragment editor (textarea + live preview via
+a new studio-only `POST /studio/preview`), settings page. Thread editor adds: live preview
+via `POST /studio/preview-thread` (the `previewTransclusions` placeholder variant), a
+`![[` fragment-search palette (`GET /studio/fragments/search`, arrow-key/click select,
+inserts `![[id]]` on the current line), and a publish error banner rendering each bad
+reference by directive + reason. These three studio-only routes are authoring-tool
+internals, not protocol surfaces — consistent with the studio/page split (studio side is
+unconstrained). "Attach image" (both editors) uploads via the existing `/api/media` and
+reloads; the composer's attach button implicitly creates the draft first so it has an id to
+attach to.
+
+**Public pages brought forward to rev-2/3 (folds in the debt task 8 left, per CLAUDE.md
+TODO):** `pages.ts` rewritten for the reviewed wireframe conventions — embeddable
+`.ygg`-scoped block with a bare Home+RSS header (session-3 review: "the public page's
+header is presumed content, not real navigation," deliberately dropping the inline
+site-title/bio/author-links display that rev-1 had; that identity now lives only in the
+manifest, feed channel, `<title>` tag, and studio settings), Created/Most-recent timestamp
+lines, a version-nav scrubber, and a plain "Permalink" text link (dropping the ∞ glyph).
+Feed page renders threads as excerpt cards (~300 chars of plain text) linking to `t/{id}/`;
+fragments render in full as before.
+
+**Real gap found and flagged, not silently fixed:** the version-nav scrubber implies
+browsing to an older version's HTML, but §2.3 only publishes the *latest* version's content
+(older content is withheld unless pinned, and pinned versions are JSON-only per §2.8 — there
+is no route that serves a historical version as an HTML page). Implemented the scrubber as
+display-only (all buttons disabled, showing "vN of N") rather than inventing a new route
+un-reviewed — adding one (e.g. `GET /ygg/f/{id}/v{n}/`) is API-surface design, ⚠️ FABLE
+territory per CLAUDE.md model routing, not a Sonnet call. Flagged below for Venkat/Fable.
+
+**Second gap found, pre-existing, not caused this session:** `feed.test.ts`'s tests share
+one D1 instance per file; second-precision timestamps plus `ORDER BY published_at DESC,
+version DESC` (which only breaks ties *within* one item, not across different items sharing
+a timestamp) can non-deterministically push a same-second single-version event outside the
+50-entry window when an earlier test in the file has published many higher-versioned events.
+Reproduced by rerunning `feed.test.ts` alone several times — different subtests fail each
+run. Not touched (out of scope for tasks 13–15, and it's already-shipped session-2 core);
+flagged as a fast-follow: add a monotonic sequence/rowid tiebreaker to `feedEvents()`'s
+`ORDER BY`, or move to millisecond timestamps.
+
+**Verification:** 58 tests (47 prior + 11 new thread tests), full suite green except the
+pre-existing flake above; `tsc --noEmit` clean. Full owner loop driven live against
+`wrangler dev` for both fragments and threads — compose/save/publish/pin/withdraw/republish,
+settings save, palette search, bad-reference publish rejection with the error banner, and
+discard — all verified in the browser-equivalent (curl) path, not just tests. Static export
+re-run against the live instance and byte-compared: every surface matched exactly,
+including the new `t/{id}/` thread page and pinned thread version files (invariant 4 holds
+with threads included).
+
+**State after:** v0.1 "Seed" is functionally complete — tasks 1–10 and 12–15 done; only
+task 11 (deploy) and task 16 (brand refactor) remain, both already gated on Venkat's brand
+decision. 12 tasks' worth of protocol + UI shipped and tested in one session.
+
+**Open threads:** version-nav route gap (needs a Fable API-surface decision: add a
+historical-version HTML route, or leave v0.1's scrubber display-only permanently — record
+whichever in `protocol-v0.1.md`); the feed-test timestamp-ordering flake (fast-follow, not
+urgent); brand decision still gates task 16 → domain/namespace → task 11 deploy, unchanged
+from session 3.
+
 ## Session 3 — 2026-07-24 — Withdraw/pin protocol revision; threads into v0.1; rename question
 **Model:** Sonnet 5 (wireframe feedback, proposal drafting) → Fable 5 (protocol decisions + implementation) · **Time:** ~12:15–13:30 PT · **Committed:** yes · **Deployed:** — (task 11 pending, now also gated on brand decision)
 
