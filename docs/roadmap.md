@@ -11,6 +11,7 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 3. AI never enters the protocol. Generation is studio-side; the page publishes output + provenance. Readers need no models or keys.
 4. The published `/ygg` artifact is always exportable as plain static files.
 5. Backwards compatibility of the file contract: once v1.0 freezes, fields are only ever *added*, never renamed or repurposed. Pre-1.0, breaking changes are allowed but must bump the manifest's version and be recorded in DEVLOG.md.
+6. Identity never enters the protocol. `author` is an optional, per-item, origin-scoped, client-asserted, **opaque** pass-through field — no guarantees or representations, never addressable, never verified. Feeds are single-**publisher** (one origin, one accountable client, DNS as the namespace), not necessarily single-author — a session-5 revision of the concept spec's single-author assumption; decision record in `docs/proposals/author-field-proposal.md`.
 
 ---
 
@@ -65,6 +66,7 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 - Cross-client transclusion semantics (remote transclusion always operates on the local snapshot — the rule that makes network cycles harmless)
 - Threads-tab presentation rules
 - `forked_from: {id, version}` lineage implementation (shape reserved in v0.1 §2.3, session 3; MUST reference a pinned version)
+- Imported and snapshotted items carry the source's `author` verbatim (pass-through per invariant 6; session-5 author decision). Byline display inside baked cross-client blockquotes is presentation, not protocol.
 
 **Client deliverables:** thread composition from hoppers (v0.1's editor gains imported-item sources); share action (fragment linking a thread, editable summary); one-click stub action (hopper-add + stub thread + quote-like fragment); threads tab ordered by most-recently-updated; local DAG enforcement; "detect stubs" built-in filter (highlights remote stubs of local items; stubbable again for stacks).
 
@@ -109,7 +111,7 @@ In rough priority order; each gets its own plan when it comes up.
 
 - **L3 privacy** — encrypted/permissioned feeds: shared-key access to private items, key rotation/revocation, roadmap-aware of FOAF-visibility and ZK approaches. **⚠️ FABLE, entirely** — crypto design; also revisits the deferred "privileged group" feature properly.
 - **IPFS persistence** — pin item files + media (content hashes already exist per version); resolution fallback rules.
-- **Multi-tenant overloads** — document (not build) the pattern: community studios publishing one conformant single-author feed per user; no shared namespace, DNS remains the namespace.
+- **Multi-tenant overloads** — document (not build) the patterns: community studios publishing either one conformant feed per user, or a single **multiplayer feed** with per-item `author` bylines (session-5 author decision — single-publisher, not single-author). Either way: one origin, one accountable client, no shared namespace, no `user@server`, DNS remains the namespace.
 - **Ecosystem** — grandfathering tools (Substack/WordPress→ygg wrappers), theme gallery, a "webring" convention if the blogroll topology wants one.
 
 ## Sequencing rationale & risks

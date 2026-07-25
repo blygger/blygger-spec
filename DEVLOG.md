@@ -3,6 +3,57 @@
 Per-session development log. Non-skippable: every coding session appends an entry
 (template and writing standard in [`CLAUDE.md`](CLAUDE.md)). Newest first.
 
+## Session 5 — 2026-07-24 — Author field (minimalist multiplayer); version-nav gap resolved
+**Model:** Fable 5 · **Time:** ~17:10–17:30 PT · **Committed:** yes · **Deployed:** —
+
+**What & why:** Pure protocol-semantics session, no build. Two decisions locked with Venkat.
+
+**1. Author/identity model (locked decision #11; `docs/proposals/author-field-proposal.md`, ACCEPTED).**
+Venkat wanted conservative multiplayer-client support without ygg becoming a social
+protocol. The design separates two constraints the frozen spec (items 33–34) had fused:
+one feed = one **publisher** (load-bearing: one origin, one accountable client, DNS as
+namespace, no `user@server`) survives; one feed = one *author* is dropped. The mechanism
+is a reinterpretation of the **already-existing** per-item `author` member — optional,
+client-asserted, opaque (open object: `name` recommended, `url` optional, all other
+members = the client's private *authorspace grammar* — local ids, OAuth subjects, wallet
+sigs, whatever), origin-scoped (`(origin, value)`; no cross-origin equating), **never
+addressable** (permanent anti-commitment: no registry, no author-mention grammar, no
+per-author feed requirement, no verification), pass-through verbatim by importers.
+Governing symmetry, worth remembering as the design generator: **identity, like AI, is
+never in the protocol** — auth machinery lives in the unconstrained studio, the page
+publishes the resulting assertion. Structural freebie found during design: `content_hash`
+covers `content_md` only, so `author` was already outside the pin-integrity promise —
+serve-time (ref impl, settings) and publish-time (multiplayer, per-version) assertion
+strategies are both conformant. Feed side: optional `<dc:creator>` byline for L0 readers;
+the opaque object never enters XML. Zero rename, zero shape change, zero v0.1 build work;
+single-player is the degenerate case (constant author-assertion). Edits landed in
+`v0.1-plan.md` §§2.3/2.4/2.6/2.8, roadmap (new cross-cutting invariant 6, v0.3
+pass-through deliverable, post-1.0 multi-tenant rewrite), CLAUDE.md decision #11.
+
+**2. Version-nav gap → indicator, not navigation (`v0.1-plan.md` §2.8).** Session 4's
+flag resolved as option 3 of 3 (full history browsing rejected — guts
+withheld-unless-pinned; pinned-only HTML route rejected — a forever-URL for an
+undemonstrated need, addable post-v0.1 purely additively): **no historical-version HTML
+route ever in v0.1**; pins stay JSON-only; the rev-3 scrubber is dropped outright in
+favor of discrete pin citations ("v6 · pinned: v2, v4" linking existing `v{n}.json`).
+Conceptual grounding that decided the UI form, per discussion: pins are *not* fork points
+(decision #8 — they're the only *eligible* fork sources once `forked_from` lands in
+v0.3); browsing pins is browsing a sequence of frozen citable artifacts of one identity,
+not paging one document — so links-to-citations, not arrows. Also clarified for the
+record (already implied by §2.3 but easy to misread): what's withheld is unpinned
+*content*; the changelog — versions, timestamps, edit notes — is public permanent
+metadata. Retention has three layers: live content (latest only), history-as-metadata
+(full, forever), history-as-content (pinned only).
+
+**State after:** v0.1 unchanged functionally and still complete; spec docs now carry the
+author semantics and the version-nav resolution. Both session-4 Fable flags cleared.
+Ship remains gated only on the brand decision.
+
+**Open threads:** Venkat's brand decision (→ task 16 → domain/namespace → task 11
+deploy). Sonnet-safe fast-follows: feed-flake tiebreaker; scrubber removal + pin-links UI
++ wireframe update (new TODO). `protocol-v0.1.md` fold-in list grew: author decision
+record, version-nav resolution.
+
 ## Session 4 — 2026-07-24 — Threads shipped (tasks 13–15); studio UI built; public pages brought to rev-3
 **Model:** Sonnet 5 · **Time:** ~13:34–14:40 PT · **Committed:** yes · **Deployed:** — (task 11 still pending)
 
