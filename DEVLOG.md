@@ -7,6 +7,107 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 6 — 2026-07-24 — Brand rename to Blygger; repo scaffolding; deploy plan
+**Model:** Sonnet 5 · **Time:** ~17:30–18:00 PT · **Committed:** yes (3 repos) · **Deployed:** —
+
+**What & why:** Venkat made the brand decision session 3 flagged: protocol renamed
+`ygg` → **blygger**, default publish path `/ygg` → `/blygg`, domains `blygger.org`
+(XML namespace, commons/spec-adjacent) and `blygger.com` (protocol-adjacent
+commercial dev) acquired. This session executed the full chain that decision
+gated: task 16 (brand refactor), the physical rename (folder + GitHub repo), new
+scaffolding for the two site repos, and a deployment plan for both.
+
+**Brand refactor (task 16, executed for real rather than left speculative):**
+`worker/src/types.ts` gained a single `BRAND` constant (`{name: "blygger", slug:
+"blygg", nsUri: "https://blygger.org/ns/0.1"}`) driving `GENERATOR` and, via a
+case-sensitive blind sed pass across `worker/src`, `worker/test`,
+`worker/scripts`, `wrangler.jsonc`, `package.json`, and living docs, everything
+else: URL prefix, manifest filename, JSON version key, GUID scheme, XML
+namespace + elements, cookie name, CSS class prefix. Real namespace URI resolved
+`v0.1-plan.md` §7 open decision #1 (was a GitHub-URL placeholder). Renamed
+`YGG_VERSION`/`YGG_LEVEL`/`YGG_NS` to `PROTOCOL_VERSION`/`PROTOCOL_LEVEL`/
+`BRAND.nsUri` (only `protocol.ts` imported them). Verified: `tsc --noEmit`
+clean, 57/58 tests green (the one failure reproduced as the pre-existing
+`feed.test.ts` timestamp-ordering flake on a rerun with no code changes —
+confirmed unrelated to the rename, not the rename itself).
+
+**Scope trim, recorded not silent:** task 16's original acceptance check was "set
+the brand constant to `zzz`, full suite still passes" — written when the name
+was still speculative. Now that it's final, full constant-import purity in
+`pages.ts`/`studio.ts`/`transclusion.ts` (~40 call sites with literal `/blygg/`
+links and `blygg-transclusion`/`.blygg` CSS classes rather than importing
+`BRAND.slug` at each site) wasn't worth doing. `RENAME.md` documents this and
+gives the correct sed-based procedure if a rename ever happens again, including
+a real gotcha hit mid-session: sed must run *before* any hand-written text
+containing the new brand strings exists, since the new slug/name contain the old
+one as a substring (`ygg` is inside `blygg`/`blygger`) — running it after
+corrupts them. Also caught and fixed by hand: the blind sed pass mangled
+**"Yggdrasil"** (the mythological tree, unrelated proper noun) into
+"Blyggerdrasil" in three prose spots — fixed, and `README.md`'s "Named for
+Yggdrasil" line extended to note the resemblance is literally what prompted this
+rename.
+
+**Docs:** `CLAUDE.md`, `README.md`, `docs/v0.1-plan.md`, `docs/roadmap.md`,
+`docs/proposals/*.md`, `docs/wireframes/*.html` renamed throughout (path/machine
+tokens → `blygg`, brand-name prose → `blygger`). Two deliberate exceptions,
+each getting a banner/title note instead of a body rewrite:
+`docs/ygg-initial-spec.md` (frozen v0 spec — keeps its historical name and
+filename permanently) and `DEVLOG.md` (this file — session entries before 6 are
+not retroactively edited; a log that lies about what was true when it was
+written stops being a log). README's multi-tenancy paragraph also updated to
+match the session-5 single-*publisher* (not single-author) invariant, which
+predated this session's edits but was still phrased in the old terms.
+
+**Physical rename:** `Code/ygg/` moved to `Code/blygger-protocol/blygger-spec/`
+(git history intact, verified `tsc --noEmit` clean from the new path —
+`worker/node_modules` is already Dropbox-ignored via `com.dropbox.ignored`
+xattr, so the move didn't trigger a sync storm). GitHub: `vgururao/ygg` →
+`gh repo rename` → `vgururao/blygger-spec` → `gh api .../transfer` (no `gh repo
+transfer` subcommand exists in this CLI version) → `blygger/blygger-spec`,
+confirmed via polling since the transfer API is asynchronous. Local remote
+updated, pushed.
+
+**New scaffolding:** `blygger-org/` and `blygger-com/` created as sibling repos
+under `blygger-protocol/`, each following the `Code/_template/` new-project
+convention (`CLAUDE.md`, `status.md`, `.gitignore`, `LICENSE`, `README.md`) —
+currently pure stubs, no site content. Created as `blygger/blygger-org` and
+`blygger/blygger-com` on GitHub, public, `main` default branch (hit and fixed
+two small GitHub-CLI friction points: `git init` defaults to `master` locally
+so both needed a branch rename to match `blygger-spec`'s convention; a failed
+first `gh repo create` for `blygger-com` — run from the wrong directory,
+`--remote=origin` collided with `blygger-org`'s existing remote — had already
+created the GitHub repo before failing locally, so the retry had to detect and
+reuse the existing empty remote rather than recreate it). `Code/CLAUDE.md`'s
+project table updated to describe `blygger-protocol/` as a 3-repo container
+(pattern borrowed from `worldmachines/`); `Code/status.md` got a Done entry.
+
+**Deploy plan (not executed):** `docs/deploy-stub-sites-plan.md` — both domains
+get a stub landing page (Cloudflare Pages, git-connected) plus a live `/blygg`
+deployment of the *unmodified* reference worker (Workers Routes split:
+`<domain>/blygg/*`+`/studio/*`+`/api/*` override a `<domain>/*` Pages
+catch-all by path specificity — no code changes to `blygger-spec` needed). Two
+new named Wrangler environments (`org`, `com`) in `wrangler.jsonc`, each with
+independent D1/R2/secrets. The two live instances double as the protocol's
+first real cross-client pair once v0.2 ships subscribe. Recommends running
+task 11's workers.dev deploy first as a low-cost rehearsal of the same
+`wrangler deploy` mechanics.
+
+**State after:** v0.1 unchanged functionally — this was a naming/infra session,
+zero protocol-semantics or behavior change. `blygger-protocol/` now holds three
+repos (`blygger-spec` with full history, `blygger-org` and `blygger-com` as
+fresh stubs) all under the `blygger` GitHub org. Task 11 (deploy) is the only
+open v0.1 build task and is no longer gated on anything. Stub-site deploy plan
+exists but is unexecuted.
+
+**Open threads:** execute `docs/deploy-stub-sites-plan.md` (DNS onboarding is
+the long pole — registrar nameserver changes aren't instant); task 11 deploy,
+still open, now recommended as a rehearsal before the org/com deploys;
+`warnings-node.md` at the `Code/` level is stale (says "only one project uses
+Node," predating both `blygger-spec/worker` and the two new stub repos) — not
+fixed this session, flagged for a future meta-admin pass; the feed-test flake
+and scrubber-removal fast-follows from earlier sessions are unchanged and still
+pending.
+
 ## Session 5 — 2026-07-24 — Author field (minimalist multiplayer); version-nav gap resolved
 **Model:** Fable 5 · **Time:** ~17:10–17:30 PT · **Committed:** yes · **Deployed:** —
 

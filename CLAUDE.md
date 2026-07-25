@@ -15,6 +15,7 @@ Blygger is an AI-native decentralized public writing medium — fragments + thre
 | [`docs/wireframes/`](docs/wireframes/) | HTML mockups, rev 3 (public, studio, edit, thread, thread-edit) — gate for tasks 9/15 |
 | [`docs/proposals/retract-pin-fork-proposal.md`](docs/proposals/retract-pin-fork-proposal.md) | DRAFT — Sonnet's writeup of the retract/tombstone gap + Venkat's unpublish-endcap/Pinned/fork proposal, for Fable evaluation |
 | [`docs/proposals/author-field-proposal.md`](docs/proposals/author-field-proposal.md) | ACCEPTED (session 5) — opaque per-item `author`, single-publisher invariant, minimalist multiplayer; decision record for locked decision #11 |
+| [`docs/deploy-stub-sites-plan.md`](docs/deploy-stub-sites-plan.md) | PLAN, not executed (session 6) — architecture + task list for deploying stub sites + `/blygg` test clients to `blygger.org`/`blygger.com` |
 | [`DEVLOG.md`](DEVLOG.md) | Per-session development log — **non-skippable**, see ritual below |
 | `README.md` | Public face: idea, protocol on one screen, roadmap summary |
 
@@ -89,6 +90,7 @@ needs to reconstruct design rationale from this alone.
 - [x] Brand-name refactor (task 16) — executed session 6: `BRAND` constant in `types.ts`, full codebase + docs rename, `RENAME.md` checklist. Details in `docs/v0.1-plan.md` §5 task 16.
 - [x] Namespace URI — resolved session 6: `https://blygger.org/ns/0.1` (was §7 open decision #1).
 - [ ] **Deploy (task 11)** — D1 id, wrangler secrets + `.env.keys` registration, RSS-reader check. The only remaining v0.1 build task; no longer gated on anything.
+- [ ] **Deploy stub sites to blygger.org + blygger.com** — plan written session 6 (`docs/deploy-stub-sites-plan.md`), not yet executed. DNS onboarding, D1/R2/secrets provisioning ×2, per-site Wrangler environments, landing-page content, Workers Routes wiring. Recommends doing task 11's workers.dev deploy first as a rehearsal.
 - [x] Build v0.1 "Seed" tasks 1–8 + 10 (session 2)
 - [x] **Venkat:** review **rev-3** wireframes in `docs/wireframes/` (session 4) — approved live in-browser, no changes needed; cleared tasks 9/15
 - [x] Build threads (tasks 13–14: migration 0003, transclusion resolver, thread surfaces) — session 4
