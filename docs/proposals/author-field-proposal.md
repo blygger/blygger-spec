@@ -13,7 +13,7 @@ That posture conflates two constraints that should be separated:
   namespace, no `user@server` two-level addressing) — this is load-bearing and stays.
 - **One feed = one human author** — this is not load-bearing. A community studio, a
   masthead publication, or a household should be able to publish *one* conformant feed
-  whose items carry different bylines, without ygg becoming a social protocol.
+  whose items carry different bylines, without blygg becoming a social protocol.
 
 The goal is the most conservative possible relaxation: multiplayer *clients*, not
 multiplayer *protocol*.
@@ -69,7 +69,7 @@ No key is renamed, no shape changes, single-player output is byte-identical.
 5. **Never addressable.** No protocol construct references an author. Transclusion
    (`![[id]]`) targets items; subscription targets feeds/origins; `forked_from`
    targets pinned versions. This holds at **all conformance levels, permanently**:
-   ygg is an addressable *content* system, not a social system. There will never be a
+   blygg is an addressable *content* system, not a social system. There will never be a
    protocol-level author registry, author index file, per-author feed requirement,
    author-mention syntax, or follow-an-author construct.
 

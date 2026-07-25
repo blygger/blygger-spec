@@ -1,4 +1,6 @@
 > **Ygg initial spec (v0) — open for comments.** This is the original concept spec, preserved verbatim. Comment via [Issues](../../../issues) or [Discussions](../../../discussions), quoting the section and clause number. Successor drafts (protocol spec, architecture) will land in `docs/` as separate documents; this file stays frozen as the reference point.
+>
+> **Naming note (session 6, 2026-07-24):** the project has since been renamed `ygg` → **blygger** (see `RENAME.md`), and the default publish path from `/ygg` → `/blygg`. This file — including its filename — is deliberately **not** updated: it's the historical record of the original concept under its original name, exactly as `Yggdrasil` prompted the name in the first place. Every other document in this repo uses the current name.
 
 # Basic premise
 

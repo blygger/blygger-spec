@@ -95,7 +95,7 @@ async function walk(
     }
     transclusions.push({ id: item.id, version: version.version });
     htmlParts.push(
-      `<blockquote class="ygg-transclusion" data-ygg-id="${item.id}" data-ygg-version="${version.version}">\n${version.content_html}\n</blockquote>`,
+      `<blockquote class="blygg-transclusion" data-blygg-id="${item.id}" data-blygg-version="${version.version}">\n${version.content_html}\n</blockquote>`,
     );
   }
   flushProse();
@@ -105,7 +105,7 @@ async function walk(
 /**
  * Resolve every `![[id]]` directive in a thread's markdown against currently
  * published local fragments, baking each target's latest published HTML into
- * a `blockquote.ygg-transclusion` snapshot (§2.9). Readers never resolve
+ * a `blockquote.blygg-transclusion` snapshot (§2.9). Readers never resolve
  * anything — this runs only at publish time, called from model.publish().
  */
 export async function resolveTransclusions(db: D1Database, contentMd: string): Promise<ResolveResult> {
@@ -122,6 +122,6 @@ export async function previewTransclusions(db: D1Database, contentMd: string): P
   return walk(
     db,
     contentMd,
-    (err) => `<blockquote class="ygg-transclusion unresolved"><p>⚠ unresolvable: ${escapeHtml(err.reason)}</p></blockquote>`,
+    (err) => `<blockquote class="blygg-transclusion unresolved"><p>⚠ unresolvable: ${escapeHtml(err.reason)}</p></blockquote>`,
   );
 }

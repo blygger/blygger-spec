@@ -16,7 +16,7 @@ describe("auth (§3.2)", () => {
 
   it("issues a session cookie on correct password", async () => {
     const cookie = await login();
-    expect(cookie).toMatch(/^ygg_session=\d+\.[0-9a-f]{64}$/);
+    expect(cookie).toMatch(/^blygg_session=\d+\.[0-9a-f]{64}$/);
     const studio = await SELF.fetch(`${BASE}/studio`, { headers: { cookie }, redirect: "manual" });
     expect(studio.status).toBe(200);
   });
@@ -51,7 +51,7 @@ describe("auth (§3.2)", () => {
   it("verifies statelessly via HMAC (survives restarts — no server-side session store)", async () => {
     const cookie = await login();
     expect(await verifySession(env, cookie)).toBe(true);
-    expect(await verifySession(env, "ygg_session=123.deadbeef")).toBe(false);
+    expect(await verifySession(env, "blygg_session=123.deadbeef")).toBe(false);
     expect(await verifySession(env, undefined)).toBe(false);
   });
 

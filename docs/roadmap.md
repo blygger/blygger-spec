@@ -1,4 +1,4 @@
-# Ygg Roadmap
+# Blygger Roadmap
 
 Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape of every version and what gates it, without pre-writing each version's implementation plan (those get their own `docs/vX.Y-plan.md` as they come up; v0.1's exists).
 
@@ -6,10 +6,10 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 ## Cross-cutting invariants (hold at every version)
 
-1. Every ygg feed is a valid RSS 2.0 feed; every item carries a self-contained HTML rendering. A plain RSS reader always sees a sensible microblog.
-2. Clients ignore ygg constructs they don't understand. Levels are strict supersets. A vN client reading a vN+k feed degrades gracefully, never errors.
+1. Every blygg feed is a valid RSS 2.0 feed; every item carries a self-contained HTML rendering. A plain RSS reader always sees a sensible microblog.
+2. Clients ignore blygg constructs they don't understand. Levels are strict supersets. A vN client reading a vN+k feed degrades gracefully, never errors.
 3. AI never enters the protocol. Generation is studio-side; the page publishes output + provenance. Readers need no models or keys.
-4. The published `/ygg` artifact is always exportable as plain static files.
+4. The published `/blygg` artifact is always exportable as plain static files.
 5. Backwards compatibility of the file contract: once v1.0 freezes, fields are only ever *added*, never renamed or repurposed. Pre-1.0, breaking changes are allowed but must bump the manifest's version and be recorded in DEVLOG.md.
 6. Identity never enters the protocol. `author` is an optional, per-item, origin-scoped, client-asserted, **opaque** pass-through field — no guarantees or representations, never addressable, never verified. Feeds are single-**publisher** (one origin, one accountable client, DNS as the namespace), not necessarily single-author — a session-5 revision of the concept spec's single-author assumption; decision record in `docs/proposals/author-field-proposal.md`.
 
@@ -17,7 +17,7 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 ## v0.1 — Seed (publish side, both abstractions) ← CURRENT
 
-**Goal:** a single-author client that publishes **fragments and local threads** to a conformant `/ygg` page. No imports, no AI, no cross-client features. Exit state: a working deployment whose feed reads normally in any RSS reader, exercising both core abstractions before anything is deployed to the network.
+**Goal:** a single-author client that publishes **fragments and local threads** to a conformant `/blygg` page. No imports, no AI, no cross-client features. Exit state: a working deployment whose feed reads normally in any RSS reader, exercising both core abstractions before anything is deployed to the network.
 
 > **Session-3 restructure (2026-07-24, with Venkat):** the local thread abstraction moved
 > here from v0.3, so the fragment/thread duality is tested in the first release — before
@@ -29,8 +29,8 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 - ID scheme (128-bit random, base32) and per-version content hashes
 - Item JSON schema for fragments + threads + withdrawn endcaps; changelog-as-metadata (no diffs); pinned version files (session-3 revision)
 - Thread item schema with `transclusions` provenance; **`![[id]]` transclusion grammar** (locked session 3 — permanent protocol surface); snapshot-at-publish semantics; fragments-only nesting (thread-in-thread + DAG deferred to v0.3); no auto-pin (pins stay a deliberate act)
-- `ygg.json` manifest, `items/index.json` archive index
-- `feed.xml` RSS + `ygg:` namespace; per-version GUIDs so plain readers surface edits; thread entries carry full self-contained HTML
+- `blygg.json` manifest, `items/index.json` archive index
+- `feed.xml` RSS + `blygg:` namespace; per-version GUIDs so plain readers surface edits; thread entries carry full self-contained HTML
 - Withdrawal semantics (withdraw endcap, reversible; supersedes tombstones — session 3) + pin semantics (irrevocable per-version hosting promise)
 
 **Client deliverables:** CF Worker (TypeScript, D1, R2): studio (login, compose, edit with edit-notes, publish/withdraw/republish, pin, media upload, profile settings, thread editor with `![[id]]` insert) + public page (feed page, fragment permalinks `f/{id}/`, thread pages `t/{id}/`, feed.xml, manifest, item files, media). Static export script.
@@ -42,11 +42,11 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 ## v0.2 — Roots (subscribe side)
 
-**Goal:** the network exists. A client can follow other ygg pages and legacy RSS feeds, roll up remote edits (of both fragments and threads), and triage into hoppers. Exit state: two ygg clients following each other, plus a legacy blog feed, all readable in one merged feed.
+**Goal:** the network exists. A client can follow other blygg pages and legacy RSS feeds, roll up remote edits (of both fragments and threads), and triage into hoppers. Exit state: two blygg clients following each other, plus a legacy blog feed, all readable in one merged feed.
 
 **Protocol deliverables:**
-- Autodiscovery convention (given a URL, find `/ygg/ygg.json` or fall back to plain RSS)
-- Rollup rules: match by `ygg:id`, highest version wins, ties broken by `updated`; self-asserted timestamps ordered per-reader
+- Autodiscovery convention (given a URL, find `/blygg/blygg.json` or fall back to plain RSS)
+- Rollup rules: match by `blygg:id`, highest version wins, ties broken by `updated`; self-asserted timestamps ordered per-reader
 - Backfill procedure from `items/index.json` for new/lagging subscribers
 - L0 grandfathering: wrapper that turns any RSS item into a summary fragment + link
 
@@ -99,7 +99,7 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 **Goal:** the protocol L0–L2 is frozen; the reference client is stable; third parties can implement from spec alone.
 
-**Deliverables:** final normative spec set (`protocol-1.0.md` superseding the pre-1.0 drafts); a conformance validator (script: point at a `/ygg` URL, get a level + violations report); spec-only reimplementation test (can an agent build a minimal conformant publisher from the spec without reading reference code?); versioning/deprecation policy for post-1.0 additions.
+**Deliverables:** final normative spec set (`protocol-1.0.md` superseding the pre-1.0 drafts); a conformance validator (script: point at a `/blygg` URL, get a level + violations report); spec-only reimplementation test (can an agent build a minimal conformant publisher from the spec without reading reference code?); versioning/deprecation policy for post-1.0 additions.
 
 - **⚠️ FABLE:** final spec review and conformance-suite design. This is the highest-stakes Fable work in the roadmap: freeze mistakes are permanent.
 
@@ -112,7 +112,7 @@ In rough priority order; each gets its own plan when it comes up.
 - **L3 privacy** — encrypted/permissioned feeds: shared-key access to private items, key rotation/revocation, roadmap-aware of FOAF-visibility and ZK approaches. **⚠️ FABLE, entirely** — crypto design; also revisits the deferred "privileged group" feature properly.
 - **IPFS persistence** — pin item files + media (content hashes already exist per version); resolution fallback rules.
 - **Multi-tenant overloads** — document (not build) the patterns: community studios publishing either one conformant feed per user, or a single **multiplayer feed** with per-item `author` bylines (session-5 author decision — single-publisher, not single-author). Either way: one origin, one accountable client, no shared namespace, no `user@server`, DNS remains the namespace.
-- **Ecosystem** — grandfathering tools (Substack/WordPress→ygg wrappers), theme gallery, a "webring" convention if the blogroll topology wants one.
+- **Ecosystem** — grandfathering tools (Substack/WordPress→blygg wrappers), theme gallery, a "webring" convention if the blogroll topology wants one.
 
 ## Sequencing rationale & risks
 

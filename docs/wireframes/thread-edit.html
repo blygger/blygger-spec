@@ -27,8 +27,8 @@ header.studio nav a { margin-left: 0.75rem; font-size: 0.9rem; }
 .pane { flex: 1; border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; min-height: 24rem; }
 .pane h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.6; margin: 0 0 0.5rem; }
 .pane textarea { width: 100%; height: 20rem; border: none; resize: vertical; font: inherit; font-family: ui-monospace, Menlo, monospace; font-size: 0.85rem; background: transparent; outline: none; }
-.preview blockquote.ygg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(128,128,128,0.55); background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
-.preview blockquote.ygg-transclusion p { margin: 0 0 0.25rem; }
+.preview blockquote.blygg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(128,128,128,0.55); background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
+.preview blockquote.blygg-transclusion p { margin: 0 0 0.25rem; }
 .preview .provenance { font-size: 0.75rem; opacity: 0.65; }
 .preview .unresolved { border-left-color: #c00; background: rgba(200,0,0,0.07); color: #c00; font-style: italic; }
 .bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; font-size: 0.85rem; }
@@ -48,7 +48,7 @@ button.primary { border-color: currentColor; font-weight: 600; }
 <p class="wf-note">WIREFRAME REV 3 · <b>thread editor</b> <code>/studio/edit/{id}</code> for <code>kind: thread</code> (new, session-3 restructure — v0.1-plan §2.9, task 15). Left: markdown source with <code>![[id]]</code> directives on their own lines. Right: live preview with transclusions resolved against current published fragments (the real snapshot happens at publish). Typing <code>![[</code> opens the fragment-search palette (own published fragments only — drafts, withdrawn items, and threads are not offered, matching what publish would accept). Unresolvable directives render as a red block in preview and publishing fails with the error banner shown. No character cap for threads. Withdraw replaces delete, as everywhere.</p>
 
 <header class="studio">
-<h1>ygg studio — editing thread</h1>
+<h1>blygg studio — editing thread</h1>
 <nav><a href="#">back to list</a><a href="#">public page ↗</a></nav>
 </header>
 
@@ -79,17 +79,17 @@ Closing prose that does the synthesis work.</textarea>
 <h2>preview</h2>
 <h3>Why every social medium hardens its early protocols</h3>
 <p>Connecting prose written in the thread itself. It sets up the first fragment, which made this point in compressed form:</p>
-<blockquote class="ygg-transclusion">
+<blockquote class="blygg-transclusion">
 <p>A protocol is a frozen conversation. Whatever the founders argued about is what the buttons let you do forever after.</p>
 <p class="provenance">fragment · will snapshot v2</p>
 </blockquote>
 <p>More connecting prose. The second fragment approaches the same claim from the economics side:</p>
-<blockquote class="ygg-transclusion">
+<blockquote class="blygg-transclusion">
 <p>Switching costs are memory costs. A medium you can leave without losing your archive is a medium that has to keep earning you.</p>
 <p class="provenance">fragment · will snapshot v1</p>
 </blockquote>
 <p>A third reference that will fail to resolve:</p>
-<blockquote class="ygg-transclusion unresolved">
+<blockquote class="blygg-transclusion unresolved">
 <p>⚠ unresolvable: item is withdrawn</p>
 </blockquote>
 <p>Closing prose that does the synthesis work.</p>

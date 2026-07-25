@@ -1,8 +1,8 @@
 // Static export (v0.1-plan §3.5): fetch every public route from a running
-// ygg instance and write the byte-identical file tree — proves the page is
+// blygg instance and write the byte-identical file tree — proves the page is
 // servable from a dumb file host (invariant 4).
 //
-//   npm run export -- --out DIR --base https://example.com/ygg/
+//   npm run export -- --out DIR --base https://example.com/blygg/
 //
 // Runs under `node --experimental-strip-types` (Node 22+); no dependencies.
 
@@ -12,7 +12,7 @@ import path from "node:path";
 function arg(name: string): string {
   const i = process.argv.indexOf(`--${name}`);
   if (i === -1 || i + 1 >= process.argv.length) {
-    console.error(`usage: npm run export -- --out DIR --base https://host/ygg/`);
+    console.error(`usage: npm run export -- --out DIR --base https://host/blygg/`);
     process.exit(1);
   }
   return process.argv[i + 1];
@@ -37,7 +37,7 @@ async function save(route: string, file: string): Promise<Uint8Array> {
 await save("", "index.html");
 await save("style.css", "style.css");
 await save("feed.xml", "feed.xml");
-await save("ygg.json", "ygg.json");
+await save("blygg.json", "blygg.json");
 await save("archive/", "archive/index.html");
 const indexBytes = await save("items/index.json", "items/index.json");
 

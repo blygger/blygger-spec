@@ -1,14 +1,14 @@
 {
-  // Ygg v0.1 "Seed" reference client.
+  // Blygger v0.1 "Seed" reference client.
   // database_id is a placeholder until first deploy (task 11); local dev and
   // tests use miniflare's local D1 and never contact this ID.
-  "name": "ygg",
+  "name": "blygg",
   "main": "src/index.ts",
   "compatibility_date": "2026-07-01",
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "ygg",
+      "database_name": "blygg",
       "database_id": "00000000-0000-0000-0000-000000000000",
       "migrations_dir": "migrations"
     }
@@ -16,7 +16,7 @@
   "r2_buckets": [
     {
       "binding": "MEDIA",
-      "bucket_name": "ygg-media"
+      "bucket_name": "blygg-media"
     }
   ]
 }

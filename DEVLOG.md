@@ -1,7 +1,11 @@
-# Ygg Devlog
+# Blygger Devlog
 
 Per-session development log. Non-skippable: every coding session appends an entry
 (template and writing standard in [`CLAUDE.md`](CLAUDE.md)). Newest first.
+
+> Renamed from `ygg` in session 6 (2026-07-24) — see `RENAME.md`. Entries below are
+> historical and are **not** retroactively edited: sessions before 6 correctly say
+> `ygg` because that was the name at the time.
 
 ## Session 5 — 2026-07-24 — Author field (minimalist multiplayer); version-nav gap resolved
 **Model:** Fable 5 · **Time:** ~17:10–17:30 PT · **Committed:** yes · **Deployed:** —

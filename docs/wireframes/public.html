@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>wireframe — public /ygg page (rev 3)</title>
+<title>wireframe — public /blygg page (rev 3)</title>
 <style>
-/* Everything page-specific is scoped under .ygg so this block can be lifted
+/* Everything page-specific is scoped under .blygg so this block can be lifted
    into a host page's own layout without colliding with its styles. The
    standalone <body> rules below only apply when this file is viewed on its
-   own (i.e. as the default /ygg/ page with no surrounding site). */
+   own (i.e. as the default /blygg/ page with no surrounding site). */
 :root { color-scheme: light dark; }
 * { box-sizing: border-box; }
 body {
@@ -17,37 +17,37 @@ body {
   margin: 0 auto;
   padding: 1.5rem 1rem 4rem;
 }
-.ygg { max-width: 65ch; margin: 0 auto; }
-.ygg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
-.ygg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
-.ygg-header a:hover { text-decoration: underline; }
-.ygg article.fragment { border-top: 1px solid rgba(128,128,128,0.35); padding: 1rem 0; }
-.ygg article.fragment img { max-width: 100%; height: auto; }
-.ygg article.fragment p:first-child { margin-top: 0; }
-.ygg .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
-.ygg .timestamps .permalink { align-self: flex-start; margin-top: 0.15rem; opacity: 0.8; }
-.ygg .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; font-size: 0.85rem; }
-.ygg .version-nav button {
+.blygg { max-width: 65ch; margin: 0 auto; }
+.blygg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
+.blygg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
+.blygg-header a:hover { text-decoration: underline; }
+.blygg article.fragment { border-top: 1px solid rgba(128,128,128,0.35); padding: 1rem 0; }
+.blygg article.fragment img { max-width: 100%; height: auto; }
+.blygg article.fragment p:first-child { margin-top: 0; }
+.blygg .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
+.blygg .timestamps .permalink { align-self: flex-start; margin-top: 0.15rem; opacity: 0.8; }
+.blygg .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; font-size: 0.85rem; }
+.blygg .version-nav button {
   font: inherit; font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem;
   border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; cursor: pointer;
 }
-.ygg .version-nav button:disabled { opacity: 0.3; cursor: default; }
-.ygg .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
-.ygg .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
-.ygg .withdrawn { opacity: 0.7; font-style: italic; }
-.ygg .kind-chip { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.05rem 0.35rem; opacity: 0.75; vertical-align: middle; }
-.ygg .thread-card p:first-child { margin-bottom: 0.3rem; }
-.ygg footer.older { text-align: center; padding: 1rem 0; }
+.blygg .version-nav button:disabled { opacity: 0.3; cursor: default; }
+.blygg .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.blygg .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
+.blygg .withdrawn { opacity: 0.7; font-style: italic; }
+.blygg .kind-chip { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.05rem 0.35rem; opacity: 0.75; vertical-align: middle; }
+.blygg .thread-card p:first-child { margin-bottom: 0.3rem; }
+.blygg footer.older { text-align: center; padding: 1rem 0; }
 .wf-note { max-width: 65ch; margin: 0 auto 1rem; background: rgba(255,200,0,0.15); border: 1px dashed rgba(128,128,128,0.6); padding: 0.5rem 0.75rem; font-size: 0.85rem; }
 .placeholder-img { width: 100%; height: 160px; background: repeating-linear-gradient(45deg, rgba(128,128,128,0.15), rgba(128,128,128,0.15) 10px, rgba(128,128,128,0.25) 10px, rgba(128,128,128,0.25) 20px); display: flex; align-items: center; justify-content: center; opacity: 0.7; }
 </style>
 </head>
 <body>
-<p class="wf-note">WIREFRAME REV 3 · public <code>/ygg</code> page. Carries all rev-2 changes (bare "Home"+RSS header, embeddable <code>.ygg</code> block, Created/Most-recent timestamp lines, version scrubber over changelog notes, plain "Permalink" link) and adds the session-3 protocol revisions: <b>threads</b> appear in the feed as excerpt cards linking to their <code>t/{id}/</code> page (see <code>thread.html</code>); withdrawn items don't appear on this page at all (they live in the archive listing + their permanent endcap URLs).</p>
-<div class="ygg">
-<header class="ygg-header">
+<p class="wf-note">WIREFRAME REV 3 · public <code>/blygg</code> page. Carries all rev-2 changes (bare "Home"+RSS header, embeddable <code>.blygg</code> block, Created/Most-recent timestamp lines, version scrubber over changelog notes, plain "Permalink" link) and adds the session-3 protocol revisions: <b>threads</b> appear in the feed as excerpt cards linking to their <code>t/{id}/</code> page (see <code>thread.html</code>); withdrawn items don't appear on this page at all (they live in the archive listing + their permanent endcap URLs).</p>
+<div class="blygg">
+<header class="blygg-header">
 <a href="/">Home</a>
-<a href="/ygg/feed.xml" title="RSS feed">RSS ⧉</a>
+<a href="/blygg/feed.xml" title="RSS feed">RSS ⧉</a>
 </header>
 
 <article class="fragment">

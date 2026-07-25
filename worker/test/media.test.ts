@@ -21,7 +21,7 @@ describe("media (§3.3)", () => {
     expect(status).toBe(201);
     expect(json.url).toMatch(/^media\/[0-9abcdefghjkmnpqrstvwxyz]{8}\.png$/);
 
-    const res = await getPublic(`/ygg/${json.url}`);
+    const res = await getPublic(`/blygg/${json.url}`);
     expect(res.status).toBe(200);
     expect(res.headers.get("content-type")).toBe("image/png");
     expect(new Uint8Array(await res.arrayBuffer())).toEqual(bytes);
@@ -46,12 +46,12 @@ describe("media (§3.3)", () => {
       alt: "the alt text",
     });
 
-    const item = await (await getPublic(`/ygg/items/${id}.json`)).json<any>();
+    const item = await (await getPublic(`/blygg/items/${id}.json`)).json<any>();
     expect(item.media).toEqual([{ url: json.url, mime: "image/png", alt: "the alt text" }]);
 
     // Feed description must be self-contained: absolute media URL (§2.6).
-    const xml = await (await getPublic("/ygg/feed.xml")).text();
-    expect(xml).toContain(`https://example.com/ygg/${json.url}`);
+    const xml = await (await getPublic("/blygg/feed.xml")).text();
+    expect(xml).toContain(`https://example.com/blygg/${json.url}`);
   });
 
   it("rejects uploads against a nonexistent item", async () => {

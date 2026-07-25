@@ -44,10 +44,10 @@ describe("feed helpers", () => {
     expect(cdata("a]]>b")).toBe("<![CDATA[a]]]]><![CDATA[>b]]>");
   });
 
-  it("absolutizes relative media URLs against the ygg base", () => {
-    const base = "https://example.com/ygg/";
-    expect(absolutizeHtml('<img src="media/x.png">', base)).toBe('<img src="https://example.com/ygg/media/x.png">');
-    expect(absolutizeHtml('<a href="/ygg/f/abc/">x</a>', base)).toBe('<a href="https://example.com/ygg/f/abc/">x</a>');
+  it("absolutizes relative media URLs against the blygg base", () => {
+    const base = "https://example.com/blygg/";
+    expect(absolutizeHtml('<img src="media/x.png">', base)).toBe('<img src="https://example.com/blygg/media/x.png">');
+    expect(absolutizeHtml('<a href="/blygg/f/abc/">x</a>', base)).toBe('<a href="https://example.com/blygg/f/abc/">x</a>');
     expect(absolutizeHtml('<a href="https://other.com/a">x</a>', base)).toBe('<a href="https://other.com/a">x</a>');
     expect(absolutizeHtml('<a href="#frag">x</a>', base)).toBe('<a href="#frag">x</a>');
   });

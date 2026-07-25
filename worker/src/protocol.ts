@@ -13,13 +13,13 @@ import {
   publishedVersion,
 } from "./model.ts";
 import type { ItemRow, Settings, Transclusion, VersionRow } from "./types.ts";
-import { FEED_WINDOW, GENERATOR, YGG_LEVEL, YGG_NS, YGG_VERSION } from "./types.ts";
+import { BRAND, FEED_WINDOW, GENERATOR, PROTOCOL_LEVEL, PROTOCOL_VERSION } from "./types.ts";
 import { absolutizeHtml, cdata, escapeXml, rfc822 } from "./util.ts";
 
-/** Canonical origin for this deployment, always ending in /ygg/. */
+/** Canonical origin for this deployment, always ending in /blygg/. */
 export function siteOrigin(settings: Settings, requestUrl: string): string {
   if (settings.site_url) return settings.site_url.endsWith("/") ? settings.site_url : settings.site_url + "/";
-  return new URL(requestUrl).origin + "/ygg/";
+  return new URL(requestUrl).origin + "/blygg/";
 }
 
 function author(settings: Settings, origin: string) {
@@ -48,7 +48,7 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
       : (JSON.parse(latest?.transclusions ?? "[]") as Transclusion[])
     : undefined;
   return {
-    ygg: YGG_VERSION,
+    blygg: PROTOCOL_VERSION,
     id: item.id,
     kind: item.kind,
     origin,
@@ -69,7 +69,7 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
 export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: VersionRow, origin: string) {
   const isThread = row.transclusions !== null;
   return {
-    ygg: YGG_VERSION,
+    blygg: PROTOCOL_VERSION,
     id: item.id,
     kind: isThread ? "thread" : "fragment",
     version: row.version,
@@ -89,8 +89,8 @@ export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: V
 export async function buildManifest(db: D1Database, settings: Settings, origin: string) {
   const avatar = settings.avatar_media_id ? `media/${settings.avatar_media_id}` : undefined;
   return {
-    ygg: YGG_VERSION,
-    level: YGG_LEVEL,
+    blygg: PROTOCOL_VERSION,
+    level: PROTOCOL_LEVEL,
     generator: GENERATOR,
     site: origin,
     title: settings.site_title,
@@ -132,7 +132,7 @@ function latestTransclusions(latest: VersionRow | null): Transclusion[] {
   return JSON.parse(latest.transclusions) as Transclusion[];
 }
 
-/** §2.6 feed.xml: RSS 2.0 + ygg namespace, per-version GUIDs, 50-entry window. */
+/** §2.6 feed.xml: RSS 2.0 + blygg namespace, per-version GUIDs, 50-entry window. */
 export async function buildFeedXml(db: D1Database, settings: Settings, origin: string): Promise<string> {
   const events = await feedEvents(db, FEED_WINDOW);
   const built = await lastUpdated(db);
@@ -155,28 +155,28 @@ export async function buildFeedXml(db: D1Database, settings: Settings, origin: s
     const excerptText = isWithdrawn ? "" : isThread ? excerptFromHtml(rawHtml, 60) : excerpt(latestMd, 60);
     itemsXml.push(
       `    <item>
-      <guid isPermaLink="false">ygg:${item.id}:v${version.version}</guid>
+      <guid isPermaLink="false">blygg:${item.id}:v${version.version}</guid>
       <link>${origin}${isThread ? "t" : "f"}/${item.id}/</link>
       <title>${escapeXml(feedTitle(item, version.note, excerptText))}</title>
       <description>${isWithdrawn ? "" : cdata(html)}</description>
       <pubDate>${rfc822(version.published_at)}</pubDate>
-      <ygg:id>${item.id}</ygg:id>
-      <ygg:kind>${item.kind}</ygg:kind>
-      <ygg:version>${version.version}</ygg:version>
-      <ygg:created>${item.created}</ygg:created>
-      <ygg:item>${origin}items/${item.id}.json</ygg:item>
+      <blygg:id>${item.id}</blygg:id>
+      <blygg:kind>${item.kind}</blygg:kind>
+      <blygg:version>${version.version}</blygg:version>
+      <blygg:created>${item.created}</blygg:created>
+      <blygg:item>${origin}items/${item.id}.json</blygg:item>
     </item>`,
     );
   }
   return `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:ygg="${YGG_NS}">
+<rss version="2.0" xmlns:blygg="${BRAND.nsUri}">
   <channel>
     <title>${escapeXml(settings.site_title)}</title>
     <link>${origin}</link>
     <description>${escapeXml(settings.author_bio)}</description>
     <lastBuildDate>${rfc822(built)}</lastBuildDate>
-    <ygg:level>${YGG_LEVEL}</ygg:level>
-    <ygg:manifest>${origin}ygg.json</ygg:manifest>
+    <blygg:level>${PROTOCOL_LEVEL}</blygg:level>
+    <blygg:manifest>${origin}blygg.json</blygg:manifest>
 ${itemsXml.join("\n")}
   </channel>
 </rss>

@@ -13,37 +13,37 @@ body {
   margin: 0 auto;
   padding: 1.5rem 1rem 4rem;
 }
-.ygg { max-width: 65ch; margin: 0 auto; }
-.ygg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
-.ygg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
-.ygg-header a:hover { text-decoration: underline; }
-.ygg .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
-.ygg .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; font-size: 0.85rem; }
-.ygg .version-nav button {
+.blygg { max-width: 65ch; margin: 0 auto; }
+.blygg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
+.blygg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
+.blygg-header a:hover { text-decoration: underline; }
+.blygg .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
+.blygg .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; font-size: 0.85rem; }
+.blygg .version-nav button {
   font: inherit; font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem;
   border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; cursor: pointer;
 }
-.ygg .version-nav button:disabled { opacity: 0.3; cursor: default; }
-.ygg .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
-.ygg .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
+.blygg .version-nav button:disabled { opacity: 0.3; cursor: default; }
+.blygg .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.blygg .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
 /* The transclusion block — this styling is protocol-adjacent (readers may rely
-   on .ygg-transclusion existing) but the look is the client's choice. */
-.ygg blockquote.ygg-transclusion {
+   on .blygg-transclusion existing) but the look is the client's choice. */
+.blygg blockquote.blygg-transclusion {
   margin: 1.25rem 0; padding: 0.75rem 1rem;
   border-left: 3px solid rgba(128,128,128,0.55);
   background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0;
 }
-.ygg blockquote.ygg-transclusion p:first-child { margin-top: 0; }
-.ygg blockquote.ygg-transclusion p:last-of-type { margin-bottom: 0.25rem; }
-.ygg .provenance { font-size: 0.78rem; opacity: 0.65; margin: 0.4rem 0 0; }
-.ygg .provenance a { text-decoration: none; }
+.blygg blockquote.blygg-transclusion p:first-child { margin-top: 0; }
+.blygg blockquote.blygg-transclusion p:last-of-type { margin-bottom: 0.25rem; }
+.blygg .provenance { font-size: 0.78rem; opacity: 0.65; margin: 0.4rem 0 0; }
+.blygg .provenance a { text-decoration: none; }
 .wf-note { max-width: 65ch; margin: 0 auto 1rem; background: rgba(255,200,0,0.15); border: 1px dashed rgba(128,128,128,0.6); padding: 0.5rem 0.75rem; font-size: 0.85rem; }
 </style>
 </head>
 <body>
-<p class="wf-note">WIREFRAME REV 3 · public <b>thread page</b> <code>t/{id}/</code> (new surface, session-3 restructure — v0.1-plan §2.9). Same embeddable <code>.ygg</code> scoping and header/timestamp/scrubber conventions as <code>public.html</code>. Transcluded fragments render as <code>blockquote.ygg-transclusion</code> blocks with the snapshot baked in at publish time — the page never fetches them live — each with a small provenance link to the source fragment's permalink and its snapshotted version. There is no title field in the thread schema; authors who want a heading open their markdown with an H1, as here.</p>
-<div class="ygg">
-<header class="ygg-header">
+<p class="wf-note">WIREFRAME REV 3 · public <b>thread page</b> <code>t/{id}/</code> (new surface, session-3 restructure — v0.1-plan §2.9). Same embeddable <code>.blygg</code> scoping and header/timestamp/scrubber conventions as <code>public.html</code>. Transcluded fragments render as <code>blockquote.blygg-transclusion</code> blocks with the snapshot baked in at publish time — the page never fetches them live — each with a small provenance link to the source fragment's permalink and its snapshotted version. There is no title field in the thread schema; authors who want a heading open their markdown with an H1, as here.</p>
+<div class="blygg">
+<header class="blygg-header">
 <a href="/">Home</a>
 <a href="#" title="RSS feed">RSS ⧉</a>
 </header>
@@ -54,7 +54,7 @@ body {
 <p>Connecting prose written in the thread itself. It sets up the first fragment, which
 made this point in a compressed form last week:</p>
 
-<blockquote class="ygg-transclusion">
+<blockquote class="blygg-transclusion">
 <p>A protocol is a frozen conversation. Whatever the founders argued about is what the
 buttons let you do forever after.</p>
 <p class="provenance"><a href="#">fragment ↗</a> · snapshot of v2</p>
@@ -63,7 +63,7 @@ buttons let you do forever after.</p>
 <p>More connecting prose. The second fragment approaches the same claim from the
 economics side, and the thread's job is to hold the two next to each other:</p>
 
-<blockquote class="ygg-transclusion">
+<blockquote class="blygg-transclusion">
 <p>Switching costs are memory costs. A medium you can leave without losing your
 archive is a medium that has to keep earning you.</p>
 <p class="provenance"><a href="#">fragment ↗</a> · snapshot of v1</p>

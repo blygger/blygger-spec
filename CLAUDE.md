@@ -1,14 +1,15 @@
-# Ygg — Project Instructions
+# Blygger — Project Instructions
 
 > Environment rules, keys & safety policies: see [`Code/CLAUDE.md`](../CLAUDE.md), `warnings.md`, `warnings-node.md`, `warnings-keys.md`, `security-policy.md` at the `Code/` level.
 
-Ygg is an AI-native decentralized public writing medium — fragments + threads + TK-transclusion over static files + RSS. Public repo: `vgururao/ygg` (branch `main`). This folder is the **protocol + reference implementation** project. Venkat's *personal ygg deployment* will live separately in `Publishing/` once the reference client exists.
+Blygger is an AI-native decentralized public writing medium — fragments + threads + TK-transclusion over static files + RSS. Public repo: `blygger/blygger-spec` (branch `main`), part of the `blygger` GitHub org alongside the `blygger-org` and `blygger-com` site repos (session 6 rename + scaffolding — see `../CLAUDE.md`). This folder is the **protocol + reference implementation** project. Venkat's *personal blygg deployment* will live separately in `Publishing/` once the reference client exists.
 
 ## Document map
 
 | Doc | Role |
 |---|---|
-| [`docs/ygg-initial-spec.md`](docs/ygg-initial-spec.md) | Frozen v0 concept spec — never edit; open for public comment (issue #1) |
+| [`docs/ygg-initial-spec.md`](docs/ygg-initial-spec.md) | Frozen v0 concept spec — never edit (deliberately keeps the historical `ygg` name + filename, banner note added session 6); open for public comment (issue #1) |
+| [`RENAME.md`](RENAME.md) | Brand-rename record (session 6, `ygg`→`blygger`) + checklist for what's outside the `BRAND` constant |
 | [`docs/roadmap.md`](docs/roadmap.md) | Full roadmap v0.1 → post-1.0, with model-routing annotations |
 | [`docs/v0.1-plan.md`](docs/v0.1-plan.md) | Implementation plan for v0.1 "Seed" — the current work spec |
 | [`docs/wireframes/`](docs/wireframes/) | HTML mockups, rev 3 (public, studio, edit, thread, thread-edit) — gate for tasks 9/15 |
@@ -19,10 +20,10 @@ Ygg is an AI-native decentralized public writing medium — fragments + threads 
 
 ## Locked decisions (do not relitigate without Venkat)
 
-1. **Protocol = static file contract** under `/ygg/`: `items/{id}.json` is the state plane (ground truth, full archive); `feed.xml` is the notification plane (lossy RSS, just a signal).
+1. **Protocol = static file contract** under `/blygg/`: `items/{id}.json` is the state plane (ground truth, full archive); `feed.xml` is the notification plane (lossy RSS, just a signal).
 2. **IDs**: stable random 128-bit IDs for identity; per-version content hashes for integrity/IPFS. Never content-addressed IDs.
-3. **Studio/page split**: every client = private studio (dynamic, unconstrained) + public page (the `/ygg` artifact, protocol-governed). The protocol governs *only* the page.
-4. **Conformance levels** L0–L3, strict supersets; clients ignore unknown constructs; every ygg feed stays a valid RSS feed with self-contained HTML per item.
+3. **Studio/page split**: every client = private studio (dynamic, unconstrained) + public page (the `/blygg` artifact, protocol-governed). The protocol governs *only* the page.
+4. **Conformance levels** L0–L3, strict supersets; clients ignore unknown constructs; every blygg feed stays a valid RSS feed with self-contained HTML per item.
 5. **AI is never in the protocol.** Generation is studio-side at authoring time; the page publishes output + provenance.
 6. **Roadmap order** (restructured session 3, with Venkat): no-AI core first; both core abstractions in the first release (v0.1 publish: fragments + local threads → v0.2 subscribe → v0.3 threads-cross-client: stubs/nesting/DAG/`forked_from` → v0.4 AI/TK → v0.5 RAG/polish → v1.0 freeze).
 7. Private content in v1 = never-published drafts (owner-only). Privileged-group access is deferred to L3.
@@ -84,10 +85,10 @@ needs to reconstruct design rationale from this alone.
 
 ## TODO
 
-- [ ] **Venkat: brand decision** — possible project rename (Yggdrasil mesh-network adjacency, session 3). Gates the domain purchase and deploy; does NOT gate any build work.
-- [ ] Build the brand-name refactor (task 16 in `v0.1-plan.md`): single `BRAND` constant block + `RENAME.md` checklist so the rename is a constants edit. Sonnet-safe, runnable now; acceptance = tests pass with the constant set to `zzz`.
-- [ ] Decide protocol XML namespace URI / dedicated domain **after the brand decision** (leading candidate pre-rename-question was `yggprotocol.org` — available as of 2026-07-24, .org preferred for commons governance). **Hard deadline: before v0.2 ships importers** (they match on the URI, which then becomes permanent). Recommended: settle before the first real deployment. Not a gate for task 11 (workers.dev suffices for the reference instance).
-- [ ] **Deploy (task 11)** — D1 id, wrangler secrets + `.env.keys` registration, RSS-reader check. The only remaining v0.1 build task besides the brand refactor; both are gated on the brand decision above.
+- [x] **Venkat: brand decision** — session 6 (2026-07-24): renamed `ygg` → **blygger** (Yggdrasil mesh-network adjacency, session 3); default publish path `/blygg`; domains `blygger.org` (XML namespace, commons/spec) + `blygger.com` (protocol-adjacent commercial dev), both acquired.
+- [x] Brand-name refactor (task 16) — executed session 6: `BRAND` constant in `types.ts`, full codebase + docs rename, `RENAME.md` checklist. Details in `docs/v0.1-plan.md` §5 task 16.
+- [x] Namespace URI — resolved session 6: `https://blygger.org/ns/0.1` (was §7 open decision #1).
+- [ ] **Deploy (task 11)** — D1 id, wrangler secrets + `.env.keys` registration, RSS-reader check. The only remaining v0.1 build task; no longer gated on anything.
 - [x] Build v0.1 "Seed" tasks 1–8 + 10 (session 2)
 - [x] **Venkat:** review **rev-3** wireframes in `docs/wireframes/` (session 4) — approved live in-browser, no changes needed; cleared tasks 9/15
 - [x] Build threads (tasks 13–14: migration 0003, transclusion resolver, thread surfaces) — session 4

@@ -71,7 +71,7 @@ export function cdata(s: string): string {
 
 /**
  * Rewrite relative src/href attribute URLs in rendered HTML against a base
- * ending in /ygg/ — feed descriptions must be self-contained (§2.6).
+ * ending in /blygg/ — feed descriptions must be self-contained (§2.6).
  */
 export function absolutizeHtml(html: string, base: string): string {
   const origin = new URL(base).origin;

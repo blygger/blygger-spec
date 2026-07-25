@@ -1,4 +1,4 @@
-// Ygg v0.1 "Seed" — route wiring. Public surface per v0.1-plan §3.3.
+// Blygger v0.1 "Seed" — route wiring. Public surface per v0.1-plan §3.3.
 
 import { Hono } from "hono";
 import { api } from "./api.ts";
@@ -12,9 +12,9 @@ import { FEED_PAGE_SIZE } from "./types.ts";
 
 const app = new Hono<{ Bindings: Env }>({ strict: false });
 
-// --- Public: /ygg/* — cache 60s; JSON/XML surfaces get permissive CORS. ---
+// --- Public: /blygg/* — cache 60s; JSON/XML surfaces get permissive CORS. ---
 
-app.use("/ygg/*", async (c, next) => {
+app.use("/blygg/*", async (c, next) => {
   await next();
   if (c.res.ok && !c.res.headers.has("Cache-Control")) {
     c.res.headers.set("Cache-Control", "public, max-age=60");
@@ -24,37 +24,37 @@ app.use("/ygg/*", async (c, next) => {
 const cors = (c: { header: (k: string, v: string) => void }) =>
   c.header("Access-Control-Allow-Origin", "*");
 
-app.get("/", (c) => c.redirect("/ygg/"));
+app.get("/", (c) => c.redirect("/blygg/"));
 
-// strict:false: registered without trailing slash, serves /ygg and /ygg/.
-app.get("/ygg", async (c) => {
+// strict:false: registered without trailing slash, serves /blygg and /blygg/.
+app.get("/blygg", async (c) => {
   const settings = await getSettings(c.env.DB);
   const items = await listPublic(c.env.DB, FEED_PAGE_SIZE + 1);
   const hasMore = items.length > FEED_PAGE_SIZE;
   return c.html(await feedPage(c.env.DB, settings, items.slice(0, FEED_PAGE_SIZE), hasMore));
 });
 
-app.get("/ygg/style.css", (c) => c.text(STYLE_CSS, 200, { "Content-Type": "text/css; charset=utf-8" }));
+app.get("/blygg/style.css", (c) => c.text(STYLE_CSS, 200, { "Content-Type": "text/css; charset=utf-8" }));
 
-app.get("/ygg/feed.xml", async (c) => {
+app.get("/blygg/feed.xml", async (c) => {
   const settings = await getSettings(c.env.DB);
   const xml = await buildFeedXml(c.env.DB, settings, siteOrigin(settings, c.req.url));
   cors(c);
   return c.body(xml, 200, { "Content-Type": "application/rss+xml; charset=utf-8" });
 });
 
-app.get("/ygg/ygg.json", async (c) => {
+app.get("/blygg/blygg.json", async (c) => {
   const settings = await getSettings(c.env.DB);
   cors(c);
   return c.json(await buildManifest(c.env.DB, settings, siteOrigin(settings, c.req.url)));
 });
 
-app.get("/ygg/items/index.json", async (c) => {
+app.get("/blygg/items/index.json", async (c) => {
   cors(c);
   return c.json(await buildArchiveIndex(c.env.DB));
 });
 
-app.get("/ygg/items/:file", async (c) => {
+app.get("/blygg/items/:file", async (c) => {
   const file = c.req.param("file");
   if (!file.endsWith(".json")) return c.notFound();
   const item = await getItem(c.env.DB, file.slice(0, -5));
@@ -67,7 +67,7 @@ app.get("/ygg/items/:file", async (c) => {
 
 // §2.8 pinned version files: 404 unless pinned; 200 forever once pinned,
 // surviving edits and withdrawal of the live stream.
-app.get("/ygg/items/:id/:vfile", async (c) => {
+app.get("/blygg/items/:id/:vfile", async (c) => {
   const m = /^v(\d+)\.json$/.exec(c.req.param("vfile"));
   if (!m) return c.notFound();
   const item = await getItem(c.env.DB, c.req.param("id"));
@@ -79,7 +79,7 @@ app.get("/ygg/items/:id/:vfile", async (c) => {
   return c.json(buildPinnedVersionJson(settings, item, row, siteOrigin(settings, c.req.url)));
 });
 
-app.get("/ygg/f/:id", async (c) => {
+app.get("/blygg/f/:id", async (c) => {
   const item = await getItem(c.env.DB, c.req.param("id"));
   if (!item || item.status === "draft") return c.notFound();
   if ((await authoredKind(c.env.DB, item)) !== "fragment") return c.notFound();
@@ -88,7 +88,7 @@ app.get("/ygg/f/:id", async (c) => {
 });
 
 // §2.9 thread permalink page.
-app.get("/ygg/t/:id", async (c) => {
+app.get("/blygg/t/:id", async (c) => {
   const item = await getItem(c.env.DB, c.req.param("id"));
   if (!item || item.status === "draft") return c.notFound();
   if ((await authoredKind(c.env.DB, item)) !== "thread") return c.notFound();
@@ -96,12 +96,12 @@ app.get("/ygg/t/:id", async (c) => {
   return c.html(await threadPage(c.env.DB, settings, item));
 });
 
-app.get("/ygg/archive", async (c) => {
+app.get("/blygg/archive", async (c) => {
   const settings = await getSettings(c.env.DB);
   return c.html(await archivePage(c.env.DB, settings, await listPublic(c.env.DB)));
 });
 
-app.get("/ygg/media/:file", async (c) => {
+app.get("/blygg/media/:file", async (c) => {
   const file = c.req.param("file");
   const media = await getMedia(c.env.DB, file.split(".")[0]);
   if (!media || media.r2_key !== `media/${file}`) return c.notFound();
