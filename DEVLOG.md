@@ -7,7 +7,73 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 6 — 2026-07-24 — Brand rename to Blygger; repo scaffolding; deploy plan
+## Session 7 — 2026-08-03 — Curation/discovery decisions; L1 spec drafted; blygger.org content
+**Model:** Fable 5 (state check ran on Opus 4.8 before Venkat switched via `/model`) · **Time:** ~11:00–11:50 PT · **Committed:** yes (2 repos) · **Deployed:** —
+
+**What & why:** Protocol-design session. Venkat wanted three things settled
+before Opus builds further: what "make-public" means for imported items, the
+discovery story, and where the AI-generation hardpoints live — all governed by
+his named frame: **treat publishing the way GitHub treats code** (quiet
+watching, public forks and citations, no comment threads).
+
+**Decisions (locked #12–13; record in
+`docs/proposals/curation-discovery-generation-proposal.md`):**
+(1) **Make-public = curation display only** — supersedes the roadmap's
+"retweet-like" wording: a made-public import appears on a public hopper page
+from the local snapshot, **never re-emitted on the feed** (re-emission collides
+with `blygg:id` rollup + the single-publisher invariant; and feed-speech about
+others' content costs editorial — that's the stub). (2) **No tags, no canned
+phrases in protocol** — hoppers are the taxonomy, stub templates are studio
+sugar; third leg of the pattern: *editorial convenience, like AI and identity,
+is never in the protocol*. (3) **Discovery = two planes, both L2 and
+optional**: static plane = curated OPML blogroll (`blogroll.opml` + manifest
+key, v0.2; explicitly no completeness claim — a blogroll is a publishing act,
+not a follower-graph leak); notification plane = **Webmention** (W3C, reused
+not invented; pingback/trackback rejected as dead-of-spam/legacy) with
+**structural verification** — receiver fetches the source item JSON and checks
+it actually names the target, which kills the trackback spam hole; verified
+mentions are studio signals feeding detect-stubs, never auto-published. This
+closes a real gap: without mentions, detect-stubs only sees stubs from feeds
+you subscribe to — quietly reinventing mutual-follow. (4) **"Follow" is
+deliberately nothing** — subscription stays client-local/invisible; the public
+graph is blogrolls (outbound) + verified stubs (inbound). ActivityPub rejected
+(actor model vs decisions #5/#11), WebSub orthogonal, directories
+ecosystem-side. Acknowledged carve-out: the Webmention receiver is the
+protocol's **first dynamic surface** — optional-at-L2, "just files" stays the
+L1 floor. (5) **v0.4 pre-records (leans, not locked):** fragment-level
+generate/regenerate hardpoint added (v0.4 was thread-centric); all generation
+hooks share one provider-call interface; lean that generated text lands in
+`content_md` (hash/pin must cover what readers read) with TK markers as inert
+annotations; disclosure-of-generation left open for the v0.4 pass.
+
+**L1 spec drafted (`docs/protocol-v0.1.md`, DRAFT)** — ahead of the "after
+v0.1 ships" gate, deliberately: Venkat wants it publishable on the placeholder
+site. Normative, RFC 2119, 13 sections; folds in everything the CLAUDE.md TODO
+listed (session-2 feed interpretations, withdraw/pin, session-4 presentation
+rules, session-5 version-nav + author). Normativization judgment calls flagged
+to Venkat: feed window RECOMMENDED 50, fragment cap RECOMMENDED 2000 with
+readers-MUST-NOT-reject, CORS as SHOULD, and §11 pulls the v0.2 rollup rules
+forward as normative reader conformance. Freezes at `blygger.org/spec/0.1/`
+only when the deploys land.
+
+**blygger.org content:** `blygger-org/content/` created — `overview.md`
+(landing-page overview: GitHub-precedent table, soapboxes-not-conversation,
+mutable-by-default/immutable-by-choice, AI-native/AI-free-wire, discovery) +
+`spec/0.1/index.md` (publish copy; canonical stays in `blygger-spec`, rule in
+`content/README.md`). Roadmap v0.2/v0.3/v0.4 sections updated; CLAUDE.md
+locked decisions #12–13 + doc map + TODOs updated.
+
+**State after:** All protocol semantics through v0.3 discovery are now
+decided-and-recorded; v0.4 has a pre-record. The spec exists as a publishable
+draft. Build state unchanged: task 11 (deploy) still the only open v0.1 build
+task; stub-site deploy plan still unexecuted — but blygger.org now has real
+content waiting.
+
+**Open threads:** Venkat to review the spec's normativization calls and the
+overview's public voice ("No replies. Ever."; TK as flagship) before deploy;
+webmention mechanics (retry/dedupe/endpoint shape/rate limits) are a v0.3
+⚠️ FABLE item; blogroll OPML shape goes in the v0.2 plan doc; task 11 +
+stub-site deploys unchanged; feed-flake + scrubber fast-follows unchanged.
 **Model:** Sonnet 5 · **Time:** ~17:30–18:00 PT · **Committed:** yes (3 repos) · **Deployed:** —
 
 **What & why:** Venkat made the brand decision session 3 flagged: protocol renamed
