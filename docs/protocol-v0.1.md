@@ -20,10 +20,11 @@ interpreted as described in RFC 2119.
 ## 1. Introduction (non-normative)
 
 Blygger is a decentralized public writing medium built on static files and RSS.
-A **blygg** is a directory of files — conventionally `/blygg/` on the publisher's
-own domain — containing versioned items of writing, a manifest, an archive index,
-and an RSS feed. Anything that can serve files can serve a blygg; anything that
-can read RSS can follow one.
+A **blygg** is a directory of files — mounted anywhere on the publisher's own
+domain, at a path (conventionally `/blyg/`) or at the domain root — containing
+versioned items of writing, a manifest, an archive index, and an RSS feed.
+Anything that can serve files can serve a blygg; anything that can read RSS can
+follow one.
 
 Four design invariants shape everything below:
 
@@ -46,8 +47,10 @@ authoritative.
 
 ## 2. Terminology
 
-- **Origin** — a blygg's base URL (e.g. `https://example.com/blygg/`). The unit
-  of identity, trust, and subscription.
+- **Origin** — a blygg's base URL (e.g. `https://example.com/blyg/`). The unit
+  of identity, trust, and subscription. May be a domain root, any path under a
+  domain, or a subdomain — the protocol never constrains where a blygg mounts
+  (§4).
 - **Item** — the unit of publication. Carries a permanent id and a version
   history. Current kinds: `fragment`, `thread`, `withdrawn`.
 - **Fragment** — a short-form item (microblog-post-sized).
@@ -80,7 +83,19 @@ in §§5–10. A **reader** conforms at L1 by following the rules in §11.
 
 ## 4. The publication surface
 
-A blygg is the following file tree under its origin. Publishers MUST serve:
+A blygg is the following file tree under its origin. The origin's location is
+the publisher's free choice — a domain root (`https://example.com/`), any path
+(`https://example.com/blyg/`, `https://example.com/notes/b/`), or a subdomain.
+The surface is strictly origin-relative: no protocol construct may assume any
+particular path component, and readers MUST NOT infer anything from the mount
+path. The file names *within* the surface (`blygg.json`, `feed.xml`,
+`items/…`) are protocol-fixed and MUST NOT vary per deployment — a known
+manifest filename at an arbitrary origin is what keeps free mounting
+discoverable (a reader handed any base URL fetches `blygg.json` relative to
+it). `/blyg/` is the reference client's default mount and the convention used
+in examples throughout this document; it carries no protocol meaning.
+
+Publishers MUST serve:
 
 | Path (relative to origin) | Content | Spec |
 |---|---|---|
@@ -119,8 +134,8 @@ Ground truth for one item. Example (a fragment):
   "blygg": "0.1",
   "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
   "kind": "fragment",
-  "origin": "https://example.com/blygg/",
-  "author": { "name": "Venkatesh Rao", "url": "https://example.com/blygg/" },
+  "origin": "https://example.com/blyg/",
+  "author": { "name": "Venkatesh Rao", "url": "https://example.com/blyg/" },
   "created": "2026-07-17T18:00:00Z",
   "updated": "2026-07-18T09:30:00Z",
   "version": 3,
@@ -217,7 +232,7 @@ Ground truth for one item. Example (a fragment):
   "blygg": "0.1",
   "level": 1,
   "generator": "blygg-ref/0.1.0",
-  "site": "https://example.com/blygg/",
+  "site": "https://example.com/blyg/",
   "title": "Venkat's blygg",
   "author": { "name": "Venkatesh Rao", "bio": "…", "avatar": "media/avatar.png",
               "links": [{ "label": "Home", "url": "https://venkateshrao.com" }] },
@@ -259,14 +274,14 @@ RSS 2.0 with the `blygg:` namespace (`https://blygger.org/ns/0.1`):
 <rss version="2.0" xmlns:blygg="https://blygger.org/ns/0.1">
   <channel>
     <title>Venkat's blygg</title>
-    <link>https://example.com/blygg/</link>
+    <link>https://example.com/blyg/</link>
     <description>…</description>
     <lastBuildDate>Sat, 18 Jul 2026 09:30:00 GMT</lastBuildDate>
     <blygg:level>1</blygg:level>
-    <blygg:manifest>https://example.com/blygg/blygg.json</blygg:manifest>
+    <blygg:manifest>https://example.com/blyg/blygg.json</blygg:manifest>
     <item>
       <guid isPermaLink="false">blygg:7c9wk2mhq0v3xj8tn5rzfd41bg:v3</guid>
-      <link>https://example.com/blygg/f/7c9wk2mhq0v3xj8tn5rzfd41bg/</link>
+      <link>https://example.com/blyg/f/7c9wk2mhq0v3xj8tn5rzfd41bg/</link>
       <title>Sharpened the claim — Markdown source of the latest…</title>
       <description><![CDATA[<p>rendered HTML of latest version</p>]]></description>
       <pubDate>Sat, 18 Jul 2026 09:30:00 GMT</pubDate>
@@ -274,7 +289,7 @@ RSS 2.0 with the `blygg:` namespace (`https://blygger.org/ns/0.1`):
       <blygg:kind>fragment</blygg:kind>
       <blygg:version>3</blygg:version>
       <blygg:created>2026-07-17T18:00:00Z</blygg:created>
-      <blygg:item>https://example.com/blygg/items/7c9wk2mhq0v3xj8tn5rzfd41bg.json</blygg:item>
+      <blygg:item>https://example.com/blyg/items/7c9wk2mhq0v3xj8tn5rzfd41bg.json</blygg:item>
     </item>
   </channel>
 </rss>
@@ -329,8 +344,8 @@ medium: mutable by default, immutable by explicit act.)
   "at": "2026-07-17T21:12:00Z",
   "note": "typo",
   "pinned": true,
-  "origin": "https://example.com/blygg/",
-  "author": { "name": "Venkatesh Rao", "url": "https://example.com/blygg/" },
+  "origin": "https://example.com/blyg/",
+  "author": { "name": "Venkatesh Rao", "url": "https://example.com/blyg/" },
   "content_md": "…that version's markdown…",
   "content_html": "<p>…that version's HTML…</p>",
   "content_hash": "sha256:…"

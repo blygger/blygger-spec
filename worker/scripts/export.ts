@@ -2,7 +2,7 @@
 // blygg instance and write the byte-identical file tree — proves the page is
 // servable from a dumb file host (invariant 4).
 //
-//   npm run export -- --out DIR --base https://example.com/blygg/
+//   npm run export -- --out DIR --base https://example.com/blyg/
 //
 // Runs under `node --experimental-strip-types` (Node 22+); no dependencies.
 
@@ -12,7 +12,7 @@ import path from "node:path";
 function arg(name: string): string {
   const i = process.argv.indexOf(`--${name}`);
   if (i === -1 || i + 1 >= process.argv.length) {
-    console.error(`usage: npm run export -- --out DIR --base https://host/blygg/`);
+    console.error(`usage: npm run export -- --out DIR --base https://host/blyg/`);
     process.exit(1);
   }
   return process.argv[i + 1];

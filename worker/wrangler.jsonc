@@ -5,6 +5,11 @@
   "name": "blygg",
   "main": "src/index.ts",
   "compatibility_date": "2026-07-01",
+  // Deployment mount for the public surface (decision #14): "" = domain root,
+  // otherwise "/path". Wire filenames (blygg.json etc.) are fixed regardless.
+  "vars": {
+    "MOUNT": "/blyg"
+  },
   "d1_databases": [
     {
       "binding": "DB",

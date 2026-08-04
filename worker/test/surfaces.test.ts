@@ -12,13 +12,13 @@ describe("manifest (§2.4)", () => {
       author_bio: "test bio",
       author_links: [{ label: "Home", url: "https://venkateshrao.com" }],
     });
-    const res = await getPublic("/blygg/blygg.json");
+    const res = await getPublic("/blyg/blygg.json");
     expect(res.status).toBe(200);
     const m = await res.json<any>();
     expect(m.blygg).toBe("0.1");
     expect(m.level).toBe(1);
     expect(m.generator).toBe("blygg-ref/0.1.0");
-    expect(m.site).toBe("https://example.com/blygg/");
+    expect(m.site).toBe("https://example.com/blyg/");
     expect(m.title).toBe("Venkat's blygg");
     expect(m.author.name).toBe("Venkatesh Rao");
     expect(m.author.bio).toBe("test bio");
@@ -37,7 +37,7 @@ describe("archive index (§2.5)", () => {
     const c = await createAndPublish(cookie, "third, then withdrawn");
     await apiJson(cookie, "POST", `/api/items/${c}/withdraw`, {});
 
-    const index = await (await getPublic("/blygg/items/index.json")).json<any>();
+    const index = await (await getPublic("/blyg/items/index.json")).json<any>();
     expect(index.updated).toMatch(/Z$/);
     const ids = index.items.map((i: any) => i.id);
     expect(ids).toContain(a);
@@ -55,7 +55,7 @@ describe("CORS + timestamps", () => {
   it("serves permissive CORS on all public JSON/XML surfaces", async () => {
     const cookie = await login();
     const id = await createAndPublish(cookie, "cors check");
-    for (const path of ["/blygg/blygg.json", "/blygg/items/index.json", "/blygg/feed.xml", `/blygg/items/${id}.json`]) {
+    for (const path of ["/blyg/blygg.json", "/blyg/items/index.json", "/blyg/feed.xml", `/blyg/items/${id}.json`]) {
       const res = await getPublic(path);
       expect(res.headers.get("access-control-allow-origin"), path).toBe("*");
     }
@@ -64,19 +64,19 @@ describe("CORS + timestamps", () => {
   it("uses ISO 8601 Z timestamps in item JSON", async () => {
     const cookie = await login();
     const id = await createAndPublish(cookie, "time check");
-    const item = await (await getPublic(`/blygg/items/${id}.json`)).json<any>();
+    const item = await (await getPublic(`/blyg/items/${id}.json`)).json<any>();
     for (const ts of [item.created, item.updated, item.changelog[0].at]) {
       expect(ts).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/);
     }
   });
 
   it("404s unknown ids and non-json item paths", async () => {
-    expect((await getPublic("/blygg/items/doesnotexist00000000000000.json")).status).toBe(404);
-    expect((await getPublic("/blygg/items/whatever.txt")).status).toBe(404);
+    expect((await getPublic("/blyg/items/doesnotexist00000000000000.json")).status).toBe(404);
+    expect((await getPublic("/blyg/items/whatever.txt")).status).toBe(404);
   });
 
   it("public routes carry cache headers", async () => {
-    const res = await getPublic("/blygg/blygg.json");
+    const res = await getPublic("/blyg/blygg.json");
     expect(res.headers.get("cache-control")).toBe("public, max-age=60");
   });
 });

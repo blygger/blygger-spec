@@ -13,6 +13,9 @@ export default defineConfig({
             TEST_MIGRATIONS: migrations,
             OWNER_PASSWORD: "test-password",
             COOKIE_SECRET: "test-cookie-secret",
+            // Pin the default mount explicitly (matches wrangler.jsonc vars);
+            // mount.test.ts exercises other mounts via makeApp() directly.
+            MOUNT: "/blyg",
           },
         },
       };

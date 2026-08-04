@@ -3,6 +3,14 @@ export interface Env {
   MEDIA: R2Bucket;
   OWNER_PASSWORD: string;
   COOKIE_SECRET: string;
+  /**
+   * Deployment mount path for the public surface (wrangler `vars`).
+   * "" or "/" = domain root; otherwise a path like "/blyg". Unset falls back
+   * to DEFAULT_MOUNT. Normalized by normalizeMount() (util.ts) before use —
+   * session 8, locked decision #14: the mount is deployment config, never
+   * protocol vocabulary.
+   */
+  MOUNT?: string;
 }
 
 export interface ItemRow {
@@ -56,7 +64,7 @@ export interface Settings {
   author_name: string;
   author_bio: string;
   author_links: AuthorLink[];
-  /** Canonical site URL ending in /blygg/ ; empty = derive from request origin. */
+  /** Canonical origin (full base URL incl. any mount path, e.g. https://example.com/blyg/); empty = derive from request origin + MOUNT. */
   site_url: string;
   avatar_media_id: string;
 }
@@ -64,12 +72,16 @@ export interface Settings {
 /**
  * Single source of truth for the project's brand tokens (session 6 rename,
  * ygg -> blygger). `name` is the human-facing brand; `slug` is the
- * machine-facing short token this reference client derives everything else
- * from — URL path prefix, manifest filename, JSON version key, GUID scheme,
- * XML namespace prefix + element names, cookie name, CSS class prefix —
- * deliberately the same string as Venkat's chosen default publishing path,
- * `/blygg/`. Config files that can't import this (wrangler.jsonc,
- * package.json) are listed in RENAME.md instead.
+ * machine-facing *wire* token: manifest filename, JSON version key, GUID
+ * scheme, XML namespace prefix + element names, cookie name, CSS class
+ * prefix. These are protocol-permanent and never vary per deployment.
+ *
+ * Session 8 (locked decision #14) split the *mount* — where under a domain
+ * the public surface lives — out of the slug: the mount is deployment config
+ * (Env.MOUNT, default DEFAULT_MOUNT below), freely assignable including ""
+ * (domain root). `/blyg/blygg.json` is the intended asymmetry: the path is
+ * the deployer's, the filename is the protocol's. Config files that can't
+ * import this (wrangler.jsonc, package.json) are listed in RENAME.md.
  */
 export const BRAND = {
   name: "blygger",
@@ -77,6 +89,9 @@ export const BRAND = {
   /** Protocol XML namespace URI. Permanent once v0.2 ships importers (v0.1-plan.md §7). */
   nsUri: "https://blygger.org/ns/0.1",
 } as const;
+
+/** Reference-client default mount when Env.MOUNT is unset. Deployment lexicon, not wire vocabulary — deliberately ≠ BRAND.slug. */
+export const DEFAULT_MOUNT = "/blyg";
 
 export const GENERATOR = `${BRAND.slug}-ref/0.1.0`;
 export const PROTOCOL_VERSION = "0.1";

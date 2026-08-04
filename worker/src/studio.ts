@@ -14,7 +14,7 @@ import { authoredKind, getItem, getSettings, listAll, listMediaForItem, listVers
 import { previewTransclusions } from "./transclusion.ts";
 import type { Env, ItemRow, Transclusion } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
-import { escapeHtml } from "./util.ts";
+import { escapeHtml, normalizeMount } from "./util.ts";
 
 const STUDIO_STYLE = `
 :root { color-scheme: light dark; }
@@ -106,11 +106,11 @@ ${body}
 `;
 }
 
-function studioHeader(title: string): string {
+function studioHeader(title: string, mount: string): string {
   return `<header class="studio">
 <h1>${escapeHtml(title)}</h1>
 <nav>
-<a href="/blygg/">public page ↗</a>
+<a href="${mount}/">public page ↗</a>
 <a href="/studio/settings">settings</a>
 <form method="post" action="/studio/logout" style="display:inline"><button type="submit" class="link">log out</button></form>
 </nav>
@@ -306,7 +306,7 @@ studio.post("/logout", (c) => {
 studio.get("/", async (c) => {
   const items = await listAll(c.env.DB);
   const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item)));
-  const body = `${studioHeader("blygg studio")}
+  const body = `${studioHeader("blygg studio", normalizeMount(c.env.MOUNT))}
 <div class="composer">
 <textarea id="composer-text" placeholder="compose a fragment…"></textarea>
 <div class="bar">
@@ -325,7 +325,7 @@ ${rows.join("\n") || "<p>Nothing yet — compose your first fragment above.</p>"
 studio.get("/settings", async (c) => {
   const settings = await getSettings(c.env.DB);
   const linksText = settings.author_links.map((l) => `${l.label} | ${l.url}`).join("\n");
-  const body = `${studioHeader("blygg studio — settings")}
+  const body = `${studioHeader("blygg studio — settings", normalizeMount(c.env.MOUNT))}
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a></nav>
 <form class="settings-form" id="settings-form">
 <label for="site_title">Site title</label>
@@ -395,11 +395,12 @@ studio.get("/edit/:id", async (c) => {
   const item = await getItem(c.env.DB, c.req.param("id"));
   if (!item) return c.notFound();
   const kind = await authoredKind(c.env.DB, item);
-  if (kind === "thread") return c.html(await threadEditPage(c.env.DB, item));
-  return c.html(await fragmentEditPage(c.env.DB, item));
+  const mount = normalizeMount(c.env.MOUNT);
+  if (kind === "thread") return c.html(await threadEditPage(c.env.DB, item, mount));
+  return c.html(await fragmentEditPage(c.env.DB, item, mount));
 });
 
-async function fragmentEditPage(db: D1Database, item: ItemRow): Promise<string> {
+async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const media = await listMediaForItem(db, item.id);
   const versions = await listVersions(db, item.id);
   const previewHtml = renderMarkdown(item.content_md);
@@ -426,8 +427,8 @@ async function fragmentEditPage(db: D1Database, item: ItemRow): Promise<string> 
         ? `<button type="button" class="primary" data-action="republish" data-id="${item.id}">republish</button>`
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
-  const body = `${studioHeader(`blygg studio — editing ${escapeHtml(item.id.slice(0, 8))}…`)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a> <a href="/blygg/f/${item.id}/" target="_blank">permalink ↗</a></nav>
+  const body = `${studioHeader(`blygg studio — editing ${escapeHtml(item.id.slice(0, 8))}…`, mount)}
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div class="split">
 <div class="pane">
 <h2>markdown</h2>
@@ -504,7 +505,7 @@ document.getElementById("attach-btn").addEventListener("click", () => {
   return studioLayout(`editing — blygg studio`, body, true);
 }
 
-async function threadEditPage(db: D1Database, item: ItemRow): Promise<string> {
+async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const media = await listMediaForItem(db, item.id);
   const versions = await listVersions(db, item.id);
   const preview = await previewTransclusions(db, item.content_md);
@@ -531,8 +532,8 @@ async function threadEditPage(db: D1Database, item: ItemRow): Promise<string> {
         ? `<button type="button" class="primary" data-action="republish" data-id="${item.id}">republish</button>`
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
-  const body = `${studioHeader("blygg studio — editing thread")}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a> <a href="/blygg/t/${item.id}/" target="_blank">permalink ↗</a></nav>
+  const body = `${studioHeader("blygg studio — editing thread", mount)}
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
 <div class="panes">
 <div class="pane" style="position:relative;">

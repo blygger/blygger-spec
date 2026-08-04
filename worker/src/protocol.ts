@@ -16,10 +16,14 @@ import type { ItemRow, Settings, Transclusion, VersionRow } from "./types.ts";
 import { BRAND, FEED_WINDOW, GENERATOR, PROTOCOL_LEVEL, PROTOCOL_VERSION } from "./types.ts";
 import { absolutizeHtml, cdata, escapeXml, rfc822 } from "./util.ts";
 
-/** Canonical origin for this deployment, always ending in /blygg/. */
-export function siteOrigin(settings: Settings, requestUrl: string): string {
+/**
+ * Canonical origin for this deployment — the blygg's base URL, always ending
+ * in "/". settings.site_url wins when set; otherwise derived from the request
+ * origin + the deployment mount (decision #14: "" mount = domain root).
+ */
+export function siteOrigin(settings: Settings, requestUrl: string, mount: string): string {
   if (settings.site_url) return settings.site_url.endsWith("/") ? settings.site_url : settings.site_url + "/";
-  return new URL(requestUrl).origin + "/blygg/";
+  return new URL(requestUrl).origin + mount + "/";
 }
 
 function author(settings: Settings, origin: string) {
@@ -136,6 +140,9 @@ function latestTransclusions(latest: VersionRow | null): Transclusion[] {
 export async function buildFeedXml(db: D1Database, settings: Settings, origin: string): Promise<string> {
   const events = await feedEvents(db, FEED_WINDOW);
   const built = await lastUpdated(db);
+  // Root-relative path of the canonical origin ("" for a root mount) — keeps
+  // injected provenance links consistent with `origin` after absolutizeHtml.
+  const originPath = new URL(origin).pathname.replace(/\/$/, "");
   const itemsXml: string[] = [];
   // Per §2.3, only the latest version's content is published — feed entries
   // for older publish events carry the event's version/note but render the
@@ -146,7 +153,7 @@ export async function buildFeedXml(db: D1Database, settings: Settings, origin: s
     const latestMd = latest?.content_md ?? "";
     const isThread = isWithdrawn ? (await authoredKind(db, item)) === "thread" : item.kind === "thread";
     const rawHtml = latest?.content_html ?? "";
-    let html = isWithdrawn ? "" : absolutizeHtml(isThread ? injectProvenance(rawHtml, latestTransclusions(latest)) : rawHtml, origin);
+    let html = isWithdrawn ? "" : absolutizeHtml(isThread ? injectProvenance(rawHtml, latestTransclusions(latest), originPath) : rawHtml, origin);
     if (!isWithdrawn) {
       for (const m of await listMediaForItem(db, item.id)) {
         html += `<p><img src="${origin}${m.r2_key}" alt="${escapeXml(m.alt ?? "")}"></p>`;

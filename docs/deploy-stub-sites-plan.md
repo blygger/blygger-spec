@@ -5,6 +5,18 @@ brand rename and the `blygger-protocol/` scaffolding (`blygger-org/`, `blygger-c
 repos created as empty stubs). Sonnet-safe to execute — infra/deployment work, not
 protocol semantics; nothing here touches `docs/v0.1-plan.md`'s normative shapes.
 
+> **Session 8 amendments (read before executing):** (1) The default mount is now
+> **`/blyg`**, configurable per deployment via the `MOUNT` wrangler var (decision
+> #14, plan task 17) — read every `/blygg/*` route pattern and URL below as
+> `/blyg/*`, and set `MOUNT` per environment. (2) **Deploy targets changed:** the
+> first two-node test network goes to `venkateshrao.com/blyg/` and
+> `protocol-institute.com/blyg/` (Venkat, session 8), not the org/com pair;
+> blygger.org is the spec/docs home (separate agent building its site) and
+> blygger.com stays reserved. This plan's architecture — Workers Routes over a
+> Pages catch-all, per-site Wrangler environments with independent D1/R2/secrets
+> — applies unchanged to the new domains; `venkateshrao.com` DNS is already on
+> Cloudflare (see `venkateshrao-cloudflare/`), shortening the §3 long pole.
+
 ## 1. Goal
 
 Both `blygger.org` and `blygger.com` get:

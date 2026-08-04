@@ -11,13 +11,20 @@ constant and had to be (or still need to be) changed by hand.
 ## What the `BRAND` constant covers (automatic — see `worker/src/types.ts`)
 
 `BRAND = { name: "blygger", slug: "blygg", nsUri: "https://blygger.org/ns/0.1" }`
-drives: URL path prefix (`/blygg/`), manifest filename (`blygg.json`), JSON
-version key (`"blygg": "0.1"`), GUID scheme (`blygg:{id}:v{n}`), XML namespace
-prefix + `blygg:*` element names, `GENERATOR` string, and (via a literal
-`blygg-`/`.blygg` value applied directly rather than re-imported at every
-call site — see *Scope trim* below) CSS class prefix and cookie name.
-`PROTOCOL_VERSION`/`PROTOCOL_LEVEL` are brand-neutral and untouched by a
-rename.
+drives: manifest filename (`blygg.json`), JSON version key (`"blygg": "0.1"`),
+GUID scheme (`blygg:{id}:v{n}`), XML namespace prefix + `blygg:*` element
+names, `GENERATOR` string, and (via a literal `blygg-`/`.blygg` value applied
+directly rather than re-imported at every call site — see *Scope trim* below)
+CSS class prefix and cookie name. `PROTOCOL_VERSION`/`PROTOCOL_LEVEL` are
+brand-neutral and untouched by a rename.
+
+**Amendment (session 8, locked decision #14):** the URL path prefix is no
+longer brand-derived at all. The *mount* is deployment config — `Env.MOUNT`
+wrangler var, default `DEFAULT_MOUNT = "/blyg"` in `types.ts`, `""` = domain
+root — threaded through routing and link generation as a parameter, never a
+literal. A future rename touches wire tokens only; the mount renames with a
+one-line config edit per deployment (which also retires the session-6
+`ygg`-inside-`blygg` sed hazard for paths).
 
 **Scope trim from the original task-16 wording (recorded, not silent):**
 the plan's acceptance check was "change the brand constant to `zzz`, full

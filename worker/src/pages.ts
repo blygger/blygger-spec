@@ -56,15 +56,15 @@ ul.archive .meta { font-size: 0.85rem; opacity: 0.7; margin-left: 0.5rem; }
 footer.older { text-align: center; padding: 1rem 0; }
 `;
 
-export function layout(title: string, body: string): string {
+export function layout(title: string, body: string, mount: string): string {
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
-<link rel="stylesheet" href="/blygg/style.css">
-<link rel="alternate" type="application/rss+xml" href="/blygg/feed.xml">
+<link rel="stylesheet" href="${mount}/style.css">
+<link rel="alternate" type="application/rss+xml" href="${mount}/feed.xml">
 </head>
 <body>
 ${body}
@@ -80,10 +80,10 @@ ${body}
  * studio settings, not on this page. "Home" is a placeholder link for the
  * standalone deployment; an embedding host page supplies its own.
  */
-function pageHeader(): string {
+function pageHeader(mount: string): string {
   return `<header class="blygg-header">
 <a href="/">Home</a>
-<a href="/blygg/feed.xml" title="RSS feed">RSS ⧉</a>
+<a href="${mount}/feed.xml" title="RSS feed">RSS ⧉</a>
 </header>`;
 }
 
@@ -119,29 +119,29 @@ ${noteHtml}
 </p>`;
 }
 
-function permalinkLink(id: string, isThread: boolean): string {
-  return `<p><a class="permalink" href="/blygg/${isThread ? "t" : "f"}/${id}/">Permalink</a></p>`;
+function permalinkLink(id: string, isThread: boolean, mount: string): string {
+  return `<p><a class="permalink" href="${mount}/${isThread ? "t" : "f"}/${id}/">Permalink</a></p>`;
 }
 
-function mediaHtml(media: MediaRow[]): string {
+function mediaHtml(media: MediaRow[], mount: string): string {
   return media
-    .map((m) => `<p><img src="/blygg/${m.r2_key}" alt="${escapeHtml(m.alt ?? "")}" loading="lazy"></p>`)
+    .map((m) => `<p><img src="${mount}/${m.r2_key}" alt="${escapeHtml(m.alt ?? "")}" loading="lazy"></p>`)
     .join("\n");
 }
 
-export function renderFragment(item: ItemRow, contentHtml: string, media: MediaRow[], note: string | null): string {
+export function renderFragment(item: ItemRow, contentHtml: string, media: MediaRow[], note: string | null, mount: string): string {
   return `<article class="fragment">
 ${contentHtml}
-${mediaHtml(media)}
+${mediaHtml(media, mount)}
 ${itemMeta(item, note)}
-${permalinkLink(item.id, false)}
+${permalinkLink(item.id, false, mount)}
 </article>`;
 }
 
-async function fragmentBlock(db: D1Database, item: ItemRow): Promise<string> {
+async function fragmentBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const latest = await publishedVersion(db, item);
   const media = await listMediaForItem(db, item.id);
-  return renderFragment(item, latest?.content_html ?? "", media, latest?.note ?? null);
+  return renderFragment(item, latest?.content_html ?? "", media, latest?.note ?? null, mount);
 }
 
 /**
@@ -149,14 +149,14 @@ async function fragmentBlock(db: D1Database, item: ItemRow): Promise<string> {
  * Presentation only — this is never stored in the protocol content_html
  * (§2.9 specifies only the blockquote + data attributes as baked content).
  */
-export function injectProvenance(html: string, transclusions: Transclusion[]): string {
+export function injectProvenance(html: string, transclusions: Transclusion[], mount: string): string {
   let i = 0;
   return html.replace(
     /(<blockquote class="blygg-transclusion"[^>]*>)([\s\S]*?)(<\/blockquote>)/g,
     (_m, open: string, inner: string, close: string) => {
       const t = transclusions[i++];
       const provenance = t
-        ? `<p class="provenance"><a href="/blygg/f/${t.id}/">fragment ↗</a> · snapshot of v${t.version}</p>`
+        ? `<p class="provenance"><a href="${mount}/f/${t.id}/">fragment ↗</a> · snapshot of v${t.version}</p>`
         : "";
       return `${open}${inner}\n${provenance}${close}`;
     },
@@ -168,25 +168,25 @@ function parseTransclusions(json: string | null | undefined): Transclusion[] {
   return JSON.parse(json) as Transclusion[];
 }
 
-async function threadCard(db: D1Database, item: ItemRow): Promise<string> {
+async function threadCard(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const latest = await publishedVersion(db, item);
   const html = latest?.content_html ?? "";
   return `<article class="fragment thread-card">
 <p><span class="kind-chip">thread</span> ${escapeHtml(excerptFromHtml(html, 300))}</p>
-<p><a href="/blygg/t/${item.id}/">read the thread →</a></p>
+<p><a href="${mount}/t/${item.id}/">read the thread →</a></p>
 ${itemMeta(item, latest?.note ?? null)}
 </article>`;
 }
 
-async function threadBlock(db: D1Database, item: ItemRow): Promise<string> {
+async function threadBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const latest = await publishedVersion(db, item);
-  const html = injectProvenance(latest?.content_html ?? "", parseTransclusions(latest?.transclusions));
+  const html = injectProvenance(latest?.content_html ?? "", parseTransclusions(latest?.transclusions), mount);
   const media = await listMediaForItem(db, item.id);
   return `<article class="thread">
 ${html}
-${mediaHtml(media)}
+${mediaHtml(media, mount)}
 ${itemMeta(item, latest?.note ?? null)}
-${permalinkLink(item.id, true)}
+${permalinkLink(item.id, true, mount)}
 </article>`;
 }
 
@@ -196,47 +196,47 @@ ${itemMeta(item, null)}
 </article>`;
 }
 
-export async function feedPage(db: D1Database, settings: Settings, items: ItemRow[], hasMore: boolean): Promise<string> {
+export async function feedPage(db: D1Database, settings: Settings, items: ItemRow[], hasMore: boolean, mount: string): Promise<string> {
   const blocks: string[] = [];
   for (const item of items) {
     // Withdrawn items don't appear on the feed page (rev-3 wireframe note) —
     // they still live in the archive listing and their permanent endcap URLs.
-    if (item.kind === "fragment") blocks.push(await fragmentBlock(db, item));
-    else if (item.kind === "thread") blocks.push(await threadCard(db, item));
+    if (item.kind === "fragment") blocks.push(await fragmentBlock(db, item, mount));
+    else if (item.kind === "thread") blocks.push(await threadCard(db, item, mount));
   }
   const body = `<div class="blygg">
-${pageHeader()}
+${pageHeader(mount)}
 ${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
-${hasMore ? '<footer class="older"><a href="/blygg/archive/">older items →</a></footer>' : ""}
+${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</a></footer>` : ""}
 </div>`;
-  return layout(settings.site_title, body);
+  return layout(settings.site_title, body, mount);
 }
 
 /** Fragment permalink page — caller (index.ts) 404s if the item's authored kind isn't fragment. */
-export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow): Promise<string> {
+export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blygg">\n${pageHeader()}\n${withdrawnBlock(item)}\n</div>`);
+    return layout(`withdrawn — ${settings.site_title}`, `<div class="blygg">\n${pageHeader(mount)}\n${withdrawnBlock(item)}\n</div>`, mount);
   }
   const body = `<div class="blygg">
-${pageHeader()}
-${await fragmentBlock(db, item)}
+${pageHeader(mount)}
+${await fragmentBlock(db, item, mount)}
 </div>`;
-  return layout(settings.site_title, body);
+  return layout(settings.site_title, body, mount);
 }
 
 /** Thread permalink page (§2.9) — caller (index.ts) 404s if the item's authored kind isn't thread. */
-export async function threadPage(db: D1Database, settings: Settings, item: ItemRow): Promise<string> {
+export async function threadPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blygg">\n${pageHeader()}\n${withdrawnBlock(item)}\n</div>`);
+    return layout(`withdrawn — ${settings.site_title}`, `<div class="blygg">\n${pageHeader(mount)}\n${withdrawnBlock(item)}\n</div>`, mount);
   }
   const body = `<div class="blygg">
-${pageHeader()}
-${await threadBlock(db, item)}
+${pageHeader(mount)}
+${await threadBlock(db, item, mount)}
 </div>`;
-  return layout(settings.site_title, body);
+  return layout(settings.site_title, body, mount);
 }
 
-export async function archivePage(db: D1Database, settings: Settings, items: ItemRow[]): Promise<string> {
+export async function archivePage(db: D1Database, settings: Settings, items: ItemRow[], mount: string): Promise<string> {
   const rows: string[] = [];
   for (const item of items) {
     if (item.kind === "withdrawn") {
@@ -246,17 +246,17 @@ export async function archivePage(db: D1Database, settings: Settings, items: Ite
     const isThread = item.kind === "thread";
     const latest = await publishedVersion(db, item);
     const text = excerptFromHtml(latest?.content_html ?? "", 80);
-    const href = `/blygg/${isThread ? "t" : "f"}/${item.id}/`;
+    const href = `${mount}/${isThread ? "t" : "f"}/${item.id}/`;
     rows.push(
       `<li>${isThread ? '<span class="kind-chip">thread</span> ' : ""}<a href="${href}">${escapeHtml(text)}</a><span class="meta">${item.updated.slice(0, 10)} · v${item.version}</span></li>`,
     );
   }
   const body = `<div class="blygg">
-${pageHeader()}
+${pageHeader(mount)}
 <h2>Archive</h2>
 <ul class="archive">
 ${rows.join("\n")}
 </ul>
 </div>`;
-  return layout(`archive — ${settings.site_title}`, body);
+  return layout(`archive — ${settings.site_title}`, body, mount);
 }

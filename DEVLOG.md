@@ -7,6 +7,79 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 8 — 2026-08-04 — Mount independence (decision #14); /blyg default; spec-publishing model (#15)
+**Model:** Fable 5 (orientation + two-node distance analysis ran on Opus 5 before Venkat switched via `/model`) · **Time:** ~12:24–13:25 PT · **Committed:** yes · **Deployed:** —
+
+**What & why:** Venkat wants a two-node test deploy network ASAP —
+`venkateshrao.com` + `protocol-institute.com` (typo correction: the site
+agent is building blygger.**org**, not .net; .com held in reserve). That
+reframed the session: distance-to-network analysis (milestone A: two
+publishing nodes = task 11 twice, code-complete; milestone B: nodes following
+each other = v0.2, no subscribe code exists), then two protocol questions —
+configurable mount, root-domain serving — answered and implemented.
+
+**Decision #14 — mount independence (locked):** origin = any absolute base
+URL (root, path, subdomain); surface strictly origin-relative; readers MUST
+NOT infer anything from the mount. **Wire vocabulary formally split from
+deployment lexicon:** `blygg.json`, `"blygg"` version key, `blygg:`
+GUID/XML elements are protocol-permanent; the mount is per-deployment config
+with reference default **`/blyg`** (Venkat's call, reversing Fable-as-Opus's
+earlier keep-`/blygg` recommendation — the path/wire asymmetry
+`/blyg/blygg.json` is now deliberate signal that the path is the deployer's
+and the filename is the protocol's; the fixed filename is the discovery
+anchor). Root mount = empty mount, first-class. Consequence: v0.2
+autodiscovery may not probe a fixed path — roadmap line rewritten
+(treat-URL-as-origin + `<link rel="blygg">` + conventional-mount fallback;
+mechanics stay ⚠️ FABLE in the v0.2 plan). Amended #1/#13's incidental
+`/blygg/` mentions (blogroll is origin-relative `blogroll.opml`, same logic
+as manifest).
+
+**Implementation (task 17):** `Env.MOUNT` wrangler var; `normalizeMount()`
+(unset → `/blyg`; `""`/`"/"` → root); memoized `makeApp(mount)` factory —
+public surface is a mount-relative Hono sub-app; `/studio`/`/api` stay
+host-rooted, registered *before* the sub-app so its cache middleware can't
+wrap them at root mount. Mount threaded through pages/studio link generation
++ `siteOrigin` fallback; feed provenance links derive from the canonical
+origin's own path (stays correct when `site_url` overrides the serving
+mount). Retires task 16's slug-drives-path conflation (RENAME.md amended —
+also kills the `ygg`-substring sed hazard for paths). ✓ `tsc` clean, 67/67
+green (58 migrated to `/blyg` + new `mount.test.ts`: root + multi-segment
+mounts via `app.request` with real pool bindings; old default 404s;
+`normalizeMount` units). Spec §1/§2/§4 + examples updated; plan §2–3
+reworded with task-16 history left verbatim; deploy-stub-sites-plan got an
+amendment banner (mount `/blyg`, targets now venkateshrao.com +
+protocol-institute.com; org/com pair superseded as first deploy).
+
+**Decision #15 — spec publishing model (locked):** blygger.org spec is
+published at semantic versioned URLs (`/spec/{v}/` latest + `/spec/{v}/{date}/`
+immutable snapshots + `/spec/` index), each snapshot paired to a
+`spec/{v}/{date}` git tag in this repo, pages footer-stamped with source
+commit; ref-impl releases (`ref-v*`) loosely coupled via stable Releases
+URLs. **Spec-as-blygg rejected** (semantic-vs-opaque URL contract; wrong
+shape for fragment primitives; normative text must not depend on the
+machinery it defines); announcements-blygg + ceremonial 1.0 pin deferred to
+v0.2+. `docs/spec-publishing-plan.md` written for Sonnet/Opus execution
+(local-first: blygger-org Pages is direct-upload via deploy.sh, not
+git-connected, so CI would deploy nothing — recorded as upgrade path).
+Finding en route: `blygger-org/deploy.sh` hardcodes a CF API token —
+verified gitignored, never committed/pushed (no incident, no rotation), but
+violates `warnings-keys.md`; fix is plan task 1. Blygger-org agent's re-sync
+of the stale spec publish copy verified landed + deployed before wrap-up.
+
+**State after:** All v0.1 build tasks done except deploy (task 11); mount
+config makes the two-node deploy a per-environment `MOUNT` var. Spec draft
+now carries the mounting language and `/blyg` examples; blygger.org serves a
+current copy. Two plan docs queued for cheaper models: spec-publishing
+(unblocked) and the amended stub-sites deploy plan.
+
+**Open threads:** task 11 → two-node deploy (`venkateshrao.com/blyg/` +
+`protocol-institute.com/blyg/`; DNS for protocol-institute.com is the long
+pole — venkateshrao.com is already on Cloudflare); execute
+spec-publishing-plan incl. deploy.sh token fix, then cut spec snapshot №1;
+v0.2 plan doc (⚠️ FABLE: importer state machine + autodiscovery mechanics
+per #14); Venkat's review of the L1 spec normativization calls still
+pending; feed-flake + scrubber fast-follows unchanged.
+
 ## Session 7 — 2026-08-03 — Curation/discovery decisions; L1 spec drafted; blygger.org content
 **Model:** Fable 5 (state check ran on Opus 4.8 before Venkat switched via `/model`) · **Time:** ~11:00–11:50 PT · **Committed:** yes (2 repos) · **Deployed:** —
 
@@ -74,6 +147,10 @@ overview's public voice ("No replies. Ever."; TK as flagship) before deploy;
 webmention mechanics (retry/dedupe/endpoint shape/rate limits) are a v0.3
 ⚠️ FABLE item; blogroll OPML shape goes in the v0.2 plan doc; task 11 +
 stub-site deploys unchanged; feed-flake + scrubber fast-follows unchanged.
+
+## Session 6 — 2026-07-24 — Rename ygg → blygger; 3-repo container; stub-site deploy plan
+*(Heading restored session 8 — the entry below was committed without it, visually merging into session 7's. Content untouched.)*
+
 **Model:** Sonnet 5 · **Time:** ~17:30–18:00 PT · **Committed:** yes (3 repos) · **Deployed:** —
 
 **What & why:** Venkat made the brand decision session 3 flagged: protocol renamed

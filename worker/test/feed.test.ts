@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { apiJson, createAndPublish, getPublic, login } from "./helpers.ts";
 
 async function fetchFeed(): Promise<string> {
-  const res = await getPublic("/blygg/feed.xml");
+  const res = await getPublic("/blyg/feed.xml");
   expect(res.status).toBe(200);
   expect(res.headers.get("content-type")).toContain("application/rss+xml");
   return res.text();
@@ -26,11 +26,11 @@ describe("feed.xml (§2.6)", () => {
     expect(doc.rss["@_xmlns:blygg"]).toBe("https://blygger.org/ns/0.1");
     const ch = doc.rss.channel;
     expect(ch.title).toBe("Venkat's blygg");
-    expect(ch.link).toBe("https://example.com/blygg/");
+    expect(ch.link).toBe("https://example.com/blyg/");
     expect(ch.description).toBe("a bio");
     expect(new Date(ch.lastBuildDate).toString()).not.toBe("Invalid Date");
     expect(ch["blygg:level"]).toBe(1);
-    expect(ch["blygg:manifest"]).toBe("https://example.com/blygg/blygg.json");
+    expect(ch["blygg:manifest"]).toBe("https://example.com/blyg/blygg.json");
   });
 
   it("item entries carry guid, link, title, pubDate, and blygg extensions", async () => {
@@ -41,14 +41,14 @@ describe("feed.xml (§2.6)", () => {
     expect(item).toBeDefined();
     expect(item.guid["#text"]).toBe(`blygg:${id}:v1`);
     expect(item.guid["@_isPermaLink"]).toBe("false");
-    expect(item.link).toBe(`https://example.com/blygg/f/${id}/`);
+    expect(item.link).toBe(`https://example.com/blyg/f/${id}/`);
     expect(item.title).toBe("first note — some bold text for the feed");
     expect(new Date(item.pubDate).toString()).not.toBe("Invalid Date");
     expect(item.description).toContain("<strong>bold</strong>");
     expect(item["blygg:kind"]).toBe("fragment");
     expect(item["blygg:version"]).toBe(1);
     expect(String(item["blygg:created"])).toMatch(/Z$/);
-    expect(item["blygg:item"]).toBe(`https://example.com/blygg/items/${id}.json`);
+    expect(item["blygg:item"]).toBe(`https://example.com/blyg/items/${id}.json`);
   });
 
   it("windows to the latest 50 publish events", async () => {

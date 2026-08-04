@@ -1,5 +1,21 @@
 // IDs, hashing, timestamps — v0.1-plan §2.1, §2.2.
 
+import { DEFAULT_MOUNT } from "./types.ts";
+
+/**
+ * Normalize the deployment mount path (Env.MOUNT): returns "" for a root
+ * mount, otherwise "/seg" or "/seg/seg" — leading slash, no trailing slash.
+ * Unset (undefined) falls back to DEFAULT_MOUNT; an explicit "" or "/" is a
+ * deliberate root mount, not an omission.
+ */
+export function normalizeMount(raw: string | undefined): string {
+  if (raw === undefined) return DEFAULT_MOUNT;
+  let m = raw.trim();
+  while (m.endsWith("/")) m = m.slice(0, -1);
+  if (m === "") return "";
+  return m.startsWith("/") ? m : "/" + m;
+}
+
 /** Crockford base32, lowercase, no i/l/o/u. */
 export const ID_ALPHABET = "0123456789abcdefghjkmnpqrstvwxyz";
 
@@ -70,8 +86,8 @@ export function cdata(s: string): string {
 }
 
 /**
- * Rewrite relative src/href attribute URLs in rendered HTML against a base
- * ending in /blygg/ — feed descriptions must be self-contained (§2.6).
+ * Rewrite relative src/href attribute URLs in rendered HTML against the
+ * blygg's base origin URL — feed descriptions must be self-contained (§2.6).
  */
 export function absolutizeHtml(html: string, base: string): string {
   const origin = new URL(base).origin;

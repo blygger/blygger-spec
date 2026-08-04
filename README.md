@@ -26,10 +26,10 @@ If nobody uses the novel features, a blygg page degrades cleanly into an ordinar
 
 ## The protocol, on one screen
 
-The normative protocol is a **static file contract** — anything that can serve these files is a conformant blygg publisher:
+The normative protocol is a **static file contract** — anything that can serve these files is a conformant blygg publisher. The directory mounts anywhere: any path (`/blyg/` is the reference default), a subdomain, or the domain root — the file names inside it never change:
 
 ```
-example.com/blygg/
+example.com/blyg/
   index.html        the feed page (human-readable)
   feed.xml          RSS 2.0 + blygg namespace — the notification plane
   blygg.json          manifest: protocol level, generator, author profile, archive index
