@@ -1,6 +1,6 @@
 // Public server-rendered pages — v0.1-plan §3.4. Rewired session 4 to the
 // rev-2/rev-3 wireframe conventions reviewed with Venkat (docs/wireframes/):
-// embeddable `.blygg`-scoped block with a bare Home+RSS header (the public
+// embeddable `.blyg`-scoped block with a bare Home+RSS header (the public
 // page's header is presumed content, not real navigation — unlike studio's),
 // Created/Most-recent timestamp lines, a version-nav scrubber, and a plain
 // "Permalink" text link (dropping the ∞ glyph). Task 8 originally shipped
@@ -11,7 +11,7 @@ import { listMediaForItem, publishedVersion } from "./model.ts";
 import type { ItemRow, MediaRow, Settings, Transclusion } from "./types.ts";
 import { escapeHtml } from "./util.ts";
 
-export const STYLE_CSS = `/* blygg v0.1 — one minimal stylesheet, no build step */
+export const STYLE_CSS = `/* blyg v0.1 — one minimal stylesheet, no build step */
 :root { color-scheme: light dark; }
 * { box-sizing: border-box; }
 body {
@@ -20,10 +20,10 @@ body {
   margin: 0 auto;
   padding: 1.5rem 1rem 4rem;
 }
-.blygg { max-width: 65ch; margin: 0 auto; }
-.blygg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
-.blygg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
-.blygg-header a:hover { text-decoration: underline; }
+.blyg { max-width: 65ch; margin: 0 auto; }
+.blyg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
+.blyg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
+.blyg-header a:hover { text-decoration: underline; }
 article.fragment, article.thread { border-top: 1px solid rgba(128,128,128,0.35); padding: 1rem 0; }
 article.fragment img, article.thread img { max-width: 100%; height: auto; }
 article.fragment p:first-child, article.thread p:first-child { margin-top: 0; }
@@ -41,13 +41,13 @@ a.permalink { font-size: 0.85rem; opacity: 0.8; }
 .withdrawn { opacity: 0.7; font-style: italic; }
 .kind-chip { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.05rem 0.35rem; opacity: 0.75; vertical-align: middle; }
 .thread-card p:first-child { margin-bottom: 0.3rem; }
-blockquote.blygg-transclusion {
+blockquote.blyg-transclusion {
   margin: 1.25rem 0; padding: 0.75rem 1rem;
   border-left: 3px solid rgba(128,128,128,0.55);
   background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0;
 }
-blockquote.blygg-transclusion p:first-child { margin-top: 0; }
-blockquote.blygg-transclusion p:last-of-type { margin-bottom: 0.25rem; }
+blockquote.blyg-transclusion p:first-child { margin-top: 0; }
+blockquote.blyg-transclusion p:last-of-type { margin-bottom: 0.25rem; }
 .provenance { font-size: 0.78rem; opacity: 0.65; margin: 0.4rem 0 0; }
 .provenance a { text-decoration: none; }
 ul.archive { list-style: none; padding: 0; }
@@ -81,7 +81,7 @@ ${body}
  * standalone deployment; an embedding host page supplies its own.
  */
 function pageHeader(mount: string): string {
-  return `<header class="blygg-header">
+  return `<header class="blyg-header">
 <a href="/">Home</a>
 <a href="${mount}/feed.xml" title="RSS feed">RSS ⧉</a>
 </header>`;
@@ -152,7 +152,7 @@ async function fragmentBlock(db: D1Database, item: ItemRow, mount: string): Prom
 export function injectProvenance(html: string, transclusions: Transclusion[], mount: string): string {
   let i = 0;
   return html.replace(
-    /(<blockquote class="blygg-transclusion"[^>]*>)([\s\S]*?)(<\/blockquote>)/g,
+    /(<blockquote class="blyg-transclusion"[^>]*>)([\s\S]*?)(<\/blockquote>)/g,
     (_m, open: string, inner: string, close: string) => {
       const t = transclusions[i++];
       const provenance = t
@@ -204,7 +204,7 @@ export async function feedPage(db: D1Database, settings: Settings, items: ItemRo
     if (item.kind === "fragment") blocks.push(await fragmentBlock(db, item, mount));
     else if (item.kind === "thread") blocks.push(await threadCard(db, item, mount));
   }
-  const body = `<div class="blygg">
+  const body = `<div class="blyg">
 ${pageHeader(mount)}
 ${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
 ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</a></footer>` : ""}
@@ -215,9 +215,9 @@ ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</
 /** Fragment permalink page — caller (index.ts) 404s if the item's authored kind isn't fragment. */
 export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blygg">\n${pageHeader(mount)}\n${withdrawnBlock(item)}\n</div>`, mount);
+    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(mount)}\n${withdrawnBlock(item)}\n</div>`, mount);
   }
-  const body = `<div class="blygg">
+  const body = `<div class="blyg">
 ${pageHeader(mount)}
 ${await fragmentBlock(db, item, mount)}
 </div>`;
@@ -227,9 +227,9 @@ ${await fragmentBlock(db, item, mount)}
 /** Thread permalink page (§2.9) — caller (index.ts) 404s if the item's authored kind isn't thread. */
 export async function threadPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blygg">\n${pageHeader(mount)}\n${withdrawnBlock(item)}\n</div>`, mount);
+    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(mount)}\n${withdrawnBlock(item)}\n</div>`, mount);
   }
-  const body = `<div class="blygg">
+  const body = `<div class="blyg">
 ${pageHeader(mount)}
 ${await threadBlock(db, item, mount)}
 </div>`;
@@ -251,7 +251,7 @@ export async function archivePage(db: D1Database, settings: Settings, items: Ite
       `<li>${isThread ? '<span class="kind-chip">thread</span> ' : ""}<a href="${href}">${escapeHtml(text)}</a><span class="meta">${item.updated.slice(0, 10)} · v${item.version}</span></li>`,
     );
   }
-  const body = `<div class="blygg">
+  const body = `<div class="blyg">
 ${pageHeader(mount)}
 <h2>Archive</h2>
 <ul class="archive">

@@ -1,5 +1,5 @@
 // Static export (v0.1-plan §3.5): fetch every public route from a running
-// blygg instance and write the byte-identical file tree — proves the page is
+// blyg instance and write the byte-identical file tree — proves the page is
 // servable from a dumb file host (invariant 4).
 //
 //   npm run export -- --out DIR --base https://example.com/blyg/
@@ -37,7 +37,7 @@ async function save(route: string, file: string): Promise<Uint8Array> {
 await save("", "index.html");
 await save("style.css", "style.css");
 await save("feed.xml", "feed.xml");
-await save("blygg.json", "blygg.json");
+await save("blyg.json", "blyg.json");
 await save("archive/", "archive/index.html");
 const indexBytes = await save("items/index.json", "items/index.json");
 

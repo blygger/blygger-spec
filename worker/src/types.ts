@@ -79,13 +79,13 @@ export interface Settings {
  * Session 8 (locked decision #14) split the *mount* — where under a domain
  * the public surface lives — out of the slug: the mount is deployment config
  * (Env.MOUNT, default DEFAULT_MOUNT below), freely assignable including ""
- * (domain root). `/blyg/blygg.json` is the intended asymmetry: the path is
+ * (domain root). `/blyg/blyg.json` is the intended asymmetry: the path is
  * the deployer's, the filename is the protocol's. Config files that can't
  * import this (wrangler.jsonc, package.json) are listed in RENAME.md.
  */
 export const BRAND = {
   name: "blygger",
-  slug: "blygg",
+  slug: "blyg",
   /** Protocol XML namespace URI. Permanent once v0.2 ships importers (v0.1-plan.md §7). */
   nsUri: "https://blygger.org/ns/0.1",
 } as const;

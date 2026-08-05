@@ -8,11 +8,11 @@ Named for Yggdrasil, the world-tree — the resemblance is what prompted the ses
 
 ## The idea
 
-Blygger is a network of single-author pages. Each author publishes a `/blygg` directory on their own domain (e.g. `example.com/blygg`). It hosts two kinds of writing: tweet-sized atomic **fragments**, and essay-like **threads** composed out of fragments — partly by hand, partly by an AI summarization-transclusion operator. Everything is editable forever; the feed is effectively a changelog, with items resurfacing when they're updated, always presented as rolled-up latest versions rather than diffs.
+Blygger is a network of single-author pages. Each author publishes a `/blyg` directory on their own domain (e.g. `example.com/blyg`). It hosts two kinds of writing: tweet-sized atomic **fragments**, and essay-like **threads** composed out of fragments — partly by hand, partly by an AI summarization-transclusion operator. Everything is editable forever; the feed is effectively a changelog, with items resurfacing when they're updated, always presented as rolled-up latest versions rather than diffs.
 
-Readers are other blygg clients. You subscribe to other people's feeds over RSS, triage what arrives into private **hoppers**, and respond — if you respond at all — by **stubbing**: publishing your own derived thread that points at the original. There are no replies, no public likes, no discovery layer, no servers, no instances. It's a network of soapboxes, traversed like old-school blogrolls.
+Readers are other blyg clients. You subscribe to other people's feeds over RSS, triage what arrives into private **hoppers**, and respond — if you respond at all — by **stubbing**: publishing your own derived thread that points at the original. There are no replies, no public likes, no discovery layer, no servers, no instances. It's a network of soapboxes, traversed like old-school blogrolls.
 
-If nobody uses the novel features, a blygg page degrades cleanly into an ordinary microblog with an RSS feed — and that's by design.
+If nobody uses the novel features, a blyg page degrades cleanly into an ordinary microblog with an RSS feed — and that's by design.
 
 ## Core objects
 
@@ -26,13 +26,13 @@ If nobody uses the novel features, a blygg page degrades cleanly into an ordinar
 
 ## The protocol, on one screen
 
-The normative protocol is a **static file contract** — anything that can serve these files is a conformant blygg publisher. The directory mounts anywhere: any path (`/blyg/` is the reference default), a subdomain, or the domain root — the file names inside it never change:
+The normative protocol is a **static file contract** — anything that can serve these files is a conformant blyg publisher. The directory mounts anywhere: any path (`/blyg/` is the reference default), a subdomain, or the domain root — the file names inside it never change:
 
 ```
 example.com/blyg/
   index.html        the feed page (human-readable)
-  feed.xml          RSS 2.0 + blygg namespace — the notification plane
-  blygg.json          manifest: protocol level, generator, author profile, archive index
+  feed.xml          RSS 2.0 + blyg namespace — the notification plane
+  blyg.json          manifest: protocol level, generator, author profile, archive index
   items/{id}.json   canonical item state — the data plane; one file per item, full archive
   f/{id}/           fragment permalink page
   t/{id}/           thread permalink page
@@ -46,7 +46,7 @@ Two planes, deliberately separated:
 
 Three compatibility rules keep the client ecology forgiving:
 
-1. **Every blygg feed is a valid RSS feed**, and every item carries a self-contained HTML rendering. A plain RSS reader sees a normal microblog feed.
+1. **Every blyg feed is a valid RSS feed**, and every item carries a self-contained HTML rendering. A plain RSS reader sees a normal microblog feed.
 2. **Clients ignore what they don't understand.** Protocol levels are strict supersets; a lagging client reading an advanced feed sees sensible content, always.
 3. **AI is never in the protocol.** TK generation happens author-side at composition time; the published page carries only output plus provenance links. Readers need no models and no keys.
 
@@ -63,8 +63,8 @@ Three compatibility rules keep the client ecology forgiving:
 
 | Version | Name | What lands |
 |---|---|---|
-| **v0.1** | Seed | Publishing: compose fragments, edit with rollup, `/blygg` page, RSS out, stable IDs, item files + manifest. Protocol L1 (publish side). |
-| **v0.2** | Roots | Subscribing: import blygg and legacy RSS feeds, remote-edit rollup, manual hoppers, thumbs signals, private drafts, backfill. Protocol L1 complete. |
+| **v0.1** | Seed | Publishing: compose fragments, edit with rollup, `/blyg` page, RSS out, stable IDs, item files + manifest. Protocol L1 (publish side). |
+| **v0.2** | Roots | Subscribing: import blyg and legacy RSS feeds, remote-edit rollup, manual hoppers, thumbs signals, private drafts, backfill. Protocol L1 complete. |
 | **v0.3** | Trunk | Threads: `[[]]` composer, literal (non-AI) transclusion, share and stub actions. Protocol L2. |
 | **v0.4** | Canopy | AI: TK-transclusion generation, staleness + regeneration, auto-hoppers, filter plugin API. No protocol change — AI is studio-side. |
 | **v0.5** | Grove | Local RAG hooks in authoring, styling system, polish. |
@@ -76,7 +76,7 @@ Three compatibility rules keep the client ecology forgiving:
 A Cloudflare Worker (with D1 for the database, R2 for media), split into two halves:
 
 - **Studio** (private, owner-only): composing, hoppers, subscriptions, signals, AI calls. Implementation-defined — the protocol doesn't constrain it.
-- **Page** (public): the `/blygg` artifact above, servable by the worker directly or exportable to any static host.
+- **Page** (public): the `/blyg` artifact above, servable by the worker directly or exportable to any static host.
 
 This split is also the multi-tenancy escape hatch: the core spec is single-*publisher* (one origin, one accountable client), not single-author — an overloaded studio can publish one conformant feed per user, or a single multiplayer feed with per-item bylines (identity is an opaque, client-asserted pass-through, never part of the protocol).
 

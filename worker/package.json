@@ -1,5 +1,5 @@
 {
-  "name": "blygg-ref",
+  "name": "blyg-ref",
   "version": "0.1.0",
   "private": true,
   "description": "Blygger v0.1 'Seed' reference client — single-publisher publish worker",

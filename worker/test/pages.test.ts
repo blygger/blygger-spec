@@ -6,13 +6,13 @@ import { apiJson, createAndPublish, getPublic, login } from "./helpers.ts";
 describe("public pages (§3.4)", () => {
   it("feed page shows header, fragment, permalink, RSS link", async () => {
     const cookie = await login();
-    await apiJson(cookie, "PUT", "/api/settings", { site_title: "Venkat's blygg" });
+    await apiJson(cookie, "PUT", "/api/settings", { site_title: "Venkat's blyg" });
     const id = await createAndPublish(cookie, "a *rendered* fragment");
     const html = await (await getPublic("/blyg/")).text();
     // Title tag carries site identity; the embeddable page body itself is
     // deliberately minimal (bare Home+RSS header, no title/bio/links) per
     // the rev-2/3 wireframe review (docs/wireframes/public.html).
-    expect(html).toContain("<title>Venkat&#39;s blygg</title>");
+    expect(html).toContain("<title>Venkat&#39;s blyg</title>");
     expect(html).toContain("<em>rendered</em>");
     expect(html).toContain("Created:");
     expect(html).toContain(`/blyg/f/${id}/`);

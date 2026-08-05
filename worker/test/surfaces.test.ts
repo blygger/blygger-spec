@@ -7,19 +7,19 @@ describe("manifest (§2.4)", () => {
   it("has the exact manifest shape", async () => {
     const cookie = await login();
     await apiJson(cookie, "PUT", "/api/settings", {
-      site_title: "Venkat's blygg",
+      site_title: "Venkat's blyg",
       author_name: "Venkatesh Rao",
       author_bio: "test bio",
       author_links: [{ label: "Home", url: "https://venkateshrao.com" }],
     });
-    const res = await getPublic("/blyg/blygg.json");
+    const res = await getPublic("/blyg/blyg.json");
     expect(res.status).toBe(200);
     const m = await res.json<any>();
-    expect(m.blygg).toBe("0.1");
+    expect(m.blyg).toBe("0.1");
     expect(m.level).toBe(1);
-    expect(m.generator).toBe("blygg-ref/0.1.0");
+    expect(m.generator).toBe("blyg-ref/0.1.0");
     expect(m.site).toBe("https://example.com/blyg/");
-    expect(m.title).toBe("Venkat's blygg");
+    expect(m.title).toBe("Venkat's blyg");
     expect(m.author.name).toBe("Venkatesh Rao");
     expect(m.author.bio).toBe("test bio");
     expect(m.author.links).toEqual([{ label: "Home", url: "https://venkateshrao.com" }]);
@@ -55,7 +55,7 @@ describe("CORS + timestamps", () => {
   it("serves permissive CORS on all public JSON/XML surfaces", async () => {
     const cookie = await login();
     const id = await createAndPublish(cookie, "cors check");
-    for (const path of ["/blyg/blygg.json", "/blyg/items/index.json", "/blyg/feed.xml", `/blyg/items/${id}.json`]) {
+    for (const path of ["/blyg/blyg.json", "/blyg/items/index.json", "/blyg/feed.xml", `/blyg/items/${id}.json`]) {
       const res = await getPublic(path);
       expect(res.headers.get("access-control-allow-origin"), path).toBe("*");
     }
@@ -76,7 +76,7 @@ describe("CORS + timestamps", () => {
   });
 
   it("public routes carry cache headers", async () => {
-    const res = await getPublic("/blyg/blygg.json");
+    const res = await getPublic("/blyg/blyg.json");
     expect(res.headers.get("cache-control")).toBe("public, max-age=60");
   });
 });

@@ -1,7 +1,7 @@
 # Spec publishing plan — keeping blygger.org/spec/ current
 
 **Status:** PLAN, not executed. Written session 8 (2026-08-04, Fable) after the
-spec-as-blygg question was decided (see §1). **Sonnet/Opus-safe to execute in
+spec-as-blyg question was decided (see §1). **Sonnet/Opus-safe to execute in
 full** — scripting and site plumbing, no protocol semantics. The one ⚠️ FABLE
 boundary: do not change the URL scheme, the snapshot/tag convention, or the
 source-of-truth direction (§2) — those are the decision; everything else here
@@ -13,15 +13,15 @@ starting, confirm it has wrapped and `git status` there is clean.
 
 ## 1. Decision being implemented (record)
 
-The spec is **not** published as an evolving blygg. Three reasons, recorded so
+The spec is **not** published as an evolving blyg. Three reasons, recorded so
 it isn't relitigated: (a) spec URLs must be semantic and citable
-(`/spec/0.1/`), blygg item URLs are deliberately identity-opaque (`t/{id}/`);
+(`/spec/0.1/`), blyg item URLs are deliberately identity-opaque (`t/{id}/`);
 (b) a 500-line normative document is the wrong shape for fragment/thread
 primitives; (c) the normative text must be retrievable by the dumbest possible
 mechanism, not through the machinery it defines. Deferred, not rejected: a
-blygger.org *announcements* blygg (each spec revision = a fragment linking to
+blygger.org *announcements* blyg (each spec revision = a fragment linking to
 the semantic URL) once v0.2 subscribe exists, and a ceremonial pin of the
-frozen 1.0 spec text. The archive itself is never a blygg.
+frozen 1.0 spec text. The archive itself is never a blyg.
 
 Instead: W3C-/TR-style dated snapshots + git-tag coordination, below.
 
@@ -154,7 +154,7 @@ docs/protocol-v0.1.md  ── sync_spec.py ──► content/spec/0.1/index.md  
   + deploy on merge (needs the CF token as a GH secret, or moving the Pages
   project to git-connected). Worth doing when deploys stop being local-first;
   the script's modes are designed to be CI-callable unchanged.
-- **Announcements blygg** on blygger.org (v0.2+, needs subscribe to be worth
+- **Announcements blyg** on blygger.org (v0.2+, needs subscribe to be worth
   it) and the ceremonial 1.0 pin — see §1.
 - **Release automation** for the reference client (`ref-v*` tagging, GitHub
   Releases assets) — belongs to task 11 / the deploy sessions, not here. This

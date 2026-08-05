@@ -44,7 +44,7 @@ describe("feed helpers", () => {
     expect(cdata("a]]>b")).toBe("<![CDATA[a]]]]><![CDATA[>b]]>");
   });
 
-  it("absolutizes relative media URLs against the blygg base", () => {
+  it("absolutizes relative media URLs against the blyg base", () => {
     const base = "https://example.com/blyg/";
     expect(absolutizeHtml('<img src="media/x.png">', base)).toBe('<img src="https://example.com/blyg/media/x.png">');
     expect(absolutizeHtml('<a href="/blyg/f/abc/">x</a>', base)).toBe('<a href="https://example.com/blyg/f/abc/">x</a>');

@@ -67,8 +67,8 @@ button.danger { color: #c00; border-color: #c00; }
 .pane textarea { width: 100%; height: 18rem; border: none; resize: vertical; font: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9rem; line-height: 1.5; background: transparent; outline: none; }
 @media (max-width: 800px) { .split, .panes { flex-direction: column; } }
 .preview img { max-width: 100%; }
-.preview blockquote.blygg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(128,128,128,0.55); background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
-.preview blockquote.blygg-transclusion p { margin: 0 0 0.25rem; }
+.preview blockquote.blyg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(128,128,128,0.55); background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
+.preview blockquote.blyg-transclusion p { margin: 0 0 0.25rem; }
 .preview .provenance { font-size: 0.75rem; opacity: 0.65; }
 .preview .unresolved { border-left-color: #c00; background: rgba(200,0,0,0.07); color: #c00; font-style: italic; }
 .edit-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
@@ -119,8 +119,8 @@ function studioHeader(title: string, mount: string): string {
 
 function loginPage(error?: string): string {
   return studioLayout(
-    "blygg studio — login",
-    `<h1>blygg studio</h1>
+    "blyg studio — login",
+    `<h1>blyg studio</h1>
 ${error ? `<p style="color:#c00">${escapeHtml(error)}</p>` : ""}
 <form method="post" action="/studio/login">
 <p><input type="password" name="password" placeholder="password" autofocus required></p>
@@ -306,7 +306,7 @@ studio.post("/logout", (c) => {
 studio.get("/", async (c) => {
   const items = await listAll(c.env.DB);
   const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item)));
-  const body = `${studioHeader("blygg studio", normalizeMount(c.env.MOUNT))}
+  const body = `${studioHeader("blyg studio", normalizeMount(c.env.MOUNT))}
 <div class="composer">
 <textarea id="composer-text" placeholder="compose a fragment…"></textarea>
 <div class="bar">
@@ -319,13 +319,13 @@ studio.get("/", async (c) => {
 ${rows.join("\n") || "<p>Nothing yet — compose your first fragment above.</p>"}
 <script>${ACTION_SCRIPT}</script>
 <script>${COMPOSER_SCRIPT}</script>`;
-  return c.html(studioLayout("blygg studio", body));
+  return c.html(studioLayout("blyg studio", body));
 });
 
 studio.get("/settings", async (c) => {
   const settings = await getSettings(c.env.DB);
   const linksText = settings.author_links.map((l) => `${l.label} | ${l.url}`).join("\n");
-  const body = `${studioHeader("blygg studio — settings", normalizeMount(c.env.MOUNT))}
+  const body = `${studioHeader("blyg studio — settings", normalizeMount(c.env.MOUNT))}
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a></nav>
 <form class="settings-form" id="settings-form">
 <label for="site_title">Site title</label>
@@ -358,7 +358,7 @@ document.getElementById("settings-form").addEventListener("submit", async (e) =>
   if (await api("PUT", "/api/settings", body)) alert("saved");
 });
 </script>`;
-  return c.html(studioLayout("settings — blygg studio", body));
+  return c.html(studioLayout("settings — blyg studio", body));
 });
 
 /** Studio-only live preview for the fragment editor — not a protocol surface. */
@@ -427,7 +427,7 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
         ? `<button type="button" class="primary" data-action="republish" data-id="${item.id}">republish</button>`
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
-  const body = `${studioHeader(`blygg studio — editing ${escapeHtml(item.id.slice(0, 8))}…`, mount)}
+  const body = `${studioHeader(`blyg studio — editing ${escapeHtml(item.id.slice(0, 8))}…`, mount)}
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div class="split">
 <div class="pane">
@@ -502,7 +502,7 @@ document.getElementById("attach-btn").addEventListener("click", () => {
   input.click();
 });
 </script>`;
-  return studioLayout(`editing — blygg studio`, body, true);
+  return studioLayout(`editing — blyg studio`, body, true);
 }
 
 async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Promise<string> {
@@ -532,7 +532,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
         ? `<button type="button" class="primary" data-action="republish" data-id="${item.id}">republish</button>`
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
-  const body = `${studioHeader("blygg studio — editing thread", mount)}
+  const body = `${studioHeader("blyg studio — editing thread", mount)}
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
 <div class="panes">
@@ -675,5 +675,5 @@ document.getElementById("attach-btn").addEventListener("click", () => {
   input.click();
 });
 </script>`;
-  return studioLayout("editing thread — blygg studio", body, true);
+  return studioLayout("editing thread — blyg studio", body, true);
 }

@@ -2,18 +2,18 @@
   // Blygger v0.1 "Seed" reference client.
   // database_id is a placeholder until first deploy (task 11); local dev and
   // tests use miniflare's local D1 and never contact this ID.
-  "name": "blygg",
+  "name": "blyg",
   "main": "src/index.ts",
   "compatibility_date": "2026-07-01",
   // Deployment mount for the public surface (decision #14): "" = domain root,
-  // otherwise "/path". Wire filenames (blygg.json etc.) are fixed regardless.
+  // otherwise "/path". Wire filenames (blyg.json etc.) are fixed regardless.
   "vars": {
     "MOUNT": "/blyg"
   },
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "blygg",
+      "database_name": "blyg",
       "database_id": "00000000-0000-0000-0000-000000000000",
       "migrations_dir": "migrations"
     }
@@ -21,7 +21,7 @@
   "r2_buckets": [
     {
       "binding": "MEDIA",
-      "bucket_name": "blygg-media"
+      "bucket_name": "blyg-media"
     }
   ]
 }

@@ -76,7 +76,7 @@ export function makeApp(mount: string) {
     return c.body(xml, 200, { "Content-Type": "application/rss+xml; charset=utf-8" });
   });
 
-  pub.get("/blygg.json", async (c) => {
+  pub.get("/blyg.json", async (c) => {
     const settings = await getSettings(c.env.DB);
     cors(c);
     return c.json(await buildManifest(c.env.DB, settings, siteOrigin(settings, c.req.url, mount)));

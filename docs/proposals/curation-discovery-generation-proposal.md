@@ -26,7 +26,7 @@ to the origin. It is **never re-emitted as an item on the publisher's feed**.
 **Rationale (two independent reasons, either sufficient):**
 
 1. **Semantic:** re-emitting someone else's item under your origin collides with
-   the rollup contract — subscribers match by `blygg:id`, so your copy and the
+   the rollup contract — subscribers match by `blyg:id`, so your copy and the
    origin's live stream would be conflated as one item with two publishers,
    violating the session-5 single-publisher invariant and origin-scoping of
    everything (ids, authors, trust).
@@ -51,7 +51,7 @@ No reply primitive exists at any level, permanently (frozen spec item 27).
 ## 2. Discovery: two planes (ACCEPTED, both L2)
 
 Current state (correct, confirmed): there is no discovery. Subscription requires
-finding a blygg out-of-band and adding its URL; v0.2's "autodiscovery" is
+finding a blyg out-of-band and adding its URL; v0.2's "autodiscovery" is
 *resolution* (URL → manifest-or-RSS), not discovery. The frozen spec's stance —
 "no discovery as such… old school blogrolls" (item 56) — is kept as the *floor*
 and extended with two optional L2 surfaces, one per protocol plane.
@@ -60,7 +60,7 @@ and extended with two optional L2 surfaces, one per protocol plane.
 
 An optional, crawlable, curated subscription list:
 
-- **Format: OPML 2.0** at `/blygg/blogroll.opml` — reuse, don't invent; OPML is
+- **Format: OPML 2.0** at `/blyg/blogroll.opml` — reuse, don't invent; OPML is
   the existing blogroll interchange format and tooling reads it.
 - Referenced from the manifest via an optional `"blogroll"` key; publishers
   SHOULD also emit the conventional `rel="blogroll"` link on the HTML page.
@@ -100,7 +100,7 @@ spam; pingback: XML-RPC legacy).
 
 **Amendment to locked decision #1, explicitly acknowledged:** a Webmention
 receiver is the protocol's first **dynamic surface**. Resolution: it lives at
-**L2 and is optional even there**. "A blygg is just files" remains the L1 floor,
+**L2 and is optional even there**. "A blyg is just files" remains the L1 floor,
 untouched.
 
 ### 2.3 "Follow" is deliberately nothing (ACCEPTED)

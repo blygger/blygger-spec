@@ -1,6 +1,6 @@
 // Mount configurability (session 8, locked decision #14): the public surface
 // mounts at any path — including "" = domain root — as pure deployment
-// config. Wire filenames (blygg.json, feed.xml, items/…) never move relative
+// config. Wire filenames (blyg.json, feed.xml, items/…) never move relative
 // to the origin. SELF-based suites cover the default /blyg mount (vitest
 // config binding); here we build apps for other mounts via makeApp() and
 // drive them with the real test env bindings.
@@ -37,7 +37,7 @@ describe("root mount", () => {
   const app = makeApp("");
 
   it("serves the manifest at the domain root with a root origin", async () => {
-    const res = await app.request(`${HOST}/blygg.json`, {}, appEnv());
+    const res = await app.request(`${HOST}/blyg.json`, {}, appEnv());
     expect(res.status).toBe(200);
     const manifest = (await res.json()) as { site: string };
     expect(manifest.site).toBe(`${HOST}/`);
@@ -55,7 +55,7 @@ describe("root mount", () => {
   it("serves feed.xml at the root with root-origin links", async () => {
     const res = await app.request(`${HOST}/feed.xml`, {}, appEnv());
     expect(res.status).toBe(200);
-    expect(await res.text()).toContain(`<blygg:manifest>${HOST}/blygg.json</blygg:manifest>`);
+    expect(await res.text()).toContain(`<blyg:manifest>${HOST}/blyg.json</blyg:manifest>`);
   });
 
   it("keeps /studio reachable and uncached alongside the root-mounted surface", async () => {
@@ -70,11 +70,11 @@ describe("custom multi-segment mount", () => {
   const app = makeApp("/notes/b");
 
   it("serves the surface under the mount and 404s the old default", async () => {
-    const res = await app.request(`${HOST}/notes/b/blygg.json`, {}, appEnv());
+    const res = await app.request(`${HOST}/notes/b/blyg.json`, {}, appEnv());
     expect(res.status).toBe(200);
     const manifest = (await res.json()) as { site: string };
     expect(manifest.site).toBe(`${HOST}/notes/b/`);
-    expect((await app.request(`${HOST}/blyg/blygg.json`, {}, appEnv())).status).toBe(404);
+    expect((await app.request(`${HOST}/blyg/blyg.json`, {}, appEnv())).status).toBe(404);
   });
 
   it("redirects / to the mounted feed page", async () => {

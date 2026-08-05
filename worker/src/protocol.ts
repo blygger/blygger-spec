@@ -17,7 +17,7 @@ import { BRAND, FEED_WINDOW, GENERATOR, PROTOCOL_LEVEL, PROTOCOL_VERSION } from 
 import { absolutizeHtml, cdata, escapeXml, rfc822 } from "./util.ts";
 
 /**
- * Canonical origin for this deployment — the blygg's base URL, always ending
+ * Canonical origin for this deployment — the blyg's base URL, always ending
  * in "/". settings.site_url wins when set; otherwise derived from the request
  * origin + the deployment mount (decision #14: "" mount = domain root).
  */
@@ -52,7 +52,7 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
       : (JSON.parse(latest?.transclusions ?? "[]") as Transclusion[])
     : undefined;
   return {
-    blygg: PROTOCOL_VERSION,
+    blyg: PROTOCOL_VERSION,
     id: item.id,
     kind: item.kind,
     origin,
@@ -73,7 +73,7 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
 export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: VersionRow, origin: string) {
   const isThread = row.transclusions !== null;
   return {
-    blygg: PROTOCOL_VERSION,
+    blyg: PROTOCOL_VERSION,
     id: item.id,
     kind: isThread ? "thread" : "fragment",
     version: row.version,
@@ -93,7 +93,7 @@ export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: V
 export async function buildManifest(db: D1Database, settings: Settings, origin: string) {
   const avatar = settings.avatar_media_id ? `media/${settings.avatar_media_id}` : undefined;
   return {
-    blygg: PROTOCOL_VERSION,
+    blyg: PROTOCOL_VERSION,
     level: PROTOCOL_LEVEL,
     generator: GENERATOR,
     site: origin,
@@ -136,7 +136,7 @@ function latestTransclusions(latest: VersionRow | null): Transclusion[] {
   return JSON.parse(latest.transclusions) as Transclusion[];
 }
 
-/** §2.6 feed.xml: RSS 2.0 + blygg namespace, per-version GUIDs, 50-entry window. */
+/** §2.6 feed.xml: RSS 2.0 + blyg namespace, per-version GUIDs, 50-entry window. */
 export async function buildFeedXml(db: D1Database, settings: Settings, origin: string): Promise<string> {
   const events = await feedEvents(db, FEED_WINDOW);
   const built = await lastUpdated(db);
@@ -162,28 +162,28 @@ export async function buildFeedXml(db: D1Database, settings: Settings, origin: s
     const excerptText = isWithdrawn ? "" : isThread ? excerptFromHtml(rawHtml, 60) : excerpt(latestMd, 60);
     itemsXml.push(
       `    <item>
-      <guid isPermaLink="false">blygg:${item.id}:v${version.version}</guid>
+      <guid isPermaLink="false">blyg:${item.id}:v${version.version}</guid>
       <link>${origin}${isThread ? "t" : "f"}/${item.id}/</link>
       <title>${escapeXml(feedTitle(item, version.note, excerptText))}</title>
       <description>${isWithdrawn ? "" : cdata(html)}</description>
       <pubDate>${rfc822(version.published_at)}</pubDate>
-      <blygg:id>${item.id}</blygg:id>
-      <blygg:kind>${item.kind}</blygg:kind>
-      <blygg:version>${version.version}</blygg:version>
-      <blygg:created>${item.created}</blygg:created>
-      <blygg:item>${origin}items/${item.id}.json</blygg:item>
+      <blyg:id>${item.id}</blyg:id>
+      <blyg:kind>${item.kind}</blyg:kind>
+      <blyg:version>${version.version}</blyg:version>
+      <blyg:created>${item.created}</blyg:created>
+      <blyg:item>${origin}items/${item.id}.json</blyg:item>
     </item>`,
     );
   }
   return `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:blygg="${BRAND.nsUri}">
+<rss version="2.0" xmlns:blyg="${BRAND.nsUri}">
   <channel>
     <title>${escapeXml(settings.site_title)}</title>
     <link>${origin}</link>
     <description>${escapeXml(settings.author_bio)}</description>
     <lastBuildDate>${rfc822(built)}</lastBuildDate>
-    <blygg:level>${PROTOCOL_LEVEL}</blygg:level>
-    <blygg:manifest>${origin}blygg.json</blygg:manifest>
+    <blyg:level>${PROTOCOL_LEVEL}</blyg:level>
+    <blyg:manifest>${origin}blyg.json</blyg:manifest>
 ${itemsXml.join("\n")}
   </channel>
 </rss>

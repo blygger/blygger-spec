@@ -20,10 +20,10 @@ interpreted as described in RFC 2119.
 ## 1. Introduction (non-normative)
 
 Blygger is a decentralized public writing medium built on static files and RSS.
-A **blygg** is a directory of files — mounted anywhere on the publisher's own
+A **blyg** is a directory of files — mounted anywhere on the publisher's own
 domain, at a path (conventionally `/blyg/`) or at the domain root — containing
 versioned items of writing, a manifest, an archive index, and an RSS feed.
-Anything that can serve files can serve a blygg; anything that can read RSS can
+Anything that can serve files can serve a blyg; anything that can read RSS can
 follow one.
 
 Four design invariants shape everything below:
@@ -31,7 +31,7 @@ Four design invariants shape everything below:
 1. **The protocol is a static file contract.** It governs only the published
    artifact — the *page*. How the publisher composes, edits, imports, or
    generates content (the *studio*) is entirely out of scope.
-2. **Every blygg feed is a valid RSS 2.0 feed** whose items carry self-contained
+2. **Every blyg feed is a valid RSS 2.0 feed** whose items carry self-contained
    HTML. A plain RSS reader always sees a sensible microblog.
 3. **AI is never in the protocol.** Generation, if any, happens in the studio at
    authoring time; the page publishes output plus provenance. Readers need no
@@ -47,9 +47,9 @@ authoritative.
 
 ## 2. Terminology
 
-- **Origin** — a blygg's base URL (e.g. `https://example.com/blyg/`). The unit
+- **Origin** — a blyg's base URL (e.g. `https://example.com/blyg/`). The unit
   of identity, trust, and subscription. May be a domain root, any path under a
-  domain, or a subdomain — the protocol never constrains where a blygg mounts
+  domain, or a subdomain — the protocol never constrains where a blyg mounts
   (§4).
 - **Item** — the unit of publication. Carries a permanent id and a version
   history. Current kinds: `fragment`, `thread`, `withdrawn`.
@@ -69,8 +69,8 @@ authoritative.
 
 | Level | Meaning |
 |---|---|
-| **L0** | Any plain RSS feed, grandfathered via a reader-side wrapper (summary fragment + link). No blygg constructs. |
-| **L1** | **This specification.** Blygg identity: stable ids, versioned items, canonical item files, manifest, archive index, rollup semantics, withdrawal, pins, threads and local transclusion. |
+| **L0** | Any plain RSS feed, grandfathered via a reader-side wrapper (summary fragment + link). No blyg constructs. |
+| **L1** | **This specification.** Blyg identity: stable ids, versioned items, canonical item files, manifest, archive index, rollup semantics, withdrawal, pins, threads and local transclusion. |
 | **L2** | *(future — protocol 0.3)* Cross-client constructs: stub metadata, thread nesting, `forked_from` lineage, blogroll, webmention. |
 | **L3** | *(future)* Encrypted/permissioned content. |
 
@@ -83,15 +83,15 @@ in §§5–10. A **reader** conforms at L1 by following the rules in §11.
 
 ## 4. The publication surface
 
-A blygg is the following file tree under its origin. The origin's location is
+A blyg is the following file tree under its origin. The origin's location is
 the publisher's free choice — a domain root (`https://example.com/`), any path
 (`https://example.com/blyg/`, `https://example.com/notes/b/`), or a subdomain.
 The surface is strictly origin-relative: no protocol construct may assume any
 particular path component, and readers MUST NOT infer anything from the mount
-path. The file names *within* the surface (`blygg.json`, `feed.xml`,
+path. The file names *within* the surface (`blyg.json`, `feed.xml`,
 `items/…`) are protocol-fixed and MUST NOT vary per deployment — a known
 manifest filename at an arbitrary origin is what keeps free mounting
-discoverable (a reader handed any base URL fetches `blygg.json` relative to
+discoverable (a reader handed any base URL fetches `blyg.json` relative to
 it). `/blyg/` is the reference client's default mount and the convention used
 in examples throughout this document; it carries no protocol meaning.
 
@@ -99,7 +99,7 @@ Publishers MUST serve:
 
 | Path (relative to origin) | Content | Spec |
 |---|---|---|
-| `blygg.json` | Manifest | §6 |
+| `blyg.json` | Manifest | §6 |
 | `feed.xml` | RSS 2.0 feed | §7 |
 | `items/index.json` | Archive index | §6.2 |
 | `items/{id}.json` | Canonical item document | §5 |
@@ -112,7 +112,7 @@ permalink pages); their form is presentation, not protocol, except where noted
 
 Requirements:
 
-- The entire surface MUST be servable as plain static files. A conforming blygg
+- The entire surface MUST be servable as plain static files. A conforming blyg
   can live on a dumb file host; dynamic serving is an implementation detail.
 - `items/{id}.json` MUST return 404 for unknown ids and never-published drafts,
   and MUST return 200 permanently once the item has ever been published —
@@ -131,7 +131,7 @@ Ground truth for one item. Example (a fragment):
 
 ```json
 {
-  "blygg": "0.1",
+  "blyg": "0.1",
   "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
   "kind": "fragment",
   "origin": "https://example.com/blyg/",
@@ -225,15 +225,15 @@ Ground truth for one item. Example (a fragment):
 
 ## 6. Manifest and archive index
 
-### 6.1 Manifest — `blygg.json`
+### 6.1 Manifest — `blyg.json`
 
 ```json
 {
-  "blygg": "0.1",
+  "blyg": "0.1",
   "level": 1,
-  "generator": "blygg-ref/0.1.0",
+  "generator": "blyg-ref/0.1.0",
   "site": "https://example.com/blyg/",
-  "title": "Venkat's blygg",
+  "title": "Venkat's blyg",
   "author": { "name": "Venkatesh Rao", "bio": "…", "avatar": "media/avatar.png",
               "links": [{ "label": "Home", "url": "https://venkateshrao.com" }] },
   "feed": "feed.xml",
@@ -267,29 +267,29 @@ missed.
 
 ## 7. The feed — `feed.xml`
 
-RSS 2.0 with the `blygg:` namespace (`https://blygger.org/ns/0.1`):
+RSS 2.0 with the `blyg:` namespace (`https://blygger.org/ns/0.1`):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:blygg="https://blygger.org/ns/0.1">
+<rss version="2.0" xmlns:blyg="https://blygger.org/ns/0.1">
   <channel>
-    <title>Venkat's blygg</title>
+    <title>Venkat's blyg</title>
     <link>https://example.com/blyg/</link>
     <description>…</description>
     <lastBuildDate>Sat, 18 Jul 2026 09:30:00 GMT</lastBuildDate>
-    <blygg:level>1</blygg:level>
-    <blygg:manifest>https://example.com/blyg/blygg.json</blygg:manifest>
+    <blyg:level>1</blyg:level>
+    <blyg:manifest>https://example.com/blyg/blyg.json</blyg:manifest>
     <item>
-      <guid isPermaLink="false">blygg:7c9wk2mhq0v3xj8tn5rzfd41bg:v3</guid>
+      <guid isPermaLink="false">blyg:7c9wk2mhq0v3xj8tn5rzfd41bg:v3</guid>
       <link>https://example.com/blyg/f/7c9wk2mhq0v3xj8tn5rzfd41bg/</link>
       <title>Sharpened the claim — Markdown source of the latest…</title>
       <description><![CDATA[<p>rendered HTML of latest version</p>]]></description>
       <pubDate>Sat, 18 Jul 2026 09:30:00 GMT</pubDate>
-      <blygg:id>7c9wk2mhq0v3xj8tn5rzfd41bg</blygg:id>
-      <blygg:kind>fragment</blygg:kind>
-      <blygg:version>3</blygg:version>
-      <blygg:created>2026-07-17T18:00:00Z</blygg:created>
-      <blygg:item>https://example.com/blyg/items/7c9wk2mhq0v3xj8tn5rzfd41bg.json</blygg:item>
+      <blyg:id>7c9wk2mhq0v3xj8tn5rzfd41bg</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>3</blyg:version>
+      <blyg:created>2026-07-17T18:00:00Z</blyg:created>
+      <blyg:item>https://example.com/blyg/items/7c9wk2mhq0v3xj8tn5rzfd41bg.json</blyg:item>
     </item>
   </channel>
 </rss>
@@ -301,12 +301,12 @@ Rules:
   (RECOMMENDED: 50 entries). An item edited twice recently may appear twice at
   different versions; that is correct. The feed is lossy by design — the archive
   index (§6.2) is the lossless surface.
-- **GUIDs are per-version**: `blygg:{id}:v{n}`, `isPermaLink="false"`. Plain RSS
+- **GUIDs are per-version**: `blyg:{id}:v{n}`, `isPermaLink="false"`. Plain RSS
   readers dedupe by guid, so per-version GUIDs make edits resurface as new
-  entries — matching reverse-chron-by-update presentation. Blygg-aware readers
-  roll up by `blygg:id` instead and see no duplicates.
+  entries — matching reverse-chron-by-update presentation. Blyg-aware readers
+  roll up by `blyg:id` instead and see no duplicates.
 - **Entries render the item's latest content.** A feed entry for an older
-  publish event keeps its own `blygg:version` and note, but its `<description>`
+  publish event keeps its own `blyg:version` and note, but its `<description>`
   MUST carry the *latest* version's HTML. (Serving each event's own historical
   content would leak history that §5.2 withholds.)
 - **A withdrawn item contributes exactly one entry** — its withdrawal event,
@@ -322,7 +322,7 @@ Rules:
   display name — the standard RSS byline. The opaque `author` object itself
   never appears in the XML: the state plane is ground truth, the feed is a
   signal.
-- `pubDate`/`lastBuildDate` use RFC 822 format; `blygg:*` timestamps stay
+- `pubDate`/`lastBuildDate` use RFC 822 format; `blyg:*` timestamps stay
   ISO 8601.
 
 ## 8. Pins — `items/{id}/v{n}.json`
@@ -337,7 +337,7 @@ medium: mutable by default, immutable by explicit act.)
 
 ```json
 {
-  "blygg": "0.1",
+  "blyg": "0.1",
   "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
   "kind": "fragment",
   "version": 2,
@@ -434,9 +434,9 @@ anything**.
   HTML is baked into the thread's `content_html`, wrapped as
 
   ```html
-  <blockquote class="blygg-transclusion"
-              data-blygg-id="{id}"
-              data-blygg-version="{n}">…fragment html…</blockquote>
+  <blockquote class="blyg-transclusion"
+              data-blyg-id="{id}"
+              data-blyg-version="{n}">…fragment html…</blockquote>
   ```
 
   The wrapper is a bare blockquote plus data attributes — **no link inside**;
@@ -478,13 +478,13 @@ A conforming reader (the import side; reference implementation arrives with
 protocol 0.2):
 
 1. MUST treat item documents as ground truth and the feed as a lossy signal.
-2. MUST roll up by `blygg:id`: highest `version` wins; ties broken by
+2. MUST roll up by `blyg:id`: highest `version` wins; ties broken by
    `updated`. Timestamps are self-asserted by origins; ordering across origins
    is the reader's own policy.
 3. MUST treat a withdrawal endcap as roll-up-to-null and SHOULD drop the item
    from its local archive. A later version under the same id is the item
    returning.
-4. MUST ignore unknown kinds, unknown JSON members, unknown `blygg:*` XML
+4. MUST ignore unknown kinds, unknown JSON members, unknown `blyg:*` XML
    elements, and reserved constructs, without rejecting the containing
    document.
 5. MUST NOT reject an item over its `author` contents, and MUST NOT treat

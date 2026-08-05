@@ -28,7 +28,7 @@ describe("threads & transclusion (§2.9)", () => {
       { id: f1, version: 1 },
       { id: f2, version: 1 },
     ]);
-    expect(item.content_html).toContain('class="blygg-transclusion"');
+    expect(item.content_html).toContain('class="blyg-transclusion"');
     expect(item.content_html).toContain("first fragment");
     expect(item.content_html).toContain("second fragment");
     expect(item.content_md).toContain(`![[${f1}]]`);
@@ -167,10 +167,10 @@ describe("threads & transclusion (§2.9)", () => {
     const threadId = await createThread(cookie, `intro\n\n![[${f1}]]`);
     await apiJson(cookie, "POST", `/api/items/${threadId}/publish`, { note: "first cut" });
     const xml = await (await getPublic("/blyg/feed.xml")).text();
-    expect(xml).toContain(`blygg:${threadId}:v1`);
+    expect(xml).toContain(`blyg:${threadId}:v1`);
     expect(xml).toContain(`t/${threadId}/`);
     expect(xml).toContain("quotable line");
-    expect(xml).toContain("blygg-transclusion");
+    expect(xml).toContain("blyg-transclusion");
   });
 
   it("feed page renders threads as excerpt cards linking to t/{id}/", async () => {

@@ -4,7 +4,7 @@
 import type { Env } from "./types.ts";
 import { hex } from "./util.ts";
 
-export const COOKIE_NAME = "blygg_session";
+export const COOKIE_NAME = "blyg_session";
 const SESSION_SECONDS = 30 * 24 * 3600;
 
 async function hmacHex(secret: string, message: string): Promise<string> {

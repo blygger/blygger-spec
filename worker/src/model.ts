@@ -18,7 +18,7 @@ export async function getSettings(db: D1Database): Promise<Settings> {
     // ignore malformed settings JSON; treat as no links
   }
   return {
-    site_title: map.site_title ?? "blygg",
+    site_title: map.site_title ?? "blyg",
     author_name: map.author_name ?? "",
     author_bio: map.author_bio ?? "",
     author_links: links,

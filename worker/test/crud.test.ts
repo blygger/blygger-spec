@@ -24,7 +24,7 @@ describe("item lifecycle (§3.1)", () => {
     const res = await getPublic(`/blyg/items/${id}.json`);
     expect(res.status).toBe(200);
     const item = await res.json<any>();
-    expect(item.blygg).toBe("0.1");
+    expect(item.blyg).toBe("0.1");
     expect(item.id).toBe(id);
     expect(item.kind).toBe("fragment");
     expect(item.version).toBe(1);
@@ -59,8 +59,8 @@ describe("item lifecycle (§3.1)", () => {
     await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "v2 content" });
     await apiJson(cookie, "POST", `/api/items/${id}/publish`, {});
     const xml = await (await getPublic("/blyg/feed.xml")).text();
-    expect(xml).toContain(`blygg:${id}:v1`);
-    expect(xml).toContain(`blygg:${id}:v2`);
+    expect(xml).toContain(`blyg:${id}:v1`);
+    expect(xml).toContain(`blyg:${id}:v2`);
   });
 
   it("withdraw publishes a permanent endcap: 200 forever, one feed entry (§2.3)", async () => {
@@ -89,10 +89,10 @@ describe("item lifecycle (§3.1)", () => {
     expect(index.items.find((i: any) => i.id === id).kind).toBe("withdrawn");
 
     const xml = await (await getPublic("/blyg/feed.xml")).text();
-    expect(xml).toContain(`blygg:${id}:v2`);
+    expect(xml).toContain(`blyg:${id}:v2`);
     expect(xml).toContain("<title>withdrawn</title>");
     // Only the withdrawal event remains in the feed for a withdrawn item.
-    expect(xml).not.toContain(`blygg:${id}:v1`);
+    expect(xml).not.toContain(`blyg:${id}:v1`);
 
     // Cannot re-withdraw.
     expect((await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {})).status).toBe(409);
@@ -113,7 +113,7 @@ describe("item lifecycle (§3.1)", () => {
     expect(item.content_md).toBe("phoenix v3");
     expect(item.changelog.length).toBe(3);
     const xml = await (await getPublic("/blyg/feed.xml")).text();
-    expect(xml).toContain(`blygg:${id}:v3`);
+    expect(xml).toContain(`blyg:${id}:v3`);
   });
 
   it("pinned versions are served at items/{id}/v{n}.json and survive withdrawal (§2.8)", async () => {

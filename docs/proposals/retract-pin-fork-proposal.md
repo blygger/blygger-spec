@@ -118,16 +118,16 @@ does, because the data model already has almost everything:
 ## 5. IPFS / IPNS mapping
 
 The proposal lines up with a working, well-understood pattern more cleanly than it first
-looks, because blygg's data model was already built with half of it in mind (locked decision #2
+looks, because blyg's data model was already built with half of it in mind (locked decision #2
 explicitly cites IPFS-friendliness as the reason for per-version hashes):
 
-| blygg concept | IPFS/IPNS analog | Notes |
+| blyg concept | IPFS/IPNS analog | Notes |
 |---|---|---|
 | item **id** (stable random 128-bit, mutable stream of versions) | **IPNS name** | A pointer that resolves to "whatever's current." Updated by whoever holds authorship. |
 | per-version **`content_hash`** | **CID** | Already content-addressed, already immutable, already computed today — just not exposed as its own fetchable resource. |
 | proposed **Pinned** version | citing/pinning a **CID** | In IPFS, "pin" = a hosting commitment, not a source of immutability — immutability is free from content-addressing. Worth deciding which of the two Venkat's "Pinned" is meant to be (see §4). |
 | proposed **fork** | new IPNS name seeded from a CID | Git tag→branch is the closer everyday analogy: the pinned version is the tag (immutable), the fork is a new branch continuing from it. |
-| unpublish-as-endcap | an IPNS record that stops being republished | Diverges from IPFS here: IPNS records have a TTL and expire without active republishing (DHT liveness). blygg's id has no such decay — it's centrally hosted, closer to a **DNS name pointing at one authoritative server** than a DHT record. Durability is "the origin stays up," not "the network keeps propagating the pointer." Don't over-import IPNS's expiry semantics. |
+| unpublish-as-endcap | an IPNS record that stops being republished | Diverges from IPFS here: IPNS records have a TTL and expire without active republishing (DHT liveness). blyg's id has no such decay — it's centrally hosted, closer to a **DNS name pointing at one authoritative server** than a DHT record. Durability is "the origin stays up," not "the network keeps propagating the pointer." Don't over-import IPNS's expiry semantics. |
 
 ## 6. Fork: the genuinely new protocol surface
 

@@ -16,39 +16,39 @@ function parse(xml: string) {
 }
 
 describe("feed.xml (§2.6)", () => {
-  it("is valid RSS 2.0 with the blygg namespace and channel metadata", async () => {
+  it("is valid RSS 2.0 with the blyg namespace and channel metadata", async () => {
     const cookie = await login();
-    await apiJson(cookie, "PUT", "/api/settings", { site_title: "Venkat's blygg", author_bio: "a bio" });
+    await apiJson(cookie, "PUT", "/api/settings", { site_title: "Venkat's blyg", author_bio: "a bio" });
     await createAndPublish(cookie, "a fragment");
 
     const doc = parse(await fetchFeed());
     expect(doc.rss["@_version"]).toBe("2.0");
-    expect(doc.rss["@_xmlns:blygg"]).toBe("https://blygger.org/ns/0.1");
+    expect(doc.rss["@_xmlns:blyg"]).toBe("https://blygger.org/ns/0.1");
     const ch = doc.rss.channel;
-    expect(ch.title).toBe("Venkat's blygg");
+    expect(ch.title).toBe("Venkat's blyg");
     expect(ch.link).toBe("https://example.com/blyg/");
     expect(ch.description).toBe("a bio");
     expect(new Date(ch.lastBuildDate).toString()).not.toBe("Invalid Date");
-    expect(ch["blygg:level"]).toBe(1);
-    expect(ch["blygg:manifest"]).toBe("https://example.com/blyg/blygg.json");
+    expect(ch["blyg:level"]).toBe(1);
+    expect(ch["blyg:manifest"]).toBe("https://example.com/blyg/blyg.json");
   });
 
-  it("item entries carry guid, link, title, pubDate, and blygg extensions", async () => {
+  it("item entries carry guid, link, title, pubDate, and blyg extensions", async () => {
     const cookie = await login();
     const id = await createAndPublish(cookie, "some **bold** text for the feed", "first note");
     const doc = parse(await fetchFeed());
-    const item = doc.rss.channel.item.find((i: any) => i["blygg:id"] === id);
+    const item = doc.rss.channel.item.find((i: any) => i["blyg:id"] === id);
     expect(item).toBeDefined();
-    expect(item.guid["#text"]).toBe(`blygg:${id}:v1`);
+    expect(item.guid["#text"]).toBe(`blyg:${id}:v1`);
     expect(item.guid["@_isPermaLink"]).toBe("false");
     expect(item.link).toBe(`https://example.com/blyg/f/${id}/`);
     expect(item.title).toBe("first note — some bold text for the feed");
     expect(new Date(item.pubDate).toString()).not.toBe("Invalid Date");
     expect(item.description).toContain("<strong>bold</strong>");
-    expect(item["blygg:kind"]).toBe("fragment");
-    expect(item["blygg:version"]).toBe(1);
-    expect(String(item["blygg:created"])).toMatch(/Z$/);
-    expect(item["blygg:item"]).toBe(`https://example.com/blyg/items/${id}.json`);
+    expect(item["blyg:kind"]).toBe("fragment");
+    expect(item["blyg:version"]).toBe(1);
+    expect(String(item["blyg:created"])).toMatch(/Z$/);
+    expect(item["blyg:item"]).toBe(`https://example.com/blyg/items/${id}.json`);
   });
 
   it("windows to the latest 50 publish events", async () => {
@@ -71,7 +71,7 @@ describe("feed.xml (§2.6)", () => {
     const id = await createAndPublish(cookie, 'a ]]> b & <angle> "quotes"', 'note & <tag>');
     const xml = await fetchFeed();
     const doc = parse(xml);
-    const item = doc.rss.channel.item.find((i: any) => i["blygg:id"] === id);
+    const item = doc.rss.channel.item.find((i: any) => i["blyg:id"] === id);
     expect(item.title).toContain("note & <tag>");
     expect(item.description).toContain("]]&gt;");
   });
@@ -81,7 +81,7 @@ describe("feed.xml (§2.6)", () => {
     const long = "word ".repeat(50).trim();
     const id = await createAndPublish(cookie, long);
     const doc = parse(await fetchFeed());
-    const item = doc.rss.channel.item.find((i: any) => i["blygg:id"] === id);
+    const item = doc.rss.channel.item.find((i: any) => i["blyg:id"] === id);
     expect(item.title.length).toBeLessThanOrEqual(62);
     expect(item.title.endsWith("…")).toBe(true);
   });
