@@ -97,7 +97,7 @@ needs to reconstruct design rationale from this alone.
 - [x] **Venkat: brand decision** — session 6 (2026-07-24): renamed `ygg` → **blygger** (Yggdrasil mesh-network adjacency, session 3); default publish path `/blyg`; domains `blygger.org` (XML namespace, commons/spec) + `blygger.com` (protocol-adjacent commercial dev), both acquired.
 - [x] Brand-name refactor (task 16) — executed session 6: `BRAND` constant in `types.ts`, full codebase + docs rename, `RENAME.md` checklist. Details in `docs/v0.1-plan.md` §5 task 16.
 - [x] Namespace URI — resolved session 6: `https://blygger.org/ns/0.1` (was §7 open decision #1).
-- [ ] **Deploy (task 11)** — D1 id, wrangler secrets + `.env.keys` registration, RSS-reader check. The only remaining v0.1 build task; no longer gated on anything.
+- [x] **Deploy (task 11)** — done session 10 (2026-08-06): live at `blyg.vgr-702.workers.dev/blyg/`, D1 + R2 provisioned, secrets set + registered in `Code/.env.keys`, server-side verified (manifest/feed/publish loop). Only the manual RSS-reader check (NetNewsWire/Reeder) remains open — Venkat to confirm.
 - [ ] **Deploy stub sites to blygger.org + blygger.com** — plan written session 6 (`docs/deploy-stub-sites-plan.md`), not yet executed. DNS onboarding, D1/R2/secrets provisioning ×2, per-site Wrangler environments, landing-page content, Workers Routes wiring. Recommends doing task 11's workers.dev deploy first as a rehearsal.
 - [x] Build v0.1 "Seed" tasks 1–8 + 10 (session 2)
 - [x] **Venkat:** review **rev-3** wireframes in `docs/wireframes/` (session 4) — approved live in-browser, no changes needed; cleared tasks 9/15

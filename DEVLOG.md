@@ -7,6 +7,19 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 10 — 2026-08-06 — Task 11: reference deploy to workers.dev
+**Model:** Sonnet 5 · **Time:** ~13:15–14:00 PT · **Committed:** yes · **Deployed:** `blyg.vgr-702.workers.dev/blyg/` (new)
+
+**What & why:** First deploy of v0.1 — the last remaining build task. Started the session by backfilling session 9's skipped DEVLOG entry (see below), then executed task 11 per `docs/v0.1-plan.md`: provisioned D1 (`blyg`, id `f9fbfd23-c0b8-40bc-b0df-eb80b992b5a4`) and R2 (`blyg-media`) under the `Vgr@ribbonfarm.com` Cloudflare account (`7026b5d7c1ad16cb808987576bb07ab2` — same account already used for `blygger-org`/`blygger-com`, confirmed against `Code/.env.keys` before provisioning rather than guessing between the two CF accounts logged into wrangler), applied all three migrations remotely, generated `OWNER_PASSWORD`/`COOKIE_SECRET` (`openssl rand`) and set them via `wrangler secret put` (never written to a `.dev.vars` or committed file), then `wrangler deploy`. `wrangler.jsonc`'s placeholder `database_id` swapped for the real one.
+
+**Verification:** server-side, not just deploy-succeeded — curled the manifest (`blyg.json`, correct fields), `feed.xml` (valid empty RSS 2.0 channel with the `blyg:` namespace on first check), then ran a full owner loop against the live instance: `studio/login` (cookie auth) → `POST /api/items` (draft) → `POST /api/items/:id/publish` → refetched `feed.xml` and confirmed the item appears with the correct `blyg:{id}:v{n}` GUID scheme, and its `f/{id}/` permalink returns 200. One transient `error code: 1042` on the very first manifest/feed fetch immediately post-deploy, gone on retry seconds later — read as workers.dev edge propagation lag, not a bug (confirmed by the identical request succeeding on retry with no code change). Ran `tsc --noEmit` + the local test suite before touching Cloudflare at all, to confirm the session-9 rename hadn't regressed anything: clean, 66/67 (the one failure is the pre-existing `feed.test.ts` flake, unrelated).
+
+Not done, and can't be from here: the plan's actual exit criterion is subscribing to `blyg.vgr-702.workers.dev/blyg/feed.xml` in a real RSS reader (NetNewsWire/Reeder) — that needs Venkat's own client. Left open below rather than claiming the task fully closed.
+
+**State after:** v0.1 "Seed" build is code-complete and now has a live instance proving the whole publish path end-to-end (login, draft, publish, feed, permalink) against real Cloudflare infrastructure, not just `wrangler dev`/tests. `README.md` and `docs/v0.1-plan.md` updated with the live URL; `CLAUDE.md` TODO ticked. Secrets registered in `Code/.env.keys` under a new `blygger-protocol/blygger-spec` section.
+
+**Open threads:** Venkat to confirm the feed in NetNewsWire or Reeder — the one remaining v0.1 exit-criterion checkbox. After that: the two-node deploy (`venkateshrao.com/blyg/` + `protocol-institute.com/blyg/`, this workers.dev instance was explicitly a rehearsal for that per session 8) and `docs/spec-publishing-plan.md` execution are the next candidates. This instance currently has one test fragment published ("Hello from the blyg reference deploy...") — fine to leave as a live smoke-test artifact, or withdraw it; Venkat's call, not touched further this session.
+
 ## Session 9 — 2026-08-05 — Vocabulary rule: blyg/blygger, `blygg` retired (decision #16)
 **Model:** Fable 5 · **Time:** ~12:30–13:00 PT (backfilled 2026-08-06 — entry was skipped at session close) · **Committed:** yes · **Deployed:** — (blygger-org site redeployed with the renamed lede, per its own repo)
 

@@ -80,6 +80,8 @@ A Cloudflare Worker (with D1 for the database, R2 for media), split into two hal
 
 This split is also the multi-tenancy escape hatch: the core spec is single-*publisher* (one origin, one accountable client), not single-author — an overloaded studio can publish one conformant feed per user, or a single multiplayer feed with per-item bylines (identity is an opaque, client-asserted pass-through, never part of the protocol).
 
+**Live test instance** (task 11, session 10, 2026-08-06): [`blyg.vgr-702.workers.dev/blyg/`](https://blyg.vgr-702.workers.dev/blyg/) — a workers.dev reference deploy, feed at [`/blyg/feed.xml`](https://blyg.vgr-702.workers.dev/blyg/feed.xml). This is a rehearsal instance for the two-node deploy (`venkateshrao.com/blyg/` + `protocol-institute.com/blyg/`), not the permanent home.
+
 ## Repo layout
 
 ```
