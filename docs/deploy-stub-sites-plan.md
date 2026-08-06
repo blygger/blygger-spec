@@ -16,6 +16,18 @@ protocol semantics; nothing here touches `docs/v0.1-plan.md`'s normative shapes.
 > Pages catch-all, per-site Wrangler environments with independent D1/R2/secrets
 > — applies unchanged to the new domains; `venkateshrao.com` DNS is already on
 > Cloudflare (see `venkateshrao-cloudflare/`), shortening the §3 long pole.
+>
+> **Session 10 update (2026-08-06): `venkateshrao.com/blyg/` executed.** §5 steps
+> 2–4 and 6–7 done for this domain: D1 `blyg-venkateshrao` + R2
+> `blyg-venkateshrao-media` provisioned, `env.venkateshrao` added to
+> `blygger-spec/worker/wrangler.jsonc` with Workers Routes for `/blyg/*`,
+> `/studio/*`, `/api/*`, deployed and verified live (manifest, feed, studio
+> login, API auth) — with the static Pages site confirmed unaffected outside
+> those paths. Route registered in `venkateshrao-cloudflare/routes.md`; secrets
+> in `Code/.env.keys`. Step 5 (landing content) is moot here — `venkateshrao.com`
+> already has its own site, unlike the org/com pair this plan originally
+> targeted. `protocol-institute.com/blyg/` (the second test-network node) remains
+> undeployed — DNS onboarding for that domain is still the long pole.
 
 ## 1. Goal
 

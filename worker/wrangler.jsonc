@@ -23,5 +23,36 @@
       "binding": "MEDIA",
       "bucket_name": "blyg-media"
     }
-  ]
+  ],
+  // Named environments are per-domain deploys of the same reference client
+  // (docs/deploy-stub-sites-plan.md). Non-inheritable keys (vars, d1_databases,
+  // r2_buckets, routes) must be redeclared per environment — wrangler does not
+  // merge them from the top level.
+  "env": {
+    "venkateshrao": {
+      "name": "blyg-venkateshrao",
+      "vars": {
+        "MOUNT": "/blyg"
+      },
+      "routes": [
+        { "pattern": "venkateshrao.com/blyg/*", "zone_name": "venkateshrao.com" },
+        { "pattern": "venkateshrao.com/studio/*", "zone_name": "venkateshrao.com" },
+        { "pattern": "venkateshrao.com/api/*", "zone_name": "venkateshrao.com" }
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "blyg-venkateshrao",
+          "database_id": "c9342724-d1d9-4337-9737-b3850d27c15e",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "MEDIA",
+          "bucket_name": "blyg-venkateshrao-media"
+        }
+      ]
+    }
+  }
 }
