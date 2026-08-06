@@ -7,6 +7,19 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 9 — 2026-08-05 — Vocabulary rule: blyg/blygger, `blygg` retired (decision #16)
+**Model:** Fable 5 · **Time:** ~12:30–13:00 PT (backfilled 2026-08-06 — entry was skipped at session close) · **Committed:** yes · **Deployed:** — (blygger-org site redeployed with the renamed lede, per its own repo)
+
+**What & why:** Venkat + Fable settled the wire-vocabulary spelling left open by session 8's mount-independence decision: the noun is **blyg** (one g, as *blog* is to *blogger*), retiring the intermediate `blygg` spelling everywhere, including the wire — manifest filename (`blyg.json`), JSON version key (`"blyg"`), XML ns prefix and GUID scheme (`blyg:`, `blyg:{id}:v{n}`), transclusion CSS class (`blyg-transclusion`), reserved autodiscovery rel (`<link rel="blyg">`). Amends #14's token spellings without touching its architecture — the wire/mount split stands; mount default stays `/blyg`, so path and filename now happen to agree as a convention coincidence, not a protocol linkage. Cost was zero: nothing is deployed yet (task 11's D1 id is still a placeholder), so this would have been a breaking wire migration after first deploy — the rename window closes once task 11 ships. Spec stayed DRAFT so no version bump was needed; decision recorded as CLAUDE.md #16.
+
+**Implementation:** single commit (`d9ee250`) swept `blygg`→`blyg` across the spec, docs, wireframes, and the full `worker/` reference implementation (types, protocol/pages/studio/transclusion source, all test files, `package.json`). Historical records (`DEVLOG.md`, `RENAME.md`, `docs/ygg-initial-spec.md`) deliberately left unrenamed, matching the precedent set for the `ygg`→`blygger` rename in session 6. Sibling repos followed same-day: `blygger-org` rewrote its landing-page lede for the new spelling and redeployed; `blygger-com`'s stub site was renamed to match.
+
+**Verification (backfilled):** re-ran the suite this session (2026-08-06) to confirm the rename didn't regress anything — `tsc --noEmit` clean, 66/67 tests green, the one failure is the pre-existing `feed.test.ts` timestamp-ordering flake already on record (not caused by this rename).
+
+**State after:** All three repos (`blygger-spec`, `blygger-org`, `blygger-com`) consistently use `blyg`/`blygger`; no `blygg` spelling remains outside intentionally-frozen historical records. v0.1 build status unchanged — task 11 (deploy) is still the only open build task.
+
+**Open threads:** Process gap, not a protocol one — this session's DEVLOG entry was skipped at close, breaking the "non-skippable" rule for the first time since project inception; backfilled next session (10) after the fact. No content was lost (git commit + CLAUDE.md decision record both landed same-day), but the ritual failed silently rather than being caught at session end. Worth a standing reminder to run the wrap-up checklist even on short/single-decision sessions.
+
 ## Session 8 — 2026-08-04 — Mount independence (decision #14); /blyg default; spec-publishing model (#15)
 **Model:** Fable 5 (orientation + two-node distance analysis ran on Opus 5 before Venkat switched via `/model`) · **Time:** ~12:24–13:25 PT · **Committed:** yes · **Deployed:** —
 
