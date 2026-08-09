@@ -35,8 +35,15 @@
         "MOUNT": "/blyg"
       },
       "routes": [
+        // Cloudflare's trailing "/*" wildcard requires the literal "/" and does
+        // not match the bare prefix itself (e.g. "/blyg/*" misses "/blyg"), so
+        // each prefix needs its own exact-match entry alongside the wildcard —
+        // otherwise the bare path falls through to the static Pages site.
+        { "pattern": "venkateshrao.com/blyg", "zone_name": "venkateshrao.com" },
         { "pattern": "venkateshrao.com/blyg/*", "zone_name": "venkateshrao.com" },
+        { "pattern": "venkateshrao.com/studio", "zone_name": "venkateshrao.com" },
         { "pattern": "venkateshrao.com/studio/*", "zone_name": "venkateshrao.com" },
+        { "pattern": "venkateshrao.com/api", "zone_name": "venkateshrao.com" },
         { "pattern": "venkateshrao.com/api/*", "zone_name": "venkateshrao.com" }
       ],
       "d1_databases": [

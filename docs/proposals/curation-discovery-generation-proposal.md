@@ -163,6 +163,26 @@ rather than rediscovering it:
    on the wire only when the owner regenerates and republishes. A thread baked
    against an older source version is legible by design — its provenance names
    the exact version it baked.
+6. **Open (session 11, 2026-08-09 — Venkat, testing the venkateshrao.com node
+   with Sonnet): can TK scopes be inline spans, or block-only like
+   transclusion?** Venkat's target authoring pattern is instructed, in-prose
+   generation woven around a transcluded fragment, e.g.:
+   - `As Einstein said, ![[id]], instruction: simplify, which means blah blah blah.`
+   - `Surrounding text [TK] instruction ![[id]] [/TK] more surrounding text.`
+
+   Neither satisfies locked decision #9 as written (`![[id]]` alone on its own
+   line) — the fragment reference isn't on its own line in either example, TK
+   scope or not. Reformatting so the `![[id]]` line is bare (`[TK] instruction`
+   / `![[id]]` / `[/TK] more text`, three lines) would satisfy #9's letter, but
+   whether `[TK]`/`[/TK]` delimiters themselves may sit inline mid-sentence —
+   as opposed to being block-level wrappers like transclusion — is unspecced by
+   both the frozen v0 spec and this record. Decide alongside the TK generation
+   contract (item 1 above): if inline TK spans are wanted, the transclusion
+   display model inside a TK scope (verbatim quote-block vs. woven-into-prose,
+   per #9's snapshot-and-quote semantics) likely needs its own answer distinct
+   from block-level `![[id]]`, since "woven into generated prose with no
+   visible quote" is a different provenance/display story than what #9
+   currently guarantees.
 
 ---
 
@@ -176,3 +196,6 @@ rather than rediscovering it:
   (discovery model) added.
 - `docs/protocol-v0.1.md` — unaffected normatively (all of this is L2/v0.4);
   the L1 spec's "Reserved & future" section points here.
+- Session 11 (2026-08-09): §4 item 6 added — inline-vs-block-only TK scopes,
+  flagged for the v0.4 Fable pass. No doc/decision changes elsewhere; #9
+  stands as locked pending that pass.

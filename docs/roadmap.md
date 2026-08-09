@@ -91,11 +91,45 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 **Goal:** authoring intelligence and looks. Minimal local RAG over the client's own content, integrated into the thread editor; the styling system.
 
-**Client deliverables:** embed local items (Workers AI or configurable provider) into a local vector store; editor hooks — related-fragment suggestions while writing, hopper-relevance suggestions; RAG stays optional and degradable per invariant 3; styling: default minimal theme + documented CSS contract (required classes/structure any custom theme must respect); docs polish for third-party implementers.
+**Client deliverables:** embed local items (Workers AI or configurable provider) into a local vector store; editor hooks — related-fragment suggestions while writing, hopper-relevance suggestions; RAG stays optional and degradable per invariant 3; styling: default minimal theme + documented CSS contract (required classes/structure any custom theme must respect); docs polish for third-party implementers; **full UI refresh** (session 11, 2026-08-09 — Venkat, hands-on testing of the venkateshrao.com node): studio + public-page UX polish incorporating accumulated hands-on-testing feedback, deliberately deferred by Venkat until rudimentary TK-transclusion (v0.4) and cross-blyg subscribe/pubsub (v0.2–v0.3) are working end to end, so polish isn't spent on surfaces that are still shifting under active feature work.
 
 - **⚠️ FABLE:** review pass on the CSS contract (it's protocol-adjacent — presentation rules readers can rely on) and on the RAG plan. Light-touch otherwise.
 
 **Exit criteria:** authoring a thread surfaces relevant own-corpus fragments unprompted; a restyled page passes the same conformance checks as the default theme.
+
+## Release candidate — two reference implementations (session 11, 2026-08-09 — Venkat; gap noted, not designed)
+
+Venkat's stated intent for what "blygger is ready to release" means, recorded
+here so it isn't rediscovered later. Not a locked protocol decision (no Fable
+pass yet) — a scope/sequencing note.
+
+**Gate:** the Cloudflare reference client must be "sufficiently feature
+complete" first — defined as functional TK-transclusion (v0.4) + working
+cross-blyg pubsub/subscribe (v0.2–v0.3) + the deferred UI/styling refresh
+(v0.5, session 11 item above). Nothing below starts before that gate closes.
+
+Once gated, two deliverables, both currently just gaps (no design done):
+
+1. **CF self-host release artifact** — a scaffolding script/template (not a
+   docs-only guide, not a one-click deploy button — those were considered and
+   explicitly deferred, session 11) that lets a third party stand up their own
+   Cloudflare-hosted blyg: generates the named-environment `wrangler.jsonc`
+   block, provisions D1/R2, runs migrations, prompts for the two secrets.
+   Today this only exists as the hand-done `env.venkateshrao`-style pattern in
+   `worker/wrangler.jsonc` — no tooling wraps it.
+2. **Second reference implementation: local/laptop, folder-based, static-host
+   deploy** (e.g. GitHub Pages, Netlify) — the architectural inverse of the CF
+   client: the dynamic/code-heavy parts (studio authoring, auth, API) stay
+   local on the author's device; only the protocol-governed static public
+   surface (`blyg.json`, `items/*.json`, `feed.xml`, rendered pages) ships to
+   the static host. Entirely undesigned — storage model, auth-free-since-local
+   implications, and how publish-to-static-host works are all open.
+
+**Release candidate for blygger** = a stable spec (v1.0 freeze work, above)
+**plus** both reference implementations passing conformance. Not exit criteria
+for v1.0 itself yet — v1.0's own exit bar (spec-only reimplementation by a
+non-Fable agent) is a different, harder test than "the two reference clients
+work."
 
 ## v1.0 — Freeze
 
