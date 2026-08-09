@@ -191,10 +191,14 @@ export interface FeedEvent {
 export async function feedEvents(db: D1Database, limit: number): Promise<FeedEvent[]> {
   const rows = await db
     .prepare(
+      // rowid tiebreak: published_at has only second precision, so two
+      // events in the same second otherwise sort nondeterministically —
+      // rowid is monotonic with insertion (hence publish) order, so it
+      // resolves ties to the correct chronological order every time.
       `SELECT v.item_id, v.version, v.content_md, v.content_hash, v.published_at, v.note, v.pinned, v.pinned_at
        FROM versions v JOIN items i ON i.id = v.item_id
        WHERE i.status = 'public' OR (i.status = 'withdrawn' AND v.version = i.version)
-       ORDER BY v.published_at DESC, v.version DESC LIMIT ?`,
+       ORDER BY v.published_at DESC, v.version DESC, v.rowid DESC LIMIT ?`,
     )
     .bind(limit)
     .all<VersionRow>();

@@ -1,7 +1,14 @@
 {
   // Blygger v0.1 "Seed" reference client.
-  // database_id is a placeholder until first deploy (task 11); local dev and
-  // tests use miniflare's local D1 and never contact this ID.
+  // This top-level (unnamed-env) block has no live deployment: it was the
+  // workers.dev rehearsal instance (task 11, session 10), decommissioned
+  // session 11 (2026-08-09) once the two named envs below covered ongoing
+  // testing — Worker, D1 database, and R2 bucket were all deleted from the
+  // personal Cloudflare account. database_id below is now stale/orphaned
+  // (the database it named no longer exists) but harmless: local dev and
+  // tests use miniflare's local D1 and never contact this ID. Don't run a
+  // bare `wrangler deploy` (no --env) expecting this to work without first
+  // re-provisioning D1/R2.
   "name": "blyg",
   "main": "src/index.ts",
   "compatibility_date": "2026-07-01",
@@ -58,6 +65,39 @@
         {
           "binding": "MEDIA",
           "bucket_name": "blyg-venkateshrao-media"
+        }
+      ]
+    },
+    // Second two-node-network node, session 11 (2026-08-09). Deployed to a
+    // dedicated subdomain rather than path-mounted on protocol-institute.org's
+    // root, because that zone already runs a live production API (member
+    // directory, symposium voting, admin) at /api/* via Cloudflare Pages
+    // Functions — path-mounting here would collide with it, since blyg's own
+    // /studio and /api routes are host-rooted regardless of MOUNT (index.ts).
+    // A dedicated subdomain has its own path space, so MOUNT="" (domain root)
+    // is used instead of "/blyg". Provisioned under the PI org Cloudflare
+    // account (7e8c7969b2464d23795c555bc6a32af8), not Venkat's personal one —
+    // see protocol-institute/admin/keys.md.
+    "protocolInstitute": {
+      "name": "blyg-protocol-institute",
+      "vars": {
+        "MOUNT": ""
+      },
+      "routes": [
+        { "pattern": "blyg.protocol-institute.org/*", "zone_name": "protocol-institute.org" }
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "blyg-protocol-institute",
+          "database_id": "a6f51542-0195-46be-bac4-320fac382c65",
+          "migrations_dir": "migrations"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "MEDIA",
+          "bucket_name": "blyg-protocol-institute-media"
         }
       ]
     }
