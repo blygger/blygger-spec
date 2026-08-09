@@ -6,11 +6,13 @@ ships, and frozen at protocol 1.0. Until then, breaking changes are permitted bu
 must bump the manifest version and be recorded in the
 [project devlog](https://github.com/blygger/blygger-spec/blob/main/DEVLOG.md).
 
+<!-- spec-links:begin -->
 - **This version:** `https://blygger.org/spec/0.1/`
 - **XML namespace:** `https://blygger.org/ns/0.1`
 - **Source of truth:** [`blygger/blygger-spec`](https://github.com/blygger/blygger-spec) — `docs/protocol-v0.1.md`
 - **Reference implementation:** same repository, `worker/`
 - **License:** CC-BY-4.0
+<!-- spec-links:end -->
 
 The key words MUST, MUST NOT, SHOULD, SHOULD NOT, RECOMMENDED, MAY are to be
 interpreted as described in RFC 2119.
