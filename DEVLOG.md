@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 13 — 2026-08-10 — v0.2 "Roots" built end-to-end: subscribe side, all 14 tasks
-**Model:** Sonnet 5 · **Time:** ~10:47–11:56 PT · **Committed:** no (pending Venkat's review) · **Deployed:** — (not yet pushed to either live node)
+**Model:** Sonnet 5 · **Time:** ~10:47–12:16 PT · **Committed:** yes (`cddf09b`, then a deploy-record follow-up commit) · **Deployed:** both live nodes — `blyg-venkateshrao` and `blyg-protocol-institute`, migration 0004 applied remotely, real bidirectional subscription confirmed converging
 
 **What & why:** Implemented `docs/v0.2-plan.md` in full — all 14 ordered tasks, from
 migration 0004 through the simulated-outage integration test — in one session, working
@@ -91,23 +91,52 @@ third item *before* the subscriber ever reconnects, so the test can only pass if
 reconciliation — not the feed trigger-set — is what recovers them. It does, item-by-item,
 on the first run.
 
-**State after:** v0.2 "Roots" is functionally complete per the plan doc — all 14 tasks,
-163/163 tests green, `tsc` clean, static export verified live against a real `wrangler
-dev` instance. Nothing pushed or deployed to either live node yet; migration 0004 has
-not been applied to `venkateshrao.com/blyg/` or `blyg.protocol-institute.org`.
-Roadmap v0.2 exit criteria (`docs/roadmap.md`) and README's protocol-on-one-screen
-section updated to reflect the subscribe side.
+**Deployed to both live nodes and real cross-node pub-sub verified, same session
+(cont'd):** after committing/pushing the implementation, Venkat asked to continue
+straight into deployment rather than defer it. Applied migration 0004 remotely to
+both D1s (`blyg-venkateshrao` under the personal CF account
+`7026b5d7c1ad16cb808987576bb07ab2`, `blyg-protocol-institute` under the PI org account
+`7e8c7969b2464d23795c555bc6a32af8` — verified against `Code/.env.keys` and
+`protocol-institute/admin/keys.md` before touching either, per the standing
+multi-account-risk caution), then `wrangler deploy` to both named environments — both
+came up clean, cron trigger (`*/15 * * * *`) registered on both. Logged into both
+studios (owner passwords pulled from the registered key stores) and set up **real**
+bidirectional subscriptions: `venkateshrao.com/blyg/` ↔ `blyg.protocol-institute.org`,
+each resolving and confirming the other over actual internet HTTP, not a test fixture.
+protocol-institute's initial backfill correctly pulled all 5 of venkateshrao's real
+published items (verified via its `/studio/reading` page — 5 entries, all attributed
+to "Venkatesh Rao's Blyg"). Published a new fragment live on venkateshrao, triggered
+`POST /api/subscriptions/{id}/resync` on protocol-institute's side, and watched it
+land (`{"ok":true,"changed":1}`, content confirmed present in the reading feed) — the
+actual multi-node pub-sub loop Venkat has wanted since session 11's release-bar framing.
 
-**Open threads:** Venkat should review before this goes live on either node —
-first real network testing between the two actual deployed instances is still ahead
-(migration 0004 needs applying to both, then real cross-subscription). Plan §7's open
-decisions (poll interval, first-subscribe import depth, public-hopper-pages-in-first-pass)
-were all resolved by just building the plan's stated defaults — no deviation, nothing
-new to decide. The `"unrecognized-transition"` fallback cells in `transition.ts` are
-worth a quick Fable sanity-check if they ever actually fire in production logs (they
-shouldn't, under honest origins). Next natural session: deploy migration 0004 to both
-nodes, wire the two into a real blogroll of each other, and watch a real poll cycle
-converge — the thing this whole plan was for.
+One non-obvious hiccup, recorded for future curl-driven sessions: the owner passwords
+for both nodes contain `+` and `/` characters (base64-ish, generated per
+`security-policy.md`), and `curl -d "password=…"` does **not** URL-encode the value —
+`+` silently becomes a space on the server's form-decode, so login failed with no
+useful error until switching to `curl --data-urlencode`. Also hit Cloudflare's edge
+cache (public routes carry `Cache-Control: public, max-age=60`) serving a stale
+pre-deploy manifest for ~60s after each deploy — resolved by cache-busting with a
+throwaway query param, not a real problem.
+
+**State after:** v0.2 "Roots" is fully implemented, tested, deployed, and *proven live*
+— both nodes running the new code, migration 0004 applied to both, subscribed to each
+other, backfilled, and confirmed converging on a real publish + resync round-trip. The
+roadmap's v0.2 exit criteria (two live nodes converging) is now actually met, not just
+implemented — `docs/roadmap.md` updated accordingly. Cron will carry ongoing
+convergence going forward at the registered 15-minute interval; not yet manually
+observed (would require waiting out a real interval), but the underlying poll path is
+identical to what `resync` just exercised successfully.
+
+**Open threads:** the legacy-RSS leg of the roadmap's three-way exit criterion (blyg +
+blyg + one legacy feed) isn't set up yet — pick a real external RSS feed and subscribe
+one node to it when convenient; not blocking, the L0 path is already fully tested in
+isolation (task 6). Neither node has anything in its blogroll or a public hopper yet
+(the plumbing is live and tested, just unused) — worth flagging one item public on one
+side as a demonstration when there's real content worth curating. The
+`"unrecognized-transition"` fallback cells in `transition.ts` are still worth a quick
+Fable sanity-check if they ever actually fire in production logs (they shouldn't,
+under honest origins).
 
 ## Session 12 — 2026-08-10 — Snapshot №1 live; v0.2 + TK-core designed; decisions #17–#21
 **Model:** Sonnet 5 (task 7 execution), then **Fable 5** via `/model` (all design work) · **Time:** ~10:00–10:50 PT · **Committed:** yes (both repos) · **Deployed:** `blygger-org.pages.dev` ×2 — snapshot №1 (`/spec/0.1/2026-08-10/`), then the revised spec status header
