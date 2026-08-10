@@ -7,6 +7,17 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 12 — 2026-08-10 — Spec snapshot №1 cut and deployed (task 7 closed)
+**Model:** Sonnet 5 · **Time:** ~10:00–10:04 PT · **Committed:** yes (blygger-org; blygger-spec unchanged except the new tag) · **Deployed:** `blygger-org.pages.dev` (updated) — `/spec/`, `/spec/0.1/`, `/spec/0.1/2026-08-10/`
+
+**What & why:** Session 11 finished `docs/spec-publishing-plan.md` tasks 1–6 but held task 7 (cutting the first real snapshot) for an explicit go-ahead, since it means a live-site deploy. Venkat confirmed at session open to just do it — nothing was blocking it technically. Verified both `blygger-spec` and `blygger-org` were already clean and pushed (session 11's push-hold had in fact been cleared before this session started, despite the DEVLOG open-thread wording suggesting otherwise — worth noting that "push held for wrap-up" language can outlive the actual push). Ran `blygger-org/sync_spec.py snapshot`: tagged + pushed `spec/0.1/2026-08-10` in `blygger-spec`, wrote the immutable dated page, regenerated latest's Previous-version link and the `/spec/` index.
+
+**Deploy hiccup, caught before it mattered:** first deploy attempt used `./deploy.sh --no-build`, which (correctly, per its own contract) skipped both the sync and the rebuild — so it silently redeployed session 11's stale `dist/`, missing the new snapshot entirely. Caught by checking `dist/` mtimes against `content/` before declaring done, re-ran with plain `./deploy.sh` (full sync + rebuild + deploy), then verified live: all three URL shapes return 200, `/spec/` index lists `2026-08-10`, `/spec/0.1/` latest's Previous-version line points at the new dated URL, and the dated snapshot page itself resolves. `--no-build` is for redeploying an already-current `dist/` unchanged — not a shortcut after `sync_spec.py snapshot`, which only touches `content/`.
+
+**State after:** `docs/spec-publishing-plan.md` all 7 tasks done. Spec snapshot №1 (`spec/0.1/2026-08-10`) is the first citable dated baseline, carrying the session-8 mount-independence revision through session 9's `blyg` rename. Spec itself remains DRAFT (no stable declaration made this session — that's a separate call, see the freeze-at-stable TODO in `CLAUDE.md`).
+
+**Open threads:** None new. Carrying forward from session 11 unchanged: inline-vs-block TK scopes (v0.4 Fable pass), full UI refresh (deferred to v0.5), release-candidate = stable spec + 2 reference implementations (undesigned).
+
 ## Session 11 — 2026-08-09 — Route bugfix; PI org node deployed; spec publishing automated
 **Model:** Sonnet 5 · **Time:** ~14:15–16:05 PT · **Committed:** yes (blygger-spec + blygger-org; push held for this wrap-up) · **Deployed:** `blyg.protocol-institute.org` (new); `blyg.vgr-702.workers.dev/blyg/` decommissioned
 
