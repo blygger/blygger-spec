@@ -1,5 +1,10 @@
 # Spec publishing plan — keeping blygger.org/spec/ current
 
+> **Session-12 amendment (2026-08-10, Fable):** tasks 1–7 are all executed
+> (snapshot №1 cut and live). §5 below, added session 12, extends the same
+> infrastructure to **technical notes** (`docs/notes/tn-N-*.md` →
+> `blygger.org/notes/`) — that part is PLAN, not executed, and Sonnet/Opus-safe.
+
 **Status:** PLAN, not executed. Written session 8 (2026-08-04, Fable) after the
 spec-as-blyg question was decided (see §1). **Sonnet/Opus-safe to execute in
 full** — scripting and site plumbing, no protocol semantics. The one ⚠️ FABLE
@@ -159,3 +164,48 @@ docs/protocol-v0.1.md  ── sync_spec.py ──► content/spec/0.1/index.md  
 - **Release automation** for the reference client (`ref-v*` tagging, GitHub
   Releases assets) — belongs to task 11 / the deploy sessions, not here. This
   plan only reserves the tag namespace and the index section.
+
+## 5. Technical notes — `blygger.org/notes/` (session-12 amendment; PLAN)
+
+**The genre:** a technical note (TN) is a numbered, non-normative document
+recording design reasoning alongside the spec — especially *rejected* designs
+and the rationale that closed them (the first is
+`docs/notes/tn-1-versioning-and-pins.md`, the versioning/pins decision).
+Notes constrain nothing; the spec remains the only normative text. They exist
+so recurring design questions can be answered with a citation instead of a
+relitigation — the public face of what the locked-decisions list does
+internally.
+
+**Shape (same architecture as §2, deliberately simpler):**
+
+- Canonical: `blygger-spec/docs/notes/tn-{N}-{slug}.md`, numbered
+  sequentially, never renumbered, never deleted. A note whose conclusion is
+  later reversed gets a banner pointing at its successor — history stays.
+- Published: `blygger.org/notes/tn-{N}/` (latest from `main`) + a
+  `/notes/` index (number, title, date, one-line summary). **No dated
+  snapshots and no git tags** — notes are dated documents amended rarely and
+  additively; the spec's snapshot/citation machinery would be ceremony here.
+  The footer commit-provenance stamp (same as spec pages) is the citation
+  anchor.
+- Every published note carries a standing banner: technical note,
+  non-normative, and the note's date.
+
+**Tasks (Sonnet/Opus-safe; all but the first edit `blygger-org/`):**
+
+1. **Note header convention** (`blygger-spec`): each TN's first lines carry
+   title, `TN-{N}`, date, status (`current` | `superseded by TN-{M}`) — the
+   sync script reads these; TN-1 already conforms. ✓ documented in
+   `docs/notes/` (a one-paragraph `README.md` there).
+2. **Sync**: extend `sync_spec.py` with a notes pass (default mode syncs
+   both spec-latest and notes; no new CLI mode needed): copy each
+   `docs/notes/tn-*.md` → `content/notes/tn-{N}/index.md` with the
+   non-normative banner + footer provenance stamp; generate
+   `content/notes/index.md`. Same idempotency bar as spec sync
+   (byte-identical re-runs). ✓ verified idempotent.
+3. **Build**: extend `build.py`'s walker to `content/notes/` (same
+   depth-driven title/rail derivation as `content/spec/`). ✓ local build
+   renders `/notes/` + `/notes/tn-1/` correctly.
+4. **Site nav**: the spec index (or site header) links to `/notes/`;
+   `content/README.md` records the source-of-truth rule for notes
+   (script-written, never hand-edited). ✓ live deploy serves both URL
+   shapes; blygger-org `CLAUDE.md` documents the flow.

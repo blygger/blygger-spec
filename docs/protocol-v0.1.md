@@ -1,9 +1,14 @@
 # The Blygger Protocol — Version 0.1
 
 **Status: DRAFT.** This document specifies protocol version 0.1 at conformance
-Level 1 (the publish side). It becomes stable when the v0.1 reference deployment
-ships, and frozen at protocol 1.0. Until then, breaking changes are permitted but
-must bump the manifest version and be recorded in the
+Level 1 (the publish side). **Every spec version numbered below 1.0 is a
+working draft**: the reference-implementation development phase is a testing
+phase for the protocol itself, and the spec changes in response to what
+testing discovers. Version 1.0 will be the first version its authors stand
+behind as stable and publish to a larger audience; until then, users of this
+spec and builders of implementations should assume **no promises** — including
+of the wire surface. Breaking changes are permitted pre-1.0 but must bump the
+manifest version and be recorded in the
 [project devlog](https://github.com/blygger/blygger-spec/blob/main/DEVLOG.md).
 
 <!-- spec-links:begin -->

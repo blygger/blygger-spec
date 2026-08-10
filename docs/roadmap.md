@@ -4,6 +4,32 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 **Reading this as an implementing agent:** items marked **⚠️ FABLE** are design/spec work involving protocol semantics, cross-client invariants, security/crypto, or API-surface design — they must be done (or their output reviewed) by Fable, not improvised by the implementing model. Unmarked work is implementable by Sonnet or Opus directly from the written plan docs. If a plan doc doesn't yet exist for the version you're asked to build, stop: the plan is Fable's job first.
 
+## Development-phase strategy (session 12, 2026-08-10, Venkat — decision #21)
+
+**Building the reference implementation *is* testing the protocol.** The
+whole pre-1.0 development phase is a protocol-testing phase, and the spec is
+expected to change in response to what testing discovers — discoveries flow
+DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
+
+- **Spec versions < 1.0 are working drafts, all of them.** No pre-1.0 version
+  is ever declared "stable" (this supersedes the earlier freeze-0.1-at-stable
+  intent). The version sequence below is a build sequence, not a stability
+  ladder.
+- **v1.0 is the first version we stand behind** — the spec we publish to a
+  larger audience at a deliberate release event. Until then, users of the
+  spec and builders of implementations should assume **no promises**,
+  including of the wire surface (cross-cutting invariant 5's pre-1.0 clause
+  is the governing rule; the discipline of decisions #14/#16 about
+  wire-permanent tokens is about keeping migration *costs* low and honest,
+  not a stability guarantee to outsiders).
+- **Testing cohort:** initially Venkat alone, on the live two-node network
+  (`venkateshrao.com/blyg/` + `blyg.protocol-institute.org`); possibly a few
+  invited testers before 1.0. No open beta pre-1.0.
+- The session-11 **release-candidate bar** (stable spec + two reference
+  implementations — this CF client plus a local/folder-based static-host
+  implementation) stands as the gate *for* the 1.0 event; this strategy
+  defines what pre-1.0 means on the way there.
+
 ## Cross-cutting invariants (hold at every version)
 
 1. Every blyg feed is a valid RSS 2.0 feed; every item carries a self-contained HTML rendering. A plain RSS reader always sees a sensible microblog.
@@ -45,7 +71,7 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 **Goal:** the network exists. A client can follow other blyg pages and legacy RSS feeds, roll up remote edits (of both fragments and threads), and triage into hoppers. Exit state: two blyg clients following each other, plus a legacy blog feed, all readable in one merged feed.
 
 **Protocol deliverables:**
-- Autodiscovery convention — **revised session 8 (decision #14: mounts are freely assignable, so no fixed path may be assumed):** given a URL, treat it as an origin and fetch `blyg.json` relative to it; a page that is not itself an origin SHOULD carry `<link rel="blyg" href="{origin}">`; conventional-mount probes (`/blyg/`, legacy `/blyg/`) as courtesy fallback; then plain RSS. Exact probe order + rel-link registration are the v0.2 plan's to finalize (⚠️ FABLE)
+- Autodiscovery convention — **revised session 8 (decision #14); mechanics finalized session 12 (Fable, decision #17, `v0.2-plan.md` §2.1):** deterministic bounded resolution — normalize → direct `blyg.json` probe → feed-upgrade via `<blyg:manifest>` → one-hop `<link rel="blyg" href="{origin}">` → conventional-mount probes → RSS fallback. Subscription identity = final fetch origin, never self-asserted `site`. rel-value registration (microformats registry) is a post-ship errand.
 - Rollup rules: match by `blyg:id`, highest version wins, ties broken by `updated`; self-asserted timestamps ordered per-reader
 - Backfill procedure from `items/index.json` for new/lagging subscribers
 - L0 grandfathering: wrapper that turns any RSS item into a summary fragment + link
@@ -53,7 +79,7 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 **Client deliverables:** subscription manager; cron-triggered poller; importer with rollup; merged reading feed (own + imported, reverse-chron by update); manual hoppers (create, add/remove, many-to-many); thumbs up/down stored as signals; hopper-add snapshots a local copy, later versions update it; imported items owner-only by default with a **make-public action = curation display only** (session-7 decision, supersedes "retweet-like": the item appears on a public hopper page rendered from the local snapshot with source attribution — it is **never re-emitted as an item on the publisher's feed**; re-emission would collide with `blyg:id` rollup and the single-publisher invariant. Feed-speech about others' content costs editorial: that's the v0.3 stub. Decision record: `curation-discovery-generation-proposal.md` §1).
 
-- **⚠️ FABLE:** rollup/conflict semantics and backfill edge cases (feed-window gaps, withdrawn-endcaps-vs-cached-copies, clock skew, malformed feeds) — Fable writes the v0.2 plan's importer state machine; Sonnet/Opus implements it.
+- **⚠️ FABLE — done session 12 (2026-08-10):** rollup/conflict semantics and backfill edge cases designed as the importer state machine in `v0.2-plan.md` §3 (decision #18: index-as-reconciliation-surface, no-silent-regression watermark, pinned-retention-past-withdrawal). Remaining v0.2 work is Sonnet/Opus-safe from the plan doc.
 
 **Exit criteria:** the two-client + legacy-feed scenario works through simulated outages (subscriber offline past the feed window catches up losslessly via backfill).
 
@@ -78,12 +104,23 @@ Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape 
 
 ## v0.4 — Canopy (AI arrives)
 
+> **Session-12 amendment (2026-08-10, Fable + Venkat — amends the locked
+> build order):** v0.4 is split. **TK-core** (thread + fragment TK scopes,
+> generation contract, provider-call interface, generation provenance) is
+> **pulled forward ahead of v0.3** — it depends only on v0.1 machinery, and
+> Venkat's release bar (session 11) names TK + pubsub, not v0.3, as the
+> gate. Design complete: `docs/tk-core-plan.md` (decision #20; resolves the
+> §4 items 1/3/4/6 pre-records, incl. inline-vs-block — quote-vs-source
+> split). **Build order is now: v0.2 → TK-core → v0.3 → v0.4-remainder**
+> (filter plugin API needs v0.2's importer; staleness-over-DAG needs v0.3
+> nesting; auto-hoppers need v0.2 signals).
+
 **Goal:** the AI-native layer. TK-transclusion generation, staleness/regeneration, auto-hoppers, and the filter plugin API. No protocol change — AI is entirely studio-side.
 
 **Client deliverables:** `[TK]…[/TK]` scopes generate contextual summaries of included fragments at save time (pure generation when empty; inert `TK` annotation stays non-AI); **fragment-level generate/regenerate hardpoint in the fragment editor** (session-7 addition — all generation hooks, fragment editor + thread TK scopes + import filters, share one provider-call interface); edits to transcluded sources mark dependent threads **stale** — no automatic cascade; owner regenerates on demand (cost control, no surprise API spend); auto-hoppers via AI relevance filters over inbound items; filter plugin interface (typed hooks over the import pipeline: score/route/transform; default filters ship as plugins, including detect-stubs retrofitted); configurable AI provider + key via wrangler secrets.
 
-- **⚠️ FABLE:** the filter plugin API surface (a public extension contract — hard to change later); the TK generation contract (what context the model sees, how provenance is recorded, determinism/versioning of generated text — session-7 pre-record in `curation-discovery-generation-proposal.md` §4: lean is generated text lands in `content_md` with TK markers as inert annotations so hash/pin cover what readers read; disclosure-of-generation open); staleness dependency model over the DAG.
-- Sonnet/Opus: all implementation once those three designs are written.
+- **⚠️ FABLE — TK generation contract done session 12 (2026-08-10):** designed in `tk-core-plan.md` (decision #20) — two-layer split (TK grammar studio-private; wire gets marker-free `content_md` + `generated` provenance + `blyg-tk-gen` baked class, amending the §4 item-3 inert-markers lean), quote-vs-source rule for `![[id]]` in scopes, one provider-call interface, disclosure = SHOULD-record/reference-always. Remaining ⚠️ FABLE, still undesigned: the filter plugin API surface (a public extension contract — hard to change later; needs v0.2's importer) and the staleness dependency model over the DAG (needs v0.3 nesting).
+- Sonnet/Opus: TK-core implementation now (from `tk-core-plan.md`); the rest once the remaining two designs are written.
 
 **Exit criteria:** editing a source fragment marks its dependent threads stale and one-click regeneration updates them with correct provenance; a third-party filter plugin can be written from the docs alone without touching core.
 

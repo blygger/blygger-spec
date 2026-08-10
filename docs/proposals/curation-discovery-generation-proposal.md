@@ -138,6 +138,18 @@ Asked and answered: no tags, no canned editorial phrases in the protocol.
 
 ## 4. Generation hardpoints (v0.4 pre-record — leans, not locked)
 
+> **Session-12 status (2026-08-10, Fable):** the TK-core design pass ran —
+> `docs/tk-core-plan.md`, locked decision #20. Items **1, 2, 5 confirmed**;
+> item **3 amended** (generated text does land in `content_md`, but markers
+> are **not** retained — provenance moves to an item-doc `generated` array +
+> baked `blyg-tk-gen` class, mirroring transclusion's two-plane pattern);
+> item **4 resolved** (disclosure = SHOULD-record, reference client always
+> records, `model` RECOMMENDED, instructions never); item **6 resolved**
+> (quote-vs-source: `![[id]]` inside a TK scope is a generation source, never
+> a transclusion; #9 untouched; TK scopes may sit inline because they are
+> studio grammar the wire never sees). Still open for later passes: filter
+> plugin API (needs v0.2), staleness-over-DAG (needs v0.3).
+
 Recorded here so the v0.4 Fable pass starts from Venkat's session-7 intent
 rather than rediscovering it:
 
