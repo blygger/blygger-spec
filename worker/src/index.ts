@@ -11,6 +11,12 @@
 import { Hono } from "hono";
 import { api } from "./api.ts";
 import { verifySession } from "./auth.ts";
+import { importerApi } from "./importer/api.ts";
+import { buildBlogrollOpml } from "./importer/opml.ts";
+import { publicHopperPage } from "./importer/pages.ts";
+import { runScheduledPoll } from "./importer/schedule.ts";
+import { importerStudio } from "./importer/studio.ts";
+import { getHopperBySlug, getImportedItem, getSubscription, listBlogrollSubscriptions, listHopperItems } from "./importer/store.ts";
 import { authoredKind, getItem, getMedia, getSettings, getVersion, listPublic } from "./model.ts";
 import { archivePage, feedPage, permalinkPage, STYLE_CSS, threadPage } from "./pages.ts";
 import { buildArchiveIndex, buildFeedXml, buildItemJson, buildManifest, buildPinnedVersionJson, siteOrigin } from "./protocol.ts";
@@ -39,6 +45,7 @@ export function makeApp(mount: string) {
     return next();
   });
   app.route("/studio", studio);
+  app.route("/studio", importerStudio);
 
   app.use("/api/*", async (c, next) => {
     if (!(await verifySession(c.env, c.req.header("cookie")))) {
@@ -47,6 +54,7 @@ export function makeApp(mount: string) {
     return next();
   });
   app.route("/api", api);
+  app.route("/api", importerApi);
 
   // --- Public surface: mount-relative — cache 60s; JSON/XML get permissive CORS. ---
 
@@ -85,6 +93,36 @@ export function makeApp(mount: string) {
   pub.get("/items/index.json", async (c) => {
     cors(c);
     return c.json(await buildArchiveIndex(c.env.DB));
+  });
+
+  // §2.2 blogroll: 404 when no subscription is flagged public.
+  pub.get("/blogroll.opml", async (c) => {
+    const subs = await listBlogrollSubscriptions(c.env.DB);
+    if (!subs.length) return c.notFound();
+    const settings = await getSettings(c.env.DB);
+    cors(c);
+    return c.body(buildBlogrollOpml(subs, settings.site_title), 200, { "Content-Type": "text/x-opml; charset=utf-8" });
+  });
+
+  // §4.2 public hopper page: curation display only (decision #12) — 404 unless the hopper is public.
+  pub.get("/h/:slug", async (c) => {
+    const hopper = await getHopperBySlug(c.env.DB, c.req.param("slug"));
+    if (!hopper || hopper.public !== 1) return c.notFound();
+    const memberships = await listHopperItems(c.env.DB, hopper.id);
+    const subCache = new Map<string, Awaited<ReturnType<typeof getSubscription>>>();
+    const items: { row: NonNullable<Awaited<ReturnType<typeof getImportedItem>>>; sub: NonNullable<Awaited<ReturnType<typeof getSubscription>>> }[] = [];
+    for (const m of memberships) {
+      const row = await getImportedItem(c.env.DB, m.subscription_id, m.remote_id);
+      if (!row) continue;
+      let sub = subCache.get(m.subscription_id);
+      if (sub === undefined) {
+        sub = await getSubscription(c.env.DB, m.subscription_id);
+        subCache.set(m.subscription_id, sub);
+      }
+      if (!sub) continue;
+      items.push({ row, sub });
+    }
+    return c.html(await publicHopperPage(hopper, items, mount));
   });
 
   pub.get("/items/:file", async (c) => {
@@ -168,5 +206,10 @@ export default {
       apps.set(mount, app);
     }
     return app.fetch(req, env, ctx);
+  },
+  // Cron trigger (§4.2): poll every due subscription. Due-selection + backoff
+  // logic lives in importer/schedule.ts, fake-clock testable in isolation.
+  async scheduled(_controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
+    ctx.waitUntil(runScheduledPoll(env.DB));
   },
 };

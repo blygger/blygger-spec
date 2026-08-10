@@ -6,6 +6,7 @@
 // "Permalink" text link (dropping the ∞ glyph). Task 8 originally shipped
 // against the rev-1 mockup; this brings it forward together with threads.
 
+import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerptFromHtml } from "./markdown.ts";
 import { listMediaForItem, publishedVersion } from "./model.ts";
 import type { ItemRow, MediaRow, Settings, Transclusion } from "./types.ts";
@@ -56,7 +57,7 @@ ul.archive .meta { font-size: 0.85rem; opacity: 0.7; margin-left: 0.5rem; }
 footer.older { text-align: center; padding: 1rem 0; }
 `;
 
-export function layout(title: string, body: string, mount: string): string {
+export function layout(title: string, body: string, mount: string, hasBlogroll = false): string {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -65,7 +66,7 @@ export function layout(title: string, body: string, mount: string): string {
 <title>${escapeHtml(title)}</title>
 <link rel="stylesheet" href="${mount}/style.css">
 <link rel="alternate" type="application/rss+xml" href="${mount}/feed.xml">
-</head>
+${hasBlogroll ? `<link rel="blogroll" href="${mount}/blogroll.opml">\n` : ""}</head>
 <body>
 ${body}
 </body>
@@ -209,7 +210,9 @@ ${pageHeader(mount)}
 ${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
 ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</a></footer>` : ""}
 </div>`;
-  return layout(settings.site_title, body, mount);
+  // §2.2: publishers SHOULD emit rel="blogroll" on the HTML feed page when the blogroll is non-empty.
+  const hasBlogroll = (await listBlogrollSubscriptions(db)).length > 0;
+  return layout(settings.site_title, body, mount, hasBlogroll);
 }
 
 /** Fragment permalink page — caller (index.ts) 404s if the item's authored kind isn't fragment. */

@@ -34,15 +34,31 @@ example.com/blyg/
   feed.xml          RSS 2.0 + blyg namespace — the notification plane
   blyg.json          manifest: protocol level, generator, author profile, archive index
   items/{id}.json   canonical item state — the data plane; one file per item, full archive
+  items/index.json  archive index — every item ever, no window; the backfill/reconciliation surface
   f/{id}/           fragment permalink page
   t/{id}/           thread permalink page
   media/            attachments
+  blogroll.opml     OPTIONAL — curated subset of subscriptions, standard OPML 2.0, no extensions
+  h/{slug}/         OPTIONAL — a public hopper: curated snapshots + source attribution, never re-emitted content
 ```
 
 Two planes, deliberately separated:
 
 - **State plane** — `items/{id}.json` is ground truth. Stable random IDs (globally unique, domain-independent), per-version content hashes (IPFS-friendly), full history always retrievable. New subscribers backfill from here; lagging subscribers never lose edits.
-- **Notification plane** — `feed.xml` is plain RSS carrying "item X changed" plus a readable rendering. Lossy, window-limited, and that's fine — it's only a signal.
+- **Notification plane** — `feed.xml` is plain RSS carrying "item X changed" plus a readable rendering. Lossy, window-limited, and that's fine — it's only a signal: `items/index.json` is what makes a subscriber that missed the window (or just subscribed for the first time) recover losslessly by diffing against local state instead of trusting the feed to have caught everything.
+
+**Subscribing** (v0.2 "Roots"): a client is handed any URL and resolves it — direct
+manifest probe, RSS feed-upgrade via a `<blyg:manifest>` element, one-hop `<link
+rel="blyg">`, conventional-mount fallback, or plain RSS as a last resort (grandfathered
+in as a summary-fragment-and-link wrapper). Subscription identity is always the final
+fetch origin, never a manifest's self-asserted `site` — a mirror can't inherit another
+origin's identity. Polling is a cheap conditional `GET feed.xml` for low-latency
+pickup; the archive index is the real reconciliation surface, so any gap — a missed
+poll, a scrolled-out feed window, clock skew, a malformed feed — degrades to an index
+diff instead of lost history. Imported items triage into private **hoppers**; making
+one public renders a curation page (local snapshot + source attribution) — it is never
+re-published on the subscriber's own feed, which would collide with the single-publisher
+invariant.
 
 Three compatibility rules keep the client ecology forgiving:
 

@@ -1,8 +1,14 @@
-// Static export (v0.1-plan §3.5): fetch every public route from a running
-// blyg instance and write the byte-identical file tree — proves the page is
-// servable from a dumb file host (invariant 4).
+// Static export (v0.1-plan §3.5; v0.2 additions per v0.2-plan.md §5 task 13):
+// fetch every public route from a running blyg instance and write the
+// byte-identical file tree — proves the page is servable from a dumb file
+// host (invariant 4).
 //
-//   npm run export -- --out DIR --base https://example.com/blyg/
+//   npm run export -- --out DIR --base https://example.com/blyg/ [--hoppers slug1,slug2]
+//
+// --hoppers is explicit because the protocol has no public "list of public
+// hoppers" surface (§4.2 only adds blogroll.opml and /h/{slug}/, not a third
+// discovery endpoint) — the operator names which of their own public
+// hoppers to mirror, same as they already name --base themselves.
 //
 // Runs under `node --experimental-strip-types` (Node 22+); no dependencies.
 
@@ -12,18 +18,41 @@ import path from "node:path";
 function arg(name: string): string {
   const i = process.argv.indexOf(`--${name}`);
   if (i === -1 || i + 1 >= process.argv.length) {
-    console.error(`usage: npm run export -- --out DIR --base https://host/blyg/`);
+    console.error(`usage: npm run export -- --out DIR --base https://host/blyg/ [--hoppers slug1,slug2]`);
     process.exit(1);
   }
   return process.argv[i + 1];
 }
 
+function optionalArg(name: string): string | undefined {
+  const i = process.argv.indexOf(`--${name}`);
+  return i === -1 || i + 1 >= process.argv.length ? undefined : process.argv[i + 1];
+}
+
 const out = arg("out");
 const base = arg("base").endsWith("/") ? arg("base") : arg("base") + "/";
+const hopperSlugs = (optionalArg("hoppers") ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 
 async function save(route: string, file: string): Promise<Uint8Array> {
   const url = base + route;
   const res = await fetch(url);
+  if (!res.ok) throw new Error(`${res.status} ${url}`);
+  const bytes = new Uint8Array(await res.arrayBuffer());
+  const dest = path.join(out, file);
+  await mkdir(path.dirname(dest), { recursive: true });
+  await writeFile(dest, bytes);
+  console.log(`${String(bytes.length).padStart(8)}  ${file}`);
+  return bytes;
+}
+
+/** Like save(), but a 404 is a legitimate "nothing to export here" rather than a failure (blogroll.opml when empty; §2.2). */
+async function trySave(route: string, file: string): Promise<Uint8Array | null> {
+  const url = base + route;
+  const res = await fetch(url);
+  if (res.status === 404) return null;
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   const bytes = new Uint8Array(await res.arrayBuffer());
   const dest = path.join(out, file);
@@ -71,4 +100,14 @@ for (const { id } of index.items) {
 // Media referenced by any item.
 for (const url of mediaUrls) await save(url, url);
 
-console.log(`\nexported ${6 + index.items.length * 2 + pinnedCount + mediaUrls.size} files to ${out}`);
+// v0.2: blogroll (§2.2) — optional, 404s when no subscription is public.
+const blogroll = await trySave("blogroll.opml", "blogroll.opml");
+
+// v0.2: public hopper pages (§4.2 task 11), operator-named via --hoppers.
+for (const slug of hopperSlugs) {
+  await save(`h/${slug}/`, `h/${slug}/index.html`);
+}
+
+console.log(
+  `\nexported ${6 + index.items.length * 2 + pinnedCount + mediaUrls.size + (blogroll ? 1 : 0) + hopperSlugs.length} files to ${out}`,
+);

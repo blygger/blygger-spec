@@ -83,6 +83,8 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 
 **Exit criteria:** the two-client + legacy-feed scenario works through simulated outages (subscriber offline past the feed window catches up losslessly via backfill).
 
+- **Implementation done session 13 (2026-08-10, Sonnet):** all 14 tasks in `v0.2-plan.md` §5 built — resolution, importer state machine, poller, L0 wrapper, hoppers/signals (incl. the §3.4 withdrawal-pin-retention check), blogroll, merged reading feed, public hopper pages, static-export update. 163/163 tests green including a simulated-outage integration test that forces recovery through index reconciliation specifically (not just the feed window) — run against a real worker instance via `SELF.fetch`, not a fixture map. Static export byte-verified against a live `wrangler dev` instance. **Exit criterion not yet fully met**: this is single-node-testing-itself, not the real two-live-node scenario — migration 0004 still needs deploying to `venkateshrao.com/blyg/` and `blyg.protocol-institute.org` before genuine cross-node convergence can be observed. Details: DEVLOG session 13.
+
 ## v0.3 — Trunk (threads go cross-client, no AI yet)
 
 **Goal:** the social layer over threads. Threads composed from hoppers (imported items), the share and stub actions, thread-in-thread nesting, and cross-client transclusion semantics. Exit state: the full soapbox-response loop — see, hopper, stub, publish — works without any AI. (The thread abstraction itself shipped locally in v0.1; this version makes it networked.)

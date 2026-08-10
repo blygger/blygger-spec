@@ -58,6 +58,68 @@ export interface AuthorLink {
   url: string;
 }
 
+// --- v0.2 "Roots" subscribe side (migration 0004, v0.2-plan.md §4.1) ---
+
+export interface SubscriptionRow {
+  id: string;
+  kind: "blyg" | "rss";
+  origin: string;
+  feed_url: string;
+  title: string;
+  status: "active" | "paused" | "degraded";
+  etag: string | null;
+  last_modified: string | null;
+  last_poll_at: string | null;
+  newest_guid: string | null;
+  fail_count: number;
+  last_index_sync_at: string | null;
+  in_blogroll: number;
+  /** JSON array of ImporterFlag strings — the discrepancy log surfaced in the subs UI. */
+  flags: string;
+  created: string;
+}
+
+export interface ImportedItemRow {
+  subscription_id: string;
+  remote_id: string;
+  kind: "fragment" | "thread";
+  state: "current" | "tombstone";
+  version: number;
+  created: string | null;
+  updated: string | null;
+  observed_at: string;
+  content_md: string;
+  content_html: string;
+  content_hash: string | null;
+  author_json: string | null;
+  media_json: string | null;
+  transclusions_json: string | null;
+  l0: number;
+  pinned_version_retained: number | null;
+}
+
+export interface HopperRow {
+  id: string;
+  name: string;
+  slug: string | null;
+  public: number;
+  created: string;
+}
+
+export interface HopperItemRow {
+  hopper_id: string;
+  subscription_id: string;
+  remote_id: string;
+  added_at: string;
+}
+
+export interface SignalRow {
+  subscription_id: string;
+  remote_id: string;
+  thumb: 1 | -1;
+  at: string;
+}
+
 /** Site settings with defaults applied. */
 export interface Settings {
   site_title: string;
@@ -93,8 +155,9 @@ export const BRAND = {
 /** Reference-client default mount when Env.MOUNT is unset. Deployment lexicon, not wire vocabulary — deliberately ≠ BRAND.slug. */
 export const DEFAULT_MOUNT = "/blyg";
 
-export const GENERATOR = `${BRAND.slug}-ref/0.1.0`;
-export const PROTOCOL_VERSION = "0.1";
+export const GENERATOR = `${BRAND.slug}-ref/0.2.0`;
+/** Version key policy (v0.2-plan.md §2.3): the spec version this deployment implements — "0.2" once the blogroll key ships. Readers MUST accept any 0.x value. */
+export const PROTOCOL_VERSION = "0.2";
 export const PROTOCOL_LEVEL = 1;
 export const FRAGMENT_MAX_CHARS = 1000;
 export const FEED_WINDOW = 50;

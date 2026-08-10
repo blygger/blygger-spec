@@ -7,6 +7,108 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 13 — 2026-08-10 — v0.2 "Roots" built end-to-end: subscribe side, all 14 tasks
+**Model:** Sonnet 5 · **Time:** ~10:47–11:56 PT · **Committed:** no (pending Venkat's review) · **Deployed:** — (not yet pushed to either live node)
+
+**What & why:** Implemented `docs/v0.2-plan.md` in full — all 14 ordered tasks, from
+migration 0004 through the simulated-outage integration test — in one session, working
+straight from the session-12 design doc per CLAUDE.md model routing (Sonnet-safe
+throughout, no protocol redesign needed). New code lives under `worker/src/importer/`
+(13 modules) with `worker/test/importer/` (14 test files, 90 new tests); the full suite
+ends the session at 163/163 green, `tsc --noEmit` clean throughout.
+
+**Resolution (`importer/resolve.ts`, §2.1) and transition (`importer/transition.ts`,
+§3.3)** are both pure functions taking an injectable `FetchLike` (`importer/http.ts`) —
+a deliberate implementation choice, not a protocol one: platform `fetch()`'s
+`Response.url` is only meaningfully populated by a real network round-trip, so a
+custom `FetchLike` (`{ok, status, url, headers, text()}`) decouples "final URL after
+redirects" from that platform quirk and makes every importer module testable with
+plain deterministic fixture stubs instead of a real HTTP layer or `MockAgent`
+plumbing. `resolve()` implements the six-step algorithm exactly (direct probe →
+feed-upgrade via a real XML parse, not just a regex → one-hop rel probe → conventional
+mounts → RSS fallback), using `HTMLRewriter` (native to the Workers runtime) to extract
+`<link>` tags instead of a hand-rolled regex or a DOM dependency. `transition()`
+implements every table row from §3.3 plus the edge cells the table doesn't literally
+name (e.g. a same-version re-fetch whose kind contradicts the local state) — per
+CLAUDE.md's model-routing rule, those fall back to a safe ignore-and-flag
+(`"unrecognized-transition"`) rather than inventing new protocol semantics; worth a
+Fable pass if they ever prove reachable in practice, but they shouldn't be under an
+honest origin (withdrawal is itself a version bump, so a same-version document can't
+legitimately change kind).
+
+**Index reconciler + poll cycle (`importer/poll.ts`, §3.2)** implements the full
+gap-check/backoff/degrade machinery. One real gap found while implementing: the plan's
+"import the full archive on first subscribe" was originally wired as a direct
+`reconcileIndex()` call from the subscribe API — but that bypasses `pollSubscription()`'s
+own bookkeeping (`newest_guid`, `etag`, `last_index_sync_at`), so the *next* real poll
+would find `newest_guid` still null and never trigger gap detection correctly. Fixed by
+having initial-subscribe call `pollSubscription()` itself: a fresh subscription's null
+`last_index_sync_at` already makes that first call reconcile unconditionally, so it's
+a strict simplification (one code path instead of two) that also fixes the bootstrap
+bug. Caught this before it shipped, not after — no protocol impact, pure implementation
+correctness.
+
+**Hoppers' pin-retention integration (§3.4)** hooks into `poll.ts`'s `rollup-null`
+handling: at withdrawal-processing time, if the item is in any hopper, one extra fetch
+checks whether the origin still pins the last-known version; if so,
+`imported_items.pinned_version_retained` is set and content survives, otherwise it's
+wiped to the placeholder state. Scoped to hopper-tracked items only (the only place the
+distinction is user-visible) to avoid a pin-check fetch on every withdrawal.
+
+**Sanitization, not in the plan doc but required by §12:** `content_html` fetched from
+a remote origin is untrusted HTML and §12/§3.3 both say it MUST be sanitized before
+rendering. Added `importer/sanitize.ts` — an allowlist-by-removal sanitizer built on
+`HTMLRewriter` (strips `script`/`style`/`iframe`/`object`/`embed`/`form`, `on*` handler
+attributes, `javascript:` URLs), applied at render time in the reading feed and public
+hopper pages, never at storage time (ground truth stays verbatim, per the spec's own
+"sanitize at render, store verbatim" framing). L0 imports skip it structurally instead:
+their `content_html` is always our own `renderMarkdown()` output (html:false), never
+the origin's raw bytes, so there's nothing to sanitize.
+
+**Version key bump:** landing the blogroll manifest key triggered §2.3's own rule —
+`PROTOCOL_VERSION` and `GENERATOR` bumped from `0.1`/`blyg-ref/0.1.0` to
+`0.2`/`blyg-ref/0.2.0` (package.json version too). `BRAND.nsUri` (the XML namespace)
+was deliberately left at `ns/0.1` — namespaces are permanent identifiers per decision
+#14/#16, not version trackers.
+
+**Static export (task 13) verified live**, not just unit-tested: ran a real
+`wrangler dev` instance, published content, subscribed it to itself over real loopback
+HTTP (`resolve()` against `http://127.0.0.1:8787/blyg/` — genuine self-fetch, not a
+sandbox trick), created a public hopper, then ran `scripts/export.ts` and byte-diffed
+`blogroll.opml`, the hopper page, and the manifest against the live routes — all three
+identical, confirming invariant 4 holds for the new v0.2 surfaces. `--hoppers` is a new
+required-if-you-want-them CLI flag (comma-separated slugs): the protocol has no public
+"list of public hoppers" surface by design (§4.2 only adds `blogroll.opml` and
+`/h/{slug}/`), so the export script can't discover them itself — the operator names
+which of their own public hoppers to mirror, the same way they already name `--base`.
+
+**Simulated-outage integration test (task 12)** runs against the real worker via
+`SELF.fetch` wrapped as a `FetchLike` — both "nodes" are the one worker under test (it
+publishes its own content and subscribes to itself), but the HTTP path is real, not a
+fixture map. The scenario is deliberately adversarial: a missed edit and a withdrawal
+are both pushed completely out of the 50-entry feed window by unrelated churn on a
+third item *before* the subscriber ever reconnects, so the test can only pass if index
+reconciliation — not the feed trigger-set — is what recovers them. It does, item-by-item,
+on the first run.
+
+**State after:** v0.2 "Roots" is functionally complete per the plan doc — all 14 tasks,
+163/163 tests green, `tsc` clean, static export verified live against a real `wrangler
+dev` instance. Nothing pushed or deployed to either live node yet; migration 0004 has
+not been applied to `venkateshrao.com/blyg/` or `blyg.protocol-institute.org`.
+Roadmap v0.2 exit criteria (`docs/roadmap.md`) and README's protocol-on-one-screen
+section updated to reflect the subscribe side.
+
+**Open threads:** Venkat should review before this goes live on either node —
+first real network testing between the two actual deployed instances is still ahead
+(migration 0004 needs applying to both, then real cross-subscription). Plan §7's open
+decisions (poll interval, first-subscribe import depth, public-hopper-pages-in-first-pass)
+were all resolved by just building the plan's stated defaults — no deviation, nothing
+new to decide. The `"unrecognized-transition"` fallback cells in `transition.ts` are
+worth a quick Fable sanity-check if they ever actually fire in production logs (they
+shouldn't, under honest origins). Next natural session: deploy migration 0004 to both
+nodes, wire the two into a real blogroll of each other, and watch a real poll cycle
+converge — the thing this whole plan was for.
+
 ## Session 12 — 2026-08-10 — Snapshot №1 live; v0.2 + TK-core designed; decisions #17–#21
 **Model:** Sonnet 5 (task 7 execution), then **Fable 5** via `/model` (all design work) · **Time:** ~10:00–10:50 PT · **Committed:** yes (both repos) · **Deployed:** `blygger-org.pages.dev` ×2 — snapshot №1 (`/spec/0.1/2026-08-10/`), then the revised spec status header
 

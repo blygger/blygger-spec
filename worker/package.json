@@ -1,8 +1,8 @@
 {
   "name": "blyg-ref",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Blygger v0.1 'Seed' reference client — single-publisher publish worker",
+  "description": "Blygger reference client — publish + subscribe (v0.2 'Roots')",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
@@ -11,6 +11,7 @@
     "deploy": "wrangler deploy"
   },
   "dependencies": {
+    "fast-xml-parser": "^5",
     "hono": "^4",
     "markdown-it": "^14"
   },
@@ -19,7 +20,6 @@
     "@cloudflare/workers-types": "^5",
     "@types/markdown-it": "^14",
     "@types/node": "^26.1.1",
-    "fast-xml-parser": "^5",
     "typescript": "^5",
     "vitest": "^4.1.0",
     "wrangler": "^4"

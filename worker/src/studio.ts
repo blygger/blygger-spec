@@ -16,7 +16,7 @@ import type { Env, ItemRow, Transclusion } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
 import { escapeHtml, normalizeMount } from "./util.ts";
 
-const STUDIO_STYLE = `
+export const STUDIO_STYLE = `
 :root { color-scheme: light dark; }
 * { box-sizing: border-box; }
 body {
@@ -90,7 +90,7 @@ input.note { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.5rem; border-ra
 .settings-form input, .settings-form textarea { width: 100%; font: inherit; padding: 0.4rem 0.5rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
 `;
 
-function studioLayout(title: string, body: string, wide = false): string {
+export function studioLayout(title: string, body: string, wide = false): string {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -106,11 +106,14 @@ ${body}
 `;
 }
 
-function studioHeader(title: string, mount: string): string {
+export function studioHeader(title: string, mount: string): string {
   return `<header class="studio">
 <h1>${escapeHtml(title)}</h1>
 <nav>
 <a href="${mount}/">public page ↗</a>
+<a href="/studio/subs">subscriptions</a>
+<a href="/studio/reading">reading</a>
+<a href="/studio/hoppers">hoppers</a>
 <a href="/studio/settings">settings</a>
 <form method="post" action="/studio/logout" style="display:inline"><button type="submit" class="link">log out</button></form>
 </nav>
@@ -129,7 +132,7 @@ ${error ? `<p style="color:#c00">${escapeHtml(error)}</p>` : ""}
   );
 }
 
-function formatDate(iso: string): string {
+export function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 }
 
@@ -209,7 +212,7 @@ ${mostRecentLine}
 </div>`;
 }
 
-function excerptOf(text: string, n = 80): string {
+export function excerptOf(text: string, n = 80): string {
   const t = text.trim().replace(/\s+/g, " ");
   return t.length <= n ? t || "(empty)" : t.slice(0, n).trimEnd() + "…";
 }

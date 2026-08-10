@@ -1,6 +1,7 @@
 // Protocol surface builders: item JSON, manifest, archive index, feed.xml
 // — v0.1-plan §2.3–2.6. These shapes are protocol; do not change casually.
 
+import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerpt, excerptFromHtml } from "./markdown.ts";
 import { injectProvenance } from "./pages.ts";
 import {
@@ -92,6 +93,7 @@ export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: V
 /** §2.4 manifest. */
 export async function buildManifest(db: D1Database, settings: Settings, origin: string) {
   const avatar = settings.avatar_media_id ? `media/${settings.avatar_media_id}` : undefined;
+  const hasBlogroll = (await listBlogrollSubscriptions(db)).length > 0;
   return {
     blyg: PROTOCOL_VERSION,
     level: PROTOCOL_LEVEL,
@@ -107,6 +109,8 @@ export async function buildManifest(db: D1Database, settings: Settings, origin: 
     feed: "feed.xml",
     items: "items/index.json",
     updated: await lastUpdated(db),
+    // §2.2: OPTIONAL, origin-relative; present only when the blogroll is non-empty.
+    ...(hasBlogroll ? { blogroll: "blogroll.opml" } : {}),
   };
 }
 
