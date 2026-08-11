@@ -11,10 +11,40 @@ import { Hono } from "hono";
 import { checkPassword, clearSessionCookie, issueSessionCookie, verifySession } from "./auth.ts";
 import { renderMarkdown } from "./markdown.ts";
 import { authoredKind, getItem, getSettings, listAll, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
+import { annotateGenerated, applyGeneratedWrappers, parseScopes, previewStrip, type TkScope } from "./tk.ts";
 import { previewTransclusions } from "./transclusion.ts";
 import type { Env, ItemRow, Transclusion } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
 import { escapeHtml, normalizeMount } from "./util.ts";
+
+/**
+ * Studio-only scope summary for the Generate/Regenerate panel (task 6) — not
+ * a protocol surface. `output` is truncated for display only.
+ */
+function scopeSummaries(scopes: TkScope[]): { index: number; instruction: string; output: string | null; hasOutput: boolean; block: boolean }[] {
+  return scopes.map((s, index) => ({
+    index,
+    instruction: s.instruction,
+    output: s.output === null ? null : excerptOf(s.output, 60),
+    hasOutput: s.output !== null,
+    block: s.block,
+  }));
+}
+
+/**
+ * Studio preview rendering shared by /preview and /preview-thread: strips TK
+ * scopes (tolerantly — previewStrip never throws), highlights every resolved
+ * scope regardless of real provenance (an authoring aid, not the wire's
+ * disclosure rule — see model.ts publish() for the provenance-gated version),
+ * and lets the caller render the remaining markdown (plain, or via
+ * previewTransclusions for threads).
+ */
+function annotateTkPreview(contentMd: string): { scopes: TkScope[]; text: string; finish: (renderedHtml: string) => string } {
+  const { scopes } = parseScopes(contentMd);
+  const { text, spans } = previewStrip(contentMd, scopes);
+  const annotated = annotateGenerated(text, spans, spans.map(() => true));
+  return { scopes, text: annotated.text, finish: (renderedHtml) => applyGeneratedWrappers(renderedHtml, annotated) };
+}
 
 export const STUDIO_STYLE = `
 :root { color-scheme: light dark; }
@@ -88,6 +118,18 @@ input.note { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.5rem; border-ra
 .palette .meta { font-size: 0.78rem; opacity: 0.6; margin-left: 0.5rem; }
 .settings-form label { display: block; margin: 0.75rem 0 0.25rem; font-size: 0.85rem; opacity: 0.8; }
 .settings-form input, .settings-form textarea { width: 100%; font: inherit; padding: 0.4rem 0.5rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
+.tk-panel { margin-top: 1rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; }
+.tk-panel h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6; margin: 0 0 0.5rem; }
+.tk-panel ul { list-style: none; margin: 0; padding: 0; }
+.tk-scope-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0; border-top: 1px solid rgba(128,128,128,0.2); font-size: 0.88rem; }
+.tk-scope-row:first-child { border-top: none; }
+.tk-instruction { flex: 1; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tk-pending { font-size: 0.75rem; opacity: 0.65; font-style: italic; }
+.tk-empty { opacity: 0.6; font-size: 0.88rem; font-style: italic; }
+/* Studio-only visibility for the wire's disclosure class — the public page defaults to invisible (decision record). */
+.preview .blyg-tk-gen { background: rgba(90,140,255,0.12); border-radius: 3px; box-shadow: 0 0 0 2px rgba(90,140,255,0.12); }
+.preview div.blyg-tk-gen { padding: 0.1rem 0.4rem; }
+.preview span.blyg-tk-gen { padding: 0.03rem 0.15rem; }
 `;
 
 export function studioLayout(title: string, body: string, wide = false): string {
@@ -231,6 +273,36 @@ async function api(method, path, body) {
   }
   return json;
 }
+/** Renders a publish-error banner for both TransclusionResolveError ({directive,reason}) and TkPublishError ({at,reason}) shapes. */
+function renderPublishErrorBanner(slot, data) {
+  const items = (data && data.errors) || [];
+  if (!items.length) {
+    slot.innerHTML = '<div class="error-banner">Cannot publish: ' + ((data && data.error) || "unknown error") + "</div>";
+    return;
+  }
+  slot.innerHTML = '<div class="error-banner">Cannot publish: ' +
+    items.map((e) => e.directive
+      ? "<code>" + e.directive.replace(/</g, "&lt;") + "</code> does not resolve — " + e.reason
+      : "TK scope — " + e.reason
+    ).join("<br>") +
+    "</div>";
+}
+/** TK scope panel (task 6) — per-scope Generate/Regenerate list, shared by the fragment and thread editors. */
+function renderTkPanel(scopes) {
+  const list = document.getElementById("tk-scope-list");
+  if (!list) return;
+  if (!scopes.length) {
+    list.innerHTML = '<li class="tk-empty">No [TK …] scopes in this draft.</li>';
+    return;
+  }
+  list.innerHTML = scopes.map((s) => {
+    const label = s.hasOutput ? "regenerate" : "generate";
+    const state = s.hasOutput ? "" : '<span class="tk-pending">ungenerated</span> ';
+    const instr = (s.instruction || "(no instruction)").replace(/</g, "&lt;");
+    return '<li class="tk-scope-row"><span class="tk-instruction">' + instr + "</span> " + state +
+      '<button type="button" class="tk-generate-btn" data-scope="' + s.index + '">' + label + "</button></li>";
+  }).join("");
+}
 document.addEventListener("click", async (e) => {
   const btn = e.target.closest("[data-action]");
   if (!btn) return;
@@ -341,6 +413,10 @@ studio.get("/settings", async (c) => {
 <textarea id="author_links" name="author_links" rows="3">${escapeHtml(linksText)}</textarea>
 <label for="site_url">Canonical site URL (blank = derive from request)</label>
 <input id="site_url" name="site_url" value="${escapeHtml(settings.site_url)}">
+<label for="ai_model">TK generation model (blank = provider default, currently claude-opus-5)</label>
+<input id="ai_model" name="ai_model" value="${escapeHtml(settings.ai_model)}" placeholder="claude-opus-5">
+<label for="ai_style_prompt">TK site-level style prompt (optional, appended to every generation request)</label>
+<textarea id="ai_style_prompt" name="ai_style_prompt" rows="3">${escapeHtml(settings.ai_style_prompt)}</textarea>
 <p style="margin-top:1rem;"><button type="submit" class="primary">save settings</button></p>
 </form>
 <script>${ACTION_SCRIPT}</script>
@@ -356,6 +432,8 @@ document.getElementById("settings-form").addEventListener("submit", async (e) =>
     author_name: document.getElementById("author_name").value,
     author_bio: document.getElementById("author_bio").value,
     site_url: document.getElementById("site_url").value,
+    ai_model: document.getElementById("ai_model").value,
+    ai_style_prompt: document.getElementById("ai_style_prompt").value,
     author_links: links,
   };
   if (await api("PUT", "/api/settings", body)) alert("saved");
@@ -364,17 +442,25 @@ document.getElementById("settings-form").addEventListener("submit", async (e) =>
   return c.html(studioLayout("settings — blyg studio", body));
 });
 
-/** Studio-only live preview for the fragment editor — not a protocol surface. */
+/** Studio-only live preview for the fragment editor — not a protocol surface. TK scopes are highlighted (task 6). */
 studio.post("/preview", async (c) => {
   const body = await c.req.json<{ content_md?: string }>().catch(() => ({}) as { content_md?: string });
-  return c.json({ html: renderMarkdown(body.content_md ?? "") });
+  const tk = annotateTkPreview(body.content_md ?? "");
+  const html = tk.finish(renderMarkdown(tk.text));
+  return c.json({ html, scopes: scopeSummaries(tk.scopes) });
 });
 
-/** Studio-only provisional thread preview + validation — publish still re-resolves for real. */
+/** Studio-only provisional thread preview + validation — publish still re-resolves for real. TK scopes are highlighted (task 6). */
 studio.post("/preview-thread", async (c) => {
   const body = await c.req.json<{ content_md?: string }>().catch(() => ({}) as { content_md?: string });
-  const resolved = await previewTransclusions(c.env.DB, body.content_md ?? "");
-  return c.json({ html: resolved.html, errors: resolved.errors, transclusions: resolved.transclusions });
+  const tk = annotateTkPreview(body.content_md ?? "");
+  const resolved = await previewTransclusions(c.env.DB, tk.text);
+  return c.json({
+    html: tk.finish(resolved.html),
+    errors: resolved.errors,
+    transclusions: resolved.transclusions,
+    scopes: scopeSummaries(tk.scopes),
+  });
 });
 
 /** Studio-only fragment search for the thread editor's `![[` palette. */
@@ -406,7 +492,8 @@ studio.get("/edit/:id", async (c) => {
 async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const media = await listMediaForItem(db, item.id);
   const versions = await listVersions(db, item.id);
-  const previewHtml = renderMarkdown(item.content_md);
+  const tk = annotateTkPreview(item.content_md);
+  const previewHtml = tk.finish(renderMarkdown(tk.text));
   const changelogHtml = versions
     .slice()
     .reverse()
@@ -432,6 +519,7 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
   const body = `${studioHeader(`blyg studio — editing ${escapeHtml(item.id.slice(0, 8))}…`, mount)}
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
+<div id="error-banner-slot"></div>
 <div class="split">
 <div class="pane">
 <h2>markdown</h2>
@@ -441,6 +529,17 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
 <h2>preview</h2>
 <div id="preview-body">${previewHtml}</div>
 </div>
+</div>
+<div class="tk-panel">
+<h2>TK scopes <button type="button" class="link" id="tk-generate-whole-btn">generate whole fragment&hellip;</button></h2>
+<ul id="tk-scope-list">${scopeSummaries(tk.scopes)
+    .map(
+      (s) =>
+        `<li class="tk-scope-row"><span class="tk-instruction">${escapeHtml(s.instruction || "(no instruction)")}</span> ${
+          s.hasOutput ? "" : '<span class="tk-pending">ungenerated</span> '
+        }<button type="button" class="tk-generate-btn" data-scope="${s.index}">${s.hasOutput ? "regenerate" : "generate"}</button></li>`,
+    )
+    .join("") || '<li class="tk-empty">No [TK …] scopes in this draft.</li>'}</ul>
 </div>
 ${mediaHtml}
 <div class="edit-bar">
@@ -464,14 +563,16 @@ const id = ${JSON.stringify(item.id)};
 const mdInput = document.getElementById("md-input");
 const previewBody = document.getElementById("preview-body");
 const editCount = document.getElementById("edit-count");
+const errorSlot = document.getElementById("error-banner-slot");
 let debounceTimer;
 function scheduleSave() {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(async () => {
     await api("PUT", "/api/items/" + id, { content_md: mdInput.value });
     const res = await fetch("/studio/preview", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
-    const { html } = await res.json();
-    previewBody.innerHTML = html;
+    const data = await res.json();
+    previewBody.innerHTML = data.html;
+    renderTkPanel(data.scopes);
   }, 400);
 }
 mdInput.addEventListener("input", () => {
@@ -486,7 +587,26 @@ document.getElementById("save-draft-btn").addEventListener("click", async () => 
 document.getElementById("publish-btn").addEventListener("click", async () => {
   await api("PUT", "/api/items/" + id, { content_md: mdInput.value });
   const note = document.getElementById("note-input").value.trim();
-  if (!(await api("POST", "/api/items/" + id + "/publish", note ? { note } : {}))) return;
+  const res = await fetch("/api/items/" + id + "/publish", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(note ? { note } : {}) });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) { renderPublishErrorBanner(errorSlot, data); return; }
+  location.reload();
+});
+document.getElementById("tk-generate-whole-btn").addEventListener("click", () => {
+  const instruction = prompt("Instruction for the whole fragment:");
+  if (!instruction) return;
+  const existing = mdInput.value.trim();
+  mdInput.value = "[TK " + instruction + (existing ? "[=]" + existing : "") + "[/TK]";
+  scheduleSave();
+});
+document.getElementById("tk-scope-list").addEventListener("click", async (e) => {
+  const btn = e.target.closest(".tk-generate-btn");
+  if (!btn) return;
+  const scope = Number(btn.dataset.scope);
+  btn.disabled = true;
+  btn.textContent = "generating…";
+  await api("PUT", "/api/items/" + id, { content_md: mdInput.value });
+  if (!(await api("POST", "/api/items/" + id + "/generate", { scope }))) { btn.disabled = false; return; }
   location.reload();
 });
 document.getElementById("attach-btn").addEventListener("click", () => {
@@ -511,7 +631,9 @@ document.getElementById("attach-btn").addEventListener("click", () => {
 async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const media = await listMediaForItem(db, item.id);
   const versions = await listVersions(db, item.id);
-  const preview = await previewTransclusions(db, item.content_md);
+  const tk = annotateTkPreview(item.content_md);
+  const preview = await previewTransclusions(db, tk.text);
+  const previewHtml = tk.finish(preview.html);
   const changelogHtml = versions
     .slice()
     .reverse()
@@ -549,8 +671,19 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
 </div>
 <div class="pane preview" id="preview-pane">
 <h2>preview</h2>
-<div id="preview-body">${preview.html}</div>
+<div id="preview-body">${previewHtml}</div>
 </div>
+</div>
+<div class="tk-panel">
+<h2>TK scopes</h2>
+<ul id="tk-scope-list">${scopeSummaries(tk.scopes)
+    .map(
+      (s) =>
+        `<li class="tk-scope-row"><span class="tk-instruction">${escapeHtml(s.instruction || "(no instruction)")}</span> ${
+          s.hasOutput ? "" : '<span class="tk-pending">ungenerated</span> '
+        }<button type="button" class="tk-generate-btn" data-scope="${s.index}">${s.hasOutput ? "regenerate" : "generate"}</button></li>`,
+    )
+    .join("") || '<li class="tk-empty">No [TK …] scopes in this draft.</li>'}</ul>
 </div>
 ${mediaHtml}
 <div class="note-row"><label for="note-input">What changed?</label><input id="note-input" placeholder="optional edit note, shows in changelog + feed title"></div>
@@ -585,6 +718,7 @@ async function refreshPreview() {
   const res = await fetch("/studio/preview-thread", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
   const data = await res.json();
   previewBody.innerHTML = data.html;
+  renderTkPanel(data.scopes);
 }
 
 function scheduleSave() {
@@ -654,12 +788,17 @@ document.getElementById("publish-btn").addEventListener("click", async () => {
   const note = document.getElementById("note-input").value.trim();
   const res = await fetch("/api/items/" + id + "/publish", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(note ? { note } : {}) });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    errorSlot.innerHTML = '<div class="error-banner">Cannot publish: ' +
-      (data.errors || []).map((e) => "<code>" + e.directive.replace(/</g, "&lt;") + "</code> does not resolve — " + e.reason).join("<br>") +
-      "</div>";
-    return;
-  }
+  if (!res.ok) { renderPublishErrorBanner(errorSlot, data); return; }
+  location.reload();
+});
+document.getElementById("tk-scope-list").addEventListener("click", async (e) => {
+  const btn = e.target.closest(".tk-generate-btn");
+  if (!btn) return;
+  const scope = Number(btn.dataset.scope);
+  btn.disabled = true;
+  btn.textContent = "generating…";
+  await api("PUT", "/api/items/" + id, { content_md: mdInput.value });
+  if (!(await api("POST", "/api/items/" + id + "/generate", { scope }))) { btn.disabled = false; return; }
   location.reload();
 });
 document.getElementById("attach-btn").addEventListener("click", () => {

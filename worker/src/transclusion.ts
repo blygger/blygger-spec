@@ -27,6 +27,30 @@ export class TransclusionResolveError extends Error {
 }
 
 /**
+ * Resolve a local item id to a currently-published fragment (item + latest
+ * version), or a reason it can't be used as a target. Shared by transclusion
+ * resolution (own-line `![[id]]`) and TK source-ref resolution
+ * (tk-core-plan.md §2.3: "must resolve like transclusion targets") — both
+ * apply the identical local/published/fragment-only rule.
+ */
+export async function resolveFragment(
+  db: D1Database,
+  id: string,
+): Promise<{ ok: true; item: ItemRow; version: VersionRow } | { ok: false; reason: string }> {
+  const item = await db.prepare("SELECT * FROM items WHERE id = ?").bind(id).first<ItemRow>();
+  if (!item) return { ok: false, reason: "unknown item" };
+  if (item.status === "draft") return { ok: false, reason: "item is a draft, not published" };
+  if (item.kind === "withdrawn") return { ok: false, reason: "item is withdrawn" };
+  if (item.kind === "thread") return { ok: false, reason: "cannot transclude a thread (no nesting until v0.3)" };
+  const version = await db
+    .prepare("SELECT * FROM versions WHERE item_id = ? AND version = ?")
+    .bind(item.id, item.version)
+    .first<VersionRow>();
+  if (!version) return { ok: false, reason: "unknown item" };
+  return { ok: true, item, version };
+}
+
+/**
  * Shared line-walker for both publish-time resolution and studio preview.
  * `onError` decides what (if anything) renders in place of a directive that
  * fails to resolve — the strict resolver omits it (publish aborts anyway);
@@ -68,31 +92,12 @@ async function walk(
     }
     flushProse();
     const id = m[1];
-    const item = await db.prepare("SELECT * FROM items WHERE id = ?").bind(id).first<ItemRow>();
-    if (!item) {
-      fail({ directive: line.trim(), reason: "unknown item" });
+    const resolved = await resolveFragment(db, id);
+    if (!resolved.ok) {
+      fail({ directive: line.trim(), reason: resolved.reason });
       continue;
     }
-    if (item.status === "draft") {
-      fail({ directive: line.trim(), reason: "item is a draft, not published" });
-      continue;
-    }
-    if (item.kind === "withdrawn") {
-      fail({ directive: line.trim(), reason: "item is withdrawn" });
-      continue;
-    }
-    if (item.kind === "thread") {
-      fail({ directive: line.trim(), reason: "cannot transclude a thread (no nesting until v0.3)" });
-      continue;
-    }
-    const version = await db
-      .prepare("SELECT * FROM versions WHERE item_id = ? AND version = ?")
-      .bind(item.id, item.version)
-      .first<VersionRow>();
-    if (!version) {
-      fail({ directive: line.trim(), reason: "unknown item" });
-      continue;
-    }
+    const { item, version } = resolved;
     transclusions.push({ id: item.id, version: version.version });
     htmlParts.push(
       `<blockquote class="blyg-transclusion" data-blyg-id="${item.id}" data-blyg-version="${version.version}">\n${version.content_html}\n</blockquote>`,

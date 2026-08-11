@@ -13,7 +13,7 @@ import {
   listVersions,
   publishedVersion,
 } from "./model.ts";
-import type { ItemRow, Settings, Transclusion, VersionRow } from "./types.ts";
+import type { ItemRow, ScopeProvenance, Settings, Transclusion, VersionRow } from "./types.ts";
 import { BRAND, FEED_WINDOW, GENERATOR, PROTOCOL_LEVEL, PROTOCOL_VERSION } from "./types.ts";
 import { absolutizeHtml, cdata, escapeXml, rfc822 } from "./util.ts";
 
@@ -52,6 +52,11 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
       ? []
       : (JSON.parse(latest?.transclusions ?? "[]") as Transclusion[])
     : undefined;
+  // TK generation provenance (tk-core-plan.md §3.1): optional, valid for
+  // both kinds; withdrawal empties it alongside content_md/content_html,
+  // same as the other content-linked fields.
+  const generated: ScopeProvenance[] | undefined =
+    !isWithdrawn && latest?.generated_json ? (JSON.parse(latest.generated_json) as ScopeProvenance[]) : undefined;
   return {
     blyg: PROTOCOL_VERSION,
     id: item.id,
@@ -66,6 +71,7 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
     content_hash: latest?.content_hash ?? "",
     media: media.map((m) => ({ url: m.r2_key, mime: m.mime, alt: m.alt ?? "" })),
     ...(transclusions !== undefined ? { transclusions } : {}),
+    ...(generated !== undefined ? { generated } : {}),
     changelog,
   };
 }
@@ -87,6 +93,7 @@ export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: V
     content_html: row.content_html,
     content_hash: row.content_hash,
     ...(isThread ? { transclusions: JSON.parse(row.transclusions as string) as Transclusion[] } : {}),
+    ...(row.generated_json ? { generated: JSON.parse(row.generated_json) as ScopeProvenance[] } : {}),
   };
 }
 

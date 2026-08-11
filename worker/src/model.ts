@@ -1,11 +1,23 @@
 // Data access + publish-flow semantics — v0.1-plan §3.1.
 
 import { renderMarkdown } from "./markdown.ts";
+import { annotateGenerated, applyGeneratedWrappers, parseScopes, stripToOutput, TkPublishError, unresolvedScopes } from "./tk.ts";
 import { resolveTransclusions, TransclusionResolveError } from "./transclusion.ts";
-import type { ItemRow, MediaRow, Settings, VersionRow } from "./types.ts";
+import type { ItemRow, MediaRow, ScopeProvenance, Settings, VersionRow } from "./types.ts";
+import { FRAGMENT_MAX_CHARS } from "./types.ts";
 import { contentHash, newId, nowIso } from "./util.ts";
 
-export { TransclusionResolveError };
+export { TkPublishError, TransclusionResolveError };
+
+/** Thrown by publish() when the *published* (TK-stripped) fragment length exceeds the studio cap (§2.7). */
+export class FragmentTooLongError extends Error {
+  constructor(
+    public readonly length: number,
+    public readonly max: number,
+  ) {
+    super(`fragment exceeds ${max} characters`);
+  }
+}
 
 export async function getSettings(db: D1Database): Promise<Settings> {
   const rows = await db.prepare("SELECT key, value FROM settings").all<{ key: string; value: string }>();
@@ -24,6 +36,8 @@ export async function getSettings(db: D1Database): Promise<Settings> {
     author_links: links,
     site_url: map.site_url ?? "",
     avatar_media_id: map.avatar_media_id ?? "",
+    ai_model: map.ai_model ?? "",
+    ai_style_prompt: map.ai_style_prompt ?? "",
   };
 }
 
@@ -77,31 +91,100 @@ export async function saveWorkingCopy(db: D1Database, id: string, contentMd: str
 }
 
 /**
- * Publish the working copy as version N+1. Fragments render content_html
- * directly; threads resolve every `![[id]]` directive against currently
- * published local fragments and bake the snapshot into content_html, storing
- * provenance in transclusions (§2.9). Throws TransclusionResolveError,
- * without writing anything, if any directive fails to resolve.
+ * Working-copy-side TK generation provenance (tk-core-plan.md §4/§5, migration
+ * 0005) — a cache of per-scope {sources,model,at}, positionally aligned to
+ * scope order as of the last /generate call. This is NOT the wire artifact
+ * (that's versions.generated_json, emitted at publish); it's the bridge that
+ * lets provenance survive from generate-time through to the next publish,
+ * since sources resolve to "the latest published version at generation time"
+ * (§2.3) rather than being re-resolved at publish like transclusions.
+ * Known limitation, documented rather than engineered around: if scopes are
+ * reordered/added/removed between generate calls, positional realignment can
+ * misattribute provenance to the wrong scope — the same class of fragility
+ * the /generate API's own index-based `{scope: n}` addressing already has.
+ */
+export function getTkProvenance(item: ItemRow): (ScopeProvenance | null)[] {
+  if (!item.tk_provenance_json) return [];
+  try {
+    const parsed = JSON.parse(item.tk_provenance_json);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Record scope `index`'s provenance, resizing the cache to `scopeCount` (current scope count). */
+export async function setTkProvenance(
+  db: D1Database,
+  itemId: string,
+  index: number,
+  scopeCount: number,
+  provenance: ScopeProvenance,
+): Promise<void> {
+  const item = await getItem(db, itemId);
+  const arr = getTkProvenance(item!);
+  while (arr.length < scopeCount) arr.push(null);
+  arr.length = scopeCount;
+  arr[index] = provenance;
+  await db.prepare("UPDATE items SET tk_provenance_json = ? WHERE id = ?").bind(JSON.stringify(arr), itemId).run();
+}
+
+/**
+ * Publish the working copy as version N+1. First strips every TK scope (§2.4)
+ * down to its bare output — content_md and the hash cover exactly that
+ * stripped text, never the studio grammar (decision #20). Fragments then
+ * render content_html directly; threads resolve every `![[id]]` directive
+ * against currently published local fragments and bake the snapshot into
+ * content_html, storing provenance in transclusions (§2.9). Generated spans
+ * with recorded provenance (model.getTkProvenance) get a `blyg-tk-gen`
+ * disclosure wrapper and an entry in `generated_json` (§3.1/§3.2); spans with
+ * no provenance (hand-authored output) are plain text, no disclosure.
+ * Throws TkPublishError for malformed/unresolved TK scopes, FragmentTooLongError
+ * if the published fragment exceeds the studio cap, or TransclusionResolveError
+ * if a thread directive fails to resolve — nothing is written in any case.
  */
 export async function publish(db: D1Database, item: ItemRow, note: string | null): Promise<number> {
   const now = nowIso();
   const version = item.version + 1;
   const kind = await authoredKind(db, item);
+
+  const { scopes, errors: parseErrors } = parseScopes(item.content_md);
+  const unresolved = unresolvedScopes(scopes);
+  if (parseErrors.length || unresolved.length) {
+    throw new TkPublishError([
+      ...parseErrors,
+      ...unresolved.map((s) => ({ at: s.start, reason: "scope has no output (never generated)" })),
+    ]);
+  }
+
+  const { text: strippedMd, spans } = stripToOutput(item.content_md, scopes);
+  if (kind === "fragment" && strippedMd.length > FRAGMENT_MAX_CHARS) {
+    throw new FragmentTooLongError(strippedMd.length, FRAGMENT_MAX_CHARS);
+  }
+
+  const provenanceCache = getTkProvenance(item);
+  const hasProvenance = scopes.map((_, i) => provenanceCache[i] != null);
+  const annotated = annotateGenerated(strippedMd, spans, hasProvenance);
+
   let contentHtml: string;
   let transclusionsJson: string | null = null;
   if (kind === "thread") {
-    const resolved = await resolveTransclusions(db, item.content_md);
+    const resolved = await resolveTransclusions(db, annotated.text);
     if (resolved.errors.length) throw new TransclusionResolveError(resolved.errors);
-    contentHtml = resolved.html;
+    contentHtml = applyGeneratedWrappers(resolved.html, annotated);
     transclusionsJson = JSON.stringify(resolved.transclusions);
   } else {
-    contentHtml = renderMarkdown(item.content_md);
+    contentHtml = applyGeneratedWrappers(renderMarkdown(annotated.text), annotated);
   }
-  const hash = await contentHash(item.content_md);
+
+  const generated: ScopeProvenance[] = scopes.map((_, i) => provenanceCache[i]).filter((p): p is ScopeProvenance => p != null);
+  const generatedJson = generated.length ? JSON.stringify(generated) : null;
+
+  const hash = await contentHash(strippedMd);
   await db.batch([
     db.prepare(
-      "INSERT INTO versions (item_id, version, content_md, content_html, content_hash, published_at, note, transclusions) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-    ).bind(item.id, version, item.content_md, contentHtml, hash, now, note, transclusionsJson),
+      "INSERT INTO versions (item_id, version, content_md, content_html, content_hash, published_at, note, transclusions, generated_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    ).bind(item.id, version, strippedMd, contentHtml, hash, now, note, transclusionsJson, generatedJson),
     db.prepare("UPDATE items SET status = 'public', kind = ?, version = ?, dirty = 0, updated = ? WHERE id = ?")
       .bind(kind, version, now, item.id),
   ]);

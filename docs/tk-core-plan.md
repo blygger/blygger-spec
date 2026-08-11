@@ -1,7 +1,11 @@
 # TK-Core Implementation Plan — instructed generation in the studio
 
-**Status: DESIGN COMPLETE (session 12, 2026-08-10, Fable). Implementation not
-started.** This plan resolves the v0.4 ⚠️ FABLE items that don't depend on
+**Status: DESIGN COMPLETE (session 12, 2026-08-10, Fable). IMPLEMENTED session
+14 (2026-08-10, Sonnet) — all 8 tasks below, verified against the real
+Anthropic API in local `wrangler dev` and export byte-compared; see DEVLOG
+session 14. `AI_PROVIDER_KEY` is registered on both live nodes; the code
+itself is not yet deployed live — pending explicit go-ahead.** This plan
+resolves the v0.4 ⚠️ FABLE items that don't depend on
 v0.2/v0.3 — the TK generation contract, the inline-vs-block scope question
 (`curation-discovery-generation-proposal.md` §4 items 1, 3, 4, 6), and the
 provider-call interface — and specs the authoring core to Sonnet/Opus-

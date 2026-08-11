@@ -11,6 +11,8 @@ export interface Env {
    * protocol vocabulary.
    */
   MOUNT?: string;
+  /** TK generation (tk-core-plan.md §4): Anthropic Messages API key. Wrangler secret, per security-policy.md — never in code or .dev.vars committed to git. */
+  AI_PROVIDER_KEY?: string;
 }
 
 export interface ItemRow {
@@ -22,11 +24,25 @@ export interface ItemRow {
   version: number;
   content_md: string;
   dirty: number;
+  /**
+   * Working-copy-side cache of per-scope TK generation provenance (migration
+   * 0005) — JSON array of `ScopeProvenance | null`, positionally aligned to
+   * the scope order in `content_md` as of the last /generate call. Not a
+   * wire artifact; see model.ts getTkProvenance/setTkProvenance.
+   */
+  tk_provenance_json: string | null;
 }
 
 export interface Transclusion {
   id: string;
   version: number;
+}
+
+/** Per-scope TK generation provenance (tk-core-plan.md §3.1/§4). */
+export interface ScopeProvenance {
+  sources: { id: string; version: number }[];
+  model?: string;
+  at?: string;
 }
 
 export interface VersionRow {
@@ -42,6 +58,8 @@ export interface VersionRow {
   transclusions: string | null;
   pinned: number;
   pinned_at: string | null;
+  /** JSON ScopeProvenance[] (migration 0005); null when this version involved no TK generation. */
+  generated_json: string | null;
 }
 
 export interface MediaRow {
@@ -129,6 +147,10 @@ export interface Settings {
   /** Canonical origin (full base URL incl. any mount path, e.g. https://example.com/blyg/); empty = derive from request origin + MOUNT. */
   site_url: string;
   avatar_media_id: string;
+  /** TK generation (tk-core-plan.md §4/§5): provider model id. Empty = provider default. */
+  ai_model: string;
+  /** TK generation: optional site-level style prompt appended to every generation request. */
+  ai_style_prompt: string;
 }
 
 /**

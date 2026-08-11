@@ -7,6 +7,156 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 14 — 2026-08-10 — TK-core built end-to-end: instructed generation, all 8 tasks
+**Model:** Sonnet 5 · **Time:** ~19:17–20:13 PT · **Committed:** no (pending Venkat's review) · **Deployed:** `AI_PROVIDER_KEY` secret set on both live nodes (`blyg-venkateshrao`, `blyg-protocol-institute`); worker code itself **not yet deployed** — pending explicit go-ahead
+
+**What & why:** Implemented `docs/tk-core-plan.md` in full — all 8 ordered tasks,
+from the scope parser through static-export verification — working straight
+from the session-12 design doc per CLAUDE.md model routing. New code:
+`worker/src/tk.ts` (grammar parser + publish-time HTML disclosure),
+`worker/src/ai/provider.ts` (Anthropic Messages API client), `worker/src/tk-generate.ts`
+(`/generate` endpoint logic), plus integration into `model.ts`'s `publish()`
+and the studio editors. 228/228 tests green (63 new), `tsc --noEmit` clean.
+
+**Grammar ambiguity found and resolved, not silently — flagged for Fable/Venkat.**
+`tk-core-plan.md` §2.1 states the parser is a linear 3-token scan (`[TK` …
+optional `[=]` … `[/TK]`) chosen specifically so `![[id]]` refs never need
+escaping ("no bracket balancing"), but the same section's illustrated examples
+write `[TK <instruction>][/TK]` — a literal `]` closing the instruction before
+`[/TK]`, which would require exactly the bracket-tracking the prose says to
+avoid. Implemented per the explicit, twice-stated prose rule (also the only
+internally-consistent reading); the examples' `]` is a documentation artifact.
+Recorded in `tk.test.ts`'s header and worth a one-line Fable/Venkat confirmation
+that the reading is correct, since it's the actual byte-level syntax authors
+will type.
+
+**Block vs. inline classification (§3.2's "inline output" vs "block output"),
+an implementation-level design call the plan didn't specify:** a scope is
+**block** when it occupies a paragraph by itself — preceded and followed only
+by a blank line or a document edge — and **inline** otherwise. Chosen because
+it's CommonMark's own definition of "standalone paragraph," so it composes
+correctly with markdown-it's own paragraph detection instead of fighting it.
+Verified live in the browser: a whole-paragraph scope renders as
+`<div class="blyg-tk-gen">`, a mid-sentence scope as `<span class="blyg-tk-gen">`
+inline in the same `<p>`, and two scopes with no blank line between them (an
+edge case the heuristic doesn't special-case) both fall out as inline —
+documented behavior, not a bug.
+
+**Rendering technique: Unicode Private Use Area sentinels, not a custom
+markdown-it plugin.** Publish needs to (a) bake `blyg-tk-gen` wrappers around
+generated spans and (b) — for threads — still run the existing transclusion
+walker unchanged. Block spans are rendered independently
+(`renderMarkdown(text)`) and spliced in via a unique opaque placeholder token
+that's alone in its own paragraph (guaranteed by the block-position rule
+above), so a multi-paragraph generated block never gets split by the
+surrounding document's own rendering. Inline spans are sentinel-wrapped
+*in place* (real text between two markers) so surrounding markdown constructs
+— emphasis, links — still parse correctly across the span boundary; the
+sentinels survive markdown-it's rendering (PUA chars aren't `&<>"'`, so
+`html:false` never touches them) and get string-replaced for the real tags
+afterward. This let `transclusion.ts`'s `walk()` stay **completely untouched**
+for the thread path — TK spans are just inert text to it, since PUA sentinels
+can never match the `![[id]]` directive regex. `resolveFragment()` was
+factored out of `walk()` (pure refactor, all 11 `threads.test.ts` cases still
+pass unchanged) so TK source resolution reuses the exact same
+local/published/fragment-only rule the plan requires ("must resolve like
+transclusion targets").
+
+**Provenance-storage bridge, a real gap the plan didn't cover — flagged and
+filled, not improvised silently:** §2.3 requires sources to resolve to "the
+latest published version *at generation time*," with edits/withdrawals of the
+source *after* generation never touching the already-generated output
+(snapshot independence, same rule as §10.4). But the plan's only DB change is
+`versions.generated_json` — written at *publish* time. Between a `/generate`
+call and the next publish, something has to remember which sources/model/
+timestamp produced each scope's current output, surviving further plain edits
+to the working copy. Added `items.tk_provenance_json` (migration 0005,
+alongside the plan's `versions.generated_json`) — a working-copy-side cache,
+positionally aligned to scope order as of the last `/generate` call,
+consumed at publish to build the wire `generated[]` array and decide which
+spans get the `blyg-tk-gen` wrapper. A scope with output but no cached
+provenance (hand-authored, never run through `/generate`) gets **no**
+wrapper and **no** `generated[]` entry — nothing was actually generated, so
+there's nothing to disclose. Known, documented limitation: reordering/adding/
+removing scopes between generate calls can misattribute provenance by
+position — the same class of fragility the plan's own index-based
+`{scope: n}` API already has, not a new one introduced here.
+
+**Fragment cap moved inside `publish()`, from `api.ts`'s pre-check:** the old
+check compared the *raw working copy* (with `[TK…]` markup) against
+`FRAGMENT_MAX_CHARS`, which is now wrong in either direction once TK is
+involved — instructions can push the draft over 1000 chars while the
+generated output stays short, or vice versa. `publish()` now checks the
+*stripped* (published) length and throws `FragmentTooLongError`; `api.ts`
+just catches it. Tested both directions explicitly.
+
+**Provider implementation is raw `fetch`, not `@anthropic-ai/sdk`:** this
+Worker has no `nodejs_compat` flag and a deliberately tiny dependency set
+(hono, markdown-it, fast-xml-parser); the SDK is Node-oriented. Followed the
+`claude-api` skill's model table (default `claude-opus-5`, confirmed via
+`ant`-skill guidance, not memory) and the codebase's existing DI convention
+(`importer/http.ts`'s `FetchLike`) for a `ProviderFetchLike` so
+`provider.test.ts` and `tk-generate.test.ts` mock the request/response shape
+with zero real network calls.
+
+**Live-verified against the real Anthropic API, not just fixtures:** after
+tests were green, ran a real `wrangler dev` loop — added `AI_PROVIDER_KEY` to
+`.dev.vars` temporarily (removed after), published a source fragment, created
+a thread with a block transclusion quote + an inline TK scope citing that
+fragment as a source + a pure-instruction scope, called `/generate` on both
+scopes against `claude-opus-5` for real, published, and diffed the live
+`items/{id}.json` byte-for-byte against a fresh `scripts/export.ts` run —
+identical, including the `generated` array and the baked HTML wrappers.
+Confirms invariant 4 holds for TK content, matching session 13's precedent
+for v0.2. Studio UI (task 6) also driven live in the browser: scope
+highlighting (block div / inline span, exactly as designed), the
+Generate/Regenerate panel, and the combined transclusion+TK preview all
+render correctly; the publish-error banner and "generate whole fragment"
+sugar (wraps the current draft as `[TK instr[=]existing][/TK]`) were built
+but not independently re-verified live (code-reviewed against the same
+pattern as the working transclusion-error banner).
+
+**Secret + settings (task 7), with an explicit decision from Venkat:** asked
+whether to mint a new dedicated Anthropic key for blyg or reuse the existing
+personal `Code/.env.keys` `ANTHROPIC_API_KEY` (shared with Publishing/
+quadrantology/vgr-library-code, "expires periodically"); Venkat chose reuse.
+Registered the new consumer in `Code/.env.keys`'s comment and set it as
+`AI_PROVIDER_KEY` via `wrangler secret put` on both live nodes, verifying the
+account ID before each (`7026b5...` personal for `venkateshrao`,
+`7e8c79...` PI org for `protocolInstitute`) per the standing multi-account
+caution. **Billing crosscurrent flagged explicitly, not buried:** the PI
+node's worker infra is org-billed, but this key is Venkat's personal
+Anthropic account, so TK generation costs *on the PI node* land on Venkat
+personally, not the org — recorded in both `protocol-institute/.env.keys`
+and `admin/keys.md`'s registry table (not silently matching the existing
+`owner: org` convention used for that worker's other secrets).
+
+**Unrelated gap found and fixed while here:** `worker/.dev.vars` was
+`.gitignore`d correctly but missing the Dropbox-ignore xattr required by
+`Code/security-policy.md` Rule 6 — had been that way since it was created
+(OWNER_PASSWORD/COOKIE_SECRET already in it). Applied `com.dropbox.ignored 1`
+before adding the real Anthropic key to it for local testing, removed the key
+afterward once the live-verification loop was done.
+
+**State after:** TK-core is fully implemented, tested, and live-verified
+against the real provider — fragments and threads can both carry `[TK]`
+scopes, generate/regenerate through the studio or the API, and publish with
+correct disclosure. `AI_PROVIDER_KEY` is provisioned and ready on both live
+nodes. Migration 0005 and the new worker code are **not yet applied/deployed
+to either live node** — this session built and verified locally + against
+the real API, but did not touch the live Workers' code (only their secrets),
+since that's a separate deploy decision. `docs/tk-core-plan.md` and
+`docs/roadmap.md` updated to DONE; `CLAUDE.md` TODO checked off.
+
+**Open threads:** deploy migration 0005 + the new worker code to both live
+nodes when Venkat wants TK live (straightforward — same pattern as session
+13's v0.2 deploy); confirm the §2.1 grammar reading with Fable/Venkat (cheap,
+doesn't block anything since the reference implementation already commits to
+one reading); the positional-provenance-realignment limitation is documented
+but not engineered around — revisit if it ever bites in practice. Carried
+over from session 13, still open: the legacy-RSS leg of the three-way exit
+criterion, and nothing yet in either node's blogroll/public hoppers.
+
 ## Session 13 — 2026-08-10 — v0.2 "Roots" built end-to-end: subscribe side, all 14 tasks
 **Model:** Sonnet 5 · **Time:** ~10:47–12:16 PT · **Committed:** yes (`cddf09b`, then a deploy-record follow-up commit) · **Deployed:** both live nodes — `blyg-venkateshrao` and `blyg-protocol-institute`, migration 0004 applied remotely, real bidirectional subscription confirmed converging
 

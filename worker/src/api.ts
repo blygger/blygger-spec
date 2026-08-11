@@ -2,9 +2,9 @@
 
 import { Hono } from "hono";
 import {
-  authoredKind,
   createDraft,
   discardDraft,
+  FragmentTooLongError,
   getItem,
   getVersion,
   insertMedia,
@@ -12,11 +12,12 @@ import {
   publish,
   putSettings,
   saveWorkingCopy,
+  TkPublishError,
   TransclusionResolveError,
   withdraw,
 } from "./model.ts";
+import { runGenerateScope } from "./tk-generate.ts";
 import type { Env } from "./types.ts";
-import { FRAGMENT_MAX_CHARS } from "./types.ts";
 import { newMediaId } from "./util.ts";
 
 const MEDIA_TYPES: Record<string, string> = {
@@ -50,13 +51,10 @@ api.put("/items/:id", async (c) => {
 
 api.post("/items/:id/publish", async (c) => {
   // Also the republish path for withdrawn items: vN+1 restores 'public'/authored kind.
+  // Studio-side fragment cap (§2.7) is enforced inside publish() against the
+  // TK-stripped (published) length, not the raw working copy — see FragmentTooLongError.
   const item = await getItem(c.env.DB, c.req.param("id"));
   if (!item) return c.json({ error: "not found" }, 404);
-  const kind = await authoredKind(c.env.DB, item);
-  // Studio-side fragment cap (§2.7): fragments only — threads are long-form, no cap.
-  if (kind === "fragment" && item.content_md.length > FRAGMENT_MAX_CHARS) {
-    return c.json({ error: `fragment exceeds ${FRAGMENT_MAX_CHARS} characters` }, 400);
-  }
   const body = await c.req.json<{ note?: string }>().catch(() => ({}) as { note?: string });
   const note = typeof body.note === "string" && body.note.trim() ? body.note.trim() : null;
   try {
@@ -66,8 +64,33 @@ api.post("/items/:id/publish", async (c) => {
     if (e instanceof TransclusionResolveError) {
       return c.json({ error: "one or more transclusions do not resolve", errors: e.errors }, 400);
     }
+    if (e instanceof TkPublishError) {
+      return c.json({ error: "one or more TK scopes are not publish-ready", errors: e.issues }, 400);
+    }
+    if (e instanceof FragmentTooLongError) {
+      return c.json({ error: `fragment exceeds ${e.max} characters` }, 400);
+    }
     throw e;
   }
+});
+
+/**
+ * TK generation (tk-core-plan.md §5): resolve scope `n`'s sources exactly
+ * like transclusion targets, call the provider, splice the output into the
+ * working copy, and record provenance for the next publish to pick up.
+ * Errors are surfaced verbatim (no retry loop, per §5/§6 task 4). Logic
+ * lives in tk-generate.ts's runGenerateScope so tests can inject a fixture
+ * provider fetch (same DI pattern as importer/schedule.ts's runScheduledPoll).
+ */
+api.post("/items/:id/generate", async (c) => {
+  const item = await getItem(c.env.DB, c.req.param("id"));
+  if (!item) return c.json({ error: "not found" }, 404);
+  const body = await c.req.json<{ scope?: number }>().catch(() => ({}) as { scope?: number });
+  if (typeof body.scope !== "number") return c.json({ error: "scope index required" }, 400);
+
+  const result = await runGenerateScope(c.env, item, body.scope);
+  if (!result.ok) return c.json(result.body, result.status as 400 | 404 | 502);
+  return c.json({ text: result.text, model: result.model });
 });
 
 api.post("/items/:id/withdraw", async (c) => {
@@ -129,7 +152,15 @@ api.post("/media", async (c) => {
   return c.json({ id: row.id, url: row.r2_key, mime: row.mime }, 201);
 });
 
-const SETTINGS_KEYS = ["site_title", "author_name", "author_bio", "site_url", "avatar_media_id"] as const;
+const SETTINGS_KEYS = [
+  "site_title",
+  "author_name",
+  "author_bio",
+  "site_url",
+  "avatar_media_id",
+  "ai_model",
+  "ai_style_prompt",
+] as const;
 
 api.put("/settings", async (c) => {
   const body = await c.req.json<Record<string, unknown>>().catch(() => null);
