@@ -29,6 +29,13 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
   implementations — this CF client plus a local/folder-based static-host
   implementation) stands as the gate *for* the 1.0 event; this strategy
   defines what pre-1.0 means on the way there.
+- **Spec-doc lifecycle (session 15, 2026-09-11 — decision #23):** each
+  protocol version gets its own standalone-complete document; the
+  highest-numbered document is the living one where testing-driven revisions
+  land; lower versions freeze as SUPERSEDED (banner + index status), staying
+  citable with their snapshots. `protocol-v0.2.md` (0.1 text + subscribe
+  side + TK wire members) is the pending first application — drafting is
+  ⚠️ FABLE, publishing mechanics in `spec-publishing-plan.md` §6.
 
 ## Cross-cutting invariants (hold at every version)
 
@@ -123,7 +130,7 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 **Client deliverables:** `[TK]…[/TK]` scopes generate contextual summaries of included fragments at save time (pure generation when empty; inert `TK` annotation stays non-AI); **fragment-level generate/regenerate hardpoint in the fragment editor** (session-7 addition — all generation hooks, fragment editor + thread TK scopes + import filters, share one provider-call interface); edits to transcluded sources mark dependent threads **stale** — no automatic cascade; owner regenerates on demand (cost control, no surprise API spend); auto-hoppers via AI relevance filters over inbound items; filter plugin interface (typed hooks over the import pipeline: score/route/transform; default filters ship as plugins, including detect-stubs retrofitted); configurable AI provider + key via wrangler secrets.
 
 - **⚠️ FABLE — TK generation contract done session 12 (2026-08-10):** designed in `tk-core-plan.md` (decision #20) — two-layer split (TK grammar studio-private; wire gets marker-free `content_md` + `generated` provenance + `blyg-tk-gen` baked class, amending the §4 item-3 inert-markers lean), quote-vs-source rule for `![[id]]` in scopes, one provider-call interface, disclosure = SHOULD-record/reference-always. Remaining ⚠️ FABLE, still undesigned: the filter plugin API surface (a public extension contract — hard to change later; needs v0.2's importer) and the staleness dependency model over the DAG (needs v0.3 nesting).
-- **TK-core implementation done session 14 (2026-08-10):** all 8 tasks from `tk-core-plan.md` §6 built (`worker/src/tk.ts`, `worker/src/ai/provider.ts` targeting the Anthropic Messages API, `worker/src/tk-generate.ts`, publish integration in `model.ts`, studio scope panel + preview highlighting). Verified against the real Anthropic API (not just fixtures) in a live `wrangler dev` loop, and the static export byte-compared identical including `generated` provenance and `blyg-tk-gen` HTML wrappers. `AI_PROVIDER_KEY` registered and set on both live nodes (`blyg-venkateshrao`, `blyg-protocol-institute`); **the TK-core worker code itself is not yet deployed to either live node** — that deploy is a separate, explicit go-ahead step. Only the auto-hopper filter-plugin and staleness-over-DAG pieces of v0.4 remain, both still gated as noted above.
+- **TK-core implementation done session 14 (2026-08-10):** all 8 tasks from `tk-core-plan.md` §6 built (`worker/src/tk.ts`, `worker/src/ai/provider.ts` targeting the Anthropic Messages API, `worker/src/tk-generate.ts`, publish integration in `model.ts`, studio scope panel + preview highlighting). Verified against the real Anthropic API (not just fixtures) in a live `wrangler dev` loop, and the static export byte-compared identical including `generated` provenance and `blyg-tk-gen` HTML wrappers. `AI_PROVIDER_KEY` registered and set on both live nodes (`blyg-venkateshrao`, `blyg-protocol-institute`); **deployed to both live nodes session 15 (2026-09-11)** — migration 0005 + worker code, live-verified (manifests/feeds 200, `/generate` route auth-gated, archives intact). Only the auto-hopper filter-plugin and staleness-over-DAG pieces of v0.4 remain, both still gated as noted above.
 
 **Exit criteria:** editing a source fragment marks its dependent threads stale and one-click regeneration updates them with correct provenance; a third-party filter plugin can be written from the docs alone without touching core.
 

@@ -170,7 +170,7 @@ export interface Settings {
 export const BRAND = {
   name: "blygger",
   slug: "blyg",
-  /** Protocol XML namespace URI. Permanent once v0.2 ships importers (v0.1-plan.md §7). */
+  /** Protocol XML namespace URI. Permanent opaque token (decision #22): never tracks the protocol version — the manifest "blyg" key is the version signal. */
   nsUri: "https://blygger.org/ns/0.1",
 } as const;
 

@@ -52,7 +52,7 @@ function isBlockPosition(contentMd: string, start: number, end: number): boolean
 }
 
 /**
- * Linear token scan for `[TK <instruction>][=]<output>[/TK]` — no bracket
+ * Linear token scan for `[TK <instruction>[=]<output>[/TK]` — no bracket
  * balancing, matching tk-core-plan.md §2.1: the scanner only looks for the
  * three literal tokens, so `![[id]]` refs are safe to write inside an
  * instruction or output. No nesting: a second "[TK" found before the
@@ -123,7 +123,7 @@ export interface GeneratedSpan {
 }
 
 /**
- * Strip every scope down to its bare output (`[TK …][=]` and `[/TK]`
+ * Strip every scope down to its bare output (`[TK …[=]` and `[/TK]`
  * removed, output text kept in place) — the wire `content_md` transform of
  * §2.4. Every scope MUST have output; check via unresolvedScopes() first.
  * Returns the generated-text spans' offsets in the *stripped* string, for

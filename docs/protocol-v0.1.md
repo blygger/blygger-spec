@@ -10,6 +10,9 @@ spec and builders of implementations should assume **no promises** — including
 of the wire surface. Breaking changes are permitted pre-1.0 but must bump the
 manifest version and be recorded in the
 [project devlog](https://github.com/blygger/blygger-spec/blob/main/DEVLOG.md).
+Each protocol version has its own document, and the highest-numbered
+document is the living one: when the version 0.2 document is published,
+this document stops receiving revisions and is marked superseded.
 
 <!-- spec-links:begin -->
 - **This version:** `https://blygger.org/spec/0.1/`
@@ -331,6 +334,12 @@ Rules:
   signal.
 - `pubDate`/`lastBuildDate` use RFC 822 format; `blyg:*` timestamps stay
   ISO 8601.
+- **The namespace URI is permanent** — an opaque wire token like `blyg.json`
+  and the `blyg:` prefix itself. It never tracks the protocol version: the
+  `0.1` inside it is part of the spelling, not a version claim, and it stays
+  unchanged across protocol versions. Later versions add elements to this
+  same namespace under the reader ignore rule (§11); the protocol version
+  signal is the manifest's `blyg` key, never the namespace.
 
 ## 8. Pins — `items/{id}/v{n}.json`
 

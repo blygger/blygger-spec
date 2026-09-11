@@ -7,6 +7,113 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 15 — 2026-09-11 — TK-core deployed live; decisions #22 (ns permanence) + #23 (per-version living docs); TK grammar confirmed
+**Model:** Opus 5 (deploy + site work) → Fable 5 (design rulings; switched at the design boundary per convention) · **Time:** ~10:35–11:30 PT · **Committed:** yes · **Deployed:** TK-core (migration 0005 + worker) to both live nodes; blygger.org (ns page + spec updates)
+
+**What & why:** First session in a month. Baseline held: 228/228 tests, both
+nodes serving `blyg: "0.2"` — and the PI manifest's `updated` timestamp was
+ticking on the quarter-hour, meaning **the v0.2 cron poller has been running
+unattended for a month**, which quietly retires session 13's
+"cron convergence never observed over a real interval" thread (content-level
+convergence verification still listed in the testing pass below).
+
+**TK-core deployed to both live nodes** (Opus): migration 0005 applied
+remote and workers redeployed, account ID pinned explicitly per node
+(personal `7026b5…` / PI org `7e8c79…`). Live-verified: manifests/feeds 200,
+`/api/items/:id/generate` returns 401 not 404 (route present, auth-gated),
+venkateshrao's 12-entry feed and item index intact; PI's empty public
+archive is correct (imports are never re-emitted, decision #12). TK is now
+usable in both studios — remember the PI node's `AI_PROVIDER_KEY` is
+Venkat's personal Anthropic key (session-14 billing crosscurrent).
+
+**Found while verifying, worth knowing:** a Workers Route pattern with no
+wildcard (`venkateshrao.com/blyg`, added because `/blyg/*` misses the bare
+prefix) also **fails to match when a query string is present** — the request
+falls through to the static Pages site and returns *its* 404 with a 200-page
+body shape that looks like a broken deploy. Consequence beyond debugging: a
+shared link with tracking params (`…/blyg?utm_source=…`) serves the static
+404 today. Fix would be widening to `/blyg*` (which then shadows any future
+same-prefix sibling path); deliberately not applied — Venkat's call.
+Recorded in Claude memory alongside the session-13 cache-busting gotcha,
+since the two interact (never cache-bust a bare mount path).
+
+**`blygger.org/ns/0.1` page written and deployed.** The namespace URI —
+the one URL in the system strangers dereference first — was serving the
+*homepage* with HTTP 200 via the Pages fallback, worse than a 404. The new
+page explains namespace-name-vs-location, tables the seven `blyg:` elements
+(2 channel / 5 item), explains the per-version GUID scheme's dedupe
+behavior for plain vs blyg-aware readers, and carries the versioning answer
+below. Descriptive-not-normative on its face; `content/README.md` records
+the re-check-against-spec-§7 rule.
+
+**Decision #22 (Fable): the namespace URI is a permanent opaque token.**
+Writing that page surfaced that nothing had ever locked whether
+`…/ns/0.1` tracks the protocol version — #14/#16 froze every other wire
+token but not the URI; `types.ts` asserted permanence in a comment whose
+"once v0.2 ships importers" window closed silently at the session-13
+deploys, leaving live feeds declaring `ns/0.1` under `blyg: "0.2"`
+manifests. Ruled permanent, which makes that state correct rather than a
+mismatch. Decisive argument beyond the Dublin-Core/Atom precedent: a
+version-tracking URI would be a *stricter* version signal than the
+deliberately informative manifest key (#18d) — incoherent — and would
+break exactly the readers the ignore-unknown-`blyg:*` rule protects.
+Renaming to a version-free `/ns` while pre-1.0 still allows it was
+considered and rejected: post-deploy churn for a cosmetic gain, and the
+page at the URI answers the confusion where it arises. Recorded in
+CLAUDE.md #22, spec §7 (new bullet), the ns page, `types.ts`.
+
+**TK grammar §2.1 confirmed (Fable), closing session 14's flag — and the
+prose rule turns out to be forced, not merely chosen:** any closing token
+beginning with `]` mis-splits an instruction *ending in a source ref*
+(`…![[abc]]][/TK]` cuts the ref), and refs-in-instructions are the primary
+case the grammar exists for (§2.2). So the canonical typed form is
+`[TK instruction[=]output[/TK]` — no `]` terminates the instruction. The
+plan's illustrated examples (§2.1/§2.2/§2.4) carried a spurious `]` and
+were corrected with a note; `tk.ts` doc-comments fixed; `tk.test.ts` header
+flag marked RESOLVED; decision #20's record amended. **No code change** —
+session 14 implemented the correct reading, and `studio.ts`'s wrap-sugar
+was already right; session 14's devlog entry showing `][/TK]` in the sugar
+description was a prose typo, not a code bug (left as-is, historical).
+
+**Decision #23 (Fable + Venkat): per-version spec documents, highest is
+living.** The 0.1-doc/0.2-wire mismatch was a symptom: the subscribe side's
+normative record is scattered across `v0.2-plan.md` and decisions #17/#18.
+Resolution: each protocol version gets a standalone-complete document
+(superset revision, never a delta — a `/spec/{version}/` URL hands an
+implementor one document); testing-driven revisions (#21) land only in the
+highest-numbered doc; on N+1's publication, N freezes as SUPERSEDED
+(forward-linking banner, snapshots untouched — immutability outranks
+supersession). Amends #15's structure; §2's "freezes at stable" language
+formally retired (already dead under #21). Mechanics spec'd Sonnet-safe in
+`spec-publishing-plan.md` §6; 0.1's status header now pre-announces its own
+supersession.
+
+**Sequencing ruling (Fable): the v0.2/TK live-testing pass comes BEFORE
+drafting `protocol-v0.2.md`.** Per #21, testing precedes normative prose,
+and the 0.2 doc would describe surfaces with zero operational hours: the L0
+wrapper has never touched a real (messy) RSS feed — the unmet third leg of
+v0.2's own exit criterion; blogroll and public hoppers are live but unused;
+cron convergence inferred, never content-verified; TK never used by a real
+author on a live node. Drafting first would invert #21 and buy only churn.
+CLAUDE.md TODO now carries the testing pass as an explicit gate on the
+draft.
+
+**State after:** two-node network fully current — v0.1 + v0.2 + TK-core all
+deployed and live-verified on both nodes. blygger.org serves the ns page and
+the updated spec (§7 namespace bullet, lifecycle status header). Decisions
+locked through #23. Next major work, in order: the testing pass (Sonnet/
+Opus + Venkat-manual), then the ⚠️ FABLE `protocol-v0.2.md` draft, then
+`spec-publishing-plan.md` §6 mechanics; §5 technical-notes publishing is
+ungated and Sonnet-safe whenever.
+
+**Open threads:** the testing-pass TODO (4 items, CLAUDE.md); §5
+technical-notes publishing (TN-1 still unpublished); bare-path
+route-vs-query-string behavior left unfixed (Venkat's call on `/blyg*`
+widening); `wrangler.jsonc`'s inert top-level env block still carries the
+orphaned rehearsal D1 id (harmless, annotated); blygger.com still dark —
+no DNS records, scaffold repo only, no active role since the session-8
+retargeting.
+
 ## Session 14 — 2026-08-10 — TK-core built end-to-end: instructed generation, all 8 tasks
 **Model:** Sonnet 5 · **Time:** ~19:17–20:13 PT · **Committed:** no (pending Venkat's review) · **Deployed:** `AI_PROVIDER_KEY` secret set on both live nodes (`blyg-venkateshrao`, `blyg-protocol-institute`); worker code itself **not yet deployed** — pending explicit go-ahead
 

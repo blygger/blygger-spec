@@ -11,6 +11,12 @@
 // A literal "]" delimiter would contradict "no bracket balancing", so these
 // fixtures follow the stated 3-token rule: instruction text runs directly up
 // to "[=]" or "[/TK]", no closing bracket required.
+//
+// RESOLVED (session 15, Fable): the 3-token reading is confirmed as the
+// grammar; the plan's illustrated examples were corrected to drop the
+// spurious "]". A "]"-prefixed closing token was not merely unimplementable
+// without balancing — it mis-splits instructions ending in a source ref
+// ("...![[abc]][/TK]"), the primary case TK instructions exist to carry.
 import { describe, expect, it } from "vitest";
 import { parseScopes, previewStrip, setScopeOutput, stripToOutput, unresolvedScopes } from "../src/tk.ts";
 

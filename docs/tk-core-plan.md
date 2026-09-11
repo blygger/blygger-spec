@@ -3,8 +3,9 @@
 **Status: DESIGN COMPLETE (session 12, 2026-08-10, Fable). IMPLEMENTED session
 14 (2026-08-10, Sonnet) — all 8 tasks below, verified against the real
 Anthropic API in local `wrangler dev` and export byte-compared; see DEVLOG
-session 14. `AI_PROVIDER_KEY` is registered on both live nodes; the code
-itself is not yet deployed live — pending explicit go-ahead.** This plan
+session 14. `AI_PROVIDER_KEY` is registered on both live nodes. **DEPLOYED
+to both live nodes session 15 (2026-09-11)** — migration 0005 + worker code,
+live-verified.** This plan
 resolves the v0.4 ⚠️ FABLE items that don't depend on
 v0.2/v0.3 — the TK generation contract, the inline-vs-block scope question
 (`curation-discovery-generation-proposal.md` §4 items 1, 3, 4, 6), and the
@@ -45,8 +46,17 @@ mechanism polluting the source plane.
 ### 2.1 Scopes
 
 - A TK scope is delimited by the tokens `[TK`, `[=]`, and `[/TK]`:
-  - Before generation: `[TK <instruction>][/TK]`
-  - After generation: `[TK <instruction>][=]<output>[/TK]`
+  - Before generation: `[TK <instruction>[/TK]`
+  - After generation: `[TK <instruction>[=]<output>[/TK]`
+
+  Note the instruction is **not** terminated by a `]` of its own — the next
+  scanner token (`[=]` or `[/TK]`) ends it directly. *(Corrected session 15,
+  Fable: this section's examples originally showed a spurious closing `]`
+  after the instruction, contradicting the scan rule below. The scan rule was
+  always the intended grammar, and it is forced: any closing token that began
+  with `]` would mis-split an instruction ending in the very `![[id]]` source
+  refs instructions exist to carry — `…![[abc]]][/TK]` cuts the ref. The
+  session-14 implementation already read it this way; no code change.)*
 - Tokens may appear **anywhere — inline mid-sentence or on their own lines**;
   a scope may span lines. Parsing is a linear token scan (`[TK` … optional
   `[=]` … `[/TK]`), with **no bracket balancing**: instructions may freely
@@ -75,7 +85,7 @@ The rule composes by exclusion: **scopes cannot contain transclusions.** An
 author who wants a verbatim quote inside a generated passage closes the
 scope, transcludes, and reopens. Venkat's target pattern
 (`As Einstein said, ![[id]], instruction: simplify…`) is written
-`[TK simplify ![[id]] for a lay reader][/TK]` inline in running prose. This
+`[TK simplify ![[id]] for a lay reader[/TK]` inline in running prose. This
 resolves proposal §4 item 6: decision #9's block-only grammar stands
 untouched for *transclusion*; TK scopes are inline-capable because they are
 studio grammar the protocol never sees.
@@ -98,11 +108,11 @@ studio grammar the protocol never sees.
 
 ### 2.4 Publish rules
 
-- Publishing with any scope lacking output (`[TK …][/TK]` with no `[=]`) is a
+- Publishing with any scope lacking output (`[TK …[/TK]` with no `[=]`) is a
   **publish error** listing the unresolved scopes — generation is always
   author-reviewed, never publish-triggered (human stays in the loop; "at
   authoring time" per decision #5).
-- At publish, each scope is stripped to its output: `[TK …][=]` and `[/TK]`
+- At publish, each scope is stripped to its output: `[TK …[=]` and `[/TK]`
   are removed; the output text stays in place in `content_md`. Provenance is
   recorded (§3.1); the rendered `content_html` wraps each generated span
   (§3.2). The working copy retains the full grammar (it's the source of

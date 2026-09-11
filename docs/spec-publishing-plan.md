@@ -4,6 +4,11 @@
 > (snapshot №1 cut and live). §5 below, added session 12, extends the same
 > infrastructure to **technical notes** (`docs/notes/tn-N-*.md` →
 > `blygger.org/notes/`) — that part is PLAN, not executed, and Sonnet/Opus-safe.
+>
+> **Session-15 amendment (2026-09-11, Fable):** §6 below adds the
+> versioned-doc lifecycle (decision #23) — per-version standalone docs,
+> highest is living, SUPERSEDED banners on lower versions. Its mechanics are
+> Sonnet-safe once `protocol-v0.2.md` is drafted (⚠️ FABLE, pending).
 
 **Status:** PLAN, not executed. Written session 8 (2026-08-04, Fable) after the
 spec-as-blyg question was decided (see §1). **Sonnet/Opus-safe to execute in
@@ -209,3 +214,42 @@ internally.
    `content/README.md` records the source-of-truth rule for notes
    (script-written, never hand-edited). ✓ live deploy serves both URL
    shapes; blygger-org `CLAUDE.md` documents the flow.
+
+## 6. Versioned-doc lifecycle (session-15 amendment; decision #23)
+
+Decision #23 (2026-09-11, Fable + Venkat) formalizes what §2's "new protocol
+versions get new slugs alongside, never replacing" left open — the lifecycle
+of the documents behind those slugs:
+
+- **One standalone-complete document per protocol version**
+  (`docs/protocol-v{X.Y}.md`), each a superset revision of the previous
+  version's full text — never a delta. A `/spec/{version}/` URL hands an
+  implementor one complete document.
+- **The highest-numbered document is the living one.** Testing-driven
+  revisions (decision #21) land only there. Lower-version documents stop
+  receiving edits, keep their snapshots, and stay citable.
+- **SUPERSEDED status**: at the moment version N+1's document is published,
+  version N's index status flips DRAFT → SUPERSEDED and its latest page
+  gains a forward-linking banner ("Superseded by /spec/{N+1}/ — this
+  document no longer receives revisions"). Dated snapshots are untouched:
+  immutability outranks supersession.
+- §2's "freezes at stable" language for a version's latest page is dead
+  (already overtaken by decision #21 — no pre-1.0 version is ever stable);
+  the only freeze event for a latest page is now supersession.
+
+**Sonnet/Opus-safe implementation tasks** — execute when `protocol-v0.2.md`
+exists (the drafting itself is ⚠️ FABLE, tracked in `CLAUDE.md` TODO):
+
+1. `sync_spec.py`: teach `SPEC_VERSIONS` a superseded state (e.g. values
+   `"DRAFT"` / `("SUPERSEDED", "0.2")` — exact encoding is implementer's
+   choice); superseded versions render the banner on their latest page and
+   the status (with a link forward) in the `/spec/` index row. Acceptance:
+   with 0.1 marked superseded, its latest page carries the banner, the
+   index row reads SUPERSEDED, and existing snapshot pages are
+   byte-identical to before.
+2. Add `0.2` to `SPEC_VERSIONS` (DRAFT) + `CANONICAL_FILES`
+   (`docs/protocol-v0.2.md`); flip 0.1 to superseded in the same change.
+   Run latest mode; deploy. Acceptance: `/spec/0.2/` live, `/spec/0.1/`
+   bannered, index shows both rows correctly.
+3. Cut 0.2's first dated snapshot when first citable — deliberate editorial
+   act, §2 snapshot policy unchanged.
