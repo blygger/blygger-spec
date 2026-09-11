@@ -288,7 +288,8 @@ const HOPPERS_STYLE = `
 .hopper-row .actions { display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
 `;
 
-const HOPPERS_SCRIPT = `
+function hoppersScript(mount: string): string {
+  return `
 document.addEventListener("submit", async (e) => {
   if (e.target.id !== "new-hopper-form") return;
   e.preventDefault();
@@ -303,7 +304,7 @@ document.addEventListener("click", async (e) => {
   if (btn.dataset.action === "delete-hopper") {
     if (!confirm("Delete this hopper? Membership is removed locally; nothing public is affected.")) return;
     await fetch("/api/hoppers/" + btn.dataset.id, { method: "DELETE" });
-    location.href = "/studio/hoppers";
+    location.href = "${mount}/studio/hoppers";
   } else if (btn.dataset.action === "remove-hopper-item") {
     await fetch("/api/hoppers/" + btn.dataset.hopper + "/items/" + btn.dataset.sub + "/" + btn.dataset.remote, { method: "DELETE" });
     location.reload();
@@ -318,6 +319,7 @@ document.addEventListener("change", async (e) => {
   });
 });
 `;
+}
 
 importerStudio.get("/hoppers", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
@@ -327,7 +329,7 @@ importerStudio.get("/hoppers", async (c) => {
       const items = await listHopperItems(c.env.DB, h.id);
       return `<div class="hopper-row">
 <div>
-<a href="/studio/hoppers/${h.id}"><strong>${escapeHtml(h.name)}</strong></a>
+<a href="${mount}/studio/hoppers/${h.id}"><strong>${escapeHtml(h.name)}</strong></a>
 <p class="hopper-meta">${items.length} item${items.length === 1 ? "" : "s"} &middot; slug: ${escapeHtml(h.slug ?? "")}</p>
 </div>
 <div class="actions">
@@ -344,7 +346,7 @@ importerStudio.get("/hoppers", async (c) => {
 <button type="submit">create</button>
 </form>
 ${rows.length ? rows.join("\n") : "<p>No hoppers yet — add items to a hopper from the reading feed.</p>"}
-<script>${HOPPERS_SCRIPT}</script>`;
+<script>${hoppersScript(mount)}</script>`;
   return c.html(studioLayout("hoppers — blyg studio", body));
 });
 
@@ -373,9 +375,9 @@ importerStudio.get("/hoppers/:id", async (c) => {
   }
   const body = `${studioHeader(`blyg studio — ${hopper.name}`, mount)}
 <style>${READING_STYLE}</style>
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio/hoppers">← hoppers</a></nav>
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${mount}/studio/hoppers">← hoppers</a></nav>
 <p style="opacity:0.7;font-size:0.85rem;">${hopper.public ? `Public at ${mount}/h/${escapeHtml(hopper.slug ?? "")}/` : "Not public — toggle from the hoppers list."}</p>
 ${rows.length ? rows.join("\n") : "<p>Nothing in this hopper yet.</p>"}
-<script>${HOPPERS_SCRIPT}</script>`;
+<script>${hoppersScript(mount)}</script>`;
   return c.html(studioLayout(`${hopper.name} — blyg studio`, body, true));
 });

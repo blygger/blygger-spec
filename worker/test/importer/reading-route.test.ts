@@ -4,7 +4,7 @@ import { SELF, env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
 import { applyEffect, createSubscription, upsertL0Item } from "../../src/importer/store.ts";
 import { transition } from "../../src/importer/transition.ts";
-import { BASE, createAndPublish, login } from "../helpers.ts";
+import { BASE, createAndPublish, login, STUDIO } from "../helpers.ts";
 import { itemDocBody } from "./fixtures.ts";
 
 describe("GET /studio/reading — §3.6", () => {
@@ -31,7 +31,7 @@ describe("GET /studio/reading — §3.6", () => {
       contentHash: "sha256:whatever",
     });
 
-    const res = await SELF.fetch(`${BASE}/studio/reading`, { headers: { cookie } });
+    const res = await SELF.fetch(`${BASE}${STUDIO}/reading`, { headers: { cookie } });
     expect(res.status).toBe(200);
     const html = await res.text();
 
@@ -59,14 +59,14 @@ describe("GET /studio/reading — §3.6", () => {
     const withdrawTr = transition({ local: { status: "current", version: 1 }, doc: JSON.parse(withdrawnDoc) });
     await applyEffect(env.DB, sub.id, "remote-2", withdrawTr.effect, "2026-08-02T00:00:00Z");
 
-    const res = await SELF.fetch(`${BASE}/studio/reading`, { headers: { cookie } });
+    const res = await SELF.fetch(`${BASE}${STUDIO}/reading`, { headers: { cookie } });
     const html = await res.text();
     expect(html).toContain("withdrawn by origin");
     expect(html).not.toContain("secret content should not show");
   });
 
   it("requires auth", async () => {
-    const res = await SELF.fetch(`${BASE}/studio/reading`, { redirect: "manual" });
+    const res = await SELF.fetch(`${BASE}${STUDIO}/reading`, { redirect: "manual" });
     expect(res.status).toBe(302);
   });
 });

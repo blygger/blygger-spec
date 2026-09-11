@@ -2,11 +2,22 @@
 //
 // Session 8 (locked decision #14): the public surface's mount path is
 // deployment config (Env.MOUNT, default /blyg), freely assignable including
-// "" = domain root. Routes are built per-mount by makeApp() and memoized;
-// /studio and /api are client furniture pinned at the host root regardless
-// of mount. Registration order matters at root mount: studio/api handlers
-// are registered before the public sub-app so its cache middleware never
-// wraps them.
+// "" = domain root. Routes are built per-mount by makeApp() and memoized.
+// /studio is client furniture, not protocol surface (decision #3) — nested
+// under the mount since session 16 (venkateshrao.com/blyg/studio, not
+// venkateshrao.com/studio) so a non-root deployment doesn't put studio at a
+// URL that looks unrelated to its own public page; a root-mount deployment
+// (mount="") is unaffected, since mount+"/studio" === "/studio" there. /api
+// stays host-rooted regardless of mount — it's invisible plumbing the
+// studio JS calls into, never a bookmarked/navigated URL, so nesting it
+// bought nothing and would have meant threading a mount-aware base through
+// every embedded fetch() call in studio.ts/importer/studio.ts instead of
+// just the human-facing links. Registration order matters at root mount:
+// studio/api handlers are registered before the public sub-app so its cache
+// middleware never wraps them — verified this still holds with studio
+// nested under a non-root mount too (no path collision: pub has no /studio
+// route, and studio/api are still registered on `app` before `pub` is
+// attached).
 
 import { Hono } from "hono";
 import { api } from "./api.ts";
@@ -32,20 +43,23 @@ const cors = (c: { header: (k: string, v: string) => void }) =>
 export function makeApp(mount: string) {
   const app = new Hono<{ Bindings: Env }>({ strict: false });
 
-  // --- Studio & API: cookie auth, host-rooted. Registered first (see header note). ---
+  // --- Studio: cookie auth, mount-relative (see header note). API: cookie auth, host-rooted. Registered first. ---
 
-  app.use("/studio/*", async (c, next) => {
+  const studioBase = mount + "/studio";
+  const studioLogin = studioBase + "/login";
+
+  app.use(studioBase + "/*", async (c, next) => {
     const path = new URL(c.req.url).pathname;
-    if (path === "/studio/login" || path === "/studio/logout") return next();
-    if (!(await verifySession(c.env, c.req.header("cookie")))) return c.redirect("/studio/login");
+    if (path === studioLogin || path === studioBase + "/logout") return next();
+    if (!(await verifySession(c.env, c.req.header("cookie")))) return c.redirect(studioLogin);
     return next();
   });
-  app.use("/studio", async (c, next) => {
-    if (!(await verifySession(c.env, c.req.header("cookie")))) return c.redirect("/studio/login");
+  app.use(studioBase, async (c, next) => {
+    if (!(await verifySession(c.env, c.req.header("cookie")))) return c.redirect(studioLogin);
     return next();
   });
-  app.route("/studio", studio);
-  app.route("/studio", importerStudio);
+  app.route(studioBase, studio);
+  app.route(studioBase, importerStudio);
 
   app.use("/api/*", async (c, next) => {
     if (!(await verifySession(c.env, c.req.header("cookie")))) {

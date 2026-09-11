@@ -7,7 +7,7 @@
 import { SELF, env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
 import { createHopper, createSubscription, getSubscription } from "../../src/importer/store.ts";
-import { apiJson, BASE, login } from "../helpers.ts";
+import { apiJson, BASE, login, STUDIO } from "../helpers.ts";
 
 describe("subscription API (§4.2)", () => {
   it("400s without a url", async () => {
@@ -80,7 +80,7 @@ describe("studio subs page", () => {
   it("renders 200 with the add-by-url form and lists existing subscriptions", async () => {
     const cookie = await login();
     await createSubscription(env.DB, { kind: "blyg", origin: "https://c.example/", feedUrl: "https://c.example/feed.xml", title: "C" });
-    const res = await SELF.fetch(`${BASE}/studio/subs`, { headers: { cookie } });
+    const res = await SELF.fetch(`${BASE}${STUDIO}/subs`, { headers: { cookie } });
     expect(res.status).toBe(200);
     const html = await res.text();
     expect(html).toContain("add-sub-form");
@@ -89,7 +89,7 @@ describe("studio subs page", () => {
   });
 
   it("redirects to login when unauthenticated", async () => {
-    const res = await SELF.fetch(`${BASE}/studio/subs`, { redirect: "manual" });
+    const res = await SELF.fetch(`${BASE}${STUDIO}/subs`, { redirect: "manual" });
     expect(res.status).toBe(302);
   });
 });
@@ -139,7 +139,7 @@ describe("studio hoppers pages", () => {
   it("GET /studio/hoppers lists hoppers and renders the create form", async () => {
     const cookie = await login();
     await createHopper(env.DB, "Visible Hopper", "visible-hopper");
-    const res = await SELF.fetch(`${BASE}/studio/hoppers`, { headers: { cookie } });
+    const res = await SELF.fetch(`${BASE}${STUDIO}/hoppers`, { headers: { cookie } });
     expect(res.status).toBe(200);
     const html = await res.text();
     expect(html).toContain("Visible Hopper");
@@ -148,7 +148,7 @@ describe("studio hoppers pages", () => {
 
   it("GET /studio/hoppers/:id 404s for an unknown hopper", async () => {
     const cookie = await login();
-    const res = await SELF.fetch(`${BASE}/studio/hoppers/nope`, { headers: { cookie } });
+    const res = await SELF.fetch(`${BASE}${STUDIO}/hoppers/nope`, { headers: { cookie } });
     expect(res.status).toBe(404);
   });
 });

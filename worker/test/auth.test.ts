@@ -1,11 +1,11 @@
 import { env, SELF } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
 import { verifySession } from "../src/auth.ts";
-import { BASE, login } from "./helpers.ts";
+import { BASE, login, STUDIO } from "./helpers.ts";
 
 describe("auth (§3.2)", () => {
   it("rejects a wrong password without setting a cookie", async () => {
-    const res = await SELF.fetch(`${BASE}/studio/login`, {
+    const res = await SELF.fetch(`${BASE}${STUDIO}/login`, {
       method: "POST",
       body: new URLSearchParams({ password: "wrong" }),
       redirect: "manual",
@@ -17,12 +17,12 @@ describe("auth (§3.2)", () => {
   it("issues a session cookie on correct password", async () => {
     const cookie = await login();
     expect(cookie).toMatch(/^blyg_session=\d+\.[0-9a-f]{64}$/);
-    const studio = await SELF.fetch(`${BASE}/studio`, { headers: { cookie }, redirect: "manual" });
+    const studio = await SELF.fetch(`${BASE}${STUDIO}`, { headers: { cookie }, redirect: "manual" });
     expect(studio.status).toBe(200);
   });
 
   it("sets HttpOnly, Secure, SameSite=Lax attributes", async () => {
-    const res = await SELF.fetch(`${BASE}/studio/login`, {
+    const res = await SELF.fetch(`${BASE}${STUDIO}/login`, {
       method: "POST",
       body: new URLSearchParams({ password: "test-password" }),
       redirect: "manual",
@@ -34,9 +34,9 @@ describe("auth (§3.2)", () => {
   });
 
   it("redirects unauthenticated /studio to login", async () => {
-    const res = await SELF.fetch(`${BASE}/studio`, { redirect: "manual" });
+    const res = await SELF.fetch(`${BASE}${STUDIO}`, { redirect: "manual" });
     expect(res.status).toBe(302);
-    expect(res.headers.get("location")).toContain("/studio/login");
+    expect(res.headers.get("location")).toContain(`${STUDIO}/login`);
   });
 
   it("rejects a tampered cookie", async () => {
@@ -44,7 +44,7 @@ describe("auth (§3.2)", () => {
     const [name, value] = cookie.split("=");
     const [expiry] = value.split(".");
     const forged = `${name}=${Number(expiry) + 9999}.${value.split(".")[1]}`;
-    const res = await SELF.fetch(`${BASE}/studio`, { headers: { cookie: forged }, redirect: "manual" });
+    const res = await SELF.fetch(`${BASE}${STUDIO}`, { headers: { cookie: forged }, redirect: "manual" });
     expect(res.status).toBe(302);
   });
 
@@ -61,7 +61,7 @@ describe("auth (§3.2)", () => {
   });
 
   it("logout clears the cookie", async () => {
-    const res = await SELF.fetch(`${BASE}/studio/logout`, { method: "POST", redirect: "manual" });
+    const res = await SELF.fetch(`${BASE}${STUDIO}/logout`, { method: "POST", redirect: "manual" });
     expect(res.headers.get("set-cookie")).toContain("Max-Age=0");
   });
 });

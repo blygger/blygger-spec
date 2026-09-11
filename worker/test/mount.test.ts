@@ -90,4 +90,13 @@ describe("custom multi-segment mount", () => {
     expect(html).toContain('href="/notes/b/style.css"');
     expect(html).toContain('href="/notes/b/feed.xml"');
   });
+
+  it("nests studio under the mount (session 16) and 404s both the old host-rooted path and the root-mount path", async () => {
+    const res = await app.request(`${HOST}/notes/b/studio`, { redirect: "manual" }, appEnv());
+    expect(res.status).toBe(302);
+    expect(res.headers.get("location")).toBe("/notes/b/studio/login");
+    expect(res.headers.get("cache-control")).toBeNull();
+    expect((await app.request(`${HOST}/studio`, {}, appEnv())).status).toBe(404);
+    expect((await app.request(`${HOST}/studio/login`, {}, appEnv())).status).toBe(404);
+  });
 });

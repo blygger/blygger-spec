@@ -1,10 +1,12 @@
 import { SELF } from "cloudflare:test";
 
 export const BASE = "https://example.com";
+/** Matches vitest.config.ts's default-worker MOUNT binding ("/blyg") — studio is nested under it since session 16. */
+export const STUDIO = "/blyg/studio";
 
 /** Log in as owner, return the Cookie header value. */
 export async function login(password = "test-password"): Promise<string> {
-  const res = await SELF.fetch(`${BASE}/studio/login`, {
+  const res = await SELF.fetch(`${BASE}${STUDIO}/login`, {
     method: "POST",
     body: new URLSearchParams({ password }),
     redirect: "manual",

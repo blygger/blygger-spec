@@ -153,21 +153,21 @@ export function studioHeader(title: string, mount: string): string {
 <h1>${escapeHtml(title)}</h1>
 <nav>
 <a href="${mount}/">public page ↗</a>
-<a href="/studio/subs">subscriptions</a>
-<a href="/studio/reading">reading</a>
-<a href="/studio/hoppers">hoppers</a>
-<a href="/studio/settings">settings</a>
-<form method="post" action="/studio/logout" style="display:inline"><button type="submit" class="link">log out</button></form>
+<a href="${mount}/studio/subs">subscriptions</a>
+<a href="${mount}/studio/reading">reading</a>
+<a href="${mount}/studio/hoppers">hoppers</a>
+<a href="${mount}/studio/settings">settings</a>
+<form method="post" action="${mount}/studio/logout" style="display:inline"><button type="submit" class="link">log out</button></form>
 </nav>
 </header>`;
 }
 
-function loginPage(error?: string): string {
+function loginPage(mount: string, error?: string): string {
   return studioLayout(
     "blyg studio — login",
     `<h1>blyg studio</h1>
 ${error ? `<p style="color:#c00">${escapeHtml(error)}</p>` : ""}
-<form method="post" action="/studio/login">
+<form method="post" action="${mount}/studio/login">
 <p><input type="password" name="password" placeholder="password" autofocus required></p>
 <p><button type="submit">log in</button></p>
 </form>`,
@@ -188,7 +188,7 @@ function versionNav(version: number): string {
 </div>`;
 }
 
-async function itemRow(db: D1Database, item: ItemRow): Promise<string> {
+async function itemRow(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const id = item.id;
   if (item.status === "withdrawn") {
     const versions = await listVersions(db, id);
@@ -201,7 +201,7 @@ async function itemRow(db: D1Database, item: ItemRow): Promise<string> {
 <span>Created: ${formatDate(item.created)}</span>
 <span>Withdrawn: ${formatDate(item.updated)}, v${item.version}${pinnedNote}</span>
 </p>
-<div class="actions"><a href="/studio/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="republish" data-id="${id}">republish</button></div>
+<div class="actions"><a href="${mount}/studio/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="republish" data-id="${id}">republish</button></div>
 </div>`;
   }
 
@@ -214,7 +214,7 @@ async function itemRow(db: D1Database, item: ItemRow): Promise<string> {
 <span>Created: ${formatDate(item.created)} — draft, never published</span>
 <span>Saved: just now</span>
 </p>
-<div class="actions"><a href="/studio/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="publish" data-id="${id}">publish</button><button type="button" data-action="discard" data-id="${id}">discard</button></div>
+<div class="actions"><a href="${mount}/studio/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="publish" data-id="${id}">publish</button><button type="button" data-action="discard" data-id="${id}">discard</button></div>
 </div>`;
   }
 
@@ -232,7 +232,7 @@ async function itemRow(db: D1Database, item: ItemRow): Promise<string> {
 <span>Most recent published: ${formatDate(item.updated)}, v${item.version}</span>
 <span class="draft-line">Draft saved — not yet published</span>
 </p>
-<div class="actions"><a href="/studio/edit/${id}"><button type="button">edit</button></a><button type="button" class="primary" data-action="publish" data-id="${id}">publish v${item.version + 1}</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
+<div class="actions"><a href="${mount}/studio/edit/${id}"><button type="button">edit</button></a><button type="button" class="primary" data-action="publish" data-id="${id}">publish v${item.version + 1}</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
 </div>`;
   }
 
@@ -250,7 +250,7 @@ ${noteHtml}
 <span>Created: ${formatDate(item.created)}</span>
 ${mostRecentLine}
 </p>
-<div class="actions"><a href="/studio/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="pin" data-id="${id}" data-version="${item.version}">pin v${item.version}&hellip;</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
+<div class="actions"><a href="${mount}/studio/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="pin" data-id="${id}" data-version="${item.version}">pin v${item.version}&hellip;</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
 </div>`;
 }
 
@@ -259,7 +259,8 @@ export function excerptOf(text: string, n = 80): string {
   return t.length <= n ? t || "(empty)" : t.slice(0, n).trimEnd() + "…";
 }
 
-const ACTION_SCRIPT = `
+function actionScript(mount: string): string {
+  return `
 async function api(method, path, body) {
   const res = await fetch(path, {
     method,
@@ -321,7 +322,7 @@ document.addEventListener("click", async (e) => {
     if (!(await api("POST", "/api/items/" + id + "/pin", { version }))) return;
   } else if (action === "new-thread") {
     const created = await api("POST", "/api/items", { content_md: "", kind: "thread" });
-    if (created) location.href = "/studio/edit/" + created.id;
+    if (created) location.href = "${mount}/studio/edit/" + created.id;
     return;
   } else {
     return;
@@ -329,8 +330,10 @@ document.addEventListener("click", async (e) => {
   location.reload();
 });
 `;
+}
 
-const COMPOSER_SCRIPT = `
+function composerScript(mount: string): string {
+  return `
 const composerText = document.getElementById("composer-text");
 const composerCount = document.getElementById("composer-count");
 function updateCount() {
@@ -352,36 +355,41 @@ document.getElementById("publish-btn").addEventListener("click", async () => {
 });
 document.getElementById("composer-attach").addEventListener("click", async () => {
   const created = await api("POST", "/api/items", { content_md: composerText.value });
-  if (created) location.href = "/studio/edit/" + created.id;
+  if (created) location.href = "${mount}/studio/edit/" + created.id;
 });
 `;
+}
 
 export const studio = new Hono<{ Bindings: Env }>({ strict: false });
 
 studio.get("/login", async (c) => {
-  if (await verifySession(c.env, c.req.header("cookie"))) return c.redirect("/studio");
-  return c.html(loginPage());
+  const mount = normalizeMount(c.env.MOUNT);
+  if (await verifySession(c.env, c.req.header("cookie"))) return c.redirect(mount + "/studio");
+  return c.html(loginPage(mount));
 });
 
 studio.post("/login", async (c) => {
+  const mount = normalizeMount(c.env.MOUNT);
   const form = await c.req.formData();
   const password = String(form.get("password") ?? "");
   if (!(await checkPassword(c.env, password))) {
-    return c.html(loginPage("Wrong password."), 403);
+    return c.html(loginPage(mount, "Wrong password."), 403);
   }
   c.header("Set-Cookie", await issueSessionCookie(c.env));
-  return c.redirect("/studio");
+  return c.redirect(mount + "/studio");
 });
 
 studio.post("/logout", (c) => {
+  const mount = normalizeMount(c.env.MOUNT);
   c.header("Set-Cookie", clearSessionCookie());
-  return c.redirect("/studio/login");
+  return c.redirect(mount + "/studio/login");
 });
 
 studio.get("/", async (c) => {
+  const mount = normalizeMount(c.env.MOUNT);
   const items = await listAll(c.env.DB);
-  const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item)));
-  const body = `${studioHeader("blyg studio", normalizeMount(c.env.MOUNT))}
+  const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item, mount)));
+  const body = `${studioHeader("blyg studio", mount)}
 <div class="composer">
 <textarea id="composer-text" placeholder="compose a fragment…"></textarea>
 <div class="bar">
@@ -392,16 +400,17 @@ studio.get("/", async (c) => {
 </div>
 <p class="new-thread-line"><button type="button" class="link" data-action="new-thread">+ new thread</button> <span style="opacity:0.6;">— long-form, opens the thread editor</span></p>
 ${rows.join("\n") || "<p>Nothing yet — compose your first fragment above.</p>"}
-<script>${ACTION_SCRIPT}</script>
-<script>${COMPOSER_SCRIPT}</script>`;
+<script>${actionScript(mount)}</script>
+<script>${composerScript(mount)}</script>`;
   return c.html(studioLayout("blyg studio", body));
 });
 
 studio.get("/settings", async (c) => {
+  const mount = normalizeMount(c.env.MOUNT);
   const settings = await getSettings(c.env.DB);
   const linksText = settings.author_links.map((l) => `${l.label} | ${l.url}`).join("\n");
-  const body = `${studioHeader("blyg studio — settings", normalizeMount(c.env.MOUNT))}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a></nav>
+  const body = `${studioHeader("blyg studio — settings", mount)}
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${mount}/studio">← studio</a></nav>
 <form class="settings-form" id="settings-form">
 <label for="site_title">Site title</label>
 <input id="site_title" name="site_title" value="${escapeHtml(settings.site_title)}">
@@ -419,7 +428,7 @@ studio.get("/settings", async (c) => {
 <textarea id="ai_style_prompt" name="ai_style_prompt" rows="3">${escapeHtml(settings.ai_style_prompt)}</textarea>
 <p style="margin-top:1rem;"><button type="submit" class="primary">save settings</button></p>
 </form>
-<script>${ACTION_SCRIPT}</script>
+<script>${actionScript(mount)}</script>
 <script>
 document.getElementById("settings-form").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -518,7 +527,7 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
   const body = `${studioHeader(`blyg studio — editing ${escapeHtml(item.id.slice(0, 8))}…`, mount)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${mount}/studio">← studio</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
 <div class="split">
 <div class="pane">
@@ -557,7 +566,7 @@ ${mediaHtml}
 ${changelogHtml || "<li>not yet published</li>"}
 </ul>
 </div>
-<script>${ACTION_SCRIPT}</script>
+<script>${actionScript(mount)}</script>
 <script>
 const id = ${JSON.stringify(item.id)};
 const mdInput = document.getElementById("md-input");
@@ -569,7 +578,7 @@ function scheduleSave() {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(async () => {
     await api("PUT", "/api/items/" + id, { content_md: mdInput.value });
-    const res = await fetch("/studio/preview", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
+    const res = await fetch("${mount}/studio/preview", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
     const data = await res.json();
     previewBody.innerHTML = data.html;
     renderTkPanel(data.scopes);
@@ -658,7 +667,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
   const body = `${studioHeader("blyg studio — editing thread", mount)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="/studio">← studio</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${mount}/studio">← studio</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
 <div class="panes">
 <div class="pane" style="position:relative;">
@@ -697,7 +706,7 @@ ${mediaHtml}
 ${changelogHtml || "<li>not yet published</li>"}
 </ul>
 </div>
-<script>${ACTION_SCRIPT}</script>
+<script>${actionScript(mount)}</script>
 <script>
 const id = ${JSON.stringify(item.id)};
 const mdInput = document.getElementById("md-input");
@@ -715,7 +724,7 @@ function currentLinePrefix() {
 }
 
 async function refreshPreview() {
-  const res = await fetch("/studio/preview-thread", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
+  const res = await fetch("${mount}/studio/preview-thread", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
   const data = await res.json();
   previewBody.innerHTML = data.html;
   renderTkPanel(data.scopes);
@@ -737,7 +746,7 @@ async function updatePalette() {
   const { prefix } = currentLinePrefix();
   const m = /^\\s*!\\[\\[([^\\]]*)$/.exec(prefix);
   if (!m) { palette.style.display = "none"; return; }
-  const res = await fetch("/studio/fragments/search?q=" + encodeURIComponent(m[1]));
+  const res = await fetch("${mount}/studio/fragments/search?q=" + encodeURIComponent(m[1]));
   const data = await res.json();
   paletteItems = data.results;
   paletteSel = 0;
