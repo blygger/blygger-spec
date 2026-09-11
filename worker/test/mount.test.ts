@@ -8,7 +8,7 @@
 import { env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
 import { makeApp } from "../src/index.ts";
-import { normalizeMount } from "../src/util.ts";
+import { normalizeMount, studioPath } from "../src/util.ts";
 
 const HOST = "https://example.com";
 
@@ -30,6 +30,17 @@ describe("normalizeMount", () => {
     expect(normalizeMount("/blyg/")).toBe("/blyg");
     expect(normalizeMount("/a/b/")).toBe("/a/b");
     expect(normalizeMount(" /notes/ ")).toBe("/notes");
+  });
+});
+
+describe("studioPath (session 16)", () => {
+  it("nests under a non-root mount", () => {
+    expect(studioPath("/blyg")).toBe("/blyg/studio");
+    expect(studioPath("/a/b")).toBe("/a/b/studio");
+  });
+
+  it("collapses to the bare path at root mount", () => {
+    expect(studioPath("")).toBe("/studio");
   });
 });
 

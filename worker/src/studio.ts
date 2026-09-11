@@ -15,7 +15,7 @@ import { annotateGenerated, applyGeneratedWrappers, parseScopes, previewStrip, t
 import { previewTransclusions } from "./transclusion.ts";
 import type { Env, ItemRow, Transclusion } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
-import { escapeHtml, normalizeMount } from "./util.ts";
+import { escapeHtml, normalizeMount, studioPath } from "./util.ts";
 
 /**
  * Studio-only scope summary for the Generate/Regenerate panel (task 6) — not
@@ -155,11 +155,11 @@ export function studioHeader(title: string, mount: string): string {
 <h1>${escapeHtml(title)}</h1>
 <nav>
 <a href="${mount}/">public page ↗</a>
-<a href="${mount}/studio/subs">subscriptions</a>
-<a href="${mount}/studio/reading">reading</a>
-<a href="${mount}/studio/hoppers">hoppers</a>
-<a href="${mount}/studio/settings">settings</a>
-<form method="post" action="${mount}/studio/logout" style="display:inline"><button type="submit" class="link">log out</button></form>
+<a href="${studioPath(mount)}/subs">subscriptions</a>
+<a href="${studioPath(mount)}/reading">reading</a>
+<a href="${studioPath(mount)}/hoppers">hoppers</a>
+<a href="${studioPath(mount)}/settings">settings</a>
+<form method="post" action="${studioPath(mount)}/logout" style="display:inline"><button type="submit" class="link">log out</button></form>
 </nav>
 </header>`;
 }
@@ -169,7 +169,7 @@ function loginPage(mount: string, error?: string): string {
     "blyg studio — login",
     `<h1>blyg studio</h1>
 ${error ? `<p style="color:#c00">${escapeHtml(error)}</p>` : ""}
-<form method="post" action="${mount}/studio/login">
+<form method="post" action="${studioPath(mount)}/login">
 <p><input type="password" name="password" placeholder="password" autofocus required></p>
 <p><button type="submit">log in</button></p>
 </form>`,
@@ -203,7 +203,7 @@ async function itemRow(db: D1Database, item: ItemRow, mount: string): Promise<st
 <span>Created: ${formatDate(item.created)}</span>
 <span>Withdrawn: ${formatDate(item.updated)}, v${item.version}${pinnedNote}</span>
 </p>
-<div class="actions"><a href="${mount}/studio/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="republish" data-id="${id}">republish</button></div>
+<div class="actions"><a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="republish" data-id="${id}">republish</button></div>
 </div>`;
   }
 
@@ -216,7 +216,7 @@ async function itemRow(db: D1Database, item: ItemRow, mount: string): Promise<st
 <span>Created: ${formatDate(item.created)} — draft, never published</span>
 <span>Saved: just now</span>
 </p>
-<div class="actions"><a href="${mount}/studio/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="publish" data-id="${id}">publish</button><button type="button" data-action="discard" data-id="${id}">discard</button></div>
+<div class="actions"><a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="publish" data-id="${id}">publish</button><button type="button" data-action="discard" data-id="${id}">discard</button></div>
 </div>`;
   }
 
@@ -234,7 +234,7 @@ async function itemRow(db: D1Database, item: ItemRow, mount: string): Promise<st
 <span>Most recent published: ${formatDate(item.updated)}, v${item.version}</span>
 <span class="draft-line">Draft saved — not yet published</span>
 </p>
-<div class="actions"><a href="${mount}/studio/edit/${id}"><button type="button">edit</button></a><button type="button" class="primary" data-action="publish" data-id="${id}">publish v${item.version + 1}</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
+<div class="actions"><a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" class="primary" data-action="publish" data-id="${id}">publish v${item.version + 1}</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
 </div>`;
   }
 
@@ -252,7 +252,7 @@ ${noteHtml}
 <span>Created: ${formatDate(item.created)}</span>
 ${mostRecentLine}
 </p>
-<div class="actions"><a href="${mount}/studio/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="pin" data-id="${id}" data-version="${item.version}">pin v${item.version}&hellip;</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
+<div class="actions"><a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="pin" data-id="${id}" data-version="${item.version}">pin v${item.version}&hellip;</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
 </div>`;
 }
 
@@ -324,7 +324,7 @@ document.addEventListener("click", async (e) => {
     if (!(await api("POST", "/api/items/" + id + "/pin", { version }))) return;
   } else if (action === "new-thread") {
     const created = await api("POST", "/api/items", { content_md: "", kind: "thread" });
-    if (created) location.href = "${mount}/studio/edit/" + created.id;
+    if (created) location.href = "${studioPath(mount)}/edit/" + created.id;
     return;
   } else {
     return;
@@ -357,7 +357,7 @@ document.getElementById("publish-btn").addEventListener("click", async () => {
 });
 document.getElementById("composer-attach").addEventListener("click", async () => {
   const created = await api("POST", "/api/items", { content_md: composerText.value });
-  if (created) location.href = "${mount}/studio/edit/" + created.id;
+  if (created) location.href = "${studioPath(mount)}/edit/" + created.id;
 });
 `;
 }
@@ -366,7 +366,7 @@ export const studio = new Hono<{ Bindings: Env }>({ strict: false });
 
 studio.get("/login", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
-  if (await verifySession(c.env, c.req.header("cookie"))) return c.redirect(mount + "/studio");
+  if (await verifySession(c.env, c.req.header("cookie"))) return c.redirect(studioPath(mount));
   return c.html(loginPage(mount));
 });
 
@@ -378,13 +378,13 @@ studio.post("/login", async (c) => {
     return c.html(loginPage(mount, "Wrong password."), 403);
   }
   c.header("Set-Cookie", await issueSessionCookie(c.env));
-  return c.redirect(mount + "/studio");
+  return c.redirect(studioPath(mount));
 });
 
 studio.post("/logout", (c) => {
   const mount = normalizeMount(c.env.MOUNT);
   c.header("Set-Cookie", clearSessionCookie());
-  return c.redirect(mount + "/studio/login");
+  return c.redirect(studioPath(mount) + "/login");
 });
 
 studio.get("/", async (c) => {
@@ -413,7 +413,7 @@ studio.get("/settings", async (c) => {
   const settings = await getSettings(c.env.DB);
   const linksText = settings.author_links.map((l) => `${l.label} | ${l.url}`).join("\n");
   const body = `${studioHeader("blyg studio — settings", mount)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${mount}/studio">← studio</a></nav>
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← studio</a></nav>
 <form class="settings-form" id="settings-form">
 <label for="site_title">Site title</label>
 <input id="site_title" name="site_title" value="${escapeHtml(settings.site_title)}">
@@ -530,7 +530,7 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
   const body = `${studioHeader(`blyg studio — editing ${escapeHtml(item.id.slice(0, 8))}…`, mount)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${mount}/studio">← studio</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← studio</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
 <div class="split">
 <div class="pane">
@@ -581,7 +581,7 @@ function scheduleSave() {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(async () => {
     await api("PUT", "/api/items/" + id, { content_md: mdInput.value });
-    const res = await fetch("${mount}/studio/preview", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
+    const res = await fetch("${studioPath(mount)}/preview", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
     const data = await res.json();
     previewBody.innerHTML = data.html;
     renderTkPanel(data.scopes);
@@ -670,7 +670,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
   const body = `${studioHeader("blyg studio — editing thread", mount)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${mount}/studio">← studio</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← studio</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
 <div class="panes">
 <div class="pane" style="position:relative;">
@@ -728,7 +728,7 @@ function currentLinePrefix() {
 }
 
 async function refreshPreview() {
-  const res = await fetch("${mount}/studio/preview-thread", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
+  const res = await fetch("${studioPath(mount)}/preview-thread", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
   const data = await res.json();
   previewBody.innerHTML = data.html;
   renderTkPanel(data.scopes);
@@ -750,7 +750,7 @@ async function updatePalette() {
   const { prefix } = currentLinePrefix();
   const m = /^\\s*!\\[\\[([^\\]]*)$/.exec(prefix);
   if (!m) { palette.style.display = "none"; return; }
-  const res = await fetch("${mount}/studio/fragments/search?q=" + encodeURIComponent(m[1]));
+  const res = await fetch("${studioPath(mount)}/fragments/search?q=" + encodeURIComponent(m[1]));
   const data = await res.json();
   paletteItems = data.results;
   paletteSel = 0;

@@ -34,7 +34,7 @@ import { buildArchiveIndex, buildFeedXml, buildItemJson, buildManifest, buildPin
 import { studio } from "./studio.ts";
 import type { Env } from "./types.ts";
 import { FEED_PAGE_SIZE } from "./types.ts";
-import { normalizeMount } from "./util.ts";
+import { normalizeMount, studioPath } from "./util.ts";
 
 const cors = (c: { header: (k: string, v: string) => void }) =>
   c.header("Access-Control-Allow-Origin", "*");
@@ -45,7 +45,7 @@ export function makeApp(mount: string) {
 
   // --- Studio: cookie auth, mount-relative (see header note). API: cookie auth, host-rooted. Registered first. ---
 
-  const studioBase = mount + "/studio";
+  const studioBase = studioPath(mount);
   const studioLogin = studioBase + "/login";
 
   app.use(studioBase + "/*", async (c, next) => {

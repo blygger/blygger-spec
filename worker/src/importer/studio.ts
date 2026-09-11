@@ -8,7 +8,7 @@ import { excerptFromHtml } from "../markdown.ts";
 import { authoredKind, listPublic, publishedVersion } from "../model.ts";
 import { formatDate, studioHeader, studioLayout } from "../studio.ts";
 import type { Env, SubscriptionRow } from "../types.ts";
-import { escapeHtml, normalizeMount } from "../util.ts";
+import { escapeHtml, normalizeMount, studioPath } from "../util.ts";
 import type { ImportedEntryInput, OwnEntryInput, ReadingFeedEntry } from "./reading.ts";
 import { buildReadingFeed } from "./reading.ts";
 import { sanitizeHtml } from "./sanitize.ts";
@@ -304,7 +304,7 @@ document.addEventListener("click", async (e) => {
   if (btn.dataset.action === "delete-hopper") {
     if (!confirm("Delete this hopper? Membership is removed locally; nothing public is affected.")) return;
     await fetch("/api/hoppers/" + btn.dataset.id, { method: "DELETE" });
-    location.href = "${mount}/studio/hoppers";
+    location.href = "${studioPath(mount)}/hoppers";
   } else if (btn.dataset.action === "remove-hopper-item") {
     await fetch("/api/hoppers/" + btn.dataset.hopper + "/items/" + btn.dataset.sub + "/" + btn.dataset.remote, { method: "DELETE" });
     location.reload();
@@ -329,7 +329,7 @@ importerStudio.get("/hoppers", async (c) => {
       const items = await listHopperItems(c.env.DB, h.id);
       return `<div class="hopper-row">
 <div>
-<a href="${mount}/studio/hoppers/${h.id}"><strong>${escapeHtml(h.name)}</strong></a>
+<a href="${studioPath(mount)}/hoppers/${h.id}"><strong>${escapeHtml(h.name)}</strong></a>
 <p class="hopper-meta">${items.length} item${items.length === 1 ? "" : "s"} &middot; slug: ${escapeHtml(h.slug ?? "")}</p>
 </div>
 <div class="actions">
@@ -375,7 +375,7 @@ importerStudio.get("/hoppers/:id", async (c) => {
   }
   const body = `${studioHeader(`blyg studio — ${hopper.name}`, mount)}
 <style>${READING_STYLE}</style>
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${mount}/studio/hoppers">← hoppers</a></nav>
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}/hoppers">← hoppers</a></nav>
 <p style="opacity:0.7;font-size:0.85rem;">${hopper.public ? `Public at ${mount}/h/${escapeHtml(hopper.slug ?? "")}/` : "Not public — toggle from the hoppers list."}</p>
 ${rows.length ? rows.join("\n") : "<p>Nothing in this hopper yet.</p>"}
 <script>${hoppersScript(mount)}</script>`;

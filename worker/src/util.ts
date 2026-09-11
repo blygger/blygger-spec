@@ -16,6 +16,17 @@ export function normalizeMount(raw: string | undefined): string {
   return m.startsWith("/") ? m : "/" + m;
 }
 
+/**
+ * Studio's base path for a given (already-normalized) mount — session 16:
+ * studio is nested under the mount, not host-rooted. Single source of truth
+ * for the "mount + /studio" convention so index.ts's route registration and
+ * every studio.ts / importer/studio.ts link/redirect/embedded-script string
+ * can't drift apart the way resolve.ts's duplicated feed-detection once did.
+ */
+export function studioPath(mount: string): string {
+  return mount + "/studio";
+}
+
 /** Crockford base32, lowercase, no i/l/o/u. */
 export const ID_ALPHABET = "0123456789abcdefghjkmnpqrstvwxyz";
 
