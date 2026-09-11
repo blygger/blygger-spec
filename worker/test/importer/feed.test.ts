@@ -1,5 +1,5 @@
 // Lenient feed parser — malformed-entry salvage, whole-feed failure,
-// blyg:manifest upgrade detection.
+// blyg:manifest upgrade detection, and (session 16) Atom 1.0 alongside RSS 2.0.
 import { describe, expect, it } from "vitest";
 import { parseFeed } from "../../src/importer/feed.ts";
 
@@ -108,5 +108,106 @@ describe("parseFeed() — §3.2/§7", () => {
     const result = parseFeed(feedXml(""));
     expect(result.ok).toBe(true);
     if (result.ok) expect(result.entries).toEqual([]);
+  });
+});
+
+function atomXml(entries: string, opts: { manifest?: string } = {}): string {
+  return `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:blyg="https://blygger.org/ns/0.1">
+  <title>Example</title>
+  <link href="https://a.example/" rel="alternate"/>
+  <updated>2026-08-10T00:00:00Z</updated>
+  ${opts.manifest ? `<blyg:manifest>${opts.manifest}</blyg:manifest>` : ""}
+${entries}
+</feed>`;
+}
+
+describe("parseFeed() — Atom 1.0 (session 16)", () => {
+  it("parses a well-formed Atom entry, preferring rel=alternate for the link", () => {
+    const entry = `  <entry>
+    <id>tag:a.example,2026:1</id>
+    <title>a title</title>
+    <link href="https://a.example/2026/1/" rel="alternate"/>
+    <link href="https://a.example/2026/1/comments" rel="replies"/>
+    <published>2026-08-09T00:00:00Z</published>
+    <updated>2026-08-10T00:00:00Z</updated>
+    <summary>plain summary</summary>
+  </entry>`;
+    const result = parseFeed(atomXml(entry));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.entries).toHaveLength(1);
+    expect(result.entries[0]).toMatchObject({
+      guid: "tag:a.example,2026:1",
+      link: "https://a.example/2026/1/",
+      title: "a title",
+      description: "plain summary",
+      pubDate: "2026-08-09T00:00:00Z",
+    });
+    expect(result.entries[0].blyg).toBeUndefined();
+  });
+
+  it("prefers <content> over <summary>, and falls back to <updated> when <published> is absent", () => {
+    const entry = `  <entry>
+    <id>tag:a.example,2026:2</id>
+    <link href="https://a.example/2026/2/"/>
+    <updated>2026-08-11T00:00:00Z</updated>
+    <summary>short</summary>
+    <content type="html">full &lt;b&gt;body&lt;/b&gt;</content>
+  </entry>`;
+    const result = parseFeed(atomXml(entry));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.entries[0].description).toBe("full <b>body</b>");
+    expect(result.entries[0].pubDate).toBe("2026-08-11T00:00:00Z");
+  });
+
+  it("falls back to the link when there's no rel=alternate and no unmarked link", () => {
+    const entry = `  <entry>
+    <id>tag:a.example,2026:3</id>
+    <link href="https://a.example/2026/3/self" rel="self"/>
+  </entry>`;
+    const result = parseFeed(atomXml(entry));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.entries[0].link).toBe("https://a.example/2026/3/self");
+  });
+
+  it("falls back to the link as guid when <id> is missing", () => {
+    const entry = `  <entry>
+    <title>no id</title>
+    <link href="https://a.example/2026/4/" rel="alternate"/>
+  </entry>`;
+    const result = parseFeed(atomXml(entry));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.entries[0].guid).toBe("https://a.example/2026/4/");
+  });
+
+  it("salvages a well-formed Atom feed with one unidentifiable entry (no id, no link)", () => {
+    const good = `  <entry>
+    <id>tag:a.example,2026:5</id>
+    <link href="https://a.example/2026/5/" rel="alternate"/>
+  </entry>`;
+    const orphan = `  <entry>
+    <title>orphan, no id or link</title>
+  </entry>`;
+    const result = parseFeed(atomXml(`${good}\n${orphan}`));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.entries).toHaveLength(1);
+    expect(result.entries[0].guid).toBe("tag:a.example,2026:5");
+  });
+
+  it("an empty feed (no entries) parses fine with an empty entries array", () => {
+    const result = parseFeed(atomXml(""));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.entries).toEqual([]);
+  });
+
+  it("reads blyg:manifest off the Atom feed root when present", () => {
+    const result = parseFeed(atomXml("", { manifest: "https://a.example/blyg/blyg.json" }));
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.manifestUrl).toBe("https://a.example/blyg/blyg.json");
   });
 });
