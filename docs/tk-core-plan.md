@@ -5,7 +5,9 @@
 Anthropic API in local `wrangler dev` and export byte-compared; see DEVLOG
 session 14. `AI_PROVIDER_KEY` is registered on both live nodes. **DEPLOYED
 to both live nodes session 15 (2026-09-11)** — migration 0005 + worker code,
-live-verified.** This plan
+live-verified. **Grammar respelled to balanced tokens session 16
+(2026-09-11, Fable + Venkat — §2.1 note, §9 task list): design final,
+implementation §9 pending.**** This plan
 resolves the v0.4 ⚠️ FABLE items that don't depend on
 v0.2/v0.3 — the TK generation contract, the inline-vs-block scope question
 (`curation-discovery-generation-proposal.md` §4 items 1, 3, 4, 6), and the
@@ -45,23 +47,37 @@ mechanism polluting the source plane.
 
 ### 2.1 Scopes
 
-- A TK scope is delimited by the tokens `[TK`, `[=]`, and `[/TK]`:
-  - Before generation: `[TK <instruction>[/TK]`
-  - After generation: `[TK <instruction>[=]<output>[/TK]`
+- A TK scope is delimited by the tokens `[TK]`, `[=]`, and `[/TK]` — all
+  three complete bracket pairs, in the familiar open-tag/close-tag idiom:
+  - Before generation: `[TK]<instruction>[/TK]`
+  - After generation: `[TK]<instruction>[=]<output>[/TK]`
 
-  Note the instruction is **not** terminated by a `]` of its own — the next
-  scanner token (`[=]` or `[/TK]`) ends it directly. *(Corrected session 15,
-  Fable: this section's examples originally showed a spurious closing `]`
-  after the instruction, contradicting the scan rule below. The scan rule was
-  always the intended grammar, and it is forced: any closing token that began
-  with `]` would mis-split an instruction ending in the very `![[id]]` source
-  refs instructions exist to carry — `…![[abc]]][/TK]` cuts the ref. The
-  session-14 implementation already read it this way; no code change.)*
+  Whitespace around the instruction is trimmed, so `[TK] instruction [/TK]`
+  and `[TK]instruction[/TK]` are equivalent.
+
+  *(Grammar history — two dated revisions, both to this bullet. Session 12's
+  original spelled the opener `[TK` with no closing bracket; session 15
+  (Fable) confirmed that no token **terminating the instruction** may begin
+  with `]` — a bare-`]` terminator, as in `[TK instruction]`, mis-splits an
+  instruction ending in the very `![[id]]` source refs instructions exist to
+  carry (`…![[abc]]][/TK]` cuts the ref). That constraint stands and is
+  forced. Session 16 (2026-09-11, Fable + Venkat) respelled the opener to
+  the balanced `[TK]`: the session-15 argument only rules out `]`-initial
+  terminators, and the opener's `]` sits at a fixed position before any
+  instruction text, so it was always compatible. Venkat rejected the
+  unbalanced spelling as unreadable, making readability an explicit grammar
+  objective — and the balanced form is what every pre-implementation
+  document (frozen v0 spec, roadmap, session-11 proposal examples) wrote
+  informally anyway. No wire impact: the grammar is studio-private.
+  Old-spelling working copies on the two test nodes are migrated or
+  discarded, not dual-supported — pre-release, decision #21.)*
 - Tokens may appear **anywhere — inline mid-sentence or on their own lines**;
-  a scope may span lines. Parsing is a linear token scan (`[TK` … optional
+  a scope may span lines. Parsing is a linear token scan (`[TK]` … optional
   `[=]` … `[/TK]`), with **no bracket balancing**: instructions may freely
   contain `![[id]]` references because the scanner only looks for the three
-  tokens, none of which can occur inside a reference.
+  tokens — none begins with `]`, and none can be composed from reference
+  characters (refs are `![[` + lowercase base32 + `]]`; uppercase `TK`,
+  `=`, and `/` are all outside that alphabet).
 - **No nesting** of scopes (publish/generate error), matching v0.1's
   fragments-only conservatism.
 - Scopes are valid in **both fragment and thread working copies** — one
@@ -85,7 +101,7 @@ The rule composes by exclusion: **scopes cannot contain transclusions.** An
 author who wants a verbatim quote inside a generated passage closes the
 scope, transcludes, and reopens. Venkat's target pattern
 (`As Einstein said, ![[id]], instruction: simplify…`) is written
-`[TK simplify ![[id]] for a lay reader[/TK]` inline in running prose. This
+`[TK]simplify ![[id]] for a lay reader[/TK]` inline in running prose. This
 resolves proposal §4 item 6: decision #9's block-only grammar stands
 untouched for *transclusion*; TK scopes are inline-capable because they are
 studio grammar the protocol never sees.
@@ -108,12 +124,13 @@ studio grammar the protocol never sees.
 
 ### 2.4 Publish rules
 
-- Publishing with any scope lacking output (`[TK …[/TK]` with no `[=]`) is a
+- Publishing with any scope lacking output (`[TK]…[/TK]` with no `[=]`) is a
   **publish error** listing the unresolved scopes — generation is always
   author-reviewed, never publish-triggered (human stays in the loop; "at
   authoring time" per decision #5).
-- At publish, each scope is stripped to its output: `[TK …[=]` and `[/TK]`
-  are removed; the output text stays in place in `content_md`. Provenance is
+- At publish, each scope is stripped to its output: the
+  `[TK]<instruction>[=]` prefix and the `[/TK]` closer are removed; the
+  output text stays in place in `content_md`. Provenance is
   recorded (§3.1); the rendered `content_html` wraps each generated span
   (§3.2). The working copy retains the full grammar (it's the source of
   truth for the next edit, exactly like thread directives §10.2).
@@ -266,3 +283,64 @@ fresh provenance. Fragment-editor generation works. All suites green.
 3. **Build order vs. v0.2** — this plan assumes v0.2 first (pub-sub testing
    soonest), TK-core immediately after. TK-core is independent enough to go
    first if you'd rather have the authoring loop early.
+
+## 9. Grammar respelling to balanced tokens (session 16 — Sonnet/Opus-safe)
+
+Decision #20 amended session 16 (2026-09-11, Fable + Venkat): the scope
+delimiters are now the balanced `[TK]` / `[=]` / `[/TK]` (see §2.1's
+revision note for the full rationale). This section is the implementation
+task list — **everything here is mechanical against the §2.1 grammar; no
+design latitude, Sonnet/Opus-safe.** The separator `[=]` and closer `[/TK]`
+are unchanged; only the opener respells (`[TK` → `[TK]`), which shifts the
+instruction's start offset by one.
+
+Semantics to preserve exactly (none of these change): trim rule on
+instructions; `output === null` for scopes without `[=]`; unterminated-scope
+and nested-scope parse errors; block-vs-inline detection; source-ref
+extraction over the whole scope; publish strip; `setScopeOutput`'s
+first-generation vs. regeneration splice; case-sensitive uppercase tokens.
+
+Tasks (ordered, commit-sized):
+
+1. **Parser** (`worker/src/tk.ts`): respell the open-token scans — both
+   `indexOf("[TK", …)` calls (the opener at the top of the loop and the
+   nested-scope probe) become `indexOf("[TK]", …)`; the instruction slice
+   offset moves from `tkIdx + 3` to `tkIdx + 4` (three places: `closeIdx`
+   search start, nested-probe search start, instruction slice). Update the
+   header comment, the `TkScope.start` doc comment, the `parseScopes` doc
+   comment, and `stripToOutput`'s doc comment to the new spelling.
+   ✓ `tsc` clean.
+2. **Test fixtures** (`worker/test/tk.test.ts`, `tk-publish.test.ts`,
+   `tk-generate.test.ts`, `tk-generate-api.test.ts` — ~59 occurrences
+   total): respell every scope literal to the new grammar. Do not weaken any
+   assertion; the error-case tests (unterminated, nested) keep their shapes
+   with the new opener. Add two new parser cases: (a) `[TK]` with an
+   **empty instruction** (`[TK][/TK]` and `[TK][=]out[/TK]`) parses as a
+   scope with `instruction === ""` — the journalism-convention bare
+   placeholder is now valid grammar; (b) an instruction ending in a
+   `![[id]]` ref directly against `[=]` (`…![[<26-char-id>]][=]out[/TK]`)
+   splits cleanly — the regression case the grammar history is about.
+   ✓ full suite green.
+3. **Studio** (`worker/src/studio.ts`): the whole-fragment wrap sugar
+   becomes `"[TK]" + instruction + (existing ? "[=]" + existing : "") +
+   "[/TK]"`; the two compose-help hints show the real ungenerated form
+   (`[TK]instruction[/TK]` — the current hint text `[TK an instruction]`
+   predates this respelling and was never a valid form); the three
+   `No [TK …] scopes` empty-panel strings respell to `No [TK]…[/TK]
+   scopes`. ✓ click-through against local `wrangler dev`: wrap sugar,
+   per-scope generate/regenerate, preview highlighting, publish error on
+   unresolved scope.
+4. **Working-copy migration on the two live nodes**: published wire content
+   never contained tokens (nothing to do there); only unpublished working
+   copies with old-grammar scopes are affected. Venkat has authorized
+   discarding them — but a mechanical migration is trivially safe if
+   preferred: parse each working copy with the **old** token rules, re-emit
+   with `[TK]` openers, save. Either way, verify each studio's item list
+   loads with no malformed-scope errors afterward. Test-content cleanup is
+   Venkat's call per node; ask before deleting anything he authored today.
+5. **Deploy + verify**: both nodes (account IDs pinned per node — personal
+   `7026b5…` for venkateshrao, PI org `7e8c79…` for protocol-institute);
+   live-verify one full generate → publish → wire-check loop on one node
+   (§7's definition-of-done shape, abbreviated). Update `CLAUDE.md`'s
+   decision-#20 note is already done (session 16); DEVLOG entry at wrap-up
+   records the respelling.
