@@ -3,7 +3,7 @@
 // failure trail.
 import { describe, expect, it } from "vitest";
 import { resolve } from "../../src/importer/resolve.ts";
-import { feedBody, makeFixtureFetch, manifestBody } from "./fixtures.ts";
+import { atomFeedBody, feedBody, makeFixtureFetch, manifestBody } from "./fixtures.ts";
 
 describe("resolve() — §2.1", () => {
   it("step 2: direct probe resolves a blyg", async () => {
@@ -42,6 +42,21 @@ describe("resolve() — §2.1", () => {
     });
     const result = await resolve("https://a.example/feed.xml", fetch);
     expect(result).toEqual({ kind: "rss", feedUrl: "https://a.example/feed.xml" });
+  });
+
+  it("step 3: an Atom-only feed (no <rss><channel>) becomes the L0 candidate — not a failure (session 16)", async () => {
+    // Regression test: extractFeedManifestUrl() used to re-detect the RSS
+    // root itself instead of delegating to feed.ts's parseFeed(), so a
+    // direct fetch of an Atom-only feed URL was never recognized as a feed
+    // at all and resolution failed outright, even though feed.ts could
+    // already parse it once a subscription existed.
+    const { fetch } = makeFixtureFetch({
+      "https://a.example/atom.xml": { body: atomFeedBody() },
+      "https://a.example/blyg/blyg.json": { status: 404 },
+      "https://a.example/blyg.json": { status: 404 },
+    });
+    const result = await resolve("https://a.example/atom.xml", fetch);
+    expect(result).toEqual({ kind: "rss", feedUrl: "https://a.example/atom.xml" });
   });
 
   it("step 4: one-hop rel=\"blyg\" probe resolves, and never scans the rel target's own HTML", async () => {

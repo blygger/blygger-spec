@@ -6,7 +6,7 @@
 // never the manifest's self-asserted `site` — a mirror must not inherit
 // another origin's identity (§11.7).
 
-import { XMLParser, XMLValidator } from "fast-xml-parser";
+import { parseFeed } from "./feed.ts";
 import type { FetchLike, FetchResult } from "./http.ts";
 import { platformFetch } from "./http.ts";
 
@@ -93,19 +93,18 @@ function finalizeBlyg({ origin, manifest }: { origin: string; manifest: BlygMani
   return result;
 }
 
-/** Does `xml` parse as an RSS feed, and if so, does its channel carry `<blyg:manifest>` (§7 feed-upgrade)? */
+/**
+ * Does `xml` parse as a feed (RSS 2.0 or Atom 1.0 — §3.5 L0 covers both),
+ * and if so, does it carry `<blyg:manifest>` (§7 feed-upgrade)? Delegates to
+ * the shared parser (feed.ts) rather than re-detecting the root shape here —
+ * session 16 found this function had its own RSS-only duplicate of that
+ * detection, which silently rejected Atom-only feeds at the resolve step
+ * even after feed.ts itself learned to parse them.
+ */
 function extractFeedManifestUrl(xml: string): { isFeed: boolean; manifestUrl: string | null } {
-  if (XMLValidator.validate(xml) !== true) return { isFeed: false, manifestUrl: null };
-  let parsed: unknown;
-  try {
-    parsed = new XMLParser({ ignoreAttributes: false }).parse(xml);
-  } catch {
-    return { isFeed: false, manifestUrl: null };
-  }
-  const channel = (parsed as Record<string, any>)?.rss?.channel;
-  if (!channel) return { isFeed: false, manifestUrl: null };
-  const manifestUrl = typeof channel["blyg:manifest"] === "string" ? channel["blyg:manifest"] : null;
-  return { isFeed: true, manifestUrl };
+  const parsed = parseFeed(xml);
+  if (!parsed.ok) return { isFeed: false, manifestUrl: null };
+  return { isFeed: true, manifestUrl: parsed.manifestUrl };
 }
 
 /** `<link>` tags of an HTML document, via HTMLRewriter (no DOM dependency). */

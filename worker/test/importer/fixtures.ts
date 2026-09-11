@@ -99,6 +99,23 @@ ${itemsXml}
 </rss>`;
 }
 
+/** An Atom 1.0 feed (no `<rss><channel>` at all) — a real-world legacy-feed shape with no blyg extensions. */
+export function atomFeedBody(): string {
+  return `<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Example</title>
+  <link href="https://example.com/" rel="alternate"/>
+  <updated>2026-08-10T00:00:00Z</updated>
+  <entry>
+    <id>tag:example.com,2026:1</id>
+    <title>a post</title>
+    <link href="https://example.com/1/" rel="alternate"/>
+    <updated>2026-08-10T00:00:00Z</updated>
+    <summary>hello</summary>
+  </entry>
+</feed>`;
+}
+
 export async function itemDocBody(opts: {
   id: string;
   kind: "fragment" | "thread" | "withdrawn";
