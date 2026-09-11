@@ -67,6 +67,8 @@ button.link { background: none; border: none; padding: 0; font: inherit; color: 
 .count { opacity: 0.6; }
 .count.over { color: #c00; opacity: 1; }
 .new-thread-line { font-size: 0.85rem; margin: -0.5rem 0 1.5rem; }
+.compose-help { font-size: 0.8rem; opacity: 0.65; margin: 0 0 0.5rem; }
+.compose-help code { font-size: 0.95em; }
 button, .composer button, .item-row button, .bar button { font: inherit; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; cursor: pointer; }
 button.primary { border-color: currentColor; font-weight: 600; }
 button.danger { color: #c00; border-color: #c00; }
@@ -391,6 +393,7 @@ studio.get("/", async (c) => {
   const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item, mount)));
   const body = `${studioHeader("blyg studio", mount)}
 <div class="composer">
+<p class="compose-help">Markdown supported. Write <code>[TK an instruction]</code> to mark a scope for AI-drafted text — generate it from the editor after saving.</p>
 <textarea id="composer-text" placeholder="compose a fragment…"></textarea>
 <div class="bar">
   <span><button type="button" id="composer-attach">attach image</button></span>
@@ -672,6 +675,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
 <div class="panes">
 <div class="pane" style="position:relative;">
 <h2>markdown source</h2>
+<p class="compose-help">Markdown, plus <code>![[id]]</code> on its own line to transclude a fragment (type <code>![[</code> for a picker) and <code>[TK an instruction]</code> to mark a scope for AI-drafted text.</p>
 <textarea id="md-input">${escapeHtml(item.content_md)}</textarea>
 <div class="palette" id="palette" style="display:none;">
 <input class="search" id="palette-search" placeholder="transclude a fragment…">
