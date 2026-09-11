@@ -5,9 +5,12 @@
 Anthropic API in local `wrangler dev` and export byte-compared; see DEVLOG
 session 14. `AI_PROVIDER_KEY` is registered on both live nodes. **DEPLOYED
 to both live nodes session 15 (2026-09-11)** — migration 0005 + worker code,
-live-verified. **Grammar respelled to balanced tokens session 16
-(2026-09-11, Fable + Venkat — §2.1 note, §9 task list): design final,
-implementation §9 pending.**** This plan
+live-verified. **Grammar respelled to balanced tokens session 16 (2026-09-11,
+Fable design + Sonnet implementation): §9 complete** — parser, ~59 test
+fixtures + 2 new cases, studio sugar/hints, working-copy migration (one
+real scope migrated on venkateshrao, verified re-parsing correctly against
+the newly-deployed parser; protocol-institute had nothing to migrate),
+deployed and live-verified on both nodes. 241/241 green.** This plan
 resolves the v0.4 ⚠️ FABLE items that don't depend on
 v0.2/v0.3 — the TK generation contract, the inline-vs-block scope question
 (`curation-discovery-generation-proposal.md` §4 items 1, 3, 4, 6), and the
