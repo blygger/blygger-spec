@@ -26,7 +26,7 @@ describe("POST /api/items/:id/generate — route contract", () => {
 
   it("400s without a scope index", async () => {
     const cookie = await login();
-    const created = await apiJson(cookie, "POST", "/api/items", { content_md: "[TK x[/TK]" });
+    const created = await apiJson(cookie, "POST", "/api/items", { content_md: "[TK]x[/TK]" });
     const { status, json } = await apiJson(cookie, "POST", `/api/items/${created.json.id}/generate`, {});
     expect(status).toBe(400);
     expect(json.error).toMatch(/scope/);
@@ -34,7 +34,7 @@ describe("POST /api/items/:id/generate — route contract", () => {
 
   it("400s on an out-of-range scope index, without touching AI_PROVIDER_KEY (unset in test env)", async () => {
     const cookie = await login();
-    const created = await apiJson(cookie, "POST", "/api/items", { content_md: "[TK x[/TK]" });
+    const created = await apiJson(cookie, "POST", "/api/items", { content_md: "[TK]x[/TK]" });
     const { status, json } = await apiJson(cookie, "POST", `/api/items/${created.json.id}/generate`, { scope: 3 });
     expect(status).toBe(400);
     expect(json.error).toBe("unknown scope index");
@@ -42,7 +42,7 @@ describe("POST /api/items/:id/generate — route contract", () => {
 
   it("400s on malformed TK grammar before ever needing the provider", async () => {
     const cookie = await login();
-    const created = await apiJson(cookie, "POST", "/api/items", { content_md: "[TK a[/TK] [TK never closed" });
+    const created = await apiJson(cookie, "POST", "/api/items", { content_md: "[TK]a[/TK] [TK]never closed" });
     const { status, json } = await apiJson(cookie, "POST", `/api/items/${created.json.id}/generate`, { scope: 0 });
     expect(status).toBe(400);
     expect(json.error).toMatch(/malformed/);

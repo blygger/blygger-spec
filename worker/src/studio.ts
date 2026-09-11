@@ -295,7 +295,7 @@ function renderTkPanel(scopes) {
   const list = document.getElementById("tk-scope-list");
   if (!list) return;
   if (!scopes.length) {
-    list.innerHTML = '<li class="tk-empty">No [TK …] scopes in this draft.</li>';
+    list.innerHTML = '<li class="tk-empty">No [TK]…[/TK] scopes in this draft.</li>';
     return;
   }
   list.innerHTML = scopes.map((s) => {
@@ -393,7 +393,7 @@ studio.get("/", async (c) => {
   const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item, mount)));
   const body = `${studioHeader("blyg studio", mount)}
 <div class="composer">
-<p class="compose-help">Markdown supported. Write <code>[TK an instruction]</code> to mark a scope for AI-drafted text — generate it from the editor after saving.</p>
+<p class="compose-help">Markdown supported. Write <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text — generate it from the editor after saving.</p>
 <textarea id="composer-text" placeholder="compose a fragment…"></textarea>
 <div class="bar">
   <span><button type="button" id="composer-attach">attach image</button></span>
@@ -551,7 +551,7 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
           s.hasOutput ? "" : '<span class="tk-pending">ungenerated</span> '
         }<button type="button" class="tk-generate-btn" data-scope="${s.index}">${s.hasOutput ? "regenerate" : "generate"}</button></li>`,
     )
-    .join("") || '<li class="tk-empty">No [TK …] scopes in this draft.</li>'}</ul>
+    .join("") || '<li class="tk-empty">No [TK]…[/TK] scopes in this draft.</li>'}</ul>
 </div>
 ${mediaHtml}
 <div class="edit-bar">
@@ -608,7 +608,7 @@ document.getElementById("tk-generate-whole-btn").addEventListener("click", () =>
   const instruction = prompt("Instruction for the whole fragment:");
   if (!instruction) return;
   const existing = mdInput.value.trim();
-  mdInput.value = "[TK " + instruction + (existing ? "[=]" + existing : "") + "[/TK]";
+  mdInput.value = "[TK]" + instruction + (existing ? "[=]" + existing : "") + "[/TK]";
   scheduleSave();
 });
 document.getElementById("tk-scope-list").addEventListener("click", async (e) => {
@@ -675,7 +675,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
 <div class="panes">
 <div class="pane" style="position:relative;">
 <h2>markdown source</h2>
-<p class="compose-help">Markdown, plus <code>![[id]]</code> on its own line to transclude a fragment (type <code>![[</code> for a picker) and <code>[TK an instruction]</code> to mark a scope for AI-drafted text.</p>
+<p class="compose-help">Markdown, plus <code>![[id]]</code> on its own line to transclude a fragment (type <code>![[</code> for a picker) and <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text.</p>
 <textarea id="md-input">${escapeHtml(item.content_md)}</textarea>
 <div class="palette" id="palette" style="display:none;">
 <input class="search" id="palette-search" placeholder="transclude a fragment…">
@@ -696,7 +696,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
           s.hasOutput ? "" : '<span class="tk-pending">ungenerated</span> '
         }<button type="button" class="tk-generate-btn" data-scope="${s.index}">${s.hasOutput ? "regenerate" : "generate"}</button></li>`,
     )
-    .join("") || '<li class="tk-empty">No [TK …] scopes in this draft.</li>'}</ul>
+    .join("") || '<li class="tk-empty">No [TK]…[/TK] scopes in this draft.</li>'}</ul>
 </div>
 ${mediaHtml}
 <div class="note-row"><label for="note-input">What changed?</label><input id="note-input" placeholder="optional edit note, shows in changelog + feed title"></div>

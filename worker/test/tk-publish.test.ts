@@ -25,7 +25,7 @@ async function generateVia(itemId: string, scope: number, outputText: string) {
 
 describe("publish() — TK integration (§2.4/§3)", () => {
   it("publish errors on an unresolved scope, writes nothing", async () => {
-    const item = await createDraft(env.DB, "[TK write something[/TK]");
+    const item = await createDraft(env.DB, "[TK]write something[/TK]");
     await expect(publish(env.DB, item, null)).rejects.toThrow(TkPublishError);
     const after = await getItem(env.DB, item.id);
     expect(after!.status).toBe("draft");
@@ -33,12 +33,12 @@ describe("publish() — TK integration (§2.4/§3)", () => {
   });
 
   it("publish errors on malformed grammar (nested scope)", async () => {
-    const item = await createDraft(env.DB, "[TK outer [TK inner[=]x[/TK] still outer[=]y[/TK]");
+    const item = await createDraft(env.DB, "[TK]outer [TK]inner[=]x[/TK] still outer[=]y[/TK]");
     await expect(publish(env.DB, item, null)).rejects.toThrow(TkPublishError);
   });
 
   it("block scope: content_md is marker-free, content_html carries a div.blyg-tk-gen wrapper", async () => {
-    const item = await createDraft(env.DB, "Intro.\n\n[TK write a haiku[/TK]\n\nOutro.");
+    const item = await createDraft(env.DB, "Intro.\n\n[TK]write a haiku[/TK]\n\nOutro.");
     await generateVia(item.id, 0, "blossoms fall softly");
     const draft = (await getItem(env.DB, item.id))!;
     const version = await publish(env.DB, draft, null);
@@ -48,14 +48,14 @@ describe("publish() — TK integration (§2.4/§3)", () => {
       content_md: string;
       content_html: string;
     };
-    expect(row.content_md).not.toMatch(/\[TK|\[=\]|\[\/TK\]/);
+    expect(row.content_md).not.toMatch(/\[TK\]|\[=\]|\[\/TK\]/);
     expect(row.content_md).toBe("Intro.\n\nblossoms fall softly\n\nOutro.");
     expect(row.content_html).toContain('<div class="blyg-tk-gen">');
     expect(row.content_html).toContain("blossoms fall softly");
   });
 
   it("inline scope: content_html carries a span.blyg-tk-gen wrapper within the flowing paragraph", async () => {
-    const item = await createDraft(env.DB, "As Einstein said, [TK simplify[/TK], apparently.");
+    const item = await createDraft(env.DB, "As Einstein said, [TK]simplify[/TK], apparently.");
     await generateVia(item.id, 0, "it's all relative");
     const draft = (await getItem(env.DB, item.id))!;
     await publish(env.DB, draft, null);
@@ -69,7 +69,7 @@ describe("publish() — TK integration (§2.4/§3)", () => {
   });
 
   it("hash covers exactly the stripped content_md", async () => {
-    const item = await createDraft(env.DB, "[TK x[/TK] tail");
+    const item = await createDraft(env.DB, "[TK]x[/TK] tail");
     await generateVia(item.id, 0, "HEAD");
     const draft = (await getItem(env.DB, item.id))!;
     await publish(env.DB, draft, null);
@@ -82,7 +82,7 @@ describe("publish() — TK integration (§2.4/§3)", () => {
   });
 
   it("hand-authored output (no /generate call) publishes as plain text, no wrapper, no generated[] entry", async () => {
-    const item = await createDraft(env.DB, "[TK never called[=]I typed this myself[/TK]");
+    const item = await createDraft(env.DB, "[TK]never called[=]I typed this myself[/TK]");
     await publish(env.DB, item, null);
     const row = (await env.DB.prepare("SELECT content_md, content_html, generated_json FROM versions WHERE item_id = ? AND version = 1").bind(item.id).first()) as {
       content_md: string;
@@ -96,7 +96,7 @@ describe("publish() — TK integration (§2.4/§3)", () => {
 
   it("fragment cap applies to the published (stripped) length, not the raw working copy", async () => {
     const longInstruction = "x".repeat(2000);
-    const item = await createDraft(env.DB, `[TK ${longInstruction}[/TK]`);
+    const item = await createDraft(env.DB, `[TK]${longInstruction}[/TK]`);
     // Working copy is well over FRAGMENT_MAX_CHARS, but the generated output is short.
     await generateVia(item.id, 0, "short");
     const draft = (await getItem(env.DB, item.id))!;
@@ -104,7 +104,7 @@ describe("publish() — TK integration (§2.4/§3)", () => {
     await expect(publish(env.DB, draft, null)).resolves.toBe(1);
 
     // Inverse: short working copy, output that blows the cap.
-    const item2 = await createDraft(env.DB, "[TK x[/TK]");
+    const item2 = await createDraft(env.DB, "[TK]x[/TK]");
     await generateVia(item2.id, 0, "y".repeat(1500));
     const draft2 = (await getItem(env.DB, item2.id))!;
     await expect(publish(env.DB, draft2, null)).rejects.toThrow(FragmentTooLongError);
@@ -116,7 +116,7 @@ describe("publish() — TK integration (§2.4/§3)", () => {
     const sourced = await createAndPublish(cookie, "source material for generation");
     const threadItem = await createDraft(
       env.DB,
-      `Quote:\n\n![[${quoted}]]\n\nGenerated:\n\n[TK weave in ![[${sourced}]][/TK]`,
+      `Quote:\n\n![[${quoted}]]\n\nGenerated:\n\n[TK]weave in ![[${sourced}]][/TK]`,
       "thread",
     );
     await generateVia(threadItem.id, 0, "a woven paraphrase");
@@ -144,7 +144,7 @@ describe("publish() — TK integration (§2.4/§3)", () => {
   });
 
   it("regenerate + republish bumps the version with fresh provenance", async () => {
-    const item = await createDraft(env.DB, "[TK x[/TK]");
+    const item = await createDraft(env.DB, "[TK]x[/TK]");
     await generateVia(item.id, 0, "v1 output");
     let draft = (await getItem(env.DB, item.id))!;
     const v1 = await publish(env.DB, draft, null);
@@ -172,7 +172,7 @@ describe("definition of done (tk-core-plan.md §7)", () => {
 
     const threadItem = await createDraft(
       env.DB,
-      `A block quote:\n\n![[${quoted}]]\n\n` + `As Einstein said, [TK simplify ![[${source}]] for a lay reader[/TK], apparently.\n\n` + `And separately: [TK write one word[/TK].`,
+      `A block quote:\n\n![[${quoted}]]\n\n` + `As Einstein said, [TK]simplify ![[${source}]] for a lay reader[/TK], apparently.\n\n` + `And separately: [TK]write one word[/TK].`,
       "thread",
     );
 
@@ -190,7 +190,7 @@ describe("definition of done (tk-core-plan.md §7)", () => {
     expect(version).toBe(1);
 
     const item = await (await getPublic(`/blyg/items/${threadItem.id}.json`)).json<any>();
-    expect(item.content_md).not.toMatch(/\[TK|\[=\]|\[\/TK\]/);
+    expect(item.content_md).not.toMatch(/\[TK\]|\[=\]|\[\/TK\]/);
     expect(item.transclusions).toEqual([{ id: quoted, version: 1 }]);
     expect(item.generated).toEqual([
       { sources: [{ id: source, version: 1 }], model: "claude-opus-5", at: expect.any(String) },

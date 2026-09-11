@@ -1,6 +1,7 @@
-// TK (instructed generation) authoring grammar — tk-core-plan.md §2, decision #20.
-// Studio-private: this grammar never reaches the wire. Publish strips every
-// scope to its bare output (see stripToOutput); the wire never sees "[TK".
+// TK (instructed generation) authoring grammar — tk-core-plan.md §2, decision #20
+// (grammar respelled to balanced tokens §9, session 16). Studio-private: this
+// grammar never reaches the wire. Publish strips every scope to its bare
+// output (see stripToOutput); the wire never sees "[TK]".
 
 import { renderMarkdown } from "./markdown.ts";
 import { ID_ALPHABET } from "./util.ts";
@@ -8,7 +9,7 @@ import { ID_ALPHABET } from "./util.ts";
 const SOURCE_REF = new RegExp(`!\\[\\[([${ID_ALPHABET}]{26})\\]\\]`, "g");
 
 export interface TkScope {
-  /** Index of the opening "[TK" token in the source string. */
+  /** Index of the opening "[TK]" token in the source string. */
   start: number;
   /** Index just after the closing "[/TK]" token. */
   end: number;
@@ -52,10 +53,10 @@ function isBlockPosition(contentMd: string, start: number, end: number): boolean
 }
 
 /**
- * Linear token scan for `[TK <instruction>[=]<output>[/TK]` — no bracket
+ * Linear token scan for `[TK]<instruction>[=]<output>[/TK]` — no bracket
  * balancing, matching tk-core-plan.md §2.1: the scanner only looks for the
  * three literal tokens, so `![[id]]` refs are safe to write inside an
- * instruction or output. No nesting: a second "[TK" found before the
+ * instruction or output. No nesting: a second "[TK]" found before the
  * enclosing scope's "[/TK]" is a parse error and the outer scope is skipped
  * (scanning resumes after its close) rather than partially recovered.
  */
@@ -64,23 +65,23 @@ export function parseScopes(contentMd: string): { scopes: TkScope[]; errors: TkP
   const errors: TkParseError[] = [];
   let i = 0;
   while (true) {
-    const tkIdx = contentMd.indexOf("[TK", i);
+    const tkIdx = contentMd.indexOf("[TK]", i);
     if (tkIdx === -1) break;
-    const closeIdx = contentMd.indexOf("[/TK]", tkIdx + 3);
+    const closeIdx = contentMd.indexOf("[/TK]", tkIdx + 4);
     if (closeIdx === -1) {
       errors.push({ at: tkIdx, reason: "unterminated scope (missing [/TK])" });
       break;
     }
-    const nestedIdx = contentMd.indexOf("[TK", tkIdx + 3);
+    const nestedIdx = contentMd.indexOf("[TK]", tkIdx + 4);
     if (nestedIdx !== -1 && nestedIdx < closeIdx) {
       errors.push({ at: nestedIdx, reason: "nested TK scopes are not supported" });
       i = closeIdx + 5;
       continue;
     }
-    const eqIdx = contentMd.indexOf("[=]", tkIdx + 3);
+    const eqIdx = contentMd.indexOf("[=]", tkIdx + 4);
     const hasEq = eqIdx !== -1 && eqIdx < closeIdx;
     const instrEnd = hasEq ? eqIdx : closeIdx;
-    const instruction = contentMd.slice(tkIdx + 3, instrEnd).trim();
+    const instruction = contentMd.slice(tkIdx + 4, instrEnd).trim();
     const output = hasEq ? contentMd.slice(eqIdx + 3, closeIdx) : null;
     const end = closeIdx + 5;
     scopes.push({
@@ -123,7 +124,7 @@ export interface GeneratedSpan {
 }
 
 /**
- * Strip every scope down to its bare output (`[TK …[=]` and `[/TK]`
+ * Strip every scope down to its bare output (`[TK]…[=]` and `[/TK]`
  * removed, output text kept in place) — the wire `content_md` transform of
  * §2.4. Every scope MUST have output; check via unresolvedScopes() first.
  * Returns the generated-text spans' offsets in the *stripped* string, for

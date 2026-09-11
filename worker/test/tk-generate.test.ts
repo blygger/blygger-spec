@@ -22,14 +22,14 @@ function fixture(text: string, model = "claude-opus-5") {
 
 describe("runGenerateScope — success path (§5)", () => {
   it("generates output for a pure-instruction scope (no sources), updates the working copy, and records provenance", async () => {
-    const item = await createDraft(env.DB, "Intro.\n\n[TK write a haiku about spring[/TK]\n\nOutro.");
+    const item = await createDraft(env.DB, "Intro.\n\n[TK]write a haiku about spring[/TK]\n\nOutro.");
     const { fetchImpl } = fixture("blossoms in the rain");
 
     const result = await runGenerateScope({ ...env, AI_PROVIDER_KEY: "k" }, item, 0, fetchImpl);
     expect(result).toMatchObject({ ok: true, text: "blossoms in the rain", model: "claude-opus-5" });
 
     const updated = await getItem(env.DB, item.id);
-    expect(updated!.content_md).toBe("Intro.\n\n[TK write a haiku about spring[=]blossoms in the rain[/TK]\n\nOutro.");
+    expect(updated!.content_md).toBe("Intro.\n\n[TK]write a haiku about spring[=]blossoms in the rain[/TK]\n\nOutro.");
     expect(updated!.dirty).toBe(1);
 
     const provenance = getTkProvenance(updated!);
@@ -39,7 +39,7 @@ describe("runGenerateScope — success path (§5)", () => {
   it("resolves ![[id]] source refs and feeds their content_md to the provider", async () => {
     const cookie = await login();
     const f1 = await createAndPublish(cookie, "source fragment text");
-    const item = await createDraft(env.DB, `[TK summarize ![[${f1}]][/TK]`);
+    const item = await createDraft(env.DB, `[TK]summarize ![[${f1}]][/TK]`);
     const { fetchImpl, calls } = fixture("summary");
 
     const result = await runGenerateScope({ ...env, AI_PROVIDER_KEY: "k" }, item, 0, fetchImpl);
@@ -52,24 +52,24 @@ describe("runGenerateScope — success path (§5)", () => {
   });
 
   it("regenerate: passes the prior output as currentText and replaces it in place", async () => {
-    const item0 = await createDraft(env.DB, "[TK improve this[=]rough draft[/TK]");
+    const item0 = await createDraft(env.DB, "[TK]improve this[=]rough draft[/TK]");
     const { fetchImpl: fetch1 } = fixture("polished draft v1");
     await runGenerateScope({ ...env, AI_PROVIDER_KEY: "k" }, item0, 0, fetch1);
     const afterFirst = (await getItem(env.DB, item0.id))!;
-    expect(afterFirst.content_md).toBe("[TK improve this[=]polished draft v1[/TK]");
+    expect(afterFirst.content_md).toBe("[TK]improve this[=]polished draft v1[/TK]");
 
     const { fetchImpl: fetch2, calls } = fixture("polished draft v2");
     const result = await runGenerateScope({ ...env, AI_PROVIDER_KEY: "k" }, afterFirst, 0, fetch2);
     expect(result).toMatchObject({ ok: true, text: "polished draft v2" });
     expect((calls[0] as any).messages[0].content).toContain("polished draft v1");
     const afterSecond = (await getItem(env.DB, item0.id))!;
-    expect(afterSecond.content_md).toBe("[TK improve this[=]polished draft v2[/TK]");
+    expect(afterSecond.content_md).toBe("[TK]improve this[=]polished draft v2[/TK]");
   });
 });
 
 describe("runGenerateScope — error cases (§5/§6 task 4)", () => {
   it("unresolvable source: unknown id", async () => {
-    const item = await createDraft(env.DB, `[TK use ![[zzzzzzzzzzzzzzzzzzzzzzzzzz]][/TK]`);
+    const item = await createDraft(env.DB, `[TK]use ![[zzzzzzzzzzzzzzzzzzzzzzzzzz]][/TK]`);
     const { fetchImpl, calls } = fixture("unused");
     const result = await runGenerateScope({ ...env, AI_PROVIDER_KEY: "k" }, item, 0, fetchImpl);
     expect(result).toMatchObject({ ok: false, status: 400, body: { error: "unresolvable source", id: "zzzzzzzzzzzzzzzzzzzzzzzzzz" } });
@@ -85,7 +85,7 @@ describe("runGenerateScope — error cases (§5/§6 task 4)", () => {
     await publish(env.DB, threadItem, null);
 
     for (const badId of [draftFrag.id, withdrawnId, threadItem.id]) {
-      const item = await createDraft(env.DB, `[TK use ![[${badId}]][/TK]`);
+      const item = await createDraft(env.DB, `[TK]use ![[${badId}]][/TK]`);
       const { fetchImpl } = fixture("unused");
       const result = await runGenerateScope({ ...env, AI_PROVIDER_KEY: "k" }, item, 0, fetchImpl);
       expect(result.ok, badId).toBe(false);
@@ -94,7 +94,7 @@ describe("runGenerateScope — error cases (§5/§6 task 4)", () => {
   });
 
   it("nested scopes: reports the parse error, never calls the provider", async () => {
-    const item = await createDraft(env.DB, "[TK outer [TK inner[=]x[/TK] still outer[=]y[/TK]");
+    const item = await createDraft(env.DB, "[TK]outer [TK]inner[=]x[/TK] still outer[=]y[/TK]");
     const { fetchImpl, calls } = fixture("unused");
     const result = await runGenerateScope({ ...env, AI_PROVIDER_KEY: "k" }, item, 0, fetchImpl);
     expect(result).toMatchObject({ ok: false, status: 400 });
@@ -103,14 +103,14 @@ describe("runGenerateScope — error cases (§5/§6 task 4)", () => {
   });
 
   it("unknown scope index", async () => {
-    const item = await createDraft(env.DB, "[TK a[/TK]");
+    const item = await createDraft(env.DB, "[TK]a[/TK]");
     const { fetchImpl } = fixture("unused");
     const result = await runGenerateScope({ ...env, AI_PROVIDER_KEY: "k" }, item, 5, fetchImpl);
     expect(result).toEqual({ ok: false, status: 400, body: { error: "unknown scope index" } });
   });
 
   it("provider failure surfaces verbatim, no retry (only one fetch call)", async () => {
-    const item = await createDraft(env.DB, "[TK x[/TK]");
+    const item = await createDraft(env.DB, "[TK]x[/TK]");
     let calls = 0;
     const fetchImpl: ProviderFetchLike = async () => {
       calls++;
