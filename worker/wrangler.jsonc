@@ -77,9 +77,12 @@
     // root, because that zone already runs a live production API (member
     // directory, symposium voting, admin) at /api/* via Cloudflare Pages
     // Functions — path-mounting here would collide with it, since blyg's own
-    // /studio and /api routes are host-rooted regardless of MOUNT (index.ts).
-    // A dedicated subdomain has its own path space, so MOUNT="" (domain root)
-    // is used instead of "/blyg". Provisioned under the PI org Cloudflare
+    // /api route is host-rooted regardless of MOUNT, and /studio is
+    // mount-relative but was host-rooted (same collision risk) before
+    // session 16 (index.ts). A dedicated subdomain has its own path space,
+    // so MOUNT="" (domain root) is used instead of "/blyg" — which also
+    // means session 16's studio move is a no-op here (mount+"/studio" ===
+    // "/studio" at MOUNT=""). Provisioned under the PI org Cloudflare
     // account (7e8c7969b2464d23795c555bc6a32af8), not Venkat's personal one —
     // see protocol-institute/admin/keys.md.
     "protocolInstitute": {
