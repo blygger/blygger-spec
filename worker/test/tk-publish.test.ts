@@ -3,14 +3,14 @@
 // scopes in order; hash covers exactly the stripped content_md; wrappers
 // present in content_html; hand-authored (ungenerated-via-/generate) output
 // gets no disclosure wrapper; the §7 definition-of-done scenario end to end.
-import { env } from "cloudflare:test";
+import { env, SELF } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
 import type { ProviderFetchLike } from "../src/ai/provider.ts";
 import { contentHash } from "../src/util.ts";
 import { createDraft, FragmentTooLongError, getItem, publish, saveWorkingCopy, TkPublishError, TransclusionResolveError } from "../src/model.ts";
 import { runGenerateScope } from "../src/tk-generate.ts";
 import { parseScopes, setScopeOutput } from "../src/tk.ts";
-import { apiJson, createAndPublish, getPublic, login } from "./helpers.ts";
+import { apiJson, BASE, createAndPublish, getPublic, login, STUDIO } from "./helpers.ts";
 
 function fixture(text: string, model = "claude-opus-5"): ProviderFetchLike {
   return async () => ({ ok: true, status: 200, text: async () => JSON.stringify({ model, content: [{ type: "text", text }] }) });
@@ -216,5 +216,44 @@ describe("definition of done (tk-core-plan.md §7)", () => {
     // No working-copy changes since last publish — republish still succeeds (v3).
     expect(republish.status).toBe(200);
     expect(republish.json.version).toBe(3);
+  });
+});
+
+describe("composer TK affordances (session 18)", () => {
+  it("offers a generate door and no longer tells you to find the editor yourself", async () => {
+    const cookie = await login();
+    const html = await (await SELF.fetch(`${BASE}${STUDIO}/`, { headers: { cookie } })).text();
+    // Hidden until the text actually contains a scope — the button is a door,
+    // not a permanent fixture, and the composer never grows a review panel
+    // (decision #20: generation is an explicit, author-reviewed act, which a
+    // one-line composer is the wrong place to do).
+    expect(html).toContain(`id="composer-generate"`);
+    expect(html).toContain(`[TK]an instruction[/TK]`);
+    expect(html).not.toContain("generate it from the editor after saving");
+  });
+
+  it("the editor exposes a #tk anchor for the composer to land on", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "plain");
+    const html = await (await SELF.fetch(`${BASE}${STUDIO}/edit/${id}`, { headers: { cookie } })).text();
+    expect(html).toContain(`class="tk-panel" id="tk"`);
+  });
+
+  it("a failed TK publish leaves the text recoverable in a draft, not lost", async () => {
+    // The composer creates the draft before attempting to publish, so an
+    // unresolved-scope rejection must not read as "your text vanished": the
+    // draft holds it, and the client now navigates there instead of reloading.
+    const cookie = await login();
+    const created = await apiJson(cookie, "POST", "/api/items", {
+      content_md: "[TK]say something about pelicans[/TK]",
+    });
+    expect(created.status).toBe(201);
+    const publish = await apiJson(cookie, "POST", `/api/items/${created.json.id}/publish`, {});
+    expect(publish.status).toBe(400);
+    expect(publish.json.error).toMatch(/not publish-ready/);
+
+    // The draft still exists and still carries the scope, verbatim.
+    const editor = await (await SELF.fetch(`${BASE}${STUDIO}/edit/${created.json.id}`, { headers: { cookie } })).text();
+    expect(editor).toContain("[TK]say something about pelicans[/TK]");
   });
 });

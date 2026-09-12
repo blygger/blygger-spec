@@ -554,12 +554,34 @@ document.getElementById("save-draft-btn").addEventListener("click", async () => 
 document.getElementById("publish-btn").addEventListener("click", async () => {
   const created = await api("POST", "/api/items", { content_md: composerText.value });
   if (!created) return;
-  if (!(await api("POST", "/api/items/" + created.id + "/publish", {}))) { location.reload(); return; }
+  // A failed publish still created the draft above. Reloading here used to
+  // wipe the composer and drop an unexplained new draft into the list — the
+  // text was never lost, but nothing said where it went. Go to that draft's
+  // editor instead: it is where the text now lives, and where an unresolved
+  // TK scope (the most common cause of this failure) can be generated.
+  if (!(await api("POST", "/api/items/" + created.id + "/publish", {}))) {
+    location.href = "${studioPath(mount)}/edit/" + created.id;
+    return;
+  }
   location.reload();
 });
 document.getElementById("composer-attach").addEventListener("click", async () => {
   const created = await api("POST", "/api/items", { content_md: composerText.value });
   if (created) location.href = "${studioPath(mount)}/edit/" + created.id;
+});
+// TK scopes need review before publishing (decision #20: generation is an
+// explicit, author-reviewed act), and a one-line composer is the wrong place
+// to read a paragraph of generated prose — so the composer does not grow a
+// generate panel. It offers the door instead, and only when there is a scope.
+const composerGenerate = document.getElementById("composer-generate");
+function syncGenerateBtn() {
+  composerGenerate.hidden = !composerText.value.includes("[TK]");
+}
+composerText.addEventListener("input", syncGenerateBtn);
+syncGenerateBtn();
+composerGenerate.addEventListener("click", async () => {
+  const created = await api("POST", "/api/items", { content_md: composerText.value });
+  if (created) location.href = "${studioPath(mount)}/edit/" + created.id + "#tk";
 });
 `;
 }
@@ -618,11 +640,11 @@ studio.get("/", async (c) => {
   const prefill = await respondPrefill(c.env.DB, c.req.query("respond"));
   const body = `${studioHeader("blyg studio", mount, "compose")}
 <div class="composer">
-<p class="compose-help">Markdown supported. Write <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text — generate it from the editor after saving. <a href="${studioPath(mount)}/syntax">full syntax reference</a></p>
+<p class="compose-help">Markdown supported. Write <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text — a <em>generate</em> button appears, which saves and opens the editor. <a href="${studioPath(mount)}/syntax">full syntax reference</a></p>
 ${prefill ? `<p class="compose-help">Responding to a post in your reading feed — this is your own fragment, citing it. Nothing of theirs is republished.</p>` : ""}
 <textarea id="composer-text" placeholder="compose a fragment…">${escapeHtml(prefill)}</textarea>
 <div class="bar">
-  <span><button type="button" id="composer-attach">attach image</button></span>
+  <span><button type="button" id="composer-attach">attach image</button> <button type="button" id="composer-generate" hidden>generate in editor →</button></span>
   <span class="count" id="composer-count">0 / ${FRAGMENT_MAX_CHARS}</span>
   <span><button type="button" id="save-draft-btn">save draft</button> <button type="button" class="primary" id="publish-btn">publish</button></span>
 </div>
@@ -814,7 +836,7 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
 <div id="preview-body">${previewHtml}</div>
 </div>
 </div>
-<div class="tk-panel">
+<div class="tk-panel" id="tk">
 <h2>TK scopes <button type="button" class="link" id="tk-generate-whole-btn">generate whole fragment&hellip;</button></h2>
 <ul id="tk-scope-list">${scopeSummaries(tk.scopes)
     .map(
@@ -941,7 +963,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
 <div id="preview-body">${previewHtml}</div>
 </div>
 </div>
-<div class="tk-panel">
+<div class="tk-panel" id="tk">
 <h2>TK scopes</h2>
 <ul id="tk-scope-list">${scopeSummaries(tk.scopes)
     .map(
