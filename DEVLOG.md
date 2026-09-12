@@ -214,6 +214,31 @@ public and then taken private, which incidentally confirms the session-18 `slug_
 working on real data: it still reports its frozen ex-URL. So (b) needed surface verification,
 not more curation.
 
+**Two composer bugs found by Venkat authoring for real — the value of (d) arriving late.** He
+reported "the TK markup got lost" and "there is no generate button in the in-feed composer."
+Both traced to one handler. The composer's publish did `POST /api/items` (creating the draft
+with the typed text) and then `POST /publish`; an unresolved TK scope correctly rejects
+(decision #20 — publish never triggers generation), but the handler then called
+`location.reload()`, which wiped the composer and dropped an unexplained new draft into the
+list. **The text was never lost** — the live node still held it verbatim in that draft — but
+nothing said so, which is indistinguishable from data loss from the author's side. That is the
+general shape worth remembering: *a recoverable failure that doesn't say where the work went is
+experienced as an unrecoverable one.*
+
+Fixed by navigating to the created draft's editor instead of reloading: it is where the text
+lives, and where the scope can be generated. For the missing generate button, the composer
+deliberately does **not** grow a generation panel — generation is an explicit, author-reviewed
+act (#20), and a one-line quick-post box is the wrong place to read a paragraph of generated
+prose. It offers the door instead: a `generate in editor →` button that appears only once the
+text contains `[TK]`, saves, and lands on the editor's TK panel (anchored `#tk`). The
+compose-help line had also been telling authors to go find the editor themselves.
+
+**The loop then closed on real content, by Venkat, unaided:** respond → bare link fragment →
+add a TK scope → generate → publish. `0vc3pxtn…` is now v2 with `claude-opus-5` provenance at
+23:44:39Z, published `content_md` marker-free, the `blyg-tk-gen` wrapper baked into
+`content_html`, and the source link preserved — the exact respond→editorial-via-TK path the
+design intends, exercised end to end without agent involvement.
+
 **Testing-pass item (d) closed — by auditing the nodes instead of re-asking Venkat.** Venkat
 pushed back on the repeated framing that he had not yet authored "something real" with TK. He
 was right, and the framing was mine to fix: session 16's note ("an agent-picked instruction on
