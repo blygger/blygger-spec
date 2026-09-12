@@ -111,9 +111,42 @@ imports from the PI node, Contraptions, Simon Willison, Interconnected) — the 
 gone. The stored-date repair will heal each L0 row on its next natural poll; the display was
 already correct without it, which was the design intent.
 
+**The public page's version controls — Venkat reported dead rewind/forward arrows.** Worth
+separating two surfaces that had drifted apart. Session 17 redesigned the **studio index**'s
+version controls (`N versions · 📌 v1, v3`) and that shipped; the **public item page** still
+carried the rev-3 scrubber `|< < v2 of 2 > >|` with all four buttons hardcoded `disabled`,
+untouched since session 4 — which is exactly why it looked unchanged *and* didn't work.
+
+They could never have worked. §2.8's session-5 decision is that **no route ever serves an older
+version as an HTML page**, so the arrows point at nothing that exists or will exist; they were
+an affordance advertising a capability the protocol had already ruled out. §2.8 even names the
+replacement in its own prose — "the public page's version display is an indicator, not
+navigation ... the right presentation is discrete pin citations (e.g. 'v6 · pinned: v2, v4')
+linking to the existing `v{n}.json` files" — so the page was out of conformance with the spec
+text it implements, and the open TODO for it had been parked behind "hold until TK-transclusion
++ subscribe/pubsub land," a condition that has since lapsed.
+
+`itemMeta()` now renders `v2 · pinned: v1, v2`, each pin an anchor to its permanent version
+file. Three behaviour changes beyond deleting the arrows, all of them things the old early-return
+structure hid: a **pinned single-version item** now shows its citation (it previously showed only
+"Created", so a v1 pin was invisible); a **withdrawn item** now shows its pins, which is the case
+that matters most — surviving withdrawal is the entire point of a pin, so the endcap page is
+precisely where a reader needs to be told what is still citable, and it previously said nothing;
+and "Most recent" is now suppressed for single-version items, where it was only ever restating
+"Created". Wireframes `public.html`/`thread.html` updated to match; `studio.html` was also stale
+(still drawing the scrubber) and was corrected to the studio's *own* session-17 shape rather than
+the public page's — they are deliberately different surfaces.
+
+Verified live on real data after deploying: venkateshrao's two-pin fragment renders
+`v2 · pinned: v1, v2` with both files 200, its four-version item renders `v4 · pinned: v3`, and
+the PI node's pinned **thread** renders correctly at root mount. Locally, withdrawing a two-pin
+item was driven end to end — the endcap page keeps both citations and both `v{n}.json` files
+still 200. Static export is unaffected by construction: it fetches the live routes and writes
+the bytes, so byte-identity cannot drift from a rendering change.
+
 **State after:** four of the five session-17 backlog items closed, the fifth reclassified as
-v0.3 scope. Both live nodes run this code, both on migration 0006. Testing-pass item (c) is
-closed.
+v0.3 scope; the long-parked public-page scrubber cleanup also done. Both live nodes run this
+code, both on migration 0006. Testing-pass item (c) is closed. 366 tests.
 
 **Open threads:** testing-pass (b)'s hopper half (make an imported item public in a hopper —
 Venkat's curation call) and (d)'s fuller authoring pass are now the **only** remaining gates
