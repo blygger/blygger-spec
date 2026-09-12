@@ -36,6 +36,13 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
   citable with their snapshots. `protocol-v0.2.md` (0.1 text + subscribe
   side + TK wire members) is the pending first application — drafting is
   ⚠️ FABLE, publishing mechanics in `spec-publishing-plan.md` §6.
+  **Unblocked session 18 (2026-09-12):** the v0.2/TK live-testing pass that
+  gated it (per #21, testing precedes normative prose) is fully closed — all
+  four legs (a) legacy-RSS subscription, (b) blogroll + public hopper,
+  (c) observed cron convergence, (d) real TK authoring. The draft must fold in
+  what that testing produced, including the session-18 §8.4 amendment
+  (decision #24, pinned-version HTML pages) already landed in the 0.1 living
+  document.
 
 ## Cross-cutting invariants (hold at every version)
 

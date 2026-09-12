@@ -7,8 +7,8 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 18 — 2026-09-12 — Reading-feed sort fixed (root cause was mis-recorded); hopper rename + UI; respond-to-entry
-**Model:** Opus 5 → Fable 5 (switched at the pinned-page design point, per the model-switch convention) · **Time:** ~15:20–16:40 PT · **Committed:** yes · **Deployed:** both live nodes ×3 (backlog fixes + migration 0006; scrubber replacement; pinned-version pages)
+## Session 18 — 2026-09-12 — Studio backlog cleared; two mis-recorded root causes corrected; pinned-version pages (#24); v0.2 testing pass closed
+**Model:** Opus 5 → Fable 5 (pinned-page design ruling) → Opus 5 (implementation + the rest), switched by Venkat per the model-switch convention · **Time:** ~15:20–16:50 PT · **Committed:** yes (8 commits) · **Deployed:** `blygger-spec` to both live nodes ×5 (backlog fixes + migration 0006; scrubber replacement; pinned-version pages; hopper cold-start; composer TK fixes); `blygger-org` ×1 (spec §8.4 resync)
 
 **What & why:** Worked the session-17 studio/subscribe-side backlog, and started the
 testing-pass item (c) convergence clock first so it would ripen during the work.
@@ -180,10 +180,20 @@ pages (v1 shows the original one-line wording, v2 the expanded Knuth text — vi
 content, which is the whole point); the 4-version item serves v3 and correctly 404s unpinned
 v1; the PI node's pinned *thread* serves its baked transclusion snapshot at root mount.
 
-**State after:** four of the five session-17 backlog items closed, the fifth reclassified as
+**State after:** four of the five session-17 backlog items closed and the fifth reclassified as
 v0.3 scope; the long-parked public-page scrubber cleanup done; pinned-version pages designed,
-specced, built, and live on both nodes. Both nodes on migration 0006. Testing-pass item (c)
-closed. 371 tests.
+specced, built, live, and published to `blygger.org`; two studio bugs found by real authoring
+fixed. Both nodes on migration 0006 and running this code. **The entire v0.2/TK testing pass —
+(a), (b), (c), (d) — is closed**, which was the gate on the 0.2 spec draft. 376 tests, up from
+338 at session start; `tsc` clean; both repos pushed.
+
+Pattern worth carrying forward: **three separate "known" facts turned out to be stale or wrong
+this session** — the reading-sort root cause (named a real field and call site, and was
+nonetheless incorrect), the "Venkat hasn't authored with TK yet" status note (true when
+written, repeated for two sessions after it stopped being true), and "pins are JSON-only,
+period" (a real decision whose own escape clause had been triggered). Each took one command to
+check against the live artifact and would otherwise have driven work in the wrong direction.
+Checking beats inheriting, especially for notes about what a *person* has done.
 
 **"I don't see a way to make a single imported item public" — one design answer, one real bug.**
 
