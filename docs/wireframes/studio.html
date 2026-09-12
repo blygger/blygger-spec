@@ -31,10 +31,8 @@ header.studio nav a { margin-left: 0.75rem; font-size: 0.9rem; }
 .item-row .state.draft { opacity: 0.5; }
 .item-row .excerpt { margin: 0 0 0.3rem; }
 .item-row .timestamps { font-size: 0.8rem; opacity: 0.7; margin: 0.4rem 0; display: flex; flex-direction: column; gap: 0.1rem; }
-.item-row .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.5rem; font-size: 0.85rem; }
-.item-row .version-nav button { font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem; }
-.item-row .version-nav button:disabled { opacity: 0.3; cursor: default; }
-.item-row .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.item-row .version-summary { font-size: 0.8rem; opacity: 0.75; margin: 0.3rem 0 0; }
+.item-row .pin-chips a { text-decoration: none; border-bottom: 1px dotted currentColor; }
 .item-row .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
 .item-row .actions { display: flex; gap: 0.4rem; align-items: center; margin-top: 0.5rem; }
 /* Unpublished-changes state: a published item whose working copy has been
@@ -73,13 +71,7 @@ Same timestamp format (Created / Most recent, vN), version scrubber, and permali
 
 <div class="item-row">
 <p class="excerpt"><span class="state pub">●</span><span class="kind-chip">thread</span> Why every social medium hardens its early protocols…</p>
-<div class="version-nav">
-<button title="first version">|&lt;</button>
-<button title="previous version">&lt;</button>
-<span class="vn-label">v2 of 2</span>
-<button title="next version" disabled>&gt;</button>
-<button title="latest version" disabled>&gt;|</button>
-</div>
+<p class="version-summary"><a href="edit/{id}#history">2 versions</a> &middot; <span class="pin-chips">📌 <a href="items/{id}/v1.json" title="permanent citable version file">v1</a>, <a href="items/{id}/v2.json" title="permanent citable version file">v2</a></span></p>
 <p class="version-note">"added the economics fragment"</p>
 <p class="timestamps">
 <span>Created: Jul 20, 2026</span>
@@ -90,13 +82,7 @@ Same timestamp format (Created / Most recent, vN), version scrubber, and permali
 
 <div class="item-row">
 <p class="excerpt"><span class="state pub">●</span>A fragment of text, rendered from markdown, possibly with a link…</p>
-<div class="version-nav">
-<button title="first version">|&lt;</button>
-<button title="previous version">&lt;</button>
-<span class="vn-label">v3 of 3</span>
-<button title="next version" disabled>&gt;</button>
-<button title="latest version" disabled>&gt;|</button>
-</div>
+<p class="version-summary"><a href="edit/{id}#history">3 versions</a> &middot; <span class="pin-chips">📌 <a href="items/{id}/v1.json" title="permanent citable version file">v1</a>, <a href="items/{id}/v2.json" title="permanent citable version file">v2</a></span></p>
 <p class="version-note">"sharpened the claim"</p>
 <p class="timestamps">
 <span>Created: Jul 17, 2026</span>

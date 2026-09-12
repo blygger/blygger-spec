@@ -28,15 +28,58 @@ describe("public pages (§3.4)", () => {
     expect(html).toContain("&lt;script&gt;");
   });
 
-  it("edited fragments show the version scrubber, 'Most recent', and the note", async () => {
+  it("edited fragments show the version line, 'Most recent', and the note", async () => {
     const cookie = await login();
     const id = await createAndPublish(cookie, "draft one");
     await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "sharpened" });
     await apiJson(cookie, "POST", `/api/items/${id}/publish`, { note: "sharpened the claim" });
     const html = await (await getPublic(`/blyg/f/${id}/`)).text();
-    expect(html).toContain("v2 of 2");
+    expect(html).toContain(`<p class="version-line">v2</p>`);
     expect(html).toContain("Most recent");
     expect(html).toContain("sharpened the claim");
+    // §2.8: no historical-version HTML route exists, so the page must not
+    // draw paging affordances for it. The rev-3 scrubber is gone for good.
+    expect(html).not.toContain("version-nav");
+    expect(html).not.toContain("v2 of 2");
+  });
+
+  it("shows pinned versions as citations linking to their permanent files", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "first cut");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "second cut" });
+    await apiJson(cookie, "POST", `/api/items/${id}/publish`, {});
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 2 });
+
+    const html = await (await getPublic(`/blyg/f/${id}/`)).text();
+    expect(html).toContain("pinned:");
+    expect(html).toContain(`href="/blyg/items/${id}/v1.json"`);
+    expect(html).toContain(`href="/blyg/items/${id}/v2.json"`);
+    // Those URLs are the promise, so they had better resolve.
+    expect((await getPublic(`/blyg/items/${id}/v1.json`)).status).toBe(200);
+    expect((await getPublic(`/blyg/items/${id}/v2.json`)).status).toBe(200);
+  });
+
+  it("a pinned single-version item still shows its citation", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "only ever one");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    const html = await (await getPublic(`/blyg/f/${id}/`)).text();
+    expect(html).toContain(`href="/blyg/items/${id}/v1.json"`);
+    expect(html).not.toContain("Most recent"); // one version — nothing to compare against
+  });
+
+  it("a withdrawn item still shows what remains citable", async () => {
+    // §2.8: a pin survives withdrawal of the live stream, so the endcap page
+    // is precisely where a reader needs to be told the pin is still good.
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "will be pulled");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {});
+    const html = await (await getPublic(`/blyg/f/${id}/`)).text();
+    expect(html).toContain("withdrawn");
+    expect(html).toContain(`href="/blyg/items/${id}/v1.json"`);
+    expect((await getPublic(`/blyg/items/${id}/v1.json`)).status).toBe(200);
   });
 
   it("withdrawn permalinks return 200 with a withdrawn notice", async () => {

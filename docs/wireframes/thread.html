@@ -18,13 +18,8 @@ body {
 .blyg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
 .blyg-header a:hover { text-decoration: underline; }
 .blyg .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
-.blyg .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; font-size: 0.85rem; }
-.blyg .version-nav button {
-  font: inherit; font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem;
-  border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; cursor: pointer;
-}
-.blyg .version-nav button:disabled { opacity: 0.3; cursor: default; }
-.blyg .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.blyg .version-line { margin-top: 0.75rem; font-size: 0.85rem; opacity: 0.75; }
+.blyg .version-line .pins a { text-decoration: none; border-bottom: 1px dotted currentColor; }
 .blyg .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
 /* The transclusion block — this styling is protocol-adjacent (readers may rely
    on .blyg-transclusion existing) but the look is the client's choice. */
@@ -72,13 +67,7 @@ archive is a medium that has to keep earning you.</p>
 <p>Closing prose that does the actual synthesis work — the part that exists only in
 the thread, not in any fragment.</p>
 
-<div class="version-nav">
-<button title="first version">|&lt;</button>
-<button title="previous version">&lt;</button>
-<span class="vn-label">v2 of 2</span>
-<button title="next version" disabled>&gt;</button>
-<button title="latest version" disabled>&gt;|</button>
-</div>
+<p class="version-line">v2 &middot; <span class="pins">pinned: <a href="items/{id}/v1.json" title="permanent citable version file">v1</a>, <a href="items/{id}/v2.json" title="permanent citable version file">v2</a></span></p>
 <p class="version-note">"added the economics fragment"</p>
 <p class="timestamps">
 <span>Created: Jul 20, 2026</span>

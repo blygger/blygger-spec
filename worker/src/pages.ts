@@ -8,7 +8,7 @@
 
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerptFromHtml } from "./markdown.ts";
-import { listMediaForItem, publishedVersion } from "./model.ts";
+import { listMediaForItem, listVersions, publishedVersion } from "./model.ts";
 import type { ItemRow, MediaRow, Settings, Transclusion } from "./types.ts";
 import { escapeHtml } from "./util.ts";
 
@@ -29,13 +29,8 @@ article.fragment, article.thread { border-top: 1px solid rgba(128,128,128,0.35);
 article.fragment img, article.thread img { max-width: 100%; height: auto; }
 article.fragment p:first-child, article.thread p:first-child { margin-top: 0; }
 .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
-.version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; font-size: 0.85rem; }
-.version-nav button {
-  font: inherit; font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem;
-  border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; cursor: pointer;
-}
-.version-nav button:disabled { opacity: 0.3; cursor: default; }
-.version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.version-line { margin-top: 0.75rem; font-size: 0.85rem; opacity: 0.75; }
+.version-line .pins a { text-decoration: none; border-bottom: 1px dotted currentColor; }
 .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
 p.permalink, p > a.permalink { margin-top: 0.6rem; }
 a.permalink { font-size: 0.85rem; opacity: 0.8; }
@@ -93,31 +88,47 @@ function formatDate(iso: string): string {
 }
 
 /**
- * Version-nav + note + Created/Most-recent lines (rev-2/3 convention).
- * v0.1 gap flagged in DEVLOG session 4: only the latest version is ever
- * fetchable as HTML (older content is withheld per §2.3 unless pinned, and
- * pinned versions are JSON-only per §2.8) — there is no route to browse to
- * a prior version's HTML, so the scrubber is display-only here.
+ * Version line + note + Created/Most-recent lines.
+ *
+ * This replaces the rev-3 scrubber (`|< < v2 of 2 > >|`, every button
+ * hardcoded `disabled`), which promised paging that cannot exist: §2.8's
+ * session-5 decision is that **no route ever serves an older version as an
+ * HTML page**, so there is nothing for those arrows to navigate to, now or
+ * later. §2.8 names the replacement outright — "the public page's version
+ * display is an indicator, not navigation ... the right presentation is
+ * discrete pin citations (e.g. 'v6 · pinned: v2, v4') linking to the existing
+ * v{n}.json files" — because that is what pins are: a sequence of frozen
+ * citable artifacts of one identity, not pages of one document.
+ *
+ * Pins are shown on withdrawn items too. That is the point of a pin: it
+ * survives withdrawal of the live stream (§2.8), so the endcap page is
+ * exactly where a reader needs to be told what remains citable.
  */
-function itemMeta(item: ItemRow, note: string | null): string {
+function itemMeta(item: ItemRow, note: string | null, pins: number[], mount: string): string {
   const created = formatDate(item.created);
-  if (item.version <= 1) {
+  const pinPart = pins.length
+    ? ` &middot; <span class="pins">pinned: ${pins
+        .map((v) => `<a href="${mount}/items/${item.id}/v${v}.json" title="permanent citable version file">v${v}</a>`)
+        .join(", ")}</span>`
+    : "";
+  // A single-version item with no pins has no version story worth telling.
+  if (item.version <= 1 && !pins.length) {
     return `<p class="timestamps"><span>Created: ${created}</span></p>`;
   }
-  const nav = `<div class="version-nav">
-<button title="first version" disabled>|&lt;</button>
-<button title="previous version" disabled>&lt;</button>
-<span class="vn-label">v${item.version} of ${item.version}</span>
-<button title="next version" disabled>&gt;</button>
-<button title="latest version" disabled>&gt;|</button>
-</div>`;
+  const versionLine = `<p class="version-line">v${item.version}${pinPart}</p>`;
   const noteHtml = note ? `<p class="version-note">&ldquo;${escapeHtml(note)}&rdquo;</p>` : "";
-  return `${nav}
+  const recent =
+    item.version > 1 ? `\n<span>Most recent: ${formatDate(item.updated)}, v${item.version}</span>` : "";
+  return `${versionLine}
 ${noteHtml}
 <p class="timestamps">
-<span>Created: ${created}</span>
-<span>Most recent: ${formatDate(item.updated)}, v${item.version}</span>
+<span>Created: ${created}</span>${recent}
 </p>`;
+}
+
+/** Pinned version numbers for an item, ascending — the citations §2.8 says the page should show. */
+async function pinnedVersions(db: D1Database, itemId: string): Promise<number[]> {
+  return (await listVersions(db, itemId)).filter((v) => v.pinned === 1).map((v) => v.version);
 }
 
 function permalinkLink(id: string, isThread: boolean, mount: string): string {
@@ -130,11 +141,11 @@ function mediaHtml(media: MediaRow[], mount: string): string {
     .join("\n");
 }
 
-export function renderFragment(item: ItemRow, contentHtml: string, media: MediaRow[], note: string | null, mount: string): string {
+export function renderFragment(item: ItemRow, contentHtml: string, media: MediaRow[], note: string | null, mount: string, pins: number[] = []): string {
   return `<article class="fragment">
 ${contentHtml}
 ${mediaHtml(media, mount)}
-${itemMeta(item, note)}
+${itemMeta(item, note, pins, mount)}
 ${permalinkLink(item.id, false, mount)}
 </article>`;
 }
@@ -142,7 +153,7 @@ ${permalinkLink(item.id, false, mount)}
 async function fragmentBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const latest = await publishedVersion(db, item);
   const media = await listMediaForItem(db, item.id);
-  return renderFragment(item, latest?.content_html ?? "", media, latest?.note ?? null, mount);
+  return renderFragment(item, latest?.content_html ?? "", media, latest?.note ?? null, mount, await pinnedVersions(db, item.id));
 }
 
 /**
@@ -175,7 +186,7 @@ async function threadCard(db: D1Database, item: ItemRow, mount: string): Promise
   return `<article class="fragment thread-card">
 <p><span class="kind-chip">thread</span> ${escapeHtml(excerptFromHtml(html, 300))}</p>
 <p><a href="${mount}/t/${item.id}/">read the thread →</a></p>
-${itemMeta(item, latest?.note ?? null)}
+${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount)}
 </article>`;
 }
 
@@ -186,14 +197,14 @@ async function threadBlock(db: D1Database, item: ItemRow, mount: string): Promis
   return `<article class="thread">
 ${html}
 ${mediaHtml(media, mount)}
-${itemMeta(item, latest?.note ?? null)}
+${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount)}
 ${permalinkLink(item.id, true, mount)}
 </article>`;
 }
 
-function withdrawnBlock(item: ItemRow): string {
+async function withdrawnBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   return `<article class="fragment withdrawn"><p>This item was withdrawn.</p>
-${itemMeta(item, null)}
+${itemMeta(item, null, await pinnedVersions(db, item.id), mount)}
 </article>`;
 }
 
@@ -218,7 +229,7 @@ ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</
 /** Fragment permalink page — caller (index.ts) 404s if the item's authored kind isn't fragment. */
 export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(mount)}\n${withdrawnBlock(item)}\n</div>`, mount);
+    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`, mount);
   }
   const body = `<div class="blyg">
 ${pageHeader(mount)}
@@ -230,7 +241,7 @@ ${await fragmentBlock(db, item, mount)}
 /** Thread permalink page (§2.9) — caller (index.ts) 404s if the item's authored kind isn't thread. */
 export async function threadPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(mount)}\n${withdrawnBlock(item)}\n</div>`, mount);
+    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`, mount);
   }
   const body = `<div class="blyg">
 ${pageHeader(mount)}

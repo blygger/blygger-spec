@@ -26,13 +26,8 @@ body {
 .blyg article.fragment p:first-child { margin-top: 0; }
 .blyg .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
 .blyg .timestamps .permalink { align-self: flex-start; margin-top: 0.15rem; opacity: 0.8; }
-.blyg .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.75rem; font-size: 0.85rem; }
-.blyg .version-nav button {
-  font: inherit; font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem;
-  border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; cursor: pointer;
-}
-.blyg .version-nav button:disabled { opacity: 0.3; cursor: default; }
-.blyg .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.blyg .version-line { margin-top: 0.75rem; font-size: 0.85rem; opacity: 0.75; }
+.blyg .version-line .pins a { text-decoration: none; border-bottom: 1px dotted currentColor; }
 .blyg .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
 .blyg .withdrawn { opacity: 0.7; font-style: italic; }
 .blyg .kind-chip { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.05rem 0.35rem; opacity: 0.75; vertical-align: middle; }
@@ -53,13 +48,7 @@ body {
 <article class="fragment">
 <p>A fragment of text, rendered from markdown, possibly with a <a href="#">link</a> and an image below it.</p>
 <div class="placeholder-img">[attached image]</div>
-<div class="version-nav">
-<button title="first version">|&lt;</button>
-<button title="previous version">&lt;</button>
-<span class="vn-label">v3 of 3</span>
-<button title="next version" disabled>&gt;</button>
-<button title="latest version" disabled>&gt;|</button>
-</div>
+<p class="version-line">v3 &middot; <span class="pins">pinned: <a href="items/{id}/v1.json" title="permanent citable version file">v1</a>, <a href="items/{id}/v2.json" title="permanent citable version file">v2</a></span></p>
 <p class="version-note">"sharpened the claim"</p>
 <p class="timestamps">
 <span>Created: Jul 17, 2026</span>
