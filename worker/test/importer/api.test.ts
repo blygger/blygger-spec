@@ -6,7 +6,7 @@
 // operate on a subscription created directly via the store.
 import { SELF, env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
-import { addHopperItem, createHopper, createSubscription, getHopper, getHopperBySlug, getSubscription, upsertL0Item } from "../../src/importer/store.ts";
+import { addHopperItem, createHopper, createSubscription, deleteHopper, getHopper, getHopperBySlug, getSubscription, listHoppers, upsertL0Item } from "../../src/importer/store.ts";
 import { apiJson, BASE, login, STUDIO } from "../helpers.ts";
 
 describe("subscription API (§4.2)", () => {
@@ -293,5 +293,43 @@ describe("respond-to-a-reading-entry (composer prefill)", () => {
     });
     const html = await (await SELF.fetch(`${BASE}${STUDIO}/reading`, { headers: { cookie } })).text();
     expect(html).toContain(`respond=${sub.id}:l0-r`);
+  });
+});
+
+describe("hopper picker cold start (session 18)", () => {
+  it("offers a create-a-hopper path even when the owner has none", async () => {
+    // Regression: the picker returned "" with zero hoppers, so the reading
+    // feed showed no route into curation at all until you had already found
+    // the hoppers page and made one. Hoppers are the unit of publicity
+    // (decision #12), so this was the entry point to the whole feature.
+    const cookie = await login();
+    const sub = await createSubscription(env.DB, { kind: "rss", origin: "https://cold.example/feed", feedUrl: "https://cold.example/feed", title: "Cold" });
+    await upsertL0Item(env.DB, sub.id, "l0-cold", {
+      version: 1, created: "2026-09-01T00:00:00Z", updated: "2026-09-01T00:00:00Z", observedAt: "2026-09-01T00:00:00Z",
+      contentMd: "x", contentHtml: "<p>x</p>", contentHash: "hash-cold",
+    });
+    // This file shares one D1 across tests, so clear the slate explicitly —
+    // the whole point of the case is "owner has never made a hopper".
+    for (const h of await listHoppers(env.DB)) await deleteHopper(env.DB, h.id);
+    expect(await listHoppers(env.DB)).toHaveLength(0);
+
+    const html = await (await SELF.fetch(`${BASE}${STUDIO}/reading`, { headers: { cookie } })).text();
+    expect(html).toContain(`data-action="add-to-hopper"`);
+    expect(html).toContain("create your first hopper");
+    expect(html).toContain(`value="__new__"`);
+  });
+
+  it("switches the label to '+ new hopper' once one exists", async () => {
+    const cookie = await login();
+    const sub = await createSubscription(env.DB, { kind: "rss", origin: "https://warm.example/feed", feedUrl: "https://warm.example/feed", title: "Warm" });
+    await upsertL0Item(env.DB, sub.id, "l0-warm", {
+      version: 1, created: "2026-09-01T00:00:00Z", updated: "2026-09-01T00:00:00Z", observedAt: "2026-09-01T00:00:00Z",
+      contentMd: "x", contentHtml: "<p>x</p>", contentHash: "hash-warm",
+    });
+    await createHopper(env.DB, "Existing", "existing");
+    const html = await (await SELF.fetch(`${BASE}${STUDIO}/reading`, { headers: { cookie } })).text();
+    expect(html).toContain("+ new hopper");
+    expect(html).not.toContain("create your first hopper");
+    expect(html).toContain("Existing");
   });
 });

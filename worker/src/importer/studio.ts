@@ -224,12 +224,20 @@ async function importedEntries(db: D1Database): Promise<ImportedEntryInput[]> {
   return out;
 }
 
+/**
+ * Hoppers are the unit of curation (decision #12: make-public is a *list* you
+ * keep, not a thing you said), so this picker is the entry point to the whole
+ * public-curation feature. It used to render nothing at all when you had no
+ * hoppers yet — hiding the feature precisely at the moment you had never used
+ * it, which is a cold start with no door. It now always renders and can create
+ * a hopper inline, so the first one is reachable from the item that prompted it.
+ */
 function hopperPicker(imp: NonNullable<ReadingFeedEntry["imported"]>, hoppers: HopperRow[]): string {
-  if (!hoppers.length) return "";
   const options = hoppers.map((h) => `<option value="${h.id}">${escapeHtml(h.name)}</option>`).join("");
   return `<select data-action="add-to-hopper" data-sub="${imp.subscriptionId}" data-remote="${imp.remoteId}">
 <option value="">+ add to hopper…</option>
 ${options}
+<option value="__new__">${hoppers.length ? "+ new hopper…" : "+ create your first hopper…"}</option>
 </select>`;
 }
 
@@ -299,9 +307,25 @@ document.addEventListener("click", async (e) => {
 document.addEventListener("change", async (e) => {
   const sel = e.target.closest("[data-action='add-to-hopper']");
   if (!sel || !sel.value) return;
-  await readingApi("PUT", "/api/hoppers/" + sel.value + "/items/" + sel.dataset.sub + "/" + sel.dataset.remote);
+  let hopperId = sel.value;
+  let created = "";
+  if (hopperId === "__new__") {
+    const name = prompt("Name the new hopper (a curated list — you make the whole list public, not single items):");
+    sel.value = "";
+    if (!name || !name.trim()) return;
+    const res = await fetch("/api/hoppers", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: name.trim() }),
+    });
+    if (!res.ok) { alert("Could not create that hopper."); return; }
+    hopperId = (await res.json()).id;
+    created = " (new hopper created)";
+  }
+  await readingApi("PUT", "/api/hoppers/" + hopperId + "/items/" + sel.dataset.sub + "/" + sel.dataset.remote);
   sel.value = "";
-  alert("added to hopper");
+  alert("added to hopper" + created);
+  if (created) location.reload();
 });
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-action='expand']");

@@ -185,6 +185,35 @@ v0.3 scope; the long-parked public-page scrubber cleanup done; pinned-version pa
 specced, built, and live on both nodes. Both nodes on migration 0006. Testing-pass item (c)
 closed. 371 tests.
 
+**"I don't see a way to make a single imported item public" — one design answer, one real bug.**
+
+The design answer: **there is no per-item publicity, deliberately.**
+`curation-discovery-generation-proposal.md` §1 (locked as decision #12) rules that "make-public
+means curation display only … **Retweet becomes curation (a list you keep), not speech (a thing
+you said)**." A per-item public toggle *is* the naked retweet that decision rejected — and the
+schema agrees: `hopper_items` has no public column, only `hoppers` does. Featuring one item
+means a hopper containing one item; the list is the editorial act, even a list of one. The
+session-17 TODO wording ("make one imported item public in a hopper") invited exactly this
+misreading and has been corrected.
+
+The real bug, and the actual reason Venkat couldn't find it: **`hopperPicker()` returned `""`
+when the owner had no hoppers.** venkateshrao has zero, so its reading feed offered thumbs and
+respond and *no route into curation at all*. Hoppers are the unit of publicity, so that picker
+is the entry point to the entire public-curation feature — and it was hidden precisely at the
+moment you had never used it. A cold start with no door. The picker now always renders and
+carries a `+ create your first hopper…` option that creates one inline and adds the item in the
+same gesture, so the first hopper is reachable from the item that prompted wanting it. Worth
+naming the general shape: an empty-state that renders *nothing* reads as "this feature does not
+exist," which is the most expensive possible way to be empty.
+
+**Testing-pass item (b) closed while investigating.** The PI node already had two hoppers Venkat
+made while testing, one of them public: `blyg.protocol-institute.org/h/ai-insights/` is live and
+verified — an imported Matt Webb item rendered from the local snapshot with source attribution
+and origin link, off-feed as decision #12 requires. The other, "Biology thoughts," had been made
+public and then taken private, which incidentally confirms the session-18 `slug_frozen` latch
+working on real data: it still reports its frozen ex-URL. So (b) needed surface verification,
+not more curation.
+
 **Spec republished the same session** (`blygger-org`, latest mode): `sync_spec.py` picked up the
 §8.4 rewrite, full rebuild, deployed, verified on both `blygger.org` and the pages.dev URL.
 Worth recording because it exercised the publishing model's central claim: the **2026-08-10
@@ -195,9 +224,8 @@ at two scales. No new snapshot cut: 0.1 stays DRAFT and living per #21/#23, and 
 snapshot is a deliberate citation act (git tag + immutable URL), Venkat's call, not a
 side effect of a spec edit.
 
-**Open threads:** Testing-pass (b)'s hopper half (make an imported item public in a hopper —
-Venkat's curation call) and (d)'s fuller authoring pass are now the **only** remaining gates
-before the ⚠️ FABLE `protocol-v0.2.md` draft. The new hopper UI and the freeze rule are
+**Open threads:** Testing-pass **(d)**'s fuller authoring pass is now the **only**
+remaining gate before the ⚠️ FABLE `protocol-v0.2.md` draft — (a), (b), and (c) are all closed. The new hopper UI and the freeze rule are
 untested by a human — worth a look while doing (b), since making a hopper public is exactly
 the action that latches `slug_frozen`. Account-pinning generalization to
 `venkateshrao-cloudflare/` and PI Workers projects still not done (from the session-17
