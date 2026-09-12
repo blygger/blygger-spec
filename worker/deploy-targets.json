@@ -1,0 +1,68 @@
+{
+  "$note": [
+    "Deploy manifest — every live deployment this repo is responsible for.",
+    "Read by scripts/deploy-all.ts (`npm run deploy:all`). See docs/deploy-protocol.md.",
+    "",
+    "NO SECRET VALUES LIVE HERE. This file is committed. The `credentials` block on",
+    "each target records only WHERE a secret is registered and WHAT it is called —",
+    "never the value. The deploy script never reads, prints, or transmits secrets;",
+    "Worker secrets are set out-of-band with `wrangler secret put`.",
+    "",
+    "`account_id` IS here, deliberately duplicated from wrangler.jsonc. It is an",
+    "identifier, not a credential (it appears in dashboard URLs). The duplication is",
+    "the point: deploy-all.ts asserts the two files agree before deploying anything,",
+    "so an edit to one without the other fails loudly instead of silently deploying",
+    "to the wrong account — the failure mode of incident 2026-09-12-01."
+  ],
+  "targets": [
+    {
+      "env": "venkateshrao",
+      "label": "Venkatesh Rao's blyg (personal node)",
+      "worker": "blyg-venkateshrao",
+      "account_id": "7026b5d7c1ad16cb808987576bb07ab2",
+      "account_label": "Vgr@ribbonfarm.com's Account (personal)",
+      "base": "https://venkateshrao.com/blyg/",
+      "credentials": {
+        "registry": "Code/.env.keys",
+        "worker_secrets": [
+          "BLYG_VENKATESHRAO_OWNER_PASSWORD",
+          "BLYG_VENKATESHRAO_COOKIE_SECRET",
+          "AI_PROVIDER_KEY"
+        ],
+        "note": "Registry names, not values. AI_PROVIDER_KEY is Venkat's personal Anthropic key (see Code/.env.keys)."
+      },
+      "verify": [
+        { "path": "blyg.json", "status": 200, "contains": "\"blyg\"" },
+        { "path": "feed.xml", "status": 200, "contains": "<rss" },
+        { "path": "items/index.json", "status": 200 },
+        { "path": "blogroll.opml", "status": 200, "contains": "<opml" },
+        { "path": "studio/syntax", "status": 302 }
+      ]
+    },
+    {
+      "env": "protocolInstitute",
+      "label": "Protocol Institute blyg (second test-network node)",
+      "worker": "blyg-protocol-institute",
+      "account_id": "7e8c7969b2464d23795c555bc6a32af8",
+      "account_label": "Team@protocol-institute.org's Account (PI org)",
+      "base": "https://blyg.protocol-institute.org/",
+      "credentials": {
+        "registry": "protocol-institute/.env.keys",
+        "also_documented_in": "protocol-institute/admin/keys.md",
+        "worker_secrets": [
+          "BLYG_PROTOCOL_INSTITUTE_OWNER_PASSWORD",
+          "BLYG_PROTOCOL_INSTITUTE_COOKIE_SECRET",
+          "AI_PROVIDER_KEY"
+        ],
+        "note": "Registry names, not values. PI keys are deliberately NOT stored in Code/.env.keys. Billing crosscurrent: worker infra is org-billed, but AI_PROVIDER_KEY is Venkat's personal Anthropic key."
+      },
+      "verify": [
+        { "path": "blyg.json", "status": 200, "contains": "\"blyg\"" },
+        { "path": "feed.xml", "status": 200, "contains": "<rss" },
+        { "path": "items/index.json", "status": 200 },
+        { "path": "blogroll.opml", "status": 200, "contains": "<opml" },
+        { "path": "studio/syntax", "status": 302 }
+      ]
+    }
+  ]
+}

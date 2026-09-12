@@ -8,7 +8,8 @@
     "dev": "wrangler dev",
     "test": "vitest run",
     "export": "node --experimental-strip-types scripts/export.ts",
-    "deploy": "wrangler deploy"
+    "deploy": "wrangler deploy",
+    "deploy:all": "node --experimental-strip-types scripts/deploy-all.ts"
   },
   "dependencies": {
     "fast-xml-parser": "^5",
