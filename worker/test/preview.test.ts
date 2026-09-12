@@ -79,21 +79,44 @@ describe("clampText", () => {
 });
 
 describe("stripTransclusionQuotes", () => {
-  it("removes baked transclusion quotes so a thread excerpt shows the author's prose", () => {
-    const html = '<p>my point</p><blockquote class="blyg-transclusion"><p>quoted</p></blockquote><p>more</p>';
-    const text = plainTextFromHtml(stripTransclusionQuotes(html));
+  // The REAL baked element, from transclusion.ts — it carries data attributes.
+  // An earlier fixture omitted them, and the simplified shape hid a regex that
+  // matched nothing in production.
+  const baked = (inner: string, id = "7c9wk2n4h6q1x8v0z3m5rjy2ke", v = 3) =>
+    `<blockquote class="blyg-transclusion" data-blyg-id="${id}" data-blyg-version="${v}">\n${inner}\n</blockquote>`;
+
+  it("removes the real baked quote, data attributes and all", () => {
+    const text = plainTextFromHtml(stripTransclusionQuotes(`<p>my point</p>${baked("<p>quoted</p>")}<p>more</p>`));
     expect(text).toBe("my point more");
     expect(text).not.toContain("quoted");
   });
 
+  it("removes the unresolvable variant, which carries a second class", () => {
+    const html = '<p>a</p><blockquote class="blyg-transclusion unresolved"><p>⚠ unresolvable: gone</p></blockquote>';
+    expect(plainTextFromHtml(stripTransclusionQuotes(html))).toBe("a");
+  });
+
   it("removes several quotes", () => {
-    const q = '<blockquote class="blyg-transclusion"><p>q</p></blockquote>';
-    expect(plainTextFromHtml(stripTransclusionQuotes(`<p>a</p>${q}<p>b</p>${q}`))).toBe("a b");
+    expect(plainTextFromHtml(stripTransclusionQuotes(`<p>a</p>${baked("<p>q1</p>")}<p>b</p>${baked("<p>q2</p>")}`))).toBe("a b");
+  });
+
+  it("removes a quote whose fragment itself contains a blockquote", () => {
+    // A lazy regex stops at the INNER </blockquote>, leaving a stray closing
+    // tag and the tail of the quote in the excerpt.
+    const inner = "<p>intro</p><blockquote><p>nested quote</p></blockquote><p>outro</p>";
+    const text = plainTextFromHtml(stripTransclusionQuotes(`<p>mine</p>${baked(inner)}<p>after</p>`));
+    expect(text).toBe("mine after");
+    expect(text).not.toContain("nested");
+    expect(text).not.toContain("outro");
   });
 
   it("leaves ordinary blockquotes alone", () => {
-    const html = "<blockquote><p>ordinary</p></blockquote>";
-    expect(plainTextFromHtml(stripTransclusionQuotes(html))).toBe("ordinary");
+    expect(plainTextFromHtml(stripTransclusionQuotes("<blockquote><p>ordinary</p></blockquote>"))).toBe("ordinary");
+  });
+
+  it("leaves content with no transclusions untouched", () => {
+    const html = "<p>just prose</p>";
+    expect(stripTransclusionQuotes(html)).toBe(html);
   });
 });
 

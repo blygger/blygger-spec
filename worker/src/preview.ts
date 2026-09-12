@@ -13,13 +13,44 @@
 
 import { plainTextFromHtml } from "./markdown.ts";
 
+const TRANSCLUSION_OPEN = /<blockquote\s+class="blyg-transclusion[^"]*"[^>]*>/gi;
+const ANY_BLOCKQUOTE = /<blockquote\b[^>]*>|<\/blockquote\s*>/gi;
+
 /**
  * Remove baked transclusion blockquotes from a published thread's HTML. A
  * thread's quoted fragments are its substance, but they swamp a one-line
  * excerpt — the row shows the author's own prose plus a "⧉N" count instead.
+ *
+ * Depth-aware rather than a non-greedy regex: the real baked element carries
+ * `data-blyg-id`/`data-blyg-version` (and the unresolvable variant has a
+ * second class), and a transcluded fragment may itself contain an ordinary
+ * blockquote — a lazy `[\s\S]*?<\/blockquote>` stops at the inner close and
+ * leaves a stray tag plus half the quote behind.
  */
 export function stripTransclusionQuotes(html: string): string {
-  return html.replace(/<blockquote class="blyg-transclusion">[\s\S]*?<\/blockquote>/gi, " ");
+  let out = "";
+  let cursor = 0;
+  TRANSCLUSION_OPEN.lastIndex = 0;
+  let open: RegExpExecArray | null;
+  while ((open = TRANSCLUSION_OPEN.exec(html)) !== null) {
+    if (open.index < cursor) continue; // inside a block already removed
+    out += html.slice(cursor, open.index) + " ";
+    // Walk blockquote tags from just after the opener until depth returns to 0.
+    let depth = 1;
+    ANY_BLOCKQUOTE.lastIndex = open.index + open[0].length;
+    let tag: RegExpExecArray | null;
+    let end = html.length;
+    while ((tag = ANY_BLOCKQUOTE.exec(html)) !== null) {
+      depth += tag[0].startsWith("</") ? -1 : 1;
+      if (depth === 0) {
+        end = tag.index + tag[0].length;
+        break;
+      }
+    }
+    cursor = end;
+    TRANSCLUSION_OPEN.lastIndex = cursor;
+  }
+  return out + html.slice(cursor);
 }
 
 /** Split a leading <h1>–<h6> off rendered HTML, so a titled item shows its title as a title. */
