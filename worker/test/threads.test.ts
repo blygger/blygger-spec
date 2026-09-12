@@ -161,6 +161,29 @@ describe("threads & transclusion (§2.9)", () => {
     expect((await getPublic(`/blyg/items/${threadId}/v1.json`)).status).toBe(200);
   });
 
+  it("thread pinned-version PAGE serves the baked snapshot with provenance, on the t/ route", async () => {
+    const cookie = await login();
+    const f1 = await createAndPublish(cookie, "the quoted fragment");
+    const threadId = await createThread(cookie, `Intro line.\n\n![[${f1}]]`);
+    await apiJson(cookie, "POST", `/api/items/${threadId}/publish`, {});
+    await apiJson(cookie, "POST", `/api/items/${threadId}/pin`, { version: 1 });
+
+    const res = await getPublic(`/blyg/t/${threadId}/v1/`);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    expect(html).toContain("blyg-transclusion"); // the baked snapshot, verbatim
+    expect(html).toContain("the quoted fragment");
+    expect(html).toContain("snapshot of v1"); // provenance injection, same as the live thread page
+    expect(html).toContain("Pinned v1");
+    // A thread pin lives on the t/ route only — the authored kind of the
+    // pinned version decides, even though item.kind may later be 'withdrawn'.
+    expect((await getPublic(`/blyg/f/${threadId}/v1/`)).status).toBe(404);
+
+    // And it survives withdrawal, on the same route.
+    await apiJson(cookie, "POST", `/api/items/${threadId}/withdraw`, {});
+    expect((await getPublic(`/blyg/t/${threadId}/v1/`)).status).toBe(200);
+  });
+
   it("feed.xml carries thread entries with full baked HTML and a t/ link", async () => {
     const cookie = await login();
     const f1 = await createAndPublish(cookie, "quotable line");

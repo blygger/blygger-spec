@@ -54,6 +54,31 @@ describe("root mount", () => {
     expect(manifest.site).toBe(`${HOST}/`);
   });
 
+  it("serves pinned-version pages at the root mount (session-18 route)", async () => {
+    // The PI node is root-mounted, so the route must work with mount="".
+    // Create + publish + pin through the app's own API (root-mounted studio).
+    const login = await app.request(`${HOST}/studio/login`, {
+      method: "POST",
+      body: new URLSearchParams({ password: "test-password" }),
+    }, appEnv());
+    const cookie = (login.headers.get("set-cookie") ?? "").split(";")[0];
+    const created = await app.request(`${HOST}/api/items`, {
+      method: "POST",
+      headers: { cookie, "content-type": "application/json" },
+      body: JSON.stringify({ content_md: "root-mounted pin" }),
+    }, appEnv());
+    const { id } = (await created.json()) as { id: string };
+    await app.request(`${HOST}/api/items/${id}/publish`, { method: "POST", headers: { cookie, "content-type": "application/json" }, body: "{}" }, appEnv());
+    await app.request(`${HOST}/api/items/${id}/pin`, { method: "POST", headers: { cookie, "content-type": "application/json" }, body: JSON.stringify({ version: 1 }) }, appEnv());
+
+    const page = await app.request(`${HOST}/f/${id}/v1/`, {}, appEnv());
+    expect(page.status).toBe(200);
+    const html = await page.text();
+    expect(html).toContain("root-mounted pin");
+    expect(html).toContain("Pinned v1");
+    expect(html).toContain(`href="/items/${id}/v1.json"`); // root-mounted twin link
+  });
+
   it("serves the feed page at / instead of redirecting", async () => {
     const res = await app.request(`${HOST}/`, {}, appEnv());
     expect(res.status).toBe(200);

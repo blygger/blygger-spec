@@ -165,12 +165,15 @@ describe("the index no longer renders dead version controls", () => {
     expect(page).toContain("2 versions");
   });
 
-  it("links pinned versions to their permanent public files", async () => {
+  it("links pinned versions to their frozen public pages", async () => {
+    // Session 18: pin chips link the rendered page, not the raw JSON — the
+    // page carries the JSON-twin link, so the file is one hop away.
     const cookie = await login();
     const id = await createAndPublish(cookie, "pin me");
     await publishEdit(cookie, id, "second");
     await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
     const page = await (await SELF.fetch(`${BASE}${STUDIO}/`, { headers: { cookie } })).text();
-    expect(page).toContain(`/blyg/items/${id}/v1.json`);
+    expect(page).toContain(`/blyg/f/${id}/v1/`);
+    expect(page).not.toContain(`/blyg/items/${id}/v1.json`);
   });
 });

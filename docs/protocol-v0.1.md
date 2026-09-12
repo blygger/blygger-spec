@@ -390,15 +390,45 @@ Rules:
    strategies are conformant. Verifiable authorship, if wanted, is a signature
    *inside* an authorspace grammar (§5.5), not a protocol feature.
 
-### 8.4 No historical-version HTML route
+### 8.4 Historical versions: pinned-only, JSON promised, HTML optional
 
-Pinned versions are served as **JSON only**. No route ever serves an older
-version as an HTML page — a general historical route would gut
-withheld-unless-pinned. Consequently a public page's version display is an
-**indicator, not navigation**: the right presentation is discrete pin citations
-(e.g. "v6 · pinned: v2, v4" linking to the `v{n}.json` files) — pins are a
-sequence of frozen citable artifacts of one identity, not pages of one document.
-A pinned-only HTML route MAY be added in a future version, purely additively.
+No route ever serves an **unpinned** older version, in any representation — a
+general historical route would gut withheld-unless-pinned. A public page's
+version display is an **indicator, not navigation**: the right presentation is
+discrete pin citations (e.g. "v6 · pinned: v2, v4") — pins are a sequence of
+frozen citable artifacts of one identity, not pages of one document.
+
+The pin's *promise* is the JSON file (§8.1). Additionally, a publisher **MAY**
+serve a rendered page for each pinned version at the item's permalink path
+plus a version segment:
+
+```
+GET {origin}f/{id}/v{n}/     (fragments)
+GET {origin}t/{id}/v{n}/     (threads)
+```
+
+*(Added in the 2026-09-12 revision, exercising the additive path this section
+reserved — the original rule was JSON-only. Demand: a pin exists to be cited,
+and a citation shown to a human wants a page, not a JSON file.)*
+
+Rules, for publishers that serve these pages:
+
+1. **Gated exactly like the JSON file**: 404 unless that exact version is
+   pinned; 200 forever once it is, surviving withdrawal. The route exposes
+   only bytes already promised forever — never unpinned history.
+2. The page's content is that version's **publish-time `content_html`,
+   verbatim** (baked transclusion snapshots included for threads). Page
+   chrome (banner, links) is presentation and may evolve; the content is
+   what is promised.
+3. The page SHOULD carry `rel="canonical"` pointing at the live permalink,
+   SHOULD be visibly marked as a frozen snapshot, and SHOULD link its
+   `v{n}.json` twin — the page is the human citation, the JSON the machine
+   citation.
+4. Pinned pages are **not** publish events: they MUST NOT appear in
+   `feed.xml`, the archive index, or `items/index.json`, and they add no
+   manifest vocabulary. Discovery is the live page's pin citations.
+5. Readers MUST NOT require these pages — the subscribe side works entirely
+   from the JSON surfaces.
 
 ## 9. Withdrawal
 

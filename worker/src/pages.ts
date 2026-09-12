@@ -8,8 +8,8 @@
 
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerptFromHtml } from "./markdown.ts";
-import { listMediaForItem, listVersions, publishedVersion } from "./model.ts";
-import type { ItemRow, MediaRow, Settings, Transclusion } from "./types.ts";
+import { authoredKind, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
+import type { ItemRow, MediaRow, Settings, Transclusion, VersionRow } from "./types.ts";
 import { escapeHtml } from "./util.ts";
 
 export const STYLE_CSS = `/* blyg v0.1 — one minimal stylesheet, no build step */
@@ -29,6 +29,8 @@ article.fragment, article.thread { border-top: 1px solid rgba(128,128,128,0.35);
 article.fragment img, article.thread img { max-width: 100%; height: auto; }
 article.fragment p:first-child, article.thread p:first-child { margin-top: 0; }
 .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
+.pinned-banner { font-size: 0.85rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.5rem 0.75rem; margin-bottom: 1rem; opacity: 0.85; }
+.pinned-banner a { border-bottom: 1px dotted currentColor; text-decoration: none; }
 .version-line { margin-top: 0.75rem; font-size: 0.85rem; opacity: 0.75; }
 .version-line .pins a { text-decoration: none; border-bottom: 1px dotted currentColor; }
 .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
@@ -52,7 +54,7 @@ ul.archive .meta { font-size: 0.85rem; opacity: 0.7; margin-left: 0.5rem; }
 footer.older { text-align: center; padding: 1rem 0; }
 `;
 
-export function layout(title: string, body: string, mount: string, hasBlogroll = false): string {
+export function layout(title: string, body: string, mount: string, hasBlogroll = false, canonical?: string): string {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -61,7 +63,7 @@ export function layout(title: string, body: string, mount: string, hasBlogroll =
 <title>${escapeHtml(title)}</title>
 <link rel="stylesheet" href="${mount}/style.css">
 <link rel="alternate" type="application/rss+xml" href="${mount}/feed.xml">
-${hasBlogroll ? `<link rel="blogroll" href="${mount}/blogroll.opml">\n` : ""}</head>
+${canonical ? `<link rel="canonical" href="${canonical}">\n` : ""}${hasBlogroll ? `<link rel="blogroll" href="${mount}/blogroll.opml">\n` : ""}</head>
 <body>
 ${body}
 </body>
@@ -104,11 +106,16 @@ function formatDate(iso: string): string {
  * survives withdrawal of the live stream (§2.8), so the endcap page is
  * exactly where a reader needs to be told what remains citable.
  */
-function itemMeta(item: ItemRow, note: string | null, pins: number[], mount: string): string {
+function itemMeta(item: ItemRow, note: string | null, pins: number[], mount: string, isThread: boolean): string {
   const created = formatDate(item.created);
+  // Citations link the HTML pages (session-18 route); each page links its
+  // JSON twin, so the machine-citable file is one hop away, never hidden.
+  // isThread comes from the caller, not item.kind — a withdrawn item's kind
+  // is 'withdrawn', but its pinned versions live under their authored route.
+  const kindSeg = isThread ? "t" : "f";
   const pinPart = pins.length
     ? ` &middot; <span class="pins">pinned: ${pins
-        .map((v) => `<a href="${mount}/items/${item.id}/v${v}.json" title="permanent citable version file">v${v}</a>`)
+        .map((v) => `<a href="${mount}/${kindSeg}/${item.id}/v${v}/" title="frozen snapshot of v${v}">v${v}</a>`)
         .join(", ")}</span>`
     : "";
   // A single-version item with no pins has no version story worth telling.
@@ -145,7 +152,7 @@ export function renderFragment(item: ItemRow, contentHtml: string, media: MediaR
   return `<article class="fragment">
 ${contentHtml}
 ${mediaHtml(media, mount)}
-${itemMeta(item, note, pins, mount)}
+${itemMeta(item, note, pins, mount, false)}
 ${permalinkLink(item.id, false, mount)}
 </article>`;
 }
@@ -186,7 +193,7 @@ async function threadCard(db: D1Database, item: ItemRow, mount: string): Promise
   return `<article class="fragment thread-card">
 <p><span class="kind-chip">thread</span> ${escapeHtml(excerptFromHtml(html, 300))}</p>
 <p><a href="${mount}/t/${item.id}/">read the thread →</a></p>
-${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount)}
+${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount, true)}
 </article>`;
 }
 
@@ -197,14 +204,15 @@ async function threadBlock(db: D1Database, item: ItemRow, mount: string): Promis
   return `<article class="thread">
 ${html}
 ${mediaHtml(media, mount)}
-${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount)}
+${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount, true)}
 ${permalinkLink(item.id, true, mount)}
 </article>`;
 }
 
 async function withdrawnBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
+  const isThread = (await authoredKind(db, item)) === "thread";
   return `<article class="fragment withdrawn"><p>This item was withdrawn.</p>
-${itemMeta(item, null, await pinnedVersions(db, item.id), mount)}
+${itemMeta(item, null, await pinnedVersions(db, item.id), mount, isThread)}
 </article>`;
 }
 
@@ -248,6 +256,53 @@ ${pageHeader(mount)}
 ${await threadBlock(db, item, mount)}
 </div>`;
   return layout(settings.site_title, body, mount);
+}
+
+/**
+ * Pinned-version HTML page — `{mount}/f/{id}/v{n}/`, `{mount}/t/{id}/v{n}/`
+ * (session-18 decision, amending §2.8's session-5 "JSON only" via the additive
+ * path that decision explicitly reserved; demand demonstrated by Venkat
+ * clicking a pin citation and getting raw JSON).
+ *
+ * The pin's *promise* stays the JSON file — this page is presentation of the
+ * same already-promised bytes: the version's stored publish-time content_html,
+ * verbatim, never re-rendered. What the page adds is human legibility: a
+ * frozen banner (a reader must never mistake a snapshot for the live item), a
+ * canonical link to the live permalink (the living page is the one to index),
+ * and a pointer to the JSON twin (machine citation ↔ human citation).
+ *
+ * Deliberately NOT here: feed/archive/index membership (pinning is not a
+ * publish event), any new wire vocabulary, any route for unpinned versions
+ * (withheld-unless-pinned is what keeps withdrawal meaningful).
+ */
+export function pinnedVersionPage(
+  settings: Settings,
+  item: ItemRow,
+  row: VersionRow,
+  isThread: boolean,
+  mount: string,
+  origin: string,
+): string {
+  const live = `${mount}/${isThread ? "t" : "f"}/${item.id}/`;
+  const html = isThread
+    ? injectProvenance(row.content_html, parseTransclusions(row.transclusions), mount)
+    : row.content_html;
+  const noteHtml = row.note ? `<p class="version-note">&ldquo;${escapeHtml(row.note)}&rdquo;</p>` : "";
+  const body = `<div class="blyg">
+${pageHeader(mount)}
+<p class="pinned-banner">📌 Pinned v${row.version} — a frozen snapshot from ${formatDate(row.published_at)}.
+<a href="${live}">latest version</a> &middot; <a href="${mount}/items/${item.id}/v${row.version}.json">citable JSON</a></p>
+<article class="${isThread ? "thread" : "fragment"}">
+${html}
+${noteHtml}
+<p class="timestamps"><span>Published: ${formatDate(row.published_at)}</span></p>
+</article>
+</div>`;
+  // Canonical points at the live permalink (absolute — origin is the blyg
+  // base URL, trailing slash included): the frozen page is a version of the
+  // same work, and the living one is the page that should be indexed.
+  const canonical = `${origin}${isThread ? "t" : "f"}/${item.id}/`;
+  return layout(`v${row.version} — ${settings.site_title}`, body, mount, false, canonical);
 }
 
 export async function archivePage(db: D1Database, settings: Settings, items: ItemRow[], mount: string): Promise<string> {

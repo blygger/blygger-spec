@@ -19,7 +19,7 @@
 // route, and studio/api are still registered on `app` before `pub` is
 // attached).
 
-import { Hono } from "hono";
+import { type Context, Hono } from "hono";
 import { api } from "./api.ts";
 import { verifySession } from "./auth.ts";
 import { importerApi } from "./importer/api.ts";
@@ -29,7 +29,7 @@ import { runScheduledPoll } from "./importer/schedule.ts";
 import { importerStudio } from "./importer/studio.ts";
 import { getHopperBySlug, getImportedItem, getSubscription, listBlogrollSubscriptions, listHopperItems } from "./importer/store.ts";
 import { authoredKind, getItem, getMedia, getSettings, getVersion, listPublic } from "./model.ts";
-import { archivePage, feedPage, permalinkPage, STYLE_CSS, threadPage } from "./pages.ts";
+import { archivePage, feedPage, permalinkPage, pinnedVersionPage, STYLE_CSS, threadPage } from "./pages.ts";
 import { buildArchiveIndex, buildFeedXml, buildItemJson, buildManifest, buildPinnedVersionJson, siteOrigin } from "./protocol.ts";
 import { studio } from "./studio.ts";
 import type { Env } from "./types.ts";
@@ -155,7 +155,7 @@ export function makeApp(mount: string) {
   pub.get("/items/:id/:vfile", async (c) => {
     const m = /^v(\d+)\.json$/.exec(c.req.param("vfile"));
     if (!m) return c.notFound();
-    const item = await getItem(c.env.DB, c.req.param("id"));
+    const item = await getItem(c.env.DB, c.req.param("id") ?? "");
     if (!item || item.status === "draft") return c.notFound();
     const row = await getVersion(c.env.DB, item.id, Number(m[1]));
     if (!row || row.pinned !== 1) return c.notFound();
@@ -171,6 +171,27 @@ export function makeApp(mount: string) {
     const settings = await getSettings(c.env.DB);
     return c.html(await permalinkPage(c.env.DB, settings, item, mount));
   });
+
+  // Pinned-version HTML pages (session-18 decision, additive per §2.8's
+  // reserved path): the live permalink + /v{n}/. Same gate as the JSON —
+  // 404 unless that exact version is pinned; 200 forever once it is,
+  // surviving withdrawal. The authored kind of the *pinned version* decides
+  // which route serves it (a withdrawn item's kind is 'withdrawn', but its
+  // pinned v1 was authored as fragment or thread — transclusions tells us).
+  const pinnedPage = (wantThread: boolean) => async (c: Context<{ Bindings: Env }>) => {
+    const m = /^v(\d+)$/.exec(c.req.param("vseg") ?? "");
+    if (!m) return c.notFound();
+    const item = await getItem(c.env.DB, c.req.param("id") ?? "");
+    if (!item || item.status === "draft") return c.notFound();
+    const row = await getVersion(c.env.DB, item.id, Number(m[1]));
+    if (!row || row.pinned !== 1) return c.notFound();
+    const isThread = row.transclusions !== null;
+    if (isThread !== wantThread) return c.notFound();
+    const settings = await getSettings(c.env.DB);
+    return c.html(pinnedVersionPage(settings, item, row, isThread, mount, siteOrigin(settings, c.req.url, mount)));
+  };
+  pub.get("/f/:id/:vseg", pinnedPage(false));
+  pub.get("/t/:id/:vseg", pinnedPage(true));
 
   // §2.9 thread permalink page.
   pub.get("/t/:id", async (c) => {

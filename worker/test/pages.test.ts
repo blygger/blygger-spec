@@ -43,7 +43,7 @@ describe("public pages (§3.4)", () => {
     expect(html).not.toContain("v2 of 2");
   });
 
-  it("shows pinned versions as citations linking to their permanent files", async () => {
+  it("shows pinned versions as citations linking to their frozen pages", async () => {
     const cookie = await login();
     const id = await createAndPublish(cookie, "first cut");
     await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
@@ -53,11 +53,11 @@ describe("public pages (§3.4)", () => {
 
     const html = await (await getPublic(`/blyg/f/${id}/`)).text();
     expect(html).toContain("pinned:");
-    expect(html).toContain(`href="/blyg/items/${id}/v1.json"`);
-    expect(html).toContain(`href="/blyg/items/${id}/v2.json"`);
-    // Those URLs are the promise, so they had better resolve.
-    expect((await getPublic(`/blyg/items/${id}/v1.json`)).status).toBe(200);
-    expect((await getPublic(`/blyg/items/${id}/v2.json`)).status).toBe(200);
+    expect(html).toContain(`href="/blyg/f/${id}/v1/"`);
+    expect(html).toContain(`href="/blyg/f/${id}/v2/"`);
+    // Those URLs are the promise, so they had better resolve — as pages.
+    expect((await getPublic(`/blyg/f/${id}/v1/`)).status).toBe(200);
+    expect((await getPublic(`/blyg/f/${id}/v2/`)).status).toBe(200);
   });
 
   it("a pinned single-version item still shows its citation", async () => {
@@ -65,7 +65,7 @@ describe("public pages (§3.4)", () => {
     const id = await createAndPublish(cookie, "only ever one");
     await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
     const html = await (await getPublic(`/blyg/f/${id}/`)).text();
-    expect(html).toContain(`href="/blyg/items/${id}/v1.json"`);
+    expect(html).toContain(`href="/blyg/f/${id}/v1/"`);
     expect(html).not.toContain("Most recent"); // one version — nothing to compare against
   });
 
@@ -78,8 +78,56 @@ describe("public pages (§3.4)", () => {
     await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {});
     const html = await (await getPublic(`/blyg/f/${id}/`)).text();
     expect(html).toContain("withdrawn");
+    expect(html).toContain(`href="/blyg/f/${id}/v1/"`);
+    expect((await getPublic(`/blyg/f/${id}/v1/`)).status).toBe(200);
+  });
+
+  it("pinned-version pages render the frozen content with banner, canonical, and JSON twin", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "the **original** wording");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "the revised wording" });
+    await apiJson(cookie, "POST", `/api/items/${id}/publish`, {});
+
+    const res = await getPublic(`/blyg/f/${id}/v1/`);
+    expect(res.status).toBe(200);
+    const html = await res.text();
+    // Frozen content = v1's stored publish-time rendering, not the live v2.
+    expect(html).toContain("<strong>original</strong>");
+    expect(html).not.toContain("revised wording");
+    // Presentation: banner so it can't be mistaken for the live item,
+    // canonical pointing at the live permalink, and the machine-citable twin.
+    expect(html).toContain("Pinned v1");
+    expect(html).toContain(`rel="canonical"`);
+    expect(html).toContain(`f/${id}/"`);
     expect(html).toContain(`href="/blyg/items/${id}/v1.json"`);
-    expect((await getPublic(`/blyg/items/${id}/v1.json`)).status).toBe(200);
+  });
+
+  it("pinned-version pages 404 for unpinned versions, unknown ids, and bad segments", async () => {
+    // Withheld-unless-pinned (§2.8): the HTML route must be gated exactly
+    // like the JSON route, or it would expose history withdrawal withholds.
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "v1 text");
+    await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "v2 text" });
+    await apiJson(cookie, "POST", `/api/items/${id}/publish`, {});
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 2 });
+
+    expect((await getPublic(`/blyg/f/${id}/v1/`)).status).toBe(404); // unpinned
+    expect((await getPublic(`/blyg/f/${id}/v3/`)).status).toBe(404); // nonexistent
+    expect((await getPublic(`/blyg/f/${id}/vX/`)).status).toBe(404); // malformed
+    expect((await getPublic(`/blyg/f/unknownid00000000000000000/v1/`)).status).toBe(404);
+    expect((await getPublic(`/blyg/t/${id}/v2/`)).status).toBe(404); // wrong kind route
+    expect((await getPublic(`/blyg/f/${id}/v2/`)).status).toBe(200); // the pinned one
+  });
+
+  it("a pinned-version page survives withdrawal of the item", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "citable forever");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {});
+    const res = await getPublic(`/blyg/f/${id}/v1/`);
+    expect(res.status).toBe(200);
+    expect(await res.text()).toContain("citable forever");
   });
 
   it("withdrawn permalinks return 200 with a withdrawn notice", async () => {

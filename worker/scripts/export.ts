@@ -88,10 +88,12 @@ for (const { id } of index.items) {
   const isThread = "transclusions" in item;
   await save(`${isThread ? "t" : "f"}/${id}/`, `${isThread ? "t" : "f"}/${id}/index.html`);
   for (const m of item.media) mediaUrls.add(m.url);
-  // §2.8 pinned version files, discovered from the changelog.
+  // §2.8 pinned version files, discovered from the changelog — each pin is
+  // two artifacts since session 18: the JSON promise and its HTML page.
   for (const v of item.changelog) {
     if (v.pinned) {
       await save(`items/${id}/v${v.version}.json`, `items/${id}/v${v.version}.json`);
+      await save(`${isThread ? "t" : "f"}/${id}/v${v.version}/`, `${isThread ? "t" : "f"}/${id}/v${v.version}/index.html`);
       pinnedCount++;
     }
   }
@@ -109,5 +111,5 @@ for (const slug of hopperSlugs) {
 }
 
 console.log(
-  `\nexported ${6 + index.items.length * 2 + pinnedCount + mediaUrls.size + (blogroll ? 1 : 0) + hopperSlugs.length} files to ${out}`,
+  `\nexported ${6 + index.items.length * 2 + pinnedCount * 2 + mediaUrls.size + (blogroll ? 1 : 0) + hopperSlugs.length} files to ${out}`,
 );

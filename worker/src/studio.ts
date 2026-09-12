@@ -253,12 +253,14 @@ export function formatDate(iso: string): string {
  * restoring live in the editor's history panel; the index only states what
  * is true — how many versions exist, and which are publicly pinned.
  */
-function versionSummary(item: ItemRow, versions: VersionRow[], mount: string): string {
+function versionSummary(item: ItemRow, versions: VersionRow[], mount: string, isThread: boolean): string {
+  // Pin chips link the rendered frozen pages (session-18 route), not the raw
+  // JSON — clicking a pin should read as a page; the page links its JSON twin.
   const pins = versions.filter((v) => v.pinned === 1).map((v) => v.version);
   const pinLinks = pins
     .map(
       (v) =>
-        `<a href="${mount}/items/${item.id}/v${v}.json" target="_blank" title="permanent citable version file">v${v}</a>`,
+        `<a href="${mount}/${isThread ? "t" : "f"}/${item.id}/v${v}/" target="_blank" title="frozen snapshot of v${v}">v${v}</a>`,
     )
     .join(", ");
   const pinPart = pins.length ? ` &middot; <span class="pin-chips">📌 ${pinLinks}</span>` : "";
@@ -326,7 +328,7 @@ function historyPanel(item: ItemRow, versions: VersionRow[], mount: string): str
       const badges = [
         v.version === item.version ? '<span class="h-badge current">current</span>' : "",
         v.pinned === 1
-          ? `<a class="h-badge pinned" href="${mount}/items/${item.id}/v${v.version}.json" target="_blank" title="permanent citable version file">📌 pinned</a>`
+          ? `<a class="h-badge pinned" href="${mount}/${v.transclusions !== null ? "t" : "f"}/${item.id}/v${v.version}/" target="_blank" title="frozen snapshot page">📌 pinned</a>`
           : "",
         isEndcap ? '<span class="h-badge endcap">withdrawal</span>' : "",
       ]
@@ -404,7 +406,7 @@ ${excerptBlock('<span class="state pub">●</span>', chip, preview, '<span class
 
   const note = latest?.note ?? null;
   const noteHtml = item.version > 1 && note ? `<p class="version-note">&ldquo;${escapeHtml(note)}&rdquo;</p>` : "";
-  const nav = versionSummary(item, await listVersions(db, id), mount);
+  const nav = versionSummary(item, await listVersions(db, id), mount, isThread);
   const mostRecentLine = isThread
     ? `<span>Most recent: ${formatDate(item.updated)}, v${item.version} &mdash; transcludes ${preview.transclusions} fragment${preview.transclusions === 1 ? "" : "s"}</span>`
     : `<span>Most recent: ${formatDate(item.updated)}, v${item.version}</span>`;
