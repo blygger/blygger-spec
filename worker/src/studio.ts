@@ -159,6 +159,7 @@ export function studioHeader(title: string, mount: string): string {
 <a href="${studioPath(mount)}/reading">reading</a>
 <a href="${studioPath(mount)}/hoppers">hoppers</a>
 <a href="${studioPath(mount)}/settings">settings</a>
+<a href="${studioPath(mount)}/syntax">syntax</a>
 <form method="post" action="${studioPath(mount)}/logout" style="display:inline"><button type="submit" class="link">log out</button></form>
 </nav>
 </header>`;
@@ -393,7 +394,7 @@ studio.get("/", async (c) => {
   const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item, mount)));
   const body = `${studioHeader("blyg studio", mount)}
 <div class="composer">
-<p class="compose-help">Markdown supported. Write <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text — generate it from the editor after saving.</p>
+<p class="compose-help">Markdown supported. Write <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text — generate it from the editor after saving. <a href="${studioPath(mount)}/syntax">full syntax reference</a></p>
 <textarea id="composer-text" placeholder="compose a fragment…"></textarea>
 <div class="bar">
   <span><button type="button" id="composer-attach">attach image</button></span>
@@ -452,6 +453,41 @@ document.getElementById("settings-form").addEventListener("submit", async (e) =>
 });
 </script>`;
   return c.html(studioLayout("settings — blyg studio", body));
+});
+
+/** Syntax cheat sheet — studio furniture, not a protocol surface. Linked from the nav and from both composers' compose-help hints. */
+studio.get("/syntax", async (c) => {
+  const mount = normalizeMount(c.env.MOUNT);
+  const body = `${studioHeader("blyg studio — syntax", mount)}
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← studio</a></nav>
+<p>Standard markdown always works (paragraphs, headings, lists, links, emphasis, code). Everything below is studio-private authoring syntax — none of it reaches the wire except where noted.</p>
+
+<h2>Fragment transclusion — <code>![[id]]</code></h2>
+<ul>
+<li><strong>Threads only</strong> — fragments can't transclude anything.</li>
+<li>Alone on its own line, nothing else: <code>![[7c9wk2n4h6q1x8v0z3m5rjy2ke]]</code> — <code>id</code> is the 26-character id of one of <em>your own published</em> fragments (not a draft, not withdrawn, not a thread — no nesting yet).</li>
+<li>Always pulls the fragment's current/latest version at publish time and bakes it into the thread's HTML. An explicit pinned-version form, <code>![[id@v3]]</code>, is reserved syntax, not implemented — using it fails publish with an explicit error rather than resolving.</li>
+<li>Any unresolvable id fails the <em>whole</em> publish, with every bad reference listed. In the thread editor, type <code>![[</code> to open a fragment picker; an unresolvable ref shows a red placeholder in preview before you publish.</li>
+</ul>
+
+<h2>Instructed generation (TK) — <code>[TK]…[/TK]</code></h2>
+<ul>
+<li>Available in <strong>both</strong> the fragment composer and the thread editor.</li>
+<li>Ungenerated scope: <code>[TK]an instruction[/TK]</code>. Generated scope: <code>[TK]an instruction[=]the output[/TK]</code> — the studio writes the <code>[=]output</code> part for you when you click Generate/Regenerate; don't type it by hand.</li>
+<li>An empty instruction, <code>[TK][/TK]</code>, is valid — the "journalism TK" placeholder.</li>
+<li>A scope is block-level if it sits alone in its own paragraph, inline otherwise — same grammar either way, no separate syntax.</li>
+<li>No nesting — a <code>[TK]</code> scope can't contain another.</li>
+<li>Publish strips every scope down to its bare output — readers never see the instruction. Machine-generated spans carry a provenance record plus a highlighted style; hand-written or hand-edited output carries no disclosure. Publish fails if any scope still has no output ("never generated").</li>
+</ul>
+
+<h2>Source refs inside a TK scope — <code>![[id]]</code> (own-line <em>or</em> inline)</h2>
+<ul>
+<li>Different meaning from plain transclusion: inside a <code>[TK]…[/TK]</code> scope, <em>every</em> <code>![[id]]</code> — whether alone on its line or inline in the instruction or output text — is a <strong>source reference</strong> fed to the generator, not a quote. It's disclosed in the published <code>generated[].sources</code> provenance, never rendered as a blockquote.</li>
+<li>Same id rule as transclusion: must resolve to one of your own published fragments.</li>
+<li>Works in fragment scopes too, even though a fragment can't do a plain transclusion outside a scope.</li>
+<li>A TK scope can't also contain a plain transclusion — keep the two apart rather than nesting them.</li>
+</ul>`;
+  return c.html(studioLayout("syntax — blyg studio", body));
 });
 
 /** Studio-only live preview for the fragment editor — not a protocol surface. TK scopes are highlighted (task 6). */
@@ -675,7 +711,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
 <div class="panes">
 <div class="pane" style="position:relative;">
 <h2>markdown source</h2>
-<p class="compose-help">Markdown, plus <code>![[id]]</code> on its own line to transclude a fragment (type <code>![[</code> for a picker) and <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text.</p>
+<p class="compose-help">Markdown, plus <code>![[id]]</code> on its own line to transclude a fragment (type <code>![[</code> for a picker) and <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text. <a href="${studioPath(mount)}/syntax">full syntax reference</a></p>
 <textarea id="md-input">${escapeHtml(item.content_md)}</textarea>
 <div class="palette" id="palette" style="display:none;">
 <input class="search" id="palette-search" placeholder="transclude a fragment…">
