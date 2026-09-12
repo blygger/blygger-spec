@@ -13,6 +13,26 @@ export interface TransclusionRefError {
   reason: string;
 }
 
+/**
+ * Count and remove own-line `![[id]]` directives from a working copy —
+ * for studio previews of unpublished drafts, which have no rendered HTML to
+ * derive from yet. Lives here so the directive grammar has exactly one
+ * regex: a private copy in preview.ts would be the same duplicated-detector
+ * drift that bit resolve.ts vs feed.ts in session 16.
+ */
+export function extractDirectives(contentMd: string): { count: number; withoutDirectives: string } {
+  const kept: string[] = [];
+  let count = 0;
+  for (const line of contentMd.split("\n")) {
+    if (DIRECTIVE_LINE.test(line) || RESERVED_LINE.test(line)) {
+      count++;
+      continue;
+    }
+    kept.push(line);
+  }
+  return { count, withoutDirectives: kept.join("\n") };
+}
+
 export interface ResolveResult {
   html: string;
   transclusions: Transclusion[];

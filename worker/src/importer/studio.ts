@@ -12,6 +12,7 @@ import { escapeHtml, normalizeMount, studioPath } from "../util.ts";
 import type { ImportedEntryInput, OwnEntryInput, ReadingFeedEntry } from "./reading.ts";
 import { buildReadingFeed } from "./reading.ts";
 import { sanitizeHtml } from "./sanitize.ts";
+import { splitL0Content } from "../preview.ts";
 import {
   getHopper,
   getImportedItem,
@@ -164,8 +165,19 @@ const READING_STYLE = `
 .reading-entry .byline { font-size: 0.8rem; opacity: 0.7; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
 .reading-entry .byline .kind-chip { font-size: 0.68rem; padding: 0.02rem 0.3rem; }
 .reading-entry .byline .l0-chip { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.02rem 0.3rem; opacity: 0.7; }
+.reading-entry .entry-title { margin: 0.25rem 0 0.15rem; font-size: 1.02rem; font-weight: 600; line-height: 1.35; }
+.reading-entry .entry-title a { text-decoration: none; }
+.reading-entry .entry-title a:hover { text-decoration: underline; }
 .reading-entry .content { margin-top: 0.4rem; }
 .reading-entry .content img { max-width: 100%; }
+.reading-entry .content > :first-child { margin-top: 0; }
+.reading-entry .content > :last-child { margin-bottom: 0; }
+/* Clamp by line count, not by cutting markup — see readingEntryHtml. */
+.reading-entry .content.clamped { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.reading-entry .expand-btn { font-size: 0.78rem; opacity: 0.7; margin-top: 0.2rem; }
+.reading-entry .content:not(.clamped) + .expand-btn { display: none; }
+.reading-pager { display: flex; justify-content: space-between; align-items: center; margin: 1.25rem 0 0; font-size: 0.9rem; border-top: 1px solid rgba(128,128,128,0.3); padding-top: 0.75rem; }
+.reading-pager .pager-info { opacity: 0.7; }
 .reading-entry.withdrawn-entry { opacity: 0.6; font-style: italic; }
 .entry-actions { margin-top: 0.5rem; display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
 .entry-actions button { font-size: 0.9rem; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.4); background: transparent; cursor: pointer; }
@@ -241,10 +253,24 @@ async function readingEntryHtml(db: D1Database, e: ReadingFeedEntry, hoppers: Ho
     const signal = await getSignal(db, e.imported.subscriptionId, e.imported.remoteId);
     actions = `<div class="entry-actions">${thumbButtons(e.imported, signal ? (signal.thumb as 1 | -1) : null)} ${hopperPicker(e.imported, hoppers)}</div>`;
   }
+  // L0 entries lead with a title link (l0.ts renders "[title](link)" as the
+  // first paragraph); promote it out of the body so the list is scannable
+  // instead of title and summary reading as one undifferentiated block.
+  const { titleHtml, bodyHtml } = e.l0 ? splitL0Content(e.contentHtml) : { titleHtml: null, bodyHtml: e.contentHtml };
+  const titleLine = titleHtml ? `<p class="entry-title">${titleHtml}</p>` : "";
+  // Entries are clamped rather than truncated: nothing is lost, and no
+  // markup is cut (which would break tags). "more" lifts the clamp.
+  const body = bodyHtml.trim()
+    ? `<div class="content clamped">${bodyHtml}</div>
+<button type="button" class="link expand-btn" data-action="expand">more</button>`
+    : titleHtml
+      ? ""
+      : "<div class=\"content\"><p><em>(empty)</em></p></div>";
   return `<div class="reading-entry">
 <p class="byline">${byline} <span>&middot; ${formatDate(e.displayAt)}</span></p>
 ${withdrawnNote}
-<div class="content">${e.contentHtml || "<p><em>(empty)</em></p>"}</div>
+${titleLine}
+${body}
 ${actions}
 </div>`;
 }
@@ -266,16 +292,52 @@ document.addEventListener("change", async (e) => {
   sel.value = "";
   alert("added to hopper");
 });
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-action='expand']");
+  if (!btn) return;
+  const content = btn.previousElementSibling;
+  const clamped = content.classList.toggle("clamped");
+  btn.textContent = clamped ? "more" : "less";
+});
+// Hide "more" where the text was never long enough to be clamped, so the
+// affordance only appears when it actually does something.
+for (const btn of document.querySelectorAll("[data-action='expand']")) {
+  const content = btn.previousElementSibling;
+  if (content && content.scrollHeight <= content.clientHeight + 1) btn.hidden = true;
+}
 `;
+
+export const READING_PAGE_SIZE = 25;
+
+/** 1-based page number from `?page=`, clamped into range; out-of-range or junk lands on page 1. */
+export function readingPage(raw: string | undefined, total: number, pageSize = READING_PAGE_SIZE): { page: number; pages: number; start: number } {
+  const pages = Math.max(1, Math.ceil(total / pageSize));
+  const asked = Number(raw);
+  const page = Number.isInteger(asked) && asked >= 1 && asked <= pages ? asked : 1;
+  return { page, pages, start: (page - 1) * pageSize };
+}
 
 importerStudio.get("/reading", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
   const [own, imported, hoppers] = await Promise.all([ownEntries(c.env.DB), importedEntries(c.env.DB), listHoppers(c.env.DB)]);
   const feed = buildReadingFeed(own, imported);
-  const rows = await Promise.all(feed.map((e) => readingEntryHtml(c.env.DB, e, hoppers)));
+  // Paged: the merged feed grows without bound as subscriptions accumulate,
+  // and every entry renders its full (clamped) content.
+  const { page, pages, start } = readingPage(c.req.query("page"), feed.length);
+  const rows = await Promise.all(feed.slice(start, start + READING_PAGE_SIZE).map((e) => readingEntryHtml(c.env.DB, e, hoppers)));
+  const href = (p: number) => `${studioPath(mount)}/reading?page=${p}`;
+  const pager =
+    pages > 1
+      ? `<nav class="reading-pager">
+<span>${page > 1 ? `<a href="${href(page - 1)}">&larr; newer</a>` : ""}</span>
+<span class="pager-info">page ${page} of ${pages} &middot; ${feed.length} entries</span>
+<span>${page < pages ? `<a href="${href(page + 1)}">older &rarr;</a>` : ""}</span>
+</nav>`
+      : "";
   const body = `${studioHeader("blyg studio — reading", mount)}
 <style>${READING_STYLE}</style>
 ${rows.length ? rows.join("\n") : "<p>Nothing to read yet — publish something, or subscribe to a blyg or feed.</p>"}
+${pager}
 <script>${READING_SCRIPT}</script>`;
   return c.html(studioLayout("reading — blyg studio", body, true));
 });

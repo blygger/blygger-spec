@@ -9,11 +9,12 @@
 
 import { Hono } from "hono";
 import { checkPassword, clearSessionCookie, issueSessionCookie, verifySession } from "./auth.ts";
-import { renderMarkdown } from "./markdown.ts";
-import { authoredKind, getItem, getSettings, listAll, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
+import { plainTextFromHtml, renderMarkdown } from "./markdown.ts";
+import { authoredKind, getItem, getSettings, getVersion, listAll, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
+import { clampText, previewFromHtml, stripTransclusionQuotes, type HtmlPreview } from "./preview.ts";
 import { annotateGenerated, applyGeneratedWrappers, parseScopes, previewStrip, type TkScope } from "./tk.ts";
-import { previewTransclusions } from "./transclusion.ts";
-import type { Env, ItemRow, Transclusion } from "./types.ts";
+import { extractDirectives, previewTransclusions } from "./transclusion.ts";
+import type { Env, ItemRow, Transclusion, VersionRow } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
 import { escapeHtml, normalizeMount, studioPath } from "./util.ts";
 
@@ -77,11 +78,13 @@ button.danger { color: #c00; border-color: #c00; }
 .item-row .state.pub { color: #2a7; }
 .item-row .state.draft { opacity: 0.5; }
 .item-row .excerpt { margin: 0 0 0.3rem; }
+.item-row .excerpt.has-title { margin-bottom: 0.1rem; }
+.item-row .excerpt-title { font-weight: 600; }
+.item-row .excerpt-body { margin: 0 0 0.3rem; opacity: 0.8; font-size: 0.95rem; }
+.tc-chip { font-size: 0.72rem; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.02rem 0.28rem; margin-right: 0.35rem; opacity: 0.75; }
 .item-row .timestamps { font-size: 0.8rem; opacity: 0.7; margin: 0.4rem 0; display: flex; flex-direction: column; gap: 0.1rem; }
-.item-row .version-nav { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.5rem; font-size: 0.85rem; }
-.item-row .version-nav button { font-size: 0.8rem; line-height: 1; padding: 0.25rem 0.5rem; }
-.item-row .version-nav button:disabled { opacity: 0.3; cursor: default; }
-.item-row .version-nav .vn-label { opacity: 0.7; margin: 0 0.25rem; }
+.item-row .version-summary { font-size: 0.8rem; opacity: 0.75; margin: 0.3rem 0 0; }
+.item-row .pin-chips a { text-decoration: none; border-bottom: 1px dotted currentColor; }
 .item-row .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
 .item-row .actions { display: flex; gap: 0.4rem; align-items: center; margin-top: 0.5rem; flex-wrap: wrap; }
 .item-row.dirty { border-left-color: #c00; background: rgba(200,0,0,0.07); }
@@ -105,9 +108,25 @@ button.danger { color: #c00; border-color: #c00; }
 .preview .unresolved { border-left-color: #c00; background: rgba(200,0,0,0.07); color: #c00; font-style: italic; }
 .edit-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
 input.note { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.5rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; width: 22rem; max-width: 100%; }
-.changelog { margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.85; }
-.changelog h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
-.changelog li { margin-bottom: 0.2rem; }
+.history { margin-top: 1.5rem; font-size: 0.85rem; }
+.history h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
+.history .h-hint { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: 0.7; }
+.history .h-list { list-style: none; padding: 0; margin: 0; }
+.h-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding: 0.35rem 0; border-top: 1px solid rgba(128,128,128,0.25); }
+.h-row.selected { background: rgba(128,128,128,0.1); }
+.h-select { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 600; min-width: 3.2rem; }
+.h-select:disabled { opacity: 0.4; cursor: default; }
+.h-when { opacity: 0.7; }
+.h-note { font-style: italic; opacity: 0.8; }
+.h-badge { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.02rem 0.3rem; opacity: 0.8; }
+.h-badge.current { border-color: #2a7; color: #2a7; }
+.h-badge.pinned { text-decoration: none; }
+.h-actions { margin-left: auto; display: flex; gap: 0.35rem; }
+.h-viewer { margin-top: 0.75rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; }
+.h-viewer-bar { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; font-size: 0.8rem; }
+.h-viewer-body { font-size: 0.95rem; max-height: 26rem; overflow-y: auto; }
+.h-viewer-body img { max-width: 100%; }
+.h-viewer-body blockquote.blyg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(128,128,128,0.55); background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
 .error-banner { border: 1px solid rgba(200,0,0,0.5); background: rgba(200,0,0,0.09); color: #c00; border-radius: 4px; padding: 0.5rem 0.75rem; font-size: 0.85rem; margin-bottom: 0.75rem; }
 .error-banner code { color: inherit; }
 .note-row { margin-top: 0.75rem; font-size: 0.85rem; display: flex; gap: 0.5rem; align-items: center; }
@@ -181,13 +200,112 @@ export function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 }
 
-function versionNav(version: number): string {
-  return `<div class="version-nav">
-<button title="first version" disabled>|&lt;</button>
-<button title="previous version" disabled>&lt;</button>
-<span class="vn-label">v${version} of ${version}</span>
-<button title="next version" disabled>&gt;</button>
-<button title="latest version" disabled>&gt;|</button>
+/**
+ * Truthful version summary for an index row. Replaces the five permanently
+ * `disabled` arrow buttons that used to sit here: they implied version
+ * navigation the studio never had, and always read "vN of N". Browsing and
+ * restoring live in the editor's history panel; the index only states what
+ * is true — how many versions exist, and which are publicly pinned.
+ */
+function versionSummary(item: ItemRow, versions: VersionRow[], mount: string): string {
+  const pins = versions.filter((v) => v.pinned === 1).map((v) => v.version);
+  const pinLinks = pins
+    .map(
+      (v) =>
+        `<a href="${mount}/items/${item.id}/v${v}.json" target="_blank" title="permanent citable version file">v${v}</a>`,
+    )
+    .join(", ");
+  const pinPart = pins.length ? ` &middot; <span class="pin-chips">📌 ${pinLinks}</span>` : "";
+  return `<p class="version-summary"><a href="${studioPath(mount)}/edit/${item.id}#history">${item.version} version${item.version === 1 ? "" : "s"}</a>${pinPart}</p>`;
+}
+
+/**
+ * Title + one-line body for an index row, always derived from rendered HTML
+ * (see preview.ts). Published items reuse the stored `content_html`;
+ * unpublished working copies are rendered on the fly through the same
+ * pipeline the editor preview uses, with TK scopes reduced to their output
+ * (or an "ungenerated" marker) so raw `[TK]` never reaches the index.
+ */
+function rowPreview(item: ItemRow, latest: VersionRow | null): HtmlPreview & { transclusions: number } {
+  const publishedClean = item.dirty === 0 && latest?.content_html;
+  if (publishedClean) {
+    const transclusions = (JSON.parse(latest.transclusions ?? "[]") as Transclusion[]).length;
+    const html = transclusions ? stripTransclusionQuotes(latest.content_html) : latest.content_html;
+    return { ...previewFromHtml(html), transclusions };
+  }
+  // Draft or unpublished-changes: no rendered HTML exists yet.
+  const { count, withoutDirectives } = extractDirectives(item.content_md);
+  const tk = previewStrip(withoutDirectives, parseScopes(withoutDirectives).scopes);
+  return { ...previewFromHtml(renderMarkdown(tk.text)), transclusions: count };
+}
+
+/** `● thread ⧉2  Title / body…` — chips, then optional title line, then the body excerpt. */
+function excerptBlock(
+  stateDot: string,
+  chip: string,
+  preview: HtmlPreview & { transclusions: number },
+  suffix = "",
+): string {
+  const tc = preview.transclusions
+    ? `<span class="tc-chip" title="transcludes ${preview.transclusions} fragment${preview.transclusions === 1 ? "" : "s"}">⧉${preview.transclusions}</span>`
+    : "";
+  const head = `${stateDot}${chip}${tc}`;
+  const body = escapeHtml(preview.body) || "<em>(empty)</em>";
+  if (preview.title) {
+    return `<p class="excerpt has-title">${head}<span class="excerpt-title">${escapeHtml(preview.title)}</span>${suffix}</p>
+<p class="excerpt-body">${body}</p>`;
+  }
+  return `<p class="excerpt">${head}${body}${suffix}</p>`;
+}
+
+/**
+ * Version history panel, shared by the fragment and thread editors. Replaces
+ * the old flat "changelog" list: every version is selectable and renders into
+ * a read-only pane, since the full text of every version has always been
+ * retained (`versions.content_html`) but was previously unreachable from the
+ * UI. Pinned versions additionally link to their permanent public file.
+ *
+ * "restore" writes the version back into the working copy and is labelled
+ * with the version it would publish as — the forward-only semantics of
+ * model.restoreVersion() made visible rather than implied.
+ */
+function historyPanel(item: ItemRow, versions: VersionRow[], mount: string): string {
+  if (!versions.length) return `<div class="history" id="history"><h2>history</h2><p>Not yet published.</p></div>`;
+  const rows = versions
+    .slice()
+    .reverse()
+    .map((v) => {
+      const isEndcap = !v.content_md;
+      const note = v.note ? `<span class="h-note">&ldquo;${escapeHtml(v.note)}&rdquo;</span>` : "";
+      const badges = [
+        v.version === item.version ? '<span class="h-badge current">current</span>' : "",
+        v.pinned === 1
+          ? `<a class="h-badge pinned" href="${mount}/items/${item.id}/v${v.version}.json" target="_blank" title="permanent citable version file">📌 pinned</a>`
+          : "",
+        isEndcap ? '<span class="h-badge endcap">withdrawal</span>' : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
+      const actions = isEndcap
+        ? ""
+        : `${v.pinned === 1 ? "" : `<button type="button" data-action="pin" data-id="${item.id}" data-version="${v.version}">pin&hellip;</button>`}
+<button type="button" data-action="restore" data-id="${item.id}" data-version="${v.version}" data-next="${item.version + 1}">restore&hellip;</button>`;
+      return `<li class="h-row" data-version="${v.version}">
+<button type="button" class="h-select" data-action="view-version" data-id="${item.id}" data-version="${v.version}"${isEndcap ? " disabled" : ""}>v${v.version}</button>
+<span class="h-when">${formatDate(v.published_at)}</span>
+${badges}
+${note}
+<span class="h-actions">${actions}</span>
+</li>`;
+    })
+    .join("\n");
+  return `<div class="history" id="history">
+<h2>history <span class="h-hint">— ${versions.length} version${versions.length === 1 ? "" : "s"}; click one to read it</span></h2>
+<ul class="h-list">${rows}</ul>
+<div class="h-viewer" id="h-viewer" hidden>
+  <div class="h-viewer-bar"><strong id="h-viewer-label"></strong> <button type="button" class="link" id="h-viewer-close">close</button></div>
+  <div class="h-viewer-body" id="h-viewer-body"></div>
+</div>
 </div>`;
 }
 
@@ -212,7 +330,7 @@ async function itemRow(db: D1Database, item: ItemRow, mount: string): Promise<st
     // Never published.
     const kind = item.kind === "thread" ? '<span class="kind-chip">thread</span>' : "";
     return `<div class="item-row">
-<p class="excerpt"><span class="state draft">○</span>${kind}${escapeHtml(excerptOf(item.content_md))}</p>
+${excerptBlock('<span class="state draft">○</span>', kind, rowPreview(item, null))}
 <p class="timestamps">
 <span>Created: ${formatDate(item.created)} — draft, never published</span>
 <span>Saved: just now</span>
@@ -224,12 +342,11 @@ async function itemRow(db: D1Database, item: ItemRow, mount: string): Promise<st
   const latest = await publishedVersion(db, item);
   const isThread = item.kind === "thread";
   const chip = isThread ? '<span class="kind-chip">thread</span>' : "";
-  const transclusionCount = isThread ? (JSON.parse(latest?.transclusions ?? "[]") as Transclusion[]).length : 0;
-  const excerptText = isThread ? excerptOf(latest?.content_md.replace(/^\s*!\[\[.*\]\]\s*$/gm, "") ?? "") : excerptOf(item.content_md);
+  const preview = rowPreview(item, latest);
 
   if (item.dirty === 1) {
     return `<div class="item-row dirty">
-<p class="excerpt"><span class="state pub">●</span>${chip}${escapeHtml(excerptText)}<span class="unpublished-flag">unpublished changes</span></p>
+${excerptBlock('<span class="state pub">●</span>', chip, preview, '<span class="unpublished-flag">unpublished changes</span>')}
 <p class="timestamps">
 <span>Created: ${formatDate(item.created)}</span>
 <span>Most recent published: ${formatDate(item.updated)}, v${item.version}</span>
@@ -241,12 +358,12 @@ async function itemRow(db: D1Database, item: ItemRow, mount: string): Promise<st
 
   const note = latest?.note ?? null;
   const noteHtml = item.version > 1 && note ? `<p class="version-note">&ldquo;${escapeHtml(note)}&rdquo;</p>` : "";
-  const nav = item.version > 1 ? versionNav(item.version) : "";
+  const nav = versionSummary(item, await listVersions(db, id), mount);
   const mostRecentLine = isThread
-    ? `<span>Most recent: ${formatDate(item.updated)}, v${item.version} &mdash; transcludes ${transclusionCount} fragment${transclusionCount === 1 ? "" : "s"}</span>`
+    ? `<span>Most recent: ${formatDate(item.updated)}, v${item.version} &mdash; transcludes ${preview.transclusions} fragment${preview.transclusions === 1 ? "" : "s"}</span>`
     : `<span>Most recent: ${formatDate(item.updated)}, v${item.version}</span>`;
   return `<div class="item-row">
-<p class="excerpt"><span class="state pub">●</span>${chip}${escapeHtml(excerptText)}</p>
+${excerptBlock('<span class="state pub">●</span>', chip, preview)}
 ${nav}
 ${noteHtml}
 <p class="timestamps">
@@ -323,6 +440,29 @@ document.addEventListener("click", async (e) => {
     const version = Number(btn.dataset.version);
     if (!confirm("Pin v" + version + "? This is irrevocable — it stays fetchable forever, even past withdrawal.")) return;
     if (!(await api("POST", "/api/items/" + id + "/pin", { version }))) return;
+  } else if (action === "view-version") {
+    // Read-only: loads a past version's stored HTML into the history viewer.
+    const version = Number(btn.dataset.version);
+    const res = await fetch("${studioPath(mount)}/versions/" + id + "/" + version);
+    const data = await res.json().catch(() => null);
+    if (!data) { alert("could not load v" + version); return; }
+    const viewer = document.getElementById("h-viewer");
+    document.getElementById("h-viewer-label").textContent =
+      "v" + data.version + " · " + data.published_at + (data.pinned ? " · pinned" : "") + (data.note ? " · “" + data.note + "”" : "");
+    document.getElementById("h-viewer-body").innerHTML = data.content_html || "<em>(empty)</em>";
+    viewer.hidden = false;
+    document.querySelectorAll(".h-row").forEach((r) => r.classList.toggle("selected", Number(r.dataset.version) === version));
+    viewer.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    return;
+  } else if (action === "restore") {
+    const version = Number(btn.dataset.version);
+    const next = btn.dataset.next;
+    if (!confirm(
+      "Restore v" + version + " into the working copy?\\n\\n" +
+      "Nothing is published yet and no version is rewound — this replaces your current draft, " +
+      "which you would then publish as v" + next + "."
+    )) return;
+    if (!(await api("POST", "/api/items/" + id + "/restore", { version }))) return;
   } else if (action === "new-thread") {
     const created = await api("POST", "/api/items", { content_md: "", kind: "thread" });
     if (created) location.href = "${studioPath(mount)}/edit/" + created.id;
@@ -331,6 +471,12 @@ document.addEventListener("click", async (e) => {
     return;
   }
   location.reload();
+});
+document.addEventListener("click", (e) => {
+  if (e.target && e.target.id === "h-viewer-close") {
+    document.getElementById("h-viewer").hidden = true;
+    document.querySelectorAll(".h-row.selected").forEach((r) => r.classList.remove("selected"));
+  }
 });
 `;
 }
@@ -512,6 +658,28 @@ studio.post("/preview-thread", async (c) => {
 });
 
 /** Studio-only fragment search for the thread editor's `![[` palette. */
+/**
+ * Read one past version for the editor's history viewer. Studio-only: the
+ * stored `content_html` of any version, pinned or not — unlike the public
+ * `items/{id}/vN.json` surface, which serves pinned versions only (§2.8).
+ * Reading history locally is not the same act as promising it publicly.
+ */
+studio.get("/versions/:id/:v", async (c) => {
+  const item = await getItem(c.env.DB, c.req.param("id"));
+  if (!item) return c.json({ error: "not found" }, 404);
+  const version = Number(c.req.param("v"));
+  if (!Number.isInteger(version)) return c.json({ error: "bad version" }, 400);
+  const row = await getVersion(c.env.DB, item.id, version);
+  if (!row) return c.json({ error: "version not found" }, 404);
+  return c.json({
+    version: row.version,
+    published_at: formatDate(row.published_at),
+    note: row.note,
+    pinned: row.pinned === 1,
+    content_html: row.content_html ?? "",
+  });
+});
+
 studio.get("/fragments/search", async (c) => {
   const q = (c.req.query("q") ?? "").toLowerCase();
   const items = await listAll(c.env.DB);
@@ -520,7 +688,9 @@ studio.get("/fragments/search", async (c) => {
     if (item.kind !== "fragment" || item.status !== "public") continue;
     const latest = await publishedVersion(c.env.DB, item);
     if (!latest) continue;
-    const excerpt = excerptOf(latest.content_md, 70);
+    // From rendered HTML, not markdown source — the picker showed literal
+    // "#"/"*" markers otherwise, same bug class as the index rows.
+    const excerpt = clampText(plainTextFromHtml(latest.content_html ?? ""), 70) || excerptOf(latest.content_md, 70);
     if (q && !excerpt.toLowerCase().includes(q) && !item.id.includes(q)) continue;
     results.push({ id: item.id, excerpt, version: item.version, updated: item.updated });
   }
@@ -542,19 +712,6 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
   const versions = await listVersions(db, item.id);
   const tk = annotateTkPreview(item.content_md);
   const previewHtml = tk.finish(renderMarkdown(tk.text));
-  const changelogHtml = versions
-    .slice()
-    .reverse()
-    .map((v) => {
-      const noteText = v.note ? ` &middot; &ldquo;${escapeHtml(v.note)}&rdquo;` : "";
-      const pinAction = v.content_md
-        ? v.pinned === 1
-          ? "📌 pinned"
-          : `<button type="button" data-action="pin" data-id="${item.id}" data-version="${v.version}">pin&hellip;</button>`
-        : "";
-      return `<li>v${v.version} &middot; ${v.published_at}${noteText} &middot; ${pinAction}</li>`;
-    })
-    .join("\n");
   const mediaHtml = media.length
     ? `<p style="font-size:0.85rem;opacity:0.7;">attached: ${media.map((m) => escapeHtml(m.r2_key)).join(", ")}</p>`
     : "";
@@ -599,12 +756,7 @@ ${mediaHtml}
   ${withdrawBtn}
 </span>
 </div>
-<div class="changelog">
-<h2>changelog</h2>
-<ul>
-${changelogHtml || "<li>not yet published</li>"}
-</ul>
-</div>
+${historyPanel(item, versions, mount)}
 <script>${actionScript(mount)}</script>
 <script>
 const id = ${JSON.stringify(item.id)};
@@ -682,19 +834,6 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
   const tk = annotateTkPreview(item.content_md);
   const preview = await previewTransclusions(db, tk.text);
   const previewHtml = tk.finish(preview.html);
-  const changelogHtml = versions
-    .slice()
-    .reverse()
-    .map((v) => {
-      const noteText = v.note ? ` &middot; &ldquo;${escapeHtml(v.note)}&rdquo;` : "";
-      const pinAction = v.content_md
-        ? v.pinned === 1
-          ? "📌 pinned"
-          : `<button type="button" data-action="pin" data-id="${item.id}" data-version="${v.version}">pin&hellip;</button>`
-        : "";
-      return `<li>v${v.version} &middot; ${v.published_at}${noteText} &middot; ${pinAction}</li>`;
-    })
-    .join("\n");
   const mediaHtml = media.length
     ? `<p style="font-size:0.85rem;opacity:0.7;">attached: ${media.map((m) => escapeHtml(m.r2_key)).join(", ")}</p>`
     : "";
@@ -740,12 +879,7 @@ ${mediaHtml}
 <span><button type="button" id="attach-btn">attach image</button></span>
 <span><button type="button" id="save-draft-btn">save draft</button> <button type="button" class="primary" id="publish-btn">${publishLabel}</button> ${withdrawBtn}</span>
 </div>
-<div class="changelog">
-<h2>changelog</h2>
-<ul>
-${changelogHtml || "<li>not yet published</li>"}
-</ul>
-</div>
+${historyPanel(item, versions, mount)}
 <script>${actionScript(mount)}</script>
 <script>
 const id = ${JSON.stringify(item.id)};

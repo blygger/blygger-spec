@@ -220,6 +220,36 @@ export async function discardDraft(db: D1Database, item: ItemRow): Promise<void>
   ]);
 }
 
+/** Thrown by restoreVersion() when the target version can't serve as a working copy. */
+export class RestoreVersionError extends Error {}
+
+/**
+ * Load a past version's content back into the working copy as an unpublished
+ * draft (studio furniture — decision #3). **Forward-only:** this does not
+ * rewind anything. The restored text becomes the working copy, which the
+ * author then publishes as v(current+1), so the version counter keeps its
+ * strict +1 discipline (decision #19) and no subscriber ever sees a version
+ * number go backwards (importer invariant #18b, which would read a regression
+ * as a suspected history rewrite).
+ *
+ * `tk_provenance_json` is cleared, not carried: published `content_md` is
+ * TK-stripped (publish() writes the bare output), so a restored copy has zero
+ * scopes, and the provenance cache is positionally aligned to scope order —
+ * keeping it would misattribute generation records to scopes that no longer
+ * exist.
+ */
+export async function restoreVersion(db: D1Database, item: ItemRow, version: number): Promise<void> {
+  const row = await getVersion(db, item.id, version);
+  if (!row) throw new RestoreVersionError(`item has no version ${version}`);
+  if (!row.content_md) {
+    throw new RestoreVersionError(`v${version} is a withdrawal endcap and has no content to restore`);
+  }
+  await db
+    .prepare("UPDATE items SET content_md = ?, tk_provenance_json = NULL, dirty = 1 WHERE id = ?")
+    .bind(row.content_md, item.id)
+    .run();
+}
+
 /** Irrevocably pin a version (§2.8). Idempotent; never unset. */
 export async function pinVersion(db: D1Database, itemId: string, version: number): Promise<void> {
   await db

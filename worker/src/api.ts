@@ -11,6 +11,8 @@ import {
   pinVersion,
   publish,
   putSettings,
+  RestoreVersionError,
+  restoreVersion,
   saveWorkingCopy,
   TkPublishError,
   TransclusionResolveError,
@@ -116,6 +118,26 @@ api.post("/items/:id/pin", async (c) => {
   const already = row.pinned === 1;
   if (!already) await pinVersion(c.env.DB, item.id, body.version);
   return c.json({ ok: true, version: body.version, already });
+});
+
+/**
+ * Restore a past version into the working copy (studio furniture). Nothing is
+ * published here and no version number moves: the author reviews the restored
+ * draft and publishes it as the next version, forward-only. See
+ * model.restoreVersion().
+ */
+api.post("/items/:id/restore", async (c) => {
+  const item = await getItem(c.env.DB, c.req.param("id"));
+  if (!item) return c.json({ error: "not found" }, 404);
+  const body = await c.req.json<{ version?: number }>().catch(() => ({}) as { version?: number });
+  if (typeof body.version !== "number") return c.json({ error: "version required" }, 400);
+  try {
+    await restoreVersion(c.env.DB, item, body.version);
+  } catch (err) {
+    if (err instanceof RestoreVersionError) return c.json({ error: err.message }, 409);
+    throw err;
+  }
+  return c.json({ ok: true, restored: body.version, publishesAs: item.version + 1 });
 });
 
 api.delete("/items/:id", async (c) => {
