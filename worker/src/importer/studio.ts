@@ -143,7 +143,7 @@ export const importerStudio = new Hono<{ Bindings: Env }>({ strict: false });
 importerStudio.get("/subs", async (c) => {
   const subs = await listSubscriptions(c.env.DB);
   const mount = normalizeMount(c.env.MOUNT);
-  const body = `${studioHeader("blyg studio — subscriptions", mount)}
+  const body = `${studioHeader("blyg studio — subscriptions", mount, "subs")}
 <style>${SUBS_STYLE}</style>
 <div class="add-sub">
 <form id="add-sub-form">
@@ -168,10 +168,15 @@ const READING_STYLE = `
 .reading-entry .entry-title { margin: 0.25rem 0 0.15rem; font-size: 1.02rem; font-weight: 600; line-height: 1.35; }
 .reading-entry .entry-title a { text-decoration: none; }
 .reading-entry .entry-title a:hover { text-decoration: underline; }
+.reading-entry .entry-title, .reading-entry .content { max-width: 72ch; }
 .reading-entry .content { margin-top: 0.4rem; }
 .reading-entry .content img { max-width: 100%; }
 .reading-entry .content > :first-child { margin-top: 0; }
 .reading-entry .content > :last-child { margin-bottom: 0; }
+/* An item's own headings shouldn't shout in a feed context — a fragment
+   starting with an h1 otherwise renders at full display size in the list. */
+.reading-entry .content :is(h1,h2,h3,h4,h5,h6) { font-size: 1rem; font-weight: 600; margin: 0.45rem 0 0.2rem; line-height: 1.35; }
+.reading-entry .content blockquote { margin: 0.5rem 0; padding-left: 0.8rem; border-left: 2px solid rgba(128,128,128,0.4); }
 /* Clamp by line count, not by cutting markup — see readingEntryHtml. */
 .reading-entry .content.clamped { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 .reading-entry .expand-btn { font-size: 0.78rem; opacity: 0.7; margin-top: 0.2rem; }
@@ -334,7 +339,7 @@ importerStudio.get("/reading", async (c) => {
 <span>${page < pages ? `<a href="${href(page + 1)}">older &rarr;</a>` : ""}</span>
 </nav>`
       : "";
-  const body = `${studioHeader("blyg studio — reading", mount)}
+  const body = `${studioHeader("blyg studio — reading", mount, "reading")}
 <style>${READING_STYLE}</style>
 ${rows.length ? rows.join("\n") : "<p>Nothing to read yet — publish something, or subscribe to a blyg or feed.</p>"}
 ${pager}
@@ -401,7 +406,7 @@ importerStudio.get("/hoppers", async (c) => {
 </div>`;
     }),
   );
-  const body = `${studioHeader("blyg studio — hoppers", mount)}
+  const body = `${studioHeader("blyg studio — hoppers", mount, "hoppers")}
 <style>${HOPPERS_STYLE}</style>
 <form id="new-hopper-form" style="margin-bottom:1rem;">
 <input type="text" id="new-hopper-name" placeholder="new hopper name" required>
@@ -435,7 +440,7 @@ importerStudio.get("/hoppers/:id", async (c) => {
 <div class="entry-actions"><button type="button" data-action="remove-hopper-item" data-hopper="${hopper.id}" data-sub="${m.subscription_id}" data-remote="${m.remote_id}">remove from hopper</button></div>
 </div>`);
   }
-  const body = `${studioHeader(`blyg studio — ${hopper.name}`, mount)}
+  const body = `${studioHeader(`blyg studio — ${hopper.name}`, mount, "hoppers")}
 <style>${READING_STYLE}</style>
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}/hoppers">← hoppers</a></nav>
 <p style="opacity:0.7;font-size:0.85rem;">${hopper.public ? `Public at ${mount}/h/${escapeHtml(hopper.slug ?? "")}/` : "Not public — toggle from the hoppers list."}</p>

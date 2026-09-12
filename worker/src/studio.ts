@@ -50,17 +50,33 @@ function annotateTkPreview(contentMd: string): { scopes: TkScope[]; text: string
 export const STUDIO_STYLE = `
 :root { color-scheme: light dark; }
 * { box-sizing: border-box; }
+/* Reserve the scrollbar track always: without it, a short page (settings) and
+   a long one (reading) render at different widths and the whole layout jumps
+   sideways on navigation. */
+html { scrollbar-gutter: stable; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.55;
-  max-width: 65ch;
+  /* One width for every studio page — see studioLayout(). */
+  max-width: 100ch;
   margin: 0 auto;
   padding: 1.5rem 1rem 4rem;
 }
-body.wide { max-width: 110ch; }
-header.studio { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+/* Readable measure for text-heavy sections, without shrinking the page frame. */
+.prose { max-width: 68ch; }
+header.studio { margin-bottom: 1.25rem; border-bottom: 1px solid rgba(128,128,128,0.3); }
+header.studio .studio-title { display: flex; align-items: baseline; min-height: 1.9rem; }
 header.studio h1 { font-size: 1.2rem; margin: 0; }
-header.studio nav a, header.studio nav button.link { margin-left: 0.75rem; font-size: 0.9rem; }
+header.studio nav {
+  display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap;
+  /* Fixed row height so a wrapping or longer title never shifts the links. */
+  min-height: 2.4rem; font-size: 0.9rem;
+}
+header.studio nav .nav-spacer { flex: 1; }
+header.studio nav form { display: inline; margin: 0; }
+header.studio nav a { text-decoration: none; padding-bottom: 0.15rem; border-bottom: 2px solid transparent; }
+header.studio nav a:hover { border-bottom-color: rgba(128,128,128,0.5); }
+header.studio nav a.current { font-weight: 600; border-bottom-color: currentColor; }
 button.link { background: none; border: none; padding: 0; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }
 .composer { border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; }
 .composer textarea { width: 100%; min-height: 5.5rem; border: none; resize: vertical; font: inherit; background: transparent; outline: none; }
@@ -153,7 +169,12 @@ input.note { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.5rem; border-ra
 .preview span.blyg-tk-gen { padding: 0.03rem 0.15rem; }
 `;
 
-export function studioLayout(title: string, body: string, wide = false): string {
+/**
+ * `wide` is retained as a no-op parameter: every studio page now renders at
+ * one width so the chrome never moves between tabs. Text-heavy sections keep
+ * a readable measure via `.prose` instead of by shrinking the whole page.
+ */
+export function studioLayout(title: string, body: string, _wide = false): string {
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -162,24 +183,47 @@ export function studioLayout(title: string, body: string, wide = false): string 
 <title>${escapeHtml(title)}</title>
 <style>${STUDIO_STYLE}</style>
 </head>
-<body${wide ? ' class="wide"' : ""}>
+<body>
 ${body}
 </body>
 </html>
 `;
 }
 
-export function studioHeader(title: string, mount: string): string {
+/** Nav sections, in order. `compose` is the studio index — the way back from every other tab. */
+const NAV: { key: StudioSection; label: string; path: (mount: string) => string }[] = [
+  { key: "compose", label: "compose", path: (m) => studioPath(m) },
+  { key: "subs", label: "subscriptions", path: (m) => `${studioPath(m)}/subs` },
+  { key: "reading", label: "reading", path: (m) => `${studioPath(m)}/reading` },
+  { key: "hoppers", label: "hoppers", path: (m) => `${studioPath(m)}/hoppers` },
+  { key: "settings", label: "settings", path: (m) => `${studioPath(m)}/settings` },
+  { key: "syntax", label: "syntax", path: (m) => `${studioPath(m)}/syntax` },
+];
+
+export type StudioSection = "compose" | "subs" | "reading" | "hoppers" | "settings" | "syntax" | null;
+
+/**
+ * Studio chrome. The nav sits on its own row at a fixed height and every page
+ * renders at one width (see STUDIO_STYLE), so the links stay in exactly the
+ * same place as you move between tabs — previously the title row and nav
+ * shared a line, and pages alternated between a 65ch and a 110ch body, so
+ * every navigation shifted the links sideways.
+ *
+ * `current` marks the active section; editor pages pass null (they are reached
+ * from compose, and highlighting "compose" there would be a lie).
+ */
+export function studioHeader(title: string, mount: string, current: StudioSection = null): string {
+  const links = NAV.map(
+    (n) =>
+      `<a href="${n.path(mount)}"${n.key === current ? ' class="current" aria-current="page"' : ""}>${n.label}</a>`,
+  ).join("\n");
   return `<header class="studio">
-<h1>${escapeHtml(title)}</h1>
+<div class="studio-title"><h1>${escapeHtml(title)}</h1></div>
 <nav>
-<a href="${mount}/">public page ↗</a>
-<a href="${studioPath(mount)}/subs">subscriptions</a>
-<a href="${studioPath(mount)}/reading">reading</a>
-<a href="${studioPath(mount)}/hoppers">hoppers</a>
-<a href="${studioPath(mount)}/settings">settings</a>
-<a href="${studioPath(mount)}/syntax">syntax</a>
-<form method="post" action="${studioPath(mount)}/logout" style="display:inline"><button type="submit" class="link">log out</button></form>
+${links}
+<span class="nav-spacer"></span>
+<a href="${mount}/" target="_blank">public page ↗</a>
+<form method="post" action="${studioPath(mount)}/logout"><button type="submit" class="link">log out</button></form>
 </nav>
 </header>`;
 }
@@ -538,7 +582,7 @@ studio.get("/", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
   const items = await listAll(c.env.DB);
   const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item, mount)));
-  const body = `${studioHeader("blyg studio", mount)}
+  const body = `${studioHeader("blyg studio", mount, "compose")}
 <div class="composer">
 <p class="compose-help">Markdown supported. Write <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text — generate it from the editor after saving. <a href="${studioPath(mount)}/syntax">full syntax reference</a></p>
 <textarea id="composer-text" placeholder="compose a fragment…"></textarea>
@@ -559,9 +603,8 @@ studio.get("/settings", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
   const settings = await getSettings(c.env.DB);
   const linksText = settings.author_links.map((l) => `${l.label} | ${l.url}`).join("\n");
-  const body = `${studioHeader("blyg studio — settings", mount)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← studio</a></nav>
-<form class="settings-form" id="settings-form">
+  const body = `${studioHeader("blyg studio — settings", mount, "settings")}
+<form class="settings-form prose" id="settings-form">
 <label for="site_title">Site title</label>
 <input id="site_title" name="site_title" value="${escapeHtml(settings.site_title)}">
 <label for="author_name">Author name</label>
@@ -604,8 +647,8 @@ document.getElementById("settings-form").addEventListener("submit", async (e) =>
 /** Syntax cheat sheet — studio furniture, not a protocol surface. Linked from the nav and from both composers' compose-help hints. */
 studio.get("/syntax", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
-  const body = `${studioHeader("blyg studio — syntax", mount)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← studio</a></nav>
+  const body = `${studioHeader("blyg studio — syntax", mount, "syntax")}
+<div class="prose">
 <p>Standard markdown always works (paragraphs, headings, lists, links, emphasis, code). Everything below is studio-private authoring syntax — none of it reaches the wire except where noted.</p>
 
 <h2>Fragment transclusion — <code>![[id]]</code></h2>
@@ -632,7 +675,8 @@ studio.get("/syntax", async (c) => {
 <li>Same id rule as transclusion: must resolve to one of your own published fragments.</li>
 <li>Works in fragment scopes too, even though a fragment can't do a plain transclusion outside a scope.</li>
 <li>A TK scope can't also contain a plain transclusion — keep the two apart rather than nesting them.</li>
-</ul>`;
+</ul>
+</div>`;
   return c.html(studioLayout("syntax — blyg studio", body));
 });
 
@@ -723,7 +767,7 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
   const body = `${studioHeader(`blyg studio — editing ${escapeHtml(item.id.slice(0, 8))}…`, mount)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← studio</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← compose</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
 <div class="split">
 <div class="pane">
@@ -845,7 +889,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
   const body = `${studioHeader("blyg studio — editing thread", mount)}
-<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← studio</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← compose</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
 <div class="panes">
 <div class="pane" style="position:relative;">
