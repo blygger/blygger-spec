@@ -214,6 +214,25 @@ public and then taken private, which incidentally confirms the session-18 `slug_
 working on real data: it still reports its frozen ex-URL. So (b) needed surface verification,
 not more curation.
 
+**Testing-pass item (d) closed — by auditing the nodes instead of re-asking Venkat.** Venkat
+pushed back on the repeated framing that he had not yet authored "something real" with TK. He
+was right, and the framing was mine to fix: session 16's note ("an agent-picked instruction on
+an already-existing draft, not Venkat's own authored content") was true when written and got
+repeated for two sessions after it stopped being true. Enumerating every published item on both
+nodes settles it: TK generation in a **fragment** (venkateshrao `5w1fd72f…`, `claude-opus-5`,
+2026-09-11); TK generation in a **thread with two scopes** (PI `5zq1kdfptt…`, both generated
+2026-09-12, ~4h before this session); **`![[id]]` source refs inside TK scopes** on both of
+those scopes — `sources: [{id, version}]` alongside `transclusions: []`, which is the
+decision-#20 quote-vs-source rule exercised on real authored prose, and the subtlest thing in
+the grammar; and **verbatim transclusion** of two fragments in a thread (venkateshrao
+`1vgtgz0g…`). The authoring already produced a locked design change — the session-16 balanced
+grammar respelling came out of Venkat reading the parser while using it. Residual, explicitly
+not a gate: no single *authored* item yet combines verbatim transclusion with TK generation
+(session 14 covered that combination agent-driven). **The whole v0.2/TK testing pass is now
+closed, which unblocks the ⚠️ FABLE `protocol-v0.2.md` draft.** General lesson: a status note
+about what a *person* has done decays the moment they keep working; verify it against the
+artifact before repeating it.
+
 **Spec republished the same session** (`blygger-org`, latest mode): `sync_spec.py` picked up the
 §8.4 rewrite, full rebuild, deployed, verified on both `blygger.org` and the pages.dev URL.
 Worth recording because it exercised the publishing model's central claim: the **2026-08-10
@@ -224,8 +243,13 @@ at two scales. No new snapshot cut: 0.1 stays DRAFT and living per #21/#23, and 
 snapshot is a deliberate citation act (git tag + immutable URL), Venkat's call, not a
 side effect of a spec edit.
 
-**Open threads:** Testing-pass **(d)**'s fuller authoring pass is now the **only**
-remaining gate before the ⚠️ FABLE `protocol-v0.2.md` draft — (a), (b), and (c) are all closed. The new hopper UI and the freeze rule are
+**Open threads:** **the v0.2/TK testing pass is fully closed — (a), (b), (c), (d) all done — so
+the ⚠️ FABLE `protocol-v0.2.md` draft is unblocked** and is the natural next session (Fable;
+decision #23 makes it a standalone superset of the 0.1 text, after which 0.1 flips to
+SUPERSEDED, and `spec-publishing-plan.md` §6 follows it). Open ergonomic question raised by
+Venkat this session, deliberately not decided: curating a single item requires creating a
+hopper, since publicity is per-list by decision #12 — a default "Links"-style hopper would be
+a studio convention with no protocol implication, but it is a convention call, not a bug. The new hopper UI and the freeze rule are
 untested by a human — worth a look while doing (b), since making a hopper public is exactly
 the action that latches `slug_frozen`. Account-pinning generalization to
 `venkateshrao-cloudflare/` and PI Workers projects still not done (from the session-17
