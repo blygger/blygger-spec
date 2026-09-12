@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 18 — 2026-09-12 — Reading-feed sort fixed (root cause was mis-recorded); hopper rename + UI; respond-to-entry
-**Model:** Opus 5 · **Time:** ~15:20– PT · **Committed:** yes · **Deployed:** — (pending, held for wrap-up)
+**Model:** Opus 5 → Fable 5 (switched at the pinned-page design point, per the model-switch convention) · **Time:** ~15:20–16:40 PT · **Committed:** yes · **Deployed:** both live nodes ×3 (backlog fixes + migration 0006; scrubber replacement; pinned-version pages)
 
 **What & why:** Worked the session-17 studio/subscribe-side backlog, and started the
 testing-pass item (c) convergence clock first so it would ripen during the work.
@@ -144,11 +144,50 @@ item was driven end to end — the endcap page keeps both citations and both `v{
 still 200. Static export is unaffected by construction: it fetches the live routes and writes
 the bytes, so byte-identity cannot drift from a rendering change.
 
-**State after:** four of the five session-17 backlog items closed, the fifth reclassified as
-v0.3 scope; the long-parked public-page scrubber cleanup also done. Both live nodes run this
-code, both on migration 0006. Testing-pass item (c) is closed. 366 tests.
+**Pinned-version HTML pages — decision #24 (Fable ruling; the model switch happened here).**
+Venkat clicked the new pin citations and landed on raw JSON. That was §2.8 behaving as
+specified — and also the *exact trigger* the session-5 ruling reserved: "a pinned-only HTML
+route ... can be added post-v0.1 purely additively if demand appears." The sharper argument
+than surprise: **a pin exists to be cited, and a citation shown to a human wants a page, not a
+JSON file** — JSON-only made pins citable by machines and awkward for people, backwards for an
+authoring medium.
 
-**Open threads:** testing-pass (b)'s hopper half (make an imported item public in a hopper —
+The ruling (spec §8.4 rewritten; decision #24 in CLAUDE.md): a publisher MAY serve
+`f/{id}/v{n}/` and `t/{id}/v{n}/` — the live permalink plus a version segment. Route shape
+deliberately mirrors the permalink rather than sitting at `items/{id}/v{n}/`: `items/` is the
+machine plane, `f/`·`t/` the human plane, and a citation URL you can construct in your head
+from the permalink is the ergonomic point. Rules: gated exactly like the JSON file (404 unless
+pinned, 200 forever once pinned, survives withdrawal — unpinned history stays unreachable in
+every representation, so the session-5 worry about gutting withheld-unless-pinned stays dead);
+content is the version's publish-time `content_html` verbatim (threads get the live thread
+page's provenance injection, from the pinned version's own `transclusions`); presentation adds
+a frozen banner, `rel="canonical"` to the live permalink, and a link to the `v{n}.json` twin —
+human citation and machine citation one hop apart, each pointing at the other. Not a publish
+event: no feed/archive/index membership, no manifest vocabulary; readers MUST NOT require the
+pages. One subtlety worth recording: the **authored kind of the pinned version** picks the
+route (`transclusions !== null`), not `item.kind` — a withdrawn item's kind is `'withdrawn'`
+but its pinned v1 was authored as one or the other, and the same care applied to the live
+page's citation links via a caller-supplied `isThread`.
+
+Pin citations everywhere now link the pages: public version line, studio index chips, studio
+history badge (the studio links were plausibly the exact ones Venkat clicked). The static
+export mirrors each pin as two artifacts; an exported page was byte-compared identical to the
+live route, so invariant 4 extends to pin pages. Root mount covered by a new mount test — the
+PI node runs `MOUNT=""`.
+
+Live-verified after deploy on real data: venkateshrao's two-pin fragment serves both frozen
+pages (v1 shows the original one-line wording, v2 the expanded Knuth text — visibly different
+content, which is the whole point); the 4-version item serves v3 and correctly 404s unpinned
+v1; the PI node's pinned *thread* serves its baked transclusion snapshot at root mount.
+
+**State after:** four of the five session-17 backlog items closed, the fifth reclassified as
+v0.3 scope; the long-parked public-page scrubber cleanup done; pinned-version pages designed,
+specced, built, and live on both nodes. Both nodes on migration 0006. Testing-pass item (c)
+closed. 371 tests.
+
+**Open threads:** the spec §8.4 revision is committed here but `blygger.org/spec/0.1/` has not
+been re-synced — run `blygger-org`'s `sync_spec.py` + deploy next time that repo is touched.
+Testing-pass (b)'s hopper half (make an imported item public in a hopper —
 Venkat's curation call) and (d)'s fuller authoring pass are now the **only** remaining gates
 before the ⚠️ FABLE `protocol-v0.2.md` draft. The new hopper UI and the freeze rule are
 untested by a human — worth a look while doing (b), since making a hopper public is exactly
