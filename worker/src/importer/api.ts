@@ -16,6 +16,7 @@ import {
   getHopperBySlug,
   getSubscription,
   removeHopperItem,
+  renameHopper,
   setBlogrollFlag,
   setHopperPublic,
   setSignal,
@@ -137,22 +138,44 @@ function slugify(name: string): string {
   );
 }
 
+/** Slugify, then disambiguate against every other hopper's slug (`exceptId` lets a rename keep its own). */
+async function uniqueSlug(db: D1Database, name: string, exceptId?: string): Promise<string> {
+  const base = slugify(name);
+  let slug = base;
+  for (let i = 2; ; i++) {
+    const clash = await getHopperBySlug(db, slug);
+    if (!clash || clash.id === exceptId) return slug;
+    slug = `${base}-${i}`;
+  }
+}
+
 importerApi.post("/hoppers", async (c) => {
   const body = await c.req.json<{ name?: string }>().catch(() => ({}) as { name?: string });
   if (typeof body.name !== "string" || !body.name.trim()) return c.json({ error: "name required" }, 400);
-  const base = slugify(body.name.trim());
-  let slug = base;
-  for (let i = 2; await getHopperBySlug(c.env.DB, slug); i++) slug = `${base}-${i}`;
-  const hopper = await createHopper(c.env.DB, body.name.trim(), slug);
+  const hopper = await createHopper(c.env.DB, body.name.trim(), await uniqueSlug(c.env.DB, body.name.trim()));
   return c.json({ id: hopper.id, name: hopper.name, slug: hopper.slug }, 201);
 });
 
 importerApi.put("/hoppers/:id", async (c) => {
   const hopper = await getHopper(c.env.DB, c.req.param("id"));
   if (!hopper) return c.json({ error: "not found" }, 404);
-  const body = await c.req.json<{ public?: boolean }>().catch(() => ({}) as { public?: boolean });
+  const body = await c.req
+    .json<{ public?: boolean; name?: string }>()
+    .catch(() => ({}) as { public?: boolean; name?: string });
+
+  // Rename first: if this request both renames and publishes, the slug should
+  // be derived from the new name and *then* frozen, not frozen at the old one.
+  let slug = hopper.slug;
+  if (typeof body.name === "string") {
+    const name = body.name.trim();
+    if (!name) return c.json({ error: "name must not be empty" }, 400);
+    // A slug that has ever been public is the hopper's permanent address
+    // (migration 0006) — the name moves, the URL does not.
+    slug = hopper.slug_frozen ? hopper.slug : await uniqueSlug(c.env.DB, name, hopper.id);
+    await renameHopper(c.env.DB, hopper.id, name, slug);
+  }
   if (typeof body.public === "boolean") await setHopperPublic(c.env.DB, hopper.id, body.public);
-  return c.json({ ok: true });
+  return c.json({ ok: true, slug, slug_frozen: hopper.slug_frozen === 1 || body.public === true });
 });
 
 importerApi.delete("/hoppers/:id", async (c) => {

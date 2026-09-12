@@ -43,6 +43,9 @@ describe("parseFeed() — §3.2/§7", () => {
       link: "https://a.example/blyg/f/abc123/",
       title: "a title",
       description: "<p>hello</p>",
+      // RFC-822 on the wire, ISO-8601 UTC out (see toIsoUtc) — the raw form is
+      // not comparable as a string against any other feed's date format.
+      pubDate: "2026-08-10T00:00:00Z",
       blyg: { id: "abc123", kind: "fragment", version: 3, itemUrl: "https://a.example/blyg/items/abc123.json" },
     });
   });
@@ -160,6 +163,30 @@ describe("parseFeed() — Atom 1.0 (session 16)", () => {
     if (!result.ok) return;
     expect(result.entries[0].description).toBe("full <b>body</b>");
     expect(result.entries[0].pubDate).toBe("2026-08-11T00:00:00Z");
+  });
+
+  it("normalizes Atom offset dates to UTC", () => {
+    const entry = `  <entry>
+    <id>tag:a.example,2026:9</id>
+    <link href="https://a.example/2026/9/"/>
+    <published>2026-08-09T17:00:00-07:00</published>
+  </entry>`;
+    const result = parseFeed(atomXml(entry));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.entries[0].pubDate).toBe("2026-08-10T00:00:00Z");
+  });
+
+  it("drops an unparseable date rather than passing the raw string through", () => {
+    const entry = `  <entry>
+    <id>tag:a.example,2026:10</id>
+    <link href="https://a.example/2026/10/"/>
+    <published>sometime last week</published>
+  </entry>`;
+    const result = parseFeed(atomXml(entry));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.entries[0].pubDate).toBeUndefined();
   });
 
   it("falls back to the link when there's no rel=alternate and no unmarked link", () => {

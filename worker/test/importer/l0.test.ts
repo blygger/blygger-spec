@@ -94,6 +94,66 @@ describe("pollL0Subscription() — §3.5", () => {
     expect(result.itemsChanged).toBe(1);
   });
 
+  it("stores the feed's RFC-822 pubDate normalized to ISO-8601 UTC", async () => {
+    const sub = await createSubscription(env.DB, { kind: "rss", origin: FEED_URL, feedUrl: FEED_URL, title: "Legacy" });
+    const { fetch } = makeFixtureFetch({
+      [FEED_URL]: { body: legacyFeed(legacyItem({ guid: "post-1", link: "https://blog.example/1", title: "dated", description: "body" })) },
+    });
+    await pollL0Subscription(env.DB, sub, fetch);
+    const items = await listImportedItems(env.DB, sub.id);
+    // Fixture pubDate is "Sat, 10 Aug 2026 00:00:00 GMT".
+    expect(items[0].updated).toBe("2026-08-10T00:00:00Z");
+    expect(items[0].created).toBe("2026-08-10T00:00:00Z");
+  });
+
+  it("heals a legacy-format stored date on re-poll without bumping the version", async () => {
+    // Rows imported before dates were normalized keep their origin's raw
+    // format, and since their content is unchanged the poll loop skips them —
+    // so the repair has to happen on the skip path. It must not look like an
+    // edit: at L0 `version` means "content changed under the same guid".
+    const sub = await createSubscription(env.DB, { kind: "rss", origin: FEED_URL, feedUrl: FEED_URL, title: "Legacy" });
+    const feed = legacyFeed(legacyItem({ guid: "post-1", link: "https://blog.example/1", title: "stable", description: "unchanged" }));
+    const { fetch: fetch1 } = makeFixtureFetch({ [FEED_URL]: { body: feed } });
+    await pollL0Subscription(env.DB, sub, fetch1);
+
+    // Put the row back the way a pre-fix import would have left it.
+    await env.DB.prepare("UPDATE imported_items SET created = ?, updated = ? WHERE subscription_id = ?")
+      .bind("Sat, 10 Aug 2026 00:00:00 GMT", "Sat, 10 Aug 2026 00:00:00 GMT", sub.id)
+      .run();
+
+    const { fetch: fetch2 } = makeFixtureFetch({ [FEED_URL]: { body: feed } });
+    const result = await pollL0Subscription(env.DB, sub, fetch2);
+    expect(result.itemsChanged).toBe(0); // a format repair is not an item change
+    const items = await listImportedItems(env.DB, sub.id);
+    expect(items[0].version).toBe(1);
+    expect(items[0].updated).toBe("2026-08-10T00:00:00Z");
+    expect(items[0].created).toBe("2026-08-10T00:00:00Z");
+  });
+
+  it("does not re-stamp a dateless entry to the poll time on every cycle", async () => {
+    // The entry carries no pubDate, so `updated` is the import moment. That
+    // moment must stay fixed: re-deriving it each poll would sort a dateless
+    // feed by fetch time, which is the drift this normalization exists to end.
+    const sub = await createSubscription(env.DB, { kind: "rss", origin: FEED_URL, feedUrl: FEED_URL, title: "Legacy" });
+    const datelessItem = `    <item>
+      <guid>post-nodate</guid>
+      <link>https://blog.example/nodate</link>
+      <title>no date</title>
+      <description>body</description>
+    </item>`;
+    const feed = legacyFeed(datelessItem);
+    const { fetch: fetch1 } = makeFixtureFetch({ [FEED_URL]: { body: feed } });
+    await pollL0Subscription(env.DB, sub, fetch1);
+    const first = (await listImportedItems(env.DB, sub.id))[0];
+
+    const { fetch: fetch2 } = makeFixtureFetch({ [FEED_URL]: { body: feed } });
+    await pollL0Subscription(env.DB, sub, fetch2);
+    const second = (await listImportedItems(env.DB, sub.id))[0];
+    expect(second.updated).toBe(first.updated);
+    expect(second.created).toBe(first.created);
+    expect(second.version).toBe(1);
+  });
+
   it("304 Not Modified changes nothing", async () => {
     const sub = await createSubscription(env.DB, { kind: "rss", origin: FEED_URL, feedUrl: FEED_URL, title: "Legacy" });
     const { fetch } = makeFixtureFetch({ [FEED_URL]: { status: 304 } });

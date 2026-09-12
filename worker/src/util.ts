@@ -74,6 +74,23 @@ export function rfc822(iso: string): string {
   return new Date(iso).toUTCString();
 }
 
+/**
+ * Normalize a foreign date string to our ISO-8601 UTC form, or undefined if
+ * it is unparseable. Syndicated feeds carry dates in whatever their format
+ * mandates — RSS 2.0 `<pubDate>` is RFC-822 ("Wed, 01 Jul 2026 12:00:00
+ * GMT"), Atom `<published>` is RFC-3339, and offsets are common in both.
+ * Those strings are only *numerically* comparable via Date.parse; compared
+ * as text, RFC-822 sorts by day-of-week name and any two formats sort into
+ * separate clusters. Every foreign date is therefore normalized here, at the
+ * boundary where it enters, so nothing downstream has to know it was foreign.
+ */
+export function toIsoUtc(raw: string | undefined | null): string | undefined {
+  if (!raw) return undefined;
+  const ms = Date.parse(raw);
+  if (!Number.isFinite(ms)) return undefined;
+  return new Date(ms).toISOString().replace(/\.\d{3}Z$/, "Z");
+}
+
 export function escapeHtml(s: string): string {
   return s
     .replace(/&/g, "&amp;")

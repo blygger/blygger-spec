@@ -297,6 +297,25 @@ export async function upsertL0Item(
     .run();
 }
 
+/**
+ * Rewrite an L0 item's `created`/`updated` in place — no version bump, no
+ * `observed_at` bump. Used to heal rows stored before feed dates were
+ * normalized: their content is unchanged (so the poll loop skips them and
+ * they would otherwise keep their origin's raw date format forever), and a
+ * date-format repair is not an edit the subscriber made or we observed.
+ */
+export async function repairL0ItemDates(
+  db: D1Database,
+  subscriptionId: string,
+  remoteId: string,
+  dates: { created: string | null; updated: string | null },
+): Promise<void> {
+  await db
+    .prepare("UPDATE imported_items SET created = ?, updated = ? WHERE subscription_id = ? AND remote_id = ?")
+    .bind(dates.created, dates.updated, subscriptionId, remoteId)
+    .run();
+}
+
 // --- Hoppers (task 10 CRUD lands later; store primitives live here alongside the rest of the D1 access layer) ---
 
 export async function createHopper(db: D1Database, name: string, slug: string | null): Promise<HopperRow> {
@@ -319,7 +338,17 @@ export async function listHoppers(db: D1Database): Promise<HopperRow[]> {
 }
 
 export async function setHopperPublic(db: D1Database, id: string, isPublic: boolean): Promise<void> {
-  await db.prepare("UPDATE hoppers SET public = ? WHERE id = ?").bind(isPublic ? 1 : 0, id).run();
+  // Publishing latches slug_frozen; un-publishing never clears it. Once a
+  // /h/{slug}/ URL has existed, it stays the hopper's address (migration 0006).
+  await db
+    .prepare("UPDATE hoppers SET public = ?, slug_frozen = MAX(slug_frozen, ?) WHERE id = ?")
+    .bind(isPublic ? 1 : 0, isPublic ? 1 : 0, id)
+    .run();
+}
+
+/** Rename a hopper, optionally re-deriving its slug (callers must honour slug_frozen — see the API layer). */
+export async function renameHopper(db: D1Database, id: string, name: string, slug: string | null): Promise<void> {
+  await db.prepare("UPDATE hoppers SET name = ?, slug = ? WHERE id = ?").bind(name, slug, id).run();
 }
 
 export async function deleteHopper(db: D1Database, id: string): Promise<void> {

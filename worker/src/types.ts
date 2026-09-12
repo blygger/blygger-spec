@@ -122,6 +122,8 @@ export interface HopperRow {
   slug: string | null;
   public: number;
   created: string;
+  /** Latches to 1 the first time the hopper is made public — see migration 0006. A frozen slug never re-derives from a rename. */
+  slug_frozen: number;
 }
 
 export interface HopperItemRow {

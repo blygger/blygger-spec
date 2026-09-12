@@ -16,6 +16,12 @@ describe("clampDisplayAt() — §3.6", () => {
     expect(clampDisplayAt(null, "2026-08-05T00:00:00Z")).toBe("2026-08-05T00:00:00Z");
     expect(clampDisplayAt("not a date", "2026-08-05T00:00:00Z")).toBe("2026-08-05T00:00:00Z");
   });
+
+  it("normalizes a foreign-format claimed date rather than passing it through", () => {
+    // RFC-822 in, ISO out — the clamp is where a legacy row's raw date last
+    // has a chance to become comparable before it becomes a displayAt.
+    expect(clampDisplayAt("Wed, 01 Jul 2026 00:00:00 GMT", "2026-08-05T00:00:00Z")).toBe("2026-07-01T00:00:00Z");
+  });
 });
 
 describe("buildReadingFeed() — §3.6", () => {
@@ -65,5 +71,53 @@ describe("buildReadingFeed() — §3.6", () => {
     ];
     const feed = buildReadingFeed([], imported);
     expect(feed[0].withdrawn).toBe(true);
+  });
+});
+
+describe("buildReadingFeed() — foreign date formats (live regression)", () => {
+  /**
+   * Reproduces the order the live venkateshrao reading feed actually showed on
+   * 2026-09-12: Jul 1, Jul 28, Jul 9, Jul 12, Jul 5, May 30, May 23, Jun 20,
+   * Jul 18. That is descending *lexicographic* order on RFC-822 — day-of-week
+   * name first (Wed > Tue > Thu > Sun > Sat), then day-of-month (30 > 23 > 20
+   * > 18) — which is why the feed looked shuffled and clustered by source.
+   */
+  const CONTRAPTIONS = [
+    { label: "Jul 28", raw: "Tue, 28 Jul 2026 00:00:00 GMT" },
+    { label: "Jul 18", raw: "Sat, 18 Jul 2026 00:00:00 GMT" },
+    { label: "Jul 12", raw: "Sun, 12 Jul 2026 00:00:00 GMT" },
+    { label: "Jul 9", raw: "Thu, 09 Jul 2026 00:00:00 GMT" },
+    { label: "Jul 5", raw: "Sun, 05 Jul 2026 00:00:00 GMT" },
+    { label: "Jul 1", raw: "Wed, 01 Jul 2026 00:00:00 GMT" },
+    { label: "Jun 20", raw: "Sat, 20 Jun 2026 00:00:00 GMT" },
+    { label: "May 30", raw: "Sat, 30 May 2026 00:00:00 GMT" },
+    { label: "May 23", raw: "Sat, 23 May 2026 00:00:00 GMT" },
+  ];
+
+  function imported(label: string, updated: string): ImportedEntryInput {
+    return {
+      subscriptionId: "sub-l0", subscriptionTitle: "Contraptions", remoteId: label, kind: "fragment",
+      withdrawn: false, l0: true, updated, observedAt: "2026-09-01T00:00:00Z",
+      contentHtml: `<p>${label}</p>`, pinnedVersionRetained: null,
+    };
+  }
+
+  it("orders rows stored in RFC-822 chronologically, not by day-of-week name", () => {
+    const feed = buildReadingFeed([], CONTRAPTIONS.map((e) => imported(e.label, e.raw)));
+    expect(feed.map((e) => e.imported?.remoteId)).toEqual(
+      ["Jul 28", "Jul 18", "Jul 12", "Jul 9", "Jul 5", "Jul 1", "Jun 20", "May 30", "May 23"],
+    );
+  });
+
+  it("interleaves sources instead of clustering them by date format", () => {
+    // Own entries are ISO, legacy entries RFC-822. Compared as text, every
+    // digit-leading ISO string sorts below every letter-leading RFC-822 one,
+    // so the two sources could never interleave however recent either was.
+    const own: OwnEntryInput[] = [
+      { id: "own-jul-20", kind: "fragment", withdrawn: false, updated: "2026-07-20T00:00:00Z", contentHtml: "<p>own</p>" },
+      { id: "own-jun-01", kind: "fragment", withdrawn: false, updated: "2026-06-01T00:00:00Z", contentHtml: "<p>own</p>" },
+    ];
+    const feed = buildReadingFeed(own, [imported("Jul 28", "Tue, 28 Jul 2026 00:00:00 GMT"), imported("Jul 1", "Wed, 01 Jul 2026 00:00:00 GMT")]);
+    expect(feed.map((e) => e.imported?.remoteId ?? e.own?.id)).toEqual(["Jul 28", "own-jul-20", "Jul 1", "own-jun-01"]);
   });
 });

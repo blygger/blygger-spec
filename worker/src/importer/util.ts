@@ -19,3 +19,45 @@ export async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T) =>
 export function backoffMs(fails: number, baseMs: number, capMs: number): number {
   return Math.min(2 ** fails * baseMs, capMs);
 }
+
+/**
+ * Permalink on the origin for an imported blyg-native item. The remote id *is*
+ * the protocol item id (§2.1), so the origin's own page route reconstructs
+ * exactly. L0 items have no such route — their link is whatever the feed gave,
+ * already embedded in the rendered content — so callers handle those
+ * separately. Shared rather than rebuilt per call site: the public hopper page
+ * and the studio both need it, and two copies of a URL shape drift.
+ */
+export function blygItemUrl(origin: string, kind: string, remoteId: string): string {
+  return `${origin}${kind === "thread" ? "t" : "f"}/${remoteId}/`;
+}
+
+/**
+ * Title and link for the "respond" gesture, from an imported item's stored
+ * HTML. L0 content leads with the anchor l0.ts rendered from "[title](link)";
+ * blyg-native content leads with the author's own markdown heading, if any.
+ */
+export function sourceTitleAndUrl(
+  row: { l0: number; kind: string; remote_id: string; content_html: string },
+  origin: string,
+): { title: string | null; url: string } {
+  if (row.l0) {
+    const m = /<a\s[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/i.exec(row.content_html);
+    if (m) return { title: decodeEntities(stripTags(m[2])).trim() || null, url: m[1] };
+    return { title: null, url: origin };
+  }
+  return { title: null, url: blygItemUrl(origin, row.kind, row.remote_id) };
+}
+
+function stripTags(s: string): string {
+  return s.replace(/<[^>]+>/g, "");
+}
+
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, "&");
+}

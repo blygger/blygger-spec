@@ -6,7 +6,7 @@
 // operate on a subscription created directly via the store.
 import { SELF, env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
-import { createHopper, createSubscription, getSubscription } from "../../src/importer/store.ts";
+import { addHopperItem, createHopper, createSubscription, getHopper, getHopperBySlug, getSubscription, upsertL0Item } from "../../src/importer/store.ts";
 import { apiJson, BASE, login, STUDIO } from "../helpers.ts";
 
 describe("subscription API (§4.2)", () => {
@@ -125,6 +125,63 @@ describe("hopper + signal API routes", () => {
     expect(second.json.slug).toBe("dup-2");
   });
 
+  it("renaming a never-public hopper re-derives its slug", async () => {
+    const cookie = await login();
+    const created = await apiJson(cookie, "POST", "/api/hoppers", { name: "Draft ideas" });
+    expect(created.json.slug).toBe("draft-ideas");
+
+    const renamed = await apiJson(cookie, "PUT", `/api/hoppers/${created.json.id}`, { name: "Protocol reading" });
+    expect(renamed.status).toBe(200);
+    expect(renamed.json.slug).toBe("protocol-reading");
+    expect((await getHopper(env.DB, created.json.id))!.name).toBe("Protocol reading");
+    expect(await getHopperBySlug(env.DB, "draft-ideas")).toBeNull();
+  });
+
+  it("freezes the slug once a hopper has been public, and never thaws it", async () => {
+    // A public hopper's /h/{slug}/ URL is its only address — nothing lists
+    // hoppers, so every visitor came from a link. Renaming moves the name only.
+    const cookie = await login();
+    const created = await apiJson(cookie, "POST", "/api/hoppers", { name: "Good stuff" });
+    await apiJson(cookie, "PUT", `/api/hoppers/${created.json.id}`, { public: true });
+
+    const renamed = await apiJson(cookie, "PUT", `/api/hoppers/${created.json.id}`, { name: "Even better stuff" });
+    expect(renamed.json.slug).toBe("good-stuff");
+    const row = (await getHopper(env.DB, created.json.id))!;
+    expect(row.name).toBe("Even better stuff");
+    expect(row.slug).toBe("good-stuff");
+
+    // Taking it private again does not release the address.
+    await apiJson(cookie, "PUT", `/api/hoppers/${created.json.id}`, { public: false });
+    const afterPrivate = (await getHopper(env.DB, created.json.id))!;
+    expect(afterPrivate.slug_frozen).toBe(1);
+    await apiJson(cookie, "PUT", `/api/hoppers/${created.json.id}`, { name: "Third name" });
+    expect((await getHopper(env.DB, created.json.id))!.slug).toBe("good-stuff");
+  });
+
+  it("a rename that publishes in the same request freezes the NEW slug", async () => {
+    const cookie = await login();
+    const created = await apiJson(cookie, "POST", "/api/hoppers", { name: "Untitled" });
+    const res = await apiJson(cookie, "PUT", `/api/hoppers/${created.json.id}`, { name: "Reading list", public: true });
+    expect(res.json.slug).toBe("reading-list");
+    const row = (await getHopper(env.DB, created.json.id))!;
+    expect(row.slug).toBe("reading-list");
+    expect(row.slug_frozen).toBe(1);
+  });
+
+  it("a rename keeps its own slug instead of colliding with itself", async () => {
+    const cookie = await login();
+    const created = await apiJson(cookie, "POST", "/api/hoppers", { name: "Same" });
+    const renamed = await apiJson(cookie, "PUT", `/api/hoppers/${created.json.id}`, { name: "Same" });
+    expect(renamed.json.slug).toBe("same"); // not "same-2"
+  });
+
+  it("rejects an empty rename and 404s an unknown hopper", async () => {
+    const cookie = await login();
+    const created = await apiJson(cookie, "POST", "/api/hoppers", { name: "Real" });
+    expect((await apiJson(cookie, "PUT", `/api/hoppers/${created.json.id}`, { name: "   " })).status).toBe(400);
+    expect((await apiJson(cookie, "PUT", "/api/hoppers/nope", { name: "x" })).status).toBe(404);
+  });
+
   it("PUT /api/signals sets a thumb; rejects an invalid value", async () => {
     const cookie = await login();
     const sub = await createSubscription(env.DB, { kind: "blyg", origin: "https://e.example/", feedUrl: "https://e.example/feed.xml", title: "E" });
@@ -146,9 +203,95 @@ describe("studio hoppers pages", () => {
     expect(html).toContain("new-hopper-form");
   });
 
+  it("GET /studio/hoppers shows counts, sources, and a peek at the contents", async () => {
+    const cookie = await login();
+    const sub = await createSubscription(env.DB, { kind: "blyg", origin: "https://peek.example/", feedUrl: "https://peek.example/feed.xml", title: "Peek Source" });
+    const hopper = await createHopper(env.DB, "Peeked", "peeked");
+    await upsertL0Item(env.DB, sub.id, "remote-peek", {
+      version: 1, created: "2026-09-01T00:00:00Z", updated: "2026-09-01T00:00:00Z", observedAt: "2026-09-01T00:00:00Z",
+      contentMd: "# A headline\n\nbody text", contentHtml: "<h1>A headline</h1>\n<p>body text</p>", contentHash: "hash-peek",
+    });
+    await addHopperItem(env.DB, hopper.id, sub.id, "remote-peek");
+
+    const html = await (await SELF.fetch(`${BASE}${STUDIO}/hoppers`, { headers: { cookie } })).text();
+    expect(html).toContain("1 item &middot; 1 source");
+    expect(html).toContain("Peek Source");
+    expect(html).toContain("A headline"); // preview comes from rendered HTML, not markdown
+    expect(html).not.toContain("# A headline"); // ...so the "#" never survives
+  });
+
+  it("GET /studio/hoppers/:id offers rename and states the slug promise once public", async () => {
+    const cookie = await login();
+    const hopper = await createHopper(env.DB, "Addressable", "addressable");
+    const before = await (await SELF.fetch(`${BASE}${STUDIO}/hoppers/${hopper.id}`, { headers: { cookie } })).text();
+    expect(before).toContain('data-action="rename-hopper"');
+    expect(before).not.toContain("frozen");
+
+    await apiJson(cookie, "PUT", `/api/hoppers/${hopper.id}`, { public: true });
+    const after = await (await SELF.fetch(`${BASE}${STUDIO}/hoppers/${hopper.id}`, { headers: { cookie } })).text();
+    expect(after).toContain("frozen — renaming keeps this URL");
+    expect(after).toContain("/h/addressable/");
+  });
+
   it("GET /studio/hoppers/:id 404s for an unknown hopper", async () => {
     const cookie = await login();
     const res = await SELF.fetch(`${BASE}${STUDIO}/hoppers/nope`, { headers: { cookie } });
     expect(res.status).toBe(404);
+  });
+});
+
+describe("respond-to-a-reading-entry (composer prefill)", () => {
+  it("prefills a citation line for an L0 entry and copies none of its text", async () => {
+    const cookie = await login();
+    const sub = await createSubscription(env.DB, { kind: "rss", origin: "https://blog.example/feed", feedUrl: "https://blog.example/feed", title: "A Blog" });
+    await upsertL0Item(env.DB, sub.id, "l0-xyz", {
+      version: 1, created: "2026-09-01T00:00:00Z", updated: "2026-09-01T00:00:00Z", observedAt: "2026-09-01T00:00:00Z",
+      contentMd: "[Our Eukaryotic Moment](https://blog.example/p/euk)\n\nsecret body prose",
+      contentHtml: '<p><a href="https://blog.example/p/euk">Our Eukaryotic Moment</a></p>\n<p>secret body prose</p>',
+      contentHash: "hash-l0",
+    });
+
+    const html = await (await SELF.fetch(`${BASE}${STUDIO}/?respond=${sub.id}:l0-xyz`, { headers: { cookie } })).text();
+    const textarea = /<textarea id="composer-text"[^>]*>([\s\S]*?)<\/textarea>/.exec(html);
+    expect(textarea).not.toBeNull();
+    expect(textarea![1]).toBe("[Our Eukaryotic Moment](https://blog.example/p/euk)\n\n");
+    // Decision #12: the author's own fragment, never a repost.
+    expect(html).not.toContain("secret body prose");
+    expect(html).toContain("Nothing of theirs is republished");
+  });
+
+  it("prefills the origin permalink for a blyg-native entry", async () => {
+    const cookie = await login();
+    const sub = await createSubscription(env.DB, { kind: "blyg", origin: "https://friend.example/blyg/", feedUrl: "https://friend.example/blyg/feed.xml", title: "Friend" });
+    await upsertL0Item(env.DB, sub.id, "abc123", {
+      version: 1, created: "2026-09-01T00:00:00Z", updated: "2026-09-01T00:00:00Z", observedAt: "2026-09-01T00:00:00Z",
+      contentMd: "hi", contentHtml: "<p>hi</p>", contentHash: "hash-blyg",
+    });
+    await env.DB.prepare("UPDATE imported_items SET l0 = 0 WHERE subscription_id = ? AND remote_id = ?").bind(sub.id, "abc123").run();
+
+    const html = await (await SELF.fetch(`${BASE}${STUDIO}/?respond=${sub.id}:abc123`, { headers: { cookie } })).text();
+    const textarea = /<textarea id="composer-text"[^>]*>([\s\S]*?)<\/textarea>/.exec(html);
+    expect(textarea![1]).toBe("[Friend](https://friend.example/blyg/f/abc123/)\n\n");
+  });
+
+  it("renders an ordinary empty composer for a missing or malformed respond target", async () => {
+    const cookie = await login();
+    for (const q of ["", "?respond=", "?respond=nope", "?respond=nosub:noremote"]) {
+      const html = await (await SELF.fetch(`${BASE}${STUDIO}/${q}`, { headers: { cookie } })).text();
+      const textarea = /<textarea id="composer-text"[^>]*>([\s\S]*?)<\/textarea>/.exec(html);
+      expect(textarea![1]).toBe("");
+      expect(html).not.toContain("Nothing of theirs is republished");
+    }
+  });
+
+  it("the reading feed offers a respond link on imported entries", async () => {
+    const cookie = await login();
+    const sub = await createSubscription(env.DB, { kind: "rss", origin: "https://r.example/feed", feedUrl: "https://r.example/feed", title: "R" });
+    await upsertL0Item(env.DB, sub.id, "l0-r", {
+      version: 1, created: "2026-09-01T00:00:00Z", updated: "2026-09-01T00:00:00Z", observedAt: "2026-09-01T00:00:00Z",
+      contentMd: "x", contentHtml: "<p>x</p>", contentHash: "hash-r",
+    });
+    const html = await (await SELF.fetch(`${BASE}${STUDIO}/reading`, { headers: { cookie } })).text();
+    expect(html).toContain(`respond=${sub.id}:l0-r`);
   });
 });

@@ -17,6 +17,8 @@ import { extractDirectives, previewTransclusions } from "./transclusion.ts";
 import type { Env, ItemRow, Transclusion, VersionRow } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
 import { escapeHtml, normalizeMount, studioPath } from "./util.ts";
+import { getImportedItem, getSubscription } from "./importer/store.ts";
+import { sourceTitleAndUrl } from "./importer/util.ts";
 
 /**
  * Studio-only scope summary for the Generate/Regenerate panel (task 6) — not
@@ -535,6 +537,13 @@ function updateCount() {
   composerCount.classList.toggle("over", n > ${FRAGMENT_MAX_CHARS});
 }
 composerText.addEventListener("input", updateCount);
+// A "respond" prefill arrives in the markup, so seed the counter from it and
+// put the caret after the citation line, where the author's own words go.
+updateCount();
+if (composerText.value) {
+  composerText.focus();
+  composerText.setSelectionRange(composerText.value.length, composerText.value.length);
+}
 updateCount();
 document.getElementById("save-draft-btn").addEventListener("click", async () => {
   const created = await api("POST", "/api/items", { content_md: composerText.value });
@@ -578,14 +587,38 @@ studio.post("/logout", (c) => {
   return c.redirect(studioPath(mount) + "/login");
 });
 
+/**
+ * Prefill for the composer when the reading feed sent us here with
+ * `?respond=<subId>:<remoteId>`. Decision #12: an imported item is never
+ * re-emitted on our feed, so responding produces the author's *own* fragment.
+ * The prefill is therefore a citation line and nothing else — a link to the
+ * source, a blank line, and an empty stage for the author's words. None of
+ * the imported item's text is copied in.
+ */
+async function respondPrefill(db: D1Database, raw: string | undefined): Promise<string> {
+  if (!raw) return "";
+  const sep = raw.indexOf(":");
+  if (sep < 1) return "";
+  const [subId, remoteId] = [raw.slice(0, sep), raw.slice(sep + 1)];
+  const sub = await getSubscription(db, subId);
+  if (!sub) return "";
+  const row = await getImportedItem(db, subId, remoteId);
+  if (!row) return "";
+  const { title, url } = sourceTitleAndUrl(row, sub.origin);
+  const label = title || sub.title || sub.origin;
+  return `[${label.replace(/[[\]]/g, "")}](${url})\n\n`;
+}
+
 studio.get("/", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
   const items = await listAll(c.env.DB);
   const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item, mount)));
+  const prefill = await respondPrefill(c.env.DB, c.req.query("respond"));
   const body = `${studioHeader("blyg studio", mount, "compose")}
 <div class="composer">
 <p class="compose-help">Markdown supported. Write <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text — generate it from the editor after saving. <a href="${studioPath(mount)}/syntax">full syntax reference</a></p>
-<textarea id="composer-text" placeholder="compose a fragment…"></textarea>
+${prefill ? `<p class="compose-help">Responding to a post in your reading feed — this is your own fragment, citing it. Nothing of theirs is republished.</p>` : ""}
+<textarea id="composer-text" placeholder="compose a fragment…">${escapeHtml(prefill)}</textarea>
 <div class="bar">
   <span><button type="button" id="composer-attach">attach image</button></span>
   <span class="count" id="composer-count">0 / ${FRAGMENT_MAX_CHARS}</span>

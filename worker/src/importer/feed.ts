@@ -20,6 +20,8 @@
 
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 
+import { toIsoUtc } from "../util.ts";
+
 export interface ParsedFeedEntry {
   /** RSS `<guid>` or Atom `<id>`. */
   guid?: string;
@@ -28,7 +30,12 @@ export interface ParsedFeedEntry {
   title?: string;
   /** Raw description HTML — RSS `<description>`, or Atom `<content>`/`<summary>`; already CDATA-unwrapped by the XML parser. */
   description?: string;
-  /** RSS `<pubDate>`, or Atom `<published>`/`<updated>`. */
+  /**
+   * RSS `<pubDate>`, or Atom `<published>`/`<updated>`, normalized to ISO-8601
+   * UTC (see `toIsoUtc`) — absent when the source omitted it *or* stated it in
+   * a form we cannot parse. Never the origin's raw text: consumers sort and
+   * store this, and the raw forms are not mutually comparable as strings.
+   */
   pubDate?: string;
   /** Present only when the entry carries `blyg:id` (§7) — absent on a plain RSS/L0 entry. */
   blyg?: {
@@ -88,7 +95,7 @@ function parseEntry(raw: unknown): ParsedFeedEntry | null {
     link,
     title: textOf(r.title),
     description: textOf(r.description),
-    pubDate: textOf(r.pubDate),
+    pubDate: toIsoUtc(textOf(r.pubDate)),
     blyg: blygExtension(r),
   };
 }
@@ -127,7 +134,7 @@ function parseAtomEntry(raw: unknown): ParsedFeedEntry | null {
     title: textOf(r.title),
     // `<content>` is the full entry body when present, `<summary>` the fallback.
     description: textOf(r.content) ?? textOf(r.summary),
-    pubDate: textOf(r.published) ?? textOf(r.updated),
+    pubDate: toIsoUtc(textOf(r.published) ?? textOf(r.updated)),
     blyg: blygExtension(r),
   };
 }

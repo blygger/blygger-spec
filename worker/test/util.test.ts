@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { absolutizeHtml, cdata, contentHash, newId, newMediaId, rfc822 } from "../src/util.ts";
+import { absolutizeHtml, cdata, contentHash, newId, newMediaId, rfc822, toIsoUtc } from "../src/util.ts";
 
 describe("ids (§2.1)", () => {
   it("is 26 chars of lowercase Crockford base32", () => {
@@ -50,5 +50,55 @@ describe("feed helpers", () => {
     expect(absolutizeHtml('<a href="/blyg/f/abc/">x</a>', base)).toBe('<a href="https://example.com/blyg/f/abc/">x</a>');
     expect(absolutizeHtml('<a href="https://other.com/a">x</a>', base)).toBe('<a href="https://other.com/a">x</a>');
     expect(absolutizeHtml('<a href="#frag">x</a>', base)).toBe('<a href="#frag">x</a>');
+  });
+});
+
+describe("toIsoUtc() — foreign date normalization", () => {
+  it("normalizes an RSS 2.0 RFC-822 pubDate to ISO-8601 UTC", () => {
+    expect(toIsoUtc("Wed, 01 Jul 2026 12:00:00 GMT")).toBe("2026-07-01T12:00:00Z");
+  });
+
+  it("normalizes an offset date to UTC rather than keeping the offset", () => {
+    expect(toIsoUtc("2026-07-01T12:00:00-07:00")).toBe("2026-07-01T19:00:00Z");
+    expect(toIsoUtc("Wed, 01 Jul 2026 12:00:00 -0700")).toBe("2026-07-01T19:00:00Z");
+  });
+
+  it("leaves an already-normalized date unchanged (idempotent)", () => {
+    expect(toIsoUtc("2026-07-01T12:00:00Z")).toBe("2026-07-01T12:00:00Z");
+    expect(toIsoUtc(toIsoUtc("Wed, 01 Jul 2026 12:00:00 GMT"))).toBe("2026-07-01T12:00:00Z");
+  });
+
+  it("drops sub-second precision, matching nowIso()'s shape", () => {
+    expect(toIsoUtc("2026-07-01T12:00:00.123Z")).toBe("2026-07-01T12:00:00Z");
+  });
+
+  it("returns undefined for absent or unparseable input", () => {
+    expect(toIsoUtc(undefined)).toBeUndefined();
+    expect(toIsoUtc(null)).toBeUndefined();
+    expect(toIsoUtc("")).toBeUndefined();
+    expect(toIsoUtc("last Tuesday")).toBeUndefined();
+  });
+
+  it("makes RFC-822 dates sort chronologically, which as text they do not", () => {
+    // The live reading-feed bug: descending lexicographic order on RFC-822
+    // sorts by day-of-week name first (Wed > Tue > Thu > Sun > Sat).
+    const raw = [
+      "Sun, 05 Jul 2026 00:00:00 GMT",
+      "Wed, 01 Jul 2026 00:00:00 GMT",
+      "Tue, 28 Jul 2026 00:00:00 GMT",
+      "Thu, 09 Jul 2026 00:00:00 GMT",
+    ];
+    expect([...raw].sort().reverse()).toEqual([
+      "Wed, 01 Jul 2026 00:00:00 GMT",
+      "Tue, 28 Jul 2026 00:00:00 GMT",
+      "Thu, 09 Jul 2026 00:00:00 GMT",
+      "Sun, 05 Jul 2026 00:00:00 GMT",
+    ]);
+    expect(raw.map((r) => toIsoUtc(r)).sort().reverse()).toEqual([
+      "2026-07-28T00:00:00Z",
+      "2026-07-09T00:00:00Z",
+      "2026-07-05T00:00:00Z",
+      "2026-07-01T00:00:00Z",
+    ]);
   });
 });

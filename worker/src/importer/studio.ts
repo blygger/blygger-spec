@@ -12,7 +12,7 @@ import { escapeHtml, normalizeMount, studioPath } from "../util.ts";
 import type { ImportedEntryInput, OwnEntryInput, ReadingFeedEntry } from "./reading.ts";
 import { buildReadingFeed } from "./reading.ts";
 import { sanitizeHtml } from "./sanitize.ts";
-import { splitL0Content } from "../preview.ts";
+import { previewFromHtml, splitL0Content } from "../preview.ts";
 import {
   getHopper,
   getImportedItem,
@@ -187,6 +187,7 @@ const READING_STYLE = `
 .entry-actions { margin-top: 0.5rem; display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
 .entry-actions button { font-size: 0.9rem; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.4); background: transparent; cursor: pointer; }
 .entry-actions button.active { border-color: currentColor; background: rgba(128,128,128,0.15); }
+.entry-actions .respond-link { font-size: 0.85rem; text-decoration: none; border-bottom: 1px dotted currentColor; opacity: 0.8; }
 .entry-actions select { font: inherit; font-size: 0.85rem; padding: 0.15rem 0.3rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.4); background: transparent; color: inherit; }
 `;
 
@@ -237,7 +238,7 @@ function thumbButtons(imp: NonNullable<ReadingFeedEntry["imported"]>, thumb: 1 |
 <button type="button" data-action="thumb" data-sub="${imp.subscriptionId}" data-remote="${imp.remoteId}" data-thumb="-1" class="${thumb === -1 ? "active" : ""}">👎</button>`;
 }
 
-async function readingEntryHtml(db: D1Database, e: ReadingFeedEntry, hoppers: HopperRow[]): Promise<string> {
+async function readingEntryHtml(db: D1Database, e: ReadingFeedEntry, hoppers: HopperRow[], mount: string): Promise<string> {
   if (e.withdrawn) {
     const retained = e.imported?.pinnedVersionRetained;
     if (retained === null || retained === undefined) {
@@ -256,7 +257,12 @@ async function readingEntryHtml(db: D1Database, e: ReadingFeedEntry, hoppers: Ho
   let actions = "";
   if (e.imported) {
     const signal = await getSignal(db, e.imported.subscriptionId, e.imported.remoteId);
-    actions = `<div class="entry-actions">${thumbButtons(e.imported, signal ? (signal.thumb as 1 | -1) : null)} ${hopperPicker(e.imported, hoppers)}</div>`;
+    // "respond" opens the composer prefilled with a link to the source and
+    // nothing else. Decision #12 forbids re-emitting an imported item on our
+    // feed, so the gesture has to be the author's own fragment — the link is
+    // the citation, the words are theirs.
+    const respond = `<a class="respond-link" href="${studioPath(mount)}/?respond=${encodeURIComponent(e.imported.subscriptionId)}:${encodeURIComponent(e.imported.remoteId)}">respond ↗</a>`;
+    actions = `<div class="entry-actions">${thumbButtons(e.imported, signal ? (signal.thumb as 1 | -1) : null)} ${hopperPicker(e.imported, hoppers)} ${respond}</div>`;
   }
   // L0 entries lead with a title link (l0.ts renders "[title](link)" as the
   // first paragraph); promote it out of the body so the list is scannable
@@ -329,7 +335,7 @@ importerStudio.get("/reading", async (c) => {
   // Paged: the merged feed grows without bound as subscriptions accumulate,
   // and every entry renders its full (clamped) content.
   const { page, pages, start } = readingPage(c.req.query("page"), feed.length);
-  const rows = await Promise.all(feed.slice(start, start + READING_PAGE_SIZE).map((e) => readingEntryHtml(c.env.DB, e, hoppers)));
+  const rows = await Promise.all(feed.slice(start, start + READING_PAGE_SIZE).map((e) => readingEntryHtml(c.env.DB, e, hoppers, mount)));
   const href = (p: number) => `${studioPath(mount)}/reading?page=${p}`;
   const pager =
     pages > 1
@@ -350,10 +356,60 @@ ${pager}
 // --- Hoppers (task 10, §3.4) ---
 
 const HOPPERS_STYLE = `
-.hopper-row { border-top: 1px solid rgba(128,128,128,0.3); padding: 0.75rem 0; display: flex; justify-content: space-between; align-items: center; }
-.hopper-row .hopper-meta { font-size: 0.85rem; opacity: 0.7; }
-.hopper-row .actions { display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
+.hopper-row { border-top: 1px solid rgba(128,128,128,0.3); padding: 0.85rem 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.hopper-row .hopper-main { min-width: 0; flex: 1; }
+.hopper-row .hopper-meta { font-size: 0.85rem; opacity: 0.7; margin: 0.15rem 0 0; }
+.hopper-row .hopper-url { font-size: 0.85rem; margin: 0.15rem 0 0; }
+.hopper-row .actions { display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; flex-shrink: 0; }
+.hopper-row .peek { margin: 0.45rem 0 0; padding: 0; list-style: none; font-size: 0.85rem; }
+.hopper-row .peek li { opacity: 0.8; padding: 0.1rem 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hopper-row .peek li .peek-title { font-weight: 600; }
+.hopper-row .peek li .peek-src { opacity: 0.65; }
+.hopper-row .peek .peek-more { opacity: 0.55; font-style: italic; }
+.hopper-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+.hopper-head .hopper-url, .hopper-head .hopper-meta { font-size: 0.85rem; opacity: 0.75; margin: 0.2rem 0 0; }
+.hopper-head .actions { display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
+.rename-form { display: flex; gap: 0.4rem; align-items: center; }
+.rename-form input { font: inherit; font-size: 0.9rem; padding: 0.2rem 0.4rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.4); background: transparent; color: inherit; }
+.slug-note { font-size: 0.8rem; opacity: 0.6; }
 `;
+
+/**
+ * One-line peek at what is in a hopper, for the list page — the same
+ * rendered-HTML-derived preview the index rows use (`previewFromHtml`), never
+ * an excerpt of markdown source. Shows source attribution too, since a
+ * hopper's whole point is that its items come from elsewhere.
+ */
+const HOPPER_PEEK_ROWS = 3;
+
+async function hopperPeek(db: D1Database, hopperId: string, titleOf: Map<string, string>): Promise<string> {
+  const memberships = await listHopperItems(db, hopperId);
+  if (!memberships.length) return "";
+  const lines: string[] = [];
+  for (const m of memberships.slice(0, HOPPER_PEEK_ROWS)) {
+    const row = await getImportedItem(db, m.subscription_id, m.remote_id);
+    if (!row) continue;
+    const src = escapeHtml(titleOf.get(m.subscription_id) ?? m.subscription_id);
+    if (row.state === "tombstone") {
+      lines.push(`<li><span class="peek-src">${src}</span> &middot; <em>withdrawn by origin</em></li>`);
+      continue;
+    }
+    const { title, body } = previewFromHtml(row.content_html, 80);
+    const label = title ? `<span class="peek-title">${escapeHtml(title)}</span>` : escapeHtml(body);
+    lines.push(`<li><span class="peek-src">${src}</span> &middot; ${label}</li>`);
+  }
+  const extra = memberships.length - lines.length;
+  if (extra > 0) lines.push(`<li class="peek-more">+${extra} more</li>`);
+  return `<ul class="peek">${lines.join("")}</ul>`;
+}
+
+/** Public-URL line: the address a public hopper actually lives at, or why it has none yet. */
+function hopperUrlLine(hopper: HopperRow, mount: string): string {
+  if (!hopper.public) {
+    return `<p class="hopper-meta">Not public${hopper.slug_frozen ? ` &middot; was public at <code>${mount}/h/${escapeHtml(hopper.slug ?? "")}/</code>` : ""}</p>`;
+  }
+  return `<p class="hopper-url">Public at <a href="${mount}/h/${escapeHtml(hopper.slug ?? "")}/">${mount}/h/${escapeHtml(hopper.slug ?? "")}/</a></p>`;
+}
 
 function hoppersScript(mount: string): string {
   return `
@@ -384,20 +440,41 @@ document.addEventListener("change", async (e) => {
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ public: e.target.checked }),
   });
+  // Reload: publishing freezes the slug and gives the hopper a public URL,
+  // both of which the page states in prose above.
+  location.reload();
+});
+document.addEventListener("submit", async (e) => {
+  if (e.target.dataset.action !== "rename-hopper") return;
+  e.preventDefault();
+  const name = e.target.elements.name.value.trim();
+  if (!name) return;
+  const res = await fetch("/api/hoppers/" + e.target.dataset.id, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ name: name }),
+  });
+  if (!res.ok) { alert("Rename failed."); return; }
+  location.reload();
 });
 `;
 }
 
 importerStudio.get("/hoppers", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
-  const hoppers = await listHoppers(c.env.DB);
+  const [hoppers, subs] = await Promise.all([listHoppers(c.env.DB), listSubscriptions(c.env.DB)]);
+  const titleOf = new Map(subs.map((sub) => [sub.id, sub.title || sub.origin]));
   const rows = await Promise.all(
     hoppers.map(async (h) => {
       const items = await listHopperItems(c.env.DB, h.id);
+      const sources = new Set(items.map((m) => m.subscription_id)).size;
+      const counts = `${items.length} item${items.length === 1 ? "" : "s"}${sources ? ` &middot; ${sources} source${sources === 1 ? "" : "s"}` : ""}`;
       return `<div class="hopper-row">
-<div>
+<div class="hopper-main">
 <a href="${studioPath(mount)}/hoppers/${h.id}"><strong>${escapeHtml(h.name)}</strong></a>
-<p class="hopper-meta">${items.length} item${items.length === 1 ? "" : "s"} &middot; slug: ${escapeHtml(h.slug ?? "")}</p>
+<p class="hopper-meta">${counts} &middot; slug: <code>${escapeHtml(h.slug ?? "")}</code></p>
+${hopperUrlLine(h, mount)}
+${await hopperPeek(c.env.DB, h.id, titleOf)}
 </div>
 <div class="actions">
 <label><input type="checkbox" data-action="toggle-public" data-id="${h.id}" ${h.public ? "checked" : ""}> public</label>
@@ -421,7 +498,9 @@ importerStudio.get("/hoppers/:id", async (c) => {
   const hopper = await getHopper(c.env.DB, c.req.param("id"));
   if (!hopper) return c.notFound();
   const mount = normalizeMount(c.env.MOUNT);
-  const memberships = await listHopperItems(c.env.DB, hopper.id);
+  const [memberships, subs] = await Promise.all([listHopperItems(c.env.DB, hopper.id), listSubscriptions(c.env.DB)]);
+  const titleOf = new Map(subs.map((sub) => [sub.id, sub.title || sub.origin]));
+  const originOf = new Map(subs.map((sub) => [sub.id, sub.origin]));
   const rows: string[] = [];
   for (const m of memberships) {
     const row = await getImportedItem(c.env.DB, m.subscription_id, m.remote_id);
@@ -434,16 +513,34 @@ importerStudio.get("/hoppers/:id", async (c) => {
       : row.l0
         ? row.content_html
         : await sanitizeHtml(row.content_html);
+    // A hopper item is always someone else's — name the source and link its
+    // origin, the same attribution the public hopper page carries (§4.2).
+    const srcName = escapeHtml(titleOf.get(m.subscription_id) ?? m.subscription_id);
+    const srcOrigin = originOf.get(m.subscription_id);
+    const srcLabel = srcOrigin ? `<a href="${escapeHtml(srcOrigin)}">${srcName}</a>` : srcName;
     rows.push(`<div class="reading-entry">
-<p class="byline"><span class="kind-chip">${row.kind}</span>${row.l0 ? ' <span class="l0-chip">legacy rss</span>' : ""}</p>
+<p class="byline"><span class="kind-chip">${row.kind}</span>${row.l0 ? ' <span class="l0-chip">legacy rss</span>' : ""} ${srcLabel} &middot; added ${formatDate(m.added_at)}</p>
 <div class="content">${content}</div>
 <div class="entry-actions"><button type="button" data-action="remove-hopper-item" data-hopper="${hopper.id}" data-sub="${m.subscription_id}" data-remote="${m.remote_id}">remove from hopper</button></div>
 </div>`);
   }
+  const sources = new Set(memberships.map((m) => m.subscription_id)).size;
   const body = `${studioHeader(`blyg studio — ${hopper.name}`, mount, "hoppers")}
-<style>${READING_STYLE}</style>
+<style>${READING_STYLE}${HOPPERS_STYLE}</style>
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}/hoppers">← hoppers</a></nav>
-<p style="opacity:0.7;font-size:0.85rem;">${hopper.public ? `Public at ${mount}/h/${escapeHtml(hopper.slug ?? "")}/` : "Not public — toggle from the hoppers list."}</p>
+<div class="hopper-head">
+<div>
+<form class="rename-form" data-action="rename-hopper" data-id="${hopper.id}">
+<input type="text" name="name" value="${escapeHtml(hopper.name)}" required>
+<button type="submit">rename</button>
+</form>
+<p class="hopper-meta">${rows.length} item${rows.length === 1 ? "" : "s"}${sources ? ` &middot; ${sources} source${sources === 1 ? "" : "s"}` : ""} &middot; slug: <code>${escapeHtml(hopper.slug ?? "")}</code>${hopper.slug_frozen ? ` <span class="slug-note">(frozen — renaming keeps this URL)</span>` : ""}</p>
+${hopperUrlLine(hopper, mount)}
+</div>
+<div class="actions">
+<label><input type="checkbox" data-action="toggle-public" data-id="${hopper.id}" ${hopper.public ? "checked" : ""}> public</label>
+</div>
+</div>
 ${rows.length ? rows.join("\n") : "<p>Nothing in this hopper yet.</p>"}
 <script>${hoppersScript(mount)}</script>`;
   return c.html(studioLayout(`${hopper.name} — blyg studio`, body, true));

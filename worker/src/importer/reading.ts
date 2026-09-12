@@ -1,6 +1,8 @@
 // Merged reading feed — v0.2-plan.md §3.6 (client policy, not protocol).
 // Pure merge/sort so the clamp is unit-testable without the DB or HTML.
 
+import { toIsoUtc } from "../util.ts";
+
 /**
  * Reverse-chron display time = min(claimed updated, observed_at) — the
  * clamp means a future-dated or badly-skewed origin cannot pin itself to
@@ -8,10 +10,9 @@
  * actually saw it.
  */
 export function clampDisplayAt(claimedUpdated: string | null | undefined, observedAt: string): string {
-  if (!claimedUpdated) return observedAt;
-  const claimed = Date.parse(claimedUpdated);
-  if (!Number.isFinite(claimed)) return observedAt;
-  return claimed < Date.parse(observedAt) ? claimedUpdated : observedAt;
+  const claimed = toIsoUtc(claimedUpdated);
+  if (!claimed) return observedAt;
+  return Date.parse(claimed) < Date.parse(observedAt) ? claimed : observedAt;
 }
 
 export interface OwnEntryInput {
@@ -62,6 +63,12 @@ export function buildReadingFeed(own: OwnEntryInput[], imported: ImportedEntryIn
       imported: i,
     });
   }
-  entries.sort((a, b) => (a.displayAt < b.displayAt ? 1 : a.displayAt > b.displayAt ? -1 : 0));
+  // Sort on parsed instants, not on the strings. `pubDate` is normalized at
+  // the parse boundary now, but rows imported before that are still stored in
+  // their origin's own format, and a lexicographic compare of those sorts by
+  // day-of-week name — which is exactly how this feed came to run Jul 1, Jul
+  // 28, Jul 9, Jul 12, Jul 5 (Wed > Tue > Thu > Sun > Sun). Comparing
+  // instants makes the order correct regardless of what shape reached the DB.
+  entries.sort((a, b) => Date.parse(b.displayAt) - Date.parse(a.displayAt));
   return entries;
 }
