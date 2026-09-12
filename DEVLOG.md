@@ -7,6 +7,123 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 18 — 2026-09-12 — Reading-feed sort fixed (root cause was mis-recorded); hopper rename + UI; respond-to-entry
+**Model:** Opus 5 · **Time:** ~15:20– PT · **Committed:** yes · **Deployed:** — (pending, held for wrap-up)
+
+**What & why:** Worked the session-17 studio/subscribe-side backlog, and started the
+testing-pass item (c) convergence clock first so it would ripen during the work.
+
+**The reading-list sort bug — the recorded root cause was wrong, and finding that mattered.**
+Session 17 logged it as "`l0.ts` never reads the `pubDate` that `feed.ts` parses, so `updated`
+is the import moment and the backfill sorts by fetch time." `l0.ts` line 120 does read it.
+The real cause: feed dates were stored **raw**, and `buildReadingFeed()` compared them **as
+strings**. RSS 2.0 `<pubDate>` is RFC-822, so descending lexicographic order sorts by
+day-of-week *name* first, then day-of-month. That is not a hypothesis — it reproduces the
+live order exactly: the observed Jul 1, Jul 28, Jul 9, Jul 12, Jul 5, May 30, May 30, May 23,
+May 23, Jun 20, Jul 18 is precisely `Wed > Tue > Thu > Sun 12 > Sun 05 > Sat 30 > Sat 30 >
+Sat 23 > Sat 23 > Sat 20 > Sat 18`. It also explains the *clustering by source* that the
+fetch-time theory never did: digit-leading ISO strings and letter-leading RFC-822 strings can
+never interleave, however recent either is. Worth noting the wrong diagnosis was plausible and
+specific — it named a real field and a real call site — which is exactly why it went a whole
+session unchallenged. Checking it against the live rendering took two minutes.
+
+Fixed at three layers rather than one, because they answer different questions. `toIsoUtc()`
+(in `util.ts`) normalizes foreign dates at the `feed.ts` **parse boundary** — that is where a
+foreign format should die, and `ParsedFeedEntry.pubDate` is now documented as normalized, not
+raw. `buildReadingFeed()` sorts on **parsed instants** instead of strings, which heals every
+row already sitting in the two live DBs *without a migration* — the important property, since
+unchanged content means the poll loop skips those rows forever. And `pollL0Subscription()`
+repairs stored dates on that skip path so the data itself converges. Two traps there, both
+caught before shipping: the repair must not bump `version` (at L0 that means "content changed
+under the same guid" and drives the reader's edit signal), and it must let **only a
+feed-stated date** correct `updated` — my first version re-derived from `observedAt`, which
+would have re-stamped every dateless entry to the poll time on each cycle, reintroducing the
+fetch-time drift the whole fix exists to end.
+
+**Hopper rename, and a slug decision.** `PUT /api/hoppers/:id` took only `{public}`; it now
+takes `name`. The open question was whether renaming re-slugs. Decided: **a slug freezes the
+first time the hopper is made public, permanently** (migration 0006, `slug_frozen`, latching —
+un-publishing never clears it). The reasoning is that hoppers have **no discovery surface** —
+no manifest key, no index page, and `export.ts` names slugs explicitly on the command line —
+so `/h/{slug}/` is not one address among several, it is the *only* way anyone reaches a public
+hopper, and every visitor got there from a link the author shared. Re-slugging would break all
+of them silently. This also matches the project's standing posture that published things are
+promises (pins, withdraw-not-delete). A never-public hopper still re-slugs freely, so the
+common "created it as *Untitled*" case gets a good URL; a rename and publish in the same
+request freezes the *new* slug, not the old one.
+
+**Hopper UI** (least-developed studio surface, predating session 17's preview work): list rows
+now carry item + source counts, the live public URL, and a three-item peek built from
+**rendered HTML** via `previewFromHtml` — the session-17 rule, so no markdown markers or `[TK]`
+scopes leak. Detail page gets an inline rename form, the public toggle (previously it told you
+to go back to the list), and per-item source attribution with origin link and added-date.
+
+**Respond-to-a-reading-entry.** Reading entries now carry `respond ↗` → `?respond=<sub>:<remote>`,
+which prefills the composer with a citation line — `[title](url)` and a blank line — and
+**nothing else**. Decision #12 forbids re-emitting an imported item, so the link is the
+citation and the words are the author's; the page states that in prose above the textarea, and
+a test asserts the imported body text never appears in the response. The source URL comes from
+`sourceTitleAndUrl()`: the embedded anchor for L0 (which `l0.ts` itself rendered), the
+constructed origin permalink for blyg-native. That permalink shape was **duplicated** in
+`importer/pages.ts` — extracted to `blygItemUrl()` and shared, rather than writing a second
+copy, which is the exact drift that bit `resolve.ts`/`feed.ts` in session 16 and
+`preview.ts`/`markdown.ts` in session 17. Third instance of the same hazard; it keeps recurring
+because the second copy always looks like one harmless line.
+
+**A TODO that turned out to be mis-scoped, not untested.** "Hopper-based thread generation is
+untested — never exercised end-to-end" describes a feature that **does not exist**.
+`v0.2-plan.md` defers it explicitly: "v0.2 hoppers hold **imported items only**; v0.3 extends
+membership to own items when threads compose from hoppers." `hopper` appears in `src/studio.ts`
+only as a nav entry. Recorded as v0.3 plan scope (it needs the own-items-as-hopper-members
+schema change first) rather than quietly built mid-v0.2.
+
+**Testing-pass item (c) closed — a real cron-convergence cycle, observed.** Published a marked
+fragment on `venkateshrao.com/blyg/` at 22:24:28Z; it appeared in
+`blyg.protocol-institute.org`'s reading feed at **22:49:12Z — ~24m45s, with no manual
+resync**, correctly attributed to "Venkatesh Rao's Blyg". That closes the last
+implementation-independent item of the testing pass. The TODO's "publish, wait 15 min"
+**understated the window**: 15 min is the *cron* interval, but `schedule.ts` makes a
+subscription due only every `POLL_INTERVAL_MS` = 30 min ± 5 min of deterministic per-sub
+jitter, so worst-case convergence is ~45 min — the observed ~25 min sits inside that, and a
+15-minute check would have read as a failure. Corrected in the TODO.
+
+**Verification:** 363 tests (was 338); `tsc` clean. The sort fix was driven against local
+`wrangler dev` subscribed to the **real Contraptions feed** — the one that exhibited the bug —
+and the reading order came back strictly chronological with own and legacy entries
+interleaved. Hopper freeze semantics driven live too: renamed while private (slug moved),
+published (froze), renamed while public (slug held), and the public page still 200s at the
+original slug while the new name's slug 404s. The three reading-sort regression tests were
+checked against the pre-fix code and all three fail there.
+
+**Deployed to both nodes** via `deploy:all -- --migrate` (migration 0006 applied remotely to
+both D1s, accounts pinned, all 5 live checks green per target). Worth recording: the first
+run **halted at the migration preflight** with a Cloudflare `7403 — account not authorized` on
+the personal account's D1 query endpoint. That was **transient** — `wrangler d1 list` against
+the same account succeeded immediately after, and the identical `migrations list` command then
+succeeded too. The protocol behaved correctly by failing closed and deploying *nothing*
+(neither node), rather than proceeding on a partial preflight. Do not "fix" a 7403 here by
+re-authenticating or editing account config before re-running the plain command once; the
+config was correct throughout.
+
+**Live confirmation of the sort fix:** `venkateshrao.com/blyg/studio/reading` now runs
+strictly reverse-chronological with all four sources fully interleaved (own items, blyg
+imports from the PI node, Contraptions, Simon Willison, Interconnected) — the clustering is
+gone. The stored-date repair will heal each L0 row on its next natural poll; the display was
+already correct without it, which was the design intent.
+
+**State after:** four of the five session-17 backlog items closed, the fifth reclassified as
+v0.3 scope. Both live nodes run this code, both on migration 0006. Testing-pass item (c) is
+closed.
+
+**Open threads:** testing-pass (b)'s hopper half (make an imported item public in a hopper —
+Venkat's curation call) and (d)'s fuller authoring pass are now the **only** remaining gates
+before the ⚠️ FABLE `protocol-v0.2.md` draft. The new hopper UI and the freeze rule are
+untested by a human — worth a look while doing (b), since making a hopper public is exactly
+the action that latches `slug_frozen`. Account-pinning generalization to
+`venkateshrao-cloudflare/` and PI Workers projects still not done (from the session-17
+incident). A local-dev subscription to the real Contraptions feed was left in place — useful
+fixture data, since it is the feed whose RFC-822 dates exposed this bug.
+
 ## Session 17 — 2026-09-12 — Blogrolls on both nodes; a deploy protocol (after a wrong-account incident); studio UI made honest
 
 **Model:** Sonnet 5 (blogrolls, syntax page, incident) → Opus 5 (switched at the deploy-protocol design point, per the model-switch convention) · **Time:** ~10:26–11:36 PT · **Committed:** yes (5 commits) · **Deployed:** both live nodes ×5 (syntax page, deploy-protocol validation ×2, studio UI ×2)
