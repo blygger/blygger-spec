@@ -185,9 +185,17 @@ v0.3 scope; the long-parked public-page scrubber cleanup done; pinned-version pa
 specced, built, and live on both nodes. Both nodes on migration 0006. Testing-pass item (c)
 closed. 371 tests.
 
-**Open threads:** the spec §8.4 revision is committed here but `blygger.org/spec/0.1/` has not
-been re-synced — run `blygger-org`'s `sync_spec.py` + deploy next time that repo is touched.
-Testing-pass (b)'s hopper half (make an imported item public in a hopper —
+**Spec republished the same session** (`blygger-org`, latest mode): `sync_spec.py` picked up the
+§8.4 rewrite, full rebuild, deployed, verified on both `blygger.org` and the pages.dev URL.
+Worth recording because it exercised the publishing model's central claim: the **2026-08-10
+dated snapshot still serves the OLD §8.4**, unchanged, while `/spec/0.1/` carries the revision —
+frozen citable artifacts alongside a living document, which is structurally the same thing pins
+are for items. Decision #15's snapshot machinery and decision #24's pin pages are the same idea
+at two scales. No new snapshot cut: 0.1 stays DRAFT and living per #21/#23, and a dated
+snapshot is a deliberate citation act (git tag + immutable URL), Venkat's call, not a
+side effect of a spec edit.
+
+**Open threads:** Testing-pass (b)'s hopper half (make an imported item public in a hopper —
 Venkat's curation call) and (d)'s fuller authoring pass are now the **only** remaining gates
 before the ⚠️ FABLE `protocol-v0.2.md` draft. The new hopper UI and the freeze rule are
 untested by a human — worth a look while doing (b), since making a hopper public is exactly
