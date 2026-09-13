@@ -12,55 +12,175 @@ import { authoredKind, getMedia, listMediaForItem, listVersions, publishedVersio
 import type { ItemRow, MediaRow, Settings, Transclusion, VersionRow } from "./types.ts";
 import { escapeHtml } from "./util.ts";
 
-export const STYLE_CSS = `/* blyg v0.1 — one minimal stylesheet, no build step */
-:root { color-scheme: light dark; }
+export const STYLE_CSS = `/* blyg — one hand-written stylesheet, no build step, no web fonts.
+ *
+ * The design idea (session 19): **the editorial apparatus is the design.**
+ * What distinguishes a blyg from a blog is that every item wears its own
+ * revision history in public — "v2 · pinned: v1, v2", Created/Most-recent,
+ * the provenance line under a transcluded quote, the endcap where a withdrawn
+ * item used to be. All of that used to render as one undifferentiated grey
+ * murmur (0.85rem, opacity 0.7). Here it gets its own typeface and its own
+ * colour, consistently, so a reader can learn to read it; the prose gets a
+ * serif and is otherwise left alone.
+ *
+ * The colour that carries it is an editor's blue pencil. To "blue-pencil" a
+ * manuscript is to edit it — the same copy-desk world [TK] comes from — so
+ * every editorial mark on the page is blue: pins, provenance, the rule beside
+ * a transclusion, the kind marker. Prose is ink; nothing else competes.
+ *
+ * NO WEB FONTS, deliberately. A reference client for a decentralised medium
+ * should not make every reader's page load phone a third-party font host;
+ * self-hosted static files that depend on someone else's CDN are not really
+ * self-hosted. System stacks only.
+ */
+:root {
+  color-scheme: light dark;
+  --paper: #fafbfb;
+  --paper-sunk: #eef1f3;
+  --ink: #1b2426;
+  --ink-soft: #5c686b;
+  --rule: #dde3e5;
+  --pencil: #23608c;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* The apparatus layer: small sans, a little looser than the prose. */
+  --apparatus: 0.8125rem/1.5 var(--sans);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #14191a;
+    --paper-sunk: #1d2426;
+    --ink: #e3e7e7;
+    --ink-soft: #95a2a5;
+    --rule: #2b3436;
+    --pencil: #8cc0e4;
+  }
+}
 * { box-sizing: border-box; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.55;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
   margin: 0 auto;
-  padding: 1.5rem 1rem 4rem;
+  padding: 2rem 1.25rem 5rem;
+  -webkit-text-size-adjust: 100%;
 }
-.blyg { max-width: 65ch; margin: 0 auto; }
-.blyg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
-.blyg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
-.blyg-header a:hover { text-decoration: underline; }
-.blyg-header .blyg-name { font-weight: 600; }
-.masthead { display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.5rem; }
-.masthead .avatar { border-radius: 50%; flex: none; object-fit: cover; }
+/* Also set on the block itself, so an embedded .blyg keeps its own type
+ * inside a host page that never loads this file's body rule. */
+.blyg { max-width: 65ch; margin: 0 auto; font-family: var(--serif); color: var(--ink); }
+.blyg a { color: var(--pencil); text-underline-offset: 0.15em; text-decoration-thickness: from-font; }
+.blyg :focus-visible { outline: 2px solid var(--pencil); outline-offset: 2px; border-radius: 2px; }
+::selection { background: color-mix(in srgb, var(--pencil) 22%, transparent); }
+
+/* ---- header + masthead -------------------------------------------------
+ * Two shapes for the same identity. Every page carries the quiet one-line
+ * header (the blyg's name, which is also the way back to its index). The
+ * feed page — the front door, and the only page not meant to be embedded —
+ * carries the name at display size instead, so the header there drops the
+ * name and keeps only the feed link. */
+.blyg-header { margin-bottom: 1.75rem; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.blyg-header a { color: var(--ink-soft); text-decoration: none; font: var(--apparatus); }
+.blyg-header a:hover { color: var(--pencil); text-decoration: underline; }
+.blyg-header .blyg-name { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
+.blyg-header.bare { justify-content: flex-end; margin-bottom: 0.5rem; }
+
+.masthead { display: flex; gap: 1rem; align-items: baseline; margin: 0 0 2.5rem; }
+.masthead .avatar { border-radius: 50%; flex: none; object-fit: cover; align-self: flex-start; }
 .masthead .masthead-text { min-width: 0; }
-.masthead p { margin: 0 0 0.15rem; }
-.masthead .author-name { font-weight: 600; }
-.masthead .author-bio { font-size: 0.92rem; opacity: 0.8; }
-.masthead .author-links { font-size: 0.85rem; }
-.masthead .author-links a { color: inherit; text-decoration: none; border-bottom: 1px dotted currentColor; }
-article.fragment, article.thread { border-top: 1px solid rgba(128,128,128,0.35); padding: 1rem 0; }
-article.fragment img, article.thread img { max-width: 100%; height: auto; }
-article.fragment p:first-child, article.thread p:first-child { margin-top: 0; }
-.timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
-.pinned-banner { font-size: 0.85rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.5rem 0.75rem; margin-bottom: 1rem; opacity: 0.85; }
-.pinned-banner a { border-bottom: 1px dotted currentColor; text-decoration: none; }
-.version-line { margin-top: 0.75rem; font-size: 0.85rem; opacity: 0.75; }
-.version-line .pins a { text-decoration: none; border-bottom: 1px dotted currentColor; }
-.version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
-p.permalink, p > a.permalink { margin-top: 0.6rem; }
-a.permalink { font-size: 0.85rem; opacity: 0.8; }
-.withdrawn { opacity: 0.7; font-style: italic; }
-.kind-chip { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.05rem 0.35rem; opacity: 0.75; vertical-align: middle; }
-.thread-card p:first-child { margin-bottom: 0.3rem; }
+.masthead p { margin: 0; }
+.masthead .site-name {
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.4rem;
+}
+.masthead .site-name a { color: var(--ink); text-decoration: none; }
+.masthead .author-name { font: var(--apparatus); color: var(--ink); }
+.masthead .author-bio { font: var(--apparatus); color: var(--ink-soft); max-width: 48ch; }
+.masthead .author-links { font: var(--apparatus); margin-top: 0.35rem; }
+.masthead .author-links a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.masthead .author-links a:hover { border-bottom-color: currentColor; }
+
+/* ---- items -------------------------------------------------------------
+ * Space separates items; the rule is a whisper, not a frame. Fragments are
+ * atomic, so they get room to be read as separate things rather than rows. */
+article.fragment, article.thread { border-top: 1px solid var(--rule); padding: 2rem 0 1.75rem; }
+article.fragment:first-of-type, article.thread:first-of-type { border-top: none; padding-top: 0; }
+article.fragment img, article.thread img { max-width: 100%; height: auto; border-radius: 2px; }
+article.fragment > :first-child, article.thread > :first-child { margin-top: 0; }
+.blyg h1, .blyg h2, .blyg h3 { line-height: 1.2; letter-spacing: -0.01em; margin: 1.6em 0 0.5em; }
+.blyg h1 { font-size: 1.5rem; }
+.blyg h2 { font-size: 1.25rem; }
+.blyg h3 { font-size: 1.0625rem; }
+.blyg code, .blyg pre { font-size: 0.9em; }
+.blyg pre { background: var(--paper-sunk); padding: 0.85rem 1rem; border-radius: 3px; overflow-x: auto; }
+.blyg hr { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
+
+/* ---- the apparatus -----------------------------------------------------
+ * Everything below is metadata about a document rather than the document:
+ * one face, one size, one colour, so it reads as a single layer. */
+.timestamps, .version-line, .version-note, a.permalink, .provenance, ul.archive .meta, .pinned-banner {
+  font: var(--apparatus);
+  color: var(--ink-soft);
+}
+.timestamps { margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.05rem; }
+.version-line { margin-top: 1rem; }
+.version-line .pins a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.version-line .pins a:hover { border-bottom-color: currentColor; }
+.version-note { font-style: italic; margin: 0.4rem 0 0; max-width: 52ch; }
+p.permalink, p > a.permalink { margin-top: 0.9rem; }
+a.permalink { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
+a.permalink:hover { color: var(--pencil); border-bottom-color: currentColor; }
+.provenance { margin: 0.5rem 0 0; }
+.provenance a { color: var(--pencil); text-decoration: none; }
+.provenance a:hover { text-decoration: underline; }
+
+/* A pinned page is a frozen artifact; the banner says so plainly, in the
+ * apparatus voice, with the blue pencil down its edge. */
+.pinned-banner {
+  border-left: 2px solid var(--pencil);
+  background: var(--paper-sunk);
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 2rem;
+  border-radius: 0 3px 3px 0;
+}
+.pinned-banner a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
+
+/* Kind marker. Was an ALL-CAPS bordered chip — the commonest template tell,
+ * and heavier than the thing it labels. A blue lowercase word does the job. */
+.kind-chip { font: var(--apparatus); font-style: italic; color: var(--pencil); margin-right: 0.15rem; }
+.thread-card p:first-child { margin-bottom: 0.5rem; }
+
+/* A transcluded fragment is someone's words held verbatim, so it is set as a
+ * quotation with the editorial blue beside it, not as a tinted card. */
 blockquote.blyg-transclusion {
-  margin: 1.25rem 0; padding: 0.75rem 1rem;
-  border-left: 3px solid rgba(128,128,128,0.55);
-  background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0;
+  margin: 1.5rem 0;
+  padding: 0.25rem 0 0.25rem 1.1rem;
+  border-left: 2px solid var(--pencil);
+  background: none;
 }
 blockquote.blyg-transclusion p:first-child { margin-top: 0; }
 blockquote.blyg-transclusion p:last-of-type { margin-bottom: 0.25rem; }
-.provenance { font-size: 0.78rem; opacity: 0.65; margin: 0.4rem 0 0; }
-.provenance a { text-decoration: none; }
-ul.archive { list-style: none; padding: 0; }
-ul.archive li { padding: 0.3rem 0; border-top: 1px solid rgba(128,128,128,0.25); }
-ul.archive .meta { font-size: 0.85rem; opacity: 0.7; margin-left: 0.5rem; }
-footer.older { text-align: center; padding: 1rem 0; }
+
+/* Withdrawn: present, legible, and visibly spent. */
+.withdrawn { color: var(--ink-soft); font-style: italic; }
+
+ul.archive { list-style: none; padding: 0; margin: 0; }
+ul.archive li { padding: 0.55rem 0; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+ul.archive li > a { text-decoration: none; }
+ul.archive li > a:hover { text-decoration: underline; }
+ul.archive .meta { flex: none; white-space: nowrap; }
+footer.older { padding: 2rem 0 0; border-top: 1px solid var(--rule); margin-top: 2rem; }
+footer.older a { font: var(--apparatus); color: var(--pencil); text-decoration: none; }
+footer.older a:hover { text-decoration: underline; }
+
+@media (max-width: 30rem) {
+  body { padding: 1.5rem 1rem 3rem; }
+  ul.archive li { flex-direction: column; gap: 0.15rem; }
+}
 `;
 
 /**
@@ -143,10 +263,12 @@ ${body}
  * entry rendered in the masthead, which is honest: only the author knows
  * whether `/` is their homepage, someone else's site, or nothing.
  */
-function pageHeader(settings: Settings, mount: string): string {
-  return `<header class="blyg-header">
-<a class="blyg-name" href="${mount}/">${escapeHtml(settings.site_title)}</a>
-<a href="${mount}/feed.xml" title="RSS feed">RSS ⧉</a>
+function pageHeader(settings: Settings, mount: string, bare = false): string {
+  // `bare` is the feed page, where the masthead sets the same name at display
+  // size a few lines below — printing it twice in a row is just clutter.
+  const name = bare ? "" : `<a class="blyg-name" href="${mount}/">${escapeHtml(settings.site_title)}</a>\n`;
+  return `<header class="blyg-header${bare ? " bare" : ""}">
+${name}<a href="${mount}/feed.xml" title="RSS feed">RSS ⧉</a>
 </header>`;
 }
 
@@ -179,7 +301,9 @@ async function masthead(db: D1Database, settings: Settings, mount: string): Prom
   if (avatar) {
     bits.push(`<img class="avatar" src="${mount}/${avatar.r2_key}" alt="" width="48" height="48">`);
   }
-  const lines: string[] = [];
+  const lines: string[] = [
+    `<p class="site-name"><a href="${mount}/">${escapeHtml(settings.site_title)}</a></p>`,
+  ];
   if (settings.author_name) lines.push(`<p class="author-name">${escapeHtml(settings.author_name)}</p>`);
   if (settings.author_bio) lines.push(`<p class="author-bio">${escapeHtml(settings.author_bio)}</p>`);
   if (settings.author_links.length) {
@@ -189,7 +313,6 @@ async function masthead(db: D1Database, settings: Settings, mount: string): Prom
         .join(" &middot; ")}</p>`,
     );
   }
-  if (!lines.length && !bits.length) return "";
   bits.push(`<div class="masthead-text">${lines.join("\n")}</div>`);
   return `<div class="masthead">${bits.join("\n")}</div>`;
 }
@@ -355,7 +478,7 @@ export async function feedPage(db: D1Database, settings: Settings, items: ItemRo
     else if (item.kind === "thread") blocks.push(await threadCard(db, item, mount));
   }
   const body = `<div class="blyg">
-${pageHeader(settings, mount)}
+${pageHeader(settings, mount, true)}
 ${await masthead(db, settings, mount)}
 ${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
 ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</a></footer>` : ""}
@@ -489,7 +612,13 @@ ${noteHtml}
   // base URL, trailing slash included): the frozen page is a version of the
   // same work, and the living one is the page that should be indexed.
   const canonical = `${origin}${isThread ? "t" : "f"}/${item.id}/`;
-  return layout(`v${row.version} — ${itemTitle(excerptFromHtml(row.content_html, 70), settings)}`, body, mount, {
+  // `{excerpt} (v1) — {site}`, not `v1 — {excerpt} — {site}`: the version is a
+  // qualifier on the item, and three em-dash-separated segments is one too many.
+  const pinnedExcerpt = excerptFromHtml(row.content_html, 70);
+  const pinnedTitle = pinnedExcerpt
+    ? `${pinnedExcerpt} (v${row.version}) — ${settings.site_title}`
+    : `v${row.version} — ${settings.site_title}`;
+  return layout(pinnedTitle, body, mount, {
     canonical,
     // The excerpt comes from the *pinned* version's own bytes, so a citation
     // unfurls as the text that was actually frozen, not the live text.

@@ -15,7 +15,11 @@ describe("public pages (§3.4)", () => {
     // index (it used to be a hardcoded `Home` → `/`, which is a self-link on a
     // root-mounted node and leaves a path-mounted permalink with no way back).
     expect(html).toContain("<title>Venkat&#39;s blyg</title>");
-    expect(html).toContain('<a class="blyg-name" href="/blyg/">Venkat&#39;s blyg</a>');
+    // On the feed page the name is the masthead, set at display size; the
+    // one-line `.blyg-name` header is for every *other* page, so printing both
+    // would just repeat it. Either way it links the blyg's own index, which
+    // the old hardcoded `Home` → `/` did not.
+    expect(html).toContain('<p class="site-name"><a href="/blyg/">Venkat&#39;s blyg</a></p>');
     expect(html).not.toContain('<a href="/">Home</a>');
     expect(html).toContain("<em>rendered</em>");
     expect(html).toContain("Created:");
@@ -207,12 +211,20 @@ describe("site identity on public pages (session 19)", () => {
     }
   });
 
-  it("omits the masthead entirely when no identity fields are set", async () => {
+  it("keeps the name but drops the author block when no author fields are set", async () => {
     const cookie = await login();
-    await apiJson(cookie, "PUT", "/api/settings", { author_name: "", author_bio: "", author_links: [] });
+    await apiJson(cookie, "PUT", "/api/settings", {
+      site_title: "Field Notes",
+      author_name: "",
+      author_bio: "",
+      author_links: [],
+    });
     await createAndPublish(cookie, "hello");
     const html = await (await getPublic("/blyg/")).text();
-    expect(html).not.toContain('class="masthead"');
+    expect(html).toContain('<p class="site-name"><a href="/blyg/">Field Notes</a></p>');
+    expect(html).not.toContain('class="author-name"');
+    expect(html).not.toContain('class="author-bio"');
+    expect(html).not.toContain('class="author-links"');
   });
 });
 
@@ -297,10 +309,10 @@ describe("social / meta tags (session 19)", () => {
     // `listPublic` orders by `updated DESC` at second precision, so items
     // published inside one second (which a test does routinely) tie.
     const noBio = await (await getPublic("/blyg/")).text();
-    const topArticle = noBio.split('<article class="fragment"')[1] ?? "";
+    const topArticleText = (noBio.split('<article class="fragment"')[1] ?? "").replace(/<[^>]*>/g, "");
     const described = /<meta name="description" content="([^"]*)">/.exec(noBio)?.[1] ?? "";
     expect(described.length).toBeGreaterThan(0);
-    expect(topArticle).toContain(described.replace(/…$/, ""));
+    expect(topArticleText).toContain(described.replace(/…$/, ""));
 
     await apiJson(cookie, "PUT", "/api/settings", { author_bio: "A blyg about protocols." });
     expect(await (await getPublic("/blyg/")).text()).toContain(
