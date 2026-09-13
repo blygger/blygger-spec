@@ -33,10 +33,12 @@ example.com/blyg/
   index.html        the feed page (human-readable)
   feed.xml          RSS 2.0 + blyg namespace — the notification plane
   blyg.json          manifest: protocol level, generator, author profile, archive index
-  items/{id}.json   canonical item state — the data plane; one file per item, full archive
+  items/{id}.json   canonical item state — the data plane; one file per item, latest version
+  items/{id}/v{n}.json  a PINNED version, frozen forever — the citation primitive (see below)
   items/index.json  archive index — every item ever, no window; the backfill/reconciliation surface
   f/{id}/           fragment permalink page
   t/{id}/           thread permalink page
+  f|t/{id}/v{n}/    OPTIONAL — a rendered page for a pinned version; readers never require it
   media/            attachments
   blogroll.opml     OPTIONAL — curated subset of subscriptions, standard OPML 2.0, no extensions
   h/{slug}/         OPTIONAL — a public hopper: curated snapshots + source attribution, never re-emitted content
@@ -44,7 +46,8 @@ example.com/blyg/
 
 Two planes, deliberately separated:
 
-- **State plane** — `items/{id}.json` is ground truth. Stable random IDs (globally unique, domain-independent), per-version content hashes (IPFS-friendly), full history always retrievable. New subscribers backfill from here; lagging subscribers never lose edits.
+- **State plane** — `items/{id}.json` is ground truth. Stable random IDs (globally unique, domain-independent), per-version content hashes (IPFS-friendly), and the **complete set of items** always retrievable — every item ever published, with no window. (Not every *version*: the file serves the latest one, and past versions stay withheld unless pinned — see below.) New subscribers backfill from here; lagging subscribers never lose edits.
+- **Pins** — items are living documents: editing publishes v*n*+1 and only the latest is served, so history is withheld by default. A **pin** is the exception and the citation primitive: it exposes exactly one version, permanently and irrevocably, at `items/{id}/v{n}.json`, and it survives withdrawal of the live item. That asymmetry is the point — an edit is cheap, a pin is a hosting promise you cannot take back, so pinning is how a publisher says "this state matters" in a way a reader can rely on and cite. There is no version field with opinions in it and no "edition" marker: the counter is a bare integer, and significance is expressed by paying for it.
 - **Notification plane** — `feed.xml` is plain RSS carrying "item X changed" plus a readable rendering. Lossy, window-limited, and that's fine — it's only a signal: `items/index.json` is what makes a subscriber that missed the window (or just subscribed for the first time) recover losslessly by diffing against local state instead of trusting the feed to have caught everything.
 
 **Subscribing** (v0.2 "Roots"): a client is handed any URL and resolves it — direct

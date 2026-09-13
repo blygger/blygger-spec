@@ -24,13 +24,19 @@ had quietly expired while the TODO still read as blocked.
 **Site identity was published to machines and shown to no human.** `title`, `author.name`,
 `author.bio`, `author.links` and the avatar were all in `blyg.json` and the feed channel;
 the page rendered `site_title` into `<title>` and nothing else. A reader landing on either
-node could not tell whose blyg it was. The feed page now carries a masthead. **This departs
-from a recorded rev-2 review note** ("site identity lives in the manifest, feed channel, and
-studio settings, not on this page") whose rationale was embeddability — which holds for an
-embedded block but leaves the *standalone* case unserved, and both live nodes are standalone.
-The same note acknowledged that case and left it open. Scoped to the feed page only, so
-every page likely to be embedded is unchanged. Flagged to Venkat as the one reversible
-design call; not vetoed.
+node could not tell whose blyg it was. The feed page now carries a masthead. Written up mid-session as
+**overriding** a rev-2 review note ("site identity lives in the manifest, feed channel, and
+studio settings, not on this page"). **That framing was wrong, and checking the older
+document at wrap-up settled it the other way:** `v0.1-plan.md` §4's public-page mockup
+always showed `Venkat's blyg` / `bio line · links`. The masthead was specified from the
+start; the rev-2 wireframe round removed it, and the rev-2 note then stated that removal as
+a principle. So this session *restored the plan* rather than contradicting a decision — and
+the rev-2 rationale still holds for its real case, an embedded `.blyg` block where a host
+page supplies identity. Both live nodes are standalone, which that note acknowledged and
+left unserved. Scoped to the feed page, so embedded pages are unchanged. General lesson,
+and the second time this session: **check the oldest document that speaks to a question, not
+just the most recent one** — the most recent note is the one most likely to be a
+rationalisation of a change rather than a reasoned position.
 
 **The header link was wrong in both directions, and nothing tested it.** It was a hardcoded
 `Home → /`. On the root-mounted PI node `/` *is* the page, so it was a self-link; on
@@ -92,6 +98,20 @@ meaningful). A pin *of* the live version is one position that happens to be pinn
 Note this is only legitimate *because* of decision #24 — session 18 deleted a scrubber that
 paged through all versions, which cannot exist; a carousel over pinned versions only is
 paging through artifacts that do.
+
+**⚠️ FABLE flag raised at wrap-up, after the feature shipped.** §8.4 of the normative spec —
+and §2.8 of the plan — say a public page's version display is an "indicator, **not
+navigation**", because "pins are a sequence of frozen citable artifacts of one identity,
+**not pages of one document**." The carousel breaks no *rule* in that section (no route
+serves unpinned history, nothing new is promised, every byte was already promised forever,
+and JS-off degrades to plain links), but that rationale is a direct argument against the
+affordance. The check made while building was the **route/promise** one — decision #24,
+which the carousel passes — and **the presentation clause was simply missed**. Two readings
+are open and this session picked neither: the clause constrains routes and promises (client
+presentation of already-promised bytes is out of scope), or it constrains presentation (in
+which case the reference client is out of conformance with prose it ships against, and
+either the feature or the sentence goes). `protocol-v0.1.md` left unedited — this is Fable's
+call, and it must be made **before the sentence is copied forward into `protocol-v0.2.md`**.
 
 *(3) A leading `<h1>` links to the item's page.* The anchor wraps the rendered heading at
 render time and never touches stored `content_html`, exactly like `injectProvenance`; a test
@@ -181,9 +201,16 @@ palette, keeps its own type, and has the composer/editor/row editing affordances
 asked for. Both nodes run this code; no migration (theme is a settings KV row). The
 ⚠️ FABLE `protocol-v0.2.md` draft remains the unblocked next session and is untouched.
 
-**Open threads:** The **feed-page masthead** is the one reversible design call — it overrides
-a rev-2 review note, scoped to the feed page; revert is a one-line change if Venkat wants the
-page bare again. `blyg-tk-gen` is deliberately **unstyled**: tinting generated prose would be
+**Open threads:** **The one item gating the next session: does the pinned-version carousel
+conform to §8.4's "indicator, not navigation"?** Flagged at wrap-up, argued both ways above
+and in `v0.1-plan.md` §2.8; it must be decided before that sentence is copied into
+`protocol-v0.2.md`. The **feed-page masthead** is *not* an open question after all — the
+v0.1 plan's own mockup specified it (see the correction above). The **CSS contract** is the
+remaining half of the roadmap's v0.5 styling deliverable and the protocol-relevant half:
+session 19 established the class vocabulary and token set in practice but wrote neither down,
+and `blyg-transclusion`/`blyg-tk-gen` are *baked into published `content_html`*, so they are
+already wire-visible and cannot be renamed — a third-party themer needs to know which classes
+are load-bearing and which are this client's own presentation. `blyg-tk-gen` is deliberately **unstyled**: tinting generated prose would be
 a visible claim about authorship, which is a decision-#20 question rather than a CSS one —
 worth putting to Fable during the 0.2 pass. The carousel is **feed-page only**; the permalink
 page still shows pin citations as links to the frozen pages, which may be right (one item,
