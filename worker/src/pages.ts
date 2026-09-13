@@ -174,6 +174,28 @@ blockquote.blyg-transclusion h1, blockquote.blyg-transclusion h2, blockquote.bly
 /* Withdrawn: present, legible, and visibly spent. */
 .withdrawn { color: var(--ink-soft); font-style: italic; }
 
+/* --- pinned-version carousel (feed page) ---------------------------------
+ * Rendered by the server as a plain version line; the ‹ › controls are added
+ * by script, so they only ever exist where they work. */
+.version-line .vnav { display: inline-flex; gap: 0.15rem; margin-right: 0.4rem; vertical-align: baseline; }
+.version-line .vstep {
+  font: var(--apparatus); line-height: 1; color: var(--pencil);
+  background: none; border: 1px solid var(--rule); border-radius: 3px;
+  padding: 0.05rem 0.35rem; cursor: pointer;
+}
+.version-line .vstep:hover:not(:disabled) { border-color: var(--pencil); }
+.version-line .vstep:disabled { color: var(--ink-soft); opacity: 0.4; cursor: default; }
+.version-line .vlatest { margin-left: 0.1rem; }
+.version-line .vextra a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
+/* A frozen version showing in place must never be mistaken for the live item;
+ * the blue pencil down the edge is the same mark the pinned page uses. */
+article.showing-pin .item-content {
+  border-left: 2px solid var(--pencil);
+  padding-left: 1rem;
+  margin-left: -0.1rem;
+}
+article.showing-pin .item-content[aria-busy="true"] { opacity: 0.5; }
+
 /* A titled item's heading is its link; it should read as the heading, with the
  * link only showing on hover, rather than as a blue headline. */
 .blyg a.item-title { color: inherit; text-decoration: none; }
@@ -249,6 +271,131 @@ function metaTags(meta: PageMeta): string {
   push("twitter:card", meta.image ? "summary_large_image" : "summary");
   return tags.length ? tags.join("\n") + "\n" : "";
 }
+
+export const FEED_SCRIPT = `
+/**
+ * In-situ pinned-version carousel for the feed page (session 19).
+ *
+ * A pin citation used to navigate away to the frozen page. But reading "what
+ * did this say before?" is a comparison, and a comparison wants both texts in
+ * the same place — so a pin now swaps that version into the item where it
+ * sits, and going to the frozen page became a separate, explicit link.
+ *
+ * Three properties this is built to keep:
+ *
+ * 1. It is an ENHANCEMENT, never a requirement. The server renders the same
+ *    version line it always did, with the pin citations as real links to real
+ *    pages. With JavaScript off — or if this script throws — clicking a pin
+ *    still lands on the frozen page. Nothing here is load-bearing.
+ * 2. It works on a DUMB FILE HOST. The only thing it fetches is
+ *    items/{id}/v{n}.json, which §2.8 already publishes and which the static
+ *    export already writes, so an exported tree keeps working. That is
+ *    invariant 4's whole point.
+ * 3. It never INVENTS a version. Positions come from data-pins plus the live
+ *    version and nothing else; unpinned history stays unreachable in every
+ *    representation (§2.8), which is what keeps withdrawal meaningful.
+ *
+ * The cycle runs oldest to newest with the live version last — the direction
+ * the item was actually written in.
+ */
+(function () {
+  var lines = document.querySelectorAll(".version-line[data-item]");
+  if (!lines.length || !window.fetch) return;
+
+  Array.prototype.forEach.call(lines, function (line) {
+    var article = line.closest("article");
+    var content = article && article.querySelector(".item-content");
+    if (!content) return;
+
+    var live = Number(line.dataset.live);
+    var pins = (line.dataset.pins || "").split(",").filter(Boolean).map(Number);
+    var mount = line.dataset.mount || "";
+    var id = line.dataset.item;
+    var kind = line.dataset.kind;
+
+    // Live plus each pin, de-duplicated: a pin OF the live version is the same
+    // bytes you are already looking at, so it is one position that happens to
+    // be pinned, not two.
+    var versions = pins.slice();
+    if (versions.indexOf(live) === -1) versions.push(live);
+    versions.sort(function (a, b) { return a - b; });
+    if (versions.length < 2) return;
+
+    var cache = {};
+    cache[live] = content.innerHTML;
+    var at = versions.indexOf(live);
+
+    var nav = document.createElement("span");
+    nav.className = "vnav";
+    nav.innerHTML =
+      '<button type="button" class="vstep" data-step="-1" title="older version" aria-label="older version">‹</button>' +
+      '<button type="button" class="vstep" data-step="1" title="newer version" aria-label="newer version">›</button>';
+    var label = line.querySelector(".vlabel");
+    label.parentNode.insertBefore(nav, label);
+
+    var extra = document.createElement("span");
+    extra.className = "vextra";
+    line.appendChild(extra);
+
+    function render() {
+      var v = versions[at];
+      var isLive = v === live;
+      var pinned = pins.indexOf(v) !== -1;
+      label.textContent = "v" + v + (isLive ? (pinned ? " · pinned" : "") : " · frozen");
+      article.classList.toggle("showing-pin", !isLive);
+      nav.querySelector('[data-step="-1"]').disabled = at === 0;
+      nav.querySelector('[data-step="1"]').disabled = at === versions.length - 1;
+      // Going to the page is its own action now, rather than something that
+      // happens to you when you click a version number.
+      extra.innerHTML = isLive
+        ? ""
+        : ' · <a href="' + mount + "/" + kind + "/" + id + "/v" + v + '/">open this version ↗</a>' +
+          ' · <button type="button" class="vstep vlatest">back to latest</button>';
+    }
+
+    function show(v) {
+      at = versions.indexOf(v);
+      if (cache[v] !== undefined) { content.innerHTML = cache[v]; render(); return; }
+      content.setAttribute("aria-busy", "true");
+      fetch(mount + "/items/" + id + "/v" + v + ".json")
+        .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+        .then(function (data) {
+          cache[v] = data.content_html || "";
+          content.innerHTML = cache[v];
+          content.removeAttribute("aria-busy");
+          render();
+        })
+        .catch(function () {
+          // Fall back to the thing that always works: the frozen page itself.
+          content.removeAttribute("aria-busy");
+          location.href = mount + "/" + kind + "/" + id + "/v" + v + "/";
+        });
+    }
+
+    line.addEventListener("click", function (e) {
+      var step = e.target.closest(".vstep");
+      if (step) {
+        e.preventDefault();
+        if (step.classList.contains("vlatest")) { show(live); return; }
+        var next = at + Number(step.dataset.step);
+        if (next >= 0 && next < versions.length) show(versions[next]);
+        return;
+      }
+      // A pin citation opens here instead of navigating. The href stays on the
+      // element, so middle-click, cmd-click and no-JS all still reach the
+      // page — only a plain left click is intercepted.
+      var pin = e.target.closest(".pins a");
+      if (!pin || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      var v = Number((pin.textContent || "").replace(/[^0-9]/g, ""));
+      if (!v || versions.indexOf(v) === -1) return;
+      e.preventDefault();
+      show(v);
+    });
+
+    render();
+  });
+})();
+`;
 
 export function layout(title: string, body: string, mount: string, meta: PageMeta = {}): string {
   return `<!doctype html>
@@ -375,7 +522,15 @@ function itemMeta(item: ItemRow, note: string | null, pins: number[], mount: str
   if (item.version <= 1 && !pins.length) {
     return `<p class="timestamps"><span>Created: ${created}</span></p>`;
   }
-  const versionLine = `<p class="version-line">v${item.version}${pinPart}</p>`;
+  // The version line carries everything the in-situ carousel needs, as data
+  // attributes rather than a parsed-out DOM: which versions are pinned, which
+  // one is live, and where the JSON and the pages live. Without JavaScript it
+  // is exactly the line it was before — the pin citations are real links to
+  // real pages — so the enhancement can fail completely and lose nothing.
+  const versionLine =
+    `<p class="version-line" data-item="${item.id}" data-kind="${kindSeg}" data-live="${item.version}"` +
+    ` data-pins="${pins.join(",")}" data-mount="${mount}">` +
+    `<span class="vlabel">v${item.version}</span>${pinPart}</p>`;
   const noteHtml = note ? `<p class="version-note">&ldquo;${escapeHtml(note)}&rdquo;</p>` : "";
   const recent =
     item.version > 1 ? `\n<span>Most recent: ${formatDate(item.updated)}, v${item.version}</span>` : "";
@@ -403,7 +558,9 @@ function mediaHtml(media: MediaRow[], mount: string): string {
 
 export function renderFragment(item: ItemRow, contentHtml: string, media: MediaRow[], note: string | null, mount: string, pins: number[] = []): string {
   return `<article class="fragment">
+<div class="item-content">
 ${contentHtml}
+</div>
 ${mediaHtml(media, mount)}
 ${itemMeta(item, note, pins, mount, false)}
 ${permalinkLink(item.id, false, mount)}
@@ -467,7 +624,9 @@ async function threadBlock(db: D1Database, item: ItemRow, mount: string): Promis
   const html = injectProvenance(latest?.content_html ?? "", parseTransclusions(latest?.transclusions), mount);
   const media = await listMediaForItem(db, item.id);
   return `<article class="thread">
+<div class="item-content">
 ${html}
+</div>
 ${mediaHtml(media, mount)}
 ${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount, true)}
 ${permalinkLink(item.id, true, mount)}
@@ -570,7 +729,8 @@ ${await masthead(db, settings, mount)}
 ${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
 ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</a></footer>` : ""}
 ${blogrollSection(blogrollSubs, mount)}
-</div>`;
+</div>
+<script>${FEED_SCRIPT}</script>`;
   // §2.2: publishers SHOULD emit rel="blogroll" on the HTML feed page when the blogroll is non-empty.
   const hasBlogroll = blogrollSubs.length > 0;
   // The bio is the blyg's own description of itself; with none set, the most

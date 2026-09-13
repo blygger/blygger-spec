@@ -42,7 +42,10 @@ describe("public pages (§3.4)", () => {
     await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "sharpened" });
     await apiJson(cookie, "POST", `/api/items/${id}/publish`, { note: "sharpened the claim" });
     const html = await (await getPublic(`/blyg/f/${id}/`)).text();
-    expect(html).toContain(`<p class="version-line">v2</p>`);
+    // The version line now carries the carousel's data attributes; without
+    // JavaScript it still renders exactly the text it did before.
+    expect(html).toContain(`data-live="2"`);
+    expect(html).toContain(`<span class="vlabel">v2</span>`);
     expect(html).toContain("Most recent");
     expect(html).toContain("sharpened the claim");
     // §2.8: no historical-version HTML route exists, so the page must not
@@ -359,6 +362,46 @@ describe("titled items link to their own page (session 19)", () => {
     const json = (await (await getPublic(`/blyg/items/${id}.json`)).json()) as any;
     expect(json.content_html).toContain("<h1>Stored Title</h1>");
     expect(json.content_html).not.toContain("item-title");
+  });
+});
+
+describe("pinned-version carousel (session 19)", () => {
+  it("carries the carousel's data on the feed page and degrades to real links", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "version one text");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "version two text" });
+    await apiJson(cookie, "POST", `/api/items/${id}/publish`, {});
+
+    const feed = await (await getPublic("/blyg/")).text();
+    expect(feed).toContain(`data-item="${id}"`);
+    expect(feed).toContain('data-pins="1"');
+    expect(feed).toContain('data-kind="f"');
+    // Without JavaScript the pin is still a real link to a real page — the
+    // whole enhancement can fail and lose nothing.
+    expect(feed).toContain(`<a href="/blyg/f/${id}/v1/"`);
+    expect(await (await getPublic(`/blyg/f/${id}/v1/`)).status).toBe(200);
+    // And the content it swaps in is a published surface, not a new endpoint.
+    const vjson = (await (await getPublic(`/blyg/items/${id}/v1.json`)).json()) as any;
+    expect(vjson.content_html).toContain("version one text");
+  });
+
+  it("wraps item content so a version can be swapped in place", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "swappable body");
+    const feed = await (await getPublic("/blyg/")).text();
+    expect(feed).toContain('<div class="item-content">');
+    // The permalink page gets the wrapper too, so the markup is one shape.
+    expect(await (await getPublic(`/blyg/f/${id}/`)).text()).toContain('<div class="item-content">');
+  });
+
+  it("ships the carousel script on the feed page only", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "somewhere to look");
+    expect(await (await getPublic("/blyg/")).text()).toContain("version-line[data-item]");
+    for (const path of [`/blyg/f/${id}/`, "/blyg/archive/"]) {
+      expect(await (await getPublic(path)).text(), path).not.toContain("version-line[data-item]");
+    }
   });
 });
 
