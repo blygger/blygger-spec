@@ -7,6 +7,7 @@ import { injectProvenance } from "./pages.ts";
 import {
   authoredKind,
   feedEvents,
+  getMedia,
   lastUpdated,
   listMediaForItem,
   listPublic,
@@ -99,7 +100,11 @@ export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: V
 
 /** §2.4 manifest. */
 export async function buildManifest(db: D1Database, settings: Settings, origin: string) {
-  const avatar = settings.avatar_media_id ? `media/${settings.avatar_media_id}` : undefined;
+  // Relative media path, resolved to the row's `r2_key` (`media/{id}.{ext}`).
+  // Emitting the bare id produced a manifest `avatar` that always 404s, since
+  // `/media/:file` matches the full key including the extension (session 19).
+  const avatarRow = settings.avatar_media_id ? await getMedia(db, settings.avatar_media_id) : null;
+  const avatar = avatarRow?.r2_key;
   const hasBlogroll = (await listBlogrollSubscriptions(db)).length > 0;
   return {
     blyg: PROTOCOL_VERSION,

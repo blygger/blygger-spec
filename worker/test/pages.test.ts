@@ -9,10 +9,13 @@ describe("public pages (§3.4)", () => {
     await apiJson(cookie, "PUT", "/api/settings", { site_title: "Venkat's blyg" });
     const id = await createAndPublish(cookie, "a *rendered* fragment");
     const html = await (await getPublic("/blyg/")).text();
-    // Title tag carries site identity; the embeddable page body itself is
-    // deliberately minimal (bare Home+RSS header, no title/bio/links) per
-    // the rev-2/3 wireframe review (docs/wireframes/public.html).
+    // Session 19: site identity now renders on the feed page too, not only in
+    // <title>. The header's left slot is the blyg's own name linking to its
+    // index (it used to be a hardcoded `Home` → `/`, which is a self-link on a
+    // root-mounted node and leaves a path-mounted permalink with no way back).
     expect(html).toContain("<title>Venkat&#39;s blyg</title>");
+    expect(html).toContain('<a class="blyg-name" href="/blyg/">Venkat&#39;s blyg</a>');
+    expect(html).not.toContain('<a href="/">Home</a>');
     expect(html).toContain("<em>rendered</em>");
     expect(html).toContain("Created:");
     expect(html).toContain(`/blyg/f/${id}/`);
@@ -167,5 +170,61 @@ describe("public pages (§3.4)", () => {
     const archive = await (await getPublic("/blyg/archive/")).text();
     expect(archive).toContain("survivor fragment");
     expect(archive).toContain("withdrawn");
+  });
+});
+
+describe("site identity on public pages (session 19)", () => {
+  it("feed page renders author name, bio and links from settings", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", {
+      site_title: "Field Notes",
+      author_name: "A. Author",
+      author_bio: "Writes about protocols.",
+      author_links: [{ label: "Homepage", url: "https://example.org/" }],
+    });
+    await createAndPublish(cookie, "hello");
+    const html = await (await getPublic("/blyg/")).text();
+    expect(html).toContain('<p class="author-name">A. Author</p>');
+    expect(html).toContain("Writes about protocols.");
+    expect(html).toContain('<a href="https://example.org/" rel="me">Homepage</a>');
+  });
+
+  it("permalink, thread, archive and pinned pages stay lean — masthead is feed-page only", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", {
+      site_title: "Field Notes",
+      author_name: "A. Author",
+      author_bio: "Writes about protocols.",
+    });
+    const id = await createAndPublish(cookie, "a fragment");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    for (const path of [`/blyg/f/${id}/`, `/blyg/f/${id}/v1/`, "/blyg/archive/"]) {
+      const html = await (await getPublic(path)).text();
+      expect(html, path).not.toContain("Writes about protocols.");
+      // …but the name-as-way-back is on every page, which is the point.
+      expect(html, path).toContain('<a class="blyg-name" href="/blyg/">Field Notes</a>');
+    }
+  });
+
+  it("omits the masthead entirely when no identity fields are set", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { author_name: "", author_bio: "", author_links: [] });
+    await createAndPublish(cookie, "hello");
+    const html = await (await getPublic("/blyg/")).text();
+    expect(html).not.toContain('class="masthead"');
+  });
+});
+
+describe("archive rows (session 19)", () => {
+  it("formats dates like the feed page and links withdrawn rows to their endcap", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "to be withdrawn");
+    await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {});
+    const html = await (await getPublic("/blyg/archive/")).text();
+    // Withdrawn rows used to be inert text; the endcap is a real permanent URL.
+    expect(html).toContain(`<a href="/blyg/f/${id}/">withdrawn</a>`);
+    // Human-formatted, not a raw ISO slice.
+    expect(html).toMatch(/<span class="meta">[A-Z][a-z]{2} \d{1,2}, \d{4}/);
+    expect(html).not.toMatch(/<span class="meta">\d{4}-\d{2}-\d{2}/);
   });
 });

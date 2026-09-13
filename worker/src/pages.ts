@@ -8,7 +8,7 @@
 
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerptFromHtml } from "./markdown.ts";
-import { authoredKind, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
+import { authoredKind, getMedia, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
 import type { ItemRow, MediaRow, Settings, Transclusion, VersionRow } from "./types.ts";
 import { escapeHtml } from "./util.ts";
 
@@ -25,6 +25,15 @@ body {
 .blyg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
 .blyg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
 .blyg-header a:hover { text-decoration: underline; }
+.blyg-header .blyg-name { font-weight: 600; }
+.masthead { display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.5rem; }
+.masthead .avatar { border-radius: 50%; flex: none; object-fit: cover; }
+.masthead .masthead-text { min-width: 0; }
+.masthead p { margin: 0 0 0.15rem; }
+.masthead .author-name { font-weight: 600; }
+.masthead .author-bio { font-size: 0.92rem; opacity: 0.8; }
+.masthead .author-links { font-size: 0.85rem; }
+.masthead .author-links a { color: inherit; text-decoration: none; border-bottom: 1px dotted currentColor; }
 article.fragment, article.thread { border-top: 1px solid rgba(128,128,128,0.35); padding: 1rem 0; }
 article.fragment img, article.thread img { max-width: 100%; height: auto; }
 article.fragment p:first-child, article.thread p:first-child { margin-top: 0; }
@@ -73,16 +82,70 @@ ${body}
 
 /**
  * Bare embeddable header (rev-2 review: "embeddable no-navbar public page").
- * Deliberately minimal — this is presumed content, not real site navigation;
- * site identity (title/bio/links) lives in the manifest, feed channel, and
- * studio settings, not on this page. "Home" is a placeholder link for the
- * standalone deployment; an embedding host page supplies its own.
+ * Still one line and still no navbar — an embedding host that supplies its own
+ * chrome hides it with `.blyg-header { display: none }` exactly as before.
+ *
+ * The left slot was a hardcoded `Home` → `/`, which session 19 replaced with
+ * the blyg's own title → `{mount}/`. Two things were wrong with the old link.
+ * On a **root-mounted** node (`MOUNT=""`, which is how blyg.protocol-institute.org
+ * runs) `/` *is* this page, so "Home" was a self-link. On a **path-mounted** node
+ * `/` is the host site, which meant a reader who landed on a permalink had no
+ * link back to the blyg at all — the one destination the page can actually
+ * name. A blyg cannot know what lives at `/`; it does know where it itself is.
+ *
+ * Linking back to the host site is now an author-configured `author_links`
+ * entry rendered in the masthead, which is honest: only the author knows
+ * whether `/` is their homepage, someone else's site, or nothing.
  */
-function pageHeader(mount: string): string {
+function pageHeader(settings: Settings, mount: string): string {
   return `<header class="blyg-header">
-<a href="/">Home</a>
+<a class="blyg-name" href="${mount}/">${escapeHtml(settings.site_title)}</a>
 <a href="${mount}/feed.xml" title="RSS feed">RSS ⧉</a>
 </header>`;
+}
+
+/**
+ * Feed-page masthead — avatar, author name, bio, author links.
+ *
+ * Session 19. This is the one place that departs from the rev-2 note "site
+ * identity lives in the manifest, feed channel, and studio settings, not on
+ * this page." That note's rationale was embeddability, and it holds for an
+ * embedded block: a host page supplies its own identity. But **both live nodes
+ * are standalone deployments**, which the same note acknowledged and left
+ * unserved — so every identity field the protocol already carries
+ * (`title`, `author.name`, `author.bio`, `author.links`, the avatar) was
+ * published in `blyg.json` and in the feed channel, and rendered nowhere a
+ * human could see it. A reader arriving at the page could not tell whose it was.
+ *
+ * Scoped to the **feed page only**: that is the front door. Permalink, thread,
+ * pinned and archive pages stay lean, so the embeddable-block case is unchanged
+ * for every page that is likely to be embedded.
+ *
+ * Presentation only — reads settings that already exist, writes no new field,
+ * and nothing here appears in any wire representation.
+ */
+async function masthead(db: D1Database, settings: Settings, mount: string): Promise<string> {
+  const bits: string[] = [];
+  // The avatar's URL is its `r2_key` (`media/{id}.{ext}`), not `media/{id}` —
+  // the `/media/:file` route matches on the full key including the extension,
+  // so an id alone 404s. Same lookup `mediaHtml` does for item images.
+  const avatar = settings.avatar_media_id ? await getMedia(db, settings.avatar_media_id) : null;
+  if (avatar) {
+    bits.push(`<img class="avatar" src="${mount}/${avatar.r2_key}" alt="" width="48" height="48">`);
+  }
+  const lines: string[] = [];
+  if (settings.author_name) lines.push(`<p class="author-name">${escapeHtml(settings.author_name)}</p>`);
+  if (settings.author_bio) lines.push(`<p class="author-bio">${escapeHtml(settings.author_bio)}</p>`);
+  if (settings.author_links.length) {
+    lines.push(
+      `<p class="author-links">${settings.author_links
+        .map((l) => `<a href="${escapeHtml(l.url)}" rel="me">${escapeHtml(l.label)}</a>`)
+        .join(" &middot; ")}</p>`,
+    );
+  }
+  if (!lines.length && !bits.length) return "";
+  bits.push(`<div class="masthead-text">${lines.join("\n")}</div>`);
+  return `<div class="masthead">${bits.join("\n")}</div>`;
 }
 
 function formatDate(iso: string): string {
@@ -225,7 +288,8 @@ export async function feedPage(db: D1Database, settings: Settings, items: ItemRo
     else if (item.kind === "thread") blocks.push(await threadCard(db, item, mount));
   }
   const body = `<div class="blyg">
-${pageHeader(mount)}
+${pageHeader(settings, mount)}
+${await masthead(db, settings, mount)}
 ${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
 ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</a></footer>` : ""}
 </div>`;
@@ -237,10 +301,10 @@ ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</
 /** Fragment permalink page — caller (index.ts) 404s if the item's authored kind isn't fragment. */
 export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`, mount);
+    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`, mount);
   }
   const body = `<div class="blyg">
-${pageHeader(mount)}
+${pageHeader(settings, mount)}
 ${await fragmentBlock(db, item, mount)}
 </div>`;
   return layout(settings.site_title, body, mount);
@@ -249,10 +313,10 @@ ${await fragmentBlock(db, item, mount)}
 /** Thread permalink page (§2.9) — caller (index.ts) 404s if the item's authored kind isn't thread. */
 export async function threadPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`, mount);
+    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`, mount);
   }
   const body = `<div class="blyg">
-${pageHeader(mount)}
+${pageHeader(settings, mount)}
 ${await threadBlock(db, item, mount)}
 </div>`;
   return layout(settings.site_title, body, mount);
@@ -289,7 +353,7 @@ export function pinnedVersionPage(
     : row.content_html;
   const noteHtml = row.note ? `<p class="version-note">&ldquo;${escapeHtml(row.note)}&rdquo;</p>` : "";
   const body = `<div class="blyg">
-${pageHeader(mount)}
+${pageHeader(settings, mount)}
 <p class="pinned-banner">📌 Pinned v${row.version} — a frozen snapshot from ${formatDate(row.published_at)}.
 <a href="${live}">latest version</a> &middot; <a href="${mount}/items/${item.id}/v${row.version}.json">citable JSON</a></p>
 <article class="${isThread ? "thread" : "fragment"}">
@@ -308,8 +372,15 @@ ${noteHtml}
 export async function archivePage(db: D1Database, settings: Settings, items: ItemRow[], mount: string): Promise<string> {
   const rows: string[] = [];
   for (const item of items) {
+    // A withdrawn row is a link like any other: the endcap page is a real,
+    // permanent URL (§2.8) and is where a reader learns which versions stay
+    // citable. Its authored kind picks the route — `kind` is 'withdrawn' by
+    // then, so it cannot say whether this was a fragment or a thread.
     if (item.kind === "withdrawn") {
-      rows.push(`<li class="withdrawn">withdrawn<span class="meta">${item.updated.slice(0, 10)}</span></li>`);
+      const href = `${mount}/${(await authoredKind(db, item)) === "thread" ? "t" : "f"}/${item.id}/`;
+      rows.push(
+        `<li class="withdrawn"><a href="${href}">withdrawn</a><span class="meta">${formatDate(item.updated)}</span></li>`,
+      );
       continue;
     }
     const isThread = item.kind === "thread";
@@ -317,11 +388,11 @@ export async function archivePage(db: D1Database, settings: Settings, items: Ite
     const text = excerptFromHtml(latest?.content_html ?? "", 80);
     const href = `${mount}/${isThread ? "t" : "f"}/${item.id}/`;
     rows.push(
-      `<li>${isThread ? '<span class="kind-chip">thread</span> ' : ""}<a href="${href}">${escapeHtml(text)}</a><span class="meta">${item.updated.slice(0, 10)} · v${item.version}</span></li>`,
+      `<li>${isThread ? '<span class="kind-chip">thread</span> ' : ""}<a href="${href}">${escapeHtml(text)}</a><span class="meta">${formatDate(item.updated)} · v${item.version}</span></li>`,
     );
   }
   const body = `<div class="blyg">
-${pageHeader(mount)}
+${pageHeader(settings, mount)}
 <h2>Archive</h2>
 <ul class="archive">
 ${rows.join("\n")}

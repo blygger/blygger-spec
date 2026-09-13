@@ -62,3 +62,24 @@ describe("media (§3.3)", () => {
     expect(res.status).toBe(404);
   });
 });
+
+describe("avatar resolution (session 19)", () => {
+  it("serves an avatar URL that actually resolves, on the page and in the manifest", async () => {
+    const cookie = await login();
+    const { json } = await upload(cookie, new File([new Uint8Array([1, 2])], "me.png", { type: "image/png" }));
+    await apiJson(cookie, "PUT", "/api/settings", { avatar_media_id: json.id, author_name: "A. Author" });
+    await createAndPublish(cookie, "hello");
+
+    // The route matches on the full r2_key including the extension, so
+    // `media/{id}` (what both surfaces used to emit) always 404d.
+    expect(await (await getPublic(`/blyg/media/${json.id}`)).status).toBe(404);
+    expect(await (await getPublic(`/blyg/${json.url}`)).status).toBe(200);
+
+    const html = await (await getPublic("/blyg/")).text();
+    expect(html).toContain(`<img class="avatar" src="/blyg/${json.url}"`);
+
+    const manifest = (await (await getPublic("/blyg/blyg.json")).json()) as any;
+    expect(manifest.author.avatar).toBe(json.url);
+  });
+});
+
