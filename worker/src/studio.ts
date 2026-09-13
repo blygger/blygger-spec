@@ -607,6 +607,11 @@ document.addEventListener("click", async (e) => {
   } else if (action === "discard") {
     if (!confirm("Discard this draft? It was never published.")) return;
     if (!(await api("DELETE", "/api/items/" + id))) return;
+    // Go to the index rather than falling through to location.reload(): the
+    // item is gone, so reloading an editor URL renders a 404 for the thing you
+    // just deliberately deleted. From the index this is the same page anyway.
+    location.href = "${studioPath(mount)}";
+    return;
   } else if (action === "discard-changes") {
     // Throws away the unpublished working copy by restoring the last published
     // version into it. Nothing is published and no version is rewound — the

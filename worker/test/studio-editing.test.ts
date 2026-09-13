@@ -74,6 +74,34 @@ describe("editor discard", () => {
   });
 });
 
+describe("after an action, where the page goes", () => {
+  it("discarding a draft leaves the editor for the index, not a 404", async () => {
+    const cookie = await login();
+    const id = (await apiJson(cookie, "POST", "/api/items", { content_md: "doomed" })).json.id as string;
+    const html = await studioPage(cookie, `${STUDIO}/edit/${id}`);
+    const branch = html.slice(html.indexOf('action === "discard"'));
+    const body = branch.slice(0, branch.indexOf('action === "discard-changes"'));
+    // The item is gone after DELETE, so reloading the editor URL would render
+    // a 404 for the thing you just deliberately deleted.
+    expect(body).toContain(`location.href = "${STUDIO}"`);
+
+    // And the route really is a 404 once the item is gone — which is why the
+    // handler must not fall through to the shared location.reload().
+    expect((await apiJson(cookie, "DELETE", `/api/items/${id}`)).status).toBe(200);
+    const gone = await SELF.fetch(`${BASE}${STUDIO}/edit/${id}`, { headers: { cookie } });
+    expect(gone.status).toBe(404);
+  });
+
+  it("discarding changes reloads, because the item is still there", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "still here");
+    await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "edited" });
+    const html = await studioPage(cookie, `${STUDIO}/edit/${id}`);
+    const branch = html.slice(html.indexOf('action === "discard-changes"'));
+    expect(branch.slice(0, branch.indexOf("} else"))).not.toContain("location.href");
+  });
+});
+
 describe("quick edit", () => {
   it("every fragment row carries a box holding its working copy", async () => {
     const cookie = await login();
