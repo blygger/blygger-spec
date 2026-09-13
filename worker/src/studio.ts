@@ -612,7 +612,7 @@ document.addEventListener("click", async (e) => {
     // version into it. Nothing is published and no version is rewound — the
     // public item is untouched throughout.
     const version = Number(btn.dataset.version);
-    if (!confirm("Discard unpublished changes and go back to the published v" + version + "?\n\nThe public item is not affected — it is already v" + version + ".")) return;
+    if (!confirm("Discard unpublished changes and go back to the published v" + version + "?\\n\\nThe public item is not affected — it is already v" + version + ".")) return;
     if (!(await api("POST", "/api/items/" + id + "/restore", { version }))) return;
   } else if (action === "pin") {
     const version = Number(btn.dataset.version);

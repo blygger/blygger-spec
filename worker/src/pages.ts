@@ -330,7 +330,7 @@ article.showing-pin .item-content[aria-busy="true"] { opacity: 0.5; }
  * step ("v3" → "v12 · frozen"), and it sits before the pin citations — so
  * without a reserved width every step nudged everything after it. Fixed box,
  * left-aligned: the controls and the citations never move. */
-.version-line .vlabel { display: inline-block; min-width: 7.5em; }
+.version-line .vlabel { display: inline-block; min-width: 6.5em; }
 
 /* A titled item's heading is its link; it should read as the heading, with the
  * link only showing on hover, rather than as a blue headline. */
