@@ -29,7 +29,7 @@ import { runScheduledPoll } from "./importer/schedule.ts";
 import { importerStudio } from "./importer/studio.ts";
 import { getHopperBySlug, getImportedItem, getSubscription, listBlogrollSubscriptions, listHopperItems } from "./importer/store.ts";
 import { authoredKind, getItem, getMedia, getSettings, getVersion, listPublic } from "./model.ts";
-import { archivePage, feedPage, permalinkPage, pinnedVersionPage, STYLE_CSS, threadPage } from "./pages.ts";
+import { archivePage, feedPage, permalinkPage, pinnedVersionPage, STYLE_CSS, themeCss, threadPage } from "./pages.ts";
 import { buildArchiveIndex, buildFeedXml, buildItemJson, buildManifest, buildPinnedVersionJson, siteOrigin } from "./protocol.ts";
 import { studio } from "./studio.ts";
 import type { Env } from "./types.ts";
@@ -89,7 +89,13 @@ export function makeApp(mount: string) {
     return c.html(await feedPage(c.env.DB, settings, items.slice(0, FEED_PAGE_SIZE), hasMore, mount, siteOrigin(settings, c.req.url, mount)));
   });
 
-  pub.get("/style.css", (c) => c.text(STYLE_CSS, 200, { "Content-Type": "text/css; charset=utf-8" }));
+  // The stylesheet carries the author's chosen theme appended to the base, so
+  // a theme change is one file for every page and the static export picks it
+  // up by fetching this route like any other.
+  pub.get("/style.css", async (c) => {
+    const settings = await getSettings(c.env.DB);
+    return c.text(STYLE_CSS + themeCss(settings.theme), 200, { "Content-Type": "text/css; charset=utf-8" });
+  });
 
   pub.get("/feed.xml", async (c) => {
     const settings = await getSettings(c.env.DB);

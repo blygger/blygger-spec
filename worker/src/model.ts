@@ -31,6 +31,7 @@ export async function getSettings(db: D1Database): Promise<Settings> {
   }
   return {
     site_title: map.site_title ?? "blyg",
+    theme: map.theme ?? "auto",
     author_name: map.author_name ?? "",
     author_bio: map.author_bio ?? "",
     author_links: links,

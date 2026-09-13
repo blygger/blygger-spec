@@ -164,7 +164,7 @@ describe("public pages (§3.4)", () => {
   it("serves style.css", async () => {
     const css = await getPublic("/blyg/style.css");
     expect(css.headers.get("content-type")).toContain("text/css");
-    expect(await css.text()).toContain("max-width: 65ch");
+    expect(await css.text()).toContain("65ch");
   });
 
   it("withdrawn items are excluded from the feed page but kept in the archive", async () => {
@@ -402,6 +402,58 @@ describe("pinned-version carousel (session 19)", () => {
     for (const path of [`/blyg/f/${id}/`, "/blyg/archive/"]) {
       expect(await (await getPublic(path)).text(), path).not.toContain("version-line[data-item]");
     }
+  });
+});
+
+describe("reading theme (session 19)", () => {
+  it("defaults to auto, which adds nothing to the stylesheet", async () => {
+    const css = await (await getPublic("/blyg/style.css")).text();
+    expect(css).toContain("prefers-color-scheme: dark");
+    expect(css).not.toContain("theme:");
+  });
+
+  it("an author's theme overrides the reader's light/dark rather than losing to it", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { theme: "solarized-dark" });
+    const css = await (await getPublic("/blyg/style.css")).text();
+    expect(css).toContain("theme: Solarized Dark");
+    expect(css).toContain("color-scheme: dark");
+    expect(css).toContain("--paper: #002b36");
+    // Defined in BOTH blocks: an explicit choice by the author must not flip
+    // when the reader's OS does.
+    const dark = css.slice(css.indexOf("theme: Solarized Dark"));
+    expect(dark.match(/--paper: #002b36/g)?.length).toBe(2);
+  });
+
+  it("separates page from block only when the theme actually differs", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { theme: "slate" });
+    const slate = await (await getPublic("/blyg/style.css")).text();
+    expect(slate).toContain("--block-pad: 2rem");
+    expect(slate).toContain("--page: #2f3538");
+    expect(slate).toContain("--paper: #f5f7f7");
+
+    await apiJson(cookie, "PUT", "/api/settings", { theme: "paper" });
+    const paper = await (await getPublic("/blyg/style.css")).text();
+    // Same colour on both surfaces: padding the block would draw a card edge
+    // around nothing.
+    expect(paper).toContain("--block-pad: 0rem");
+  });
+
+  it("ignores an unknown theme instead of emitting broken CSS", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { theme: "not-a-theme" });
+    const css = await (await getPublic("/blyg/style.css")).text();
+    expect(css).not.toContain("theme:");
+    expect(css).toContain("prefers-color-scheme: dark");
+  });
+
+  it("is a local setting — it never reaches the manifest", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { theme: "nord" });
+    const manifest = (await (await getPublic("/blyg/blyg.json")).json()) as any;
+    expect(JSON.stringify(manifest)).not.toContain("nord");
+    await apiJson(cookie, "PUT", "/api/settings", { theme: "auto" });
   });
 });
 

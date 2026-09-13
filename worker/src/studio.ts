@@ -11,6 +11,7 @@ import { Hono } from "hono";
 import { checkPassword, clearSessionCookie, issueSessionCookie, verifySession } from "./auth.ts";
 import { plainTextFromHtml, renderMarkdown } from "./markdown.ts";
 import { authoredKind, getItem, getSettings, getVersion, listAll, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
+import { THEMES } from "./pages.ts";
 import { clampText, previewFromHtml, stripTransclusionQuotes, type HtmlPreview } from "./preview.ts";
 import { annotateGenerated, applyGeneratedWrappers, parseScopes, previewStrip, type TkScope } from "./tk.ts";
 import { extractDirectives, previewTransclusions } from "./transclusion.ts";
@@ -176,6 +177,24 @@ button.danger { color: var(--alert); border-color: var(--alert); }
 .preview .unresolved { border-left-color: var(--alert); background: var(--alert-wash); color: var(--alert); font-style: italic; }
 .edit-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
 input.note { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.5rem; border-radius: 4px; border: 1px solid var(--rule-strong); background: transparent; color: inherit; width: 22rem; max-width: 100%; }
+/* Theme picker — each option is a swatch of the pair it actually produces
+ * (the page behind, the block on top), because the names mean nothing until
+ * you see them and a dropdown of words would make you save to find out. */
+.theme-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.2rem 0 0.5rem; }
+.theme-opt { cursor: pointer; }
+.theme-opt input { position: absolute; opacity: 0; pointer-events: none; }
+.theme-swatch {
+  display: block; width: 5.5rem; height: 3.2rem; border-radius: 4px;
+  border: 2px solid var(--rule); padding: 0.5rem 0.45rem; overflow: hidden;
+}
+.theme-swatch .sheet { height: 100%; border-radius: 2px; display: flex; flex-direction: column; justify-content: center; gap: 0.18rem; padding: 0 0.3rem; }
+.theme-swatch .line { height: 2px; border-radius: 1px; }
+.theme-swatch .line.short { width: 55%; }
+.theme-opt input:checked + .theme-swatch { border-color: var(--pencil); }
+.theme-opt input:focus-visible + .theme-swatch { outline: 2px solid var(--pencil); outline-offset: 2px; }
+.theme-name { display: block; font-size: 0.75rem; color: var(--ink-soft); margin-top: 0.2rem; text-align: center; }
+.theme-opt input:checked ~ .theme-name { color: var(--ink); }
+
 .history { margin-top: 1.5rem; font-size: 0.85rem; }
 .history h2 { font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); }
 .history .h-hint { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: 0.7; }
@@ -636,6 +655,37 @@ composerGenerate.addEventListener("click", async () => {
 `;
 }
 
+
+/**
+ * Theme swatches. `auto` comes first and is the default: it is the only option
+ * that respects a choice the *reader* made (their system light/dark) rather
+ * than one the author imposed, so it should be the easy thing to keep.
+ */
+function themeOptions(current: string): string {
+  const opt = (value: string, label: string, page: string, paper: string, ink: string) =>
+    `<label class="theme-opt"><input type="radio" name="theme" value="${value}"${value === current ? " checked" : ""}>` +
+    `<span class="theme-swatch" style="background:${page}">` +
+    `<span class="sheet" style="background:${paper}">` +
+    `<span class="line" style="background:${ink}"></span>` +
+    `<span class="line short" style="background:${ink};opacity:0.55"></span>` +
+    `</span></span>` +
+    `<span class="theme-name">${escapeHtml(label)}</span></label>`;
+  // The auto swatch is drawn split: light on one side, dark on the other.
+  const auto =
+    `<label class="theme-opt"><input type="radio" name="theme" value="auto"${current === "auto" || !THEMES[current] ? " checked" : ""}>` +
+    `<span class="theme-swatch" style="background:linear-gradient(90deg,#fafbfb 50%,#14191a 50%)">` +
+    `<span class="sheet" style="background:transparent">` +
+    `<span class="line" style="background:linear-gradient(90deg,#1b2426 50%,#e3e7e7 50%)"></span>` +
+    `<span class="line short" style="background:linear-gradient(90deg,#1b2426 50%,#e3e7e7 50%);opacity:0.55"></span>` +
+    `</span></span><span class="theme-name">Auto</span></label>`;
+  return (
+    auto +
+    Object.entries(THEMES)
+      .map(([key, t]) => opt(key, t.label, t.page, t.paper, t.ink))
+      .join("")
+  );
+}
+
 export const studio = new Hono<{ Bindings: Env }>({ strict: false });
 
 studio.get("/login", async (c) => {
@@ -720,6 +770,8 @@ studio.get("/settings", async (c) => {
 <textarea id="author_bio" name="author_bio" rows="3">${escapeHtml(settings.author_bio)}</textarea>
 <label for="author_links">Links (one per line, "label | url")</label>
 <textarea id="author_links" name="author_links" rows="3">${escapeHtml(linksText)}</textarea>
+<label>Reading theme <span style="font-weight:400;color:var(--ink-soft);">— the public pages only; the studio keeps its own light/dark</span></label>
+<div class="theme-grid">${themeOptions(settings.theme)}</div>
 <label for="site_url">Canonical site URL (blank = derive from request)</label>
 <input id="site_url" name="site_url" value="${escapeHtml(settings.site_url)}">
 <label for="ai_model">TK generation model (blank = provider default, currently claude-opus-5)</label>
@@ -738,6 +790,7 @@ document.getElementById("settings-form").addEventListener("submit", async (e) =>
     .filter((l) => l.label && l.url);
   const body = {
     site_title: document.getElementById("site_title").value,
+    theme: (document.querySelector('input[name="theme"]:checked') || {}).value || "auto",
     author_name: document.getElementById("author_name").value,
     author_bio: document.getElementById("author_bio").value,
     site_url: document.getElementById("site_url").value,

@@ -143,6 +143,8 @@ export interface SignalRow {
 /** Site settings with defaults applied. */
 export interface Settings {
   site_title: string;
+  /** Reading theme for the public pages — a key of THEMES, or "auto" to follow the reader's system preference. */
+  theme: string;
   author_name: string;
   author_bio: string;
   author_links: AuthorLink[];

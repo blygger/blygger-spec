@@ -12,6 +12,112 @@ import { authoredKind, getMedia, listMediaForItem, listVersions, publishedVersio
 import type { ItemRow, MediaRow, Settings, SubscriptionRow, Transclusion, VersionRow } from "./types.ts";
 import { escapeHtml } from "./util.ts";
 
+
+/**
+ * Reading themes (session 19). A theme repaints two surfaces: the page behind
+ * everything (`--page`, the margins) and the block the writing sits in
+ * (`--paper`). When they differ the block reads as a sheet on a desk, which is
+ * the point of offering the pair rather than one background colour.
+ *
+ * These are borrowed, not invented. Solarized and Nord are published palettes
+ * with worked-out contrast; the cream is the warm-paper value long-form
+ * readers converged on. A palette someone else already balanced beats one I
+ * mix here, and each is named so an author can look up what they are choosing.
+ *
+ * `auto` is the default and is not a theme: it means "follow the reader's
+ * system preference", which is the only setting that respects a choice the
+ * *reader* made rather than one the author made for them.
+ *
+ * Public pages only. The studio keeps its own light/dark — it is a tool, and
+ * a tool that repaints itself when you change your site's colours is a
+ * surprise, not a feature.
+ */
+export interface Theme {
+  label: string;
+  /** true when the palette is dark, so `color-scheme` can be pinned to match. */
+  dark: boolean;
+  page: string;
+  paper: string;
+  ink: string;
+  inkSoft: string;
+  rule: string;
+  pencil: string;
+}
+
+export const THEMES: Record<string, Theme> = {
+  paper: {
+    label: "Paper",
+    dark: false,
+    page: "#fafbfb", paper: "#fafbfb",
+    ink: "#1b2426", inkSoft: "#5c686b", rule: "#dde3e5", pencil: "#23608c",
+  },
+  cream: {
+    label: "Cream",
+    dark: false,
+    page: "#e9e2d2", paper: "#f7f2e7",
+    ink: "#33312c", inkSoft: "#6d675c", rule: "#ddd5c4", pencil: "#8a5a2b",
+  },
+  slate: {
+    label: "Slate",
+    dark: false,
+    page: "#2f3538", paper: "#f5f7f7",
+    ink: "#1b2426", inkSoft: "#5c686b", rule: "#dde3e5", pencil: "#23608c",
+  },
+  "solarized-light": {
+    label: "Solarized Light",
+    dark: false,
+    page: "#eee8d5", paper: "#fdf6e3",
+    ink: "#073642", inkSoft: "#657b83", rule: "#e3dcc4", pencil: "#268bd2",
+  },
+  "solarized-dark": {
+    label: "Solarized Dark",
+    dark: true,
+    page: "#00212b", paper: "#002b36",
+    ink: "#eee8d5", inkSoft: "#93a1a1", rule: "#0c4553", pencil: "#6cb6e0",
+  },
+  nord: {
+    label: "Nord",
+    dark: true,
+    page: "#242933", paper: "#2e3440",
+    ink: "#e5e9f0", inkSoft: "#a5aec0", rule: "#3e4757", pencil: "#88c0d0",
+  },
+};
+
+/**
+ * CSS appended to the stylesheet when the author picked a theme. It redefines
+ * the tokens for BOTH schemes — the base block and the dark-preference block —
+ * because an explicit choice by the author should not flip when the reader's
+ * OS does. `auto` returns nothing, leaving the light/dark defaults in charge.
+ */
+export function themeCss(name: string): string {
+  const t = THEMES[name];
+  if (!t) return "";
+  // Padding only when the two surfaces differ: on a theme where they match,
+  // padding the block would draw a card edge around nothing.
+  const pad = t.page === t.paper ? "0rem" : "2rem";
+  const vars = `  color-scheme: ${t.dark ? "dark" : "light"};
+  --block-pad: ${pad};
+  --page: ${t.page};
+  --paper: ${t.paper};
+  --paper-sunk: ${t.dark ? t.page : t.rule};
+  --ink: ${t.ink};
+  --ink-soft: ${t.inkSoft};
+  --rule: ${t.rule};
+  --pencil: ${t.pencil};`;
+  return `
+/* theme: ${t.label} — author-chosen, so it overrides the reader's light/dark
+   preference rather than being overridden by it. */
+:root {
+${vars}
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+${vars}
+  }
+}
+`;
+}
+
 export const STYLE_CSS = `/* blyg — one hand-written stylesheet, no build step, no web fonts.
  *
  * The design idea (session 19): **the editorial apparatus is the design.**
@@ -35,12 +141,16 @@ export const STYLE_CSS = `/* blyg — one hand-written stylesheet, no build step
  */
 :root {
   color-scheme: light dark;
+  /* --page is the margins, --paper the block the writing sits in. They are
+     the same colour until a theme separates them (see themeCss). */
+  --page: #fafbfb;
   --paper: #fafbfb;
   --paper-sunk: #eef1f3;
   --ink: #1b2426;
   --ink-soft: #5c686b;
   --rule: #dde3e5;
   --pencil: #23608c;
+  --block-pad: 0rem;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, "Times New Roman", serif;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   /* The apparatus layer: small sans, a little looser than the prose. */
@@ -48,6 +158,7 @@ export const STYLE_CSS = `/* blyg — one hand-written stylesheet, no build step
 }
 @media (prefers-color-scheme: dark) {
   :root {
+    --page: #14191a;
     --paper: #14191a;
     --paper-sunk: #1d2426;
     --ink: #e3e7e7;
@@ -58,7 +169,7 @@ export const STYLE_CSS = `/* blyg — one hand-written stylesheet, no build step
 }
 * { box-sizing: border-box; }
 body {
-  background: var(--paper);
+  background: var(--page);
   color: var(--ink);
   font-family: var(--serif);
   font-size: 1.0625rem;
@@ -69,7 +180,17 @@ body {
 }
 /* Also set on the block itself, so an embedded .blyg keeps its own type
  * inside a host page that never loads this file's body rule. */
-.blyg { max-width: 65ch; margin: 0 auto; font-family: var(--serif); color: var(--ink); }
+/* The block keeps its 65ch measure whether or not a theme pads it away from
+ * the page, so switching themes never reflows the text. */
+.blyg {
+  max-width: calc(65ch + 2 * var(--block-pad));
+  margin: 0 auto;
+  padding: var(--block-pad);
+  background: var(--paper);
+  border-radius: 3px;
+  font-family: var(--serif);
+  color: var(--ink);
+}
 .blyg a { color: var(--pencil); text-underline-offset: 0.15em; text-decoration-thickness: from-font; }
 .blyg :focus-visible { outline: 2px solid var(--pencil); outline-offset: 2px; border-radius: 2px; }
 ::selection { background: color-mix(in srgb, var(--pencil) 22%, transparent); }
@@ -222,6 +343,9 @@ footer.older a:hover { text-decoration: underline; }
 
 @media (max-width: 30rem) {
   body { padding: 1.5rem 1rem 3rem; }
+  /* A 2rem inset on a phone eats the measure; the sheet still reads as a
+     sheet with half of it. */
+  .blyg { padding: calc(var(--block-pad) / 2); max-width: calc(65ch + var(--block-pad)); }
   ul.archive li { flex-direction: column; gap: 0.15rem; }
 }
 `;
@@ -340,8 +464,9 @@ export const FEED_SCRIPT = `
     function render() {
       var v = versions[at];
       var isLive = v === live;
-      var pinned = pins.indexOf(v) !== -1;
-      label.textContent = "v" + v + (isLive ? (pinned ? " · pinned" : "") : " · frozen");
+      // Only "frozen" is added here. Saying "pinned" would repeat the pin
+      // citations sitting right beside it ("v3 · pinned · pinned: v1, v3").
+      label.textContent = "v" + v + (isLive ? "" : " · frozen");
       article.classList.toggle("showing-pin", !isLive);
       nav.querySelector('[data-step="-1"]').disabled = at === 0;
       nav.querySelector('[data-step="1"]').disabled = at === versions.length - 1;

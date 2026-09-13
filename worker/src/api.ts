@@ -176,6 +176,7 @@ api.post("/media", async (c) => {
 
 const SETTINGS_KEYS = [
   "site_title",
+  "theme",
   "author_name",
   "author_bio",
   "site_url",
