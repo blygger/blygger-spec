@@ -1,7 +1,8 @@
 // Task 8 acceptance: public HTML renders the §4 wireframe structure;
 // markdown escaping verified (no raw HTML passthrough).
+import { SELF } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
-import { apiJson, createAndPublish, getPublic, login } from "./helpers.ts";
+import { apiJson, BASE, createAndPublish, getPublic, login } from "./helpers.ts";
 
 describe("public pages (§3.4)", () => {
   it("feed page shows header, fragment, permalink, RSS link", async () => {
@@ -228,3 +229,87 @@ describe("archive rows (session 19)", () => {
     expect(html).not.toMatch(/<span class="meta">\d{4}-\d{2}-\d{2}/);
   });
 });
+
+describe("social / meta tags (session 19)", () => {
+  it("an item page describes the item, not the site, and titles itself distinctly", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { site_title: "Field Notes", site_url: "https://example.org/blyg/" });
+    const id = await createAndPublish(cookie, "A note about stigmergy and traces.");
+    const html = await (await getPublic(`/blyg/f/${id}/`)).text();
+    expect(html).toContain("<title>A note about stigmergy and traces. — Field Notes</title>");
+    expect(html).toContain('<meta name="description" content="A note about stigmergy and traces.">');
+    expect(html).toContain('<meta property="og:type" content="article">');
+    expect(html).toContain(`<meta property="og:url" content="https://example.org/blyg/f/${id}/">`);
+    expect(html).toContain('<meta property="og:site_name" content="Field Notes">');
+  });
+
+  it("a pinned page describes the frozen bytes, not the live ones", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { site_url: "https://example.org/blyg/" });
+    const id = await createAndPublish(cookie, "the original wording");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "the revised wording" });
+    await apiJson(cookie, "POST", `/api/items/${id}/publish`, {});
+    const pinned = await (await getPublic(`/blyg/f/${id}/v1/`)).text();
+    expect(pinned).toContain('<meta name="description" content="the original wording">');
+    expect(pinned).not.toContain("the revised wording");
+    // …while the live page moved on.
+    const live = await (await getPublic(`/blyg/f/${id}/`)).text();
+    expect(live).toContain('<meta name="description" content="the revised wording">');
+  });
+
+  it("uses the item's own image for og:image, falling back to the twitter text card", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { site_url: "https://example.org/blyg/", avatar_media_id: "" });
+    const id = await createAndPublish(cookie, "an illustrated fragment");
+    const form = new FormData();
+    form.set("file", new File([new Uint8Array([1])], "p.png", { type: "image/png" }));
+    form.set("item_id", id);
+    const up = (await (
+      await SELF.fetch(`${BASE}/api/media`, { method: "POST", headers: { cookie }, body: form })
+    ).json()) as any;
+    const withImage = await (await getPublic(`/blyg/f/${id}/`)).text();
+    expect(withImage).toContain(`<meta property="og:image" content="https://example.org/blyg/${up.url}">`);
+    expect(withImage).toContain('<meta name="twitter:card" content="summary_large_image">');
+
+    const plain = await createAndPublish(cookie, "no picture here");
+    const noImage = await (await getPublic(`/blyg/f/${plain}/`)).text();
+    expect(noImage).not.toContain("og:image");
+    expect(noImage).toContain('<meta name="twitter:card" content="summary">');
+  });
+
+  it("a withdrawn item unfurls as a withdrawal, with no image and no stale text", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { site_title: "Field Notes" });
+    const id = await createAndPublish(cookie, "words that will be pulled");
+    await apiJson(cookie, "POST", `/api/items/${id}/withdraw`, {});
+    const html = await (await getPublic(`/blyg/f/${id}/`)).text();
+    expect(html).toContain('content="A withdrawn item on Field Notes.">');
+    expect(html).not.toContain("words that will be pulled");
+    expect(html).not.toContain("og:image");
+  });
+
+  it("falls back to the newest item when no bio is set, and to the bio when one is", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { author_bio: "" });
+    await createAndPublish(cookie, "the most recently published thing");
+    // Asserted against the top of the *rendered* feed rather than a named item:
+    // `listPublic` orders by `updated DESC` at second precision, so items
+    // published inside one second (which a test does routinely) tie.
+    const noBio = await (await getPublic("/blyg/")).text();
+    const topArticle = noBio.split('<article class="fragment"')[1] ?? "";
+    const described = /<meta name="description" content="([^"]*)">/.exec(noBio)?.[1] ?? "";
+    expect(described.length).toBeGreaterThan(0);
+    expect(topArticle).toContain(described.replace(/…$/, ""));
+
+    await apiJson(cookie, "PUT", "/api/settings", { author_bio: "A blyg about protocols." });
+    expect(await (await getPublic("/blyg/")).text()).toContain(
+      '<meta name="description" content="A blyg about protocols.">',
+    );
+  });
+
+  // The third case — no bio AND no items — is covered in
+  // importer/public-surfaces.test.ts, which runs against a blyg with nothing
+  // published and caught this path dereferencing a nonexistent item.
+});
+

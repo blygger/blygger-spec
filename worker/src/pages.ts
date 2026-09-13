@@ -63,16 +63,62 @@ ul.archive .meta { font-size: 0.85rem; opacity: 0.7; margin-left: 0.5rem; }
 footer.older { text-align: center; padding: 1rem 0; }
 `;
 
-export function layout(title: string, body: string, mount: string, hasBlogroll = false, canonical?: string): string {
+/**
+ * Per-page head extras. Grouped into one object rather than growing `layout`'s
+ * positional tail, which was already at five.
+ *
+ * `description`/`image`/`url` drive both the plain `<meta name="description">`
+ * and the Open Graph + Twitter tags. Purely presentational: a blyg's identity
+ * and content are published to machines through `blyg.json`, `feed.xml` and the
+ * item JSON, none of which change here — these tags exist so that a *link to*
+ * a blyg pasted into a chat or a social post unfurls as something other than a
+ * bare URL. `siteName` is the blyg's title; `url` must be absolute (OG requires
+ * it), which is why the page builders now take the site origin.
+ */
+export interface PageMeta {
+  hasBlogroll?: boolean;
+  canonical?: string;
+  description?: string;
+  /** Absolute URL of this page — og:url. */
+  url?: string;
+  /** Absolute URL of a representative image — og:image. */
+  image?: string;
+  /** og:type — "website" for the feed/archive, "article" for an item page. */
+  type?: "website" | "article";
+  siteName?: string;
+  /** og:title when it should differ from <title> (which carries the site suffix). */
+  ogTitle?: string;
+}
+
+function metaTags(meta: PageMeta): string {
+  const tags: string[] = [];
+  const push = (name: string, value: string | undefined, prop = false) => {
+    if (!value) return;
+    tags.push(`<meta ${prop ? "property" : "name"}="${name}" content="${escapeHtml(value)}">`);
+  };
+  push("description", meta.description);
+  push("og:title", meta.ogTitle, true);
+  push("og:description", meta.description, true);
+  push("og:type", meta.type ?? "website", true);
+  push("og:url", meta.url, true);
+  push("og:image", meta.image, true);
+  push("og:site_name", meta.siteName, true);
+  // summary_large_image only makes sense with an image; without one the
+  // "large" card renders as an empty box, so fall back to the text card.
+  push("twitter:card", meta.image ? "summary_large_image" : "summary");
+  return tags.length ? tags.join("\n") + "\n" : "";
+}
+
+export function layout(title: string, body: string, mount: string, meta: PageMeta = {}): string {
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escapeHtml(title)}</title>
-<link rel="stylesheet" href="${mount}/style.css">
+${metaTags({ ...meta, ogTitle: meta.ogTitle ?? title })}<link rel="stylesheet" href="${mount}/style.css">
 <link rel="alternate" type="application/rss+xml" href="${mount}/feed.xml">
-${canonical ? `<link rel="canonical" href="${canonical}">\n` : ""}${hasBlogroll ? `<link rel="blogroll" href="${mount}/blogroll.opml">\n` : ""}</head>
+${meta.canonical ? `<link rel="canonical" href="${meta.canonical}">\n` : ""}${meta.hasBlogroll ? `<link rel="blogroll" href="${mount}/blogroll.opml">\n` : ""}</head>
 <body>
 ${body}
 </body>
@@ -279,7 +325,28 @@ ${itemMeta(item, null, await pinnedVersions(db, item.id), mount, isThread)}
 </article>`;
 }
 
-export async function feedPage(db: D1Database, settings: Settings, items: ItemRow[], hasMore: boolean, mount: string): Promise<string> {
+/**
+ * Absolute URL of the first image on an item, for og:image. Falls back to the
+ * avatar so a text-only item still unfurls with the blyg's face on it rather
+ * than a blank card.
+ */
+async function socialImage(db: D1Database, settings: Settings, media: MediaRow[], origin: string): Promise<string | undefined> {
+  const first = media[0];
+  if (first) return origin + first.r2_key;
+  const avatar = settings.avatar_media_id ? await getMedia(db, settings.avatar_media_id) : null;
+  return avatar ? origin + avatar.r2_key : undefined;
+}
+
+/**
+ * `<title>` for an item page. It used to be the bare site title on every
+ * permalink, which made every item share one browser-tab label and one search
+ * result heading — the excerpt is the only part that distinguishes them.
+ */
+function itemTitle(excerptText: string, settings: Settings): string {
+  return excerptText ? `${excerptText} — ${settings.site_title}` : settings.site_title;
+}
+
+export async function feedPage(db: D1Database, settings: Settings, items: ItemRow[], hasMore: boolean, mount: string, origin: string): Promise<string> {
   const blocks: string[] = [];
   for (const item of items) {
     // Withdrawn items don't appear on the feed page (rev-3 wireframe note) —
@@ -295,31 +362,87 @@ ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</
 </div>`;
   // §2.2: publishers SHOULD emit rel="blogroll" on the HTML feed page when the blogroll is non-empty.
   const hasBlogroll = (await listBlogrollSubscriptions(db)).length > 0;
-  return layout(settings.site_title, body, mount, hasBlogroll);
+  // The bio is the blyg's own description of itself; with none set, the most
+  // recent item is the best available summary of what this blyg is — and a
+  // brand-new blyg has neither, in which case there is no description to emit.
+  const newest = items[0];
+  const description =
+    settings.author_bio ||
+    (newest ? excerptFromHtml((await publishedVersion(db, newest))?.content_html ?? "", 200) : "");
+  return layout(settings.site_title, body, mount, {
+    hasBlogroll,
+    description,
+    url: origin,
+    image: await socialImage(db, settings, [], origin),
+    siteName: settings.site_title,
+  });
+}
+
+/**
+ * An endcap page's head. A withdrawn item's text is gone by design, so there is
+ * nothing to summarize and nothing to unfurl — the tags say what the page *is*,
+ * and deliberately carry no image.
+ */
+function withdrawnMeta(settings: Settings, url: string): PageMeta {
+  return {
+    description: `A withdrawn item on ${settings.site_title}.`,
+    url,
+    type: "article",
+    siteName: settings.site_title,
+  };
 }
 
 /** Fragment permalink page — caller (index.ts) 404s if the item's authored kind isn't fragment. */
-export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
+export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow, mount: string, origin: string): Promise<string> {
+  const url = `${origin}f/${item.id}/`;
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`, mount);
+    return layout(
+      `withdrawn — ${settings.site_title}`,
+      `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
+      mount,
+      withdrawnMeta(settings, url),
+    );
   }
+  const latest = await publishedVersion(db, item);
+  const media = await listMediaForItem(db, item.id);
+  const text = excerptFromHtml(latest?.content_html ?? "", 200);
   const body = `<div class="blyg">
 ${pageHeader(settings, mount)}
 ${await fragmentBlock(db, item, mount)}
 </div>`;
-  return layout(settings.site_title, body, mount);
+  return layout(itemTitle(excerptFromHtml(latest?.content_html ?? "", 70), settings), body, mount, {
+    description: text,
+    url,
+    type: "article",
+    image: await socialImage(db, settings, media, origin),
+    siteName: settings.site_title,
+  });
 }
 
 /** Thread permalink page (§2.9) — caller (index.ts) 404s if the item's authored kind isn't thread. */
-export async function threadPage(db: D1Database, settings: Settings, item: ItemRow, mount: string): Promise<string> {
+export async function threadPage(db: D1Database, settings: Settings, item: ItemRow, mount: string, origin: string): Promise<string> {
+  const url = `${origin}t/${item.id}/`;
   if (item.kind === "withdrawn") {
-    return layout(`withdrawn — ${settings.site_title}`, `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`, mount);
+    return layout(
+      `withdrawn — ${settings.site_title}`,
+      `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
+      mount,
+      withdrawnMeta(settings, url),
+    );
   }
+  const latest = await publishedVersion(db, item);
+  const media = await listMediaForItem(db, item.id);
   const body = `<div class="blyg">
 ${pageHeader(settings, mount)}
 ${await threadBlock(db, item, mount)}
 </div>`;
-  return layout(settings.site_title, body, mount);
+  return layout(itemTitle(excerptFromHtml(latest?.content_html ?? "", 70), settings), body, mount, {
+    description: excerptFromHtml(latest?.content_html ?? "", 200),
+    url,
+    type: "article",
+    image: await socialImage(db, settings, media, origin),
+    siteName: settings.site_title,
+  });
 }
 
 /**
@@ -366,10 +489,18 @@ ${noteHtml}
   // base URL, trailing slash included): the frozen page is a version of the
   // same work, and the living one is the page that should be indexed.
   const canonical = `${origin}${isThread ? "t" : "f"}/${item.id}/`;
-  return layout(`v${row.version} — ${settings.site_title}`, body, mount, false, canonical);
+  return layout(`v${row.version} — ${itemTitle(excerptFromHtml(row.content_html, 70), settings)}`, body, mount, {
+    canonical,
+    // The excerpt comes from the *pinned* version's own bytes, so a citation
+    // unfurls as the text that was actually frozen, not the live text.
+    description: excerptFromHtml(row.content_html, 200),
+    url: `${origin}${isThread ? "t" : "f"}/${item.id}/v${row.version}/`,
+    type: "article",
+    siteName: settings.site_title,
+  });
 }
 
-export async function archivePage(db: D1Database, settings: Settings, items: ItemRow[], mount: string): Promise<string> {
+export async function archivePage(db: D1Database, settings: Settings, items: ItemRow[], mount: string, origin: string): Promise<string> {
   const rows: string[] = [];
   for (const item of items) {
     // A withdrawn row is a link like any other: the endcap page is a real,
@@ -398,5 +529,9 @@ ${pageHeader(settings, mount)}
 ${rows.join("\n")}
 </ul>
 </div>`;
-  return layout(`archive — ${settings.site_title}`, body, mount);
+  return layout(`archive — ${settings.site_title}`, body, mount, {
+    description: `Every item published on ${settings.site_title}.`,
+    url: `${origin}archive/`,
+    siteName: settings.site_title,
+  });
 }

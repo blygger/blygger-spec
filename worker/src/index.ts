@@ -86,7 +86,7 @@ export function makeApp(mount: string) {
     const settings = await getSettings(c.env.DB);
     const items = await listPublic(c.env.DB, FEED_PAGE_SIZE + 1);
     const hasMore = items.length > FEED_PAGE_SIZE;
-    return c.html(await feedPage(c.env.DB, settings, items.slice(0, FEED_PAGE_SIZE), hasMore, mount));
+    return c.html(await feedPage(c.env.DB, settings, items.slice(0, FEED_PAGE_SIZE), hasMore, mount, siteOrigin(settings, c.req.url, mount)));
   });
 
   pub.get("/style.css", (c) => c.text(STYLE_CSS, 200, { "Content-Type": "text/css; charset=utf-8" }));
@@ -169,7 +169,7 @@ export function makeApp(mount: string) {
     if (!item || item.status === "draft") return c.notFound();
     if ((await authoredKind(c.env.DB, item)) !== "fragment") return c.notFound();
     const settings = await getSettings(c.env.DB);
-    return c.html(await permalinkPage(c.env.DB, settings, item, mount));
+    return c.html(await permalinkPage(c.env.DB, settings, item, mount, siteOrigin(settings, c.req.url, mount)));
   });
 
   // Pinned-version HTML pages (session-18 decision, additive per §2.8's
@@ -199,12 +199,12 @@ export function makeApp(mount: string) {
     if (!item || item.status === "draft") return c.notFound();
     if ((await authoredKind(c.env.DB, item)) !== "thread") return c.notFound();
     const settings = await getSettings(c.env.DB);
-    return c.html(await threadPage(c.env.DB, settings, item, mount));
+    return c.html(await threadPage(c.env.DB, settings, item, mount, siteOrigin(settings, c.req.url, mount)));
   });
 
   pub.get("/archive", async (c) => {
     const settings = await getSettings(c.env.DB);
-    return c.html(await archivePage(c.env.DB, settings, await listPublic(c.env.DB), mount));
+    return c.html(await archivePage(c.env.DB, settings, await listPublic(c.env.DB), mount, siteOrigin(settings, c.req.url, mount)));
   });
 
   pub.get("/media/:file", async (c) => {
