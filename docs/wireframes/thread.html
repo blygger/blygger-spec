@@ -4,42 +4,192 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>wireframe — public thread page t/{id}/ (rev 3)</title>
-<style>
-:root { color-scheme: light dark; }
+<style>/* blyg — one hand-written stylesheet, no build step, no web fonts.
+ *
+ * The design idea (session 19): **the editorial apparatus is the design.**
+ * What distinguishes a blyg from a blog is that every item wears its own
+ * revision history in public — "v2 · pinned: v1, v2", Created/Most-recent,
+ * the provenance line under a transcluded quote, the endcap where a withdrawn
+ * item used to be. All of that used to render as one undifferentiated grey
+ * murmur (0.85rem, opacity 0.7). Here it gets its own typeface and its own
+ * colour, consistently, so a reader can learn to read it; the prose gets a
+ * serif and is otherwise left alone.
+ *
+ * The colour that carries it is an editor's blue pencil. To "blue-pencil" a
+ * manuscript is to edit it — the same copy-desk world [TK] comes from — so
+ * every editorial mark on the page is blue: pins, provenance, the rule beside
+ * a transclusion, the kind marker. Prose is ink; nothing else competes.
+ *
+ * NO WEB FONTS, deliberately. A reference client for a decentralised medium
+ * should not make every reader's page load phone a third-party font host;
+ * self-hosted static files that depend on someone else's CDN are not really
+ * self-hosted. System stacks only.
+ */
+:root {
+  color-scheme: light dark;
+  --paper: #fafbfb;
+  --paper-sunk: #eef1f3;
+  --ink: #1b2426;
+  --ink-soft: #5c686b;
+  --rule: #dde3e5;
+  --pencil: #23608c;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Charter, Georgia, "Times New Roman", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* The apparatus layer: small sans, a little looser than the prose. */
+  --apparatus: 0.8125rem/1.5 var(--sans);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #14191a;
+    --paper-sunk: #1d2426;
+    --ink: #e3e7e7;
+    --ink-soft: #95a2a5;
+    --rule: #2b3436;
+    --pencil: #8cc0e4;
+  }
+}
 * { box-sizing: border-box; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.55;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.65;
   margin: 0 auto;
-  padding: 1.5rem 1rem 4rem;
+  padding: 2rem 1.25rem 5rem;
+  -webkit-text-size-adjust: 100%;
 }
-.blyg { max-width: 65ch; margin: 0 auto; }
-.blyg-header { margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: baseline; }
-.blyg-header a { color: inherit; text-decoration: none; font-size: 0.95rem; }
-.blyg-header a:hover { text-decoration: underline; }
-.blyg .timestamps { font-size: 0.85rem; opacity: 0.7; margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.1rem; }
-.blyg .version-line { margin-top: 0.75rem; font-size: 0.85rem; opacity: 0.75; }
-.blyg .version-line .pins a { text-decoration: none; border-bottom: 1px dotted currentColor; }
-.blyg .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
-/* The transclusion block — this styling is protocol-adjacent (readers may rely
-   on .blyg-transclusion existing) but the look is the client's choice. */
-.blyg blockquote.blyg-transclusion {
-  margin: 1.25rem 0; padding: 0.75rem 1rem;
-  border-left: 3px solid rgba(128,128,128,0.55);
-  background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0;
+/* Also set on the block itself, so an embedded .blyg keeps its own type
+ * inside a host page that never loads this file's body rule. */
+.blyg { max-width: 65ch; margin: 0 auto; font-family: var(--serif); color: var(--ink); }
+.blyg a { color: var(--pencil); text-underline-offset: 0.15em; text-decoration-thickness: from-font; }
+.blyg :focus-visible { outline: 2px solid var(--pencil); outline-offset: 2px; border-radius: 2px; }
+::selection { background: color-mix(in srgb, var(--pencil) 22%, transparent); }
+
+/* ---- header + masthead -------------------------------------------------
+ * Two shapes for the same identity. Every page carries the quiet one-line
+ * header (the blyg's name, which is also the way back to its index). The
+ * feed page — the front door, and the only page not meant to be embedded —
+ * carries the name at display size instead, so the header there drops the
+ * name and keeps only the feed link. */
+.blyg-header { margin-bottom: 1.75rem; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.blyg-header a { color: var(--ink-soft); text-decoration: none; font: var(--apparatus); }
+.blyg-header a:hover { color: var(--pencil); text-decoration: underline; }
+.blyg-header .blyg-name { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
+.blyg-header.bare { justify-content: flex-end; margin-bottom: 0.5rem; }
+
+.masthead { display: flex; gap: 1rem; align-items: baseline; margin: 0 0 2.5rem; }
+.masthead .avatar { border-radius: 50%; flex: none; object-fit: cover; align-self: flex-start; }
+.masthead .masthead-text { min-width: 0; }
+.masthead p { margin: 0; }
+.masthead .site-name {
+  font-family: var(--serif);
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.4rem;
 }
-.blyg blockquote.blyg-transclusion p:first-child { margin-top: 0; }
-.blyg blockquote.blyg-transclusion p:last-of-type { margin-bottom: 0.25rem; }
-.blyg .provenance { font-size: 0.78rem; opacity: 0.65; margin: 0.4rem 0 0; }
-.blyg .provenance a { text-decoration: none; }
-.wf-note { max-width: 65ch; margin: 0 auto 1rem; background: rgba(255,200,0,0.15); border: 1px dashed rgba(128,128,128,0.6); padding: 0.5rem 0.75rem; font-size: 0.85rem; }
+.masthead .site-name a { color: var(--ink); text-decoration: none; }
+.masthead .author-name { font: var(--apparatus); color: var(--ink); }
+.masthead .author-bio { font: var(--apparatus); color: var(--ink-soft); max-width: 48ch; }
+.masthead .author-links { font: var(--apparatus); margin-top: 0.35rem; }
+.masthead .author-links a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.masthead .author-links a:hover { border-bottom-color: currentColor; }
+
+/* ---- items -------------------------------------------------------------
+ * Space separates items; the rule is a whisper, not a frame. Fragments are
+ * atomic, so they get room to be read as separate things rather than rows. */
+article.fragment, article.thread { border-top: 1px solid var(--rule); padding: 2rem 0 1.75rem; }
+article.fragment:first-of-type, article.thread:first-of-type { border-top: none; padding-top: 0; }
+article.fragment img, article.thread img { max-width: 100%; height: auto; border-radius: 2px; }
+article.fragment > :first-child, article.thread > :first-child { margin-top: 0; }
+.blyg h1, .blyg h2, .blyg h3 { line-height: 1.2; letter-spacing: -0.01em; margin: 1.6em 0 0.5em; }
+.blyg h1 { font-size: 1.5rem; }
+.blyg h2 { font-size: 1.25rem; }
+.blyg h3 { font-size: 1.0625rem; }
+.blyg code, .blyg pre { font-size: 0.9em; }
+.blyg pre { background: var(--paper-sunk); padding: 0.85rem 1rem; border-radius: 3px; overflow-x: auto; }
+.blyg hr { border: none; border-top: 1px solid var(--rule); margin: 2rem 0; }
+
+/* ---- the apparatus -----------------------------------------------------
+ * Everything below is metadata about a document rather than the document:
+ * one face, one size, one colour, so it reads as a single layer. */
+.timestamps, .version-line, .version-note, a.permalink, .provenance, ul.archive .meta, .pinned-banner {
+  font: var(--apparatus);
+  color: var(--ink-soft);
+}
+.timestamps { margin-top: 0.3rem; display: flex; flex-direction: column; gap: 0.05rem; }
+.version-line { margin-top: 1.3rem; }
+.version-line .pins a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.version-line .pins a:hover { border-bottom-color: currentColor; }
+.version-note { font-style: italic; margin: 0.4rem 0 0; max-width: 52ch; }
+p.permalink, p > a.permalink { margin-top: 0.3rem; }
+a.permalink { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
+a.permalink:hover { color: var(--pencil); border-bottom-color: currentColor; }
+.provenance { margin: 0.5rem 0 0; }
+.provenance a { color: var(--pencil); text-decoration: none; }
+.provenance a:hover { text-decoration: underline; }
+
+/* A pinned page is a frozen artifact; the banner says so plainly, in the
+ * apparatus voice, with the blue pencil down its edge. */
+.pinned-banner {
+  border-left: 2px solid var(--pencil);
+  background: var(--paper-sunk);
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 2rem;
+  border-radius: 0 3px 3px 0;
+}
+.pinned-banner a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
+
+/* Kind marker. Was an ALL-CAPS bordered chip — the commonest template tell,
+ * and heavier than the thing it labels. A blue lowercase word does the job. */
+.kind-chip { font: var(--apparatus); font-style: italic; color: var(--pencil); margin-right: 0.15rem; }
+.thread-card p:first-child { margin-bottom: 0.5rem; }
+
+/* A transcluded fragment is someone's words held verbatim, so it is set as a
+ * quotation with the editorial blue beside it, not as a tinted card. */
+blockquote.blyg-transclusion {
+  margin: 1.5rem 0;
+  padding: 0.25rem 0 0.25rem 1.1rem;
+  border-left: 2px solid var(--pencil);
+  background: none;
+}
+blockquote.blyg-transclusion > :first-child { margin-top: 0; }
+blockquote.blyg-transclusion p:last-of-type { margin-bottom: 0.25rem; }
+/* Quoted material is subordinate to the document quoting it, so a transcluded
+ * fragment's own headings step down a rank rather than competing with the
+ * thread's prose at full size. */
+blockquote.blyg-transclusion h1, blockquote.blyg-transclusion h2 { font-size: 1.125rem; }
+blockquote.blyg-transclusion h3 { font-size: 1rem; }
+blockquote.blyg-transclusion h1, blockquote.blyg-transclusion h2, blockquote.blyg-transclusion h3 { margin: 1.2em 0 0.4em; }
+
+/* Withdrawn: present, legible, and visibly spent. */
+.withdrawn { color: var(--ink-soft); font-style: italic; }
+
+ul.archive { list-style: none; padding: 0; margin: 0; }
+ul.archive li { padding: 0.55rem 0; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+ul.archive .row-main a { text-decoration: none; }
+ul.archive .row-main a:hover { text-decoration: underline; }
+ul.archive .meta { flex: none; white-space: nowrap; }
+footer.older { padding: 2rem 0 0; border-top: 1px solid var(--rule); margin-top: 2rem; }
+footer.older a { font: var(--apparatus); color: var(--pencil); text-decoration: none; }
+footer.older a:hover { text-decoration: underline; }
+
+@media (max-width: 30rem) {
+  body { padding: 1.5rem 1rem 3rem; }
+  ul.archive li { flex-direction: column; gap: 0.15rem; }
+}
+/* --- wireframe-only chrome, not part of the shipped stylesheet --- */
+.wf-note { max-width: 65ch; margin: 0 auto 1.5rem; background: var(--paper-sunk); border-left: 2px solid var(--pencil); padding: 0.6rem 0.85rem; font: var(--apparatus); color: var(--ink-soft); }
+.wf-note code { font-size: 0.95em; }
+.placeholder-img { width: 100%; height: 160px; background: var(--paper-sunk); border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; color: var(--ink-soft); font: var(--apparatus); }
 </style>
 </head>
 <body>
-<p class="wf-note">WIREFRAME REV 3 · public <b>thread page</b> <code>t/{id}/</code> (new surface, session-3 restructure — v0.1-plan §2.9). Same embeddable <code>.blyg</code> scoping and header/timestamp/scrubber conventions as <code>public.html</code>. Transcluded fragments render as <code>blockquote.blyg-transclusion</code> blocks with the snapshot baked in at publish time — the page never fetches them live — each with a small provenance link to the source fragment's permalink and its snapshotted version. There is no title field in the thread schema; authors who want a heading open their markdown with an H1, as here.</p>
+<p class="wf-note"><b>WIREFRAME REV 4</b> · thread permalink <code>t/{id}/</code>, re-synced from the implementation in session 19. <b>The stylesheet below is copied verbatim from <code>STYLE_CSS</code> in <code>worker/src/pages.ts</code></b> — the shipped file is the source of truth. Session 19: the header carries the blyg’s name (linking its index) instead of a hardcoded <code>Home</code>; a transcluded fragment is set as a quotation with the editorial rule beside it, and its own headings step down a rank so quoted material does not outshout the thread quoting it.</p>
 <div class="blyg">
 <header class="blyg-header">
-<a href="/">Home</a>
+<a class="blyg-name" href="/blyg/">A Blyg</a>
 <a href="#" title="RSS feed">RSS ⧉</a>
 </header>
 

@@ -107,6 +107,13 @@ body {
   margin: 0 auto;
   padding: 1.5rem 1rem 4rem;
 }
+/* The studio never set a link colour, so every link fell back to the browser's
+ * default blue-then-purple — including the six nav tabs, which are chrome
+ * rather than content and should not read as six visited links. */
+a { color: var(--pencil); }
+a:focus-visible, button:focus-visible, textarea:focus-visible, input:focus-visible {
+  outline: 2px solid var(--pencil); outline-offset: 2px; border-radius: 2px;
+}
 /* Readable measure for text-heavy sections, without shrinking the page frame. */
 .prose { max-width: 68ch; }
 header.studio { margin-bottom: 1.25rem; border-bottom: 1px solid var(--rule); }
@@ -119,9 +126,9 @@ header.studio nav {
 }
 header.studio nav .nav-spacer { flex: 1; }
 header.studio nav form { display: inline; margin: 0; }
-header.studio nav a { text-decoration: none; padding-bottom: 0.15rem; border-bottom: 2px solid transparent; }
-header.studio nav a:hover { border-bottom-color: var(--rule-strong); }
-header.studio nav a.current { font-weight: 600; border-bottom-color: currentColor; }
+header.studio nav a { color: var(--ink-soft); text-decoration: none; padding-bottom: 0.15rem; border-bottom: 2px solid transparent; }
+header.studio nav a:hover { color: var(--ink); border-bottom-color: var(--rule-strong); }
+header.studio nav a.current { color: var(--ink); font-weight: 600; border-bottom-color: var(--pencil); }
 button.link { background: none; border: none; padding: 0; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }
 .composer { border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; }
 .composer textarea { width: 100%; min-height: 5.5rem; border: none; resize: vertical; font: inherit; background: transparent; outline: none; }
