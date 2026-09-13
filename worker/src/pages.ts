@@ -126,12 +126,12 @@ article.fragment > :first-child, article.thread > :first-child { margin-top: 0; 
   font: var(--apparatus);
   color: var(--ink-soft);
 }
-.timestamps { margin-top: 0.9rem; display: flex; flex-direction: column; gap: 0.05rem; }
-.version-line { margin-top: 1rem; }
+.timestamps { margin-top: 0.3rem; display: flex; flex-direction: column; gap: 0.05rem; }
+.version-line { margin-top: 1.3rem; }
 .version-line .pins a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
 .version-line .pins a:hover { border-bottom-color: currentColor; }
 .version-note { font-style: italic; margin: 0.4rem 0 0; max-width: 52ch; }
-p.permalink, p > a.permalink { margin-top: 0.9rem; }
+p.permalink, p > a.permalink { margin-top: 0.3rem; }
 a.permalink { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
 a.permalink:hover { color: var(--pencil); border-bottom-color: currentColor; }
 .provenance { margin: 0.5rem 0 0; }
@@ -162,16 +162,22 @@ blockquote.blyg-transclusion {
   border-left: 2px solid var(--pencil);
   background: none;
 }
-blockquote.blyg-transclusion p:first-child { margin-top: 0; }
+blockquote.blyg-transclusion > :first-child { margin-top: 0; }
 blockquote.blyg-transclusion p:last-of-type { margin-bottom: 0.25rem; }
+/* Quoted material is subordinate to the document quoting it, so a transcluded
+ * fragment's own headings step down a rank rather than competing with the
+ * thread's prose at full size. */
+blockquote.blyg-transclusion h1, blockquote.blyg-transclusion h2 { font-size: 1.125rem; }
+blockquote.blyg-transclusion h3 { font-size: 1rem; }
+blockquote.blyg-transclusion h1, blockquote.blyg-transclusion h2, blockquote.blyg-transclusion h3 { margin: 1.2em 0 0.4em; }
 
 /* Withdrawn: present, legible, and visibly spent. */
 .withdrawn { color: var(--ink-soft); font-style: italic; }
 
 ul.archive { list-style: none; padding: 0; margin: 0; }
 ul.archive li { padding: 0.55rem 0; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
-ul.archive li > a { text-decoration: none; }
-ul.archive li > a:hover { text-decoration: underline; }
+ul.archive .row-main a { text-decoration: none; }
+ul.archive .row-main a:hover { text-decoration: underline; }
 ul.archive .meta { flex: none; white-space: nowrap; }
 footer.older { padding: 2rem 0 0; border-top: 1px solid var(--rule); margin-top: 2rem; }
 footer.older a { font: var(--apparatus); color: var(--pencil); text-decoration: none; }
@@ -639,7 +645,7 @@ export async function archivePage(db: D1Database, settings: Settings, items: Ite
     if (item.kind === "withdrawn") {
       const href = `${mount}/${(await authoredKind(db, item)) === "thread" ? "t" : "f"}/${item.id}/`;
       rows.push(
-        `<li class="withdrawn"><a href="${href}">withdrawn</a><span class="meta">${formatDate(item.updated)}</span></li>`,
+        `<li class="withdrawn"><span class="row-main"><a href="${href}">withdrawn</a></span><span class="meta">${formatDate(item.updated)}</span></li>`,
       );
       continue;
     }
@@ -648,7 +654,7 @@ export async function archivePage(db: D1Database, settings: Settings, items: Ite
     const text = excerptFromHtml(latest?.content_html ?? "", 80);
     const href = `${mount}/${isThread ? "t" : "f"}/${item.id}/`;
     rows.push(
-      `<li>${isThread ? '<span class="kind-chip">thread</span> ' : ""}<a href="${href}">${escapeHtml(text)}</a><span class="meta">${formatDate(item.updated)} · v${item.version}</span></li>`,
+      `<li><span class="row-main">${isThread ? '<span class="kind-chip">thread</span> ' : ""}<a href="${href}">${escapeHtml(text)}</a></span><span class="meta">${formatDate(item.updated)} · v${item.version}</span></li>`,
     );
   }
   const body = `<div class="blyg">
