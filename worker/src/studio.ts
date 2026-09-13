@@ -50,13 +50,56 @@ function annotateTkPreview(contentMd: string): { scopes: TkScope[]; text: string
 }
 
 export const STUDIO_STYLE = `
-:root { color-scheme: light dark; }
+/* Design tokens — the same palette the public pages use (see STYLE_CSS in
+ * pages.ts), so the studio and the thing it publishes read as one product.
+ * The studio deliberately keeps its own *type*: it is a dense working tool,
+ * not a reading surface, so it stays sans and compact where the public pages
+ * are serif and airy. Only the colours are shared.
+ *
+ * Every studio page gets this block via studioLayout(); the importer's
+ * section styles (subs/reading/hoppers) are appended inside the body and
+ * inherit these variables rather than restating literals, which is what the
+ * scattered rgba(128,128,128,…)/#c00 values used to be. */
+:root {
+  color-scheme: light dark;
+  --paper: #fafbfb;
+  --paper-sunk: #eef1f3;
+  --ink: #1b2426;
+  --ink-soft: #5c686b;
+  --rule: #dde3e5;
+  --rule-strong: #c3cdd0;
+  --pencil: #23608c;
+  /* State colours. These were var(--alert) and var(--ok) — fine on white, barely legible
+     on a dark background, which is where a dark-mode studio actually lives. */
+  --alert: #b3261e;
+  --alert-wash: rgba(179,38,30,0.08);
+  --ok: #1c7a52;
+  --warn: #a35a00;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #14191a;
+    --paper-sunk: #1d2426;
+    --ink: #e3e7e7;
+    --ink-soft: #95a2a5;
+    --rule: #2b3436;
+    --rule-strong: #3d494c;
+    --pencil: #8cc0e4;
+    --alert: #f0a19a;
+    --alert-wash: rgba(240,161,154,0.12);
+    --ok: #74c79c;
+    --warn: #e0a75c;
+  }
+}
+
 * { box-sizing: border-box; }
 /* Reserve the scrollbar track always: without it, a short page (settings) and
    a long one (reading) render at different widths and the whole layout jumps
    sideways on navigation. */
 html { scrollbar-gutter: stable; }
 body {
+  background: var(--paper);
+  color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.55;
   /* One width for every studio page — see studioLayout(). */
@@ -66,7 +109,7 @@ body {
 }
 /* Readable measure for text-heavy sections, without shrinking the page frame. */
 .prose { max-width: 68ch; }
-header.studio { margin-bottom: 1.25rem; border-bottom: 1px solid rgba(128,128,128,0.3); }
+header.studio { margin-bottom: 1.25rem; border-bottom: 1px solid var(--rule); }
 header.studio .studio-title { display: flex; align-items: baseline; min-height: 1.9rem; }
 header.studio h1 { font-size: 1.2rem; margin: 0; }
 header.studio nav {
@@ -77,90 +120,90 @@ header.studio nav {
 header.studio nav .nav-spacer { flex: 1; }
 header.studio nav form { display: inline; margin: 0; }
 header.studio nav a { text-decoration: none; padding-bottom: 0.15rem; border-bottom: 2px solid transparent; }
-header.studio nav a:hover { border-bottom-color: rgba(128,128,128,0.5); }
+header.studio nav a:hover { border-bottom-color: var(--rule-strong); }
 header.studio nav a.current { font-weight: 600; border-bottom-color: currentColor; }
 button.link { background: none; border: none; padding: 0; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }
-.composer { border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; }
+.composer { border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; }
 .composer textarea { width: 100%; min-height: 5.5rem; border: none; resize: vertical; font: inherit; background: transparent; outline: none; }
 .composer .bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; flex-wrap: wrap; gap: 0.5rem; }
 .count { opacity: 0.6; }
-.count.over { color: #c00; opacity: 1; }
+.count.over { color: var(--alert); opacity: 1; }
 .new-thread-line { font-size: 0.85rem; margin: -0.5rem 0 1.5rem; }
 .compose-help { font-size: 0.8rem; opacity: 0.65; margin: 0 0 0.5rem; }
 .compose-help code { font-size: 0.95em; }
-button, .composer button, .item-row button, .bar button { font: inherit; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; cursor: pointer; }
+button, .composer button, .item-row button, .bar button { font: inherit; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid var(--rule-strong); background: transparent; color: inherit; cursor: pointer; }
 button.primary { border-color: currentColor; font-weight: 600; }
-button.danger { color: #c00; border-color: #c00; }
-.item-row { border-top: 1px solid rgba(128,128,128,0.3); border-left: 3px solid transparent; padding: 0.75rem 0.5rem 0.75rem 0.6rem; margin-left: -0.6rem; }
+button.danger { color: var(--alert); border-color: var(--alert); }
+.item-row { border-top: 1px solid var(--rule); border-left: 3px solid transparent; padding: 0.75rem 0.5rem 0.75rem 0.6rem; margin-left: -0.6rem; }
 .item-row .state { font-size: 0.8rem; margin-right: 0.4rem; }
-.item-row .state.pub { color: #2a7; }
+.item-row .state.pub { color: var(--ok); }
 .item-row .state.draft { opacity: 0.5; }
 .item-row .excerpt { margin: 0 0 0.3rem; }
 .item-row .excerpt.has-title { margin-bottom: 0.1rem; }
 .item-row .excerpt-title { font-weight: 600; }
 .item-row .excerpt-body { margin: 0 0 0.3rem; opacity: 0.8; font-size: 0.95rem; }
-.tc-chip { font-size: 0.72rem; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.02rem 0.28rem; margin-right: 0.35rem; opacity: 0.75; }
+.tc-chip { font-size: 0.72rem; border: 1px solid var(--rule-strong); border-radius: 3px; padding: 0.02rem 0.28rem; margin-right: 0.35rem; opacity: 0.75; }
 .item-row .timestamps { font-size: 0.8rem; opacity: 0.7; margin: 0.4rem 0; display: flex; flex-direction: column; gap: 0.1rem; }
 .item-row .version-summary { font-size: 0.8rem; opacity: 0.75; margin: 0.3rem 0 0; }
 .item-row .pin-chips a { text-decoration: none; border-bottom: 1px dotted currentColor; }
 .item-row .version-note { font-size: 0.85rem; opacity: 0.75; font-style: italic; margin: 0.3rem 0 0; }
 .item-row .actions { display: flex; gap: 0.4rem; align-items: center; margin-top: 0.5rem; flex-wrap: wrap; }
-.item-row.dirty { border-left-color: #c00; background: rgba(200,0,0,0.07); }
+.item-row.dirty { border-left-color: var(--alert); background: var(--alert-wash); }
 .unpublished-flag {
   display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em;
-  color: #c00; background: rgba(200,0,0,0.14); border: 1px solid rgba(200,0,0,0.45);
+  color: var(--alert); background: var(--alert-wash); border: 1px solid var(--alert);
   border-radius: 3px; padding: 0.1rem 0.4rem; margin-left: 0.5rem; vertical-align: middle;
 }
-.item-row.dirty .timestamps .draft-line { color: #c00; opacity: 1; font-weight: 600; }
+.item-row.dirty .timestamps .draft-line { color: var(--alert); opacity: 1; font-weight: 600; }
 .withdrawn-row { opacity: 0.55; font-style: italic; }
-.kind-chip { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.05rem 0.35rem; opacity: 0.75; vertical-align: middle; margin-right: 0.35rem; }
+.kind-chip { font-size: 0.8rem; font-style: italic; color: var(--pencil); margin-right: 0.35rem; }
 .split, .panes { display: flex; gap: 1.25rem; align-items: stretch; }
-.pane { flex: 1; border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; min-height: 20rem; }
-.pane h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6; margin: 0 0 0.5rem; }
+.pane { flex: 1; border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem; min-height: 20rem; }
+.pane h2 { font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); margin: 0 0 0.5rem; }
 .pane textarea { width: 100%; height: 18rem; border: none; resize: vertical; font: inherit; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9rem; line-height: 1.5; background: transparent; outline: none; }
 @media (max-width: 800px) { .split, .panes { flex-direction: column; } }
 .preview img { max-width: 100%; }
-.preview blockquote.blyg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(128,128,128,0.55); background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
+.preview blockquote.blyg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid var(--rule-strong); background: var(--paper-sunk); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
 .preview blockquote.blyg-transclusion p { margin: 0 0 0.25rem; }
 .preview .provenance { font-size: 0.75rem; opacity: 0.65; }
-.preview .unresolved { border-left-color: #c00; background: rgba(200,0,0,0.07); color: #c00; font-style: italic; }
+.preview .unresolved { border-left-color: var(--alert); background: var(--alert-wash); color: var(--alert); font-style: italic; }
 .edit-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
-input.note { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.5rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; width: 22rem; max-width: 100%; }
+input.note { font: inherit; font-size: 0.9rem; padding: 0.3rem 0.5rem; border-radius: 4px; border: 1px solid var(--rule-strong); background: transparent; color: inherit; width: 22rem; max-width: 100%; }
 .history { margin-top: 1.5rem; font-size: 0.85rem; }
-.history h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }
+.history h2 { font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); }
 .history .h-hint { text-transform: none; letter-spacing: 0; font-weight: 400; opacity: 0.7; }
 .history .h-list { list-style: none; padding: 0; margin: 0; }
-.h-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding: 0.35rem 0; border-top: 1px solid rgba(128,128,128,0.25); }
-.h-row.selected { background: rgba(128,128,128,0.1); }
+.h-row { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding: 0.35rem 0; border-top: 1px solid var(--rule); }
+.h-row.selected { background: var(--paper-sunk); }
 .h-select { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 600; min-width: 3.2rem; }
 .h-select:disabled { opacity: 0.4; cursor: default; }
 .h-when { opacity: 0.7; }
 .h-note { font-style: italic; opacity: 0.8; }
-.h-badge { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.02rem 0.3rem; opacity: 0.8; }
-.h-badge.current { border-color: #2a7; color: #2a7; }
+.h-badge { font-size: 0.75rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 3px; padding: 0.02rem 0.3rem; }
+.h-badge.current { border-color: var(--ok); color: var(--ok); }
 .h-badge.pinned { text-decoration: none; }
 .h-actions { margin-left: auto; display: flex; gap: 0.35rem; }
-.h-viewer { margin-top: 0.75rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; }
+.h-viewer { margin-top: 0.75rem; border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem; }
 .h-viewer-bar { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; font-size: 0.8rem; }
 .h-viewer-body { font-size: 0.95rem; max-height: 26rem; overflow-y: auto; }
 .h-viewer-body img { max-width: 100%; }
-.h-viewer-body blockquote.blyg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(128,128,128,0.55); background: rgba(128,128,128,0.08); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
-.error-banner { border: 1px solid rgba(200,0,0,0.5); background: rgba(200,0,0,0.09); color: #c00; border-radius: 4px; padding: 0.5rem 0.75rem; font-size: 0.85rem; margin-bottom: 0.75rem; }
+.h-viewer-body blockquote.blyg-transclusion { margin: 1rem 0; padding: 0.6rem 0.8rem; border-left: 3px solid var(--rule-strong); background: var(--paper-sunk); border-radius: 0 4px 4px 0; font-size: 0.92rem; }
+.error-banner { border: 1px solid var(--alert); background: var(--alert-wash); color: var(--alert); border-radius: 4px; padding: 0.5rem 0.75rem; font-size: 0.85rem; margin-bottom: 0.75rem; }
 .error-banner code { color: inherit; }
 .note-row { margin-top: 0.75rem; font-size: 0.85rem; display: flex; gap: 0.5rem; align-items: center; }
 .note-row input { flex: 1; }
-.palette { position: absolute; border: 1px solid rgba(128,128,128,0.5); border-radius: 6px; padding: 0.5rem; background: Canvas; max-width: 60ch; box-shadow: 0 4px 14px rgba(0,0,0,0.15); z-index: 10; }
-.palette .search { width: 100%; font: inherit; padding: 0.3rem 0.5rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; background: transparent; color: inherit; }
+.palette { position: absolute; border: 1px solid var(--rule-strong); border-radius: 6px; padding: 0.5rem; background: Canvas; max-width: 60ch; box-shadow: 0 4px 14px rgba(0,0,0,0.15); z-index: 10; }
+.palette .search { width: 100%; font: inherit; padding: 0.3rem 0.5rem; border: 1px solid var(--rule); border-radius: 4px; background: transparent; color: inherit; }
 .palette ul { list-style: none; margin: 0.5rem 0 0; padding: 0; font-size: 0.9rem; max-height: 14rem; overflow-y: auto; }
-.palette li { padding: 0.35rem 0.5rem; border-top: 1px solid rgba(128,128,128,0.2); cursor: pointer; }
-.palette li.sel { background: rgba(128,128,128,0.15); border-radius: 4px; }
+.palette li { padding: 0.35rem 0.5rem; border-top: 1px solid var(--rule); cursor: pointer; }
+.palette li.sel { background: var(--paper-sunk); border-radius: 4px; }
 .palette .meta { font-size: 0.78rem; opacity: 0.6; margin-left: 0.5rem; }
 .settings-form label { display: block; margin: 0.75rem 0 0.25rem; font-size: 0.85rem; opacity: 0.8; }
-.settings-form input, .settings-form textarea { width: 100%; font: inherit; padding: 0.4rem 0.5rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
-.tk-panel { margin-top: 1rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; }
-.tk-panel h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6; margin: 0 0 0.5rem; }
+.settings-form input, .settings-form textarea { width: 100%; font: inherit; padding: 0.4rem 0.5rem; border-radius: 4px; border: 1px solid var(--rule-strong); background: transparent; color: inherit; }
+.tk-panel { margin-top: 1rem; border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem; }
+.tk-panel h2 { font-size: 0.8rem; font-weight: 600; color: var(--ink-soft); margin: 0 0 0.5rem; }
 .tk-panel ul { list-style: none; margin: 0; padding: 0; }
-.tk-scope-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0; border-top: 1px solid rgba(128,128,128,0.2); font-size: 0.88rem; }
+.tk-scope-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0; border-top: 1px solid var(--rule); font-size: 0.88rem; }
 .tk-scope-row:first-child { border-top: none; }
 .tk-instruction { flex: 1; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tk-pending { font-size: 0.75rem; opacity: 0.65; font-style: italic; }
@@ -234,7 +277,7 @@ function loginPage(mount: string, error?: string): string {
   return studioLayout(
     "blyg studio — login",
     `<h1>blyg studio</h1>
-${error ? `<p style="color:#c00">${escapeHtml(error)}</p>` : ""}
+${error ? `<p style="color:var(--alert)">${escapeHtml(error)}</p>` : ""}
 <form method="post" action="${studioPath(mount)}/login">
 <p><input type="password" name="password" placeholder="password" autofocus required></p>
 <p><button type="submit">log in</button></p>

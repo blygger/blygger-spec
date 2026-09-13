@@ -25,21 +25,21 @@ import {
 import type { HopperRow } from "../types.ts";
 
 const SUBS_STYLE = `
-.sub-row { border-top: 1px solid rgba(128,128,128,0.3); padding: 0.75rem 0; }
+.sub-row { border-top: 1px solid var(--rule); padding: 0.75rem 0; }
 .sub-row .title-line { display: flex; align-items: center; gap: 0.5rem; }
 .status-dot { font-size: 0.8rem; }
-.status-dot.active { color: #2a7; }
+.status-dot.active { color: var(--ok); }
 .status-dot.paused { opacity: 0.5; }
-.status-dot.degraded { color: #c60; }
-.kind-chip { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.05rem 0.35rem; opacity: 0.75; }
+.status-dot.degraded { color: var(--warn); }
+.kind-chip { font-size: 0.8rem; font-style: italic; color: var(--pencil); }
 .sub-row .meta { font-size: 0.82rem; opacity: 0.7; margin: 0.25rem 0; }
-.sub-row .flags { font-size: 0.8rem; color: #c60; margin: 0.25rem 0; }
+.sub-row .flags { font-size: 0.8rem; color: var(--warn); margin: 0.25rem 0; }
 .sub-row .actions { display: flex; gap: 0.4rem; align-items: center; margin-top: 0.4rem; flex-wrap: wrap; font-size: 0.85rem; }
 .sub-row label.blogroll { font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem; }
-.add-sub { border: 1px solid rgba(128,128,128,0.4); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; }
-.add-sub input[type="url"] { width: 100%; font: inherit; padding: 0.4rem 0.5rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
-.add-sub .confirm { margin-top: 0.6rem; font-size: 0.9rem; padding: 0.5rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 4px; }
-.add-sub .mismatch { color: #c60; }
+.add-sub { border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; }
+.add-sub input[type="url"] { width: 100%; font: inherit; padding: 0.4rem 0.5rem; border-radius: 4px; border: 1px solid var(--rule-strong); background: transparent; color: inherit; }
+.add-sub .confirm { margin-top: 0.6rem; font-size: 0.9rem; padding: 0.5rem; border: 1px solid var(--rule); border-radius: 4px; }
+.add-sub .mismatch { color: var(--warn); }
 `;
 
 function subRow(sub: SubscriptionRow): string {
@@ -161,10 +161,10 @@ ${subs.length ? subs.map(subRow).join("\n") : "<p>No subscriptions yet.</p>"}
 // --- Reading feed (task 9, §3.6) ---
 
 const READING_STYLE = `
-.reading-entry { border-top: 1px solid rgba(128,128,128,0.3); padding: 0.85rem 0; }
+.reading-entry { border-top: 1px solid var(--rule); padding: 0.85rem 0; }
 .reading-entry .byline { font-size: 0.8rem; opacity: 0.7; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
 .reading-entry .byline .kind-chip { font-size: 0.68rem; padding: 0.02rem 0.3rem; }
-.reading-entry .byline .l0-chip { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; border: 1px solid rgba(128,128,128,0.5); border-radius: 3px; padding: 0.02rem 0.3rem; opacity: 0.7; }
+.reading-entry .byline .l0-chip { font-size: 0.72rem; color: var(--ink-soft); border: 1px solid var(--rule); border-radius: 3px; padding: 0.02rem 0.3rem; }
 .reading-entry .entry-title { margin: 0.25rem 0 0.15rem; font-size: 1.02rem; font-weight: 600; line-height: 1.35; }
 .reading-entry .entry-title a { text-decoration: none; }
 .reading-entry .entry-title a:hover { text-decoration: underline; }
@@ -176,19 +176,19 @@ const READING_STYLE = `
 /* An item's own headings shouldn't shout in a feed context — a fragment
    starting with an h1 otherwise renders at full display size in the list. */
 .reading-entry .content :is(h1,h2,h3,h4,h5,h6) { font-size: 1rem; font-weight: 600; margin: 0.45rem 0 0.2rem; line-height: 1.35; }
-.reading-entry .content blockquote { margin: 0.5rem 0; padding-left: 0.8rem; border-left: 2px solid rgba(128,128,128,0.4); }
+.reading-entry .content blockquote { margin: 0.5rem 0; padding-left: 0.8rem; border-left: 2px solid var(--rule); }
 /* Clamp by line count, not by cutting markup — see readingEntryHtml. */
 .reading-entry .content.clamped { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 .reading-entry .expand-btn { font-size: 0.78rem; opacity: 0.7; margin-top: 0.2rem; }
 .reading-entry .content:not(.clamped) + .expand-btn { display: none; }
-.reading-pager { display: flex; justify-content: space-between; align-items: center; margin: 1.25rem 0 0; font-size: 0.9rem; border-top: 1px solid rgba(128,128,128,0.3); padding-top: 0.75rem; }
+.reading-pager { display: flex; justify-content: space-between; align-items: center; margin: 1.25rem 0 0; font-size: 0.9rem; border-top: 1px solid var(--rule); padding-top: 0.75rem; }
 .reading-pager .pager-info { opacity: 0.7; }
 .reading-entry.withdrawn-entry { opacity: 0.6; font-style: italic; }
 .entry-actions { margin-top: 0.5rem; display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
-.entry-actions button { font-size: 0.9rem; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.4); background: transparent; cursor: pointer; }
-.entry-actions button.active { border-color: currentColor; background: rgba(128,128,128,0.15); }
+.entry-actions button { font-size: 0.9rem; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid var(--rule); background: transparent; cursor: pointer; }
+.entry-actions button.active { border-color: currentColor; background: var(--paper-sunk); }
 .entry-actions .respond-link { font-size: 0.85rem; text-decoration: none; border-bottom: 1px dotted currentColor; opacity: 0.8; }
-.entry-actions select { font: inherit; font-size: 0.85rem; padding: 0.15rem 0.3rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.4); background: transparent; color: inherit; }
+.entry-actions select { font: inherit; font-size: 0.85rem; padding: 0.15rem 0.3rem; border-radius: 4px; border: 1px solid var(--rule); background: transparent; color: inherit; }
 `;
 
 async function ownEntries(db: D1Database): Promise<OwnEntryInput[]> {
@@ -380,7 +380,7 @@ ${pager}
 // --- Hoppers (task 10, §3.4) ---
 
 const HOPPERS_STYLE = `
-.hopper-row { border-top: 1px solid rgba(128,128,128,0.3); padding: 0.85rem 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.hopper-row { border-top: 1px solid var(--rule); padding: 0.85rem 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
 .hopper-row .hopper-main { min-width: 0; flex: 1; }
 .hopper-row .hopper-meta { font-size: 0.85rem; opacity: 0.7; margin: 0.15rem 0 0; }
 .hopper-row .hopper-url { font-size: 0.85rem; margin: 0.15rem 0 0; }
@@ -394,7 +394,7 @@ const HOPPERS_STYLE = `
 .hopper-head .hopper-url, .hopper-head .hopper-meta { font-size: 0.85rem; opacity: 0.75; margin: 0.2rem 0 0; }
 .hopper-head .actions { display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
 .rename-form { display: flex; gap: 0.4rem; align-items: center; }
-.rename-form input { font: inherit; font-size: 0.9rem; padding: 0.2rem 0.4rem; border-radius: 4px; border: 1px solid rgba(128,128,128,0.4); background: transparent; color: inherit; }
+.rename-form input { font: inherit; font-size: 0.9rem; padding: 0.2rem 0.4rem; border-radius: 4px; border: 1px solid var(--rule); background: transparent; color: inherit; }
 .slug-note { font-size: 0.8rem; opacity: 0.6; }
 `;
 
