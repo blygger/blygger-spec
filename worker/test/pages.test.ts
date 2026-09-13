@@ -325,3 +325,40 @@ describe("social / meta tags (session 19)", () => {
   // published and caught this path dereferencing a nonexistent item.
 });
 
+describe("titled items link to their own page (session 19)", () => {
+  it("links a leading h1 on the feed page but not on the item's own page", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "# Shopping List\n\nEggs and spinach.");
+    const feed = await (await getPublic("/blyg/")).text();
+    expect(feed).toContain(`<h1><a class="item-title" href="/blyg/f/${id}/">Shopping List</a></h1>`);
+    // On the item's own page the title would link to the page you are reading.
+    const own = await (await getPublic(`/blyg/f/${id}/`)).text();
+    expect(own).toContain("<h1>Shopping List</h1>");
+    expect(own).not.toContain("item-title");
+  });
+
+  it("only a heading that opens the item counts as its title", async () => {
+    const cookie = await login();
+    await createAndPublish(cookie, "Some opening prose.\n\n# A section head\n\nMore.");
+    const feed = await (await getPublic("/blyg/")).text();
+    expect(feed).toContain("<h1>A section head</h1>");
+  });
+
+  it("leaves a heading alone when the author already linked inside it", async () => {
+    const cookie = await login();
+    await createAndPublish(cookie, "# [Linked title](https://example.org/)\n\nBody.");
+    const feed = await (await getPublic("/blyg/")).text();
+    // Scoped to this heading: other items on the feed legitimately carry
+    // item-title links, so a page-wide assertion would test the wrong thing.
+    expect(feed).toContain('<h1><a href="https://example.org/">Linked title</a></h1>');
+  });
+
+  it("never writes the link into stored content_html", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "# Stored Title\n\nBody.");
+    const json = (await (await getPublic(`/blyg/items/${id}.json`)).json()) as any;
+    expect(json.content_html).toContain("<h1>Stored Title</h1>");
+    expect(json.content_html).not.toContain("item-title");
+  });
+});
+

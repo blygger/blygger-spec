@@ -9,7 +9,7 @@
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerptFromHtml } from "./markdown.ts";
 import { authoredKind, getMedia, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
-import type { ItemRow, MediaRow, Settings, Transclusion, VersionRow } from "./types.ts";
+import type { ItemRow, MediaRow, Settings, SubscriptionRow, Transclusion, VersionRow } from "./types.ts";
 import { escapeHtml } from "./util.ts";
 
 export const STYLE_CSS = `/* blyg — one hand-written stylesheet, no build step, no web fonts.
@@ -173,6 +173,21 @@ blockquote.blyg-transclusion h1, blockquote.blyg-transclusion h2, blockquote.bly
 
 /* Withdrawn: present, legible, and visibly spent. */
 .withdrawn { color: var(--ink-soft); font-style: italic; }
+
+/* A titled item's heading is its link; it should read as the heading, with the
+ * link only showing on hover, rather than as a blue headline. */
+.blyg a.item-title { color: inherit; text-decoration: none; }
+.blyg a.item-title:hover { color: var(--pencil); }
+
+/* The blogroll is a list of other people, set apart from your own writing. */
+.blogroll { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+.blogroll h2 { font: var(--apparatus); font-weight: 600; color: var(--ink-soft); margin: 0 0 0.6rem; letter-spacing: 0; }
+.blogroll ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+.blogroll li { font: var(--apparatus); }
+.blogroll a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.blogroll a:hover { border-bottom-color: currentColor; }
+.blogroll .blyg-mark { font-style: italic; color: var(--ink-soft); margin-right: 0.1rem; }
+.blogroll-foot { font: var(--apparatus); color: var(--ink-soft); margin: 0.8rem 0 0; }
 
 ul.archive { list-style: none; padding: 0; margin: 0; }
 ul.archive li { padding: 0.55rem 0; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
@@ -395,10 +410,22 @@ ${permalinkLink(item.id, false, mount)}
 </article>`;
 }
 
-async function fragmentBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
+/**
+ * `titleLink` is set on the feed page and unset on the permalink page: on the
+ * item's own page the title would link to the page you are already reading.
+ */
+async function fragmentBlock(db: D1Database, item: ItemRow, mount: string, titleLink = false): Promise<string> {
   const latest = await publishedVersion(db, item);
   const media = await listMediaForItem(db, item.id);
-  return renderFragment(item, latest?.content_html ?? "", media, latest?.note ?? null, mount, await pinnedVersions(db, item.id));
+  const html = latest?.content_html ?? "";
+  return renderFragment(
+    item,
+    titleLink ? linkLeadingTitle(html, `${mount}/f/${item.id}/`) : html,
+    media,
+    latest?.note ?? null,
+    mount,
+    await pinnedVersions(db, item.id),
+  );
 }
 
 /**
@@ -475,22 +502,77 @@ function itemTitle(excerptText: string, settings: Settings): string {
   return excerptText ? `${excerptText} — ${settings.site_title}` : settings.site_title;
 }
 
+/**
+ * A leading `<h1>` is the item's title, so on the feed page it becomes the
+ * link to that item's own page — the affordance a reader expects from a
+ * titled post, and one the feed previously lacked entirely (the only way in
+ * was the small "Permalink" line at the bottom).
+ *
+ * Presentation only, and deliberately so: the anchor is wrapped around the
+ * *rendered* heading at render time and never touches the stored
+ * `content_html`, exactly like `injectProvenance`. Item JSON, feed.xml and
+ * the static export of the permalink page all keep the bare heading.
+ *
+ * Only a heading that *opens* the item counts. A `<h1>` further down is a
+ * section head inside the piece, not its title, and linking it would be a
+ * claim about structure the author did not make.
+ */
+export function linkLeadingTitle(html: string, href: string): string {
+  const m = /^\s*<h1([^>]*)>([\s\S]*?)<\/h1>/.exec(html);
+  if (!m) return html;
+  // An <h1> that already contains a link is left alone — nesting anchors is
+  // invalid HTML and the author's own link should win.
+  if (/<a[\s>]/i.test(m[2])) return html;
+  return html.replace(m[0], `<h1${m[1]}><a class="item-title" href="${href}">${m[2]}</a></h1>`);
+}
+
+/**
+ * The blogroll, rendered for humans. §2.2 already publishes it as
+ * `blogroll.opml` and advertises it with `rel="blogroll"`, which means it was
+ * readable by feed readers and invisible to people — and a blogroll whose
+ * whole purpose is to point readers at other blygs is the last thing that
+ * should be machine-only. Same data, same `listBlogrollSubscriptions()`
+ * source as the OPML file, so the two cannot disagree.
+ */
+function blogrollSection(subs: SubscriptionRow[], mount: string): string {
+  if (!subs.length) return "";
+  const rows = subs
+    .map((sub) => {
+      const label = escapeHtml(sub.title || sub.origin);
+      // `kind: "rss"` is an L0 subscription — a plain feed, not a blyg. Worth
+      // saying, because "this one is a blyg you can subscribe to natively" is
+      // the distinction the blogroll exists to make visible.
+      const mark = sub.kind === "blyg" ? '<span class="blyg-mark" title="a blyg">blyg</span> ' : "";
+      return `<li>${mark}<a href="${escapeHtml(sub.origin)}">${label}</a></li>`;
+    })
+    .join("\n");
+  return `<section class="blogroll">
+<h2>Also reading</h2>
+<ul>
+${rows}
+</ul>
+<p class="blogroll-foot"><a href="${mount}/blogroll.opml">blogroll.opml</a> — import this list into your feed reader</p>
+</section>`;
+}
+
 export async function feedPage(db: D1Database, settings: Settings, items: ItemRow[], hasMore: boolean, mount: string, origin: string): Promise<string> {
   const blocks: string[] = [];
   for (const item of items) {
     // Withdrawn items don't appear on the feed page (rev-3 wireframe note) —
     // they still live in the archive listing and their permanent endcap URLs.
-    if (item.kind === "fragment") blocks.push(await fragmentBlock(db, item, mount));
+    if (item.kind === "fragment") blocks.push(await fragmentBlock(db, item, mount, true));
     else if (item.kind === "thread") blocks.push(await threadCard(db, item, mount));
   }
+  const blogrollSubs = await listBlogrollSubscriptions(db);
   const body = `<div class="blyg">
 ${pageHeader(settings, mount, true)}
 ${await masthead(db, settings, mount)}
 ${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
 ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</a></footer>` : ""}
+${blogrollSection(blogrollSubs, mount)}
 </div>`;
   // §2.2: publishers SHOULD emit rel="blogroll" on the HTML feed page when the blogroll is non-empty.
-  const hasBlogroll = (await listBlogrollSubscriptions(db)).length > 0;
+  const hasBlogroll = blogrollSubs.length > 0;
   // The bio is the blyg's own description of itself; with none set, the most
   // recent item is the best available summary of what this blyg is — and a
   // brand-new blyg has neither, in which case there is no description to emit.

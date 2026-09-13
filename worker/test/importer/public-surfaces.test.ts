@@ -101,4 +101,26 @@ describe("rel=\"blogroll\" on the HTML feed page (§2.2)", () => {
     const html = await (await getPublic("/blyg/")).text();
     expect(html).toContain('rel="blogroll" href="/blyg/blogroll.opml"');
   });
+
+  it("also renders the blogroll for people, from the same source as the OPML", async () => {
+    const blyg = await createSubscription(env.DB, { kind: "blyg", origin: "https://a-blyg.example/", feedUrl: "https://a-blyg.example/feed.xml", title: "A Blyg" });
+    const rss = await createSubscription(env.DB, { kind: "rss", origin: "https://legacy.example/", feedUrl: "https://legacy.example/rss", title: "Legacy Blog" });
+    await setBlogrollFlag(env.DB, blyg.id, true);
+    await setBlogrollFlag(env.DB, rss.id, true);
+    const html = await (await getPublic("/blyg/")).text();
+    // The OPML was readable by feed readers and invisible to people, which is
+    // backwards for a list whose whole job is pointing readers elsewhere.
+    expect(html).toContain('<a href="https://a-blyg.example/">A Blyg</a>');
+    expect(html).toContain('<a href="https://legacy.example/">Legacy Blog</a>');
+    // A native blyg is marked as one; a plain feed is not.
+    expect(html).toMatch(/<span class="blyg-mark"[^>]*>blyg<\/span> <a href="https:\/\/a-blyg.example\/">/);
+    expect(html).not.toMatch(/blyg-mark[^>]*>blyg<\/span> <a href="https:\/\/legacy.example\/">/);
+    expect(html).toContain('<a href="/blyg/blogroll.opml">blogroll.opml</a>');
+  });
+
+  it("omits the section entirely when nothing is flagged", async () => {
+    // A separate page with no blogroll: the archive, which never carries one.
+    const archive = await (await getPublic("/blyg/archive/")).text();
+    expect(archive).not.toContain('class="blogroll"');
+  });
 });
