@@ -34,8 +34,10 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
   highest-numbered document is the living one where testing-driven revisions
   land; lower versions freeze as SUPERSEDED (banner + index status), staying
   citable with their snapshots. `protocol-v0.2.md` (0.1 text + subscribe
-  side + TK wire members) is the pending first application — drafting is
-  ⚠️ FABLE, publishing mechanics in `spec-publishing-plan.md` §6.
+  side + TK wire members) is the first application — **drafted session 20
+  (2026-09-13, Fable)**; it is now the living document. Publishing mechanics
+  (`spec-publishing-plan.md` §6, Sonnet-safe) remain open; 0.1 flips to
+  SUPERSEDED when 0.2 goes live at `blygger.org/spec/0.2/`.
   **Unblocked session 18 (2026-09-12):** the v0.2/TK live-testing pass that
   gated it (per #21, testing precedes normative prose) is fully closed — all
   four legs (a) legacy-RSS subscription, (b) blogroll + public hopper,
@@ -100,6 +102,7 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 - **Implementation done session 13 (2026-08-10, Sonnet):** all 14 tasks in `v0.2-plan.md` §5 built — resolution, importer state machine, poller, L0 wrapper, hoppers/signals (incl. the §3.4 withdrawal-pin-retention check), blogroll, merged reading feed, public hopper pages, static-export update. 163/163 tests green including a simulated-outage integration test that forces recovery through index reconciliation specifically (not just the feed window) — run against a real worker instance via `SELF.fetch`, not a fixture map. Static export byte-verified against a live `wrangler dev` instance.
 - **Exit criterion met, same session:** migration 0004 deployed to both `venkateshrao.com/blyg/` and `blyg.protocol-institute.org`; the two subscribed to each other over real internet HTTP, protocol-institute's backfill correctly pulled venkateshrao's 5 live items, and a fresh publish + resync round-trip confirmed live convergence. **Partial:** the legacy-feed leg of the three-way scenario (blyg + blyg + one legacy RSS feed) isn't wired up yet, and ongoing cron-driven convergence (vs. this session's manual resync) hasn't been observed over a real interval yet. Details: DEVLOG session 13 (cont'd).
 - **Legacy-feed leg closed session 16 (2026-09-11, Sonnet):** `venkateshrao.com/blyg/` subscribed to a real external feed (simonwillison.net) — Atom-only, which the L0 wrapper had never actually touched despite being designed for "any legacy RSS feed"; surfaced and forced real Atom 1.0 support into `feed.ts` (previously RSS-only) plus a fix to `resolve.ts`, which had its own independently-drifted RSS-only feed-detector. Backfill correctly pulled 30 real entries. **Full three-way exit criterion (blyg + blyg + legacy feed) now met**, all on real internet traffic, not fixtures. **Cron-driven convergence observed session 18 (2026-09-12):** a fragment published on `venkateshrao.com/blyg/` at 22:24:28Z reached `blyg.protocol-institute.org`'s reading feed at 22:49:12Z — ~24m45s, no manual resync. (The convergence window is not the 15-minute cron interval: `schedule.ts` makes a subscription due only every 30 min ± 5 min of per-sub jitter, so ~45 min is the real worst case.) **This exit criterion is now fully met, in all three legs plus ongoing convergence.** Details: DEVLOG sessions 16 and 18.
+- **Normative spec drafted session 20 (2026-09-13, Fable):** `docs/protocol-v0.2.md` — standalone superset of the 0.1 text per decision #23, folding in every protocol deliverable above (resolution §12, rollup/backfill/importer conformance §13, L0 wrapper §13.6, blogroll §11) plus the TK wire members (§5.7) and the decision-#25 §8.4 recast. v0.2's protocol surface is now fully specified; publishing to `blygger.org/spec/0.2/` is the remaining step (`spec-publishing-plan.md` §6).
 
 ## v0.3 — Trunk (threads go cross-client, no AI yet)
 
