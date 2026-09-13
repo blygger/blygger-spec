@@ -7,6 +7,196 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 19 — 2026-09-13 — Cosmetic pass becomes a design system; nine reader/studio features; a SyntaxError that 400 green tests could not see
+
+**Model:** Opus 5 · **Time:** ~10:33–11:31 PT · **Committed:** yes (13 commits) · **Deployed:** both live nodes ×11 (identity/archive; meta+OG; typography; typography refinements; studio palette; blogroll+title links + carousel; theme; studio editing; SyntaxError fix; studio tests; discard-404 fix)
+
+**What & why:** Venkat asked for "cosmetic updates that don't touch the protocol" before
+triggering the ⚠️ FABLE 0.2 draft, then mid-session added nine concrete features. Nothing
+here changes a wire shape; two things sit deliberately close to the line and are argued
+below.
+
+**The gate on the deferred UI refresh had lapsed, same as the scrubber's did.** The
+"Full UI refresh" TODO was parked behind "TK-transclusion + subscribe/pubsub working end
+to end" — closed in session 18. That is the second time in two sessions a hold condition
+had quietly expired while the TODO still read as blocked.
+
+**Site identity was published to machines and shown to no human.** `title`, `author.name`,
+`author.bio`, `author.links` and the avatar were all in `blyg.json` and the feed channel;
+the page rendered `site_title` into `<title>` and nothing else. A reader landing on either
+node could not tell whose blyg it was. The feed page now carries a masthead. **This departs
+from a recorded rev-2 review note** ("site identity lives in the manifest, feed channel, and
+studio settings, not on this page") whose rationale was embeddability — which holds for an
+embedded block but leaves the *standalone* case unserved, and both live nodes are standalone.
+The same note acknowledged that case and left it open. Scoped to the feed page only, so
+every page likely to be embedded is unchanged. Flagged to Venkat as the one reversible
+design call; not vetoed.
+
+**The header link was wrong in both directions, and nothing tested it.** It was a hardcoded
+`Home → /`. On the root-mounted PI node `/` *is* the page, so it was a self-link; on
+path-mounted venkateshrao `/` is the host site, so a reader on a permalink had no link back
+to the blyg at all — the one destination the page can actually name. Now the blyg's own
+title → `{mount}/`. Linking out to a host site became an author-configured `author_links`
+entry, which is the honest place for it: only the author knows whether `/` is their
+homepage, someone else's site, or nothing.
+
+**A latent bug found by rendering a field nobody had rendered.** `/media/:file` matches on
+the full `r2_key` (`media/{id}.{ext}`), but both the new masthead and — pre-existing —
+`buildManifest()` emitted a bare `media/{id}`. The manifest's published `avatar` would have
+404'd the first time anyone set one. Fixed in both; the field's *shape* is unchanged, so
+this is a bugfix, not a wire change.
+
+**Design: the editorial apparatus IS the design.** The stylesheet was the browser default
+with a width limit, and every piece of metadata — `v2 · pinned: v1, v2`, Created/Most-recent,
+transclusion provenance, the withdrawn endcap — rendered at one undifferentiated
+`0.85rem / opacity 0.7`. But that apparatus is exactly what distinguishes a blyg from a blog:
+every item wears its revision history in public. So it got its own face (system sans against
+a serif body), one size, one colour, and the prose was left alone. The colour is an **editor's
+blue pencil** — to blue-pencil a manuscript is to edit it, the same copy-desk world `[TK]`
+comes from — so every editorial mark is blue. **No web fonts, deliberately:** a reference
+client for a decentralised medium should not make every reader's page load phone a
+third-party font host; self-hosted files that depend on someone else's CDN are not really
+self-hosted. Both themes defined rather than inherited.
+
+Three fixes came from looking at it live rather than from reasoning: the apparatus block was
+taller than the content it annotated (three ~1rem gaps); the archive's `thread` marker became
+its own flex column and knocked that row out of alignment; and a transcluded fragment's
+headings rendered at full size and outshouted the thread quoting them (quoted material is
+subordinate, so they step down a rank).
+
+**The studio shares the palette but keeps its own type.** It is a dense working tool, not a
+reading surface, and should not become one. What it did need: its colours were literals
+scattered across four style blocks — `rgba(128,128,128,x)` at seven alphas for what are
+really two rules, plus `#c00`/`#2a7` for state. Those two were a genuine dark-mode
+legibility problem, not untidiness. Now tokens, defined per theme.
+
+**Nine features (Venkat, mid-session).**
+
+*(1) Blogroll on the public page.* Published as OPML, advertised with `rel="blogroll"`,
+invisible to people — backwards for a list whose entire job is pointing readers elsewhere.
+Rendered from the same `listBlogrollSubscriptions()` the OPML uses, so the two cannot
+disagree. Native blygs are marked, since "this one you can subscribe to natively" is the
+distinction the blogroll exists to make.
+
+*(2) Pinned versions open in situ, with a `‹ ›` carousel.* Reading "what did this say
+before?" is a comparison, and a comparison wants both texts in the same place; going to the
+frozen page became its own explicit link. Three properties it is built to keep, all of which
+constrained the design: **it is an enhancement, never a requirement** (the server renders the
+same line with pin citations as real links; no-JS, cmd-click, and a failed fetch all still
+reach the frozen page); **it works on a dumb file host** (the only thing fetched is
+`items/{id}/v{n}.json`, which §2.8 already publishes and the export already writes — so an
+exported tree keeps working, which is invariant 4's whole point); and **it never invents a
+version** (positions are `data-pins` plus the live version and nothing else, so unpinned
+history stays unreachable in every representation, which is what keeps withdrawal
+meaningful). A pin *of* the live version is one position that happens to be pinned, not two.
+Note this is only legitimate *because* of decision #24 — session 18 deleted a scrubber that
+paged through all versions, which cannot exist; a carousel over pinned versions only is
+paging through artifacts that do.
+
+*(3) A leading `<h1>` links to the item's page.* The anchor wraps the rendered heading at
+render time and never touches stored `content_html`, exactly like `injectProvenance`; a test
+asserts the item JSON keeps the bare heading. Only a heading that *opens* the item counts —
+one further down is a section head, and linking it would claim a structure the author did
+not write.
+
+*(4) Reading theme.* Repaints two surfaces: `--page` (the margins) and `--paper` (the block
+the writing sits in); when they differ the block reads as a sheet on a desk, which is the
+point of offering the pair. The palettes are **borrowed, not invented** — Solarized and Nord
+have worked-out contrast, and the cream is the value long-form readers converged on; a
+palette someone else already balanced beats one mixed here, and naming them lets an author
+look up what they are picking. **`auto` is the default and is not a theme:** it means follow
+the reader's system preference, the only setting that respects a choice the *reader* made.
+A chosen theme deliberately overrides it — emitted into both the base and the `prefers-dark`
+block — because an explicit authorial choice should not flip when the reader's OS does.
+Served by appending to `style.css`, so one file themes every page and the export picks it up
+by fetching the route. Public pages only: a tool that repaints when you change your site's
+colours is a surprise. The key is local and never reaches the manifest (asserted).
+
+*(5–9) Studio.* Always-open "Full Editor" (wanting the bigger editor is not detectable from
+what you have typed). A fragment/thread radio replacing `+ new thread`, which read as a
+separate feature rather than the other thing the same box makes — `PUT` cannot change kind,
+so switching after a draft exists discards and recreates it, losing nothing because the text
+lives in the textarea. **`save draft` keeps you in the box**: it used to create the item and
+reload, pushing your words into the list below — saved, but no longer being edited, which is
+the opposite of what saving a draft should mean. **Discard means two different things and
+would be dangerous conflated**: never-published → DELETE the draft; dirty → discard the
+*changes* by restoring the last published version, publishing nothing and rewinding nothing;
+clean → no button, because leaving the public stream is withdraw. **Quick edit** opens a
+fragment's working copy in the row. Fragments only: a thread's working copy carries
+transclusion directives and TK scopes whose point is the live preview, the `![[` palette and
+the scope panel, and a bare textarea would be a worse tool wearing the same name.
+
+**The session's real lesson: a whole class of bug this suite cannot see.** The studio shipped
+**broken** for one deploy. A `confirm()` string was written with a single-backslash `\n`
+inside a TS template literal, so the emitted JavaScript carried a real newline inside a string
+literal — SyntaxError on load, every `data-action` handler dead (quick edit, publish,
+withdraw, pin, discard), **and 402 tests green**. Assertions about HTML pass whether or not
+the `<script>` inside it is valid JavaScript. The file's older `confirm()` strings already
+used the doubled escape, so the convention was right there and the new code simply lost it.
+`test/inline-scripts.test.ts` now compiles every inline script the feed page and all eight
+studio pages emit, via `new Function` (which parses without executing); verified against the
+broken code, it fails with the same SyntaxError the browser reported.
+
+Venkat then found a **second instance of the same blind spot**: discarding a draft from the
+editor 404'd. The shared handler ends in `location.reload()`, right for every action that
+leaves the item in place; discard deletes it, so it reloaded an editor URL for the thing you
+had just deliberately deleted. The index discard never showed it because reloading the index
+is correct. Both post-action navigation paths are now tested. General shape: **what a page
+*renders* is well covered here; what its script *does* was not covered at all.**
+
+**Carousel jitter, reported by Venkat, had two causes.** The frozen-version marker was a left
+rule plus padding, which indented the prose on every step; and the version label's text
+changes as you step (`v3` → `v1 · frozen`), shoving the pin citations along with it. The
+marker is now a tint extended by `box-shadow` spread — box-shadow is not laid out, so it
+paints "held, not live" *outside* the box and costs nothing in layout — and the label has a
+reserved width. Measured across a step: nav, pins, prose left edge and content width all
+shift by **0px**.
+
+**A real ordering bug fixed in passing.** `listPublic`/`listAll` sorted by `updated DESC`
+only, and `updated` has second precision — so items published inside one second ordered
+nondeterministically, in the *public feed's own order*. Same `rowid DESC` tiebreaker session
+11 added to `feedEvents()` for the identical reason. Found because a test I wrote kept
+flaking; the flake was the code, not the test.
+
+**Wireframes re-synced, and the hand-copy hazard named.** `public.html`/`thread.html` now
+carry `STYLE_CSS` verbatim from `pages.ts` rather than a hand-typed copy, plus the session-19
+markup; each says outright that the shipped file is the source of truth and any difference
+means the wireframe is stale. The three studio wireframes still describe the right layout but
+not the right palette, and are annotated rather than left silently wrong. Hand-copying is
+what let them drift — the same lesson session 11 learned when `sync_spec.py` retired
+hand-copying the spec into `blygger-org`.
+
+**Verification:** 413 tests (was 376); `tsc` clean. Every chunk was deployed to both nodes as
+it landed and checked in a real browser — which is how the two studio bugs and the three
+typography fixes were found. **Static export re-verified twice** (after the typography pass
+and again after all nine features): exported bytes identical to the live routes for the feed
+page, archive, a permalink, a pinned version page, a thread, and `style.css` — invariant 4
+holds through the whole change. The carousel was measured live in-browser rather than
+eyeballed.
+
+**State after:** Public pages have a real design system (tokens, two themes plus six author
+themes, serif prose / sans apparatus, blue-pencil editorial marks) and four new reader
+affordances (masthead, blogroll, title links, in-situ pinned versions). The studio shares the
+palette, keeps its own type, and has the composer/editor/row editing affordances Venkat
+asked for. Both nodes run this code; no migration (theme is a settings KV row). The
+⚠️ FABLE `protocol-v0.2.md` draft remains the unblocked next session and is untouched.
+
+**Open threads:** The **feed-page masthead** is the one reversible design call — it overrides
+a rev-2 review note, scoped to the feed page; revert is a one-line change if Venkat wants the
+page bare again. `blyg-tk-gen` is deliberately **unstyled**: tinting generated prose would be
+a visible claim about authorship, which is a decision-#20 question rather than a CSS one —
+worth putting to Fable during the 0.2 pass. The carousel is **feed-page only**; the permalink
+page still shows pin citations as links to the frozen pages, which may be right (one item,
+one page) or may want the same treatment. Theme applies to public pages only; whether the
+studio should follow is undecided and was deliberately not decided here. Static-export note:
+`og:url`/`canonical` are absolute and derive from `siteOrigin`, so an export driven from a
+local `wrangler dev` would bake `localhost` — `settings.site_url` is the existing fix, the
+same as for the manifest's `site`, but nothing warns you. Account-pinning generalisation to
+`venkateshrao-cloudflare/` and PI Workers projects still not done (from session 17). The
+transient Cloudflare **7403** on the migration preflight recurred once at the session's first
+deploy and cleared on a plain re-run, exactly as session 18 recorded — the recorded advice
+held.
+
 ## Session 18 — 2026-09-12 — Studio backlog cleared; two mis-recorded root causes corrected; pinned-version pages (#24); v0.2 testing pass closed
 **Model:** Opus 5 → Fable 5 (pinned-page design ruling) → Opus 5 (implementation + the rest), switched by Venkat per the model-switch convention · **Time:** ~15:20–16:50 PT · **Committed:** yes (8 commits) · **Deployed:** `blygger-spec` to both live nodes ×5 (backlog fixes + migration 0006; scrubber replacement; pinned-version pages; hopper cold-start; composer TK fixes); `blygger-org` ×1 (spec §8.4 resync)
 

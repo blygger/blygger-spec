@@ -146,7 +146,7 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 
 **Goal:** authoring intelligence and looks. Minimal local RAG over the client's own content, integrated into the thread editor; the styling system.
 
-**Client deliverables:** embed local items (Workers AI or configurable provider) into a local vector store; editor hooks — related-fragment suggestions while writing, hopper-relevance suggestions; RAG stays optional and degradable per invariant 3; styling: default minimal theme + documented CSS contract (required classes/structure any custom theme must respect); docs polish for third-party implementers; **full UI refresh** (session 11, 2026-08-09 — Venkat, hands-on testing of the venkateshrao.com node): studio + public-page UX polish incorporating accumulated hands-on-testing feedback, deliberately deferred by Venkat until rudimentary TK-transclusion (v0.4) and cross-blyg subscribe/pubsub (v0.2–v0.3) are working end to end, so polish isn't spent on surfaces that are still shifting under active feature work.
+**Client deliverables:** embed local items (Workers AI or configurable provider) into a local vector store; editor hooks — related-fragment suggestions while writing, hopper-relevance suggestions; RAG stays optional and degradable per invariant 3; styling: default minimal theme + documented CSS contract (required classes/structure any custom theme must respect); docs polish for third-party implementers; ~~**full UI refresh** (session 11, 2026-08-09 — Venkat, hands-on testing of the venkateshrao.com node): studio + public-page UX polish incorporating accumulated hands-on-testing feedback, deliberately deferred by Venkat until rudimentary TK-transclusion (v0.4) and cross-blyg subscribe/pubsub (v0.2–v0.3) are working end to end~~ — **done early, session 19 (2026-09-13)**: the deferral gate closed in session 18, so the refresh was pulled forward rather than held to v0.5. Public pages now carry a token-based design system (light/dark plus six author-selectable themes via a `theme` setting, serif prose against a sans *apparatus* layer, editorial marks in one colour), a feed-page masthead, a human-readable blogroll, title links, and an in-situ pinned-version carousel; the studio shares the palette, keeps its own tool-dense type, and gained composer/editor/row editing affordances. No web fonts, by decision. **What this leaves for v0.5** is the part that was always the protocol-relevant half: the **documented CSS contract** — the required classes and structure any third-party theme must respect. Session 19 established the class vocabulary in practice (`.blyg`, `.item-content`, `.version-line`, `.masthead`, `.blogroll`, `blockquote.blyg-transclusion`, `.blyg-tk-gen`) but did not write it down as a contract, and a theme system without one is a promise nobody can keep.
 
 - **⚠️ FABLE:** review pass on the CSS contract (it's protocol-adjacent — presentation rules readers can rely on) and on the RAG plan. Light-touch otherwise.
 
@@ -161,7 +161,9 @@ pass yet) — a scope/sequencing note.
 **Gate:** the Cloudflare reference client must be "sufficiently feature
 complete" first — defined as functional TK-transclusion (v0.4) + working
 cross-blyg pubsub/subscribe (v0.2–v0.3) + the deferred UI/styling refresh
-(v0.5, session 11 item above). Nothing below starts before that gate closes.
+(v0.5, session 11 item above — **the UI half of this landed session 19**;
+what remains is the documented CSS contract). Nothing below starts before
+that gate closes.
 
 Once gated, two deliverables, both currently just gaps (no design done):
 
