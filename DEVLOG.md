@@ -7,6 +7,135 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 20 — 2026-09-13 — Protocol 0.2 drafted and published; §8.4 recast (#25); a code-fence bug that had been leaking live markup into the published spec
+
+**Model:** Fable 5 (0.2 draft + decision #25) → Opus 5 (publishing, CSS contract), switched by Venkat per the model-switch convention · **Time:** ~11:57–12:25 PT · **Committed:** yes (`blygger-spec` ×2, `blygger-org` ×1, all pushed) · **Deployed:** blygger.org ×1
+
+**What & why:** The session's job was the ⚠️ FABLE item that had gated everything
+since session 15 — draft `protocol-v0.2.md` — then publish it. Both done, plus the
+CSS contract, plus a bug found by looking at the output.
+
+**Decision #25, and why the ambiguity was resolvable rather than a coin flip.**
+Session 19 shipped an in-situ pinned-version carousel and then noticed §8.4's
+sentence "a public page's version display is an **indicator, not navigation**"
+argues against it, leaving two readings and picking neither — with the explicit
+instruction to settle it *before the sentence was copied forward*. The ruling is
+reading (a): **the clause constrains routes and promises, not presentation.** What
+settles it is not preference but the protocol's own charter — invariant 1 says the
+protocol governs the published artifact and disclaims the studio; §8.4's own rule 2
+says "page chrome is presentation"; §10.5 says the same of thread excerpting. A
+normative clause dictating client UI was always out of character for this document.
+Read historically it is clearer still: the sentence is session 5's *rationale for
+refusing history routes*, written when JSON was the only pinned representation. When
+decision #24 added pinned HTML pages, the clause's route content survived and its
+presentation phrasing became a stranded overhang. **The invariant it actually
+protects is that unpinned history is unreachable in every representation**, which is
+what keeps withheld-by-default and withdrawal meaningful — and the carousel preserves
+that structurally (positions are `data-pins` plus the live version; the only fetch is
+an already-promised `v{n}.json`; JS-off degrades to plain links). So 0.2's §8.4 states
+the bound directly — *every version a display exposes, by link or in place, must be one
+the origin already promises forever; a display MUST NOT offer, imply, or hint at access
+to unpinned versions* — and keeps "frozen citable artifacts of one identity, not pages
+of one document" as design guidance about what pins are. The session-5 scrubber stays
+impossible, for the structural reason rather than the stylistic one: its bytes are
+never served.
+
+**Companion ruling: `blyg-tk-gen` stays unstyled.** Tinting generated prose would
+present self-asserted, unverifiable provenance as a *verified authorship badge* — a
+claim the protocol refuses to make anywhere else (timestamps, `author`, `generated`
+all carry the same honesty stance) — and after author review the author owns the text
+(#20). So the class name is a permanent wire token and styling is any client's free
+choice; this client declines. Note the asymmetry with `blyg-transclusion`, which *is*
+styled: quotation is a visible authorial act on its face, and the blockquote asserts
+nothing the wire cannot back.
+
+**The 0.2 document.** Standalone-complete superset per #23, 15 sections. Beyond
+carrying 0.1 forward it folds in: blogroll (§11), resolution (§12, #17 — checked
+against the implemented `resolve.ts` step order rather than the plan text alone),
+reader conformance with the importer invariants, curation/no-re-emission, and the L0
+wrapper (§13), generation provenance (§5.7, matching the shipped
+`{sources, model, at}`), the informative version-key policy (§3.1), the bare-counter
+rationale (#19) in §5.2, and four new security bullets — generation provenance is
+unverifiable *and its absence proves nothing*, resolution fetches attacker-suppliable
+URLs so server-side readers need fetch hygiene, history rewriting is made loud rather
+than prevented, and a blogroll reveals reading choices so absence from one carries no
+information by construction. **One deliberate tightening:** `<blyg:manifest>` becomes
+MUST. 0.1 only showed it in an example, but resolution step 3 and the
+no-extensions-needed blogroll both load-bear on it — a plain OPML entry upgrades to a
+blyg subscription *only* through that element. Both live nodes already emit it, so the
+tightening costs nothing.
+
+**A rendering bug that had been live since session 11, found by reading the output.**
+Python-Markdown's `fenced_code` only recognizes a fence at column 0. An example
+indented under a list item is therefore not code: its first line becomes inline code
+and the remainder is parsed as markdown — which passes raw HTML straight through. So
+`blygger.org/spec/0.1/` has been emitting a **live** `<blockquote class="blyg-transclusion">`
+into the page instead of showing §10.2's example, for two years of session-time, and
+0.2 inherited the flaw plus a worse instance: the OPML example injected
+`<head><title>` into the document body. **Fixed in `build.py`, not in the prose, and
+that choice is forced by the spec lifecycle** — a superseded document receives no
+revisions and dated snapshots are immutable, so those pages can *only* be corrected in
+the renderer. One preprocessor de-indents fences before conversion and fixes 0.1, its
+2026-08-10 snapshot, 0.2, and every future document while leaving the frozen bytes
+untouched. Blast radius verified by hashing `dist/` before and after: exactly the three
+spec pages changed; overview, namespace and notes pages byte-identical. General lesson,
+and the second session running to produce one of this shape: **the suite/tooling
+asserts that a thing was produced, not that what it produced is what it claims to be** —
+session 19's green tests could not see invalid JavaScript inside valid HTML, and
+`sync_spec.py`'s idempotency check could not see valid markdown rendering as broken
+HTML. Both were found by looking at the artifact.
+
+**Publishing (§6).** `sync_spec.py` gained the superseded state as
+`("SUPERSEDED", successor)`, which drives both the index row and a banner injected
+under the superseded page's H1. Two changes beyond the task list, both forced by the
+change itself: **latest mode now syncs every version**, because a supersession mutates
+an *older* version's page and syncing only the newest would leave it stale; and
+**snapshot mode refuses a superseded version**, since #23 freezes it — worth the guard
+because the old `--version` default was `0.1`, so the habit it protects against is the
+likely one. Two hardcoded `protocol-v0.1.md` references that would have mislabelled
+0.2's provenance are gone.
+
+**CSS contract.** Written by commitment level, which is the distinction that was
+actually missing. §1 is the two classes baked into published `content_html`: they are
+protocol surface binding *any* client that renders blyg content — including content
+imported from someone else's origin — so the obligations are style freely, but never
+hide, rename, strip, or let a sanitizer drop them, because each exists to disclose
+something. §§2–4 are the reference client's own vocabulary, structure, tokens and theme
+mechanism, documented so themes can rely on them while being explicitly *not* a
+protocol promise. `div.item-content` is named as the load-bearing boundary: author's
+published bytes inside, this client's apparatus outside. Every claim was verified
+against `pages.ts` rather than written from session 19's summary, which caught an error
+that would have shipped — `.provenance` is injected *inside* the transclusion
+blockquote at render time into a copy, not rendered beside it.
+
+**Stale TODO, third instance.** `spec-publishing-plan.md` §5 (notes publishing) was
+recorded as unexecuted; it shipped in `blygger-org` `f974d8c` and `/notes/` + `/notes/tn-1/`
+are live. Verified against the site rather than the note, per the standing lesson.
+
+**Verification:** all four spec URL shapes plus `/notes/`, `/ns/0.1` and the root 200
+live with cache-busting; index rows, 0.1 banner and 0.2's escaped examples checked in
+the live HTML; snapshot markdown byte-identical (`shasum` before/after) and its page
+confirmed to carry no banner.
+
+**State after:** 0.2 is the living spec document and is published; 0.1 is superseded,
+bannered, and frozen with its snapshot intact. The protocol surface v0.2 shipped in
+sessions 13–16 is now fully specified in normative prose, so a third party could
+implement the subscribe side from the document alone. No worker code changed this
+session; both live nodes are untouched.
+
+**Open threads:** **0.2 has no dated snapshot** — §6 task 3, deliberately left for
+Venkat, since a snapshot mints a permanent git tag and immutable URL and asserts the
+text is citable. **v0.3 needs a Fable planning session** before any implementation:
+webmention mechanics and the stub design are ⚠️ FABLE and undesigned, and the
+session-18 thread about whether the reading feed's `respond` *becomes* the v0.3 stub is
+still open. Smaller Opus-safe leftovers: the static-export `canonical`/`og:url`
+`localhost` warning, and generalizing account-pinning to the other Workers projects
+(open since session 17). The **feed-page-only carousel** question from session 19 is
+untouched and now has a clearer frame — #25 makes it purely a presentation choice, so
+it can be decided on reading experience alone. Publishing `css-contract.md` to
+blygger.org was considered and not done: it is reference-client documentation, and the
+site currently publishes normative text and technical notes only.
+
 ## Session 19 — 2026-09-13 — Cosmetic pass becomes a design system; nine reader/studio features; a SyntaxError that 400 green tests could not see
 
 **Model:** Opus 5 · **Time:** ~10:33–11:31 PT · **Committed:** yes (13 commits) · **Deployed:** both live nodes ×11 (identity/archive; meta+OG; typography; typography refinements; studio palette; blogroll+title links + carousel; theme; studio editing; SyntaxError fix; studio tests; discard-404 fix)
