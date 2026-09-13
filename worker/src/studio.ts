@@ -136,7 +136,20 @@ button.link { background: none; border: none; padding: 0; font: inherit; color: 
 .composer .bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; flex-wrap: wrap; gap: 0.5rem; }
 .count { opacity: 0.6; }
 .count.over { color: var(--alert); opacity: 1; }
-.new-thread-line { font-size: 0.85rem; margin: -0.5rem 0 1.5rem; }
+/* Kind toggle — replaced the "+ new thread" link, which read as a separate
+ * feature rather than as the other thing this same box can make. A radio pair
+ * says the composer produces one of two kinds and fragment is the usual one. */
+.kind-toggle { display: inline-flex; align-items: center; gap: 0.75rem; }
+.kind-toggle label { display: inline-flex; align-items: center; gap: 0.3rem; cursor: pointer; }
+.kind-toggle input { margin: 0; accent-color: var(--pencil); }
+.kind-hint { color: var(--ink-soft); font-size: 0.8rem; }
+.save-state { color: var(--ok); font-size: 0.8rem; margin-right: 0.3rem; }
+/* Quick edit sits inside the row, under the excerpt it is editing. */
+.quick-edit { margin: 0.5rem 0 0.2rem; border: 1px solid var(--rule-strong); border-radius: 5px; padding: 0.6rem; background: var(--paper-sunk); }
+.quick-edit textarea { width: 100%; min-height: 5rem; border: none; resize: vertical; font: inherit; background: transparent; outline: none; color: inherit; }
+.qe-bar { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.4rem; }
+.qe-bar a { text-decoration: none; }
+.item-row button.active { border-color: var(--pencil); color: var(--pencil); }
 .compose-help { font-size: 0.8rem; opacity: 0.65; margin: 0 0 0.5rem; }
 .compose-help code { font-size: 0.95em; }
 button, .composer button, .item-row button, .bar button { font: inherit; font-size: 0.85rem; padding: 0.25rem 0.7rem; border-radius: 4px; border: 1px solid var(--rule-strong); background: transparent; color: inherit; cursor: pointer; }
@@ -426,6 +439,44 @@ ${note}
 </div>`;
 }
 
+
+/**
+ * In-row quick editor (session 19). Editing a one-line fragment meant leaving
+ * the list, loading the two-pane editor, and coming back — which is a lot of
+ * page for fixing a typo. This opens the working copy in place.
+ *
+ * Fragments only, deliberately. A thread's working copy carries transclusion
+ * directives and TK scopes whose whole point is the live preview, the `![[`
+ * palette and the scope panel; a bare textarea would be a worse tool wearing
+ * the same name. The full editor stays one click away for both.
+ *
+ * The textarea is rendered (hidden) rather than fetched on demand because the
+ * studio is owner-only and a fragment is capped at FRAGMENT_MAX_CHARS — the
+ * whole list costs less than one round trip per row would.
+ */
+function quickEditBox(item: ItemRow, mount: string): string {
+  return `<div class="quick-edit" id="qe-${item.id}" hidden>
+<textarea class="qe-text" data-id="${item.id}">${escapeHtml(item.content_md)}</textarea>
+<div class="qe-bar">
+<span class="count qe-count" data-id="${item.id}">${item.content_md.length} / ${FRAGMENT_MAX_CHARS}</span>
+<span>
+<span class="save-state qe-state" data-id="${item.id}" hidden></span>
+<a href="${studioPath(mount)}/edit/${item.id}"><button type="button">Full Editor →</button></a>
+<button type="button" data-action="qe-cancel" data-id="${item.id}">cancel</button>
+<button type="button" data-action="qe-save" data-id="${item.id}">save draft</button>
+<button type="button" class="primary" data-action="qe-publish" data-id="${item.id}">publish</button>
+</span>
+</div>
+</div>`;
+}
+
+/** Threads keep to the full editor — see quickEditBox. */
+function quickEditBtn(item: ItemRow): string {
+  return item.kind === "thread"
+    ? ""
+    : `<button type="button" data-action="quick-edit" data-id="${item.id}">quick edit</button>`;
+}
+
 async function itemRow(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const id = item.id;
   if (item.status === "withdrawn") {
@@ -452,7 +503,8 @@ ${excerptBlock('<span class="state draft">○</span>', kind, rowPreview(item, nu
 <span>Created: ${formatDate(item.created)} — draft, never published</span>
 <span>Saved: just now</span>
 </p>
-<div class="actions"><a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="publish" data-id="${id}">publish</button><button type="button" data-action="discard" data-id="${id}">discard</button></div>
+${item.kind === "thread" ? "" : quickEditBox(item, mount)}
+<div class="actions">${quickEditBtn(item)}<a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="publish" data-id="${id}">publish</button><button type="button" data-action="discard" data-id="${id}">discard</button></div>
 </div>`;
   }
 
@@ -469,7 +521,8 @@ ${excerptBlock('<span class="state pub">●</span>', chip, preview, '<span class
 <span>Most recent published: ${formatDate(item.updated)}, v${item.version}</span>
 <span class="draft-line">Draft saved — not yet published</span>
 </p>
-<div class="actions"><a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" class="primary" data-action="publish" data-id="${id}">publish v${item.version + 1}</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
+${isThread ? "" : quickEditBox(item, mount)}
+<div class="actions">${quickEditBtn(item)}<a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" class="primary" data-action="publish" data-id="${id}">publish v${item.version + 1}</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
 </div>`;
   }
 
@@ -487,7 +540,8 @@ ${noteHtml}
 <span>Created: ${formatDate(item.created)}</span>
 ${mostRecentLine}
 </p>
-<div class="actions"><a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="pin" data-id="${id}" data-version="${item.version}">pin v${item.version}&hellip;</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
+${isThread ? "" : quickEditBox(item, mount)}
+<div class="actions">${quickEditBtn(item)}<a href="${studioPath(mount)}/edit/${id}"><button type="button">edit</button></a><button type="button" data-action="pin" data-id="${id}" data-version="${item.version}">pin v${item.version}&hellip;</button><button type="button" data-action="withdraw" data-id="${id}">withdraw</button></div>
 </div>`;
 }
 
@@ -553,6 +607,13 @@ document.addEventListener("click", async (e) => {
   } else if (action === "discard") {
     if (!confirm("Discard this draft? It was never published.")) return;
     if (!(await api("DELETE", "/api/items/" + id))) return;
+  } else if (action === "discard-changes") {
+    // Throws away the unpublished working copy by restoring the last published
+    // version into it. Nothing is published and no version is rewound — the
+    // public item is untouched throughout.
+    const version = Number(btn.dataset.version);
+    if (!confirm("Discard unpublished changes and go back to the published v" + version + "?\n\nThe public item is not affected — it is already v" + version + ".")) return;
+    if (!(await api("POST", "/api/items/" + id + "/restore", { version }))) return;
   } else if (action === "pin") {
     const version = Number(btn.dataset.version);
     if (!confirm("Pin v" + version + "? This is irrevocable — it stays fetchable forever, even past withdrawal.")) return;
@@ -580,14 +641,55 @@ document.addEventListener("click", async (e) => {
       "which you would then publish as v" + next + "."
     )) return;
     if (!(await api("POST", "/api/items/" + id + "/restore", { version }))) return;
-  } else if (action === "new-thread") {
-    const created = await api("POST", "/api/items", { content_md: "", kind: "thread" });
-    if (created) location.href = "${studioPath(mount)}/edit/" + created.id;
+  } else if (action === "quick-edit") {
+    // Open in place. The row's rendered excerpt stays visible above the box —
+    // you are editing the thing you are looking at, which is the point.
+    const box = document.getElementById("qe-" + id);
+    if (!box) return;
+    box.hidden = !box.hidden;
+    btn.classList.toggle("active", !box.hidden);
+    if (!box.hidden) {
+      const ta = box.querySelector(".qe-text");
+      ta.focus();
+      ta.setSelectionRange(ta.value.length, ta.value.length);
+    }
     return;
+  } else if (action === "qe-cancel") {
+    const box = document.getElementById("qe-" + id);
+    if (box) box.hidden = true;
+    const opener = document.querySelector('[data-action="quick-edit"][data-id="' + id + '"]');
+    if (opener) opener.classList.remove("active");
+    return;
+  } else if (action === "qe-save") {
+    // Stays open, same as the composer: saving a draft should not end the
+    // edit you are in the middle of.
+    const ta = document.querySelector('.qe-text[data-id="' + id + '"]');
+    if (!(await api("PUT", "/api/items/" + id, { content_md: ta.value }))) return;
+    const state = document.querySelector('.qe-state[data-id="' + id + '"]');
+    if (state) {
+      state.textContent = "saved";
+      state.hidden = false;
+      setTimeout(function () { state.hidden = true; }, 2500);
+    }
+    return;
+  } else if (action === "qe-publish") {
+    const ta = document.querySelector('.qe-text[data-id="' + id + '"]');
+    if (!(await api("PUT", "/api/items/" + id, { content_md: ta.value }))) return;
+    if (!(await api("POST", "/api/items/" + id + "/publish", {}))) return;
+    // Publishing DID change the row's state (version, dirty flag, actions), so
+    // unlike a save this one is worth a reload.
   } else {
     return;
   }
   location.reload();
+});
+document.addEventListener("input", (e) => {
+  const ta = e.target.closest && e.target.closest(".qe-text");
+  if (!ta) return;
+  const count = document.querySelector('.qe-count[data-id="' + ta.dataset.id + '"]');
+  if (!count) return;
+  count.textContent = ta.value.length + " / ${FRAGMENT_MAX_CHARS}";
+  count.classList.toggle("over", ta.value.length > ${FRAGMENT_MAX_CHARS});
 });
 document.addEventListener("click", (e) => {
   if (e.target && e.target.id === "h-viewer-close") {
@@ -602,10 +704,68 @@ function composerScript(mount: string): string {
   return `
 const composerText = document.getElementById("composer-text");
 const composerCount = document.getElementById("composer-count");
+const composerState = document.getElementById("composer-state");
+const kindHint = document.getElementById("kind-hint");
+
+/**
+ * The composer holds onto the draft it created (session 19). "Save draft" used
+ * to create the item and then reload, which pushed your words out of the box
+ * and into the list below — the text was saved, but you were no longer editing
+ * it, which is the opposite of what saving a draft should mean. Now the first
+ * save creates the item, every later one updates that same item, and the
+ * caret never leaves the textarea.
+ */
+let draftId = null;
+let draftKind = null;
+
+function composerKind() {
+  const checked = document.querySelector('input[name="composer-kind"]:checked');
+  return checked ? checked.value : "fragment";
+}
+
+function flash(msg) {
+  composerState.textContent = msg;
+  composerState.hidden = false;
+  clearTimeout(flash._t);
+  flash._t = setTimeout(function () { composerState.hidden = true; }, 2500);
+}
+
+/**
+ * Create-or-update, returning the draft's id.
+ *
+ * PUT cannot change an item's kind, so if the toggle moved after a draft was
+ * already created we discard that draft and make the right one. Nothing is
+ * lost — the text lives in the textarea, which is the source we are writing
+ * from — and the discarded draft was never published, so DELETE is legal.
+ */
+async function ensureDraft() {
+  const kind = composerKind();
+  if (draftId && draftKind !== kind) {
+    await api("DELETE", "/api/items/" + draftId);
+    draftId = null;
+  }
+  if (draftId) {
+    if (!(await api("PUT", "/api/items/" + draftId, { content_md: composerText.value }))) return null;
+    return draftId;
+  }
+  const created = await api("POST", "/api/items", { content_md: composerText.value, kind: kind });
+  if (!created) return null;
+  draftId = created.id;
+  draftKind = kind;
+  return draftId;
+}
+
+/** The right editor for what is being composed — threads have their own. */
+function editorPath(id) {
+  return "${studioPath(mount)}/edit/" + id;
+}
+
 function updateCount() {
   const n = composerText.value.length;
   composerCount.textContent = n + " / ${FRAGMENT_MAX_CHARS}";
-  composerCount.classList.toggle("over", n > ${FRAGMENT_MAX_CHARS});
+  // The cap is a fragment rule (§2.7); a thread is long-form by definition.
+  composerCount.classList.toggle("over", n > ${FRAGMENT_MAX_CHARS} && composerKind() === "fragment");
+  composerCount.hidden = composerKind() === "thread";
 }
 composerText.addEventListener("input", updateCount);
 // A "respond" prefill arrives in the markup, so seed the counter from it and
@@ -615,33 +775,50 @@ if (composerText.value) {
   composerText.focus();
   composerText.setSelectionRange(composerText.value.length, composerText.value.length);
 }
-updateCount();
+
+function syncKind() {
+  var thread = composerKind() === "thread";
+  kindHint.textContent = thread ? "— long-form; transclusions live in the full editor" : "";
+  composerText.placeholder = thread ? "start a thread…" : "compose a fragment…";
+  updateCount();
+}
+document.querySelectorAll('input[name="composer-kind"]').forEach(function (r) {
+  r.addEventListener("change", syncKind);
+});
+syncKind();
+
 document.getElementById("save-draft-btn").addEventListener("click", async () => {
-  const created = await api("POST", "/api/items", { content_md: composerText.value });
-  if (created) location.reload();
+  if (await ensureDraft()) flash("saved");
 });
 document.getElementById("publish-btn").addEventListener("click", async () => {
-  const created = await api("POST", "/api/items", { content_md: composerText.value });
-  if (!created) return;
-  // A failed publish still created the draft above. Reloading here used to
+  const id = await ensureDraft();
+  if (!id) return;
+  // A failed publish still leaves the draft above. Reloading here used to
   // wipe the composer and drop an unexplained new draft into the list — the
   // text was never lost, but nothing said where it went. Go to that draft's
   // editor instead: it is where the text now lives, and where an unresolved
   // TK scope (the most common cause of this failure) can be generated.
-  if (!(await api("POST", "/api/items/" + created.id + "/publish", {}))) {
-    location.href = "${studioPath(mount)}/edit/" + created.id;
+  if (!(await api("POST", "/api/items/" + id + "/publish", {}))) {
+    location.href = editorPath(id);
     return;
   }
   location.reload();
 });
 document.getElementById("composer-attach").addEventListener("click", async () => {
-  const created = await api("POST", "/api/items", { content_md: composerText.value });
-  if (created) location.href = "${studioPath(mount)}/edit/" + created.id;
+  const id = await ensureDraft();
+  if (id) location.href = editorPath(id);
+});
+// The door to the full editor is always open now, rather than appearing only
+// when the text happens to contain a TK scope: wanting the bigger editor is
+// not a thing the composer can detect from what you have typed so far.
+document.getElementById("composer-full").addEventListener("click", async () => {
+  const id = await ensureDraft();
+  if (id) location.href = editorPath(id);
 });
 // TK scopes need review before publishing (decision #20: generation is an
 // explicit, author-reviewed act), and a one-line composer is the wrong place
 // to read a paragraph of generated prose — so the composer does not grow a
-// generate panel. It offers the door instead, and only when there is a scope.
+// generate panel. It offers the door instead, anchored at the TK panel.
 const composerGenerate = document.getElementById("composer-generate");
 function syncGenerateBtn() {
   composerGenerate.hidden = !composerText.value.includes("[TK]");
@@ -649,12 +826,11 @@ function syncGenerateBtn() {
 composerText.addEventListener("input", syncGenerateBtn);
 syncGenerateBtn();
 composerGenerate.addEventListener("click", async () => {
-  const created = await api("POST", "/api/items", { content_md: composerText.value });
-  if (created) location.href = "${studioPath(mount)}/edit/" + created.id + "#tk";
+  const id = await ensureDraft();
+  if (id) location.href = editorPath(id) + "#tk";
 });
 `;
 }
-
 
 /**
  * Theme swatches. `auto` comes first and is the default: it is the only option
@@ -744,12 +920,18 @@ studio.get("/", async (c) => {
 ${prefill ? `<p class="compose-help">Responding to a post in your reading feed — this is your own fragment, citing it. Nothing of theirs is republished.</p>` : ""}
 <textarea id="composer-text" placeholder="compose a fragment…">${escapeHtml(prefill)}</textarea>
 <div class="bar">
-  <span><button type="button" id="composer-attach">attach image</button> <button type="button" id="composer-generate" hidden>generate in editor →</button></span>
+  <span class="kind-toggle">
+    <label><input type="radio" name="composer-kind" value="fragment" checked> fragment</label>
+    <label><input type="radio" name="composer-kind" value="thread"> thread</label>
+    <span class="kind-hint" id="kind-hint"></span>
+  </span>
   <span class="count" id="composer-count">0 / ${FRAGMENT_MAX_CHARS}</span>
-  <span><button type="button" id="save-draft-btn">save draft</button> <button type="button" class="primary" id="publish-btn">publish</button></span>
+</div>
+<div class="bar">
+  <span><button type="button" id="composer-attach">attach image</button> <button type="button" id="composer-full">Full Editor →</button> <button type="button" id="composer-generate" hidden>generate in editor →</button></span>
+  <span><span class="save-state" id="composer-state" hidden></span> <button type="button" id="save-draft-btn">save draft</button> <button type="button" class="primary" id="publish-btn">publish</button></span>
 </div>
 </div>
-<p class="new-thread-line"><button type="button" class="link" data-action="new-thread">+ new thread</button> <span style="opacity:0.6;">— long-form, opens the thread editor</span></p>
 ${rows.join("\n") || "<p>Nothing yet — compose your first fragment above.</p>"}
 <script>${actionScript(mount)}</script>
 <script>${composerScript(mount)}</script>`;
@@ -926,6 +1108,20 @@ async function fragmentEditPage(db: D1Database, item: ItemRow, mount: string): P
         ? `<button type="button" class="primary" data-action="republish" data-id="${item.id}">republish</button>`
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
+  // "Discard" means two different things depending on what there is to throw
+  // away, and conflating them would be the dangerous version of this button.
+  //   never published  → the draft itself; DELETE (the only delete that exists)
+  //   dirty            → the unpublished *changes*; restore the last published
+  //                      version into the working copy, which publishes nothing
+  //                      and rewinds nothing
+  //   clean & published→ nothing to discard, so no button. Leaving the public
+  //                      stream is `withdraw`, which is already beside it.
+  const discardBtn =
+    item.version === 0
+      ? `<button type="button" class="danger" data-action="discard" data-id="${item.id}">discard draft</button>`
+      : item.dirty === 1
+        ? `<button type="button" data-action="discard-changes" data-id="${item.id}" data-version="${item.version}">discard changes</button>`
+        : "";
   const body = `${studioHeader(`blyg studio — editing ${escapeHtml(item.id.slice(0, 8))}…`, mount)}
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← compose</a> <a href="${mount}/f/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
@@ -957,6 +1153,7 @@ ${mediaHtml}
   <input class="note" id="note-input" type="text" placeholder="what changed? (optional edit note)">
   <button type="button" id="save-draft-btn">save draft</button>
   <button type="button" class="primary" id="publish-btn">${publishLabel}</button>
+  ${discardBtn}
   ${withdrawBtn}
 </span>
 </div>
@@ -1048,6 +1245,20 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
         ? `<button type="button" class="primary" data-action="republish" data-id="${item.id}">republish</button>`
         : "";
   const publishLabel = item.status === "withdrawn" || item.version === 0 ? "publish" : `publish v${item.version + 1}`;
+  // "Discard" means two different things depending on what there is to throw
+  // away, and conflating them would be the dangerous version of this button.
+  //   never published  → the draft itself; DELETE (the only delete that exists)
+  //   dirty            → the unpublished *changes*; restore the last published
+  //                      version into the working copy, which publishes nothing
+  //                      and rewinds nothing
+  //   clean & published→ nothing to discard, so no button. Leaving the public
+  //                      stream is `withdraw`, which is already beside it.
+  const discardBtn =
+    item.version === 0
+      ? `<button type="button" class="danger" data-action="discard" data-id="${item.id}">discard draft</button>`
+      : item.dirty === 1
+        ? `<button type="button" data-action="discard-changes" data-id="${item.id}" data-version="${item.version}">discard changes</button>`
+        : "";
   const body = `${studioHeader("blyg studio — editing thread", mount)}
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← compose</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>

@@ -232,6 +232,9 @@ article.fragment, article.thread { border-top: 1px solid var(--rule); padding: 2
 article.fragment:first-of-type, article.thread:first-of-type { border-top: none; padding-top: 0; }
 article.fragment img, article.thread img { max-width: 100%; height: auto; border-radius: 2px; }
 article.fragment > :first-child, article.thread > :first-child { margin-top: 0; }
+/* …and since session 19 that first child is the .item-content wrapper, so the
+ * rule has to reach one level further in to actually reach the prose. */
+.item-content > :first-child { margin-top: 0; }
 .blyg h1, .blyg h2, .blyg h3 { line-height: 1.2; letter-spacing: -0.01em; margin: 1.6em 0 0.5em; }
 .blyg h1 { font-size: 1.5rem; }
 .blyg h2 { font-size: 1.25rem; }
@@ -308,14 +311,26 @@ blockquote.blyg-transclusion h1, blockquote.blyg-transclusion h2, blockquote.bly
 .version-line .vstep:disabled { color: var(--ink-soft); opacity: 0.4; cursor: default; }
 .version-line .vlatest { margin-left: 0.1rem; }
 .version-line .vextra a { color: var(--pencil); text-decoration: none; border-bottom: 1px solid var(--rule); }
-/* A frozen version showing in place must never be mistaken for the live item;
- * the blue pencil down the edge is the same mark the pinned page uses. */
+/* A frozen version showing in place must never be mistaken for the live one,
+ * but the marker must cost nothing in layout: a left rule plus padding
+ * indented the text on every step, so cycling versions slid the whole column
+ * sideways. A tint extended by box-shadow spread paints the same "this is
+ * held, not live" signal *outside* the box — box-shadow is not laid out, so
+ * the text does not move by a single pixel when the version changes. */
 article.showing-pin .item-content {
-  border-left: 2px solid var(--pencil);
-  padding-left: 1rem;
-  margin-left: -0.1rem;
+  background: var(--paper-sunk);
+  border-radius: 2px;
+  box-shadow: 0 0 0 0.7rem var(--paper-sunk);
 }
+article.showing-pin .item-content > :first-child { margin-top: 0; }
+article.showing-pin .item-content > :last-child { margin-bottom: 0; }
 article.showing-pin .item-content[aria-busy="true"] { opacity: 0.5; }
+
+/* The version label is the only part of the line whose text changes as you
+ * step ("v3" → "v12 · frozen"), and it sits before the pin citations — so
+ * without a reserved width every step nudged everything after it. Fixed box,
+ * left-aligned: the controls and the citations never move. */
+.version-line .vlabel { display: inline-block; min-width: 7.5em; }
 
 /* A titled item's heading is its link; it should read as the heading, with the
  * link only showing on hover, rather than as a blue headline. */

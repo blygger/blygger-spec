@@ -268,13 +268,19 @@ export async function getVersion(db: D1Database, itemId: string, version: number
 
 /** Published items + withdrawn endcaps, newest `updated` first (public surfaces). */
 export async function listPublic(db: D1Database, limit?: number): Promise<ItemRow[]> {
-  const sql = "SELECT * FROM items WHERE status IN ('public','withdrawn') ORDER BY updated DESC" + (limit ? " LIMIT ?" : "");
+  // `rowid DESC` is the tiebreaker, exactly as in feedEvents() (session 11):
+  // `updated` has only second precision, so two items published inside the
+  // same second sorted nondeterministically — the public feed's own order.
+  // rowid is monotonic with insertion, so it resolves ties by actual order.
+  const sql =
+    "SELECT * FROM items WHERE status IN ('public','withdrawn') ORDER BY updated DESC, rowid DESC" +
+    (limit ? " LIMIT ?" : "");
   const stmt = limit ? db.prepare(sql).bind(limit) : db.prepare(sql);
   return (await stmt.all<ItemRow>()).results;
 }
 
 export async function listAll(db: D1Database): Promise<ItemRow[]> {
-  return (await db.prepare("SELECT * FROM items ORDER BY updated DESC").all<ItemRow>()).results;
+  return (await db.prepare("SELECT * FROM items ORDER BY updated DESC, rowid DESC").all<ItemRow>()).results;
 }
 
 export async function listVersions(db: D1Database, itemId: string): Promise<VersionRow[]> {
