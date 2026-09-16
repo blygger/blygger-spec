@@ -411,9 +411,19 @@ function metaTags(meta: PageMeta): string {
   return tags.length ? tags.join("\n") + "\n" : "";
 }
 
-export const FEED_SCRIPT = `
+export const VERSION_NAV_SCRIPT = `
 /**
- * In-situ pinned-version carousel for the feed page (session 19).
+ * In-situ pinned-version carousel (session 19; extended to the permalink and
+ * thread pages session 21).
+ *
+ * It runs on every public page that renders an item, because the version line
+ * it enhances renders on every one of them. Shipping it on the feed alone gave
+ * identical markup two different behaviours depending on which page you were
+ * looking at — a pin citation that swapped in place on the feed and navigated
+ * away on the permalink — and the permalink is the page a citation actually
+ * lands on, so it is where the comparison is most likely to be wanted.
+ * Decision #25 settled that this is presentation, and therefore this client's
+ * call to make; the conformance argument is unchanged either way.
  *
  * A pin citation used to navigate away to the frozen page. But reading "what
  * did this say before?" is a comparison, and a comparison wants both texts in
@@ -460,9 +470,27 @@ export const FEED_SCRIPT = `
     versions.sort(function (a, b) { return a - b; });
     if (versions.length < 2) return;
 
+    // The version note is apparatus ABOUT a version, so it has to travel with
+    // the content. Session 19 left it pinned to the live version while the
+    // body swapped underneath it, which put v2's note ("tightened it") under
+    // v1's text — the editorial layer describing something other than what is
+    // on screen, which is the one thing it must never do. v{n}.json carries
+    // each version's own note, and it is already being fetched.
+    var noteEl = article.querySelector(".version-note");
     var cache = {};
-    cache[live] = content.innerHTML;
+    cache[live] = { html: content.innerHTML, note: noteEl ? noteEl.textContent : "" };
     var at = versions.indexOf(live);
+
+    function setNote(text) {
+      if (!text) { if (noteEl) noteEl.hidden = true; return; }
+      if (!noteEl) {
+        noteEl = document.createElement("p");
+        noteEl.className = "version-note";
+        line.parentNode.insertBefore(noteEl, line.nextSibling);
+      }
+      noteEl.hidden = false;
+      noteEl.textContent = text;
+    }
 
     var nav = document.createElement("span");
     nav.className = "vnav";
@@ -482,6 +510,7 @@ export const FEED_SCRIPT = `
       // Only "frozen" is added here. Saying "pinned" would repeat the pin
       // citations sitting right beside it ("v3 · pinned · pinned: v1, v3").
       label.textContent = "v" + v + (isLive ? "" : " · frozen");
+      setNote(cache[v] ? cache[v].note : "");
       article.classList.toggle("showing-pin", !isLive);
       nav.querySelector('[data-step="-1"]').disabled = at === 0;
       nav.querySelector('[data-step="1"]').disabled = at === versions.length - 1;
@@ -495,13 +524,15 @@ export const FEED_SCRIPT = `
 
     function show(v) {
       at = versions.indexOf(v);
-      if (cache[v] !== undefined) { content.innerHTML = cache[v]; render(); return; }
+      if (cache[v] !== undefined) { content.innerHTML = cache[v].html; render(); return; }
       content.setAttribute("aria-busy", "true");
       fetch(mount + "/items/" + id + "/v" + v + ".json")
         .then(function (r) { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
         .then(function (data) {
-          cache[v] = data.content_html || "";
-          content.innerHTML = cache[v];
+          // The quotes are the server's rendering of a note, reproduced here
+          // so a swapped-in note looks like the one that was there before it.
+          cache[v] = { html: data.content_html || "", note: data.note ? "“" + data.note + "”" : "" };
+          content.innerHTML = cache[v].html;
           content.removeAttribute("aria-busy");
           render();
         })
@@ -870,7 +901,7 @@ ${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
 ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</a></footer>` : ""}
 ${blogrollSection(blogrollSubs, mount)}
 </div>
-<script>${FEED_SCRIPT}</script>`;
+<script>${VERSION_NAV_SCRIPT}</script>`;
   // §2.2: publishers SHOULD emit rel="blogroll" on the HTML feed page when the blogroll is non-empty.
   const hasBlogroll = blogrollSubs.length > 0;
   // The bio is the blyg's own description of itself; with none set, the most
@@ -903,7 +934,16 @@ function withdrawnMeta(settings: Settings, url: string): PageMeta {
   };
 }
 
-/** Fragment permalink page — caller (index.ts) 404s if the item's authored kind isn't fragment. */
+/**
+ * Fragment permalink page — caller (index.ts) 404s if the item's authored kind
+ * isn't fragment.
+ *
+ * The withdrawn endcap deliberately gets no version-nav script (session 21).
+ * Its pins still render as links — that is the point of a pin, it survives
+ * withdrawal (§2.8) — but paging a pinned version *into* a page whose headline
+ * says "This item was withdrawn" reads as a contradiction. The frozen page,
+ * which wears its own banner, is the honest destination for withdrawn content.
+ */
 export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow, mount: string, origin: string): Promise<string> {
   const url = `${origin}f/${item.id}/`;
   if (item.kind === "withdrawn") {
@@ -920,7 +960,8 @@ export async function permalinkPage(db: D1Database, settings: Settings, item: It
   const body = `<div class="blyg">
 ${pageHeader(settings, mount)}
 ${await fragmentBlock(db, item, mount)}
-</div>`;
+</div>
+<script>${VERSION_NAV_SCRIPT}</script>`;
   return layout(itemTitle(excerptFromHtml(latest?.content_html ?? "", 70), settings), body, mount, {
     description: text,
     url,
@@ -946,7 +987,8 @@ export async function threadPage(db: D1Database, settings: Settings, item: ItemR
   const body = `<div class="blyg">
 ${pageHeader(settings, mount)}
 ${await threadBlock(db, item, mount)}
-</div>`;
+</div>
+<script>${VERSION_NAV_SCRIPT}</script>`;
   return layout(itemTitle(excerptFromHtml(latest?.content_html ?? "", 70), settings), body, mount, {
     description: excerptFromHtml(latest?.content_html ?? "", 200),
     url,

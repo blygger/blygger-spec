@@ -395,11 +395,51 @@ describe("pinned-version carousel (session 19)", () => {
     expect(await (await getPublic(`/blyg/f/${id}/`)).text()).toContain('<div class="item-content">');
   });
 
-  it("ships the carousel script on the feed page only", async () => {
+  // Session 21: the script moved from feed-only to every page that renders an
+  // item. The version line was always identical across them, so shipping the
+  // enhancement on one gave the same markup two behaviours — a pin citation
+  // that swapped in place on the feed and navigated away on the permalink.
+  it("ships the version-nav script on every page that renders an item", async () => {
     const cookie = await login();
-    const id = await createAndPublish(cookie, "somewhere to look");
-    expect(await (await getPublic("/blyg/")).text()).toContain("version-line[data-item]");
-    for (const path of [`/blyg/f/${id}/`, "/blyg/archive/"]) {
+    const fragment = await createAndPublish(cookie, "somewhere to look");
+    const thread = (await apiJson(cookie, "POST", "/api/items", { content_md: "a thread body", kind: "thread" }))
+      .json.id as string;
+    await apiJson(cookie, "POST", `/api/items/${thread}/publish`, {});
+    for (const path of ["/blyg/", `/blyg/f/${fragment}/`, `/blyg/t/${thread}/`]) {
+      expect(await (await getPublic(path)).text(), path).toContain("version-line[data-item]");
+    }
+  });
+
+  // Session 21: the carousel swaps the version note along with the body. The
+  // data that makes that possible is the per-version note in v{n}.json — if
+  // that ever stops being emitted, the note silently falls back to the live
+  // version's and the apparatus starts describing the wrong version (which is
+  // what it did between sessions 19 and 21).
+  it("serves each pinned version's own note, which is what the swap reads", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "first cut");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    await apiJson(cookie, "PUT", `/api/items/${id}`, { content_md: "second cut" });
+    await apiJson(cookie, "POST", `/api/items/${id}/publish`, { note: "tightened it" });
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 2 });
+
+    const v1 = (await (await getPublic(`/blyg/items/${id}/v1.json`)).json()) as any;
+    const v2 = (await (await getPublic(`/blyg/items/${id}/v2.json`)).json()) as any;
+    expect(v1.note).toBeNull();
+    expect(v2.note).toBe("tightened it");
+    // And the server-rendered note is the live version's, which is the state
+    // the swap starts from and returns to.
+    expect(await (await getPublic(`/blyg/f/${id}/`)).text()).toContain("tightened it");
+  });
+
+  it("does not ship it where no item content is rendered", async () => {
+    const cookie = await login();
+    const id = await createAndPublish(cookie, "an archived item");
+    await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
+    // The archive is a list of links, and a pinned-version page is one frozen
+    // version by definition — neither has a carousel to drive. The pinned page
+    // in particular must not offer to page away from the version it froze.
+    for (const path of ["/blyg/archive/", `/blyg/f/${id}/v1/`]) {
       expect(await (await getPublic(path)).text(), path).not.toContain("version-line[data-item]");
     }
   });

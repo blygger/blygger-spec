@@ -99,10 +99,19 @@ one selector to hang that on.
 ### 2.1 Carousel classes are script-added
 
 `.vnav`, `.vstep`, `.vlatest`, `.vextra`, and the `article.showing-pin` state
-class are created by the feed page's script, which is the only client-side
-script on any public page. **They do not exist when JavaScript is off**, where
+class are created by the version-nav script, which is the only client-side
+script on any public page. It runs on every page that renders an item — the
+feed, fragment permalinks, and thread pages (session 21; it shipped feed-only
+in session 19) — and deliberately not on the withdrawn endcap or a pinned
+version's own frozen page. **They do not exist when JavaScript is off**, where
 the server-rendered pin citations remain plain links. Never write a theme that
 depends on them existing; style them for when they do.
+
+`p.version-note` is the one apparatus element the script *rewrites* rather than
+adds: a version's note belongs to that version, so swapping the body swaps the
+note with it, and the element is hidden (not emptied) when the shown version
+carries none. A theme that hides `[hidden]` incorrectly, or that forces
+`display` on `.version-note`, will show one version's note over another's text.
 
 `p.version-line` carries the data the carousel reads — `data-item`,
 `data-kind`, `data-live`, `data-pins`, `data-mount`. Treat these as this

@@ -25,13 +25,21 @@ function assertParses(src: string, where: string) {
 }
 
 describe("every inline script parses", () => {
-  it("public feed page", async () => {
+  it("public pages that render an item", async () => {
     const cookie = await login();
     const id = await createAndPublish(cookie, "an item with versions");
     await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
-    const bodies = scriptBodies(await (await getPublic("/blyg/")).text());
-    expect(bodies.length).toBeGreaterThan(0);
-    bodies.forEach((b, i) => assertParses(b, `feed page script ${i}`));
+    const thread = (await apiJson(cookie, "POST", "/api/items", { content_md: "a thread", kind: "thread" })).json
+      .id as string;
+    await apiJson(cookie, "POST", `/api/items/${thread}/publish`, {});
+
+    // Session 21 put the version-nav script on the permalink and thread pages
+    // too, so all three need the parse check, not just the feed.
+    for (const path of ["/blyg/", `/blyg/f/${id}/`, `/blyg/t/${thread}/`]) {
+      const bodies = scriptBodies(await (await getPublic(path)).text());
+      expect(bodies.length, path).toBeGreaterThan(0);
+      bodies.forEach((b, i) => assertParses(b, `${path} script ${i}`));
+    }
   });
 
   it("studio pages", async () => {
