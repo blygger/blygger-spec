@@ -181,10 +181,10 @@ would muddy that split). Same toolchain as the client, so nothing new to learn.
 on all three is settled — decision #12 and the follow-is-nothing rule in #13), and the
 page never republishes anyone's content, only links the home page.
 
-**Blocked on Venkat:** `blygger.com` is not onboarded to Cloudflare DNS. That is a
-dashboard action (add site, change nameservers at the registrar) that the API token
-cannot perform. The code can be built and tested locally before that happens; it cannot
-be deployed.
+**Built and deployed session 21** — Worker + D1 + Custom Domain on the personal
+account. The zone was already active (the domain was registered through Cloudflare);
+an earlier note in this plan claimed it was not onboarded, inferred from a `curl` that
+failed only because nothing was connected to the domain yet.
 
 ## 8. Task breakdown (ordered; commit-sized, each with an acceptance check)
 
@@ -199,7 +199,7 @@ be deployed.
 | 7 | Mark repo as a GitHub template; end-to-end dry run on a throwaway domain | A blyg stood up start to finish by following only the generated README |
 | 8 | `blygger.org/start/` page | Three routes live, links resolve |
 | 9 | blygger.com Worker + D1 + submit/approve/list | Local `wrangler dev`: submit, resolve, approve, appears |
-| 10 | Deploy blygger.com | **Blocked on DNS onboarding** |
+| 10 | Deploy blygger.com | **Done session 21** — live, both nodes submitted |
 
 ## 9. Definition of done
 
@@ -209,7 +209,8 @@ be deployed.
   hand-editing config.
 - `blygger.org/start/` names all three routes in.
 - blygger.com lists at least the two existing nodes, both resolved as `kind: "blyg"` by
-  the real resolver.
+  the real resolver. *(Both submitted in production session 21 and resolved correctly;
+  awaiting approval at `/admin`.)*
 
 ## 10. Open decisions (Venkat)
 
