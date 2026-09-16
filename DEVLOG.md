@@ -7,6 +7,118 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 21 — 2026-09-16 — Opus backlog cleared; a talk deck; blygger.com ships as a directory; four stale records corrected
+
+**Model:** Opus 5 · **Time:** ~10:48–12:25 PT · **Committed:** yes (blygger-spec ×3, blygger-org ×8, blygger-com ×3, all pushed) · **Deployed:** blygger.org ×4, **blygger.com ×1 (new)**
+
+**What & why:** the session opened on "what Opus work is left before Fable v0.3" and
+the honest answer was *almost none* — three small items from session 20's open threads.
+It then turned into a talk, a new site, and an unusual amount of correcting the record.
+
+**The export preflight, and why refuse-vs-warn is not symmetric.** Session 19 flagged
+that a static export bakes absolute `og:url`/`canonical` from `siteOrigin()`, so an
+export off `wrangler dev` ships `localhost`. Confirmed the hazard before fixing it —
+the exported tree really does carry `og:url="http://localhost:8787/blyg/"`. `export.ts`
+now checks the manifest's `site` **before writing a single file**, and the two failure
+modes are deliberately treated differently: a **loopback origin refuses** (no host
+exists on which that tree is correct; `--allow-local` for the dev-verification loop),
+while **site ≠ `--base` only warns**, because that is precisely the supported
+configuration `site_url` exists for — export from local, serve at production. The
+original suggestion (compare against `canonical`) would have been weaker: the feed page
+emits no canonical, and `site` is the value every absolute URL derives from anyway.
+
+**The carousel, settled on consistency rather than comparison.** Decision #25 had
+already made this presentation, so it was the client's call. What decided it was not
+the comparison argument from session 19 but that the version line is *identical markup*
+on feed, permalink and thread pages — shipping the enhancement on one gave the same
+affordance two behaviours. Deliberately **not** extended to the withdrawn endcap (paging
+pinned text into a page headed "This item was withdrawn" reads as a contradiction; the
+frozen page wears its own banner) or to a pinned version's own page (one frozen version
+by definition). `FEED_SCRIPT` → `VERSION_NAV_SCRIPT`, since the name had become false.
+
+**And a real defect found by opening the page.** The carousel swapped the body but left
+the *version note*, so v1's text displayed under v2's note ("tightened it") — the
+editorial apparatus describing something other than what is on screen, live since
+session 19. `v{n}.json` already carried a per-version `note`; it now travels with the
+version and hides when absent. **Fourth session running in which the bug was invisible
+to a green suite and obvious on the artifact.**
+
+**A talk deck, and a format lesson.** Venkat asked for a symposium deck on
+blygger.org, modelled on humboldt's. Ported `_build_talk` minus audio — which is not
+mere deletion: humboldt gates its *entire player* on audio existing, because without a
+clip nothing drives slide advance; here an operator drives it, so the gate had to be
+inverted. **Everything in the stage is sized in `cqh` against a `container-type: size`
+container**, so the embedded preview and the fullscreen presentation are one composition
+at two scales. That was arrived at the hard way: `rem`/`vw` sizing left a *2-pixel*
+screenshot on one slide and pushed two bullets off another, while fullscreen looked
+fine. Two further CSS traps worth remembering: a percentage `max-height` against an
+auto-height parent resolves to `none`, and a class rule `display: flex` outranks the
+UA's `[hidden]`.
+
+**The source format was rebuilt mid-session and the reason generalises.** It started as
+`slides.yaml` + `track.md`, splitting "what is projected" from "what is said". Every
+content edit touched two files and kept them aligned by hand — which is exactly how a
+renumber produced two slides sharing an id and a deck that silently skipped a position.
+Collapsed to a single `talk.md` with positional numbering, which makes that class of
+error **unrepresentable rather than guarded against**; the duplicate-id check written an
+hour earlier was deleted because nothing was left for it to catch.
+
+**Four stale records corrected, which is the session's real theme.** `blygger-org` and
+`blygger-com` both still described themselves as "one of the two initial cross-client
+test instances" — overtaken in session 11. blygger.org's **front page** linked
+`/spec/0.1/` (SUPERSEDED since session 20) and said 0.1 was "heading toward its first
+deployments". The site nav pointed at 0.1 too. And `warnings-node.md` claimed only one
+project in `Code/` used Node. This is now the *seventh* instance of recorded-status
+decay in this project, and the pattern has a shape: **notes rot in the direction of the
+past, and the front page rots as readily as a TODO.**
+
+**The blygger.com claim I got wrong, and how.** I recorded the directory as "blocked on
+DNS onboarding" because `curl https://blygger.com/` returned 000. Venkat corrected it:
+the zone was long since active on the personal account. The error was not failing to
+check — it was **testing one artifact and concluding about a different fact**. A failed
+`curl` means nothing is serving; it says nothing about whether a zone exists. The
+correct check was one API call, which I made only after being told. Worth recording
+precisely because it is the inverse of the lesson the project keeps learning: checking
+the artifact only helps if it is the artifact your claim is about.
+
+**blygger.com ships as a directory, not a stub.** A submit box, a list of approved blygs
+linking **home pages not feeds**, and an admin-gated queue. The part worth building is
+validation: submissions are resolved by **this repo's own v0.2 resolver**, which points
+the reference implementation at strangers' real sites — a test of the spec nothing else
+performs. Verified against reality: both live nodes resolve as `blyg` with their real
+manifest titles, simonwillison.net correctly resolves as a plain feed linking his home
+page rather than his Atom URL. Approval gating is structural rather than a caller's
+discipline: `listApproved()` bakes the status filter in, so no code path can list a
+pending row. The resolver is **vendored** with `npm run sync-vendor` so drift is visible
+in `git diff` — re-sync at v0.3.
+
+**Environment.** `npm install` is broken on this machine for any *fresh* project
+depending on vitest (`arborist` `edgesOut` TypeError), reproducible in an empty
+directory; `--legacy-peer-deps` is the workaround. Existing projects install fine only
+because a resolved lockfile skips that code path, so diagnosing by comparing them is a
+dead end. Recorded in `warnings-node.md` along with the per-project
+`com.dropbox.ignored` requirement.
+
+**State after:** blygger.org carries the spec (0.2 tagged and snapshotted at
+`spec/0.2/2026-09-16`), technical notes, a `/start/` page, and a 22-slide symposium deck
+with real screenshots of both live nodes. blygger.com is live and holds two pending
+submissions. `docs/self-host-plan.md` specifies the packaged self-host artifact —
+template repo + `npm run init`, subdomain-only mounts, and an explicit upgrade path.
+Worker code: 426/426 green, `tsc` clean; directory: 17/17, `tsc` clean. Both live blyg
+nodes untouched all session.
+
+**Open threads:** **v0.3 still needs a Fable planning session** and remains the gate on
+all substantive protocol work — webmention mechanics, stub design, DAG semantics, and
+the `respond`-becomes-the-stub question from session 18. **The release-candidate gate is
+ambiguous and worth an explicit ruling:** it reads "pubsub/subscribe (v0.2–v0.3)" and
+v0.2's subscribe has been live since session 13, so either the self-host artifact is
+buildable now or it waits for v0.3 — flagged because holds in this project have three
+times been found already lapsed. Smaller: the talk needs Venkat's slot *duration* (22
+slides, cut points recorded in `brief.md`); two pending directory submissions need
+approving; account-pinning still hasn't been generalised to the other Workers projects
+(open since session 17); and `security-policy.md` rule 1 says print generated secrets to
+chat, which I deliberately did not do — worth Venkat confirming which he wants.
+
 ## Session 20 — 2026-09-13 — Protocol 0.2 drafted and published; §8.4 recast (#25); a code-fence bug that had been leaking live markup into the published spec
 
 **Model:** Fable 5 (0.2 draft + decision #25) → Opus 5 (publishing, CSS contract), switched by Venkat per the model-switch convention · **Time:** ~11:57–12:25 PT · **Committed:** yes (`blygger-spec` ×2, `blygger-org` ×1, all pushed) · **Deployed:** blygger.org ×1

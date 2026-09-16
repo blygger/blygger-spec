@@ -177,6 +177,13 @@ Once gated, two deliverables, both currently just gaps (no design done):
    block, provisions D1/R2, runs migrations, prompts for the two secrets.
    Today this only exists as the hand-done `env.venkateshrao`-style pattern in
    `worker/wrangler.jsonc` — no tooling wraps it.
+   **Designed session 21 (2026-09-16): [`self-host-plan.md`](self-host-plan.md)**
+   — GitHub template repo + interactive `npm run init`, subdomain-only mounts
+   (because `/studio` and `/api` are host-rooted regardless of `MOUNT`), and an
+   explicit upgrade path, which is the question this section never answered.
+   Not built. **Note the gate ambiguity:** "pubsub/subscribe (v0.2–v0.3)" below
+   is satisfied by v0.2 on one reading, which would open the gate now — see
+   `CLAUDE.md` TODO.
 2. **Second reference implementation: local/laptop, folder-based, static-host
    deploy** (e.g. GitHub Pages, Netlify) — the architectural inverse of the CF
    client: the dynamic/code-heavy parts (studio authoring, auth, API) stay
