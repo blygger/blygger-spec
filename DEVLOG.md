@@ -7,6 +7,87 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 23 — 2026-09-16/17 — v0.3 Phase A built: tasks 1–8 in one session
+
+**Model:** Opus 5 · **Time:** ~17:38 PT – 02:00 PT (past midnight; the session opened on the 16th) · **Committed:** yes (blygger-spec ×6, not pushed) · **Deployed:** — (local `wrangler dev` only)
+
+**What & why:** the plan budgeted three sessions for Phase A (1–4, 5–8, 9–10). Tasks
+1–8 landed in this one; what is left is the *deployed* half of task 9 and the record.
+475 tests green, `tsc` clean. The design was locked enough that almost nothing needed
+improvising — the notes below are the places where it did not quite reach.
+
+**Widening the resolver found a defect that nesting would have shipped.**
+`resolveFragment` split in two: the v0.1 rule (local, published, fragment-only) stays
+untouched for TK source refs, which v0.3 explicitly leaves alone, and transclusion
+targets go through a new `resolveTarget` implementing decision #26's order. While
+wiring the baked wrapper it turned out `injectProvenance` paired quotes to provenance
+lines with a **non-greedy regex** — the moment a transclusion nests, the inner
+`</blockquote>` closes the outer match and every following provenance line lands on
+the wrong quote. It also hardcoded `f/`, so a local *thread* target (legal from this
+version) would have linked a 404. The injector is now depth-aware — only top-level
+quotes get a line, which is exactly "provenance records direct transclusions only" —
+and each source is resolved: local by authored kind, remote at its own declared
+`page`, bylined with the blyg it came from.
+
+**Two judgment calls, both recorded in code.** (1) The version-agreement rule matches
+the baked transclusion to the citation **on id alone**, not id+origin: decision #26
+makes an id an identity, and an ambiguous id is already a publish error, so origin
+equality would be a redundant check with a worse failure mode. (2) `stub_of.id` is
+**not** validated against this client's 26-char id spelling — a citation names another
+origin's item, decision #2 fixes ids as 128-bit identifiers rather than one encoding,
+and rejecting a conformant foreign id would be this client legislating for other
+clients. It checks only that the id survives a round trip.
+
+**The plan's outbound re-send rule has one reading the schema can express.** §2.3.3
+says a republish re-sends "references that are new or whose target version changed",
+while §4.1 says the `(item_id, target)` upsert *is* that rule. The specified schema
+stores our version, not the target's, so "unchanged" is not distinguishable — the
+upsert semantics were implemented (a republish sets every current reference back to
+`pending`). Harmless and W3C-idiomatic, but it is a deviation from the stricter
+reading and belongs in the 0.3 draft's text one way or the other.
+
+**Sending needs a canonical origin, and the cron has no request to derive one from.**
+`siteOrigin()` falls back to the request origin when `site_url` is empty, which the
+scheduled worker cannot do — so a node with no `site_url` can enqueue mentions it can
+never send. Rather than invent a URL, the publish path passes its request-derived
+origin down for the immediate attempt, and `/studio/mentions` warns when the setting
+is missing. **Both live nodes must have `site_url` set before the demo.**
+
+**Driving it against a real instance found what the suite structurally cannot.**
+The whole Phase A path was run on `wrangler dev`: fragment → thread quoting it →
+thread quoting that thread as a stub → a real loopback Webmention, which returned 202,
+fetched the page, followed `rel="alternate"` to the document, checked the origin and
+recorded relation `stub`. Three findings. The first publish **500'd**: `wrangler dev`
+does not apply migrations, so `versions.stub_of` did not exist — the same ordering
+hazard as the session-16 grammar migration, and a reminder for task 9 that 0007 must
+be applied per node *before* the code that needs it runs. The endpoint was inheriting
+the public surface's 60s `Cache-Control` (now `no-store`). And the mentions page named
+each target by its id, which answers "who responded to this" for nobody; it leads with
+the item's opening words now.
+
+**State after:** `worker/src/mentions/` is new (store, http, discover, send, receive,
+studio); `transclusion.ts`, `model.ts`, `protocol.ts`, `pages.ts`, `api.ts`,
+`studio.ts`, `importer/*` and `scripts/export.ts` all carry v0.3 changes. Migration
+0007 is applied **locally only**. `respond ↗` no longer exists anywhere. Both live
+nodes are untouched and still running the v0.2/TK code.
+
+**Open threads:**
+- **Task 9 is the whole remaining gate**, and it is outward: apply 0007 remotely to
+  both D1s (correct account per node), `npm run deploy:all`, set `site_url` on both,
+  then run the cross-node stack for real. Not started — waiting on Venkat.
+- **The version key was deliberately not bumped.** The client now emits `page`,
+  `stub_of` and `transclusions[].origin`, but the manifest still says `blyg: "0.2"`
+  and `blyg-ref/0.2.0`. Decision #18d makes the key informative, and
+  `protocol-v0.3.md` does not exist yet (Phase B task 18), so bumping now would point
+  readers at an unpublished version. Venkat's or Fable's call, before the talk.
+- **A stub's public page does not say what it responds to.** `stub_of` is on the wire
+  and the body usually quotes the target, so the relationship is visible — but the
+  page never states it. Plan §3.4 defers *others'* responses to Phase B; this is the
+  cheaper mirror image (the author's own citation) and was not specified either way.
+- Phase B is unchanged (tasks 11–18), and `self-host-plan.md` stays held behind v0.3.
+- Carried: talk slot duration; `security-policy.md` rule 1; account-pinning
+  generalisation (session 17).
+
 ## Session 22 — 2026-09-16 — The release-candidate gate ruled shut; the directory opens; v0.3 designed with a demo deadline
 
 **Model:** Opus 5 (agenda, gate ruling, record) → Fable 5.1 (v0.3 design, decisions #26–#29), switched by Venkat per the model-switch convention · **Time:** ~12:30–17:30 PT, with breaks · **Committed:** yes (blygger-spec ×3, blygger-org ×1, blygger-com ×1, all pushed) · **Deployed:** — (blygger.com content change only, no code deploy)

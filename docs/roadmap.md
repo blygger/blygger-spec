@@ -120,6 +120,15 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 > rather than kept as a sibling. Detect-stubs is fed by verified webmentions first
 > (Phase A) and by subscribed feeds second (Phase B) — the reverse of the order
 > written below, because webmention is what makes the network asymmetric.
+>
+> **Phase A tasks 1–8 built session 23 (2026-09-16/17, Opus 5):** cross-client and
+> nested transclusion, `stub_of` end to end, the `page` field and `rel="alternate"`,
+> the stub action (and `respond`'s retirement), Webmention send + receive with
+> structural verification, and `/studio/mentions`. 475 tests green, `tsc` clean, and
+> the whole path driven against a real `wrangler dev` instance including a loopback
+> mention that verified as `stub`. **Not yet deployed**: task 9 (both nodes, migration
+> 0007 remote, the cross-node run) is what remains of Phase A, and it is the roadmap
+> exit criterion below.
 
 **Protocol deliverables (L2):**
 - Stub metadata (marks a thread as a stub of a target item)
