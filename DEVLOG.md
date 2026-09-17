@@ -7,6 +7,74 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 22 — 2026-09-16 — The release-candidate gate ruled shut; the directory opens
+
+**Model:** Opus 5 (agenda, gate ruling, record) — handing to Fable 5 for the v0.3 pass · **Time:** ~12:15– PT · **Committed:** yes · **Deployed:** — (blygger.com content change only, no code deploy)
+
+**What & why:** the session opened on "what's next for Opus" and the honest answer
+was a single question and a single click. Both are now closed.
+
+**The release-candidate gate is ruled shut, and the reasoning is the record's point.**
+Session 21 flagged that `roadmap.md`'s gate — "cross-blyg pubsub/subscribe
+(**v0.2–v0.3**)" — reads two ways, and that on one reading the self-host artifact was
+buildable immediately. Venkat's ruling: **it wants the v0.3 half.** v0.2's subscribe
+side being live since session 13 does not open it. The argument that settles it is
+about what the artifact *is*: the self-host template is what strangers stand their own
+blygs up with, and every instance that exists before v0.3's cross-client semantics are
+designed becomes a compatibility constraint on decisions Fable has not made. Shipping
+it early would buy convenience now by spending design freedom on the part of the
+protocol that is still open. So `self-host-plan.md` stays written-and-held: §8's tasks
+1–8 do not start until the v0.3 pass lands. Recorded in three places (`roadmap.md`
+"Release candidate", the `CLAUDE.md` TODO, and the plan's own §10) because the previous
+state of this question — flagged in one place, ambiguous in another — is exactly how
+the last three lapsed holds happened.
+
+**The consequence worth stating plainly: there is no substantial Opus work queued.**
+The self-host artifact was the only non-Fable-gated piece of real size, and it is now
+behind v0.3 as well. Everything else in the backlog is either Fable's (webmention
+mechanics, stub design, DAG semantics, `respond`-becomes-the-stub) or Venkat's (talk
+slot duration, `security-policy.md` rule 1, template-repo default). That is a healthy
+state, not a stalled one — but it means the v0.3 planning session is now the single
+gate on the whole project, which it was not before this ruling.
+
+**The directory opened.** The two pending submissions — Protocol Institute Blyg and
+Venkatesh Rao's Blyg, both resolved `kind: "blyg"` with real manifest titles by the
+vendored v0.2 resolver — are approved and listed publicly at `blygger.com`. The queue
+is empty. This closes the last line of `self-host-plan.md` §9's definition of done that
+did not depend on the unbuilt artifact itself. Worth noting the checks were made
+against the live artifact in both directions: the queue was confirmed still pending
+before approving (the record said so, but the record has been wrong about live state
+seven times in this project), and the public home page was re-fetched after, cache-
+busted, to confirm both entries actually list rather than merely returning `ok`.
+
+**Two more stale records, making eight.** `blygger-org/status.md` still listed the
+`/blyg` reference-client test deployment as upcoming work — superseded in session 11,
+corrected in `blygger-com/status.md` in session 21, and missed in this copy, which is
+the failure mode of correcting a duplicated claim in one of its two homes.
+`blygger-com/status.md`'s Upcoming still read "stub landing page — the domain does not
+currently resolve", two paragraphs below the session-21 note recording that it
+resolves and serves a directory. Also fixed: a sentence in `blygger-org/status.md`
+that said decision #14 changed the default mount "from `/blyg` to `/blyg`" — the
+session-9 `blygg`→`blyg` rename had rewritten both spellings to the same token,
+leaving a sentence asserting a path changed to itself. **The pattern now has a second
+shape worth naming: a global rename can silently turn a true historical sentence into
+a false one**, which no status check catches because nothing is stale — it is wrong.
+
+**State after:** the gate is ruled and recorded; `self-host-plan.md` is held behind
+v0.3; blygger.com lists both live nodes with an empty queue; four status-record
+defects corrected across two repos. No code touched, no deploys, both live blyg nodes
+untouched.
+
+**Open threads:** **the v0.3 Fable pass is now the only gate on substantive work** —
+webmention mechanics, stub design, DAG semantics, and the session-18
+`respond`-becomes-the-stub question, after which self-host tasks 1–8 unblock. Venkat's
+own: talk slot duration (22 slides, Thu 2026-09-24 23:00 UTC, cut points in
+`brief.md`); `security-policy.md` rule 1 (print generated secrets to chat, or the
+write-to-`.env.keys`-and-verify pattern used in session 21 — the rule wants amending
+either way); template-repo public-or-private default and the directory's abuse story,
+both from `self-host-plan.md` §10 and both now deferred with the plan. Still open since
+session 17: account-pinning has not been generalised to the other Workers projects.
+
 ## Session 21 — 2026-09-16 — Opus backlog cleared; a talk deck; blygger.com ships as a directory; four stale records corrected
 
 **Model:** Opus 5 · **Time:** ~10:48–12:25 PT · **Committed:** yes (blygger-spec ×3, blygger-org ×8, blygger-com ×3, all pushed) · **Deployed:** blygger.org ×4, **blygger.com ×1 (new)**

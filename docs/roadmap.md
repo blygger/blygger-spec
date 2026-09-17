@@ -168,6 +168,16 @@ cross-blyg pubsub/subscribe (v0.2–v0.3) + the deferred UI/styling refresh
 contract session 20, so this leg of the gate is closed**). Nothing below
 starts before that gate closes.
 
+**Ruled session 22 (2026-09-16, Venkat): the pubsub/subscribe leg wants v0.3,
+not just v0.2.** The ambiguity flagged in session 21 is closed: v0.2's subscribe
+side being live since session 13 does *not* open the gate. The self-host artifact
+is what a third party stands their own blyg up with, and a blyg that cannot yet
+speak to other blygs the way v0.3 defines would be shipped into a network whose
+cross-client semantics are still being designed — every such instance becomes a
+compatibility constraint on decisions Fable has not made. So: **v0.3 first, then
+the self-host artifact.** `self-host-plan.md` stays written-and-unbuilt until
+then.
+
 Once gated, two deliverables, both currently just gaps (no design done):
 
 1. **CF self-host release artifact** — a scaffolding script/template (not a
@@ -181,9 +191,8 @@ Once gated, two deliverables, both currently just gaps (no design done):
    — GitHub template repo + interactive `npm run init`, subdomain-only mounts
    (because `/studio` and `/api` are host-rooted regardless of `MOUNT`), and an
    explicit upgrade path, which is the question this section never answered.
-   Not built. **Note the gate ambiguity:** "pubsub/subscribe (v0.2–v0.3)" below
-   is satisfied by v0.2 on one reading, which would open the gate now — see
-   `CLAUDE.md` TODO.
+   Not built, and **not buildable yet** — the gate ambiguity was ruled in
+   favour of v0.3 (session 22, above).
 2. **Second reference implementation: local/laptop, folder-based, static-host
    deploy** (e.g. GitHub Pages, Netlify) — the architectural inverse of the CF
    client: the dynamic/code-heavy parts (studio authoring, auth, API) stay

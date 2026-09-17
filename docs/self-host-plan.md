@@ -214,11 +214,13 @@ failed only because nothing was connected to the domain yet.
 
 ## 10. Open decisions (Venkat)
 
-- **Does this gate on v0.3?** `roadmap.md`'s release-candidate gate reads "cross-blyg
-  pubsub/subscribe (v0.2–v0.3)". v0.2's subscribe side has been live since session 13, so
-  either the gate is already open or it wants v0.3's cross-client threads too. Flagged
-  because this project has three times found a hold that had quietly lapsed while its
-  TODO still read as blocked (sessions 18, 19, 20).
+- ~~**Does this gate on v0.3?**~~ **Ruled session 22 (2026-09-16, Venkat): yes, it
+  gates.** The release-candidate gate's "pubsub/subscribe (v0.2–v0.3)" leg wants the v0.3
+  half, not just v0.2's live subscribe side. This plan is therefore written-and-held:
+  none of §8's tasks 1–8 start until Fable's v0.3 pass lands. Reasoning recorded in
+  `roadmap.md` "Release candidate" — a self-host artifact ships instances into a network
+  whose cross-client semantics are still under design, and every such instance becomes a
+  compatibility constraint on decisions Fable has not made yet.
 - **Private or public template repo default?** `gh repo create --template` above shows
   `--private`. A public default makes for a visible network of blygs; a private one is
   the safer suggestion for someone's personal writing.
