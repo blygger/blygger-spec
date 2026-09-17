@@ -193,6 +193,9 @@ export function makeApp(mount: string) {
       { source: typeof form.source === "string" ? form.source : undefined, target: typeof form.target === "string" ? form.target : undefined },
       origin,
     );
+    // Never cacheable: the public sub-app stamps 60s on anything without a
+    // Cache-Control, and a mention endpoint's answer is about one claim.
+    c.header("Cache-Control", "no-store");
     if (outcome.status !== 202) return c.json({ error: outcome.error }, outcome.status);
     const { mentionId, source, target } = outcome;
     const itemId = (await c.env.DB.prepare("SELECT target_item_id FROM mentions_in WHERE id = ?").bind(mentionId).first<{ target_item_id: string }>())!

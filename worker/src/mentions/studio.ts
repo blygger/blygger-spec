@@ -9,7 +9,8 @@
 import { Hono } from "hono";
 import { stubScript } from "../importer/studio.ts";
 import { listSubscriptions } from "../importer/store.ts";
-import { getItem } from "../model.ts";
+import { excerptFromHtml } from "../markdown.ts";
+import { getItem, publishedVersion } from "../model.ts";
 import { formatDate, studioHeader, studioLayout } from "../studio.ts";
 import type { Env, MentionInRow, MentionOutRow } from "../types.ts";
 import { escapeHtml, normalizeMount, studioPath } from "../util.ts";
@@ -101,6 +102,10 @@ mentionsStudio.get("/mentions", async (c) => {
   for (const [itemId, rows] of byTarget) {
     const item = await getItem(c.env.DB, itemId);
     const kind = item?.kind === "thread" ? "t" : "f";
+    // Name the item by its opening words, not by its id: the author is being
+    // asked "who responded to this", and an id answers that for nobody.
+    const latest = item ? await publishedVersion(c.env.DB, item) : null;
+    const label = excerptFromHtml(latest?.content_html ?? "", 60) || `${itemId.slice(0, 8)}…`;
     const lines: string[] = [];
     for (const row of rows) {
       lines.push(`<div class="mention-row${row.status === "gone" ? " gone" : ""}">
@@ -113,7 +118,7 @@ ${row.status === "gone" ? "" : await stubBackControl(c.env.DB, row, mount)}
 </div>`);
     }
     groups.push(`<div class="mention-group">
-<h3><a href="${mount}/${kind}/${escapeHtml(itemId)}/">${escapeHtml(itemId.slice(0, 8))}… ${item ? "" : "(deleted)"}</a> &middot; ${rows.length} response${rows.length === 1 ? "" : "s"}</h3>
+<h3><a href="${mount}/${kind}/${escapeHtml(itemId)}/">${escapeHtml(label)}</a> &middot; ${rows.length} response${rows.length === 1 ? "" : "s"}</h3>
 ${lines.join("\n")}
 </div>`);
   }

@@ -449,7 +449,8 @@ describe("detect stubs — /studio/mentions (§3.3)", () => {
     await verifyMention(env.DB, stranger.id, `https://stranger.example/t/${strangerId}/`, mine, OURS, strangerNet.fetch);
 
     const html = await (await SELF.fetch(`${BASE}${STUDIO}/mentions`, { headers: { cookie } })).text();
-    expect(html).toContain(mine.slice(0, 8));
+    // The group names the item by its opening words, not by its id.
+    expect(html).toContain("something people respond to");
     expect(html).toContain("2 responses");
     expect(html).toContain(">stub<");
     expect(html).toContain(">transclusion<");
