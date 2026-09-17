@@ -187,7 +187,8 @@ const READING_STYLE = `
 .entry-actions { margin-top: 0.5rem; display: flex; gap: 0.5rem; align-items: center; font-size: 0.85rem; }
 .entry-actions button { font-size: 0.9rem; padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid var(--rule); background: transparent; cursor: pointer; }
 .entry-actions button.active { border-color: currentColor; background: var(--paper-sunk); }
-.entry-actions .respond-link { font-size: 0.85rem; text-decoration: none; border-bottom: 1px dotted currentColor; opacity: 0.8; }
+.entry-actions .stub-btn { font-size: 0.85rem; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; border-bottom: 1px dotted currentColor; opacity: 0.8; }
+.entry-actions .stub-btn:hover { opacity: 1; }
 .entry-actions select { font: inherit; font-size: 0.85rem; padding: 0.15rem 0.3rem; border-radius: 4px; border: 1px solid var(--rule); background: transparent; color: inherit; }
 `;
 
@@ -265,12 +266,12 @@ async function readingEntryHtml(db: D1Database, e: ReadingFeedEntry, hoppers: Ho
   let actions = "";
   if (e.imported) {
     const signal = await getSignal(db, e.imported.subscriptionId, e.imported.remoteId);
-    // "respond" opens the composer prefilled with a link to the source and
-    // nothing else. Decision #12 forbids re-emitting an imported item on our
-    // feed, so the gesture has to be the author's own fragment — the link is
-    // the citation, the words are theirs.
-    const respond = `<a class="respond-link" href="${studioPath(mount)}/?respond=${encodeURIComponent(e.imported.subscriptionId)}:${encodeURIComponent(e.imported.remoteId)}">respond ↗</a>`;
-    actions = `<div class="entry-actions">${thumbButtons(e.imported, signal ? (signal.thumb as 1 | -1) : null)} ${hopperPicker(e.imported, hoppers)} ${respond}</div>`;
+    // `stub ↗` (decision #27) — the one "respond to this" gesture. It creates
+    // a thread that cites this item, which is what makes the response
+    // machine-readable on the far side; `respond`, which produced an
+    // unmarked fragment with a bare link, is retired rather than kept as a
+    // lighter sibling.
+    actions = `<div class="entry-actions">${thumbButtons(e.imported, signal ? (signal.thumb as 1 | -1) : null)} ${hopperPicker(e.imported, hoppers)} ${stubButton(e.imported.subscriptionId, e.imported.remoteId)}</div>`;
   }
   // L0 entries lead with a title link (l0.ts renders "[title](link)" as the
   // first paragraph); promote it out of the body so the list is scannable
@@ -292,6 +293,34 @@ ${titleLine}
 ${body}
 ${actions}
 </div>`;
+}
+
+/** The stub affordance, shared by the reading feed and hopper detail (§3.1). */
+export function stubButton(subId: string, remoteId: string): string {
+  return `<button type="button" class="stub-btn" data-action="stub" data-sub="${escapeHtml(subId)}" data-remote="${escapeHtml(remoteId)}">stub ↗</button>`;
+}
+
+/**
+ * Click handler for stubButton. Creates the draft server-side (so a refresh
+ * can't mint duplicates the way a GET-with-side-effects would) and lands the
+ * author in the thread editor with the citation already attached.
+ */
+export function stubScript(mount: string): string {
+  return `
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-action='stub']");
+  if (!btn) return;
+  btn.disabled = true;
+  const res = await fetch("/api/stubs", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ subscription_id: btn.dataset.sub, remote_id: btn.dataset.remote }),
+  });
+  if (!res.ok) { btn.disabled = false; alert("Could not start a stub for that item."); return; }
+  const data = await res.json();
+  location.href = "${studioPath(mount)}/edit/" + data.id;
+});
+`;
 }
 
 const READING_SCRIPT = `
@@ -373,7 +402,8 @@ importerStudio.get("/reading", async (c) => {
 <style>${READING_STYLE}</style>
 ${rows.length ? rows.join("\n") : "<p>Nothing to read yet — publish something, or subscribe to a blyg or feed.</p>"}
 ${pager}
-<script>${READING_SCRIPT}</script>`;
+<script>${READING_SCRIPT}</script>
+<script>${stubScript(mount)}</script>`;
   return c.html(studioLayout("reading — blyg studio", body, true));
 });
 
@@ -545,7 +575,7 @@ importerStudio.get("/hoppers/:id", async (c) => {
     rows.push(`<div class="reading-entry">
 <p class="byline"><span class="kind-chip">${row.kind}</span>${row.l0 ? ' <span class="l0-chip">legacy rss</span>' : ""} ${srcLabel} &middot; added ${formatDate(m.added_at)}</p>
 <div class="content">${content}</div>
-<div class="entry-actions"><button type="button" data-action="remove-hopper-item" data-hopper="${hopper.id}" data-sub="${m.subscription_id}" data-remote="${m.remote_id}">remove from hopper</button></div>
+<div class="entry-actions"><button type="button" data-action="remove-hopper-item" data-hopper="${hopper.id}" data-sub="${m.subscription_id}" data-remote="${m.remote_id}">remove from hopper</button> ${stubButton(m.subscription_id, m.remote_id)}</div>
 </div>`);
   }
   const sources = new Set(memberships.map((m) => m.subscription_id)).size;
@@ -566,6 +596,7 @@ ${hopperUrlLine(hopper, mount)}
 </div>
 </div>
 ${rows.length ? rows.join("\n") : "<p>Nothing in this hopper yet.</p>"}
-<script>${hoppersScript(mount)}</script>`;
+<script>${hoppersScript(mount)}</script>
+<script>${stubScript(mount)}</script>`;
   return c.html(studioLayout(`${hopper.name} — blyg studio`, body, true));
 });

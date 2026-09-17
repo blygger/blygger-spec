@@ -240,8 +240,8 @@ describe("studio hoppers pages", () => {
   });
 });
 
-describe("respond-to-a-reading-entry (composer prefill)", () => {
-  it("prefills a citation line for an L0 entry and copies none of its text", async () => {
+describe("the stub action (§3.1, decision #27 — absorbs `respond`)", () => {
+  it("stubs an L0 entry with a citation line and none of its text", async () => {
     const cookie = await login();
     const sub = await createSubscription(env.DB, { kind: "rss", origin: "https://blog.example/feed", feedUrl: "https://blog.example/feed", title: "A Blog" });
     await upsertL0Item(env.DB, sub.id, "l0-xyz", {
@@ -251,40 +251,46 @@ describe("respond-to-a-reading-entry (composer prefill)", () => {
       contentHash: "hash-l0",
     });
 
-    const html = await (await SELF.fetch(`${BASE}${STUDIO}/?respond=${sub.id}:l0-xyz`, { headers: { cookie } })).text();
-    const textarea = /<textarea id="composer-text"[^>]*>([\s\S]*?)<\/textarea>/.exec(html);
+    const created = await apiJson(cookie, "POST", "/api/stubs", { subscription_id: sub.id, remote_id: "l0-xyz" });
+    expect(created.status).toBe(201);
+    const editor = await (await SELF.fetch(`${BASE}${STUDIO}/edit/${created.json.id}`, { headers: { cookie } })).text();
+    const textarea = /<textarea id="md-input"[^>]*>([\s\S]*?)<\/textarea>/.exec(editor);
     expect(textarea).not.toBeNull();
+    // respond's one real discipline survives: a link, and nothing of theirs.
     expect(textarea![1]).toBe("[Our Eukaryotic Moment](https://blog.example/p/euk)\n\n");
-    // Decision #12: the author's own fragment, never a repost.
-    expect(html).not.toContain("secret body prose");
-    expect(html).toContain("Nothing of theirs is republished");
+    expect(editor).not.toContain("secret body prose");
+    expect(editor).toContain("stub of");
   });
 
-  it("prefills the origin permalink for a blyg-native entry", async () => {
+  it("stubs a blyg entry with the transclusion directive and a citation", async () => {
     const cookie = await login();
     const sub = await createSubscription(env.DB, { kind: "blyg", origin: "https://friend.example/blyg/", feedUrl: "https://friend.example/blyg/feed.xml", title: "Friend" });
     await upsertL0Item(env.DB, sub.id, "abc123", {
-      version: 1, created: "2026-09-01T00:00:00Z", updated: "2026-09-01T00:00:00Z", observedAt: "2026-09-01T00:00:00Z",
+      version: 3, created: "2026-09-01T00:00:00Z", updated: "2026-09-01T00:00:00Z", observedAt: "2026-09-01T00:00:00Z",
       contentMd: "hi", contentHtml: "<p>hi</p>", contentHash: "hash-blyg",
     });
     await env.DB.prepare("UPDATE imported_items SET l0 = 0 WHERE subscription_id = ? AND remote_id = ?").bind(sub.id, "abc123").run();
 
-    const html = await (await SELF.fetch(`${BASE}${STUDIO}/?respond=${sub.id}:abc123`, { headers: { cookie } })).text();
-    const textarea = /<textarea id="composer-text"[^>]*>([\s\S]*?)<\/textarea>/.exec(html);
-    expect(textarea![1]).toBe("[Friend](https://friend.example/blyg/f/abc123/)\n\n");
+    const created = await apiJson(cookie, "POST", "/api/stubs", { subscription_id: sub.id, remote_id: "abc123" });
+    expect(created.status).toBe(201);
+    const row = await env.DB.prepare("SELECT kind, content_md, stub_of FROM items WHERE id = ?").bind(created.json.id).first<any>();
+    expect(row.kind).toBe("thread");
+    expect(row.content_md).toBe("![[abc123]]\n\n");
+    expect(JSON.parse(row.stub_of)).toEqual({ origin: "https://friend.example/blyg/", id: "abc123", version: 3 });
+
+    const editor = await (await SELF.fetch(`${BASE}${STUDIO}/edit/${created.json.id}`, { headers: { cookie } })).text();
+    expect(editor).toContain("stub of");
+    expect(editor).toContain("Friend");
+    expect(editor).toContain('data-action="clear-stub"');
   });
 
-  it("renders an ordinary empty composer for a missing or malformed respond target", async () => {
+  it("404s for an unknown subscription or item, and 400s with no target", async () => {
     const cookie = await login();
-    for (const q of ["", "?respond=", "?respond=nope", "?respond=nosub:noremote"]) {
-      const html = await (await SELF.fetch(`${BASE}${STUDIO}/${q}`, { headers: { cookie } })).text();
-      const textarea = /<textarea id="composer-text"[^>]*>([\s\S]*?)<\/textarea>/.exec(html);
-      expect(textarea![1]).toBe("");
-      expect(html).not.toContain("Nothing of theirs is republished");
-    }
+    expect((await apiJson(cookie, "POST", "/api/stubs", {})).status).toBe(400);
+    expect((await apiJson(cookie, "POST", "/api/stubs", { subscription_id: "nope", remote_id: "x" })).status).toBe(404);
   });
 
-  it("the reading feed offers a respond link on imported entries", async () => {
+  it("the reading feed offers `stub ↗` on imported entries, and no `respond` anywhere", async () => {
     const cookie = await login();
     const sub = await createSubscription(env.DB, { kind: "rss", origin: "https://r.example/feed", feedUrl: "https://r.example/feed", title: "R" });
     await upsertL0Item(env.DB, sub.id, "l0-r", {
@@ -292,7 +298,10 @@ describe("respond-to-a-reading-entry (composer prefill)", () => {
       contentMd: "x", contentHtml: "<p>x</p>", contentHash: "hash-r",
     });
     const html = await (await SELF.fetch(`${BASE}${STUDIO}/reading`, { headers: { cookie } })).text();
-    expect(html).toContain(`respond=${sub.id}:l0-r`);
+    expect(html).toContain(`data-action="stub"`);
+    expect(html).toContain(`data-remote="l0-r"`);
+    expect(html).toContain("stub ↗");
+    expect(html).not.toContain("respond");
   });
 });
 

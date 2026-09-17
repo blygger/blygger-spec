@@ -133,7 +133,7 @@ describe("stub_of (§2.2)", () => {
     const bad: unknown[] = [
       { origin: THEIRS, id: target }, // no version
       { origin: "not a url", id: target, version: 1 },
-      { origin: THEIRS, id: "too-short", version: 1 },
+      { origin: THEIRS, id: "has a space", version: 1 },
       { origin: THEIRS, id: target, version: 0 },
       { url: "ftp://example.com/x" },
       { url: "https://a.example/", origin: THEIRS, id: target, version: 1 }, // both shapes

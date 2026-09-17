@@ -2,9 +2,12 @@
 // alongside ../api.ts under /api.
 
 import { Hono } from "hono";
+import { createDraft, setStubOf } from "../model.ts";
+import { parseStubOf } from "../stub.ts";
 import type { Env } from "../types.ts";
 import { pollSubscription, reconcileIndex } from "./poll.ts";
 import { resolve } from "./resolve.ts";
+import { sourceTitleAndUrl } from "./util.ts";
 import {
   addHopperItem,
   createHopper,
@@ -14,6 +17,7 @@ import {
   deleteSubscription,
   getHopper,
   getHopperBySlug,
+  getImportedItem,
   getSubscription,
   removeHopperItem,
   renameHopper,
@@ -213,4 +217,53 @@ importerApi.put("/signals/:sub/:remoteId", async (c) => {
 importerApi.delete("/signals/:sub/:remoteId", async (c) => {
   await deleteSignal(c.env.DB, c.req.param("sub"), c.req.param("remoteId"));
   return c.json({ ok: true });
+});
+
+/**
+ * The stub action (v0.3-plan §3.1, decision #27) — one gesture, replacing
+ * `respond`. Creates a **thread** draft citing exactly one target and opens
+ * in the editor; the body is prefilled but entirely the author's to change.
+ *
+ * A blyg target gets the transclusion directive, because a stub without the
+ * quote is not a stub in this medium's aesthetic. An L0 target gets the old
+ * respond prefill — a markdown link and nothing else — keeping respond's one
+ * real discipline: none of *their* text is copied.
+ *
+ * `stub_of` is set regardless of whether the body ends up quoting the target:
+ * readers rely on the marker, never on body inspection (§2.2).
+ */
+importerApi.post("/stubs", async (c) => {
+  type StubReq = { subscription_id?: string; remote_id?: string };
+  const body = await c.req.json<StubReq>().catch(() => ({}) as StubReq);
+  const subId = body.subscription_id;
+  const remoteId = body.remote_id;
+  if (!subId || !remoteId) return c.json({ error: "subscription_id and remote_id required" }, 400);
+  const sub = await getSubscription(c.env.DB, subId);
+  if (!sub) return c.json({ error: "subscription not found" }, 404);
+  const row = await getImportedItem(c.env.DB, subId, remoteId);
+  if (!row) return c.json({ error: "imported item not found" }, 404);
+
+  let contentMd: string;
+  let stubInput: unknown;
+  if (row.l0) {
+    const { title, url } = sourceTitleAndUrl(row, sub.origin);
+    const label = (title || sub.title || sub.origin).replace(/[[\]]/g, "");
+    contentMd = `[${label}](${url})\n\n`;
+    stubInput = { url };
+  } else {
+    // What a quote of this row would bake: the retained pinned version for a
+    // tombstone we kept, the watermark otherwise. An unretained tombstone has
+    // no bytes to quote, so the citation stands alone — a response to a
+    // withdrawal is legitimate (§2.3.6), it just cannot include the text.
+    const quotable = row.state === "current" || row.pinned_version_retained !== null;
+    const version = row.state === "tombstone" && row.pinned_version_retained !== null ? row.pinned_version_retained : row.version;
+    contentMd = quotable ? `![[${remoteId}]]\n\n` : "";
+    stubInput = { origin: sub.origin, id: remoteId, version };
+  }
+
+  const parsed = parseStubOf(stubInput);
+  if (!parsed.ok) return c.json({ error: parsed.reason }, 400);
+  const item = await createDraft(c.env.DB, contentMd, "thread");
+  await setStubOf(c.env.DB, item.id, parsed.stub);
+  return c.json({ id: item.id }, 201);
 });

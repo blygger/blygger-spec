@@ -48,6 +48,9 @@ describe("every inline script parses", () => {
     const draft = (await apiJson(cookie, "POST", "/api/items", { content_md: "a draft" })).json.id as string;
     const thread = (await apiJson(cookie, "POST", "/api/items", { content_md: "a thread", kind: "thread" })).json
       .id as string;
+    // A hopper *detail* page carries scripts the hoppers index does not (it
+    // renders entries, so it ships the stub handler as of v0.3).
+    const hopper = (await apiJson(cookie, "POST", "/api/hoppers", { name: "Parse check" })).json.id as string;
 
     const pages = [
       STUDIO,
@@ -55,6 +58,7 @@ describe("every inline script parses", () => {
       `${STUDIO}/subs`,
       `${STUDIO}/reading`,
       `${STUDIO}/hoppers`,
+      `${STUDIO}/hoppers/${hopper}`,
       `${STUDIO}/edit/${fragment}`,
       `${STUDIO}/edit/${draft}`,
       `${STUDIO}/edit/${thread}`,

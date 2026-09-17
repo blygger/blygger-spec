@@ -4,9 +4,16 @@
 // decide whether something is a stub.
 
 import type { StubOf, Transclusion } from "./types.ts";
-import { ID_ALPHABET } from "./util.ts";
 
-const ID_RE = new RegExp(`^[${ID_ALPHABET}]{26}$`);
+/**
+ * A citation names *another origin's* item id, so it is deliberately not
+ * checked against this client's own 26-char spelling: decision #2 fixes ids as
+ * stable random 128-bit identifiers, not as one encoding, and rejecting a
+ * conformant foreign id would be this client legislating for other clients.
+ * What is checked is that the id can survive a round trip — non-empty, no
+ * whitespace or control characters, bounded.
+ */
+const ID_RE = /^[^\s\u0000-\u001f]{1,256}$/;
 
 /**
  * Origins are compared as strings all over v0.3 (version agreement here,
@@ -50,7 +57,7 @@ export function parseStubOf(raw: unknown): { ok: true; stub: StubOf } | { ok: fa
   }
   const origin = normalizeOrigin(r.origin);
   if (!origin) return { ok: false, reason: "stub_of.origin must be an absolute http(s) URL" };
-  if (typeof r.id !== "string" || !ID_RE.test(r.id)) return { ok: false, reason: "stub_of.id must be a blyg item id" };
+  if (typeof r.id !== "string" || !ID_RE.test(r.id)) return { ok: false, reason: "stub_of.id must be a non-empty item id" };
   if (typeof r.version !== "number" || !Number.isInteger(r.version) || r.version < 1) {
     return { ok: false, reason: "stub_of.version must be a positive integer" };
   }

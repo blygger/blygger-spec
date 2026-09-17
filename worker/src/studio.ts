@@ -14,12 +14,12 @@ import { authoredKind, getItem, getSettings, getVersion, listAll, listMediaForIt
 import { THEMES } from "./pages.ts";
 import { clampText, previewFromHtml, stripTransclusionQuotes, type HtmlPreview } from "./preview.ts";
 import { annotateGenerated, applyGeneratedWrappers, parseScopes, previewStrip, type TkScope } from "./tk.ts";
+import { parseStoredStub } from "./stub.ts";
 import { extractDirectives, previewTransclusions } from "./transclusion.ts";
 import type { Env, ItemRow, Transclusion, VersionRow } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
 import { escapeHtml, normalizeMount, studioPath } from "./util.ts";
-import { getImportedItem, getSubscription } from "./importer/store.ts";
-import { sourceTitleAndUrl } from "./importer/util.ts";
+import { blygItemUrl } from "./importer/util.ts";
 
 /**
  * Studio-only scope summary for the Generate/Regenerate panel (task 6) — not
@@ -131,6 +131,9 @@ header.studio nav a { color: var(--ink-soft); text-decoration: none; padding-bot
 header.studio nav a:hover { color: var(--ink); border-bottom-color: var(--rule-strong); }
 header.studio nav a.current { color: var(--ink); font-weight: 600; border-bottom-color: var(--pencil); }
 button.link { background: none; border: none; padding: 0; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }
+.stub-head { margin: 0 0 0.75rem; font-size: 0.9rem; color: var(--ink-soft); }
+.stub-head a { color: inherit; }
+.stub-head button.link { margin-left: 0.5rem; opacity: 0.8; }
 .composer { border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; }
 .composer textarea { width: 100%; min-height: 5.5rem; border: none; resize: vertical; font: inherit; background: transparent; outline: none; }
 .composer .bar { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-size: 0.85rem; flex-wrap: wrap; gap: 0.5rem; }
@@ -773,8 +776,6 @@ function updateCount() {
   composerCount.hidden = composerKind() === "thread";
 }
 composerText.addEventListener("input", updateCount);
-// A "respond" prefill arrives in the markup, so seed the counter from it and
-// put the caret after the citation line, where the author's own words go.
 updateCount();
 if (composerText.value) {
   composerText.focus();
@@ -892,38 +893,14 @@ studio.post("/logout", (c) => {
   return c.redirect(studioPath(mount) + "/login");
 });
 
-/**
- * Prefill for the composer when the reading feed sent us here with
- * `?respond=<subId>:<remoteId>`. Decision #12: an imported item is never
- * re-emitted on our feed, so responding produces the author's *own* fragment.
- * The prefill is therefore a citation line and nothing else — a link to the
- * source, a blank line, and an empty stage for the author's words. None of
- * the imported item's text is copied in.
- */
-async function respondPrefill(db: D1Database, raw: string | undefined): Promise<string> {
-  if (!raw) return "";
-  const sep = raw.indexOf(":");
-  if (sep < 1) return "";
-  const [subId, remoteId] = [raw.slice(0, sep), raw.slice(sep + 1)];
-  const sub = await getSubscription(db, subId);
-  if (!sub) return "";
-  const row = await getImportedItem(db, subId, remoteId);
-  if (!row) return "";
-  const { title, url } = sourceTitleAndUrl(row, sub.origin);
-  const label = title || sub.title || sub.origin;
-  return `[${label.replace(/[[\]]/g, "")}](${url})\n\n`;
-}
-
 studio.get("/", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
   const items = await listAll(c.env.DB);
   const rows = await Promise.all(items.map((item) => itemRow(c.env.DB, item, mount)));
-  const prefill = await respondPrefill(c.env.DB, c.req.query("respond"));
   const body = `${studioHeader("blyg studio", mount, "compose")}
 <div class="composer">
 <p class="compose-help">Markdown supported. Write <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text — a <em>generate</em> button appears, which saves and opens the editor. <a href="${studioPath(mount)}/syntax">full syntax reference</a></p>
-${prefill ? `<p class="compose-help">Responding to a post in your reading feed — this is your own fragment, citing it. Nothing of theirs is republished.</p>` : ""}
-<textarea id="composer-text" placeholder="compose a fragment…">${escapeHtml(prefill)}</textarea>
+<textarea id="composer-text" placeholder="compose a fragment…"></textarea>
 <div class="bar">
   <span class="kind-toggle">
     <label><input type="radio" name="composer-kind" value="fragment" checked> fragment</label>
@@ -1073,19 +1050,46 @@ studio.get("/versions/:id/:v", async (c) => {
   });
 });
 
+/**
+ * The `![[` palette (§3.2). Searches everything v0.3 lets a thread transclude:
+ * own published items of **either** kind (nesting is legal from this version)
+ * and imported blyg items (`current`, non-L0) — which is what makes quoting
+ * follow reading. The route keeps its 0.1 name; only its subject widened.
+ */
 studio.get("/fragments/search", async (c) => {
   const q = (c.req.query("q") ?? "").toLowerCase();
   const items = await listAll(c.env.DB);
-  const results: { id: string; excerpt: string; version: number; updated: string }[] = [];
+  const results: { id: string; excerpt: string; version: number; updated: string; badge: string }[] = [];
+  const matches = (excerpt: string, id: string) => !q || excerpt.toLowerCase().includes(q) || id.includes(q);
   for (const item of items) {
-    if (item.kind !== "fragment" || item.status !== "public") continue;
+    if (item.status !== "public" || (item.kind !== "fragment" && item.kind !== "thread")) continue;
     const latest = await publishedVersion(c.env.DB, item);
     if (!latest) continue;
     // From rendered HTML, not markdown source — the picker showed literal
     // "#"/"*" markers otherwise, same bug class as the index rows.
     const excerpt = clampText(plainTextFromHtml(latest.content_html ?? ""), 70) || excerptOf(latest.content_md, 70);
-    if (q && !excerpt.toLowerCase().includes(q) && !item.id.includes(q)) continue;
-    results.push({ id: item.id, excerpt, version: item.version, updated: item.updated });
+    if (!matches(excerpt, item.id)) continue;
+    results.push({ id: item.id, excerpt, version: item.version, updated: item.updated, badge: item.kind });
+  }
+  const imported = await c.env.DB.prepare(
+    `SELECT ii.remote_id AS id, ii.content_html AS html, ii.version AS version, ii.observed_at AS updated,
+            ii.state AS state, ii.pinned_version_retained AS retained, s.title AS title, s.origin AS origin
+     FROM imported_items ii JOIN subscriptions s ON s.id = ii.subscription_id
+     WHERE ii.l0 = 0`,
+  ).all<{ id: string; html: string; version: number; updated: string; state: string; retained: number | null; title: string; origin: string }>();
+  for (const row of imported.results) {
+    // Exactly what resolveTarget will accept at publish, so the picker never
+    // offers something the author then can't publish.
+    if (row.state !== "current" && row.retained === null) continue;
+    const excerpt = clampText(plainTextFromHtml(row.html ?? ""), 70);
+    if (!matches(excerpt, row.id)) continue;
+    results.push({
+      id: row.id,
+      excerpt,
+      version: row.state === "current" ? row.version : (row.retained as number),
+      updated: row.updated,
+      badge: row.title || new URL(row.origin).host,
+    });
   }
   results.sort((a, b) => (a.updated < b.updated ? 1 : -1));
   return c.json({ results: results.slice(0, 20) });
@@ -1236,6 +1240,43 @@ document.getElementById("attach-btn").addEventListener("click", () => {
   return studioLayout(`editing — blyg studio`, body, true);
 }
 
+/**
+ * The stub target line above the editor (§3.1): what this thread is a
+ * response to, linked, plus a way out. "Clear stub" drops the citation and
+ * leaves the body alone — what is left is a thread that merely quotes.
+ */
+async function stubHeader(db: D1Database, item: ItemRow, mount: string): Promise<string> {
+  const stub = parseStoredStub(item.stub_of);
+  if (!stub) return "";
+  let href: string;
+  let label: string;
+  if ("url" in stub) {
+    href = stub.url;
+    label = escapeHtml(new URL(stub.url).host);
+  } else {
+    const local = await getItem(db, stub.id);
+    if (local) {
+      const kind = await authoredKind(db, local);
+      href = `${mount}/${kind === "thread" ? "t" : "f"}/${stub.id}/`;
+      label = "your own item";
+    } else {
+      const row = await db
+        .prepare(
+          `SELECT ii.kind AS kind, ii.page AS page, s.title AS title
+           FROM imported_items ii JOIN subscriptions s ON s.id = ii.subscription_id
+           WHERE ii.remote_id = ? AND s.origin = ?`,
+        )
+        .bind(stub.id, stub.origin)
+        .first<{ kind: string; page: string | null; title: string }>();
+      href = blygItemUrl(stub.origin, row?.kind ?? "fragment", stub.id, row?.page ?? null);
+      label = escapeHtml(row?.title || new URL(stub.origin).host);
+    }
+    label += ` → ${stub.id.slice(0, 8)}… v${stub.version}`;
+  }
+  return `<p class="stub-head">stub of <a href="${escapeHtml(href)}" target="_blank">${label} ↗</a>
+<button type="button" class="link" data-action="clear-stub" data-id="${item.id}">clear stub</button></p>`;
+}
+
 async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const media = await listMediaForItem(db, item.id);
   const versions = await listVersions(db, item.id);
@@ -1269,13 +1310,14 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
   const body = `${studioHeader("blyg studio — editing thread", mount)}
 <nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← compose</a> <a href="${mount}/t/${item.id}/" target="_blank">permalink ↗</a></nav>
 <div id="error-banner-slot"></div>
+${await stubHeader(db, item, mount)}
 <div class="panes">
 <div class="pane" style="position:relative;">
 <h2>markdown source</h2>
-<p class="compose-help">Markdown, plus <code>![[id]]</code> on its own line to transclude a fragment (type <code>![[</code> for a picker) and <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text. <a href="${studioPath(mount)}/syntax">full syntax reference</a></p>
+<p class="compose-help">Markdown, plus <code>![[id]]</code> on its own line to transclude a fragment, a thread, or an item from your reading feed (type <code>![[</code> for a picker) and <code>[TK]an instruction[/TK]</code> to mark a scope for AI-drafted text. <a href="${studioPath(mount)}/syntax">full syntax reference</a></p>
 <textarea id="md-input">${escapeHtml(item.content_md)}</textarea>
 <div class="palette" id="palette" style="display:none;">
-<input class="search" id="palette-search" placeholder="transclude a fragment…">
+<input class="search" id="palette-search" placeholder="transclude a fragment, thread, or something you read…">
 <ul id="palette-results"></ul>
 </div>
 </div>
@@ -1347,7 +1389,7 @@ async function updatePalette() {
   paletteItems = data.results;
   paletteSel = 0;
   paletteResults.innerHTML = paletteItems
-    .map((it, i) => '<li data-i="' + i + '">' + it.excerpt.replace(/</g, "&lt;") + '<span class="meta">v' + it.version + '</span></li>')
+    .map((it, i) => '<li data-i="' + i + '">' + it.excerpt.replace(/</g, "&lt;") + '<span class="meta">' + String(it.badge || "").replace(/</g, "&lt;") + ' &middot; v' + it.version + '</span></li>')
     .join("");
   renderPaletteSelection();
   palette.style.display = paletteItems.length ? "block" : "none";
@@ -1366,6 +1408,13 @@ function insertFromPalette(picked) {
   scheduleSave();
   refreshPreview();
 }
+
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-action='clear-stub']");
+  if (!btn) return;
+  await api("PUT", "/api/items/" + id, { stub_of: null });
+  location.reload();
+});
 
 mdInput.addEventListener("input", () => {
   scheduleSave();

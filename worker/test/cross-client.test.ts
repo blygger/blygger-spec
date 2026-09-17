@@ -208,3 +208,40 @@ describe("cross-client resolution failures (§2.1)", () => {
     expect((await publishThread(cookie, mine)).status).toBe(200);
   });
 });
+
+describe("the `![[` palette (§3.2)", () => {
+  it("offers own fragments, own threads, and imported blyg items — with a source badge", async () => {
+    const cookie = await login();
+    const f = await createAndPublish(cookie, "an own fragment");
+    const t = await createThread(cookie, "an own thread");
+    expect((await publishThread(cookie, t)).status).toBe(200);
+    const remoteId = newId();
+    await importItem(ORIGIN, { id: remoteId, content_md: "a borrowed thought" }, { title: "Friend Blyg" });
+
+    const res = await apiJson(cookie, "GET", "/blyg/studio/fragments/search?q=");
+    const byId = new Map<string, any>(res.json.results.map((r: any) => [r.id, r]));
+    expect(byId.get(f)?.badge).toBe("fragment");
+    expect(byId.get(t)?.badge).toBe("thread");
+    expect(byId.get(remoteId)?.badge).toBe("Friend Blyg");
+  });
+
+  it("never offers an L0 item or an unretained tombstone — what it offers, publish accepts", async () => {
+    const cookie = await login();
+    const l0Id = newId();
+    await importItem("https://rss.example/", { id: l0Id, content_md: "rss summary" }, { l0: true, title: "Legacy" });
+    const goneId = newId();
+    const subId = await importItem("https://gone.example/", { id: goneId, content_md: "about to go" }, { title: "Gone" });
+    await applyEffect(
+      env.DB,
+      subId,
+      goneId,
+      { type: "rollup-null", version: 2, updated: new Date().toISOString() },
+      new Date().toISOString(),
+    );
+
+    const res = await apiJson(cookie, "GET", "/blyg/studio/fragments/search?q=");
+    const ids = res.json.results.map((r: any) => r.id);
+    expect(ids).not.toContain(l0Id);
+    expect(ids).not.toContain(goneId);
+  });
+});
