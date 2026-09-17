@@ -250,6 +250,9 @@ export const BRAND = {
 /** Reference-client default mount when Env.MOUNT is unset. Deployment lexicon, not wire vocabulary — deliberately ≠ BRAND.slug. */
 export const DEFAULT_MOUNT = "/blyg";
 
+/** Origin-relative path of the reference client's Webmention endpoint (v0.3-plan §2.3.1) — inside the origin surface, because it is a protocol surface, unlike host-rooted /studio and /api. */
+export const WEBMENTION_PATH = "webmention";
+
 export const GENERATOR = `${BRAND.slug}-ref/0.2.0`;
 /** Version key policy (v0.2-plan.md §2.3): the spec version this deployment implements — "0.2" once the blogroll key ships. Readers MUST accept any 0.x value. */
 export const PROTOCOL_VERSION = "0.2";

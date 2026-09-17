@@ -14,7 +14,14 @@ export interface FetchResult {
   text(): Promise<string>;
 }
 
-export type FetchLike = (url: string, init?: { headers?: Record<string, string> }) => Promise<FetchResult>;
+export interface FetchInit {
+  headers?: Record<string, string>;
+  /** v0.3: Webmention discovery uses HEAD, and sending uses POST — the importer only ever GETs. */
+  method?: string;
+  body?: string;
+}
+
+export type FetchLike = (url: string, init?: FetchInit) => Promise<FetchResult>;
 
 /** Every outbound importer request carries this (§4.2). */
 export const IMPORTER_USER_AGENT = "blyg-ref/0.2 (+https://blygger.org)";
@@ -22,6 +29,8 @@ export const IMPORTER_USER_AGENT = "blyg-ref/0.2 (+https://blygger.org)";
 export const platformFetch: FetchLike = async (url, init) => {
   const res = await fetch(url, {
     redirect: "follow",
+    method: init?.method ?? "GET",
+    body: init?.body,
     headers: { "User-Agent": IMPORTER_USER_AGENT, ...(init?.headers ?? {}) },
   });
   return {

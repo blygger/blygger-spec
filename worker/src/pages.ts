@@ -11,6 +11,7 @@ import { blygItemUrl } from "./importer/util.ts";
 import { excerptFromHtml } from "./markdown.ts";
 import { authoredKind, getMedia, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
 import type { ItemRow, MediaRow, Settings, SubscriptionRow, Transclusion, VersionRow } from "./types.ts";
+import { WEBMENTION_PATH } from "./types.ts";
 import { escapeHtml } from "./util.ts";
 
 
@@ -398,6 +399,12 @@ export interface PageMeta {
    * the W3C-standard *source page* to the document it actually checks.
    */
   alternateJson?: string;
+  /**
+   * Absolute URL of this deployment's Webmention endpoint — `<link
+   * rel="webmention">` (§2.3.1). W3C discovery is how a *non-blyg* sender
+   * finds us; a blyg sender reads the manifest key instead.
+   */
+  webmention?: string;
 }
 
 function metaTags(meta: PageMeta): string {
@@ -585,7 +592,7 @@ export function layout(title: string, body: string, mount: string, meta: PageMet
 <title>${escapeHtml(title)}</title>
 ${metaTags({ ...meta, ogTitle: meta.ogTitle ?? title })}<link rel="stylesheet" href="${mount}/style.css">
 <link rel="alternate" type="application/rss+xml" href="${mount}/feed.xml">
-${meta.alternateJson ? `<link rel="alternate" type="application/json" href="${meta.alternateJson}">\n` : ""}${meta.canonical ? `<link rel="canonical" href="${meta.canonical}">\n` : ""}${meta.hasBlogroll ? `<link rel="blogroll" href="${mount}/blogroll.opml">\n` : ""}</head>
+${meta.webmention ? `<link rel="webmention" href="${meta.webmention}">\n` : ""}${meta.alternateJson ? `<link rel="alternate" type="application/json" href="${meta.alternateJson}">\n` : ""}${meta.canonical ? `<link rel="canonical" href="${meta.canonical}">\n` : ""}${meta.hasBlogroll ? `<link rel="blogroll" href="${mount}/blogroll.opml">\n` : ""}</head>
 <body>
 ${body}
 </body>
@@ -987,6 +994,7 @@ ${blogrollSection(blogrollSubs, mount)}
     hasBlogroll,
     description,
     url: origin,
+    webmention: origin + WEBMENTION_PATH,
     image: await socialImage(db, settings, [], origin),
     siteName: settings.site_title,
   });
@@ -997,13 +1005,14 @@ ${blogrollSection(blogrollSubs, mount)}
  * nothing to summarize and nothing to unfurl — the tags say what the page *is*,
  * and deliberately carry no image.
  */
-function withdrawnMeta(settings: Settings, url: string, alternateJson?: string): PageMeta {
+function withdrawnMeta(settings: Settings, url: string, alternateJson?: string, webmention?: string): PageMeta {
   return {
     description: `A withdrawn item on ${settings.site_title}.`,
     url,
     type: "article",
     siteName: settings.site_title,
     alternateJson,
+    webmention,
   };
 }
 
@@ -1020,12 +1029,13 @@ function withdrawnMeta(settings: Settings, url: string, alternateJson?: string):
 export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow, mount: string, origin: string): Promise<string> {
   const url = `${origin}f/${item.id}/`;
   const alternateJson = `${origin}items/${item.id}.json`;
+  const webmention = origin + WEBMENTION_PATH;
   if (item.kind === "withdrawn") {
     return layout(
       `withdrawn — ${settings.site_title}`,
       `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
       mount,
-      withdrawnMeta(settings, url, alternateJson),
+      withdrawnMeta(settings, url, alternateJson, webmention),
     );
   }
   const latest = await publishedVersion(db, item);
@@ -1040,6 +1050,7 @@ ${await fragmentBlock(db, item, mount)}
     description: text,
     url,
     alternateJson,
+    webmention,
     type: "article",
     image: await socialImage(db, settings, media, origin),
     siteName: settings.site_title,
@@ -1050,12 +1061,13 @@ ${await fragmentBlock(db, item, mount)}
 export async function threadPage(db: D1Database, settings: Settings, item: ItemRow, mount: string, origin: string): Promise<string> {
   const url = `${origin}t/${item.id}/`;
   const alternateJson = `${origin}items/${item.id}.json`;
+  const webmention = origin + WEBMENTION_PATH;
   if (item.kind === "withdrawn") {
     return layout(
       `withdrawn — ${settings.site_title}`,
       `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
       mount,
-      withdrawnMeta(settings, url, alternateJson),
+      withdrawnMeta(settings, url, alternateJson, webmention),
     );
   }
   const latest = await publishedVersion(db, item);
@@ -1069,6 +1081,7 @@ ${await threadBlock(db, item, mount)}
     description: excerptFromHtml(latest?.content_html ?? "", 200),
     url,
     alternateJson,
+    webmention,
     type: "article",
     image: await socialImage(db, settings, media, origin),
     siteName: settings.site_title,

@@ -77,7 +77,7 @@ const manifestBytes = await (async () => {
   if (!res.ok) throw new Error(`${res.status} ${url}`);
   return new Uint8Array(await res.arrayBuffer());
 })();
-const manifest = JSON.parse(new TextDecoder().decode(manifestBytes)) as { site?: string };
+const manifest = JSON.parse(new TextDecoder().decode(manifestBytes)) as { site?: string; webmention?: string };
 const originCheck = checkExportOrigin(base, manifest.site, allowLocal);
 if (originCheck.refuse) {
   console.error(`export refused: ${originCheck.refuse}`);
@@ -89,7 +89,11 @@ if (originCheck.warn) console.warn(`warning: ${originCheck.warn}\n`);
 await save("", "index.html");
 await save("style.css", "style.css");
 await save("feed.xml", "feed.xml");
-await write("blyg.json", manifestBytes);
+// The one deliberate difference between the served tree and the exported one
+// (v0.3-plan §2.3.1/§6): a static export has no endpoint behind it, so it must
+// not advertise one. Everything else is written back byte-for-byte.
+const { webmention: _omitted, ...staticManifest } = manifest as Record<string, unknown>;
+await write("blyg.json", new TextEncoder().encode(JSON.stringify(staticManifest)));
 await save("archive/", "archive/index.html");
 const indexBytes = await save("items/index.json", "items/index.json");
 

@@ -31,9 +31,13 @@ import { getHopperBySlug, getImportedItem, getSubscription, listBlogrollSubscrip
 import { authoredKind, getItem, getMedia, getSettings, getVersion, listPublic } from "./model.ts";
 import { archivePage, feedPage, permalinkPage, pinnedVersionPage, STYLE_CSS, themeCss, threadPage } from "./pages.ts";
 import { buildArchiveIndex, buildFeedXml, buildItemJson, buildManifest, buildPinnedVersionJson, siteOrigin } from "./protocol.ts";
+import { mentionFetch } from "./mentions/http.ts";
+import { receiveMention, verifyMention } from "./mentions/receive.ts";
+import { drainOutbound } from "./mentions/send.ts";
+import { mentionsStudio } from "./mentions/studio.ts";
 import { studio } from "./studio.ts";
-import type { Env } from "./types.ts";
-import { FEED_PAGE_SIZE } from "./types.ts";
+import type { Env, Settings } from "./types.ts";
+import { FEED_PAGE_SIZE, WEBMENTION_PATH } from "./types.ts";
 import { normalizeMount, studioPath } from "./util.ts";
 
 const cors = (c: { header: (k: string, v: string) => void }) =>
@@ -60,6 +64,7 @@ export function makeApp(mount: string) {
   });
   app.route(studioBase, studio);
   app.route(studioBase, importerStudio);
+  app.route(studioBase, mentionsStudio);
 
   app.use("/api/*", async (c, next) => {
     if (!(await verifySession(c.env, c.req.header("cookie")))) {
@@ -170,11 +175,45 @@ export function makeApp(mount: string) {
     return c.json(buildPinnedVersionJson(settings, item, row, siteOrigin(settings, c.req.url, mount)));
   });
 
+  /**
+   * Webmention endpoint (§2.3.1, decision #28) — inside the origin surface,
+   * unlike host-rooted /studio and /api, because it is a protocol surface: a
+   * stranger's client finds it from the manifest or a page link, both of
+   * which are origin-relative.
+   *
+   * 202, not 200: the claim is accepted here and *verified* afterwards,
+   * against the network. Saying 200 would assert something not yet checked.
+   */
+  pub.post("/webmention", async (c) => {
+    const settings = await getSettings(c.env.DB);
+    const origin = siteOrigin(settings, c.req.url, mount);
+    const form = await c.req.parseBody().catch(() => ({}) as Record<string, unknown>);
+    const outcome = await receiveMention(
+      c.env.DB,
+      { source: typeof form.source === "string" ? form.source : undefined, target: typeof form.target === "string" ? form.target : undefined },
+      origin,
+    );
+    if (outcome.status !== 202) return c.json({ error: outcome.error }, outcome.status);
+    const { mentionId, source, target } = outcome;
+    const itemId = (await c.env.DB.prepare("SELECT target_item_id FROM mentions_in WHERE id = ?").bind(mentionId).first<{ target_item_id: string }>())!
+      .target_item_id;
+    // Verification runs after the response and can never fail the response:
+    // an error here leaves the row `pending` for a later re-send to re-verify.
+    c.executionCtx.waitUntil(verifyMention(c.env.DB, mentionId, source, itemId, origin, mentionFetch).catch(() => {}));
+    return c.json({ ok: true, status: "accepted, pending verification" }, 202);
+  });
+
+  /** W3C discovery also allows the endpoint in a Link header, so item pages carry both. */
+  const webmentionLink = (c: Context<{ Bindings: Env }>, settings: Settings) => {
+    c.header("Link", `<${siteOrigin(settings, c.req.url, mount)}${WEBMENTION_PATH}>; rel="webmention"`);
+  };
+
   pub.get("/f/:id", async (c) => {
     const item = await getItem(c.env.DB, c.req.param("id"));
     if (!item || item.status === "draft") return c.notFound();
     if ((await authoredKind(c.env.DB, item)) !== "fragment") return c.notFound();
     const settings = await getSettings(c.env.DB);
+    webmentionLink(c, settings);
     return c.html(await permalinkPage(c.env.DB, settings, item, mount, siteOrigin(settings, c.req.url, mount)));
   });
 
@@ -205,6 +244,7 @@ export function makeApp(mount: string) {
     if (!item || item.status === "draft") return c.notFound();
     if ((await authoredKind(c.env.DB, item)) !== "thread") return c.notFound();
     const settings = await getSettings(c.env.DB);
+    webmentionLink(c, settings);
     return c.html(await threadPage(c.env.DB, settings, item, mount, siteOrigin(settings, c.req.url, mount)));
   });
 
@@ -252,5 +292,8 @@ export default {
   // logic lives in importer/schedule.ts, fake-clock testable in isolation.
   async scheduled(_controller: ScheduledController, env: Env, ctx: ExecutionContext): Promise<void> {
     ctx.waitUntil(runScheduledPoll(env.DB));
+    // Outbound mentions retry here (§2.3.4): the publish path tries once
+    // immediately, and a receiver that was down gets it on a later tick.
+    ctx.waitUntil(drainOutbound(env.DB, mentionFetch).catch(() => {}));
   },
 };

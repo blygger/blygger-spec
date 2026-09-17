@@ -16,7 +16,7 @@ import {
   publishedVersion,
 } from "./model.ts";
 import type { ItemRow, ScopeProvenance, Settings, Transclusion, VersionRow } from "./types.ts";
-import { BRAND, FEED_WINDOW, GENERATOR, PROTOCOL_LEVEL, PROTOCOL_VERSION } from "./types.ts";
+import { BRAND, FEED_WINDOW, GENERATOR, PROTOCOL_LEVEL, PROTOCOL_VERSION, WEBMENTION_PATH } from "./types.ts";
 import { absolutizeHtml, cdata, escapeXml, rfc822 } from "./util.ts";
 
 /**
@@ -113,7 +113,7 @@ export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: V
 }
 
 /** §2.4 manifest. */
-export async function buildManifest(db: D1Database, settings: Settings, origin: string) {
+export async function buildManifest(db: D1Database, settings: Settings, origin: string, opts: { webmention?: boolean } = {}) {
   // Relative media path, resolved to the row's `r2_key` (`media/{id}.{ext}`).
   // Emitting the bare id produced a manifest `avatar` that always 404s, since
   // `/media/:file` matches the full key including the extension (session 19).
@@ -137,6 +137,10 @@ export async function buildManifest(db: D1Database, settings: Settings, origin: 
     updated: await lastUpdated(db),
     // §2.2: OPTIONAL, origin-relative; present only when the blogroll is non-empty.
     ...(hasBlogroll ? { blogroll: "blogroll.opml" } : {}),
+    // v0.3 §2.3.1: present only when this deployment can actually receive.
+    // A static export omits it — the exported tree has no endpoint behind it,
+    // and advertising one would promise delivery nothing could keep.
+    ...(opts.webmention === false ? {} : { webmention: WEBMENTION_PATH }),
   };
 }
 

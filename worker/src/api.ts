@@ -1,12 +1,13 @@
 // Owner API (cookie auth, JSON) — v0.1-plan §3.3.
 
-import { Hono } from "hono";
+import { type Context, Hono } from "hono";
 import {
   authoredKind,
   createDraft,
   discardDraft,
   FragmentTooLongError,
   getItem,
+  getSettings,
   getVersion,
   insertMedia,
   pinVersion,
@@ -20,10 +21,13 @@ import {
   TransclusionResolveError,
   withdraw,
 } from "./model.ts";
+import { mentionFetch } from "./mentions/http.ts";
+import { drainOutbound, enqueueForVersion } from "./mentions/send.ts";
+import { siteOrigin } from "./protocol.ts";
 import { parseStubOf } from "./stub.ts";
 import { runGenerateScope } from "./tk-generate.ts";
 import type { Env } from "./types.ts";
-import { newMediaId } from "./util.ts";
+import { newMediaId, normalizeMount } from "./util.ts";
 
 const MEDIA_TYPES: Record<string, string> = {
   "image/png": "png",
@@ -79,6 +83,24 @@ api.put("/items/:id", async (c) => {
   return c.json({ ok: true });
 });
 
+/**
+ * Queue (and immediately attempt) the mentions a version owes, then get out
+ * of the way. Delivery is fire-and-forget from the author's point of view
+ * (§2.3.3): publish has already succeeded by the time this runs, nothing here
+ * can fail it, and the cron retries whatever this attempt doesn't land.
+ */
+async function sendMentionsFor(c: Context<{ Bindings: Env }>, itemId: string, version: number): Promise<void> {
+  const row = await getVersion(c.env.DB, itemId, version);
+  if (!row) return;
+  const settings = await getSettings(c.env.DB);
+  const origin = siteOrigin(settings, c.req.url, normalizeMount(c.env.MOUNT));
+  const refs = await enqueueForVersion(c.env.DB, itemId, version, row, origin);
+  if (!refs.length) return;
+  // Fire-and-forget in the strong sense: a delivery error is a row status,
+  // never an uncaught rejection in the worker that just published.
+  c.executionCtx.waitUntil(drainOutbound(c.env.DB, mentionFetch, { origin }).catch(() => {}));
+}
+
 api.post("/items/:id/publish", async (c) => {
   // Also the republish path for withdrawn items: vN+1 restores 'public'/authored kind.
   // Studio-side fragment cap (§2.7) is enforced inside publish() against the
@@ -89,6 +111,7 @@ api.post("/items/:id/publish", async (c) => {
   const note = typeof body.note === "string" && body.note.trim() ? body.note.trim() : null;
   try {
     const version = await publish(c.env.DB, item, note);
+    await sendMentionsFor(c, item.id, version);
     return c.json({ ok: true, version });
   } catch (e) {
     if (e instanceof TransclusionResolveError) {
@@ -131,6 +154,11 @@ api.post("/items/:id/withdraw", async (c) => {
   const body = await c.req.json<{ note?: string }>().catch(() => ({}) as { note?: string });
   const note = typeof body.note === "string" && body.note.trim() ? body.note.trim() : null;
   const version = await withdraw(c.env.DB, item, note);
+  // §2.3.6: a withdrawn stub re-sends its mention once, from the last real
+  // version's references — the endcap has none — so the receiver re-verifies,
+  // finds a withdrawn document, and marks the row gone. That is the
+  // W3C-blessed way to say "this is no longer there".
+  await sendMentionsFor(c, item.id, item.version);
   return c.json({ ok: true, version });
 });
 

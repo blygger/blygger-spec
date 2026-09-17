@@ -283,11 +283,12 @@ const NAV: { key: StudioSection; label: string; path: (mount: string) => string 
   { key: "subs", label: "subscriptions", path: (m) => `${studioPath(m)}/subs` },
   { key: "reading", label: "reading", path: (m) => `${studioPath(m)}/reading` },
   { key: "hoppers", label: "hoppers", path: (m) => `${studioPath(m)}/hoppers` },
+  { key: "mentions", label: "mentions", path: (m) => `${studioPath(m)}/mentions` },
   { key: "settings", label: "settings", path: (m) => `${studioPath(m)}/settings` },
   { key: "syntax", label: "syntax", path: (m) => `${studioPath(m)}/syntax` },
 ];
 
-export type StudioSection = "compose" | "subs" | "reading" | "hoppers" | "settings" | "syntax" | null;
+export type StudioSection = "compose" | "subs" | "reading" | "hoppers" | "mentions" | "settings" | "syntax" | null;
 
 /**
  * Studio chrome. The nav sits on its own row at a fixed height and every page

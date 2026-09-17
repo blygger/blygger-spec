@@ -59,6 +59,7 @@ describe("every inline script parses", () => {
       `${STUDIO}/reading`,
       `${STUDIO}/hoppers`,
       `${STUDIO}/hoppers/${hopper}`,
+      `${STUDIO}/mentions`,
       `${STUDIO}/edit/${fragment}`,
       `${STUDIO}/edit/${draft}`,
       `${STUDIO}/edit/${thread}`,
