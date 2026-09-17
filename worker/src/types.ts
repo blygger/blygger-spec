@@ -31,12 +31,32 @@ export interface ItemRow {
    * wire artifact; see model.ts getTkProvenance/setTkProvenance.
    */
   tk_provenance_json: string | null;
+  /**
+   * Working-copy stub citation (migration 0007, v0.3-plan §2.2) — JSON `StubOf`
+   * or null. Threads only. Carried onto the published version by publish(),
+   * under the version-agreement rule; never re-derived from the body.
+   */
+  stub_of: string | null;
 }
 
 export interface Transclusion {
   id: string;
   version: number;
+  /**
+   * Identity origin of a remote source (v0.3-plan §2.1, decision #26) — the
+   * subscription's post-redirect fetch origin per 0.2 §12.2, never the
+   * manifest's self-asserted `site`. **Omitted for own-origin sources**, which
+   * is what keeps every 0.2 document a valid 0.3 document unchanged.
+   */
+  origin?: string;
 }
+
+/**
+ * A stub's single target (v0.3-plan §2.2, decision #27): a blyg citation, in
+ * which `origin` is REQUIRED even when it is our own (a citation is absolute),
+ * or a plain-web URL. Exactly one shape per stub, exactly one target per stub.
+ */
+export type StubOf = { origin: string; id: string; version: number } | { url: string };
 
 /** Per-scope TK generation provenance (tk-core-plan.md §3.1/§4). */
 export interface ScopeProvenance {
@@ -60,6 +80,8 @@ export interface VersionRow {
   pinned_at: string | null;
   /** JSON ScopeProvenance[] (migration 0005); null when this version involved no TK generation. */
   generated_json: string | null;
+  /** JSON `StubOf` as published (migration 0007); null for non-stubs and for every withdrawal endcap. */
+  stub_of: string | null;
 }
 
 export interface MediaRow {
@@ -114,6 +136,8 @@ export interface ImportedItemRow {
   transclusions_json: string | null;
   l0: number;
   pinned_version_retained: number | null;
+  /** Origin-relative permalink as the origin itself declares it (item doc `page`, v0.3-plan §2.3.2); null when the origin omits it and the f/·t/ convention applies. */
+  page: string | null;
 }
 
 export interface HopperRow {
@@ -138,6 +162,51 @@ export interface SignalRow {
   remote_id: string;
   thumb: 1 | -1;
   at: string;
+}
+
+// --- v0.3 "Trunk" Webmention (migration 0007, v0.3-plan.md §4.1) ---
+
+/** Why a mention relates to us — read out of the source document's own structure, never from body text (§2.3.5). */
+export type MentionRelation = "stub" | "transclusion" | "fork";
+
+/**
+ * An inbound mention. `pending` → `verified` | `failed` | `gone`; a row that
+ * verified once and stops verifying becomes `gone` rather than being deleted,
+ * so a stubber who withdraws and republishes is recognized, not treated as new.
+ * No source content is ever stored — this row is a pointer (§2.3.5).
+ */
+export interface MentionInRow {
+  id: string;
+  source: string;
+  target: string;
+  target_item_id: string;
+  status: "pending" | "verified" | "failed" | "gone";
+  relation: MentionRelation | null;
+  source_origin: string | null;
+  source_id: string | null;
+  source_kind: string | null;
+  source_version: number | null;
+  source_author_json: string | null;
+  source_page: string | null;
+  first_seen: string;
+  last_seen: string;
+  verified_at: string | null;
+  attempts: number;
+  error: string | null;
+}
+
+/** An outbound mention. Fire-and-forget from the author's view: publish enqueues, the cron drains (§2.3.3/§2.3.4). */
+export interface MentionOutRow {
+  id: string;
+  item_id: string;
+  version: number;
+  target: string;
+  endpoint: string | null;
+  status: "pending" | "sent" | "failed" | "no_endpoint";
+  attempts: number;
+  next_attempt_at: string | null;
+  last_error: string | null;
+  created: string;
 }
 
 /** Site settings with defaults applied. */

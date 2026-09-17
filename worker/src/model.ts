@@ -170,7 +170,7 @@ export async function publish(db: D1Database, item: ItemRow, note: string | null
   let contentHtml: string;
   let transclusionsJson: string | null = null;
   if (kind === "thread") {
-    const resolved = await resolveTransclusions(db, annotated.text);
+    const resolved = await resolveTransclusions(db, annotated.text, item.id);
     if (resolved.errors.length) throw new TransclusionResolveError(resolved.errors);
     contentHtml = applyGeneratedWrappers(resolved.html, annotated);
     transclusionsJson = JSON.stringify(resolved.transclusions);

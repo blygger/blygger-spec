@@ -1037,9 +1037,11 @@ studio.post("/preview", async (c) => {
 
 /** Studio-only provisional thread preview + validation — publish still re-resolves for real. TK scopes are highlighted (task 6). */
 studio.post("/preview-thread", async (c) => {
-  const body = await c.req.json<{ content_md?: string }>().catch(() => ({}) as { content_md?: string });
+  const body = await c.req.json<{ content_md?: string; item_id?: string }>().catch(() => ({}) as { content_md?: string; item_id?: string });
   const tk = annotateTkPreview(body.content_md ?? "");
-  const resolved = await previewTransclusions(c.env.DB, tk.text);
+  // item_id is the thread being edited — the DAG check needs it, so the
+  // preview rejects a circular quote at exactly the point publish would.
+  const resolved = await previewTransclusions(c.env.DB, tk.text, body.item_id);
   return c.json({
     html: tk.finish(resolved.html),
     errors: resolved.errors,
@@ -1238,7 +1240,7 @@ async function threadEditPage(db: D1Database, item: ItemRow, mount: string): Pro
   const media = await listMediaForItem(db, item.id);
   const versions = await listVersions(db, item.id);
   const tk = annotateTkPreview(item.content_md);
-  const preview = await previewTransclusions(db, tk.text);
+  const preview = await previewTransclusions(db, tk.text, item.id);
   const previewHtml = tk.finish(preview.html);
   const mediaHtml = media.length
     ? `<p style="font-size:0.85rem;opacity:0.7;">attached: ${media.map((m) => escapeHtml(m.r2_key)).join(", ")}</p>`
@@ -1318,7 +1320,7 @@ function currentLinePrefix() {
 }
 
 async function refreshPreview() {
-  const res = await fetch("${studioPath(mount)}/preview-thread", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value }) });
+  const res = await fetch("${studioPath(mount)}/preview-thread", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ content_md: mdInput.value, item_id: id }) });
   const data = await res.json();
   previewBody.innerHTML = data.html;
   renderTkPanel(data.scopes);

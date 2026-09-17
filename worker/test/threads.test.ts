@@ -46,18 +46,18 @@ describe("threads & transclusion (§2.9)", () => {
     expect((await getPublic(`/blyg/t/${f1}/`)).status).toBe(404);
   });
 
-  it("rejects unresolvable transclusions: draft, withdrawn, thread, unknown", async () => {
+  // v0.3 (decision #26) lifted the fragments-only rule, so a published thread
+  // is now a legal target — see the nesting test below. The rest of the table
+  // is unchanged from 0.2.
+  it("rejects unresolvable transclusions: draft, withdrawn, unknown", async () => {
     const cookie = await login();
     const draftFrag = (await apiJson(cookie, "POST", "/api/items", { content_md: "never published" })).json.id;
     const withdrawnFrag = await createAndPublish(cookie, "to be withdrawn");
     await apiJson(cookie, "POST", `/api/items/${withdrawnFrag}/withdraw`, {});
-    const otherThread = await createThread(cookie, "some thread content");
-    await apiJson(cookie, "POST", `/api/items/${otherThread}/publish`, {});
 
     const cases: [string, string][] = [
       ["draft", draftFrag],
       ["withdrawn", withdrawnFrag],
-      ["thread", otherThread],
       ["unknown", "zzzzzzzzzzzzzzzzzzzzzzzzzz"],
     ];
     for (const [label, id] of cases) {

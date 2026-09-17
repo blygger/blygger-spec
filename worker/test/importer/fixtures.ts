@@ -121,24 +121,29 @@ export async function itemDocBody(opts: {
   kind: "fragment" | "thread" | "withdrawn";
   version: number;
   content_md?: string;
+  content_html?: string;
   content_hash?: string;
   created?: string;
   updated?: string;
+  /** v0.3 §2.3.2: origin-relative permalink, as the origin declares it. */
+  page?: string;
+  origin?: string;
 }): Promise<string> {
   const contentMd = opts.kind === "withdrawn" ? "" : (opts.content_md ?? "hello");
   return JSON.stringify({
     blyg: "0.2",
     id: opts.id,
     kind: opts.kind,
-    origin: "https://example.com/blyg/",
+    origin: opts.origin ?? "https://example.com/blyg/",
     author: null,
     created: opts.created ?? "2026-08-01T00:00:00Z",
     updated: opts.updated ?? "2026-08-01T00:00:00Z",
     version: opts.version,
     content_md: contentMd,
-    content_html: opts.kind === "withdrawn" ? "" : `<p>${contentMd}</p>`,
+    content_html: opts.kind === "withdrawn" ? "" : (opts.content_html ?? `<p>${contentMd}</p>`),
     content_hash: opts.content_hash ?? (await contentHash(contentMd)),
     media: [],
+    ...(opts.page ? { page: opts.page } : {}),
     changelog: [],
   });
 }
