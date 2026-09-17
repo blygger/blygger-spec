@@ -3,7 +3,7 @@
 
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerpt, excerptFromHtml } from "./markdown.ts";
-import { injectProvenance } from "./pages.ts";
+import { injectProvenance, transclusionProvenance } from "./pages.ts";
 import { parseStoredStub } from "./stub.ts";
 import {
   authoredKind,
@@ -68,6 +68,11 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
     id: item.id,
     kind: item.kind,
     origin,
+    // §2.3.2 (decision #29): the origin-relative permalink, so a reader never
+    // has to *infer* it from the f/·t/ convention this client happens to use.
+    // Emitted for withdrawn items too — an endcap's page is 200 forever, and a
+    // mention may legitimately target it.
+    page: `${isThread ? "t" : "f"}/${item.id}/`,
     author: author(settings, origin),
     created: item.created,
     updated: item.updated,
@@ -178,7 +183,12 @@ export async function buildFeedXml(db: D1Database, settings: Settings, origin: s
     const latestMd = latest?.content_md ?? "";
     const isThread = isWithdrawn ? (await authoredKind(db, item)) === "thread" : item.kind === "thread";
     const rawHtml = latest?.content_html ?? "";
-    let html = isWithdrawn ? "" : absolutizeHtml(isThread ? injectProvenance(rawHtml, latestTransclusions(latest), originPath) : rawHtml, origin);
+    let html = isWithdrawn
+      ? ""
+      : absolutizeHtml(
+          isThread ? injectProvenance(rawHtml, await transclusionProvenance(db, latestTransclusions(latest), originPath)) : rawHtml,
+          origin,
+        );
     if (!isWithdrawn) {
       for (const m of await listMediaForItem(db, item.id)) {
         html += `<p><img src="${origin}${m.r2_key}" alt="${escapeXml(m.alt ?? "")}"></p>`;

@@ -28,7 +28,11 @@ export function backoffMs(fails: number, baseMs: number, capMs: number): number 
  * separately. Shared rather than rebuilt per call site: the public hopper page
  * and the studio both need it, and two copies of a URL shape drift.
  */
-export function blygItemUrl(origin: string, kind: string, remoteId: string): string {
+export function blygItemUrl(origin: string, kind: string, remoteId: string, page?: string | null): string {
+  // §2.3.2 (decision #29): the origin's own `page` wins when we have it. The
+  // f/·t/ shape is this client's convention, which 0.2 §4 calls presentation —
+  // fine as a fallback, never as an assumption about someone else's blyg.
+  if (page) return `${origin}${page.replace(/^\//, "")}`;
   return `${origin}${kind === "thread" ? "t" : "f"}/${remoteId}/`;
 }
 
@@ -38,7 +42,7 @@ export function blygItemUrl(origin: string, kind: string, remoteId: string): str
  * blyg-native content leads with the author's own markdown heading, if any.
  */
 export function sourceTitleAndUrl(
-  row: { l0: number; kind: string; remote_id: string; content_html: string },
+  row: { l0: number; kind: string; remote_id: string; content_html: string; page?: string | null },
   origin: string,
 ): { title: string | null; url: string } {
   if (row.l0) {
@@ -46,7 +50,7 @@ export function sourceTitleAndUrl(
     if (m) return { title: decodeEntities(stripTags(m[2])).trim() || null, url: m[1] };
     return { title: null, url: origin };
   }
-  return { title: null, url: blygItemUrl(origin, row.kind, row.remote_id) };
+  return { title: null, url: blygItemUrl(origin, row.kind, row.remote_id, row.page) };
 }
 
 function stripTags(s: string): string {

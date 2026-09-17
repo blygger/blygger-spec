@@ -168,14 +168,15 @@ export async function applyEffect(
       await db
         .prepare(
           `INSERT INTO imported_items
-           (subscription_id, remote_id, kind, state, version, created, updated, observed_at, content_md, content_html, content_hash, author_json, media_json, transclusions_json, l0, pinned_version_retained)
-           VALUES (?, ?, ?, 'current', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)`,
+           (subscription_id, remote_id, kind, state, version, created, updated, observed_at, content_md, content_html, content_hash, author_json, media_json, transclusions_json, l0, pinned_version_retained, page)
+           VALUES (?, ?, ?, 'current', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?)`,
         )
         .bind(
           subscriptionId, remoteId, d.kind, d.version, d.created, d.updated, observedAt,
           d.content_md, d.content_html, d.content_hash,
           JSON.stringify(d.author ?? null), JSON.stringify(d.media ?? []),
           d.transclusions ? JSON.stringify(d.transclusions) : null, l0,
+          d.page ?? null,
         )
         .run();
       return;
@@ -204,7 +205,8 @@ export async function applyEffect(
       await db
         .prepare(
           `UPDATE imported_items SET kind = ?, version = ?, updated = ?, observed_at = ?,
-           content_md = ?, content_html = ?, content_hash = ?, author_json = ?, media_json = ?, transclusions_json = ?
+           content_md = ?, content_html = ?, content_hash = ?, author_json = ?, media_json = ?, transclusions_json = ?,
+           page = COALESCE(?, page)
            WHERE subscription_id = ? AND remote_id = ?`,
         )
         .bind(
@@ -212,6 +214,7 @@ export async function applyEffect(
           d.content_md, d.content_html, d.content_hash,
           JSON.stringify(d.author ?? null), JSON.stringify(d.media ?? []),
           d.transclusions ? JSON.stringify(d.transclusions) : null,
+          d.page ?? null,
           subscriptionId, remoteId,
         )
         .run();
@@ -242,7 +245,8 @@ export async function applyEffect(
       await db
         .prepare(
           `UPDATE imported_items SET state = 'current', kind = ?, version = ?, updated = ?, observed_at = ?,
-           content_md = ?, content_html = ?, content_hash = ?, author_json = ?, media_json = ?, transclusions_json = ?, pinned_version_retained = NULL
+           content_md = ?, content_html = ?, content_hash = ?, author_json = ?, media_json = ?, transclusions_json = ?, pinned_version_retained = NULL,
+           page = COALESCE(?, page)
            WHERE subscription_id = ? AND remote_id = ?`,
         )
         .bind(
@@ -250,6 +254,7 @@ export async function applyEffect(
           d.content_md, d.content_html, d.content_hash,
           JSON.stringify(d.author ?? null), JSON.stringify(d.media ?? []),
           d.transclusions ? JSON.stringify(d.transclusions) : null,
+          d.page ?? null,
           subscriptionId, remoteId,
         )
         .run();
@@ -259,14 +264,15 @@ export async function applyEffect(
       const d = effect.doc;
       await db
         .prepare(
-          `UPDATE imported_items SET content_md = ?, content_html = ?, content_hash = ?, author_json = ?, media_json = ?, transclusions_json = ?, observed_at = ?
+          `UPDATE imported_items SET content_md = ?, content_html = ?, content_hash = ?, author_json = ?, media_json = ?, transclusions_json = ?, observed_at = ?,
+           page = COALESCE(?, page)
            WHERE subscription_id = ? AND remote_id = ?`,
         )
         .bind(
           d.content_md, d.content_html, d.content_hash,
           JSON.stringify(d.author ?? null), JSON.stringify(d.media ?? []),
           d.transclusions ? JSON.stringify(d.transclusions) : null,
-          observedAt, subscriptionId, remoteId,
+          observedAt, d.page ?? null, subscriptionId, remoteId,
         )
         .run();
       return;

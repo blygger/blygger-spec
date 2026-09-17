@@ -26,6 +26,8 @@ export interface NormalizedItemDoc {
   author: unknown;
   media: unknown[];
   transclusions?: unknown[];
+  /** v0.3 §2.3.2: origin-relative permalink the origin declares for itself; undefined when it doesn't. */
+  page?: string;
 }
 
 export type ImporterFlag =
@@ -86,6 +88,7 @@ function normalizeItemDoc(raw: unknown): NormalizeResult {
       author: r.author,
       media: Array.isArray(r.media) ? r.media : [],
       transclusions: Array.isArray(r.transclusions) ? r.transclusions : undefined,
+      page: typeof r.page === "string" && r.page ? r.page : undefined,
     },
   };
 }

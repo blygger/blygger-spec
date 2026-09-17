@@ -7,6 +7,7 @@
 // against the rev-1 mockup; this brings it forward together with threads.
 
 import { listBlogrollSubscriptions } from "./importer/store.ts";
+import { blygItemUrl } from "./importer/util.ts";
 import { excerptFromHtml } from "./markdown.ts";
 import { authoredKind, getMedia, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
 import type { ItemRow, MediaRow, Settings, SubscriptionRow, Transclusion, VersionRow } from "./types.ts";
@@ -390,6 +391,13 @@ export interface PageMeta {
   siteName?: string;
   /** og:title when it should differ from <title> (which carries the site suffix). */
   ogTitle?: string;
+  /**
+   * Absolute URL of this page's item document — `<link rel="alternate"
+   * type="application/json">` (v0.3-plan §2.3.2, decision #29). This is the
+   * structural-verification hook: it is how a Webmention receiver gets from
+   * the W3C-standard *source page* to the document it actually checks.
+   */
+  alternateJson?: string;
 }
 
 function metaTags(meta: PageMeta): string {
@@ -577,7 +585,7 @@ export function layout(title: string, body: string, mount: string, meta: PageMet
 <title>${escapeHtml(title)}</title>
 ${metaTags({ ...meta, ogTitle: meta.ogTitle ?? title })}<link rel="stylesheet" href="${mount}/style.css">
 <link rel="alternate" type="application/rss+xml" href="${mount}/feed.xml">
-${meta.canonical ? `<link rel="canonical" href="${meta.canonical}">\n` : ""}${meta.hasBlogroll ? `<link rel="blogroll" href="${mount}/blogroll.opml">\n` : ""}</head>
+${meta.alternateJson ? `<link rel="alternate" type="application/json" href="${meta.alternateJson}">\n` : ""}${meta.canonical ? `<link rel="canonical" href="${meta.canonical}">\n` : ""}${meta.hasBlogroll ? `<link rel="blogroll" href="${mount}/blogroll.opml">\n` : ""}</head>
 <body>
 ${body}
 </body>
@@ -756,23 +764,86 @@ async function fragmentBlock(db: D1Database, item: ItemRow, mount: string, title
   );
 }
 
+/** Where a baked transclusion's source lives, and how to name it — presentation, resolved locally. */
+export interface ProvenanceLink {
+  href: string;
+  label: string;
+}
+
 /**
- * Inject a small provenance link after each baked transclusion blockquote.
- * Presentation only — this is never stored in the protocol content_html
- * (§2.9 specifies only the blockquote + data attributes as baked content).
+ * Build the provenance paragraph for each *direct* transclusion of an item, in
+ * document order. Local targets link their own permalink by kind (threads are
+ * legal targets from v0.3, so the old hardcoded `f/` would have pointed at a
+ * 404); remote targets link the source's own page at its origin — its declared
+ * `page` when we have one, the f/·t/ convention otherwise — and name the blyg
+ * they came from, which is the byline §2.1 asks for.
  */
-export function injectProvenance(html: string, transclusions: Transclusion[], mount: string): string {
+export async function transclusionProvenance(db: D1Database, transclusions: Transclusion[], mount: string): Promise<string[]> {
+  const out: string[] = [];
+  for (const t of transclusions) {
+    let link: ProvenanceLink;
+    if (t.origin) {
+      const row = await db
+        .prepare(
+          `SELECT ii.kind AS kind, ii.page AS page, s.title AS title
+           FROM imported_items ii JOIN subscriptions s ON s.id = ii.subscription_id
+           WHERE ii.remote_id = ? AND s.origin = ?`,
+        )
+        .bind(t.id, t.origin)
+        .first<{ kind: string; page: string | null; title: string }>();
+      // No row means the subscription is gone since publish. The snapshot is
+      // still ours to show (§10.4), so the link degrades to the convention and
+      // the label to the host — never to a claim we can no longer support.
+      const href = blygItemUrl(t.origin, row?.kind ?? "fragment", t.id, row?.page ?? null);
+      const label = row?.title ? `from <em>${escapeHtml(row.title)}</em> ↗` : `from ${escapeHtml(new URL(t.origin).host)} ↗`;
+      link = { href, label };
+    } else {
+      const row = await db.prepare("SELECT * FROM items WHERE id = ?").bind(t.id).first<ItemRow>();
+      // A withdrawn target keeps its permalink (the endcap is 200 forever), so
+      // the link stands — it just has to name the authored kind, not "withdrawn".
+      const kind = row ? await authoredKind(db, row) : "fragment";
+      link = { href: `${mount}/${kind === "thread" ? "t" : "f"}/${t.id}/`, label: `${kind} ↗` };
+    }
+    out.push(`<p class="provenance"><a href="${link.href}">${link.label}</a> · snapshot of v${t.version}</p>`);
+  }
+  return out;
+}
+
+/**
+ * Inject a provenance paragraph inside each *top-level* baked transclusion
+ * blockquote, in document order. Presentation only — this is never stored in
+ * the protocol content_html (§2.9 specifies only the blockquote + data
+ * attributes as baked content).
+ *
+ * Depth-aware, and that is load-bearing from v0.3: a nested transclusion puts
+ * a `</blockquote>` inside the outer quote, so the old non-greedy regex would
+ * have closed the outer match at the inner tag and mis-paired every following
+ * provenance line. Deeper layers deliberately get none — provenance records
+ * direct transclusions only.
+ */
+export function injectProvenance(html: string, provenance: string[]): string {
+  const re = /<blockquote\b[^>]*>|<\/blockquote>/g;
+  let out = "";
+  let last = 0;
+  let depth = 0;
+  let inTransclusion = false;
   let i = 0;
-  return html.replace(
-    /(<blockquote class="blyg-transclusion"[^>]*>)([\s\S]*?)(<\/blockquote>)/g,
-    (_m, open: string, inner: string, close: string) => {
-      const t = transclusions[i++];
-      const provenance = t
-        ? `<p class="provenance"><a href="${mount}/f/${t.id}/">fragment ↗</a> · snapshot of v${t.version}</p>`
-        : "";
-      return `${open}${inner}\n${provenance}${close}`;
-    },
-  );
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html))) {
+    if (m[0].startsWith("</")) {
+      depth = Math.max(0, depth - 1);
+      if (depth === 0 && inTransclusion) {
+        const p = provenance[i++];
+        out += html.slice(last, m.index) + (p ? `\n${p}` : "");
+        last = m.index;
+        inTransclusion = false;
+      }
+    } else {
+      if (depth === 0) inTransclusion = m[0].includes('class="blyg-transclusion"');
+      depth++;
+    }
+  }
+  return out + html.slice(last);
 }
 
 function parseTransclusions(json: string | null | undefined): Transclusion[] {
@@ -792,7 +863,8 @@ ${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount,
 
 async function threadBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const latest = await publishedVersion(db, item);
-  const html = injectProvenance(latest?.content_html ?? "", parseTransclusions(latest?.transclusions), mount);
+  const transclusions = parseTransclusions(latest?.transclusions);
+  const html = injectProvenance(latest?.content_html ?? "", await transclusionProvenance(db, transclusions, mount));
   const media = await listMediaForItem(db, item.id);
   return `<article class="thread">
 <div class="item-content">
@@ -925,12 +997,13 @@ ${blogrollSection(blogrollSubs, mount)}
  * nothing to summarize and nothing to unfurl — the tags say what the page *is*,
  * and deliberately carry no image.
  */
-function withdrawnMeta(settings: Settings, url: string): PageMeta {
+function withdrawnMeta(settings: Settings, url: string, alternateJson?: string): PageMeta {
   return {
     description: `A withdrawn item on ${settings.site_title}.`,
     url,
     type: "article",
     siteName: settings.site_title,
+    alternateJson,
   };
 }
 
@@ -946,12 +1019,13 @@ function withdrawnMeta(settings: Settings, url: string): PageMeta {
  */
 export async function permalinkPage(db: D1Database, settings: Settings, item: ItemRow, mount: string, origin: string): Promise<string> {
   const url = `${origin}f/${item.id}/`;
+  const alternateJson = `${origin}items/${item.id}.json`;
   if (item.kind === "withdrawn") {
     return layout(
       `withdrawn — ${settings.site_title}`,
       `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
       mount,
-      withdrawnMeta(settings, url),
+      withdrawnMeta(settings, url, alternateJson),
     );
   }
   const latest = await publishedVersion(db, item);
@@ -965,6 +1039,7 @@ ${await fragmentBlock(db, item, mount)}
   return layout(itemTitle(excerptFromHtml(latest?.content_html ?? "", 70), settings), body, mount, {
     description: text,
     url,
+    alternateJson,
     type: "article",
     image: await socialImage(db, settings, media, origin),
     siteName: settings.site_title,
@@ -974,12 +1049,13 @@ ${await fragmentBlock(db, item, mount)}
 /** Thread permalink page (§2.9) — caller (index.ts) 404s if the item's authored kind isn't thread. */
 export async function threadPage(db: D1Database, settings: Settings, item: ItemRow, mount: string, origin: string): Promise<string> {
   const url = `${origin}t/${item.id}/`;
+  const alternateJson = `${origin}items/${item.id}.json`;
   if (item.kind === "withdrawn") {
     return layout(
       `withdrawn — ${settings.site_title}`,
       `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
       mount,
-      withdrawnMeta(settings, url),
+      withdrawnMeta(settings, url, alternateJson),
     );
   }
   const latest = await publishedVersion(db, item);
@@ -992,6 +1068,7 @@ ${await threadBlock(db, item, mount)}
   return layout(itemTitle(excerptFromHtml(latest?.content_html ?? "", 70), settings), body, mount, {
     description: excerptFromHtml(latest?.content_html ?? "", 200),
     url,
+    alternateJson,
     type: "article",
     image: await socialImage(db, settings, media, origin),
     siteName: settings.site_title,
@@ -1015,17 +1092,18 @@ ${await threadBlock(db, item, mount)}
  * publish event), any new wire vocabulary, any route for unpinned versions
  * (withheld-unless-pinned is what keeps withdrawal meaningful).
  */
-export function pinnedVersionPage(
+export async function pinnedVersionPage(
+  db: D1Database,
   settings: Settings,
   item: ItemRow,
   row: VersionRow,
   isThread: boolean,
   mount: string,
   origin: string,
-): string {
+): Promise<string> {
   const live = `${mount}/${isThread ? "t" : "f"}/${item.id}/`;
   const html = isThread
-    ? injectProvenance(row.content_html, parseTransclusions(row.transclusions), mount)
+    ? injectProvenance(row.content_html, await transclusionProvenance(db, parseTransclusions(row.transclusions), mount))
     : row.content_html;
   const noteHtml = row.note ? `<p class="version-note">&ldquo;${escapeHtml(row.note)}&rdquo;</p>` : "";
   const body = `<div class="blyg">

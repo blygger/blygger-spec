@@ -194,7 +194,7 @@ export function makeApp(mount: string) {
     const isThread = row.transclusions !== null;
     if (isThread !== wantThread) return c.notFound();
     const settings = await getSettings(c.env.DB);
-    return c.html(pinnedVersionPage(settings, item, row, isThread, mount, siteOrigin(settings, c.req.url, mount)));
+    return c.html(await pinnedVersionPage(c.env.DB, settings, item, row, isThread, mount, siteOrigin(settings, c.req.url, mount)));
   };
   pub.get("/f/:id/:vseg", pinnedPage(false));
   pub.get("/t/:id/:vseg", pinnedPage(true));
