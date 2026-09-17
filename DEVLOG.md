@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 22 — 2026-09-16 — The release-candidate gate ruled shut; the directory opens; v0.3 designed with a demo deadline
 
-**Model:** Opus 5 (agenda, gate ruling, record) → Fable 5.1 (v0.3 design, decisions #26–#29), switched by Venkat per the model-switch convention · **Time:** ~12:15–13:45 PT · **Committed:** yes · **Deployed:** — (blygger.com content change only, no code deploy)
+**Model:** Opus 5 (agenda, gate ruling, record) → Fable 5.1 (v0.3 design, decisions #26–#29), switched by Venkat per the model-switch convention · **Time:** ~12:30–17:30 PT, with breaks · **Committed:** yes (blygger-spec ×3, blygger-org ×1, blygger-com ×1, all pushed) · **Deployed:** — (blygger.com content change only, no code deploy)
 
 **What & why:** the session opened on "what's next for Opus" and the honest answer
 was a single question and a single click. Both are now closed.
