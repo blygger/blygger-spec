@@ -7,9 +7,9 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 22 — 2026-09-16 — The release-candidate gate ruled shut; the directory opens
+## Session 22 — 2026-09-16 — The release-candidate gate ruled shut; the directory opens; v0.3 designed with a demo deadline
 
-**Model:** Opus 5 (agenda, gate ruling, record) — handing to Fable 5 for the v0.3 pass · **Time:** ~12:15– PT · **Committed:** yes · **Deployed:** — (blygger.com content change only, no code deploy)
+**Model:** Opus 5 (agenda, gate ruling, record) → Fable 5.1 (v0.3 design, decisions #26–#29), switched by Venkat per the model-switch convention · **Time:** ~12:15–13:45 PT · **Committed:** yes · **Deployed:** — (blygger.com content change only, no code deploy)
 
 **What & why:** the session opened on "what's next for Opus" and the honest answer
 was a single question and a single click. Both are now closed.
@@ -65,7 +65,7 @@ v0.3; blygger.com lists both live nodes with an empty queue; four status-record
 defects corrected across two repos. No code touched, no deploys, both live blyg nodes
 untouched.
 
-**Open threads:** **the v0.3 Fable pass is now the only gate on substantive work** —
+**Open threads (Opus half, superseded below):** **the v0.3 Fable pass is now the only gate on substantive work** —
 webmention mechanics, stub design, DAG semantics, and the session-18
 `respond`-becomes-the-stub question, after which self-host tasks 1–8 unblock. Venkat's
 own: talk slot duration (22 slides, Thu 2026-09-24 23:00 UTC, cut points in
@@ -74,6 +74,92 @@ write-to-`.env.keys`-and-verify pattern used in session 21 — the rule wants am
 either way); template-repo public-or-private default and the directory's abuse story,
 both from `self-host-plan.md` §10 and both now deferred with the plan. Still open since
 session 17: account-pinning has not been generalised to the other Workers projects.
+
+**— Fable half —**
+
+**v0.3 designed, with the talk as the forcing function.** Venkat's brief: start the
+v0.3 work and prioritise what makes a fuller demonstration possible at the symposium
+on 2026-09-24 — "some early version of stubbing and webmentions." Eight days. The
+answer is `docs/v0.3-plan.md`, split into **Phase A** (the smallest permanent wire
+surface that lets a stub cross between the two live nodes and be verified on the far
+side) and **Phase B** (the rest of the roadmap's v0.3). Nothing in Phase A is
+provisional; the split is about *order*, not about shipping a sketch. Per #21, the
+normative `protocol-v0.3.md` waits until Phase A has been live-tested — the same
+sequence 0.2 took (plan session 12, build 13–19, draft 20).
+
+**What made the demo cheap is that the hard rule was already locked.** "Remote
+transclusion always operates on the local snapshot" (roadmap, session 3) does almost
+all the work: publish never touches the network, quoting follows reading, and network
+cycles are harmless because a snapshot is static bytes. Cross-client transclusion is
+therefore a resolution-order change (local any-kind → imported non-L0 blyg item →
+error) plus an optional `origin` on provenance — and *nesting* is just nesting
+blockquotes. The one DAG rule worth having is a local closure check for the only
+genuinely silly case (a thread quoting a thread that quotes it), which snapshot
+semantics would permit as a finite, useless doubling; remote closures are not walked
+because they are unknowable and harmless. Ambiguous ids (two imports, same
+`remote_id`) are a publish error, not a guess: the directive names an identity, not an
+origin, which is what lets threads move hosts without rewriting.
+
+**Stubs are threads with `stub_of`, and `respond` dies.** Two shapes — `{origin, id,
+version}` for blyg targets (origin REQUIRED even when own; a citation is absolute) and
+`{url}` for the plain web — one target per stub, the body entirely the author's. The
+protocol never requires the body to transclude the target; the marker is what readers
+rely on. A version-agreement rule (if the body transcludes the target, `stub_of.version`
+:= the baked version) means the quote and the citation can never disagree on a published
+document. The session-18 question is answered: the reading feed's `respond ↗` becomes
+`stub ↗` outright — no lighter sibling, because two overlapping "respond to this"
+gestures with different semantics was the named bad outcome, and an L0 stub keeps
+respond's copy-none-of-their-text discipline anyway. **Deviation from the frozen spec,
+flagged:** the stub action does not hopper-add. The stub's own provenance is the ledger;
+a side-effect hopper entry is a second ledger that drifts.
+
+**Webmention mechanics, and the gap they exposed.** Endpoint at `{origin}webmention`
+— inside the origin surface, because it is a protocol surface, unlike host-rooted
+`/studio` and `/api`. Send on publish for every remote-origin reference; discovery via
+the target manifest's `webmention` key first, W3C discovery second; retry 15m → 1h →
+4h → 12h → 24h; fire-and-forget from the author's view. Receive: 202 then async
+**structural verification** — source page → `rel="alternate" application/json` → item
+document, whose `origin` MUST equal the final source URL's origin (0.2 §12.2 applied
+inbound: a mirror or an impostor cannot speak in a real blyg's name), then the relation
+read from `stub_of` / `transclusions[]` / `forked_from`. No content is ever stored — a
+verified mention is a pointer. Signals only, never auto-published; public display is
+per-item curation under §13.5 and Venkat's call. **The gap:** the reference client has
+built remote permalinks as `f/{id}/`·`t/{id}/` since 0.2 (`blygItemUrl`), a convention
+0.2 §4 explicitly calls presentation. Webmention needs a target URL and a way from a
+W3C source *page* back to a document, so decision #29 adds an optional `page` field to
+item documents and the `rel="alternate"` link to permalink pages — additive, optional
+for conformance, required of the reference client. Not the first time building the
+next thing has found a non-normative assumption the code had been living on.
+
+**What was deliberately left out.** Plain (non-structural) webmentions from non-blyg
+sources: spec MAY, held apart as a lower class, dropped by the reference client at 0.3
+— link verification is exactly the check spam defeated. Softening
+withdraw-rolls-to-null for a stub whose target has withdrawn (a "freeze at the withdrawn
+version" affordance): it would be the first place withdrawal failed to roll to null,
+so it is an open thread to decide on evidence, not a rule made today. Public
+"responses" lists: one afternoon, no wire change, strongest visible demo of the whole
+thing — and the first time others' engagement would appear on a public page without
+the author writing anything, which the editorial-cost principle has so far refused.
+Lean: opt-in per item, off by default, not before the talk unless Phase A finishes
+early.
+
+**State after (Fable half):** `docs/v0.3-plan.md` written (§2 is the wire delta the
+0.3 draft folds in; §4 the schema and module map; §5 tasks 1–10 Phase A, 11–18 Phase
+B; §7 four open decisions for Venkat). Decisions #26–#29 recorded in CLAUDE.md; roadmap
+v0.3 carries a design-complete pointer; the session-18 `respond` TODO closed, hopper
+composition scheduled to Phase B. No code touched. Both live nodes untouched.
+
+**Open threads:** **Phase A is the next three Opus sessions, in order, with a day of
+slack before the 24th** — tasks 1–4 (protocol plumbing) in one, 5–8 (studio + both
+webmention halves) in another, 9–10 (deploy both nodes, run the live stack, record) in
+a third. Venkat's four calls in `v0.3-plan.md` §7: hopper coupling of the stub action
+(plan says no), the public responses list (plan says not before the talk), live demo
+vs. screenshots, and confirming `respond ↗`'s outright retirement. Carried from the
+Opus half: talk slot duration; `security-policy.md` rule 1; template-repo default and
+directory abuse story (deferred with self-host); account-pinning generalisation
+(session 17). Two remote-source questions for a later Fable pass, on evidence: whether
+a stub may freeze its quote when the target withdraws, and whether `forked_from`'s
+pinned-only rule bites in practice.
 
 ## Session 21 — 2026-09-16 — Opus backlog cleared; a talk deck; blygger.com ships as a directory; four stale records corrected
 

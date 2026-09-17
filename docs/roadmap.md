@@ -108,6 +108,19 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 
 **Goal:** the social layer over threads. Threads composed from hoppers (imported items), the share and stub actions, thread-in-thread nesting, and cross-client transclusion semantics. Exit state: the full soapbox-response loop — see, hopper, stub, publish — works without any AI. (The thread abstraction itself shipped locally in v0.1; this version makes it networked.)
 
+> **Design complete — session 22 (2026-09-16, Fable 5.1): [`v0.3-plan.md`](v0.3-plan.md)**
+> (decisions #26–#29). Every ⚠️ FABLE item below is settled there: cross-client
+> resolution + nesting + the local DAG closure check (§2.1), `stub_of` (§2.2),
+> webmention endpoint/send/receive/retry/dedupe/rate-limit/structural verification
+> (§2.3), and the `page` field that closes the permalink-convention gap (§2.3.2).
+> Split into **Phase A** (the demo-critical slice, live on both nodes before the
+> 2026-09-24 symposium talk) and **Phase B** (the remainder). Two deliberate
+> deviations from the text below, both flagged for Venkat in the plan's §7: the stub
+> action is **not** coupled to hopper-add, and `respond ↗` is retired into `stub ↗`
+> rather than kept as a sibling. Detect-stubs is fed by verified webmentions first
+> (Phase A) and by subscribed feeds second (Phase B) — the reverse of the order
+> written below, because webmention is what makes the network asymmetric.
+
 **Protocol deliverables (L2):**
 - Stub metadata (marks a thread as a stub of a target item)
 - Thread-in-thread nesting + DAG rules (v0.1 restricts transclusion to fragments; nesting arrives here)
