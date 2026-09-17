@@ -4,6 +4,7 @@
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerpt, excerptFromHtml } from "./markdown.ts";
 import { injectProvenance } from "./pages.ts";
+import { parseStoredStub } from "./stub.ts";
 import {
   authoredKind,
   feedEvents,
@@ -58,6 +59,10 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
   // same as the other content-linked fields.
   const generated: ScopeProvenance[] | undefined =
     !isWithdrawn && latest?.generated_json ? (JSON.parse(latest.generated_json) as ScopeProvenance[]) : undefined;
+  // §2.2 stub citation: published on the version, so a withdrawal endcap —
+  // which stores none — simply stops carrying it, and a withdrawn stub
+  // stops verifying on the far side (§2.3.6). Threads only.
+  const stubOf = isWithdrawn ? null : parseStoredStub(latest?.stub_of ?? null);
   return {
     blyg: PROTOCOL_VERSION,
     id: item.id,
@@ -72,6 +77,7 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
     content_hash: latest?.content_hash ?? "",
     media: media.map((m) => ({ url: m.r2_key, mime: m.mime, alt: m.alt ?? "" })),
     ...(transclusions !== undefined ? { transclusions } : {}),
+    ...(stubOf ? { stub_of: stubOf } : {}),
     ...(generated !== undefined ? { generated } : {}),
     changelog,
   };
@@ -94,6 +100,9 @@ export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: V
     content_html: row.content_html,
     content_hash: row.content_hash,
     ...(isThread ? { transclusions: JSON.parse(row.transclusions as string) as Transclusion[] } : {}),
+    // A pin carries its own citation (§2.2): the frozen artifact says what it
+    // was responding to, at the version it was responding to.
+    ...(parseStoredStub(row.stub_of) ? { stub_of: parseStoredStub(row.stub_of) } : {}),
     ...(row.generated_json ? { generated: JSON.parse(row.generated_json) as ScopeProvenance[] } : {}),
   };
 }

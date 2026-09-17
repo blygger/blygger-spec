@@ -2,6 +2,7 @@
 
 import { Hono } from "hono";
 import {
+  authoredKind,
   createDraft,
   discardDraft,
   FragmentTooLongError,
@@ -14,10 +15,12 @@ import {
   RestoreVersionError,
   restoreVersion,
   saveWorkingCopy,
+  setStubOf,
   TkPublishError,
   TransclusionResolveError,
   withdraw,
 } from "./model.ts";
+import { parseStubOf } from "./stub.ts";
 import { runGenerateScope } from "./tk-generate.ts";
 import type { Env } from "./types.ts";
 import { newMediaId } from "./util.ts";
@@ -33,10 +36,22 @@ const MEDIA_MAX_BYTES = 5 * 1024 * 1024;
 
 export const api = new Hono<{ Bindings: Env }>({ strict: false });
 
+type ItemBody = { content_md?: string; kind?: string; stub_of?: unknown };
+
 api.post("/items", async (c) => {
-  const body = await c.req.json<{ content_md?: string; kind?: string }>().catch(() => ({}) as { content_md?: string; kind?: string });
+  const body = await c.req.json<ItemBody>().catch(() => ({}) as ItemBody);
   const kind = body.kind === "thread" ? "thread" : "fragment";
+  // A stub is a thread declaring one target (§2.2) — the stub action creates
+  // the draft and its citation in one call.
+  let stub = null;
+  if (body.stub_of != null) {
+    if (kind !== "thread") return c.json({ error: "only threads can be stubs" }, 400);
+    const parsed = parseStubOf(body.stub_of);
+    if (!parsed.ok) return c.json({ error: parsed.reason }, 400);
+    stub = parsed.stub;
+  }
   const item = await createDraft(c.env.DB, body.content_md ?? "", kind);
+  if (stub) await setStubOf(c.env.DB, item.id, stub);
   return c.json({ id: item.id, kind: item.kind, status: item.status }, 201);
 });
 
@@ -45,7 +60,20 @@ api.put("/items/:id", async (c) => {
   // and can be republished (§3.1).
   const item = await getItem(c.env.DB, c.req.param("id"));
   if (!item) return c.json({ error: "not found" }, 404);
-  const body = await c.req.json<{ content_md?: string }>();
+  const body = await c.req.json<ItemBody>();
+  // `stub_of: null` clears the citation — the body stays as written, so what
+  // was a stub becomes a thread that happens to quote something (§3.1).
+  if ("stub_of" in body) {
+    if ((await authoredKind(c.env.DB, item)) !== "thread") return c.json({ error: "only threads can be stubs" }, 400);
+    if (body.stub_of === null) {
+      await setStubOf(c.env.DB, item.id, null);
+    } else {
+      const parsed = parseStubOf(body.stub_of);
+      if (!parsed.ok) return c.json({ error: parsed.reason }, 400);
+      await setStubOf(c.env.DB, item.id, parsed.stub);
+    }
+    if (typeof body.content_md !== "string") return c.json({ ok: true });
+  }
   if (typeof body.content_md !== "string") return c.json({ error: "content_md required" }, 400);
   await saveWorkingCopy(c.env.DB, item.id, body.content_md);
   return c.json({ ok: true });

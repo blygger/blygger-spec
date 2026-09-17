@@ -2,8 +2,9 @@
 
 import { renderMarkdown } from "./markdown.ts";
 import { annotateGenerated, applyGeneratedWrappers, parseScopes, stripToOutput, TkPublishError, unresolvedScopes } from "./tk.ts";
+import { applyVersionAgreement, parseStoredStub } from "./stub.ts";
 import { resolveTransclusions, TransclusionResolveError } from "./transclusion.ts";
-import type { ItemRow, MediaRow, ScopeProvenance, Settings, VersionRow } from "./types.ts";
+import type { ItemRow, MediaRow, ScopeProvenance, Settings, StubOf, Transclusion, VersionRow } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
 import { contentHash, newId, nowIso } from "./util.ts";
 
@@ -88,6 +89,19 @@ export async function saveWorkingCopy(db: D1Database, id: string, contentMd: str
   await db
     .prepare("UPDATE items SET content_md = ?, dirty = 1, updated = CASE WHEN version = 0 THEN ? ELSE updated END WHERE id = ?")
     .bind(contentMd, nowIso(), id)
+    .run();
+}
+
+/**
+ * Set or clear the working copy's stub citation (§2.2). Kept separate from
+ * saveWorkingCopy because the two are independent: retargeting a stub is not
+ * an edit of the prose, and clearing it leaves the body exactly as written —
+ * a former stub is just a thread that quotes something.
+ */
+export async function setStubOf(db: D1Database, id: string, stub: StubOf | null): Promise<void> {
+  await db
+    .prepare("UPDATE items SET stub_of = ?, dirty = 1 WHERE id = ?")
+    .bind(stub ? JSON.stringify(stub) : null, id)
     .run();
 }
 
@@ -181,11 +195,20 @@ export async function publish(db: D1Database, item: ItemRow, note: string | null
   const generated: ScopeProvenance[] = scopes.map((_, i) => provenanceCache[i]).filter((p): p is ScopeProvenance => p != null);
   const generatedJson = generated.length ? JSON.stringify(generated) : null;
 
+  // §2.2 version agreement: a stub's citation takes the version actually
+  // baked when the body quotes its target, so the quote and the citation can
+  // never disagree on a published document. Threads only — the working copy
+  // of a fragment never carries a stub (the API refuses to set one).
+  const stub = kind === "thread" ? parseStoredStub(item.stub_of) : null;
+  const stubJson = stub
+    ? JSON.stringify(applyVersionAgreement(stub, transclusionsJson ? (JSON.parse(transclusionsJson) as Transclusion[]) : []))
+    : null;
+
   const hash = await contentHash(strippedMd);
   await db.batch([
     db.prepare(
-      "INSERT INTO versions (item_id, version, content_md, content_html, content_hash, published_at, note, transclusions, generated_json) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    ).bind(item.id, version, strippedMd, contentHtml, hash, now, note, transclusionsJson, generatedJson),
+      "INSERT INTO versions (item_id, version, content_md, content_html, content_hash, published_at, note, transclusions, generated_json, stub_of) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    ).bind(item.id, version, strippedMd, contentHtml, hash, now, note, transclusionsJson, generatedJson, stubJson),
     db.prepare("UPDATE items SET status = 'public', kind = ?, version = ?, dirty = 0, updated = ? WHERE id = ?")
       .bind(kind, version, now, item.id),
   ]);
