@@ -7,6 +7,58 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 23 (cont'd, 3) — 2026-09-20 — Public responses: a citation trail, not a comment section
+
+**Model:** Opus 5 · **Committed:** yes · **Deployed:** both live nodes (migration 0009 + the responses list)
+
+**What & why:** Phase B task 17, pulled forward because Venkat's session-22 ruling
+allowed it if Phase A finished early — which it did, by four days. His call after
+walking the options: **shape A (a list) plus a hide control, open to all origins.**
+
+**A list, never a count.** The argument that decided it is not aesthetic. A count is
+the one thing on a blyg page a stranger can move by publishing, and this medium has
+deliberately refused every metric it could have had — no follower counts, no likes,
+thumbs kept private as studio signals (#12, #13). A list has a different economics: a
+row costs a real item, on a real origin, that passes structural verification. Which is
+also why the endpoint stays **open to origins we don't subscribe to** — Venkat: "the
+origin constrained to being a blyg doing proper stubs is enough spam control for me."
+Closing it to subscribers would end the property the whole design exists for.
+
+**The forcing argument for chrome-not-content, stated in a test.** Responses are
+rendered from `mentions_in` at request time and reach no item document, no feed, no
+hash, and no pinned page. That is not a style choice: a responses list *inside* a
+versioned document would mean a stranger's publish changes the author's bytes, which
+every subscriber's importer reads as a stealth edit (#18b) — and bumping `version`
+instead would be worse, handing a third party the counter #19 made load-bearing and
+emitting feed entries the author never wrote. `responses.test.ts` asserts the item
+document is byte-identical before and after a stranger responds. The version counter
+has to mean "the author published", or it means nothing.
+
+**Editorial controls, and why hiding is not deleting.** `items.show_responses` is
+off by default (migration 0009) — other people's names on your page is an editorial
+act, so it is one you take per item. `mentions_in.hidden` takes one row off the page
+and leaves it in the studio: "I don't want this on my page" and "this never happened"
+are different claims, and the blocklist shape means nothing is pre-authorised
+irrevocably, which was the gap in a bare per-item toggle.
+
+**What a line can say is bounded by what a mention is.** We store no content of
+theirs, so a row is: their self-asserted author name (clamped to 60 characters —
+untrusted text bound for the author's page), the origin that actually authenticated,
+the relation, the date. The origin is rendered as the load-bearing half because it is
+the only part the protocol vouches for (#11: identity is never in the protocol; the
+origin is the only authenticated entity).
+
+**State after:** deployed to both nodes; the PI fragment `39nzxm7n…` has responses on
+and shows venkateshrao's stub. 488 tests green. `docs/css-contract.md` documents
+`.responses` alongside `.stub-cite` and `.provenance` as presentation.
+
+**Open threads:** unchanged — the ⚠️ FABLE citation-on-the-wire question (plan §8),
+subscription titles never refreshing, and `rel="webmention"` in static exports. Not
+done and deliberately so: no rate-limit hardening (registrable-domain counting, a
+global hourly cap, pruning `failed` rows). It is an hour's work and the risk is
+nil while two nodes exist and nobody knows the endpoint — but it should land before
+the self-host template makes origins discoverable.
+
 ## Session 23 (cont'd, 2) — 2026-09-20 — A stub cites what it answers, in a form that outlives the link
 
 **Model:** Opus 5 · **Committed:** yes · **Deployed:** both live nodes (migration 0008 + citation rendering)
