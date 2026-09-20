@@ -57,7 +57,30 @@ subscription titles never refreshing, and `rel="webmention"` in static exports. 
 done and deliberately so: no rate-limit hardening (registrable-domain counting, a
 global hourly cap, pruning `failed` rows). It is an hour's work and the risk is
 nil while two nodes exist and nobody knows the endpoint — but it should land before
-the self-host template makes origins discoverable.
+the self-host template makes origins discoverable. **Recorded as
+`self-host-plan.md` §9.1, a prerequisite to that plan's task 1**, rather than only
+in a TODO list: the note has to sit where someone will be reading at the moment it
+matters.
+
+**Sequencing for the next session, recorded so it isn't re-derived.** Phase B's six
+remaining tasks were checked one by one against the wire, and **only task 11
+(`forked_from`) touches it** — 12–16 are entirely studio-side and 17 (done) is page
+chrome. So the plan's task 18 ("draft `protocol-v0.3.md` from the tested Phase A + B
+shapes") does not in fact wait on all of Phase B: it waits on task 11. The efficient
+order is therefore **one short Opus session for `forked_from`, then the Fable
+round**, which would then have the complete, live-tested 0.3 wire surface in front of
+it plus three questions implementation raised: the citation label (§8), whether a
+stub may freeze its quote when its target withdraws (session-22 deferral, now with a
+real stub stack to reason about), and spec language for both the open-endpoint policy
+Venkat ruled on and the §2.3.3-vs-§4.1 re-send disagreement.
+
+**One ruling put to Venkat and not yet made:** session 22 held the self-host artifact
+behind "v0.3" because instances shipped before the cross-client semantics were settled
+would become compatibility constraints on decisions Fable had not made. Those
+decisions (#26–#29) are made and now live-tested, so the argument's condition is
+satisfied — arguably without waiting for Phase B or the 0.3 document. If Venkat agrees,
+`self-host-plan.md` §8 unblocks and becomes the largest remaining Opus job, and leg 1
+of the release candidate.
 
 ## Session 23 (cont'd, 2) — 2026-09-20 — A stub cites what it answers, in a form that outlives the link
 

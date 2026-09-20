@@ -153,7 +153,7 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 
 - **⚠️ FABLE:** DAG semantics for nested threads; cross-client snapshot edge cases; detect-stubs matching rules; webmention mechanics (retry, dedupe, endpoint shape, rate limits — the mechanism choice + verification principle are locked, session 7). (The transclusion grammar itself was locked in v0.1, session 3.)
 
-**Exit criteria:** stub stacks two levels deep across two clients render correctly on both ends; DAG violations are impossible locally and harmless across the network.
+**Exit criteria:** stub stacks two levels deep across two clients render correctly on both ends; DAG violations are impossible locally and harmless across the network. — **Met 2026-09-20** (session 23): a two-level stack ran between `venkateshrao.com/blyg/` and `blyg.protocol-institute.org` and renders on both ends; the local closure check refuses cycles at publish and remote closures are harmless by snapshot. **Not** the same as "v0.3 is done": the Goal's exit *state* above also names the hopper leg of the loop (compose a thread from a hopper), which is Phase B task 13 and still open, along with `forked_from` (task 11) and the normative `protocol-v0.3.md` (task 18).
 
 ## v0.4 — Canopy (AI arrives)
 
