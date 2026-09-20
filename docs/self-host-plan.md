@@ -212,6 +212,34 @@ failed only because nothing was connected to the domain yet.
   the real resolver. *(Both submitted in production session 21 and resolved correctly;
   awaiting approval at `/admin`.)*
 
+## 9.1 Prerequisite added session 23: harden the Webmention endpoint first
+
+**This is the gate item the v0.3 work created, and it belongs here rather than in the
+v0.3 plan, because the trigger is exactly what this artifact does.** A self-hosted
+blyg advertises a `webmention` endpoint — an *unauthenticated public POST*, the only
+one in the codebase — and the template makes origins both numerous and discoverable
+(the directory lists them). Today the endpoint's defences are: syntactic validation
+before any outbound fetch, bounded verification (≤ 2 fetches, ≤ 3 redirects, 5 s,
+1 MB), no stored content, and a rate limit of 60/hour **per source host**.
+
+Three gaps, all cheap, none urgent while the network is two nodes nobody has heard of:
+
+1. **Count the limit against the registrable domain, not the host.** `a.spam.example`
+   and `b.spam.example` are different hosts, so wildcard DNS defeats a per-host cap
+   entirely.
+2. **A global hourly cap on pending verifications.** Each accepted claim spends up to
+   two outbound fetches at URLs a stranger chose; per-host limiting doesn't bound the
+   total, and the bill is the deployer's.
+3. **Prune `failed` rows**, which currently accumulate forever.
+
+~1 hour, all local, no protocol surface. **Do it before task 1 of §8**, because after
+that the instances are other people's and their defaults are whatever we shipped.
+
+Venkat's standing ruling on the policy question this sits next to (session 23): the
+endpoint stays **open to all origins** — requiring a real blyg publishing a real
+structurally-verified stub is the spam control, and restricting it to subscribed
+origins would end the property the design exists for.
+
 ## 10. Open decisions (Venkat)
 
 - ~~**Does this gate on v0.3?**~~ **Ruled session 22 (2026-09-16, Venkat): yes, it
