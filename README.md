@@ -42,6 +42,7 @@ example.com/blyg/
   media/            attachments
   blogroll.opml     OPTIONAL — curated subset of subscriptions, standard OPML 2.0, no extensions
   h/{slug}/         OPTIONAL — a public hopper: curated snapshots + source attribution, never re-emitted content
+  webmention        OPTIONAL — the one dynamic surface: where other blygs say "I responded to you"
 ```
 
 Two planes, deliberately separated:
@@ -63,6 +64,25 @@ one public renders a curation page (local snapshot + source attribution) — it 
 re-published on the subscriber's own feed, which would collide with the single-publisher
 invariant.
 
+**Responding** (v0.3 "Trunk"): quoting works across origins. `![[id]]` resolves
+against *imported* items as well as your own, and what gets baked is the local
+snapshot you already hold — never a live fetch — so publishing never depends on the
+network, quoting follows reading, and a quote of a quote is simply nested. A **stub**
+is a thread that declares itself a response to one target (`stub_of`, naming an origin
+and an item, or a plain URL); the body is entirely the author's, and readers rely on
+the marker rather than inspecting prose. There is still no reply primitive and no
+follower object: the public graph is blogrolls outbound and stubs inbound.
+
+How the other end finds out is **Webmention** (W3C, reused rather than invented) with
+**structural verification**: the receiver fetches the source, follows its
+`rel="alternate"` to the item document, and checks that the document's own `origin`
+matches the host it came from *and* that it actually names the target in `stub_of` or
+`transclusions`. Link-presence is the trackback-era check that spam defeated; this
+asks a harder question. Nothing of the sender's content is stored — a verified mention
+is a pointer — and nothing is auto-published: verified mentions are signals in the
+author's studio, and any public display of them is ordinary curation. A static blyg
+advertises no endpoint, receives nothing, and stays fully conformant.
+
 Three compatibility rules keep the client ecology forgiving:
 
 1. **Every blyg feed is a valid RSS feed**, and every item carries a self-contained HTML rendering. A plain RSS reader sees a normal microblog feed.
@@ -75,7 +95,7 @@ Three compatibility rules keep the client ecology forgiving:
 |---|---|
 | **L0** | Any plain RSS feed, grandfathered in via a thin wrapper (summary fragment + link) |
 | **L1** | Blygger identity: stable IDs, edit/rollup semantics, canonical item files, backfillable archive |
-| **L2** | Threads, transclusion provenance, stubbing markup |
+| **L2** | Threads, transclusion provenance (own-origin and remote), stub markup, blogroll + Webmention discovery |
 | **L3** | *(future)* Encrypted/permissioned content, key rotation, FOAF-style visibility |
 
 ## Roadmap
@@ -84,7 +104,7 @@ Three compatibility rules keep the client ecology forgiving:
 |---|---|---|
 | **v0.1** | Seed | Publishing: compose fragments, edit with rollup, `/blyg` page, RSS out, stable IDs, item files + manifest. Protocol L1 (publish side). |
 | **v0.2** | Roots | Subscribing: import blyg and legacy RSS feeds, remote-edit rollup, manual hoppers, thumbs signals, private drafts, backfill. Protocol L1 complete. |
-| **v0.3** | Trunk | Threads: `[[]]` composer, literal (non-AI) transclusion, share and stub actions. Protocol L2. |
+| **v0.3** | Trunk | Threads go cross-client: transclusion across origins, thread-in-thread nesting, the stub action, and Webmention with structural verification. Protocol L2. *(Phase A live on both reference nodes since 2026-09-20.)* |
 | **v0.4** | Canopy | AI: TK-transclusion generation, staleness + regeneration, auto-hoppers, filter plugin API. No protocol change — AI is studio-side. |
 | **v0.5** | Grove | Local RAG hooks in authoring, styling system, polish. |
 | **v1.0** | — | Protocol freeze at L0–L2. |
