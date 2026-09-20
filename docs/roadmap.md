@@ -126,9 +126,12 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 > the stub action (and `respond`'s retirement), Webmention send + receive with
 > structural verification, and `/studio/mentions`. 475 tests green, `tsc` clean, and
 > the whole path driven against a real `wrangler dev` instance including a loopback
-> mention that verified as `stub`. **Not yet deployed**: task 9 (both nodes, migration
-> 0007 remote, the cross-node run) is what remains of Phase A, and it is the roadmap
-> exit criterion below.
+> mention that verified as `stub`. **Deployed and demonstrated 2026-09-20 (task 9):**
+> both nodes carry migration 0007 and the v0.3 code, and the full loop ran across the
+> two independent deployments — PI publishes, venkateshrao stubs it, PI's mentions
+> view shows it verified as `stub`, PI stubs back, both pages render the nested quotes
+> with no read-time fetching. **That is the exit criterion below, met.** What remains
+> of v0.3 is Phase B (tasks 11–18, including the normative `protocol-v0.3.md`).
 
 **Protocol deliverables (L2):**
 - Stub metadata (marks a thread as a stub of a target item)

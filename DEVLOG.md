@@ -7,6 +7,74 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 23 (cont'd) — 2026-09-20 — Phase A deployed; the stub crosses the network for real
+
+**Model:** Opus 5 · **Time:** ~10:45–12:10 PT · **Committed:** yes · **Deployed:** **both live nodes** (migration 0007 + v0.3 code), `site_url` set on both
+
+**What & why:** task 9, run for real. `npm run deploy:all -- --migrate` applied 0007
+and deployed both nodes against their own accounts, with the cross-check and the
+post-deploy verification the session-17 protocol exists to provide; all ten live
+checks passed. Both manifests now carry `"webmention": "webmention"`, and both
+endpoints answer 400 to an empty claim.
+
+**`site_url` was empty on both nodes, exactly as flagged.** `siteOrigin()` had been
+covering for it by falling back to the request origin, which works for every request
+and not at all for the cron — so a mention enqueued by a scheduled drain would have
+had no source URL to name. Set to each node's own origin before any publishing; the
+manifests' `site` values are unchanged, because the fallback had been producing the
+same string.
+
+**The stack, end to end, across two Cloudflare accounts and two domains.** PI
+published a fragment; venkateshrao resynced, stubbed it with one API call (the same
+call the `stub ↗` button makes), and published. The item document carried
+`stub_of: {origin, id, version}` and `transclusions: [{id, version, origin}]`, and the
+mention arrived at `blyg.protocol-institute.org/webmention` and **verified as
+`stub`** — source page → `rel="alternate"` → item document → origin check → relation
+read out of `stub_of`. PI then stubbed the stub back: two levels of blockquote on a
+page that fetches nothing at read time, because the outer quote is venkateshrao's
+thread *including its own snapshot* of PI's fragment. venkateshrao's inbound row
+verified as `stub` in the other direction. Both nodes' `/studio/mentions` show one
+verified response each, with the target named by its opening words and the outbound
+row marked `sent`.
+
+**The republish re-send works, and so does snapshot independence.** Republishing S1
+(v2) re-sent the mention; PI re-verified and moved `source_version` to 2 while PI's
+own S2 still shows its v1 snapshot — which is 0.2 §10.4 behaving exactly as specified,
+now across origins.
+
+**A stale byline, and what it says about subscription titles.** The first render of
+the remote quote read "from *blyg* ↗" — the PI node's *default* site title, captured
+in `subscriptions.title` when venkateshrao subscribed on 2026-08-10 and never
+refreshed since. Renaming the subscription fixed the demo. The general question is
+open and deliberately not decided here: polling does not refresh a subscription's
+title, and arguably should not (session 18 made the title editable precisely because
+it is the reader's label, and an auto-overwrite would discard a rename) — but a
+never-renamed subscription can then show a byline the origin abandoned months ago.
+It is the *byline* case that makes it visible, because v0.3 puts that title on a
+public page for the first time.
+
+**Static export checked against the definition of done.** An export of the
+venkateshrao node is byte-identical to the served routes for item documents, the
+archive index and `feed.xml`; the manifest differs by exactly one key, `webmention`,
+which is the single intended difference. **Open**: exported *pages* still carry
+`<link rel="webmention">`, so a tree served somewhere with no worker behind it would
+advertise an endpoint that isn't there — the same claim the manifest strip removes,
+left in a second place. Flagged rather than fixed on deploy day; the fix is either
+stripping it in `export.ts` or deciding the page link is the origin's business, not
+the tree's.
+
+**State after:** v0.3 Phase A is live on both nodes. The roadmap's v0.3 exit
+criterion — the full see → stub → publish → *the other end finds out* loop — is
+demonstrated between two independent deployments over real HTTP. Live artifacts:
+`blyg.protocol-institute.org/t/5tt6adc88s2hacnh68h94t1vsf/` (the nested stack) and
+`venkateshrao.com/blyg/t/608ay1bz03z3wg58deg787kgvv/` (the first cross-client stub).
+
+**Open threads:** unchanged from the first half — the version key is still `0.2` and
+wants a ruling before the talk; a stub's own page still doesn't say what it responds
+to; plus the two found here (subscription-title refresh, `rel="webmention"` in static
+exports). Task 10's remaining piece is the README's "on one screen" section and
+whether the deck's slide 18 links the live stack, which is Venkat's call.
+
 ## Session 23 — 2026-09-16/17 — v0.3 Phase A built: tasks 1–8 in one session
 
 **Model:** Opus 5 · **Time:** ~17:38 PT – 02:00 PT (past midnight; the session opened on the 16th) · **Committed:** yes (blygger-spec ×6, not pushed) · **Deployed:** — (local `wrangler dev` only)
