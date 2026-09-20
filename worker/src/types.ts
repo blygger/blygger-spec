@@ -276,9 +276,20 @@ export const DEFAULT_MOUNT = "/blyg";
 /** Origin-relative path of the reference client's Webmention endpoint (v0.3-plan §2.3.1) — inside the origin surface, because it is a protocol surface, unlike host-rooted /studio and /api. */
 export const WEBMENTION_PATH = "webmention";
 
-export const GENERATOR = `${BRAND.slug}-ref/0.2.0`;
-/** Version key policy (v0.2-plan.md §2.3): the spec version this deployment implements — "0.2" once the blogroll key ships. Readers MUST accept any 0.x value. */
-export const PROTOCOL_VERSION = "0.2";
+export const GENERATOR = `${BRAND.slug}-ref/0.3.0`;
+/**
+ * Version key policy (v0.2-plan.md §2.3, decision #18d): the spec version this
+ * deployment **implements**, and informative rather than a compatibility gate —
+ * readers MUST accept any 0.x value and ignore constructs they don't know.
+ *
+ * Bumped to "0.3" at session 23, when `page`, `stub_of` and
+ * `transclusions[].origin` went live, *before* `protocol-v0.3.md` exists. That
+ * ordering is deliberate and has precedent: "0.2" shipped at session 13 with
+ * the blogroll key and its document was not drafted until session 20. The key
+ * reports what the wire carries; the document follows (decision #21 — building
+ * the implementation is how the protocol gets tested).
+ */
+export const PROTOCOL_VERSION = "0.3";
 export const PROTOCOL_LEVEL = 1;
 export const FRAGMENT_MAX_CHARS = 1000;
 export const FEED_WINDOW = 50;

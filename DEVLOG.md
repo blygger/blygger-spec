@@ -51,11 +51,31 @@ answers.
 the PI fragment. 481 tests green, `tsc` clean. `docs/css-contract.md` documents
 `.stub-cite` as presentation, alongside `.provenance`.
 
-**Open threads:** the wire version key is still `0.2` and is now the only thing
-Venkat has asked about and not yet ruled on (options laid out in chat: leave, bump to
-0.3, or bump the generator alone — precedent from session 13 favours bumping). The two
-findings from this morning stand: subscription titles never refresh, and static
-exports still advertise `rel="webmention"` in page markup.
+**Both of Venkat's remaining calls came back the same day.**
+
+**The citation-on-the-wire question goes to Fable** ("note that decision for Fable's
+review"), written up as `v0.3-plan.md` §8 with three readings rather than a
+recommendation: correct as is (a citation label is a claim about *someone else*, and
+putting it on the wire lets a publisher assert a title and an author name the origin
+never said — the objection that keeps `author` opaque in #11); additive-and-optional
+like `generated[]`'s self-asserted provenance (#20); or defer until a second
+implementation makes the cost of *not* having it observable. The record names the
+consequence plainly: a reader of our document gets `{origin, id, version}` and, if the
+target is gone, an identity with no words. **It is one question with remote
+transclusion bylines, not two** — same shape, same staleness, same fix or non-fix.
+Carried into the roadmap's v0.3 section and the CLAUDE.md TODO so the
+`protocol-v0.3.md` pass cannot miss it.
+
+**The version key is bumped to `0.3`** (`blyg-ref/0.3.0`), which is what the wire has
+actually carried since this morning: `page`, `stub_of`, `transclusions[].origin`. The
+key runs ahead of the document deliberately and with precedent — `0.2` shipped at
+session 13 and its document was drafted at session 20 — and #18d makes the key
+informative, not a gate. The importer fixtures were deliberately **left** at `0.2`:
+now that our own version differs from theirs, those tests exercise the
+accept-any-`0.x` rule instead of comparing a constant to itself.
+
+**Open threads:** subscription titles never refresh; static exports still advertise
+`rel="webmention"` in page markup; and the Fable question above.
 
 ## Session 23 (cont'd) — 2026-09-20 — Phase A deployed; the stub crosses the network for real
 

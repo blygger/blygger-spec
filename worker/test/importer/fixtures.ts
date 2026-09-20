@@ -46,6 +46,10 @@ export function makeFixtureFetch(map: Record<string, FixtureResponse>): FixtureF
 
 export function manifestBody(overrides: Record<string, unknown> = {}): string {
   return JSON.stringify({
+    // Fixtures deliberately stay at "0.2" after this client bumped to "0.3":
+    // the version key is informative (decision #18d) and a reader must accept
+    // any 0.x, so the importer tests should exercise a *different* version
+    // than our own, not the same one.
     blyg: "0.2",
     level: 1,
     generator: "blyg-ref/0.2.0",

@@ -24,7 +24,7 @@ describe("item lifecycle (§3.1)", () => {
     const res = await getPublic(`/blyg/items/${id}.json`);
     expect(res.status).toBe(200);
     const item = await res.json<any>();
-    expect(item.blyg).toBe("0.2");
+    expect(item.blyg).toBe("0.3");
     expect(item.id).toBe(id);
     expect(item.kind).toBe("fragment");
     expect(item.version).toBe(1);

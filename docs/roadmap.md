@@ -132,6 +132,13 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 > view shows it verified as `stub`, PI stubs back, both pages render the nested quotes
 > with no read-time fetching. **That is the exit criterion below, met.** What remains
 > of v0.3 is Phase B (tasks 11–18, including the normative `protocol-v0.3.md`).
+>
+> **⚠️ FABLE, raised by the implementation (session 23):** whether a citation's
+> *human* half — source name, author, excerpt, retrieval date — belongs on the wire.
+> The reference client freezes it client-side so a stub's citation survives link rot,
+> which means another client reading our document cannot render what we render.
+> Written up with three readings in `v0.3-plan.md` §8; the same question governs
+> remote transclusion bylines. For the `protocol-v0.3.md` pass.
 
 **Protocol deliverables (L2):**
 - Stub metadata (marks a thread as a stub of a target item)

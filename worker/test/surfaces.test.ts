@@ -15,9 +15,9 @@ describe("manifest (§2.4)", () => {
     const res = await getPublic("/blyg/blyg.json");
     expect(res.status).toBe(200);
     const m = await res.json<any>();
-    expect(m.blyg).toBe("0.2");
+    expect(m.blyg).toBe("0.3");
     expect(m.level).toBe(1);
-    expect(m.generator).toBe("blyg-ref/0.2.0");
+    expect(m.generator).toBe("blyg-ref/0.3.0");
     expect(m.site).toBe("https://example.com/blyg/");
     expect(m.title).toBe("Venkat's blyg");
     expect(m.author.name).toBe("Venkatesh Rao");

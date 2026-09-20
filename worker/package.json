@@ -1,8 +1,8 @@
 {
   "name": "blyg-ref",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
-  "description": "Blygger reference client — publish + subscribe (v0.2 'Roots')",
+  "description": "Blygger reference client — publish, subscribe, and respond (v0.3 'Trunk')",
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
