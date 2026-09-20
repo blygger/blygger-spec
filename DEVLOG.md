@@ -7,6 +7,56 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 23 (cont'd, 2) — 2026-09-20 — A stub cites what it answers, in a form that outlives the link
+
+**Model:** Opus 5 · **Committed:** yes · **Deployed:** both live nodes (migration 0008 + citation rendering)
+
+**What & why:** Venkat's ruling on the open thread from earlier today — a stub's own
+page should say what it responds to, and the citation should survive the link going
+dead: *conventional citation norms*.
+
+**The design problem is that `stub_of` names an identity, not a work.** `{origin, id,
+version}` is permanent and machine-checkable, and it is the right wire shape (decision
+#27). But everything that turns it into a sentence a human can read is mutable or
+mortal: the source's *name* comes from a subscription row that can be renamed or
+deleted (the stale-byline finding from this morning is the same defect one layer
+down), the origin can move, and the target itself can withdraw. Rendering the citation
+live means a published citation can decay into "a response to [nothing]".
+
+So migration 0008 adds `versions.stub_cite` and publish **freezes** the human half —
+source, author, excerpt, URL, retrieval date — resolved once from local knowledge.
+The page renders from that. Three consequences worth naming: a pinned version carries
+the citation it froze rather than the live one; deleting the whole subscription leaves
+the citation reading correctly (asserted in a test that deletes both tables); and the
+URL is printed as **its own anchor text**, so a dead link still tells a reader who
+said it, roughly what they said, which item and version, where it was, and when we
+read it. That is a citation. "A response to [dead link]" is not.
+
+**Deliberately not on the wire.** Adding `title`/`author`/`retrieved` members to
+`stub_of` would be a protocol change, and #27 locked that shape — so `stub_cite` is a
+client-side cache, never emitted in any item document. Another client reading our
+document composes its own citation from the marker, which is the right division: our
+labels are our local knowledge, not facts about their origin. If the wire ever should
+carry a citation label, that is a Fable decision, and this implementation is exactly
+the evidence it would be decided on.
+
+**Where it renders.** Full form above the body on a thread permalink and on a pinned
+version page; a one-line compact form on feed cards and **in the RSS description**,
+where transclusion provenance has been injected since 0.1 — a citation belongs with
+the work it travels with, and an RSS reader showing the response should show what it
+answers.
+
+**State after:** deployed to both nodes and the two live stubs republished, so
+`venkateshrao.com/blyg/t/608ay1bz03z3wg58deg787kgvv/` now carries a full citation of
+the PI fragment. 481 tests green, `tsc` clean. `docs/css-contract.md` documents
+`.stub-cite` as presentation, alongside `.provenance`.
+
+**Open threads:** the wire version key is still `0.2` and is now the only thing
+Venkat has asked about and not yet ruled on (options laid out in chat: leave, bump to
+0.3, or bump the generator alone — precedent from session 13 favours bumping). The two
+findings from this morning stand: subscription titles never refresh, and static
+exports still advertise `rel="webmention"` in page markup.
+
 ## Session 23 (cont'd) — 2026-09-20 — Phase A deployed; the stub crosses the network for real
 
 **Model:** Opus 5 · **Time:** ~10:45–12:10 PT · **Committed:** yes · **Deployed:** **both live nodes** (migration 0007 + v0.3 code), `site_url` set on both
