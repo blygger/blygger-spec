@@ -87,6 +87,7 @@ Variants and states:
 | `a.item-title` | Wraps a *leading* `<h1>` so the item's title links to its page. Feed page only; added at render time, never stored in `content_html`. |
 | `.kind-chip` | The word marking an item's kind. |
 | `.pinned-banner` | The frozen-snapshot banner on a pinned-version page (`f|t/{id}/v{n}/`). |
+| `.responses` | The opt-in public list of verified responses to an item (v0.3). A `<section>` of `<li>` lines — who, at which origin, what relation, when — rendered from local mention rows at request time. Never in `content_html`, the item document, the feed, or a pinned page: it is a view of *other people's* items, and putting it in a versioned document would let a stranger's publish change the author's bytes. |
 | `.stub-cite` | A stub's citation of what it answers (v0.3). Rendered above the body on a permalink and a pinned-version page; `.stub-cite.compact` is the one-line form on a feed card and in the RSS description. Presentation, like `.provenance`: the wire carries `stub_of`, never this markup. The URL is printed as its own anchor text deliberately, so a citation still reads after the link dies. |
 | `.provenance` | The source link under a transcluded quote. Injected at render time *inside* the `blockquote.blyg-transclusion`, into a copy — never stored: the published `content_html` carries no link inside the wrapper, which §10.2 requires. So it appears in the page but not in the item JSON, the feed, or an importer's copy. |
 | `ul.archive > li`, `.row-main`, `.meta` | The archive listing. |

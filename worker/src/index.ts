@@ -33,6 +33,7 @@ import { archivePage, feedPage, permalinkPage, pinnedVersionPage, STYLE_CSS, the
 import { buildArchiveIndex, buildFeedXml, buildItemJson, buildManifest, buildPinnedVersionJson, siteOrigin } from "./protocol.ts";
 import { mentionFetch } from "./mentions/http.ts";
 import { receiveMention, verifyMention } from "./mentions/receive.ts";
+import { mentionsApi } from "./mentions/api.ts";
 import { drainOutbound } from "./mentions/send.ts";
 import { mentionsStudio } from "./mentions/studio.ts";
 import { studio } from "./studio.ts";
@@ -74,6 +75,7 @@ export function makeApp(mount: string) {
   });
   app.route("/api", api);
   app.route("/api", importerApi);
+  app.route("/api", mentionsApi);
 
   // --- Public surface: mount-relative — cache 60s; JSON/XML get permissive CORS. ---
 

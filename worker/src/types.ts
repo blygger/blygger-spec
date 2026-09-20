@@ -32,6 +32,12 @@ export interface ItemRow {
    */
   tk_provenance_json: string | null;
   /**
+   * Opt-in public display of verified responses to this item (migration 0009,
+   * §3.4). Off by default: other people's names appearing on your page is an
+   * editorial act, so it is one you take deliberately, per item.
+   */
+  show_responses: number;
+  /**
    * Working-copy stub citation (migration 0007, v0.3-plan §2.2) — JSON `StubOf`
    * or null. Threads only. Carried onto the published version by publish(),
    * under the version-agreement rule; never re-derived from the body.
@@ -216,6 +222,8 @@ export interface MentionInRow {
   verified_at: string | null;
   attempts: number;
   error: string | null;
+  /** The author took this one off the public list (migration 0009). Still visible in the studio, so it can be put back. */
+  hidden: number;
 }
 
 /** An outbound mention. Fire-and-forget from the author's view: publish enqueues, the cron drains (§2.3.3/§2.3.4). */

@@ -151,3 +151,25 @@ export async function countRecentFromHost(db: D1Database, host: string, now: num
   const rows = await db.prepare("SELECT source FROM mentions_in WHERE last_seen >= ?").bind(cutoff).all<{ source: string }>();
   return rows.results.filter((r) => hostOf(r.source) === host).length;
 }
+
+/**
+ * The verified responses to one item that the author is willing to show:
+ * `hidden` rows and everything unverified are excluded here rather than at
+ * render time, so the public path cannot accidentally leak a row the studio
+ * is still deciding about. `gone` is excluded too — a response that no longer
+ * verifies is not a response.
+ */
+export async function listPublicResponses(db: D1Database, itemId: string): Promise<MentionInRow[]> {
+  const rows = await db
+    .prepare(
+      `SELECT * FROM mentions_in WHERE target_item_id = ? AND status = 'verified' AND hidden = 0
+       ORDER BY verified_at, first_seen`,
+    )
+    .bind(itemId)
+    .all<MentionInRow>();
+  return rows.results;
+}
+
+export async function setMentionHidden(db: D1Database, id: string, hidden: boolean): Promise<void> {
+  await db.prepare("UPDATE mentions_in SET hidden = ? WHERE id = ?").bind(hidden ? 1 : 0, id).run();
+}

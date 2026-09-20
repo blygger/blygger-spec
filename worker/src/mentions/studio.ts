@@ -34,6 +34,12 @@ const MENTIONS_STYLE = `
 .out-row .status.failed, .out-row .status.no_endpoint { color: var(--ink-soft); }
 .mentions-empty { color: var(--ink-soft); }
 .mentions-note { color: var(--ink-soft); font-size: 0.88rem; margin: 0 0 1rem; }
+.group-controls { font-size: 0.85rem; color: var(--ink-soft); margin: 0 0 0.5rem; }
+.group-controls label { cursor: pointer; }
+.mention-row.hidden-row { opacity: 0.6; }
+.mention-row .vis-btn { font-size: 0.8rem; background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink-soft); text-decoration: underline; }
+.mention-row .vis-btn:hover { color: inherit; }
+.on-page { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-soft); }
 `;
 
 function authorName(row: MentionInRow): string {
@@ -84,6 +90,32 @@ function outboundRow(row: MentionOutRow, mount: string): string {
 </div>`;
 }
 
+const RESPONSE_CONTROLS_SCRIPT = `
+document.addEventListener("change", async (e) => {
+  const box = e.target.closest("[data-action='toggle-responses']");
+  if (!box) return;
+  const res = await fetch("/api/items/" + box.dataset.id + "/responses", {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ show: box.checked }),
+  });
+  if (!res.ok) { box.checked = !box.checked; alert("Could not change that setting."); return; }
+  location.reload();
+});
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-action='toggle-hidden']");
+  if (!btn) return;
+  const hidden = btn.dataset.hidden === "1";
+  const res = await fetch("/api/mentions/" + btn.dataset.id + "/hidden", {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ hidden: !hidden }),
+  });
+  if (!res.ok) { alert("Could not change that response."); return; }
+  location.reload();
+});
+`;
+
 mentionsStudio.get("/mentions", async (c) => {
   const mount = normalizeMount(c.env.MOUNT);
   const inbound = await listVerifiedInbound(c.env.DB);
@@ -108,17 +140,32 @@ mentionsStudio.get("/mentions", async (c) => {
     const label = excerptFromHtml(latest?.content_html ?? "", 60) || `${itemId.slice(0, 8)}…`;
     const lines: string[] = [];
     for (const row of rows) {
-      lines.push(`<div class="mention-row${row.status === "gone" ? " gone" : ""}">
+      // The hide control only means anything once the item is showing
+      // responses at all, so it is labelled for that state and still offered
+      // beforehand — deciding in advance is legitimate.
+      const vis =
+        row.status === "gone"
+          ? ""
+          : `<button type="button" class="vis-btn" data-action="toggle-hidden" data-id="${row.id}" data-hidden="${row.hidden}">${
+              row.hidden ? "show on page" : "hide from page"
+            }</button>`;
+      lines.push(`<div class="mention-row${row.status === "gone" ? " gone" : ""}${row.hidden ? " hidden-row" : ""}">
 <span class="rel">${escapeHtml(row.relation ?? "mention")}</span>
 <span class="who"><a href="${escapeHtml(row.source_page ?? row.source)}">${escapeHtml(authorName(row))}</a></span>
 <span class="when">v${row.source_version ?? "?"} &middot; first seen ${formatDate(row.first_seen)}${
         row.last_seen !== row.first_seen ? `, last ${formatDate(row.last_seen)}` : ""
       }${row.status === "gone" ? " &middot; no longer verifies" : ""}</span>
 ${row.status === "gone" ? "" : await stubBackControl(c.env.DB, row, mount)}
+${vis}
 </div>`);
     }
+    const showing = item?.show_responses === 1;
+    const shown = rows.filter((r) => r.status === "verified" && !r.hidden).length;
     groups.push(`<div class="mention-group">
 <h3><a href="${mount}/${kind}/${escapeHtml(itemId)}/">${escapeHtml(label)}</a> &middot; ${rows.length} response${rows.length === 1 ? "" : "s"}</h3>
+<p class="group-controls"><label><input type="checkbox" data-action="toggle-responses" data-id="${escapeHtml(itemId)}" ${showing ? "checked" : ""}> show responses on this item's public page</label>${
+      showing ? ` <span class="on-page">— ${shown} on the page now</span>` : ""
+    }</p>
 ${lines.join("\n")}
 </div>`);
   }
@@ -139,6 +186,7 @@ ${originWarning}
 ${groups.join("\n") || '<p class="mentions-empty">No verified mentions yet.</p>'}
 <h2>Sent by you</h2>
 ${outbound.length ? outbound.map((row) => outboundRow(row, mount)).join("\n") : '<p class="mentions-empty">Nothing sent yet — mentions go out when you publish something that cites another origin.</p>'}
-<script>${stubScript(mount)}</script>`;
+<script>${stubScript(mount)}</script>
+<script>${RESPONSE_CONTROLS_SCRIPT}</script>`;
   return c.html(studioLayout("mentions — blyg studio", body, true));
 });

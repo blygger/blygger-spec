@@ -7,6 +7,7 @@
 // against the rev-1 mockup; this brings it forward together with threads.
 
 import { listBlogrollSubscriptions } from "./importer/store.ts";
+import { listPublicResponses } from "./mentions/store.ts";
 import { blygItemUrl } from "./importer/util.ts";
 import { parseStoredCite, parseStoredStub } from "./stub.ts";
 import { excerptFromHtml } from "./markdown.ts";
@@ -277,6 +278,18 @@ a.permalink:hover { color: var(--pencil); border-bottom-color: currentColor; }
 }
 .stub-cite .label { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; color: var(--pencil); }
 .stub-cite.compact { margin: 0 0 0.5rem; padding-left: 0; border-left: 0; }
+
+/* The responses list: a citation trail, not a comment section. Same apparatus
+ * voice as the stub's own citation, pointing the other way. No count, ever —
+ * a number here would be the one thing on the page a stranger can move. */
+.responses { margin: 0.3rem 0 0; padding-top: 0.7rem; border-top: 1px solid var(--rule); font-size: 0.85rem; }
+.responses h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pencil); margin: 0 0 0.4rem; font-weight: 600; }
+.responses ul { list-style: none; margin: 0; padding: 0; }
+.responses li { margin: 0.25rem 0; line-height: 1.5; }
+.responses a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
+.responses a:hover { color: var(--pencil); border-bottom-color: currentColor; }
+.responses .who { font-style: italic; }
+.responses .at-origin, .responses .rel, .responses .when { color: var(--ink-soft); }
 .stub-cite cite { font-style: italic; }
 .stub-cite a { color: var(--pencil); text-decoration: none; word-break: break-all; }
 .stub-cite a:hover { text-decoration: underline; }
@@ -937,6 +950,57 @@ export function stubCitation(row: VersionRow | null, opts: { compact?: boolean }
   return `<p class="stub-cite"><span class="label">In response to</span><br>${parts.join(" &middot; ")}</p>`;
 }
 
+/** Cap on any string an origin asserts about itself before it reaches our page. */
+function clampForeign(raw: string, max = 60): string {
+  const flat = raw.replace(/\s+/g, " ").trim();
+  return flat.length > max ? flat.slice(0, max - 1) + "…" : flat;
+}
+
+/**
+ * The public responses list (§3.4, Venkat's session-23 ruling: shape A plus a
+ * hide control, open to all origins). Opt-in per item, off by default.
+ *
+ * **This is chrome, not content.** It is rendered from `mentions_in` at
+ * request time and appears in no item document, no feed, and no hash — which
+ * is forced, not stylistic: putting responses in the versioned document would
+ * let a stranger's publish change your bytes, which every subscriber's
+ * importer would read as a stealth edit (decision #18b) or as a publish event
+ * you never made (#19). Your versioned state stays yours.
+ *
+ * What it shows is bounded by what a verified mention *is* — a pointer. We
+ * hold no content of theirs, so a line is: who (their self-asserted author
+ * name, which #11 makes opaque and unguaranteed), the origin that actually
+ * authenticated, the relation, and the date. The origin is rendered as the
+ * load-bearing half, because it is the only part the protocol vouches for.
+ */
+export async function responsesSection(db: D1Database, item: ItemRow, mount: string): Promise<string> {
+  if (item.show_responses !== 1) return "";
+  const rows = await listPublicResponses(db, item.id);
+  if (!rows.length) return "";
+  const lines = rows.map((row) => {
+    const host = row.source_origin ? new URL(row.source_origin).host : (row.source ? new URL(row.source).host : "");
+    let who = "";
+    if (row.source_author_json) {
+      try {
+        const author = JSON.parse(row.source_author_json) as { name?: string } | null;
+        if (author?.name) who = clampForeign(author.name);
+      } catch {
+        // Their malformed author object is not our page's problem.
+      }
+    }
+    const label = who ? `<span class="who">${escapeHtml(who)}</span> <span class="at-origin">at ${escapeHtml(host)}</span>` : `<span class="who">${escapeHtml(host)}</span>`;
+    const rel = row.relation === "transclusion" ? "quoted this" : row.relation === "fork" ? "forked this" : "stubbed this";
+    const when = row.verified_at ? ` <span class="when">&middot; ${formatDate(row.verified_at)}</span>` : "";
+    return `<li><a href="${escapeHtml(row.source_page ?? row.source)}">${label}</a> <span class="rel">&middot; ${rel}</span>${when}</li>`;
+  });
+  return `<section class="responses">
+<h2>Responses</h2>
+<ul>
+${lines.join("\n")}
+</ul>
+</section>`;
+}
+
 async function withdrawnBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const isThread = (await authoredKind(db, item)) === "thread";
   return `<article class="fragment withdrawn"><p>This item was withdrawn.</p>
@@ -1098,6 +1162,7 @@ export async function permalinkPage(db: D1Database, settings: Settings, item: It
   const body = `<div class="blyg">
 ${pageHeader(settings, mount)}
 ${await fragmentBlock(db, item, mount)}
+${await responsesSection(db, item, mount)}
 </div>
 <script>${VERSION_NAV_SCRIPT}</script>`;
   return layout(itemTitle(excerptFromHtml(latest?.content_html ?? "", 70), settings), body, mount, {
@@ -1129,6 +1194,7 @@ export async function threadPage(db: D1Database, settings: Settings, item: ItemR
   const body = `<div class="blyg">
 ${pageHeader(settings, mount)}
 ${await threadBlock(db, item, mount)}
+${await responsesSection(db, item, mount)}
 </div>
 <script>${VERSION_NAV_SCRIPT}</script>`;
   return layout(itemTitle(excerptFromHtml(latest?.content_html ?? "", 70), settings), body, mount, {
