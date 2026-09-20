@@ -110,7 +110,7 @@ api.post("/items/:id/publish", async (c) => {
   const body = await c.req.json<{ note?: string }>().catch(() => ({}) as { note?: string });
   const note = typeof body.note === "string" && body.note.trim() ? body.note.trim() : null;
   try {
-    const version = await publish(c.env.DB, item, note);
+    const version = await publish(c.env.DB, item, note, siteOrigin(await getSettings(c.env.DB), c.req.url, normalizeMount(c.env.MOUNT)));
     await sendMentionsFor(c, item.id, version);
     return c.json({ ok: true, version });
   } catch (e) {

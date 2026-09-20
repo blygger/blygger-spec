@@ -153,3 +153,93 @@ describe("stub_of (§2.2)", () => {
     expect((await itemJson(stubId)).stub_of.origin).toBe(OURS);
   });
 });
+
+describe("the citation a stub carries (session 23 ruling: conventional citation norms)", () => {
+  it("prints source, excerpt, id, version, URL and retrieval date on the permalink", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { site_url: OURS });
+    const remoteId = newId();
+    await importItem(remoteId);
+    const stubId = await createStub(cookie, `![[${remoteId}]]\n\nMy answer.`, { origin: THEIRS, id: remoteId, version: 4 });
+    await apiJson(cookie, "POST", `/api/items/${stubId}/publish`, {});
+
+    const html = await (await getPublic(`/blyg/t/${stubId}/`)).text();
+    expect(html).toContain("In response to");
+    expect(html).toContain("<cite>Friend</cite>");
+    expect(html).toContain("their post");
+    expect(html).toContain(`item <code>${remoteId}</code>, v4`);
+    // The URL is its own anchor text, so a dead link still reads as a citation.
+    expect(html).toContain(`<a href="${THEIRS}f/${remoteId}/">${THEIRS}f/${remoteId}/</a>`);
+    expect(html).toContain("retrieved");
+  });
+
+  it("keeps reading correctly after the subscription that named the source is gone", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { site_url: OURS });
+    const remoteId = newId();
+    await importItem(remoteId);
+    const stubId = await createStub(cookie, `![[${remoteId}]]\n\nMy answer.`, { origin: THEIRS, id: remoteId, version: 4 });
+    await apiJson(cookie, "POST", `/api/items/${stubId}/publish`, {});
+
+    // The whole subscription disappears — rename, unsubscribe, origin moves.
+    await env.DB.prepare("DELETE FROM imported_items").run();
+    await env.DB.prepare("DELETE FROM subscriptions WHERE origin = ?").bind(THEIRS).run();
+
+    const html = await (await getPublic(`/blyg/t/${stubId}/`)).text();
+    expect(html).toContain("<cite>Friend</cite>");
+    expect(html).toContain("their post");
+    expect(html).toContain(`${THEIRS}f/${remoteId}/`);
+  });
+
+  it("carries the citation onto a pin, and the pin keeps the version it froze", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { site_url: OURS });
+    const remoteId = newId();
+    await importItem(remoteId);
+    const stubId = await createStub(cookie, "Answering by link alone.", { origin: THEIRS, id: remoteId, version: 4 });
+    await apiJson(cookie, "POST", `/api/items/${stubId}/publish`, {});
+    expect((await apiJson(cookie, "POST", `/api/items/${stubId}/pin`, { version: 1 })).status).toBe(200);
+
+    const pinned = await (await getPublic(`/blyg/t/${stubId}/v1/`)).text();
+    expect(pinned).toContain("In response to");
+    expect(pinned).toContain("<cite>Friend</cite>");
+  });
+
+  it("cites a plain-web target by host, and never claims more than it knows", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { site_url: OURS });
+    const url = "https://simonwillison.net/2026/Sep/10/some-post/";
+    const stubId = await createStub(cookie, "Responding to the open web.", { url });
+    await apiJson(cookie, "POST", `/api/items/${stubId}/publish`, {});
+
+    const html = await (await getPublic(`/blyg/t/${stubId}/`)).text();
+    expect(html).toContain("<cite>simonwillison.net</cite>");
+    expect(html).toContain(`<a href="${url}">${url}</a>`);
+    // No blyg item id exists for a plain-web target, so none is invented.
+    expect(html).not.toContain("item <code>");
+  });
+
+  it("shows a compact form on the feed card and in the RSS description", async () => {
+    const cookie = await login();
+    await apiJson(cookie, "PUT", "/api/settings", { site_url: OURS });
+    const remoteId = newId();
+    await importItem(remoteId);
+    const stubId = await createStub(cookie, `![[${remoteId}]]`, { origin: THEIRS, id: remoteId, version: 4 });
+    await apiJson(cookie, "POST", `/api/items/${stubId}/publish`, {});
+
+    const feedPage = await (await getPublic("/blyg/")).text();
+    expect(feedPage).toContain("stub-cite compact");
+    expect(feedPage).toContain("<cite>Friend</cite>");
+
+    const rss = await (await getPublic("/blyg/feed.xml")).text();
+    expect(rss).toContain("In response to");
+    expect(rss).toContain(`${THEIRS}f/${remoteId}/`);
+  });
+
+  it("a thread that is not a stub carries no citation at all", async () => {
+    const cookie = await login();
+    const plain = (await apiJson(cookie, "POST", "/api/items", { content_md: "just a thread", kind: "thread" })).json.id;
+    await apiJson(cookie, "POST", `/api/items/${plain}/publish`, {});
+    expect(await (await getPublic(`/blyg/t/${plain}/`)).text()).not.toContain("In response to");
+  });
+});

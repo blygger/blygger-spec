@@ -8,6 +8,7 @@
 
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { blygItemUrl } from "./importer/util.ts";
+import { parseStoredCite, parseStoredStub } from "./stub.ts";
 import { excerptFromHtml } from "./markdown.ts";
 import { authoredKind, getMedia, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
 import type { ItemRow, MediaRow, Settings, SubscriptionRow, Transclusion, VersionRow } from "./types.ts";
@@ -260,6 +261,25 @@ article.fragment > :first-child, article.thread > :first-child { margin-top: 0; 
 p.permalink, p > a.permalink { margin-top: 0.3rem; }
 a.permalink { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); }
 a.permalink:hover { color: var(--pencil); border-bottom-color: currentColor; }
+/* A stub's own citation of what it answers. Deliberately *above* the body and
+ * in the apparatus voice: it is the header of a response, not a footnote to
+ * one. The URL is its own anchor text so a dead link still reads as a
+ * citation — which is the whole point of freezing it (see StubCite). */
+.stub-cite {
+  margin: 0 0 0.9rem;
+  padding-left: 0.7rem;
+  border-left: 2px solid var(--pencil);
+  font-family: var(--sans, inherit);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 60ch;
+}
+.stub-cite .label { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem; color: var(--pencil); }
+.stub-cite.compact { margin: 0 0 0.5rem; padding-left: 0; border-left: 0; }
+.stub-cite cite { font-style: italic; }
+.stub-cite a { color: var(--pencil); text-decoration: none; word-break: break-all; }
+.stub-cite a:hover { text-decoration: underline; }
 .provenance { margin: 0.5rem 0 0; }
 .provenance a { color: var(--pencil); text-decoration: none; }
 .provenance a:hover { text-decoration: underline; }
@@ -862,6 +882,7 @@ async function threadCard(db: D1Database, item: ItemRow, mount: string): Promise
   const latest = await publishedVersion(db, item);
   const html = latest?.content_html ?? "";
   return `<article class="fragment thread-card">
+${stubCitation(latest, { compact: true })}
 <p><span class="kind-chip">thread</span> ${escapeHtml(excerptFromHtml(html, 300))}</p>
 <p><a href="${mount}/t/${item.id}/">read the thread →</a></p>
 ${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount, true)}
@@ -874,6 +895,7 @@ async function threadBlock(db: D1Database, item: ItemRow, mount: string): Promis
   const html = injectProvenance(latest?.content_html ?? "", await transclusionProvenance(db, transclusions, mount));
   const media = await listMediaForItem(db, item.id);
   return `<article class="thread">
+${stubCitation(latest)}
 <div class="item-content">
 ${html}
 </div>
@@ -881,6 +903,38 @@ ${mediaHtml(media, mount)}
 ${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount, true)}
 ${permalinkLink(item.id, true, mount)}
 </article>`;
+}
+
+/**
+ * A stub's citation line — what this thread is a response to (§2.2, and
+ * Venkat's session-23 ruling for conventional citation norms).
+ *
+ * Rendered from the **frozen** `stub_cite` where one exists, so the sentence
+ * survives the subscription being renamed or deleted and the target being
+ * withdrawn; the URL is printed as its own anchor text, so a link that has
+ * since died still reads as a citation a human can follow by other means.
+ * Versions published before migration 0008 have no frozen half and fall back
+ * to the wire marker alone, which is always enough for identity.
+ */
+export function stubCitation(row: VersionRow | null, opts: { compact?: boolean } = {}): string {
+  const stub = parseStoredStub(row?.stub_of ?? null);
+  if (!stub) return "";
+  const cite = parseStoredCite(row?.stub_cite ?? null);
+  const url = cite?.url ?? ("url" in stub ? stub.url : `${stub.origin}f/${stub.id}/`);
+  if (opts.compact) {
+    // Summary contexts (feed card, RSS description) get the shortest true
+    // form: who it answers, linked. The full citation lives on the permalink.
+    const who = cite?.source ? `<cite>${escapeHtml(cite.source)}</cite>` : escapeHtml(url);
+    return `<p class="stub-cite compact"><span class="label">In response to</span> <a href="${escapeHtml(url)}">${who} ↗</a></p>`;
+  }
+  const parts: string[] = [];
+  if (cite?.source) parts.push(`<cite>${escapeHtml(cite.source)}</cite>`);
+  if (cite?.author) parts.push(escapeHtml(cite.author));
+  if (cite?.excerpt) parts.push(`&ldquo;${escapeHtml(cite.excerpt)}&rdquo;`);
+  if ("id" in stub) parts.push(`item <code>${escapeHtml(stub.id)}</code>, v${stub.version}`);
+  parts.push(`&lt;<a href="${escapeHtml(url)}">${escapeHtml(url)}</a>&gt;`);
+  if (cite?.retrieved) parts.push(`retrieved ${formatDate(cite.retrieved)}`);
+  return `<p class="stub-cite"><span class="label">In response to</span><br>${parts.join(" &middot; ")}</p>`;
 }
 
 async function withdrawnBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
@@ -1119,11 +1173,15 @@ export async function pinnedVersionPage(
     ? injectProvenance(row.content_html, await transclusionProvenance(db, parseTransclusions(row.transclusions), mount))
     : row.content_html;
   const noteHtml = row.note ? `<p class="version-note">&ldquo;${escapeHtml(row.note)}&rdquo;</p>` : "";
+  // A pin is a frozen artifact of a response, so it carries the citation that
+  // was true when it froze — not whatever the live item cites now.
+  const cite = isThread ? stubCitation(row) : "";
   const body = `<div class="blyg">
 ${pageHeader(settings, mount)}
 <p class="pinned-banner">📌 Pinned v${row.version} — a frozen snapshot from ${formatDate(row.published_at)}.
 <a href="${live}">latest version</a> &middot; <a href="${mount}/items/${item.id}/v${row.version}.json">citable JSON</a></p>
 <article class="${isThread ? "thread" : "fragment"}">
+${cite}
 ${html}
 ${noteHtml}
 <p class="timestamps"><span>Published: ${formatDate(row.published_at)}</span></p>

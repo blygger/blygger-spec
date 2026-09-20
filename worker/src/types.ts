@@ -58,6 +58,27 @@ export interface Transclusion {
  */
 export type StubOf = { origin: string; id: string; version: number } | { url: string };
 
+/**
+ * The human half of a stub's citation, frozen at publish time (migration 0008).
+ * `stub_of` is the machine-readable marker and never changes; this is what a
+ * reader needs when the link has rotted — who it was, what it said, and when
+ * we saw it. **Never on the wire**: it is composed from what this client
+ * happened to know locally, so another client reading our document composes
+ * its own from `stub_of` instead of inheriting our guesses.
+ */
+export interface StubCite {
+  /** Whose blyg it was — the subscription's title, our own title for a self-citation, or the host. */
+  source: string;
+  /** Author name exactly as the origin asserted it (invariant 6 pass-through), when we hold one. */
+  author?: string;
+  /** Blyg items have no titles, so a short excerpt stands in for one. */
+  excerpt?: string;
+  /** The cited item's URL as it stood at publish time. */
+  url: string;
+  /** When we resolved it — the "retrieved" of an ordinary citation. */
+  retrieved: string;
+}
+
 /** Per-scope TK generation provenance (tk-core-plan.md §3.1/§4). */
 export interface ScopeProvenance {
   sources: { id: string; version: number }[];
@@ -82,6 +103,8 @@ export interface VersionRow {
   generated_json: string | null;
   /** JSON `StubOf` as published (migration 0007); null for non-stubs and for every withdrawal endcap. */
   stub_of: string | null;
+  /** JSON `StubCite` (migration 0008) — the citation's human half, frozen at publish so it survives link rot. Client-side only. */
+  stub_cite: string | null;
 }
 
 export interface MediaRow {

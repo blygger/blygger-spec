@@ -2,7 +2,7 @@
 
 import { renderMarkdown } from "./markdown.ts";
 import { annotateGenerated, applyGeneratedWrappers, parseScopes, stripToOutput, TkPublishError, unresolvedScopes } from "./tk.ts";
-import { applyVersionAgreement, parseStoredStub } from "./stub.ts";
+import { applyVersionAgreement, composeStubCite, parseStoredStub } from "./stub.ts";
 import { resolveTransclusions, TransclusionResolveError } from "./transclusion.ts";
 import type { ItemRow, MediaRow, ScopeProvenance, Settings, StubOf, Transclusion, VersionRow } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
@@ -158,7 +158,7 @@ export async function setTkProvenance(
  * if the published fragment exceeds the studio cap, or TransclusionResolveError
  * if a thread directive fails to resolve — nothing is written in any case.
  */
-export async function publish(db: D1Database, item: ItemRow, note: string | null): Promise<number> {
+export async function publish(db: D1Database, item: ItemRow, note: string | null, ourOrigin?: string): Promise<number> {
   const now = nowIso();
   const version = item.version + 1;
   const kind = await authoredKind(db, item);
@@ -200,19 +200,31 @@ export async function publish(db: D1Database, item: ItemRow, note: string | null
   // never disagree on a published document. Threads only — the working copy
   // of a fragment never carries a stub (the API refuses to set one).
   const stub = kind === "thread" ? parseStoredStub(item.stub_of) : null;
-  const stubJson = stub
-    ? JSON.stringify(applyVersionAgreement(stub, transclusionsJson ? (JSON.parse(transclusionsJson) as Transclusion[]) : []))
-    : null;
+  const agreed = stub ? applyVersionAgreement(stub, transclusionsJson ? (JSON.parse(transclusionsJson) as Transclusion[]) : []) : null;
+  const stubJson = agreed ? JSON.stringify(agreed) : null;
+  // The citation's human half is resolved once and frozen (migration 0008):
+  // the subscription that supplies the source's name can be renamed or
+  // deleted, and the target can withdraw, but a published citation must keep
+  // reading correctly. Not on the wire — see StubCite.
+  const settings = await getSettings(db);
+  const origin = ourOrigin ?? settings.site_url;
+  const citeJson = agreed ? JSON.stringify(await composeStubCite(db, agreed, normalizedOrigin(origin), settings.site_title, now)) : null;
 
   const hash = await contentHash(strippedMd);
   await db.batch([
     db.prepare(
-      "INSERT INTO versions (item_id, version, content_md, content_html, content_hash, published_at, note, transclusions, generated_json, stub_of) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    ).bind(item.id, version, strippedMd, contentHtml, hash, now, note, transclusionsJson, generatedJson, stubJson),
+      "INSERT INTO versions (item_id, version, content_md, content_html, content_hash, published_at, note, transclusions, generated_json, stub_of, stub_cite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    ).bind(item.id, version, strippedMd, contentHtml, hash, now, note, transclusionsJson, generatedJson, stubJson, citeJson),
     db.prepare("UPDATE items SET status = 'public', kind = ?, version = ?, dirty = 0, updated = ? WHERE id = ?")
       .bind(kind, version, now, item.id),
   ]);
   return version;
+}
+
+/** Origins are compared and built as strings everywhere; an empty site_url leaves us with no absolute base to offer. */
+function normalizedOrigin(raw: string): string {
+  if (!raw) return "";
+  return raw.endsWith("/") ? raw : raw + "/";
 }
 
 /**

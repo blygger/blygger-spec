@@ -3,7 +3,9 @@
 // readers rely on; the body is the author's and is never inspected to
 // decide whether something is a stub.
 
-import type { StubOf, Transclusion } from "./types.ts";
+import { blygItemUrl } from "./importer/util.ts";
+import { excerptFromHtml } from "./markdown.ts";
+import type { StubCite, StubOf, Transclusion } from "./types.ts";
 
 /**
  * A citation names *another origin's* item id, so it is deliberately not
@@ -89,6 +91,101 @@ export function parseStoredStub(json: string | null): StubOf | null {
   if (!json) return null;
   try {
     return JSON.parse(json) as StubOf;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Compose the citation's human half from what we hold locally, at publish
+ * time (§2.2 + Venkat's session-23 ruling: conventional citation norms).
+ *
+ * Everything here is resolved **once** and frozen, because every source of it
+ * is mutable or mortal: a subscription can be deleted or renamed, an origin
+ * can move, and the target itself can be withdrawn. `stub_of` keeps the
+ * identity; this keeps the sentence a reader needs when the link no longer
+ * answers.
+ */
+export async function composeStubCite(
+  db: D1Database,
+  stub: StubOf,
+  ourOrigin: string,
+  ourTitle: string,
+  now: string,
+): Promise<StubCite> {
+  if (!isBlygStub(stub)) {
+    return { source: safeHost(stub.url), url: stub.url, retrieved: now };
+  }
+  const url = await citedUrl(db, stub, ourOrigin);
+  if (stub.origin === ourOrigin) {
+    const own = await db
+      .prepare(
+        `SELECT v.content_html AS html FROM items i JOIN versions v ON v.item_id = i.id AND v.version = ?
+         WHERE i.id = ?`,
+      )
+      .bind(stub.version, stub.id)
+      .first<{ html: string }>();
+    return {
+      source: ourTitle || safeHost(ourOrigin),
+      ...(own?.html ? { excerpt: excerptFromHtml(own.html, 80) } : {}),
+      url,
+      retrieved: now,
+    };
+  }
+  const row = await db
+    .prepare(
+      `SELECT ii.content_html AS html, ii.author_json AS author_json, s.title AS title
+       FROM imported_items ii JOIN subscriptions s ON s.id = ii.subscription_id
+       WHERE ii.remote_id = ? AND s.origin = ?`,
+    )
+    .bind(stub.id, stub.origin)
+    .first<{ html: string; author_json: string | null; title: string }>();
+  let author: string | undefined;
+  if (row?.author_json) {
+    try {
+      const parsed = JSON.parse(row.author_json) as { name?: string } | null;
+      if (parsed?.name) author = parsed.name;
+    } catch {
+      // A malformed author object is the origin's problem, not a publish error.
+    }
+  }
+  return {
+    source: row?.title || safeHost(stub.origin),
+    ...(author ? { author } : {}),
+    ...(row?.html ? { excerpt: excerptFromHtml(row.html, 80) } : {}),
+    url,
+    retrieved: now,
+  };
+}
+
+/** The cited item's URL: its origin's own declared `page` when we hold one, the convention otherwise. */
+async function citedUrl(db: D1Database, stub: { origin: string; id: string }, ourOrigin: string): Promise<string> {
+  if (stub.origin === ourOrigin) {
+    const own = await db.prepare("SELECT kind FROM items WHERE id = ?").bind(stub.id).first<{ kind: string }>();
+    return `${ourOrigin}${own?.kind === "thread" ? "t" : "f"}/${stub.id}/`;
+  }
+  const row = await db
+    .prepare(
+      `SELECT ii.kind AS kind, ii.page AS page FROM imported_items ii JOIN subscriptions s ON s.id = ii.subscription_id
+       WHERE ii.remote_id = ? AND s.origin = ?`,
+    )
+    .bind(stub.id, stub.origin)
+    .first<{ kind: string; page: string | null }>();
+  return blygItemUrl(stub.origin, row?.kind ?? "fragment", stub.id, row?.page ?? null);
+}
+
+function safeHost(url: string): string {
+  try {
+    return new URL(url).host;
+  } catch {
+    return url;
+  }
+}
+
+export function parseStoredCite(json: string | null): StubCite | null {
+  if (!json) return null;
+  try {
+    return JSON.parse(json) as StubCite;
   } catch {
     return null;
   }

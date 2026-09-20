@@ -3,7 +3,7 @@
 
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerpt, excerptFromHtml } from "./markdown.ts";
-import { injectProvenance, transclusionProvenance } from "./pages.ts";
+import { injectProvenance, stubCitation, transclusionProvenance } from "./pages.ts";
 import { parseStoredStub } from "./stub.ts";
 import {
   authoredKind,
@@ -197,6 +197,12 @@ export async function buildFeedXml(db: D1Database, settings: Settings, origin: s
       for (const m of await listMediaForItem(db, item.id)) {
         html += `<p><img src="${origin}${m.r2_key}" alt="${escapeXml(m.alt ?? "")}"></p>`;
       }
+    }
+    // A citation travels with the work: an RSS reader showing this item should
+    // show what it answers, in the same injected-presentation layer as
+    // transclusion provenance (which has been in the description since 0.1).
+    if (!isWithdrawn && isThread && latest?.stub_of) {
+      html = absolutizeHtml(stubCitation(latest, { compact: true }), origin) + html;
     }
     const excerptText = isWithdrawn ? "" : isThread ? excerptFromHtml(rawHtml, 60) : excerpt(latestMd, 60);
     itemsXml.push(
