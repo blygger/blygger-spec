@@ -271,7 +271,9 @@ async function readingEntryHtml(db: D1Database, e: ReadingFeedEntry, hoppers: Ho
     // machine-readable on the far side; `respond`, which produced an
     // unmarked fragment with a bare link, is retired rather than kept as a
     // lighter sibling.
-    actions = `<div class="entry-actions">${thumbButtons(e.imported, signal ? (signal.thumb as 1 | -1) : null)} ${hopperPicker(e.imported, hoppers)} ${stubButton(e.imported.subscriptionId, e.imported.remoteId)}</div>`;
+    actions = `<div class="entry-actions">${thumbButtons(e.imported, signal ? (signal.thumb as 1 | -1) : null)} ${hopperPicker(e.imported, hoppers)} ${stubButton(e.imported.subscriptionId, e.imported.remoteId)}${
+      e.l0 ? "" : " " + forkLink(mount, e.imported.subscriptionId, e.imported.remoteId)
+    }</div>`;
   }
   // L0 entries lead with a title link (l0.ts renders "[title](link)" as the
   // first paragraph); promote it out of the body so the list is scannable
@@ -298,6 +300,18 @@ ${actions}
 /** The stub affordance, shared by the reading feed and hopper detail (§3.1). */
 export function stubButton(subId: string, remoteId: string): string {
   return `<button type="button" class="stub-btn" data-action="stub" data-sub="${escapeHtml(subId)}" data-remote="${escapeHtml(remoteId)}">stub ↗</button>`;
+}
+
+/**
+ * The fork affordance (§2.4). A plain link, not a button: forking needs a
+ * *pinned* version and which ones exist is the origin's to say, so this opens
+ * the picker rather than pretending the choice has already been made.
+ *
+ * Absent for L0 entries — a legacy RSS feed has no items, no versions and no
+ * pins, so there is nothing a lineage pointer could name.
+ */
+export function forkLink(mount: string, subId: string, remoteId: string): string {
+  return `<a class="stub-btn" href="${studioPath(mount)}/fork?sub=${encodeURIComponent(subId)}&amp;id=${encodeURIComponent(remoteId)}">fork ↗</a>`;
 }
 
 /**

@@ -43,6 +43,16 @@ export interface ItemRow {
    * under the version-agreement rule; never re-derived from the body.
    */
   stub_of: string | null;
+  /**
+   * Fork lineage (migration 0010, v0.3-plan §2.4) — JSON `ForkedFrom` or null.
+   * Set once, when the fork action makes the draft, and **immutable**: the API
+   * offers no way to add, retarget or clear it, because an item either came
+   * from somewhere or it didn't. That immutability is what lets the pinned
+   * version documents emit it without any risk of drift.
+   */
+  forked_from: string | null;
+  /** JSON `StubCite` (migration 0010) — the lineage citation's human half, frozen at fork. Client-side only. */
+  fork_cite: string | null;
 }
 
 export interface Transclusion {
@@ -65,12 +75,24 @@ export interface Transclusion {
 export type StubOf = { origin: string; id: string; version: number } | { url: string };
 
 /**
- * The human half of a stub's citation, frozen at publish time (migration 0008).
- * `stub_of` is the machine-readable marker and never changes; this is what a
- * reader needs when the link has rotted — who it was, what it said, and when
- * we saw it. **Never on the wire**: it is composed from what this client
- * happened to know locally, so another client reading our document composes
- * its own from `stub_of` instead of inheriting our guesses.
+ * A blyg citation: origin + item + version, the shape `stub_of` uses for a blyg
+ * target and the shape `forked_from` takes at 0.3 (v0.3-plan §2.4 — `origin`
+ * REQUIRED, amending 0.1 §5.6's two-field form additively).
+ *
+ * The version a fork names MUST be a **pinned** one: a pin is an irrevocable
+ * hosting promise (#8), so it is the only version anyone can promise the
+ * lineage still points at.
+ */
+export type ForkedFrom = { origin: string; id: string; version: number };
+
+/**
+ * The human half of a citation, frozen when it is made — at publish for a
+ * stub (migration 0008), at fork time for lineage (migration 0010).
+ * The marker (`stub_of` / `forked_from`) is machine-readable and never
+ * changes; this is what a reader needs when the link has rotted — who it was,
+ * what it said, and when we saw it. **Never on the wire**: it is composed from
+ * what this client happened to know locally, so another client reading our
+ * document composes its own from the marker instead of inheriting our guesses.
  */
 export interface StubCite {
   /** Whose blyg it was — the subscription's title, our own title for a self-citation, or the host. */

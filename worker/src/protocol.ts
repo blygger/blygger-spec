@@ -3,8 +3,8 @@
 
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { excerpt, excerptFromHtml } from "./markdown.ts";
-import { injectProvenance, stubCitation, transclusionProvenance } from "./pages.ts";
-import { parseStoredStub } from "./stub.ts";
+import { forkLineage, injectProvenance, stubCitation, transclusionProvenance } from "./pages.ts";
+import { parseStoredFork, parseStoredStub } from "./stub.ts";
 import {
   authoredKind,
   feedEvents,
@@ -63,6 +63,14 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
   // which stores none — simply stops carrying it, and a withdrawn stub
   // stops verifying on the far side (§2.3.6). Threads only.
   const stubOf = isWithdrawn ? null : parseStoredStub(latest?.stub_of ?? null);
+  // §2.4 lineage. Unlike every field above it, this one survives withdrawal:
+  // the endcap empties what the item *said* (content, media, transclusions,
+  // its stub citation), because those are the published work and the work is
+  // being taken back. Where the item came from is not the work — it is a fact
+  // about the item's origin, in the same class as `created` and `page`, which
+  // the endcap also keeps. It costs nothing to keep and a withdrawn fork that
+  // denied its parentage would be the protocol telling a small lie.
+  const forkedFrom = parseStoredFork(item.forked_from);
   return {
     blyg: PROTOCOL_VERSION,
     id: item.id,
@@ -83,6 +91,7 @@ export async function buildItemJson(db: D1Database, settings: Settings, item: It
     media: media.map((m) => ({ url: m.r2_key, mime: m.mime, alt: m.alt ?? "" })),
     ...(transclusions !== undefined ? { transclusions } : {}),
     ...(stubOf ? { stub_of: stubOf } : {}),
+    ...(forkedFrom ? { forked_from: forkedFrom } : {}),
     ...(generated !== undefined ? { generated } : {}),
     changelog,
   };
@@ -108,6 +117,10 @@ export function buildPinnedVersionJson(settings: Settings, item: ItemRow, row: V
     // A pin carries its own citation (§2.2): the frozen artifact says what it
     // was responding to, at the version it was responding to.
     ...(parseStoredStub(row.stub_of) ? { stub_of: parseStoredStub(row.stub_of) } : {}),
+    // Lineage travels with the pin too, and safely: `items.forked_from` is
+    // written once at fork time and has no setter, so a frozen document can
+    // never come to disagree with the live item about where it came from.
+    ...(parseStoredFork(item.forked_from) ? { forked_from: parseStoredFork(item.forked_from) } : {}),
     ...(row.generated_json ? { generated: JSON.parse(row.generated_json) as ScopeProvenance[] } : {}),
   };
 }
@@ -203,6 +216,11 @@ export async function buildFeedXml(db: D1Database, settings: Settings, origin: s
     // transclusion provenance (which has been in the description since 0.1).
     if (!isWithdrawn && isThread && latest?.stub_of) {
       html = absolutizeHtml(stubCitation(latest, { compact: true }), origin) + html;
+    }
+    // Lineage rides along for the same reason, and for both kinds — a fork is
+    // a fragment as often as a thread.
+    if (!isWithdrawn && item.forked_from) {
+      html = absolutizeHtml(forkLineage(item, { compact: true }), origin) + html;
     }
     const excerptText = isWithdrawn ? "" : isThread ? excerptFromHtml(rawHtml, 60) : excerpt(latestMd, 60);
     itemsXml.push(

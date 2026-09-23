@@ -9,7 +9,7 @@
 import { listBlogrollSubscriptions } from "./importer/store.ts";
 import { listPublicResponses } from "./mentions/store.ts";
 import { blygItemUrl } from "./importer/util.ts";
-import { parseStoredCite, parseStoredStub } from "./stub.ts";
+import { parseStoredCite, parseStoredFork, parseStoredStub } from "./stub.ts";
 import { excerptFromHtml } from "./markdown.ts";
 import { authoredKind, getMedia, listMediaForItem, listVersions, publishedVersion } from "./model.ts";
 import type { ItemRow, MediaRow, Settings, SubscriptionRow, Transclusion, VersionRow } from "./types.ts";
@@ -775,8 +775,20 @@ function mediaHtml(media: MediaRow[], mount: string): string {
     .join("\n");
 }
 
-export function renderFragment(item: ItemRow, contentHtml: string, media: MediaRow[], note: string | null, mount: string, pins: number[] = []): string {
+export function renderFragment(
+  item: ItemRow,
+  contentHtml: string,
+  media: MediaRow[],
+  note: string | null,
+  mount: string,
+  pins: number[] = [],
+  // Summary contexts get the short citation, the same split threadCard and
+  // threadBlock already make: a feed card is a pointer to an item, and three
+  // lines of apparatus over a one-line fragment inverts that.
+  compactCitations = false,
+): string {
   return `<article class="fragment">
+${forkLineage(item, { compact: compactCitations })}
 <div class="item-content">
 ${contentHtml}
 </div>
@@ -801,6 +813,7 @@ async function fragmentBlock(db: D1Database, item: ItemRow, mount: string, title
     latest?.note ?? null,
     mount,
     await pinnedVersions(db, item.id),
+    titleLink,
   );
 }
 
@@ -896,6 +909,7 @@ async function threadCard(db: D1Database, item: ItemRow, mount: string): Promise
   const html = latest?.content_html ?? "";
   return `<article class="fragment thread-card">
 ${stubCitation(latest, { compact: true })}
+${forkLineage(item, { compact: true })}
 <p><span class="kind-chip">thread</span> ${escapeHtml(excerptFromHtml(html, 300))}</p>
 <p><a href="${mount}/t/${item.id}/">read the thread →</a></p>
 ${itemMeta(item, latest?.note ?? null, await pinnedVersions(db, item.id), mount, true)}
@@ -909,6 +923,7 @@ async function threadBlock(db: D1Database, item: ItemRow, mount: string): Promis
   const media = await listMediaForItem(db, item.id);
   return `<article class="thread">
 ${stubCitation(latest)}
+${forkLineage(item)}
 <div class="item-content">
 ${html}
 </div>
@@ -948,6 +963,39 @@ export function stubCitation(row: VersionRow | null, opts: { compact?: boolean }
   parts.push(`&lt;<a href="${escapeHtml(url)}">${escapeHtml(url)}</a>&gt;`);
   if (cite?.retrieved) parts.push(`retrieved ${formatDate(cite.retrieved)}`);
   return `<p class="stub-cite"><span class="label">In response to</span><br>${parts.join(" &middot; ")}</p>`;
+}
+
+/**
+ * An item's lineage line — the pinned version this one was forked from
+ * (§2.4). Same apparatus, same reasoning, and the same frozen human half as
+ * `stubCitation`: a citation that stops reading when the link dies has
+ * stopped being a citation (Venkat, session 23).
+ *
+ * Two differences from a stub citation, both following from what the two
+ * things are. Lineage belongs to the *item*, so it renders from `items`
+ * rather than from a version row and appears on every representation of the
+ * item including the withdrawal endcap — withdrawing your work does not
+ * unmake where it came from. And the URL it names is a **pinned version**,
+ * which is the only kind of URL a lineage pointer is allowed to name, because
+ * it is the only one somebody promised to keep serving.
+ */
+export function forkLineage(item: ItemRow, opts: { compact?: boolean } = {}): string {
+  const fork = parseStoredFork(item.forked_from);
+  if (!fork) return "";
+  const cite = parseStoredCite(item.fork_cite);
+  const url = cite?.url ?? `${fork.origin}items/${fork.id}/v${fork.version}.json`;
+  if (opts.compact) {
+    const who = cite?.source ? `<cite>${escapeHtml(cite.source)}</cite>` : escapeHtml(url);
+    return `<p class="stub-cite compact"><span class="label">Forked from</span> <a href="${escapeHtml(url)}">${who} ↗</a></p>`;
+  }
+  const parts: string[] = [];
+  if (cite?.source) parts.push(`<cite>${escapeHtml(cite.source)}</cite>`);
+  if (cite?.author) parts.push(escapeHtml(cite.author));
+  if (cite?.excerpt) parts.push(`&ldquo;${escapeHtml(cite.excerpt)}&rdquo;`);
+  parts.push(`item <code>${escapeHtml(fork.id)}</code>, pinned v${fork.version}`);
+  parts.push(`&lt;<a href="${escapeHtml(url)}">${escapeHtml(url)}</a>&gt;`);
+  if (cite?.retrieved) parts.push(`retrieved ${formatDate(cite.retrieved)}`);
+  return `<p class="stub-cite"><span class="label">Forked from</span><br>${parts.join(" &middot; ")}</p>`;
 }
 
 /** Cap on any string an origin asserts about itself before it reaches our page. */
@@ -1004,6 +1052,7 @@ ${lines.join("\n")}
 async function withdrawnBlock(db: D1Database, item: ItemRow, mount: string): Promise<string> {
   const isThread = (await authoredKind(db, item)) === "thread";
   return `<article class="fragment withdrawn"><p>This item was withdrawn.</p>
+${forkLineage(item)}
 ${itemMeta(item, null, await pinnedVersions(db, item.id), mount, isThread)}
 </article>`;
 }
@@ -1248,6 +1297,7 @@ ${pageHeader(settings, mount)}
 <a href="${live}">latest version</a> &middot; <a href="${mount}/items/${item.id}/v${row.version}.json">citable JSON</a></p>
 <article class="${isThread ? "thread" : "fragment"}">
 ${cite}
+${forkLineage(item)}
 ${html}
 ${noteHtml}
 <p class="timestamps"><span>Published: ${formatDate(row.published_at)}</span></p>

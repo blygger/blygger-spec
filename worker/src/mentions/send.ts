@@ -4,7 +4,7 @@
 
 import type { FetchLike } from "../importer/http.ts";
 import { blygItemUrl } from "../importer/util.ts";
-import { isBlygStub, parseStoredStub } from "../stub.ts";
+import { isBlygStub, parseStoredFork, parseStoredStub } from "../stub.ts";
 import type { Transclusion, VersionRow } from "../types.ts";
 import { discoverEndpoint } from "./discover.ts";
 import { dueOutbound, enqueueOutbound, markOutbound, RETRY_SCHEDULE_MS } from "./store.ts";
@@ -34,7 +34,7 @@ async function remotePermalink(db: D1Database, origin: string, id: string): Prom
  * Same-origin references never generate a mention — telling ourselves
  * something we already know is noise, not notification.
  */
-export async function remoteReferences(db: D1Database, row: VersionRow, ourOrigin: string): Promise<RemoteRef[]> {
+export async function remoteReferences(db: D1Database, itemId: string, row: VersionRow, ourOrigin: string): Promise<RemoteRef[]> {
   const refs: RemoteRef[] = [];
   const stub = parseStoredStub(row.stub_of);
   if (stub) {
@@ -47,6 +47,16 @@ export async function remoteReferences(db: D1Database, row: VersionRow, ourOrigi
   for (const t of (JSON.parse(row.transclusions ?? "[]") as Transclusion[])) {
     if (!t.origin || t.origin === ourOrigin) continue;
     refs.push({ target: await remotePermalink(db, t.origin, t.id), origin: t.origin });
+  }
+  // §2.3.3: lineage is a remote reference like any other. It lives on the
+  // item rather than the version (§2.4), so it is read from there — and it
+  // targets the *live* permalink, not the pinned-version page, because the
+  // receiver verifies a mention against the item its `target` names.
+  const fork = parseStoredFork(
+    (await db.prepare("SELECT forked_from FROM items WHERE id = ?").bind(itemId).first<{ forked_from: string | null }>())?.forked_from ?? null,
+  );
+  if (fork && fork.origin !== ourOrigin) {
+    refs.push({ target: await remotePermalink(db, fork.origin, fork.id), origin: fork.origin });
   }
   const seen = new Set<string>();
   return refs.filter((r) => (seen.has(r.target) ? false : (seen.add(r.target), true)));
@@ -64,7 +74,7 @@ export async function enqueueForVersion(
   row: VersionRow,
   ourOrigin: string,
 ): Promise<RemoteRef[]> {
-  const refs = await remoteReferences(db, row, ourOrigin);
+  const refs = await remoteReferences(db, itemId, row, ourOrigin);
   for (const ref of refs) await enqueueOutbound(db, itemId, version, ref.target);
   return refs;
 }

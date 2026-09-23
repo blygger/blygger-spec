@@ -4,7 +4,7 @@ import { renderMarkdown } from "./markdown.ts";
 import { annotateGenerated, applyGeneratedWrappers, parseScopes, stripToOutput, TkPublishError, unresolvedScopes } from "./tk.ts";
 import { applyVersionAgreement, composeStubCite, parseStoredStub } from "./stub.ts";
 import { resolveTransclusions, TransclusionResolveError } from "./transclusion.ts";
-import type { ItemRow, MediaRow, ScopeProvenance, Settings, StubOf, Transclusion, VersionRow } from "./types.ts";
+import type { ForkedFrom, ItemRow, MediaRow, ScopeProvenance, Settings, StubCite, StubOf, Transclusion, VersionRow } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
 import { contentHash, newId, nowIso } from "./util.ts";
 
@@ -65,6 +65,33 @@ export async function createDraft(
   await db
     .prepare("INSERT INTO items (id, kind, status, created, updated, version, content_md, dirty) VALUES (?, ?, 'draft', ?, ?, 0, ?, 1)")
     .bind(id, kind, now, now, contentMd)
+    .run();
+  return (await getItem(db, id))!;
+}
+
+/**
+ * Create a draft that descends from a pinned version (§2.4). Separate from
+ * createDraft() because lineage is written exactly once, here: there is no
+ * setter, no PUT field, and no way to retarget or clear it afterwards — an
+ * item either came from somewhere or it didn't, and a mutable lineage pointer
+ * would be a claim that could quietly become false after a pinned version
+ * document had already emitted it.
+ */
+export async function createFork(
+  db: D1Database,
+  contentMd: string,
+  kind: "fragment" | "thread",
+  ref: ForkedFrom,
+  cite: StubCite,
+): Promise<ItemRow> {
+  const id = newId();
+  const now = nowIso();
+  await db
+    .prepare(
+      `INSERT INTO items (id, kind, status, created, updated, version, content_md, dirty, forked_from, fork_cite)
+       VALUES (?, ?, 'draft', ?, ?, 0, ?, 1, ?, ?)`,
+    )
+    .bind(id, kind, now, now, contentMd, JSON.stringify(ref), JSON.stringify(cite))
     .run();
   return (await getItem(db, id))!;
 }

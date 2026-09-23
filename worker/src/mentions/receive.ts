@@ -134,9 +134,27 @@ export function relationTo(doc: Doc, ourOrigin: string, targetId: string): Menti
   }
   const transclusions = Array.isArray(doc.transclusions) ? (doc.transclusions as Transclusion[]) : [];
   if (transclusions.some((t) => t && normalizeOrigin(t.origin) === ourOrigin && t.id === targetId)) return "transclusion";
-  // `forked_from` is Phase B; a document carrying one verifies as no relation
-  // until the fork implementation lands, which is the honest answer today.
+  if (forkedVersion(doc, ourOrigin, targetId) !== null) return "fork";
   return null;
+}
+
+/**
+ * The version a source document's `forked_from` claims to descend from, when
+ * it names this item on this origin — else null (§2.3.5, §2.4).
+ *
+ * Returned rather than folded into relationTo's verdict because the spec's
+ * relation is "`forked_from` naming a **pinned** version of the target", and
+ * only the target — us — knows which of our versions are pinned. That second
+ * half is checked by the caller, which has the database; here we read the
+ * claim, there we test it. Zero extra fetches: a claim about our own pins is
+ * the one claim we never have to take anyone's word for.
+ */
+export function forkedVersion(doc: Doc, ourOrigin: string, targetId: string): number | null {
+  const fork = doc.forked_from as unknown;
+  if (!fork || typeof fork !== "object") return null;
+  const f = fork as Record<string, unknown>;
+  if (normalizeOrigin(f.origin) !== ourOrigin || f.id !== targetId) return null;
+  return typeof f.version === "number" && Number.isInteger(f.version) && f.version > 0 ? f.version : null;
 }
 
 export interface VerifyResult {
@@ -205,6 +223,20 @@ export async function verifyMention(
 
   const relation = relationTo(doc, ourOrigin, targetItemId);
   if (!relation) return fail("source document does not reference this item");
+  // A fork claims descent from a pinned version of ours (§2.3.5). We are the
+  // only party who can say whether that version is in fact pinned, so we do —
+  // a lineage pointer at an unpinned version names bytes this origin never
+  // promised to keep serving, and verifying it would vouch for a claim we
+  // know to be unsupported.
+  if (relation === "fork") {
+    const version = forkedVersion(doc, ourOrigin, targetItemId)!;
+    const row = await db
+      .prepare("SELECT pinned FROM versions WHERE item_id = ? AND version = ?")
+      .bind(targetItemId, version)
+      .first<{ pinned: number }>();
+    if (!row) return fail(`forked_from names v${version}, which does not exist here`);
+    if (row.pinned !== 1) return fail(`forked_from names v${version}, which is not pinned`);
+  }
 
   await markInboundVerified(db, mentionId, {
     relation,

@@ -14,7 +14,9 @@ import { authoredKind, getItem, getSettings, getVersion, listAll, listMediaForIt
 import { THEMES } from "./pages.ts";
 import { clampText, previewFromHtml, stripTransclusionQuotes, type HtmlPreview } from "./preview.ts";
 import { annotateGenerated, applyGeneratedWrappers, parseScopes, previewStrip, type TkScope } from "./tk.ts";
-import { parseStoredStub } from "./stub.ts";
+import { normalizeOrigin, parseStoredFork, parseStoredStub } from "./stub.ts";
+import { mentionFetch } from "./mentions/http.ts";
+import { siteOrigin } from "./protocol.ts";
 import { extractDirectives, previewTransclusions } from "./transclusion.ts";
 import type { Env, ItemRow, Transclusion, VersionRow } from "./types.ts";
 import { FRAGMENT_MAX_CHARS } from "./types.ts";
@@ -420,9 +422,17 @@ function historyPanel(item: ItemRow, versions: VersionRow[], mount: string): str
       ]
         .filter(Boolean)
         .join(" ");
+      // Fork is offered only on pinned rows, and as a link to the one fork
+      // surface rather than a second button that does the same thing — the
+      // picker is also where an *imported* item is forked, and one place to
+      // fork from is one place for the pinned-only rule to be explained.
       const actions = isEndcap
         ? ""
-        : `${v.pinned === 1 ? "" : `<button type="button" data-action="pin" data-id="${item.id}" data-version="${v.version}">pin&hellip;</button>`}
+        : `${
+            v.pinned === 1
+              ? `<a class="h-badge" href="${studioPath(mount)}/fork?id=${encodeURIComponent(item.id)}">fork&hellip;</a>`
+              : `<button type="button" data-action="pin" data-id="${item.id}" data-version="${v.version}">pin&hellip;</button>`
+          }
 <button type="button" data-action="restore" data-id="${item.id}" data-version="${v.version}" data-next="${item.version + 1}">restore&hellip;</button>`;
       return `<li class="h-row" data-version="${v.version}">
 <button type="button" class="h-select" data-action="view-version" data-id="${item.id}" data-version="${v.version}"${isEndcap ? " disabled" : ""}>v${v.version}</button>
@@ -1095,6 +1105,109 @@ studio.get("/fragments/search", async (c) => {
   results.sort((a, b) => (a.updated < b.updated ? 1 : -1));
   return c.json({ results: results.slice(0, 20) });
 });
+
+/**
+ * The fork picker (§2.4). Forking needs a **pinned** version, and which
+ * versions an origin has pinned is something only that origin can say, so
+ * this page asks it: the item document's `changelog` marks pinned entries,
+ * and it is the same document any reader would consult.
+ *
+ * `origin` and `id` identify the target rather than a subscription id,
+ * because forking is not limited to what you subscribe to — a pinned version
+ * is served forever to anyone, which is the whole basis of the lineage claim.
+ */
+studio.get("/fork", async (c) => {
+  const mount = normalizeMount(c.env.MOUNT);
+  const settings = await getSettings(c.env.DB);
+  const ourOrigin = siteOrigin(settings, c.req.url, mount);
+  // `sub` is the reading feed's spelling (it holds a subscription id, not an
+  // origin); `origin` is the general one. Both land on the same page.
+  const sub = c.req.query("sub");
+  const fromSub = sub
+    ? (await c.env.DB.prepare("SELECT origin FROM subscriptions WHERE id = ?").bind(sub).first<{ origin: string }>())?.origin
+    : undefined;
+  const origin = normalizeOrigin(fromSub ?? c.req.query("origin")) ?? ourOrigin;
+  const id = c.req.query("id") ?? "";
+  const pins = await forkablePins(c.env.DB, origin, id, ourOrigin);
+  return c.html(forkPickerPage(origin, id, ourOrigin, pins, mount));
+});
+
+/** Pinned versions of one item, from our own database when it is ours and from the origin's item document when it is not. */
+async function forkablePins(
+  db: D1Database,
+  origin: string,
+  id: string,
+  ourOrigin: string,
+): Promise<{ versions: { version: number; at: string; note: string | null }[]; error?: string }> {
+  if (!id) return { versions: [], error: "no item named" };
+  if (origin === ourOrigin) {
+    const rows = await listVersions(db, id);
+    return {
+      versions: rows
+        .filter((v) => v.pinned === 1 && v.content_md)
+        .map((v) => ({ version: v.version, at: v.published_at, note: v.note })),
+    };
+  }
+  let res;
+  try {
+    res = await mentionFetch(`${origin}items/${id}.json`);
+  } catch (e) {
+    return { versions: [], error: `could not reach ${origin}: ${(e as Error).message}` };
+  }
+  if (!res.ok) return { versions: [], error: `${origin}items/${id}.json returned ${res.status}` };
+  try {
+    const doc = JSON.parse(await res.text()) as { changelog?: { version: number; at: string; note: string | null; pinned?: boolean }[] };
+    const log = Array.isArray(doc.changelog) ? doc.changelog : [];
+    return { versions: log.filter((v) => v.pinned === true).map((v) => ({ version: v.version, at: v.at, note: v.note ?? null })) };
+  } catch {
+    return { versions: [], error: "that origin's item document could not be parsed" };
+  }
+}
+
+function forkPickerPage(
+  origin: string,
+  id: string,
+  ourOrigin: string,
+  pins: { versions: { version: number; at: string; note: string | null }[]; error?: string },
+  mount: string,
+): string {
+  const who = origin === ourOrigin ? "your own item" : escapeHtml(new URL(origin).host);
+  const rows = pins.versions
+    .map(
+      (v) => `<li class="h-row">
+<strong>v${v.version}</strong> <span class="h-when">${formatDate(v.at)}</span>
+${v.note ? `<span class="h-note">&ldquo;${escapeHtml(v.note)}&rdquo;</span>` : ""}
+<span class="h-actions"><button type="button" data-action="fork" data-origin="${escapeHtml(origin)}" data-fork-id="${escapeHtml(id)}" data-version="${v.version}">fork v${v.version}</button></span>
+</li>`,
+    )
+    .join("\n");
+  // An empty list is not an error and is not phrased as one: most items have
+  // no pins, and a pin is a deliberate act the author may simply not have
+  // taken. What the page owes the reader is why forking needs one.
+  const empty = pins.error
+    ? `<p style="color:var(--alert)">${escapeHtml(pins.error)}</p>`
+    : `<p>No pinned versions. Only a pinned version can be forked: a pin is a promise to serve those exact bytes forever, so it is the only thing a lineage pointer can name and still resolve years from now.</p>`;
+  const body = `${studioHeader("blyg studio — fork", mount)}
+<nav style="margin:-0.5rem 0 1rem;font-size:0.9rem;"><a href="${studioPath(mount)}">← compose</a></nav>
+<p>Forking <code>${escapeHtml(id)}</code> on ${who}. The pinned version's text becomes a new draft of your own, permanently marked as descending from it.</p>
+${pins.versions.length ? `<ul class="h-list">${rows}</ul>` : empty}
+<script>${forkScript(mount)}</script>`;
+  return studioLayout("fork — blyg studio", body);
+}
+
+function forkScript(mount: string): string {
+  return `
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest("[data-action='fork']");
+  if (!btn) return;
+  const body = { origin: btn.dataset.origin, id: btn.dataset.forkId, version: Number(btn.dataset.version) };
+  btn.disabled = true;
+  const res = await fetch("/api/fork", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const data = await res.json().catch(() => null);
+  if (!res.ok || !data) { btn.disabled = false; alert((data && data.error) || "fork failed"); return; }
+  location.href = "${studioPath(mount)}/edit/" + data.id;
+});`;
+}
 
 studio.get("/edit/:id", async (c) => {
   const item = await getItem(c.env.DB, c.req.param("id"));

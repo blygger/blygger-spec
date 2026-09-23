@@ -86,3 +86,21 @@ export function checkExportOrigin(base: string, site: string | undefined, allowL
 
   return {};
 }
+
+/**
+ * Remove the Webmention endpoint advertisement from an exported page.
+ *
+ * The manifest key is already dropped at export (§2.3.1/§2.3.8: a static tree
+ * has no endpoint behind it, so it must not advertise one) — but the pages
+ * carry the same advertisement in W3C's own form, `<link rel="webmention">`,
+ * and a sender doing W3C discovery reads *that*, never the manifest. Stripping
+ * one and keeping the other left every exported tree promising delivery to a
+ * URL with nothing behind it: 404 to the sender at best, and at worst a
+ * mention delivered to whatever now answers at that path.
+ *
+ * The `Link:` header carrying the same URL is not an issue here — headers are
+ * the static host's, and the export writes files.
+ */
+export function stripWebmentionLink(html: string): string {
+  return html.replace(/[ \t]*<link\b[^>]*\brel=["']?webmention["']?[^>]*>\n?/gi, "");
+}

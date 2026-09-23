@@ -17,7 +17,7 @@
 
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { checkExportOrigin, normalizeBase } from "./export-lib.ts";
+import { checkExportOrigin, normalizeBase, stripWebmentionLink } from "./export-lib.ts";
 
 function arg(name: string): string {
   const i = process.argv.indexOf(`--${name}`);
@@ -55,7 +55,14 @@ async function save(route: string, file: string): Promise<Uint8Array> {
   const url = base + route;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`${res.status} ${url}`);
-  return write(file, new Uint8Array(await res.arrayBuffer()));
+  const bytes = new Uint8Array(await res.arrayBuffer());
+  // The second half of the one deliberate served-vs-exported difference (see
+  // the manifest note below): pages advertise the endpoint in W3C's own form
+  // too, and that is the form a stranger's sender actually discovers.
+  if (file.endsWith(".html")) {
+    return write(file, new TextEncoder().encode(stripWebmentionLink(new TextDecoder().decode(bytes))));
+  }
+  return write(file, bytes);
 }
 
 /** Like save(), but a 404 is a legitimate "nothing to export here" rather than a failure (blogroll.opml when empty; §2.2). */

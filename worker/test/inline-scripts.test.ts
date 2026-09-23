@@ -63,6 +63,10 @@ describe("every inline script parses", () => {
       `${STUDIO}/edit/${fragment}`,
       `${STUDIO}/edit/${draft}`,
       `${STUDIO}/edit/${thread}`,
+      // The fork picker ships its own handler (it is reached from the reading
+      // feed and from the history panel, neither of which loads the shared
+      // action script).
+      `${STUDIO}/fork?id=${fragment}`,
     ];
     for (const path of pages) {
       const res = await SELF.fetch(`https://example.com${path}`, { headers: { cookie } });

@@ -4,7 +4,7 @@
 // and nothing in the file tree looks wrong until a crawler follows one.
 
 import { describe, expect, it } from "vitest";
-import { checkExportOrigin, isLocalHost, normalizeBase } from "../scripts/export-lib.ts";
+import { checkExportOrigin, isLocalHost, normalizeBase, stripWebmentionLink } from "../scripts/export-lib.ts";
 
 describe("normalizeBase", () => {
   it("adds the trailing slash a blyg origin always has", () => {
@@ -67,5 +67,27 @@ describe("checkExportOrigin", () => {
 
   it("refuses a site field that is not an absolute URL", () => {
     expect(checkExportOrigin("https://example.com/blyg/", "/blyg/", false).refuse).toContain("absolute");
+  });
+});
+
+describe("stripWebmentionLink", () => {
+  const page = (extra: string) =>
+    `<head>\n<title>x</title>\n${extra}<link rel="alternate" type="application/json" href="https://example.com/blyg/items/a.json">\n</head>`;
+
+  it("removes the endpoint advertisement a static tree cannot keep (§2.3.8)", () => {
+    const out = stripWebmentionLink(page('<link rel="webmention" href="https://example.com/blyg/webmention">\n'));
+    expect(out).not.toContain("webmention");
+    // Everything else on the page is untouched — this is the second half of
+    // the manifest's one intended served-vs-exported difference, not a third.
+    expect(out).toBe(page(""));
+  });
+
+  it("leaves a page that never advertised one exactly as it was", () => {
+    expect(stripWebmentionLink(page(""))).toBe(page(""));
+  });
+
+  it("does not mistake a link to the endpoint's documentation for the advertisement", () => {
+    const body = '<p>we support <a href="https://example.com/blyg/webmention">webmention</a></p>';
+    expect(stripWebmentionLink(body)).toBe(body);
   });
 });

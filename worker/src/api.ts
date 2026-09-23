@@ -4,6 +4,7 @@ import { type Context, Hono } from "hono";
 import {
   authoredKind,
   createDraft,
+  createFork,
   discardDraft,
   FragmentTooLongError,
   getItem,
@@ -23,11 +24,12 @@ import {
 } from "./model.ts";
 import { mentionFetch } from "./mentions/http.ts";
 import { drainOutbound, enqueueForVersion } from "./mentions/send.ts";
+import { checkForkTarget, resolveForkSource } from "./fork.ts";
 import { siteOrigin } from "./protocol.ts";
-import { parseStubOf } from "./stub.ts";
+import { parseForkedFrom, parseStoredFork, parseStubOf } from "./stub.ts";
 import { runGenerateScope } from "./tk-generate.ts";
 import type { Env } from "./types.ts";
-import { newMediaId, normalizeMount } from "./util.ts";
+import { newMediaId, normalizeMount, nowIso } from "./util.ts";
 
 const MEDIA_TYPES: Record<string, string> = {
   "image/png": "png",
@@ -56,6 +58,28 @@ api.post("/items", async (c) => {
   }
   const item = await createDraft(c.env.DB, body.content_md ?? "", kind);
   if (stub) await setStubOf(c.env.DB, item.id, stub);
+  return c.json({ id: item.id, kind: item.kind, status: item.status }, 201);
+});
+
+/**
+ * The fork action (§2.4): start a new draft from a pinned version, own or
+ * imported, and record the lineage permanently. One call does both because
+ * they are one act — the content and the claim about where it came from must
+ * not be separable, or a draft could be forked and then quietly disowned.
+ *
+ * Reading the *pinned file* rather than the live item is the point (see
+ * fork.ts): a fork descends from bytes that are promised forever, so those are
+ * the bytes it starts from.
+ */
+api.post("/fork", async (c) => {
+  const body = await c.req.json<{ origin?: unknown; id?: unknown; version?: unknown }>().catch(() => ({}));
+  const parsed = parseForkedFrom(body);
+  if (!parsed.ok) return c.json({ error: parsed.reason }, 400);
+  const settings = await getSettings(c.env.DB);
+  const origin = siteOrigin(settings, c.req.url, normalizeMount(c.env.MOUNT));
+  const resolved = await resolveForkSource(c.env.DB, parsed.ref, origin, settings.site_title, mentionFetch, nowIso());
+  if (!resolved.ok) return c.json({ error: resolved.reason }, 400);
+  const item = await createFork(c.env.DB, resolved.source.contentMd, resolved.source.kind, parsed.ref, resolved.source.cite);
   return c.json({ id: item.id, kind: item.kind, status: item.status }, 201);
 });
 
@@ -109,10 +133,24 @@ api.post("/items/:id/publish", async (c) => {
   if (!item) return c.json({ error: "not found" }, 404);
   const body = await c.req.json<{ note?: string }>().catch(() => ({}) as { note?: string });
   const note = typeof body.note === "string" && body.note.trim() ? body.note.trim() : null;
+  const origin = siteOrigin(await getSettings(c.env.DB), c.req.url, normalizeMount(c.env.MOUNT));
+  // §2.4's publish-time check. It lives here rather than inside publish()
+  // deliberately: publish() is network-free by design (#26 — quoting follows
+  // reading, and a publish must never depend on someone else's host being up),
+  // and this is the one lineage claim that has to be re-tested against a
+  // promise somebody else made. checkForkTarget only *fails* on evidence; an
+  // unreachable origin is inconclusive and does not block the author.
+  const fork = parseStoredFork(item.forked_from);
+  let lineageNote: string | undefined;
+  if (fork) {
+    const check = await checkForkTarget(c.env.DB, fork, origin, mentionFetch);
+    if (!check.ok) return c.json({ error: check.reason }, 400);
+    lineageNote = check.skipped;
+  }
   try {
-    const version = await publish(c.env.DB, item, note, siteOrigin(await getSettings(c.env.DB), c.req.url, normalizeMount(c.env.MOUNT)));
+    const version = await publish(c.env.DB, item, note, origin);
     await sendMentionsFor(c, item.id, version);
-    return c.json({ ok: true, version });
+    return c.json({ ok: true, version, ...(lineageNote ? { warning: lineageNote } : {}) });
   } catch (e) {
     if (e instanceof TransclusionResolveError) {
       return c.json({ error: "one or more transclusions do not resolve", errors: e.errors }, 400);

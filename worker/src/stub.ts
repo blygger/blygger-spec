@@ -5,7 +5,7 @@
 
 import { blygItemUrl } from "./importer/util.ts";
 import { excerptFromHtml } from "./markdown.ts";
-import type { StubCite, StubOf, Transclusion } from "./types.ts";
+import type { ForkedFrom, StubCite, StubOf, Transclusion } from "./types.ts";
 
 /**
  * A citation names *another origin's* item id, so it is deliberately not
@@ -36,6 +36,37 @@ export function normalizeOrigin(raw: unknown): string | null {
 }
 
 /**
+ * Validate the `{origin, id, version}` citation shape shared by `stub_of`'s
+ * blyg form and by `forked_from` (§2.2, §2.4). One validator, because the two
+ * are deliberately the same shape — "a citation is absolute" is one rule, not
+ * two — and a divergence here would be a divergence on the wire.
+ */
+export function parseBlygRef(raw: unknown, field: string): { ok: true; ref: ForkedFrom } | { ok: false; reason: string } {
+  if (!raw || typeof raw !== "object") return { ok: false, reason: `${field} must be an object` };
+  const r = raw as Record<string, unknown>;
+  const origin = normalizeOrigin(r.origin);
+  if (!origin) return { ok: false, reason: `${field}.origin must be an absolute http(s) URL` };
+  if (typeof r.id !== "string" || !ID_RE.test(r.id)) return { ok: false, reason: `${field}.id must be a non-empty item id` };
+  if (typeof r.version !== "number" || !Number.isInteger(r.version) || r.version < 1) {
+    return { ok: false, reason: `${field}.version must be a positive integer` };
+  }
+  return { ok: true, ref: { origin, id: r.id, version: r.version } };
+}
+
+export function parseForkedFrom(raw: unknown): { ok: true; ref: ForkedFrom } | { ok: false; reason: string } {
+  return parseBlygRef(raw, "forked_from");
+}
+
+export function parseStoredFork(json: string | null): ForkedFrom | null {
+  if (!json) return null;
+  try {
+    return JSON.parse(json) as ForkedFrom;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Validate a client-supplied `stub_of` into one of the two locked shapes:
  * `{origin, id, version}` for a blyg target — `origin` REQUIRED even when it
  * is our own, because a citation is absolute — or `{url}` for the plain web.
@@ -57,13 +88,8 @@ export function parseStubOf(raw: unknown): { ok: true; stub: StubOf } | { ok: fa
     if (url.protocol !== "http:" && url.protocol !== "https:") return { ok: false, reason: "stub_of.url must be http(s)" };
     return { ok: true, stub: { url: url.toString() } };
   }
-  const origin = normalizeOrigin(r.origin);
-  if (!origin) return { ok: false, reason: "stub_of.origin must be an absolute http(s) URL" };
-  if (typeof r.id !== "string" || !ID_RE.test(r.id)) return { ok: false, reason: "stub_of.id must be a non-empty item id" };
-  if (typeof r.version !== "number" || !Number.isInteger(r.version) || r.version < 1) {
-    return { ok: false, reason: "stub_of.version must be a positive integer" };
-  }
-  return { ok: true, stub: { origin, id: r.id, version: r.version } };
+  const parsed = parseBlygRef(r, "stub_of");
+  return parsed.ok ? { ok: true, stub: parsed.ref } : parsed;
 }
 
 export function isBlygStub(stub: StubOf): stub is { origin: string; id: string; version: number } {
