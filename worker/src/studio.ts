@@ -986,12 +986,17 @@ studio.get("/syntax", async (c) => {
 <div class="prose">
 <p>Standard markdown always works (paragraphs, headings, lists, links, emphasis, code). Everything below is studio-private authoring syntax — none of it reaches the wire except where noted.</p>
 
-<h2>Fragment transclusion — <code>![[id]]</code></h2>
+<h2>Transclusion — <code>![[id]]</code></h2>
 <ul>
 <li><strong>Threads only</strong> — fragments can't transclude anything.</li>
-<li>Alone on its own line, nothing else: <code>![[7c9wk2n4h6q1x8v0z3m5rjy2ke]]</code> — <code>id</code> is the 26-character id of one of <em>your own published</em> fragments (not a draft, not withdrawn, not a thread — no nesting yet).</li>
-<li>Always pulls the fragment's current/latest version at publish time and bakes it into the thread's HTML. An explicit pinned-version form, <code>![[id@v3]]</code>, is reserved syntax, not implemented — using it fails publish with an explicit error rather than resolving.</li>
-<li>Any unresolvable id fails the <em>whole</em> publish, with every bad reference listed. In the thread editor, type <code>![[</code> to open a fragment picker; an unresolvable ref shows a red placeholder in preview before you publish.</li>
+<li>Alone on its own line, nothing else: <code>![[7c9wk2n4h6q1x8v0z3m5rjy2ke]]</code>.</li>
+<li>The id resolves in this order: one of <strong>your own published items, of either kind</strong> — a fragment, or another thread, which is how nesting works — then an <strong>imported item from one of your blyg subscriptions</strong>. Drafts and withdrawn items resolve to neither.</li>
+<li>A directive names an <em>identity</em>, not an origin. If the same id arrived from two different origins that is a publish error, not a guess.</li>
+<li><strong>Plain RSS (L0) items can't be transcluded</strong> — a legacy feed has no item documents and no versions, so there is nothing to snapshot. The error says so by name.</li>
+<li>What gets baked is always the <strong>local snapshot</strong>, never a live fetch — which is what makes publishing network-independent, and what makes a remote source's later edits unable to rewrite your quote.</li>
+<li>A thread can't transclude itself, or any thread whose own local quotes lead back to it. Remote chains aren't walked.</li>
+<li>Always takes the target's current version at publish time. An explicit pinned-version form, <code>![[id@v3]]</code>, is reserved syntax, not implemented — using it fails publish with an explicit error rather than resolving.</li>
+<li>Any unresolvable id fails the <em>whole</em> publish, with every bad reference listed. In the thread editor, type <code>![[</code> to open a picker; an unresolvable ref shows a red placeholder in preview before you publish.</li>
 </ul>
 
 <h2>Instructed generation (TK) — <code>[TK]…[/TK]</code></h2>
@@ -1011,6 +1016,34 @@ studio.get("/syntax", async (c) => {
 <li>Works in fragment scopes too, even though a fragment can't do a plain transclusion outside a scope.</li>
 <li>A TK scope can't also contain a plain transclusion — keep the two apart rather than nesting them.</li>
 </ul>
+
+<h2>Responding vs. descending — <code>stub</code> and <code>fork</code></h2>
+<p>Neither is authoring syntax: both are studio actions that make a draft for you, and both put a citation on the published document. They are easy to confuse and mean opposite things.</p>
+<p><strong>A stub cites something you are writing <em>about</em>. A fork records something you are writing <em>from</em>.</strong> A stub's body is yours from the first keystroke; a fork's body starts as someone else's bytes.</p>
+
+<h3>Stub — &ldquo;I am responding to this&rdquo;</h3>
+<ul>
+<li><strong>Where:</strong> <code>stub &#8599;</code> on any entry in <a href="${studioPath(mount)}/reading">reading</a>, or on a hopper's members.</li>
+<li>A stub is a <strong>thread</strong> that declares exactly one target. Threads only — which is what makes stubs stackable, since threads can be transcluded, so a stub of a stub is nesting rather than a new construct.</li>
+<li>The target is either another blyg's item or <strong>any URL on the plain web</strong>. Nothing is asked of it: no pin, no cooperation, no blyg on the other end.</li>
+<li><strong>The body is yours.</strong> The stub action starts it with <code>![[id]]</code> for blyg targets, because a stub without the quote isn't a stub in this medium's aesthetic — but delete the directive and you have published a response-by-link, which is legitimate and still verifies.</li>
+<li>Exactly one target. Other transclusions in the body are quotes, not additional targets.</li>
+<li>If the published body does transclude the target, the citation takes the version actually baked, so the two can never disagree on a published document.</li>
+<li>This is a <em>gesture</em>, not a reply object — there is no reply primitive in the protocol and there never will be. Transclusion is the primitive; the stub is the marker that says a response is what you meant.</li>
+</ul>
+
+<h3>Fork — &ldquo;this is where my text came from&rdquo;</h3>
+<ul>
+<li><strong>Where:</strong> <code>fork &#8599;</code> on a blyg-native entry in <a href="${studioPath(mount)}/reading">reading</a>, or <code>fork&hellip;</code> on a pinned row in your own item's history panel. Both open the same picker, which lists that item's pinned versions and nothing else.</li>
+<li>A fork starts a <strong>new draft of your own</strong> whose content <em>is</em> the source's pinned text, of the same kind as the source. You then edit it as your own item, because it is one.</li>
+<li><strong>Only a pinned version can be forked.</strong> A pin is a promise to serve those exact bytes forever, so it is the only thing a lineage pointer can name and still resolve years from now. An item with no pins offers nothing to fork — that is not an error, just an act its author hasn't taken.</li>
+<li>Lineage is fixed the moment the draft is made and has <strong>no setter</strong>. Content and the claim about where it came from are not separable, or a draft could be forked and then quietly disowned.</li>
+<li>It <strong>survives withdrawal</strong>. The endcap empties what the item said — that is the published work being taken back — but where it came from is not the work, so it stays, alongside <code>created</code>.</li>
+<li>A fork is neither a quote nor a response: it says nothing about agreeing, replying, or even having read the rest of that blyg.</li>
+<li>Forking your own pinned version is ordinary and useful — it's how you start a new line of thought from a state you promised to keep.</li>
+</ul>
+
+<p class="compose-help">Both citations carry the same <code>{origin, id, version}</code> shape, deliberately: &ldquo;a citation is absolute&rdquo; is one rule, not two — <code>origin</code> is required even when it is your own.</p>
 </div>`;
   return c.html(studioLayout("syntax — blyg studio", body));
 });
