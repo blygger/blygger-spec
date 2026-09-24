@@ -58,9 +58,9 @@ carries its own type and colour rather than inheriting the host's (this is why
 
 ```
 div.blyg
-  ├─ header.blyg-header            one line: blyg name (→ the feed page), feed link
-  │    └─ .blyg-name               the name; absent on the feed page (.bare modifier)
-  ├─ div.masthead                  feed page only — the blyg's identity at display size
+  ├─ header.blyg-header.bare       one line: feed link. Always `.bare` — the
+  │                                masthead below carries the name on every page
+  ├─ div.masthead                  every page — the blyg's identity at display size
   │    ├─ img.avatar
   │    └─ .masthead-text
   │         ├─ .site-name  .author-name  .author-bio  .author-links

@@ -75,7 +75,6 @@ body {
 .blyg-header { margin-bottom: 1.75rem; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
 .blyg-header a { color: var(--ink-soft); text-decoration: none; font: var(--apparatus); }
 .blyg-header a:hover { color: var(--pencil); text-decoration: underline; }
-.blyg-header .blyg-name { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
 .blyg-header.bare { justify-content: flex-end; margin-bottom: 0.5rem; }
 
 .masthead { display: flex; gap: 1rem; align-items: baseline; margin: 0 0 2.5rem; }
@@ -188,10 +187,15 @@ footer.older a:hover { text-decoration: underline; }
 <body>
 <p class="wf-note"><b>WIREFRAME REV 4</b> · thread permalink <code>t/{id}/</code>, re-synced from the implementation in session 19. <b>The stylesheet below is copied verbatim from <code>STYLE_CSS</code> in <code>worker/src/pages.ts</code></b> — the shipped file is the source of truth. Session 19: the header carries the blyg’s name (linking its index) instead of a hardcoded <code>Home</code>; a transcluded fragment is set as a quotation with the editorial rule beside it, and its own headings step down a rank so quoted material does not outshout the thread quoting it.</p>
 <div class="blyg">
-<header class="blyg-header">
-<a class="blyg-name" href="/blyg/">A Blyg</a>
+<header class="blyg-header bare">
 <a href="#" title="RSS feed">RSS ⧉</a>
 </header>
+<div class="masthead"><div class="masthead-text">
+<p class="site-name"><a href="/blyg/">A Blyg</a></p>
+<p class="author-name">An Author</p>
+<p class="author-bio">One line on what this blyg is for.</p>
+<p class="author-links"><a href="https://example.org/" rel="me">Homepage</a></p>
+</div></div>
 
 <article class="thread">
 <h1>Why every social medium hardens its early protocols</h1>

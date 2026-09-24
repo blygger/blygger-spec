@@ -11,14 +11,12 @@ describe("public pages (§3.4)", () => {
     const id = await createAndPublish(cookie, "a *rendered* fragment");
     const html = await (await getPublic("/blyg/")).text();
     // Session 19: site identity now renders on the feed page too, not only in
-    // <title>. The header's left slot is the blyg's own name linking to its
-    // index (it used to be a hardcoded `Home` → `/`, which is a self-link on a
+    // <title>. The way back to the blyg's index is the masthead's own name
+    // (it used to be a hardcoded `Home` → `/`, which is a self-link on a
     // root-mounted node and leaves a path-mounted permalink with no way back).
     expect(html).toContain("<title>Venkat&#39;s blyg</title>");
-    // On the feed page the name is the masthead, set at display size; the
-    // one-line `.blyg-name` header is for every *other* page, so printing both
-    // would just repeat it. Either way it links the blyg's own index, which
-    // the old hardcoded `Home` → `/` did not.
+    // The name is the masthead, set at display size, on every page since
+    // session 25. It links the blyg's own index, which `Home` → `/` did not.
     expect(html).toContain('<p class="site-name"><a href="/blyg/">Venkat&#39;s blyg</a></p>');
     expect(html).not.toContain('<a href="/">Home</a>');
     expect(html).toContain("<em>rendered</em>");
@@ -197,20 +195,50 @@ describe("site identity on public pages (session 19)", () => {
     expect(html).toContain('<a href="https://example.org/" rel="me">Homepage</a>');
   });
 
-  it("permalink, thread, archive and pinned pages stay lean — masthead is feed-page only", async () => {
+  // Session 25: identity used to be display-type on the feed page and a
+  // one-line header link everywhere else, so moving between them made the top
+  // of the page jump. The invariant is now the stronger one — every public
+  // page opens with the *same bytes* — so this compares them rather than
+  // checking each page for the fields separately.
+  it("every public page opens with the identical masthead — no jump between feed and item pages", async () => {
     const cookie = await login();
     await apiJson(cookie, "PUT", "/api/settings", {
       site_title: "Field Notes",
       author_name: "A. Author",
       author_bio: "Writes about protocols.",
+      author_links: [{ label: "Homepage", url: "https://example.org/" }],
     });
     const id = await createAndPublish(cookie, "a fragment");
     await apiJson(cookie, "POST", `/api/items/${id}/pin`, { version: 1 });
-    for (const path of [`/blyg/f/${id}/`, `/blyg/f/${id}/v1/`, "/blyg/archive/"]) {
+    const created = await apiJson(cookie, "POST", "/api/items", { content_md: `a thread\n\n![[${id}]]`, kind: "thread" });
+    const threadId = created.json.id as string;
+    await apiJson(cookie, "POST", `/api/items/${threadId}/publish`, {});
+    const withdrawnId = await createAndPublish(cookie, "soon gone");
+    await apiJson(cookie, "POST", `/api/items/${withdrawnId}/withdraw`, {});
+
+    const topOf = (html: string) => {
+      const start = html.indexOf('<header class="blyg-header');
+      const end = html.indexOf("</div>", html.indexOf('<div class="masthead"'));
+      expect(start).toBeGreaterThan(-1);
+      return html.slice(start, end);
+    };
+    const feedTop = topOf(await (await getPublic("/blyg/")).text());
+    expect(feedTop).toContain('<p class="site-name"><a href="/blyg/">Field Notes</a></p>');
+    expect(feedTop).toContain('<p class="author-name">A. Author</p>');
+    expect(feedTop).toContain("Writes about protocols.");
+    expect(feedTop).toContain('<a href="https://example.org/" rel="me">Homepage</a>');
+
+    for (const path of [
+      `/blyg/f/${id}/`,
+      `/blyg/f/${id}/v1/`,
+      `/blyg/t/${threadId}/`,
+      `/blyg/f/${withdrawnId}/`,
+      "/blyg/archive/",
+    ]) {
       const html = await (await getPublic(path)).text();
-      expect(html, path).not.toContain("Writes about protocols.");
-      // …but the name-as-way-back is on every page, which is the point.
-      expect(html, path).toContain('<a class="blyg-name" href="/blyg/">Field Notes</a>');
+      expect(topOf(html), path).toBe(feedTop);
+      // The old one-line header name is gone; the masthead is the only identity.
+      expect(html, path).not.toContain("blyg-name");
     }
   });
 

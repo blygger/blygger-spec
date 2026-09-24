@@ -172,6 +172,10 @@ export const STYLE_CSS = `/* blyg — one hand-written stylesheet, no build step
   }
 }
 * { box-sizing: border-box; }
+/* Reserve the scrollbar's width on every page, scrolling or not. A short
+   permalink beside a long feed page would otherwise sit ~7px further right,
+   which is the same jump the shared masthead exists to remove. */
+html { scrollbar-gutter: stable; }
 body {
   background: var(--page);
   color: var(--ink);
@@ -208,7 +212,6 @@ body {
 .blyg-header { margin-bottom: 1.75rem; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
 .blyg-header a { color: var(--ink-soft); text-decoration: none; font: var(--apparatus); }
 .blyg-header a:hover { color: var(--pencil); text-decoration: underline; }
-.blyg-header .blyg-name { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
 .blyg-header.bare { justify-content: flex-end; margin-bottom: 0.5rem; }
 
 .masthead { display: flex; gap: 1rem; align-items: baseline; margin: 0 0 2.5rem; }
@@ -650,13 +653,33 @@ ${body}
  * entry rendered in the masthead, which is honest: only the author knows
  * whether `/` is their homepage, someone else's site, or nothing.
  */
-function pageHeader(settings: Settings, mount: string, bare = false): string {
-  // `bare` is the feed page, where the masthead sets the same name at display
-  // size a few lines below — printing it twice in a row is just clutter.
-  const name = bare ? "" : `<a class="blyg-name" href="${mount}/">${escapeHtml(settings.site_title)}</a>\n`;
-  return `<header class="blyg-header${bare ? " bare" : ""}">
-${name}<a href="${mount}/feed.xml" title="RSS feed">RSS ⧉</a>
+function pageHeader(mount: string): string {
+  // Always `bare`: the masthead below sets the blyg's name at display size on
+  // every page now, and printing it twice in a row is just clutter. The class
+  // is still emitted because themes target `.blyg-header.bare` for the layout
+  // that pairs a one-line header with a masthead under it.
+  return `<header class="blyg-header bare">
+<a href="${mount}/feed.xml" title="RSS feed">RSS ⧉</a>
 </header>`;
+}
+
+/**
+ * The top of every public page, identical everywhere: bare header + masthead.
+ *
+ * Session 25 (Venkat): the feed page set the blyg's name in display type while
+ * every other page set it as a one-line link in the header, so moving between
+ * them made the top of the page jump. Identity is now rendered the same way in
+ * the same place on the feed, permalinks, threads, pinned snapshots, the
+ * archive and withdrawal endcaps.
+ *
+ * This widens session 19's deliberate feed-page-only scope. That scope existed
+ * to keep the pages most likely to be *embedded* lean — but a host embedding a
+ * feed page already had to hide `.masthead`, so this asks nothing new of it,
+ * just the same thing uniformly: hide `.blyg-header` and `.masthead` and every
+ * page is a bare block.
+ */
+async function pageTop(db: D1Database, settings: Settings, mount: string): Promise<string> {
+  return `${pageHeader(mount)}\n${await masthead(db, settings, mount)}`;
 }
 
 /**
@@ -672,9 +695,9 @@ ${name}<a href="${mount}/feed.xml" title="RSS feed">RSS ⧉</a>
  * published in `blyg.json` and in the feed channel, and rendered nowhere a
  * human could see it. A reader arriving at the page could not tell whose it was.
  *
- * Scoped to the **feed page only**: that is the front door. Permalink, thread,
- * pinned and archive pages stay lean, so the embeddable-block case is unchanged
- * for every page that is likely to be embedded.
+ * Session 19 scoped this to the **feed page only**, to keep the pages most
+ * likely to be embedded lean. Session 25 widened it to every public page — see
+ * `pageTop`, which is now the only caller.
  *
  * Presentation only — reads settings that already exist, writes no new field,
  * and nothing here appears in any wire representation.
@@ -1141,8 +1164,7 @@ export async function feedPage(db: D1Database, settings: Settings, items: ItemRo
   }
   const blogrollSubs = await listBlogrollSubscriptions(db);
   const body = `<div class="blyg">
-${pageHeader(settings, mount, true)}
-${await masthead(db, settings, mount)}
+${await pageTop(db, settings, mount)}
 ${blocks.join("\n") || '<p class="withdrawn">Nothing published yet.</p>'}
 ${hasMore ? `<footer class="older"><a href="${mount}/archive/">older items →</a></footer>` : ""}
 ${blogrollSection(blogrollSubs, mount)}
@@ -1200,7 +1222,7 @@ export async function permalinkPage(db: D1Database, settings: Settings, item: It
   if (item.kind === "withdrawn") {
     return layout(
       `withdrawn — ${settings.site_title}`,
-      `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
+      `<div class="blyg">\n${await pageTop(db, settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
       mount,
       withdrawnMeta(settings, url, alternateJson, webmention),
     );
@@ -1209,7 +1231,7 @@ export async function permalinkPage(db: D1Database, settings: Settings, item: It
   const media = await listMediaForItem(db, item.id);
   const text = excerptFromHtml(latest?.content_html ?? "", 200);
   const body = `<div class="blyg">
-${pageHeader(settings, mount)}
+${await pageTop(db, settings, mount)}
 ${await fragmentBlock(db, item, mount)}
 ${await responsesSection(db, item, mount)}
 </div>
@@ -1233,7 +1255,7 @@ export async function threadPage(db: D1Database, settings: Settings, item: ItemR
   if (item.kind === "withdrawn") {
     return layout(
       `withdrawn — ${settings.site_title}`,
-      `<div class="blyg">\n${pageHeader(settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
+      `<div class="blyg">\n${await pageTop(db, settings, mount)}\n${await withdrawnBlock(db, item, mount)}\n</div>`,
       mount,
       withdrawnMeta(settings, url, alternateJson, webmention),
     );
@@ -1241,7 +1263,7 @@ export async function threadPage(db: D1Database, settings: Settings, item: ItemR
   const latest = await publishedVersion(db, item);
   const media = await listMediaForItem(db, item.id);
   const body = `<div class="blyg">
-${pageHeader(settings, mount)}
+${await pageTop(db, settings, mount)}
 ${await threadBlock(db, item, mount)}
 ${await responsesSection(db, item, mount)}
 </div>
@@ -1292,7 +1314,7 @@ export async function pinnedVersionPage(
   // was true when it froze — not whatever the live item cites now.
   const cite = isThread ? stubCitation(row) : "";
   const body = `<div class="blyg">
-${pageHeader(settings, mount)}
+${await pageTop(db, settings, mount)}
 <p class="pinned-banner">📌 Pinned v${row.version} — a frozen snapshot from ${formatDate(row.published_at)}.
 <a href="${live}">latest version</a> &middot; <a href="${mount}/items/${item.id}/v${row.version}.json">citable JSON</a></p>
 <article class="${isThread ? "thread" : "fragment"}">
@@ -1347,7 +1369,7 @@ export async function archivePage(db: D1Database, settings: Settings, items: Ite
     );
   }
   const body = `<div class="blyg">
-${pageHeader(settings, mount)}
+${await pageTop(db, settings, mount)}
 <h2>Archive</h2>
 <ul class="archive">
 ${rows.join("\n")}
