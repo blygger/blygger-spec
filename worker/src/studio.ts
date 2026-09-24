@@ -990,7 +990,8 @@ studio.get("/syntax", async (c) => {
 <ul>
 <li><strong>Threads only</strong> — fragments can't transclude anything.</li>
 <li>Alone on its own line, nothing else: <code>![[7c9wk2n4h6q1x8v0z3m5rjy2ke]]</code>.</li>
-<li>The id resolves in this order: one of <strong>your own published items, of either kind</strong> — a fragment, or another thread, which is how nesting works — then an <strong>imported item from one of your blyg subscriptions</strong>. Drafts and withdrawn items resolve to neither.</li>
+<li>The id resolves in this order: one of <strong>your own published items</strong>, then an <strong>imported item from one of your blyg subscriptions</strong>. Drafts and withdrawn items resolve to neither.</li>
+<li><strong>Either kind, either side.</strong> Fragments and threads share one id space, so a thread can quote a fragment or another thread, yours or theirs — there is no type sigil in the directive and none is needed. Quoting a thread nests it; since what gets baked is a snapshot, the quoted thread's own quotes arrive already rendered inside yours, with no recursive resolution and no second fetch.</li>
 <li>A directive names an <em>identity</em>, not an origin. If the same id arrived from two different origins that is a publish error, not a guess.</li>
 <li><strong>Plain RSS (L0) items can't be transcluded</strong> — a legacy feed has no item documents and no versions, so there is nothing to snapshot. The error says so by name.</li>
 <li>What gets baked is always the <strong>local snapshot</strong>, never a live fetch — which is what makes publishing network-independent, and what makes a remote source's later edits unable to rewrite your quote.</li>
