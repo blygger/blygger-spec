@@ -7,6 +7,102 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 25 — 2026-09-24/25 — Talk day: docs caught up to 0.3, one UI unification, and the first strangers
+
+**Model:** Opus 5 · **Time:** ~09:30–12:30 PT (24th), ~09:00–10:30 PT (25th) · **Committed:** yes · **Deployed:** both live nodes (`75f74d9`), blygger.org Pages (×4), blygger.com admin actions
+
+> **Gap in the record:** there is **no Session 24 entry**, though session 24 (2026-09-22)
+> built `forked_from`, applied migration 0010, deployed both nodes, and did two rounds on
+> the talk deck. Its substance survives in `CLAUDE.md` TODO entries and in git history, but
+> not here, and this file is supposed to be the place a future agent onboards from. Not
+> backfilled by this session on purpose — reconstructing another session's *rationale* from
+> its artifacts is how a devlog turns into fiction. Venkat's call whether to write it.
+
+**What & why**
+
+Talk day. The work split three ways, and only the middle one was planned.
+
+**1. The studio syntax page was lying, in the one place it costs most.** Its transclusion
+section still described the v0.1 rule — own published *fragments* only, no nesting, nothing
+remote — when all three widened at 0.3. So the page an author consults *while writing a
+thread* would tell them a thread they can legally publish is invalid. Rewritten from
+`resolveTarget()` rather than from the plan docs, which is the rule that should have applied
+the first time: resolution order (own items of either kind, then imported non-L0 blyg items),
+identity-not-address so a duplicate id is a publish error rather than a guess, local snapshot
+never a live fetch, self/cycle refusals. The TK source rule was already correct and now reads
+as the deliberate contrast it is: local, published, **fragment-only**, unchanged since v0.1.
+
+Also added a **stub vs fork** section, because nothing documented the difference anywhere an
+author would look, and Venkat asked for it directly after asking what the normal fork UX was.
+The framing that section leads with: *a stub cites something you are writing **about**; a fork
+records something you are writing **from**.* A stub's body is yours from the first keystroke;
+a fork's body starts as someone else's bytes. Same `{origin, id, version}` citation shape for
+both, deliberately — "a citation is absolute" is one rule, not two.
+
+A late follow-up (Venkat: "threads too have the same id namespace right?") exposed that the
+rewritten page still spelled out "either kind" for *local* items and left it implicit for
+imported ones. It is not implicit in the code — `imported_items.kind` is `'fragment' | 'thread'`
+and the imported branch filters on `l0` and liveness only — and `cross-client.test.ts` has
+covered remote-thread nesting since 0.3. Now stated once, for both sides.
+
+**2. Every public page now opens with the same bytes.** The feed page set the blyg's name in
+display type inside a masthead; every other page set it as a small link in the header's left
+slot, so clicking a permalink moved the name, changed its size, and shifted everything under
+it. `pageTop()` is now the only thing any public page opens with. This widens session 19's
+deliberate feed-page-only scope; the reason that scope no longer earns its keep is that it
+was protecting the embed case, and a host embedding a feed page **already** had to hide
+`.masthead` — so the rule is now uniform rather than per-page, which asks a host nothing new.
+`.blyg-name` is gone. The test was rewritten to compare rendered tops for byte-equality rather
+than checking each page for the fields separately, because that is the property actually wanted.
+
+Measuring the fix in a browser found a second jump the first fix did not address: a short
+permalink sat ~7px right of a long feed page, because one has a scrollbar and the other does
+not. `scrollbar-gutter: stable`. Same complaint, different mechanism, and invisible until the
+mastheads lined up.
+
+**3. Then the talk happened, and strangers turned up.** Three third-party blygs now exist,
+stood up from `blygger.org/start/` with no contact with us: `jd-blyg.exe.xyz`,
+`blyg.aneeshsathe.com`, and `thinking.drwip.com`. All conformant `blyg 0.3` from
+`blyg-ref/0.3.0`. drwip is **path-mounted at `/blyg/`** and was found through its
+`<link rel="blyg">` — decision #14's mount independence exercised by someone we never spoke
+to, which is the first outside evidence for it. All approved on blygger.com, which now lists
+five blygs and three plain feeds.
+
+**State after**
+
+- **Docs:** `/studio/syntax` accurate to 0.3 on both live nodes, with a stub-vs-fork section.
+- **Public pages:** one shared top on feed, permalinks, threads, pinned snapshots, archive and
+  withdrawal endcaps. 508 tests green, `tsc` clean. CSS contract + both wireframes re-synced.
+- **Directory:** 8 listings, queue empty. One rejection recorded with a reason — drwip was
+  submitted twice, once resolving `blyg` and once resolving its root `rss.xml`, which would
+  have listed one publication under two badges.
+- **`self-host-plan.md` §9:** criterion 1 (a stranger stands up a blyg on a domain we do not
+  control) is **met in the wild by the provisional start page, without the template existing**.
+  Criterion 2 (their instance takes a new version via `npm run upgrade`) is unmet and is now
+  the binding constraint.
+
+**Open threads**
+
+- **§9.1's Webmention hardening gate has fired**, and approving the listings is what fired it.
+  The condition was "before the self-host template makes origins discoverable"; the template
+  never shipped but the outcome arrived anyway. Three third-party nodes run the reference
+  client, advertise an unhardened endpoint, and now have their origins on a public directory
+  page — operated by people who followed a start page rather than choosing to run an endpoint.
+  This is no longer a prerequisite for a future artifact; it is outstanding hardening on live
+  deployments that are not ours.
+- **Four post-launch items** from Venkat, in `CLAUDE.md` → TODO → Post-launch: packaged
+  distribution + a version-alert path; an issue-tracker mechanism; separating protocol feedback
+  from reference-client feedback (**sequence this before the issue templates** — the templates
+  encode whichever answer wins); and a public decision log including a non-normative identity
+  recommendation, precisely because #11 keeps identity out of the spec and three implementers
+  now exist.
+- **Deploying needs `wrangler login`, not the registry tokens.** Measured against the REST API:
+  the two `CLOUDFLARE_API_TOKEN`s are **single-account**, and the personal one has **no D1
+  scope**, so `deploy:all`'s migration preflight cannot run from either. One OAuth session
+  reaches both accounts. `docs/deploy-protocol.md` implies otherwise and should say this.
+- **`feed`-kind directory rows carry no title**, so plain feeds display as bare hostnames while
+  blygs show their manifest title. Recorded in `blygger-com/status.md`.
+
 ## Session 23 (cont'd, 3) — 2026-09-20 — Public responses: a citation trail, not a comment section
 
 **Model:** Opus 5 · **Committed:** yes · **Deployed:** both live nodes (migration 0009 + the responses list)

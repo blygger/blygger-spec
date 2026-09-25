@@ -51,6 +51,30 @@ Account IDs *are* in the manifest. They are identifiers, not credentials (they a
 
 Belt and braces: the script also exports `CLOUDFLARE_ACCOUNT_ID` per target when it shells out.
 
+## Authentication — use `wrangler login`, not the registry tokens
+
+**Added 2026-09-25, measured against the REST API rather than inferred from a wrangler error.**
+The `CLOUDFLARE_API_TOKEN` in `Code/.env.keys` and the one in `protocol-institute/.env.keys` are
+**single-account tokens**, and the personal one has **no D1 scope**:
+
+| token | `/accounts` lists | Workers | D1 |
+|---|---|---|---|
+| `Code/.env.keys` | personal only | ok | `10000 Authentication error` |
+| `protocol-institute/.env.keys` | PI only | ok | ok (PI account) |
+
+Neither can run `deploy:all`, because step 3 below lists migrations for *every* target before
+deploying *any*. The failure surfaces as `7403 — "The given account is not valid or is not
+authorized to access this service"`, which reads exactly like a wrong-account misconfiguration
+and is not one.
+
+**Do this:** `wrangler login` once (OAuth reaches both accounts — `whoami` lists both), then run
+`deploy:all` with `CLOUDFLARE_API_TOKEN` **unset**. An env token silently overrides the OAuth
+session, so exporting one from a registry file re-breaks it. The registry tokens are still the
+right thing for Pages (`blygger-org/deploy.sh`) and read-only Workers queries.
+
+The preflight aborting on an unreadable migration list is correct — it is the same fail-closed
+behaviour that protects a half-landed schema change. Do not add a flag to skip it.
+
 ## Run order
 
 1. **Load + cross-check** manifest against `wrangler.jsonc`. Any disagreement aborts before a single target is touched. Reports the commit, and warns if the working tree is dirty.
