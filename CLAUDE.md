@@ -88,6 +88,16 @@ Coding sessions are expected to run on **Sonnet or Opus** working from the writt
 3. Determine session number (last entry + 1).
 4. Check model routing: if today's intended work hits a ⚠️ FABLE item and you aren't Fable, flag it now.
 5. Give Venkat a one-line orientation: session number, where things stand, proposed focus.
+6. **Raise the carry-overs below, if any are still listed.** Venkat asked (2026-09-25) to be reminded of these at session start rather than having to remember them.
+
+### Carry-overs to raise at session start
+
+Delete an entry once it is done or Venkat says to drop it. An empty list means say nothing.
+
+- **⚠️ Webmention hardening is now live-deployment work, not preparation** (`docs/self-host-plan.md` §9.1). The gate fired 2026-09-25: three third-party nodes run the reference client with an unhardened endpoint, and blygger.com publishes their origins, so a stranger can find them from a public page. Their operators did not choose to run an endpoint — they followed a start page. This is the one item with other people's deployments exposed, so it should be raised first.
+- **Decide the repo split before writing issue templates** (TODO → Post-launch). Whether protocol and reference-client feedback separate into two repos, or one repo with enforced labels, determines what the templates can ask. Real bug reports are arriving in the meantime, so the cost of deciding late is a queue nobody can route.
+- **Deploys authenticate with `wrangler login`, not the registry tokens** (`docs/deploy-protocol.md` § Authentication). Both `CLOUDFLARE_API_TOKEN`s are single-account and the personal one has no D1 scope, so `deploy:all`'s preflight cannot run from either. Unset `CLOUDFLARE_API_TOKEN` — an env token silently overrides the OAuth session. Mention only when a deploy is likely that session.
+
 
 ## After Each Work Session
 
