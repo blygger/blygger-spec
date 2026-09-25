@@ -205,14 +205,34 @@ failed only because nothing was connected to the domain yet.
 
 - A person who has never seen this repo stands up a working blyg from the template
   following only the generated README, on a domain we do not control.
+  **Met in the wild, 2026-09-25, without the template existing.** Three strangers stood
+  up conformant 0.3 nodes from `blygger.org/start/` alone — `jd-blyg.exe.xyz`,
+  `blyg.aneeshsathe.com`, and `thinking.drwip.com` (path-mounted at `/blyg/`, advertised
+  with `<link rel="blyg">`, which is decision #14 exercised by someone we never spoke
+  to). Read this as the criterion being satisfied by the *provisional* instructions, not
+  as the template being unnecessary: nobody has yet had to upgrade.
 - Their instance takes a subsequent protocol version via `npm run upgrade` without
-  hand-editing config.
+  hand-editing config. **Not met, and now the binding constraint** — there are three
+  third-party nodes and no packaged distribution, no upgrade command, and no way to
+  tell them a new version exists. Tracked as the high-priority item in `CLAUDE.md`
+  → TODO → Post-launch.
 - `blygger.org/start/` names all three routes in.
 - blygger.com lists at least the two existing nodes, both resolved as `kind: "blyg"` by
-  the real resolver. *(Both submitted in production session 21 and resolved correctly;
-  awaiting approval at `/admin`.)*
+  the real resolver. **Done** — approved session 22; the directory now lists five blygs
+  and three plain feeds (2026-09-25).
 
 ## 9.1 Prerequisite added session 23: harden the Webmention endpoint first
+
+> **⚠️ This gate has fired — 2026-09-25.** The condition was "before the self-host
+> template makes origins discoverable". The template never shipped, but the outcome
+> arrived anyway: three third-party nodes exist and blygger.com now publishes their
+> origins. All three run the reference client, so all three advertise an unhardened
+> Webmention endpoint at a URL any stranger can now find from a public directory page,
+> and the operators are people who did not choose to run an endpoint — they followed a
+> start page. The work below is no longer a prerequisite for a future artifact; it is
+> outstanding hardening on live third-party deployments, and it is the reason the
+> version-alert path in the Post-launch TODO matters as a *delivery mechanism* and not
+> just a courtesy.
 
 **This is the gate item the v0.3 work created, and it belongs here rather than in the
 v0.3 plan, because the trigger is exactly what this artifact does.** A self-hosted

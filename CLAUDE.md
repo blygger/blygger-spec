@@ -129,6 +129,49 @@ Raised after live-testing TK generation (which Venkat reports works well — tes
 - [ ] **Hopper-based thread generation** — **scheduled: `docs/v0.3-plan.md` Phase B task 13 (session 22).** Not a testing gap: the feature does not exist. `v0.2-plan.md` §"hoppers hold imported items only" defers it explicitly: "v0.2 hoppers hold **imported items only**; v0.3 extends membership to own items when threads compose from hoppers." Confirmed session 18 — `hopper` appears in `src/studio.ts` only as a nav entry; there is no path from a hopper into the thread editor. Needs the v0.3 schema change (own items as hopper members) before it can be built, so it belongs in the v0.3 plan, not this backlog.
 - [x] **Quick way to compose a fragment from a reading-list post** — **done session 18.** Reading entries carry a `respond ↗` link to `?respond=<sub>:<remote>`, which prefills the composer with a citation line (`[title](url)` + blank line) and **nothing else** — none of the imported item's text, per decision #12; the page says so in prose. Source URL comes from `sourceTitleAndUrl()`: the embedded anchor for L0, the constructed origin permalink for blyg-native. `blygItemUrl()` is now shared with the public hopper page rather than duplicated (the drift hazard from sessions 16–17).
 
+### Post-launch (session 25, 2026-09-25, Venkat)
+
+Raised the day after the Protocol Symposium talk. The trigger is that **strangers now
+run blygs**: three third-party nodes stood up from `blygger.org/start/` alone —
+`jd-blyg.exe.xyz`, `blyg.aneeshsathe.com`, and `thinking.drwip.com` (path-mounted at
+`/blyg/`, so decision #14's mount independence got exercised in the wild by someone we
+never spoke to). All three are approved and listed on blygger.com. Every item below
+exists because the project stopped being two nodes Venkat controls.
+
+- [ ] **HIGH — packaged distribution + a version-alert path for existing blygs.**
+  Distribution is `docs/self-host-plan.md` (§4 template, §5 update path, already titled
+  "the part the record has never answered"); the alert half is genuinely new and is not
+  in that plan. Note what already exists to build on: every manifest carries
+  `generator` (`blyg-ref/0.3.0`), so a node's version is *already public and already
+  collected by blygger.com's resolver* — the directory can see who is behind without
+  anyone opting in. Whether the alert is a directory-side notice, a manifest key a
+  client polls, or a Webmention to each origin is undecided. **The wire says nothing
+  about client versions and should probably continue not to** (#18d is about protocol
+  version, not implementation version) — so this likely belongs to the client and the
+  directory, not the spec.
+- [ ] **HIGH — an issue-tracker mechanism.** Issues are enabled on
+  `blygger/blygger-spec` and there is exactly one (#1, comments on the frozen v0 spec).
+  There are no templates, no labels, and no `.github/`. Real bug reports are now
+  arriving from people who are not Venkat, so the gap is triage structure, not the
+  tracker itself. Blocked-adjacent on the item below: a template that cannot ask "is
+  this the protocol or the client?" will collect a pile nobody can route.
+- [ ] **HIGH — separate protocol feedback from reference-client feedback.** One repo
+  currently holds both: `docs/` is the protocol, `worker/` is one implementation of it.
+  That was right while the only implementer was us, and stops being right the moment a
+  stranger files "transclusion is broken" meaning "your Worker has a bug". Options, none
+  chosen: split into two repos; keep one repo with enforced issue labels + `CODEOWNERS`;
+  or move `worker/` out and leave the spec repo normative-only. **Decide this before the
+  issue templates, not after** — the templates encode whichever answer wins.
+- [ ] **Log protocol decisions somewhere the public can read them.** The
+  "Locked decisions" list above is agent-facing and lives in a file nobody outside this
+  checkout reads; `docs/proposals/` and `docs/notes/` hold the reasoning but are not
+  indexed as a decision record. Wanted: a public log of what was decided and why.
+  - [ ] **Specifically: a recommended practice for identity, even though identity is
+    deliberately not in the spec** (#11). The spec's refusal is the right call and is
+    well argued, but it leaves every implementer to invent something, and three of them
+    now exist. This is the `docs/notes/` genre — non-normative, cited, clearly marked as
+    *a* way and not *the* way, like `tn-1`. Probably `tn-2`.
+
 ### v0.3 (session 23)
 
 - [x] **Public responses list** (`v0.3-plan.md` Phase B task 17) — **done 2026-09-20.** Opt-in per item, off by default; a citation trail with no count; per-response hide that is reversible and not a delete; open to all origins (Venkat: a real blyg publishing a real stub is spam control enough). Page chrome only — a stranger's publish can never touch versioned state.
