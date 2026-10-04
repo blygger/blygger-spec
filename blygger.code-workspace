@@ -1,0 +1,84 @@
+{
+  // Blygger multi-root workspace. Open with:
+  //   code --profile Blygger blygger.code-workspace
+  //
+  // Sibling checkouts are expected next to blygger-spec (../<repo>). A folder
+  // that is not cloned shows as missing in the Explorer and is otherwise
+  // harmless; .vscode/setup-profile.sh offers to clone the missing ones.
+  // Aneesh's machine has blygger-studio + blygger-desktop; Venkat's has
+  // blygger-studio, blygger-org and blygger-com (and probably not blygger-desktop).
+  "folders": [
+    { "name": "blygger-spec (protocol + conformance)", "path": "." },
+    { "name": "blygger-studio (reference client)", "path": "../blygger-studio" },
+    { "name": "blygger-desktop (Burrow)", "path": "../blygger-desktop" },
+    { "name": "blygger-org (blygger.org site)", "path": "../blygger-org" },
+    { "name": "blygger-com (directory)", "path": "../blygger-com" }
+  ],
+
+  // Workspace-wide settings. Per-repo settings (JSON schemas, markdown, spell
+  // check, Live Preview) live in blygger-spec/.vscode/settings.json.
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.wrangler": true,
+      "**/.DS_Store": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/target": true,
+      "**/cache": true,
+      "**/vendor": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.wrangler": true,
+      "**/package-lock.json": true,
+      "**/Cargo.lock": true
+    },
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/target/**": true,
+      "**/.wrangler/**": true
+    },
+    "files.associations": { "*.als": "alloy" },
+
+    "explorer.compactFolders": false,
+    "breadcrumbs.enabled": true,
+    "workbench.editor.enablePreview": false,
+    "git.openRepositoryInParentFolders": "never",
+
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+
+    // Vitest explorer: discover configs per folder; never inside dependencies.
+    "vitest.configSearchPatternExclude": "{**/node_modules/**,**/.*/**,**/*.d.ts}",
+
+    // Burrow (Rust): clippy on save; rust-toolchain.toml pins the toolchain.
+    "rust-analyzer.check.command": "clippy",
+
+    "errorLens.enabledDiagnosticLevels": ["error", "warning"],
+    "gitlens.codeLens.enabled": false
+  },
+
+  "extensions": {
+    // Same list as blygger-spec/.vscode/extensions.json; see .vscode/README.md.
+    "recommendations": [
+      "anthropic.claude-code",
+      "ms-vscode.live-server",
+      "arashsahebolamri.alloy",
+      "tintinweb.graphviz-interactive-preview",
+      "yzhang.markdown-all-in-one",
+      "bierner.markdown-mermaid",
+      "bierner.markdown-preview-github-styles",
+      "davidanson.vscode-markdownlint",
+      "redhat.vscode-yaml",
+      "vitest.explorer",
+      "ms-playwright.playwright",
+      "ms-python.python",
+      "rust-lang.rust-analyzer",
+      "tamasfe.even-better-toml",
+      "streetsidesoftware.code-spell-checker",
+      "eamodio.gitlens",
+      "usernamehw.errorlens",
+      "informal.quint-vscode"
+    ]
+  }
+}
