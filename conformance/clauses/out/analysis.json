@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-04T03:33:18+00:00",
+ "generated_at": "2026-10-04T03:36:53+00:00",
  "spec": "docs/protocol-v0.3.md",
  "matrix": [
   {
@@ -86,8 +86,8 @@
    "mode": "normative",
    "MUST": {
     "n": 7,
-    "exact": 5,
-    "section": 2,
+    "exact": 6,
+    "section": 1,
     "ids": [
      "C-4-01",
      "C-4-02",
@@ -506,8 +506,8 @@
    },
    "MAY": {
     "n": 1,
-    "exact": 0,
-    "section": 1,
+    "exact": 1,
+    "section": 0,
     "ids": [
      "C-8-02"
     ]
@@ -519,8 +519,8 @@
    "mode": "normative",
    "MUST": {
     "n": 4,
-    "exact": 1,
-    "section": 3,
+    "exact": 2,
+    "section": 2,
     "ids": [
      "C-8.4-01",
      "C-8.4-02",
@@ -558,8 +558,8 @@
    },
    "SHOULD": {
     "n": 1,
-    "exact": 0,
-    "section": 1,
+    "exact": 1,
+    "section": 0,
     "ids": [
      "C-9-01"
     ]
@@ -787,8 +787,8 @@
    },
    "SHOULD": {
     "n": 1,
-    "exact": 0,
-    "section": 1,
+    "exact": 1,
+    "section": 0,
     "ids": [
      "C-12.2-02"
     ]
@@ -809,7 +809,7 @@
    "MUST": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-12.3-02"
     ]
@@ -817,7 +817,7 @@
    "SHOULD": {
     "n": 2,
     "exact": 0,
-    "section": 0,
+    "section": 2,
     "ids": [
      "C-12.3-01",
      "C-12.3-03"
@@ -836,8 +836,8 @@
    "mode": "normative",
    "MUST": {
     "n": 7,
-    "exact": 3,
-    "section": 4,
+    "exact": 4,
+    "section": 3,
     "ids": [
      "C-13.1-01",
      "C-13.1-02",
@@ -1168,8 +1168,8 @@
    "mode": "normative",
    "MUST": {
     "n": 2,
-    "exact": 1,
-    "section": 1,
+    "exact": 2,
+    "section": 0,
     "ids": [
      "C-15.4-02",
      "C-15.4-03"
@@ -1177,8 +1177,8 @@
    },
    "SHOULD": {
     "n": 2,
-    "exact": 0,
-    "section": 2,
+    "exact": 1,
+    "section": 1,
     "ids": [
      "C-15.4-01",
      "C-15.4-04"
@@ -1302,7 +1302,7 @@
    "MUST": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "P-16.4-01"
     ]
@@ -2981,6 +2981,654 @@
  ],
  "prose_only_fields": [],
  "tests": [
+  {
+   "id": "alloy:alloy.blygger.NoLocalSelfContainment",
+   "area": "alloy",
+   "title": "1a. Local closure check prevents self-containment (version-level reading)",
+   "status": "pass",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-01",
+    "C-10.2-04"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.NoLocalSelfContainment_ItemReading",
+   "area": "alloy",
+   "title": "1a′. Local closure check, item-level reading (each local thread's current transclusions[])",
+   "status": "fail",
+   "sections": [
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-01",
+    "C-10.2-04"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.NoSelfContainmentAnyPath",
+   "area": "alloy",
+   "title": "1b. Self-containment through a remote hop (cross-origin cycle)",
+   "status": "info",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-04"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.SnapshotsWellFounded",
+   "area": "alloy",
+   "title": "1c. Snapshots are well-founded: no version contains itself",
+   "status": "pass",
+   "sections": [
+    "10.2",
+    "10.4"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ServedIsPromised",
+   "area": "alloy",
+   "title": "2. Served is promised: only live + pinned are served; pins survive withdrawal",
+   "status": "pass",
+   "sections": [
+    "4",
+    "8",
+    "8.4",
+    "9"
+   ],
+   "clauses": [
+    "C-4-09",
+    "C-4-10",
+    "C-8-01",
+    "C-8-02",
+    "C-8-03",
+    "C-8.4-01",
+    "C-8.4-02"
+   ],
+   "decisions": [
+    8,
+    24,
+    25
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.QuotedContentStillServedByItsAuthor",
+   "area": "alloy",
+   "title": "2b. Withdrawal does not reach other origins' baked quotes",
+   "status": "info",
+   "sections": [
+    "9",
+    "10.4",
+    "13.4"
+   ],
+   "clauses": [
+    "C-13.4-01"
+   ],
+   "decisions": [
+    8,
+    9,
+    26
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ReaderNeverHoldsUnserved",
+   "area": "alloy",
+   "title": "3. Reader never holds unserved content past withdrawal (#18c)",
+   "status": "pass",
+   "sections": [
+    "13.1",
+    "13.4"
+   ],
+   "clauses": [
+    "C-13.1-01",
+    "C-13.1-03",
+    "C-13.4-01",
+    "C-13.4-02"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ReaderHoldsOnlyServed",
+   "area": "alloy",
+   "title": "3b. Between polls a reader may hold what the origin no longer serves",
+   "status": "info",
+   "sections": [
+    "13.2",
+    "13.4"
+   ],
+   "clauses": [
+    "C-13.1-01",
+    "C-13.4-02"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ForkFaithful",
+   "area": "alloy",
+   "title": "5 (a). ForkFaithful under §5.6 alone: a fork bakes what its source pin baked",
+   "status": "warn",
+   "sections": [
+    "5.6",
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-01",
+    "C-10.2-02",
+    "C-5.6-03",
+    "C-5.6-06",
+    "C-5.6-08"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ForkSameTargets",
+   "area": "alloy",
+   "title": "5b (a). Weaker, §5.6 alone: a fork quotes the same items (ids) as its source pin",
+   "status": "pass",
+   "sections": [
+    "5.6",
+    "10.1",
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ForkPreservesPartiality",
+   "area": "alloy",
+   "title": "5c (a). §5.6 alone: a partial quote stays partial in a fork (any client)",
+   "status": "warn",
+   "sections": [
+    "10.1",
+    "10.3",
+    "16.4"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    43,
+    49
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ForkPreservesPartialityIfAware",
+   "area": "alloy",
+   "title": "5d (a). §5.6 alone: …it does stay partial when the forker knows the grammar",
+   "status": "pass",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-02"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ForkTextEqualsPin_CopyMd",
+   "area": "alloy",
+   "title": "5e (a). §5.6 alone: a fork's text equals its pinned source's text",
+   "status": "warn",
+   "sections": [
+    "5.6",
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-01",
+    "C-5.6-03",
+    "C-5.6-08"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ForkTextEqualsPin_57",
+   "area": "alloy",
+   "title": "5e (b). §5.6 + §16.6f (#57): a fork's text equals its pinned source's text",
+   "status": "pass",
+   "sections": [
+    "5.6",
+    "16.6f"
+   ],
+   "clauses": [
+    "C-5.6-03",
+    "C-5.6-08"
+   ],
+   "decisions": [
+    57
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ForkQuotesFaithful_57",
+   "area": "alloy",
+   "title": "5f (b). #57: the fork's quoted text equals the pin's baked quote text, and nothing re-resolves",
+   "status": "pass",
+   "sections": [
+    "16.6f",
+    "5.6",
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-5.6-08"
+   ],
+   "decisions": [
+    57,
+    49
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ForkHonoursKnownWithdrawal_CopyMd",
+   "area": "alloy",
+   "title": "5g (a). §5.6 alone: a fork never re-publishes words its forker knows were withdrawn (unpinned)",
+   "status": "pass",
+   "sections": [
+    "10.2",
+    "13.4",
+    "5.6"
+   ],
+   "clauses": [
+    "C-10.2-01",
+    "C-13.4-01"
+   ],
+   "decisions": [
+    26,
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.ForkHonoursKnownWithdrawal_57",
+   "area": "alloy",
+   "title": "5g (b). #57: …and with flattening?",
+   "status": "warn",
+   "sections": [
+    "16.6f",
+    "10.2",
+    "13.4"
+   ],
+   "clauses": [
+    "C-10.2-01",
+    "C-13.4-01"
+   ],
+   "decisions": [
+    57,
+    26,
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.QuoteIsVerbatim",
+   "area": "alloy",
+   "title": "6a. Every partial quote was a substring of the version it names",
+   "status": "pass",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.QuoteCheckableAtPublish",
+   "area": "alloy",
+   "title": "6b. Is a partial quote re-checkable at the moment it is published?",
+   "status": "fail",
+   "sections": [
+    "10.2",
+    "5.9"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.2-03"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.QuoteStaysCheckable",
+   "area": "alloy",
+   "title": "6c. Does a partial quote stay re-checkable?",
+   "status": "warn",
+   "sections": [
+    "10.2",
+    "10.4"
+   ],
+   "clauses": [
+    "C-10.2-03"
+   ],
+   "decisions": [
+    49,
+    9
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.StubVersionAgreement",
+   "area": "alloy",
+   "title": "8a. Stub version agreement (#27)",
+   "status": "pass",
+   "sections": [
+    "10.6",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.6-01",
+    "C-10.6-02",
+    "C-10.6-03"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.StubCiteNeverRegresses",
+   "area": "alloy",
+   "title": "8b. A stub's stub_of.version never moves backwards across the stub's versions",
+   "status": "warn",
+   "sections": [
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.6-03"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.StubCitesRealVersion",
+   "area": "alloy",
+   "title": "8c. A stub names a version its target's origin really published",
+   "status": "pass",
+   "sections": [
+    "5.9",
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.6-03"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "alloy:alloy.blygger.VersionsContiguous",
+   "area": "alloy",
+   "title": "Versions increment by exactly 1 per publish event (#19)",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "9"
+   ],
+   "clauses": [
+    "C-5.1-02"
+   ],
+   "decisions": [
+    19
+   ]
+  },
+  {
+   "id": "alloy:alloy.watermark.WatermarkMonotone",
+   "area": "alloy",
+   "title": "4. Watermark is monotone except by user reset (#18b)",
+   "status": "pass",
+   "sections": [
+    "13.3"
+   ],
+   "clauses": [
+    "C-13.1-02",
+    "C-13.2-02",
+    "C-13.3-01",
+    "C-13.3-02"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.watermark.NoSilentRegression",
+   "area": "alloy",
+   "title": "4b. No silent regression of presented content (keep-watermark reading)",
+   "status": "pass",
+   "sections": [
+    "13.3"
+   ],
+   "clauses": [
+    "C-13.3-01"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.watermark.NoSilentRegression_Forget",
+   "area": "alloy",
+   "title": "4c. …but if the watermark is deleted with the stored copy on withdrawal",
+   "status": "warn",
+   "sections": [
+    "9",
+    "13.3",
+    "13.4"
+   ],
+   "clauses": [
+    "C-13.1-03",
+    "C-13.3-01",
+    "C-13.4-01"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.watermark.WatermarkMonotone_Forget",
+   "area": "alloy",
+   "title": "4d. Watermark monotone under the forget-on-delete reading",
+   "status": "info",
+   "sections": [
+    "13.4"
+   ],
+   "clauses": [
+    "C-13.4-01"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.watermark.RewriteIsLoud",
+   "area": "alloy",
+   "title": "4e. A fetched history rewrite always raises a discrepancy",
+   "status": "pass",
+   "sections": [
+    "13.3"
+   ],
+   "clauses": [
+    "C-13.3-01"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.watermark.AlarmMeansRewrite",
+   "area": "alloy",
+   "title": "4f. Does a lower-version alarm prove the origin rewrote history?",
+   "status": "info",
+   "sections": [
+    "13.3",
+    "12.3"
+   ],
+   "clauses": [
+    "C-13.3-01"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.watermark.EndcapRollsUpToNull",
+   "area": "alloy",
+   "title": "4g. A fetched endcap rolls the item up to null",
+   "status": "pass",
+   "sections": [
+    "13.1",
+    "13.4"
+   ],
+   "clauses": [
+    "C-13.1-03",
+    "C-13.4-01"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "alloy:alloy.mentions.ImpostorFails",
+   "area": "alloy",
+   "title": "7. ImpostorFails: verification attributes a mention to the origin that served it",
+   "status": "fail",
+   "sections": [
+    "15.4",
+    "12.2",
+    "4"
+   ],
+   "clauses": [
+    "C-13.1-07",
+    "C-15.4-02",
+    "C-15.4-03",
+    "C-4-01"
+   ],
+   "decisions": [
+    14,
+    17,
+    28,
+    36
+   ]
+  },
+  {
+   "id": "alloy:alloy.mentions.ImpostorFails_OneOriginPerHost",
+   "area": "alloy",
+   "title": "7b. ImpostorFails when every host has one blyg (today's deployments)",
+   "status": "pass",
+   "sections": [
+    "15.4"
+   ],
+   "clauses": [
+    "C-15.4-03"
+   ],
+   "decisions": [
+    17,
+    28
+   ]
+  },
+  {
+   "id": "alloy:alloy.mentions.ImpostorFails_PathAware",
+   "area": "alloy",
+   "title": "7c. ImpostorFails with a path-aware step 2 (proposed fix)",
+   "status": "pass",
+   "sections": [
+    "15.4"
+   ],
+   "clauses": [
+    "C-15.4-03"
+   ],
+   "decisions": [
+    14,
+    28
+   ]
+  },
+  {
+   "id": "alloy:alloy.mentions.WithdrawnStubStopsVerifying",
+   "area": "alloy",
+   "title": "7d. A withdrawn stub stops verifying as a stub",
+   "status": "warn",
+   "sections": [
+    "9",
+    "15.4",
+    "8"
+   ],
+   "clauses": [
+    "C-15.4-02",
+    "C-15.4-04",
+    "C-9-01"
+   ],
+   "decisions": [
+    8,
+    27,
+    28
+   ]
+  },
+  {
+   "id": "alloy:alloy.mentions.WithdrawnStubStopsVerifying_ViaLive",
+   "area": "alloy",
+   "title": "7e. …it does if verification re-reads the live item document (proposed fix)",
+   "status": "pass",
+   "sections": [
+    "15.4"
+   ],
+   "clauses": [
+    "C-9-01"
+   ],
+   "decisions": [
+    28
+   ]
+  },
+  {
+   "id": "alloy:alloy.mentions.MirrorCannotTakeIdentity",
+   "area": "alloy",
+   "title": "7f. A mirror cannot become the subscription identity of what it copies (#17)",
+   "status": "pass",
+   "sections": [
+    "12.2"
+   ],
+   "clauses": [
+    "C-12.2-01",
+    "C-12.2-02"
+   ],
+   "decisions": [
+    17
+   ]
+  },
   {
    "id": "live:live.resolve",
    "area": "live",

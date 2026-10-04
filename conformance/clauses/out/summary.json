@@ -1,13 +1,13 @@
 {
  "area": "clauses",
  "title": "Clause register & traceability",
- "generated_at": "2026-10-04T03:33:18+00:00",
+ "generated_at": "2026-10-04T03:36:53+00:00",
  "checks": [
   {
    "id": "register.counts",
    "title": "Clause register extracted",
    "status": "info",
-   "detail": "165 normative clauses (MUST 82, SHOULD 52, MAY 31) in 43 sections; 17 pending §16 sentences; 58 decisions; 255 tests joined from other areas. Side split: publisher 84, reader 51, client 12, receiver 9, sender 9",
+   "detail": "165 normative clauses (MUST 82, SHOULD 52, MAY 31) in 43 sections; 17 pending §16 sentences; 58 decisions; 292 tests joined from other areas. Side split: publisher 84, reader 51, client 12, receiver 9, sender 9",
    "spec_refs": [],
    "decisions": []
   },
@@ -15,7 +15,7 @@
    "id": "coverage.must",
    "title": "MUST clauses with a test",
    "status": "warn",
-   "detail": "43/82 MUST clauses have a clause-level test; 30 more are covered only at section level; 9 have no test at all. (Decision #48: every MUST is a failable clause, so every MUST wants a test.)",
+   "detail": "47/82 MUST clauses have a clause-level test; 27 more are covered only at section level; 8 have no test at all. (Decision #48: every MUST is a failable clause, so every MUST wants a test.)",
    "spec_refs": [],
    "decisions": [
     "#48"
@@ -55,7 +55,7 @@
    "id": "coverage.must.4",
    "title": "§4 The publication surface — MUST coverage",
    "status": "warn",
-   "detail": "2/7 MUST clauses untested at clause level: C-4-01, C-4-08 (section-level coverage only: C-4-01, C-4-08)",
+   "detail": "1/7 MUST clauses untested at clause level: C-4-08 (section-level coverage only: C-4-08)",
    "spec_refs": [
     "§4"
    ],
@@ -175,7 +175,7 @@
    "id": "coverage.must.8.4",
    "title": "§8.4 Historical versions: pinned-only, JSON promised, HTML option — MUST coverage",
    "status": "warn",
-   "detail": "3/4 MUST clauses untested at clause level: C-8.4-02, C-8.4-06, C-8.4-07 (section-level coverage only: C-8.4-02, C-8.4-06, C-8.4-07)",
+   "detail": "2/4 MUST clauses untested at clause level: C-8.4-06, C-8.4-07 (section-level coverage only: C-8.4-06, C-8.4-07)",
    "spec_refs": [
     "§8.4"
    ],
@@ -265,7 +265,7 @@
    "id": "coverage.must.12.3",
    "title": "§12.3 Polling etiquette — MUST coverage",
    "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-12.3-02",
+   "detail": "1/1 MUST clauses untested at clause level: C-12.3-02 (section-level coverage only: C-12.3-02)",
    "spec_refs": [
     "§12.3"
    ],
@@ -275,7 +275,7 @@
    "id": "coverage.must.13.1",
    "title": "§13.1 Ground rules — MUST coverage",
    "status": "warn",
-   "detail": "4/7 MUST clauses untested at clause level: C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08 (section-level coverage only: C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08)",
+   "detail": "3/7 MUST clauses untested at clause level: C-13.1-04, C-13.1-05, C-13.1-08 (section-level coverage only: C-13.1-04, C-13.1-05, C-13.1-08)",
    "spec_refs": [
     "§13.1"
    ],
@@ -364,8 +364,8 @@
   {
    "id": "coverage.must.15.4",
    "title": "§15.4 Structural verification — MUST coverage",
-   "status": "warn",
-   "detail": "1/2 MUST clauses untested at clause level: C-15.4-02 (section-level coverage only: C-15.4-02)",
+   "status": "pass",
+   "detail": "All 2 MUST clauses tested.",
    "spec_refs": [
     "§15.4"
    ],
