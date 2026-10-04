@@ -2,7 +2,7 @@
 
 Full roadmap from v0.1 through post-1.0. Medium detail: enough to see the shape of every version and what gates it, without pre-writing each version's implementation plan (those get their own `docs/vX.Y-plan.md` as they come up; v0.1's exists).
 
-**Reading this as an implementing agent:** items marked **⚠️ FABLE** are design/spec work involving protocol semantics, cross-client invariants, security/crypto, or API-surface design — they must be done (or their output reviewed) by Fable, not improvised by the implementing model. Unmarked work is implementable by Sonnet or Opus directly from the written plan docs. If a plan doc doesn't yet exist for the version you're asked to build, stop: the plan is Fable's job first.
+**Reading this as an implementing agent:** items marked **⚠️ FABLE** are the ones that reach the wire or cannot be undone — new versions, verification and identity semantics, crypto, public API surfaces, the spec freeze — and must be done (or their output reviewed) by Fable. **Since decision #58 (session 33, 2026-10-03) everything else is routed by the four-question test in `CLAUDE.md` § Model routing**, not by subject: a question that no reader must change for, that adds nothing readers see, that reinterprets no locked decision and that an existing principle settles is Opus's to rule, record and build, with Fable reviewing in batch. If a plan doc doesn't yet exist for the version you're asked to build, stop: the plan is Fable's job first.
 
 ## Development-phase strategy (session 12, 2026-08-10, Venkat — decision #21)
 

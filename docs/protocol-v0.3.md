@@ -462,7 +462,9 @@ Rules:
 6. A fork is a *copy*, not a transclusion: the forked content becomes the new
    item's own `content_md`, with no wrapper and no `transclusions` entry. The
    lineage marker is the only trace. Readers MUST NOT infer that a fork still
-   resembles its source.
+   resembles its source. For a **thread** source, what is copied is the
+   pinned *document* with its baked quotes flattened, not the directives —
+   ruled 2026-10-03 as §16.6f (decision #57), entering here once built.
 
 ### 5.7 Generation provenance — the `generated` array
 
@@ -2045,6 +2047,58 @@ must do changes. It enters normative text once one client not written by this
 project publishes through templates and the reference client has subscribed
 to it, transcluded from it and sent it a mention that verified.
 
+### 16.6f A fork of a thread descends from the pinned document (ruled 2026-10-03; next revision)
+
+**Ruled: when the item named by `forked_from` is a thread, "the forked
+content" of §5.6 rule 6 is the pinned version's rendered document,
+flattened — not its `content_md` with the directives intact** (decision
+#57). Rule 6 already says a fork is a copy, not a transclusion, and the
+reason a lineage may name only a pinned version is that the bytes a fork
+descends from must be bytes anyone can still fetch. A thread's `content_md`
+is not those bytes: its quotes are `![[id]]` directives that resolve at
+publish time, in the forker's context (§10.2), to whatever snapshot the
+forker holds — a later version, or nothing — so a fork that copies them
+descends from a *composition* rather than from the pinned document,
+inherits `transclusions[]` entries the forker never composed, and sends
+quote-mentions (§15) on the forker's behalf. The pinned file already freezes
+every baked quote in its `content_html`, nested quotes included; nothing
+else needs to be pinned for the fork to be sourced from it, which is why
+the alternative — a thread may be pinned only when everything it quotes is
+pinned — was rejected: it adds nothing to the promise and imported sources
+could never satisfy it.
+
+The shape, which a client may build against now:
+
+- The thread's own prose is copied byte-exact from the pinned `content_md`.
+  Each `blyg-transclusion` element in the pinned `content_html` (§10.2)
+  replaces its directive as an **ordinary markdown blockquote** of that
+  element's content, recursively — nested quotes become nested blockquotes —
+  followed by a visible attribution line naming the quoted item's origin and
+  id and linking to its page (§5.8) where the publisher can compute it, else
+  to its item document. The line's wording is the client's. A partial
+  transclusion (`blyg-partial`) flattens the same way, from its baked
+  paragraphs.
+- The `blyg-transclusion` class MUST NOT survive into the fork: the forking
+  publisher baked nothing and verified nothing. The flattened quote is in
+  the plain-web register of §10.2 — a quotation with a link, editable,
+  unverified — and `forked_from` is the way back to the verifiable original.
+- The fork carries no `transclusions[]` entry and sends no `transclusion`
+  mention for a quote it inherited (rule 6 already says so). An author who
+  wants a live quote writes a directive, which resolves and notifies as any
+  directive does.
+- Generated spans (`blyg-tk-gen`, §5.7) in the pinned document — the
+  thread's own and its quotes' — are disclosed in the fork through the
+  existing construct (§5.7 rule 7: `sources` empty, `model` if known), so
+  a fork cannot launder a disclosure away. The reference client's fork
+  dropped `generated[]` from a forked *fragment* too; the same rule covers
+  both kinds.
+
+Forking a quoted fragment directly, naming the fragment's own pin, remains
+the way to take one passage with its own lineage. This is publisher
+behaviour with no wire change — a revision, not a 0.4 construct — and it
+enters §5.6 once a client has built it and a fork of a thread carrying a
+remote quote has crossed two nodes.
+
 ### 16.7 Reserved
 
 - `![[id@vN]]` version-explicit transclusion (§10.1) — reserved, rejected at
@@ -2071,6 +2125,12 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.3/{date}/` and each carries a diff link to the one
 before it.
 
+- **2026-10-03, sixth revision** — §16.6f: a fork of a thread descends from
+  the pinned document, its baked quotes flattened into ordinary blockquotes
+  with attribution, no `blyg-transclusion` class and no inherited
+  `transclusions[]` (decision #57, on Venkat's report that a forked thread's
+  quotes arrived as uneditable directive ids); §5.6 rule 6 points at it.
+  Shape only; no normative change. Not snapshotted.
 - **2026-10-03, fifth revision** — Partial transclusion promoted from §16.4
   into §10.1 (grammar), §10.2 (the faithfulness check and the `blyg-partial`
   bake: plain text in paragraphs) and §10.3 (`selector`), after
