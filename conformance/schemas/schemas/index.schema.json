@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blygger.org/conformance/0.3/index.schema.json",
+  "title": "Archive index — items/index.json",
+  "description": "§6.2: every item ever published, including withdrawn, no window, ordered by updated descending (semantic rule index.order). The reconciliation surface (§13.2, decision #18a).",
+  "type": "object",
+  "required": ["updated", "items"],
+  "properties": {
+    "updated": { "$ref": "defs.schema.json#/$defs/utc", "description": "§6.2: index update time." },
+    "items": {
+      "type": "array",
+      "description": "§6.2: one entry per published item.",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "created", "updated", "version"],
+        "properties": {
+          "id": { "$ref": "defs.schema.json#/$defs/id" },
+          "kind": { "enum": ["fragment", "thread", "withdrawn"], "description": "§5.3 kinds." },
+          "created": { "$ref": "defs.schema.json#/$defs/utc" },
+          "updated": { "$ref": "defs.schema.json#/$defs/utc" },
+          "version": { "$ref": "defs.schema.json#/$defs/version" }
+        }
+      }
+    }
+  }
+}

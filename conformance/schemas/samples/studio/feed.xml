@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:blyg="https://blygger.org/ns/0.1">
+  <channel>
+    <title>Studio Under Test</title>
+    <link>https://studio.example/</link>
+    <description></description>
+    <lastBuildDate>Sun, 04 Oct 2026 02:41:47 GMT</lastBuildDate>
+    <blyg:level>2</blyg:level>
+    <blyg:manifest>https://studio.example/blyg.json</blyg:manifest>
+    <item>
+      <guid isPermaLink="false">blyg:53am1pbn2926j81e34ppxpe8z8:v3</guid>
+      <link>https://studio.example/f/53am1pbn2926j81e34ppxpe8z8/</link>
+      <title>Sharpened the claim. — A sharpened claim.</title>
+      <description><![CDATA[<p>A sharpened claim.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>53am1pbn2926j81e34ppxpe8z8</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>3</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/53am1pbn2926j81e34ppxpe8z8.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:69msys59gjzqjpez3y03g5fhge:v2</guid>
+      <link>https://studio.example/f/69msys59gjzqjpez3y03g5fhge/</link>
+      <title>withdrawn</title>
+      <description></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>69msys59gjzqjpez3y03g5fhge</blyg:id>
+      <blyg:kind>withdrawn</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/69msys59gjzqjpez3y03g5fhge.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3g49r95k96m9ajn6h8mn7zvhvq:v2</guid>
+      <link>https://studio.example/t/3g49r95k96m9ajn6h8mn7zvhvq/</link>
+      <title>withdrawn</title>
+      <description></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>3g49r95k96m9ajn6h8mn7zvhvq</blyg:id>
+      <blyg:kind>withdrawn</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/3g49r95k96m9ajn6h8mn7zvhvq.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:1n32g39m4dyttqz8mebm4r2fhw:v2</guid>
+      <link>https://studio.example/f/1n32g39m4dyttqz8mebm4r2fhw/</link>
+      <title>withdrawn</title>
+      <description></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>1n32g39m4dyttqz8mebm4r2fhw</blyg:id>
+      <blyg:kind>withdrawn</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/1n32g39m4dyttqz8mebm4r2fhw.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:53am1pbn2926j81e34ppxpe8z8:v2</guid>
+      <link>https://studio.example/f/53am1pbn2926j81e34ppxpe8z8/</link>
+      <title>typo — A sharpened claim.</title>
+      <description><![CDATA[<p>A sharpened claim.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>53am1pbn2926j81e34ppxpe8z8</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/53am1pbn2926j81e34ppxpe8z8.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:31bfdmhdw06cc43va15jp0d0v8:v2</guid>
+      <link>https://studio.example/f/31bfdmhdw06cc43va15jp0d0v8/</link>
+      <title>removed the image — Image post — the image has been deleted from the text.</title>
+      <description><![CDATA[<p>Image post — the image has been deleted from the text.</p>
+<p><img src="https://studio.example/media/awq56qbf.png" alt="a single pixel"></p>]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>31bfdmhdw06cc43va15jp0d0v8</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/31bfdmhdw06cc43va15jp0d0v8.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:4mbjpgrkkrs92yrnpn3qmz7zdp:v1</guid>
+      <link>https://studio.example/f/4mbjpgrkkrs92yrnpn3qmz7zdp/</link>
+      <title>Pasted from elsewhere: Text another tool produced.</title>
+      <description><![CDATA[<p>Pasted from elsewhere: <span class="blyg-tk-gen">Text another tool produced.</span></p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>4mbjpgrkkrs92yrnpn3qmz7zdp</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/4mbjpgrkkrs92yrnpn3qmz7zdp.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3st6phc0axyqsm4zsd260nh3c4:v1</guid>
+      <link>https://studio.example/t/3st6phc0axyqsm4zsd260nh3c4/</link>
+      <title>Generated summary sentence from the fake provider. Afterword…</title>
+      <description><![CDATA[<div class="blyg-tk-gen"><p>Generated summary sentence from the fake provider.</p>
+</div>
+<p>Afterword by the author.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>3st6phc0axyqsm4zsd260nh3c4</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/3st6phc0axyqsm4zsd260nh3c4.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:2q80ch7fwhk22yvt5a761kz9dy:v1</guid>
+      <link>https://studio.example/t/2q80ch7fwhk22yvt5a761kz9dy/</link>
+      <title>Intro to the thread. See also “Opening line of a remote thre…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">Forked from</span> <a href="https://studio.example/t/2xz23gh273q91f68ypz52tta6z/v1/"><cite>Studio Under Test</cite> ↗</a></p><p>Intro to the thread.</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="5pqmtw6bzrk5xe4720ep9k475s" data-blyg-version="1">
+<p>Local source fragment about gardens and paths.</p>
+
+
+<p class="provenance"><a href="https://studio.example/f/5pqmtw6bzrk5xe4720ep9k475s/">fragment ↗</a> · snapshot of v1</p></blockquote>
+
+<blockquote class="blyg-transclusion" data-blyg-id="1vgtgz0gq5b2c9k7d3m8r4n6xy" data-blyg-version="1" data-blyg-origin="https://source.example/">
+<p>धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.</p>
+
+
+<p class="provenance"><a href="https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/">from <em>Fake Source Blyg</em> ↗</a> · snapshot of v1</p></blockquote>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="7c9wk2mhq0v3xj8tn5rzfd41bg" data-blyg-version="2" data-blyg-origin="https://source.example/">
+<p>Stigmergy is what a protocol looks like from inside</p>
+
+<p class="provenance"><a href="https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/">from <em>Fake Source Blyg</em> ↗</a> · excerpt of v2</p></blockquote>
+<p>See also <a href="https://source.example/t/4zss0yg5f5zbh48e22s4f87003/">“Opening line of a remote thread. Stigmergy is what a protoco…”</a> and <a href="https://studio.example/f/5pqmtw6bzrk5xe4720ep9k475s/">“Local source fragment about gardens and paths.”</a>.</p>
+<pre><code>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+</code></pre>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>2q80ch7fwhk22yvt5a761kz9dy</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/2q80ch7fwhk22yvt5a761kz9dy.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:11f1528gb45bn3rvhs1bbyekk7:v1</guid>
+      <link>https://studio.example/t/11f1528gb45bn3rvhs1bbyekk7/</link>
+      <title>Opening line of a remote thread. Closing line with a link to…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">Forked from</span> <a href="https://source.example/items/4zss0yg5f5zbh48e22s4f87003/v1.json"><cite>Fake Source Blyg</cite> ↗</a></p><p>Opening line of a remote thread.</p>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="7c9wk2mhq0v3xj8tn5rzfd41bg" data-blyg-version="2" data-blyg-origin="https://source.example/">
+<p>Stigmergy is what a protocol looks like from inside</p>
+
+<p class="provenance"><a href="https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/">from <em>Fake Source Blyg</em> ↗</a> · excerpt of v2</p></blockquote>
+<p>Closing line with a link to <a href="https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/">“धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the mess…”</a>.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>11f1528gb45bn3rvhs1bbyekk7</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/11f1528gb45bn3rvhs1bbyekk7.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:0hhxgp4n8qjdkw79t9drgxmz3b:v1</guid>
+      <link>https://studio.example/t/0hhxgp4n8qjdkw79t9drgxmz3b/</link>
+      <title>A response to a plain web page: the post.</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://plain.example/post"><cite>plain.example</cite> ↗</a></p><p>A response to a plain web page: <a href="https://plain.example/post">the post</a>.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>0hhxgp4n8qjdkw79t9drgxmz3b</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/0hhxgp4n8qjdkw79t9drgxmz3b.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:12dh2ja4hknb6dtk9g8phzsgzx:v1</guid>
+      <link>https://studio.example/t/12dh2ja4hknb6dtk9g8phzsgzx/</link>
+      <title>In response to Fake Source Blyg</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/"><cite>Fake Source Blyg</cite> ↗</a></p><blockquote class="blyg-transclusion blyg-partial" data-blyg-id="7c9wk2mhq0v3xj8tn5rzfd41bg" data-blyg-version="2" data-blyg-origin="https://source.example/">
+<p>Stigmergy is what a protocol looks like from inside</p>
+
+<p class="provenance"><a href="https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/">from <em>Fake Source Blyg</em> ↗</a> · excerpt of v2</p></blockquote>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>12dh2ja4hknb6dtk9g8phzsgzx</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/12dh2ja4hknb6dtk9g8phzsgzx.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:2xz23gh273q91f68ypz52tta6z:v1</guid>
+      <link>https://studio.example/t/2xz23gh273q91f68ypz52tta6z/</link>
+      <title>Intro to the thread. See also “Opening line of a remote thre…</title>
+      <description><![CDATA[<p>Intro to the thread.</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="5pqmtw6bzrk5xe4720ep9k475s" data-blyg-version="1">
+<p>Local source fragment about gardens and paths.</p>
+
+
+<p class="provenance"><a href="https://studio.example/f/5pqmtw6bzrk5xe4720ep9k475s/">fragment ↗</a> · snapshot of v1</p></blockquote>
+
+<blockquote class="blyg-transclusion" data-blyg-id="1vgtgz0gq5b2c9k7d3m8r4n6xy" data-blyg-version="1" data-blyg-origin="https://source.example/">
+<p>धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.</p>
+
+
+<p class="provenance"><a href="https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/">from <em>Fake Source Blyg</em> ↗</a> · snapshot of v1</p></blockquote>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="7c9wk2mhq0v3xj8tn5rzfd41bg" data-blyg-version="2" data-blyg-origin="https://source.example/">
+<p>Stigmergy is what a protocol looks like from inside</p>
+
+<p class="provenance"><a href="https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/">from <em>Fake Source Blyg</em> ↗</a> · excerpt of v2</p></blockquote>
+<p>See also <a href="https://source.example/t/4zss0yg5f5zbh48e22s4f87003/">“Opening line of a remote thread. Stigmergy is what a protoco…”</a> and <a href="https://studio.example/f/5pqmtw6bzrk5xe4720ep9k475s/">“Local source fragment about gardens and paths.”</a>.</p>
+<pre><code>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+</code></pre>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>2xz23gh273q91f68ypz52tta6z</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/2xz23gh273q91f68ypz52tta6z.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:53am1pbn2926j81e34ppxpe8z8:v1</guid>
+      <link>https://studio.example/f/53am1pbn2926j81e34ppxpe8z8/</link>
+      <title>A sharpened claim.</title>
+      <description><![CDATA[<p>A sharpened claim.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>53am1pbn2926j81e34ppxpe8z8</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/53am1pbn2926j81e34ppxpe8z8.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:31bfdmhdw06cc43va15jp0d0v8:v1</guid>
+      <link>https://studio.example/f/31bfdmhdw06cc43va15jp0d0v8/</link>
+      <title>Image post — the image has been deleted from the text.</title>
+      <description><![CDATA[<p>Image post — the image has been deleted from the text.</p>
+<p><img src="https://studio.example/media/awq56qbf.png" alt="a single pixel"></p>]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>31bfdmhdw06cc43va15jp0d0v8</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/31bfdmhdw06cc43va15jp0d0v8.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:5pqmtw6bzrk5xe4720ep9k475s:v1</guid>
+      <link>https://studio.example/f/5pqmtw6bzrk5xe4720ep9k475s/</link>
+      <title>Local source fragment about gardens and paths.</title>
+      <description><![CDATA[<p>Local source fragment about gardens and paths.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:41:47 GMT</pubDate>
+      <blyg:id>5pqmtw6bzrk5xe4720ep9k475s</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:41:47Z</blyg:created>
+      <blyg:item>https://studio.example/items/5pqmtw6bzrk5xe4720ep9k475s.json</blyg:item>
+    </item>
+  </channel>
+</rss>

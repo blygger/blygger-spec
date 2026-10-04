@@ -1,0 +1,251 @@
+{
+  "implementation": "blygger-desktop 0.7.0 (blyg-core api::public::ItemDoc → ReadingItem/Lineage)",
+  "documents": 90,
+  "parsed": 90,
+  "failed": [],
+  "dropped": [
+    {
+      "path": "blyg",
+      "count": 90,
+      "sets": [
+        "fake-remote",
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "fake-remote/items/1vgtgz0gq5b2c9k7d3m8r4n6xy.json"
+    },
+    {
+      "path": "content_hash",
+      "count": 90,
+      "sets": [
+        "fake-remote",
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "fake-remote/items/1vgtgz0gq5b2c9k7d3m8r4n6xy.json"
+    },
+    {
+      "path": "media[]",
+      "count": 82,
+      "sets": [
+        "fake-remote",
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "fake-remote/items/1vgtgz0gq5b2c9k7d3m8r4n6xy.json"
+    },
+    {
+      "path": "stub_of.cited.source",
+      "count": 30,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/07s3tdmm04sj6ja3fafbt71b0f.json"
+    },
+    {
+      "path": "stub_of.cited.url",
+      "count": 30,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/07s3tdmm04sj6ja3fafbt71b0f.json"
+    },
+    {
+      "path": "stub_of.cited.retrieved",
+      "count": 30,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/07s3tdmm04sj6ja3fafbt71b0f.json"
+    },
+    {
+      "path": "stub_of.cited.excerpt",
+      "count": 26,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/07s3tdmm04sj6ja3fafbt71b0f.json"
+    },
+    {
+      "path": "stub_of.cited.author",
+      "count": 24,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/07s3tdmm04sj6ja3fafbt71b0f.json"
+    },
+    {
+      "path": "transclusions[]",
+      "count": 14,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/0y21j92gkdnw73nr7ryev4nncs.json"
+    },
+    {
+      "path": "transclusions[].selector.exact",
+      "count": 12,
+      "sets": [
+        "fake-remote",
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "fake-remote/items/4zss0yg5f5zbh48e22s4f87003.json"
+    },
+    {
+      "path": "transclusions[].selector.suffix",
+      "count": 11,
+      "sets": [
+        "fake-remote",
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "fake-remote/items/4zss0yg5f5zbh48e22s4f87003.json"
+    },
+    {
+      "path": "media[].url",
+      "count": 8,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/02m0hferjdb37rymmnms0ynbeq.json"
+    },
+    {
+      "path": "media[].mime",
+      "count": 8,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/02m0hferjdb37rymmnms0ynbeq.json"
+    },
+    {
+      "path": "media[].alt",
+      "count": 8,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/02m0hferjdb37rymmnms0ynbeq.json"
+    },
+    {
+      "path": "generated[].model",
+      "count": 8,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/0vc3pxtnp3a34hkjn9phr6234z.json"
+    },
+    {
+      "path": "generated[].sources[]",
+      "count": 7,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/0vc3pxtnp3a34hkjn9phr6234z.json"
+    },
+    {
+      "path": "generated[].at",
+      "count": 7,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/0vc3pxtnp3a34hkjn9phr6234z.json"
+    },
+    {
+      "path": "transclusions[].selector.prefix",
+      "count": 6,
+      "sets": [
+        "live-venkateshrao"
+      ],
+      "example": "live-venkateshrao/items/07s3tdmm04sj6ja3fafbt71b0f.json"
+    },
+    {
+      "path": "forked_from.cited.source",
+      "count": 5,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/0c874x6fsx2kvfcb9pe1wp0n2p.json"
+    },
+    {
+      "path": "forked_from.cited.excerpt",
+      "count": 5,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/0c874x6fsx2kvfcb9pe1wp0n2p.json"
+    },
+    {
+      "path": "forked_from.cited.url",
+      "count": 5,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/0c874x6fsx2kvfcb9pe1wp0n2p.json"
+    },
+    {
+      "path": "forked_from.cited.retrieved",
+      "count": 5,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/0c874x6fsx2kvfcb9pe1wp0n2p.json"
+    },
+    {
+      "path": "forked_from.cited.author",
+      "count": 4,
+      "sets": [
+        "live-venkateshrao",
+        "studio"
+      ],
+      "example": "live-venkateshrao/items/0c874x6fsx2kvfcb9pe1wp0n2p.json"
+    },
+    {
+      "path": "author.bio_hint",
+      "count": 3,
+      "sets": [
+        "fake-remote"
+      ],
+      "example": "fake-remote/items/1vgtgz0gq5b2c9k7d3m8r4n6xy.json"
+    },
+    {
+      "path": "generated[].sources[].id",
+      "count": 1,
+      "sets": [
+        "studio"
+      ],
+      "example": "studio/items/3st6phc0axyqsm4zsd260nh3c4.json"
+    },
+    {
+      "path": "generated[].sources[].version",
+      "count": 1,
+      "sets": [
+        "studio"
+      ],
+      "example": "studio/items/3st6phc0axyqsm4zsd260nh3c4.json"
+    },
+    {
+      "path": "changelog[].generated",
+      "count": 1,
+      "sets": [
+        "studio"
+      ],
+      "example": "studio/items/53am1pbn2926j81e34ppxpe8z8.json"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blygger.org/conformance/0.3/advisory.schema.json",
+  "title": "Advisory layer (SHOULD / RECOMMENDED)",
+  "description": "Decision #48: SHOULD and RECOMMENDED clauses warn and never fail. Each $def is applied to a document already validated by its normative schema; any error here is reported as a warning.",
+  "$defs": {
+    "citedCaption": {
+      "type": "object",
+      "properties": {
+        "excerpt": { "type": "string", "maxLength": 240, "description": "§5.9: publishers SHOULD cap the excerpt near 200 characters (240 allows 'near'). Decision #30." }
+      }
+    },
+    "refAdvice": {
+      "type": "object",
+      "properties": {
+        "cited": { "$ref": "#/$defs/citedCaption" },
+        "selector": {
+          "type": "object",
+          "properties": {
+            "prefix": { "type": "string", "maxLength": 64, "description": "§10.3: prefix OPTIONAL and short (decision #49). 64 is this checker's reading of 'short'." },
+            "suffix": { "type": "string", "maxLength": 64, "description": "§10.3: suffix OPTIONAL and short (decision #49)." }
+          }
+        }
+      }
+    },
+    "authorAdvice": {
+      "type": "object",
+      "required": ["name"],
+      "description": "§5.5: author.name is RECOMMENDED (decision #11)."
+    },
+    "item": {
+      "type": "object",
+      "required": ["blyg", "page", "media"],
+      "description": "§3.1: item documents carry the `blyg` key (no RFC keyword — warn); §5.8: page is optional for conformance but SHOULD be used by readers and is required of the reference client; §9 lists media = [] on endcaps, implying the key is always present.",
+      "properties": {
+        "author": { "$ref": "#/$defs/authorAdvice" },
+        "media": { "type": "array", "items": { "type": "object", "required": ["alt"], "description": "§5.4: media entries SHOULD carry alt." } },
+        "generated": { "type": "array", "items": { "type": "object", "required": ["model", "at"], "description": "§5.7 rule 1: model and at are RECOMMENDED." } },
+        "transclusions": { "type": "array", "items": { "$ref": "#/$defs/refAdvice" } },
+        "stub_of": { "$ref": "#/$defs/refAdvice" },
+        "forked_from": { "$ref": "#/$defs/refAdvice" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "fragment" } }, "required": ["kind"] },
+          "then": { "properties": { "content_md": { "maxLength": 2000, "description": "§5.3: publishers SHOULD cap fragments at 2,000 characters (studio RECOMMENDED 1,000); readers MUST NOT reject." } } }
+        }
+      ]
+    },
+    "pinned": {
+      "type": "object",
+      "required": ["blyg", "author"],
+      "description": "§8 rule 6: a pinned file SHOULD carry the author assertion as published; §8 rule 4: pinned documents carry no media array.",
+      "not": { "required": ["media"] },
+      "properties": {
+        "generated": { "type": "array", "items": { "type": "object", "required": ["model", "at"] } },
+        "transclusions": { "type": "array", "items": { "$ref": "#/$defs/refAdvice" } },
+        "stub_of": { "$ref": "#/$defs/refAdvice" },
+        "forked_from": { "$ref": "#/$defs/refAdvice" }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "required": ["generator", "generator_url", "site", "title", "level", "updated"],
+      "description": "§3.2: generator SHOULD be emitted as name/version; §6.1: generator_url SHOULD be emitted (decision #34).",
+      "properties": {
+        "generator": { "type": "string", "pattern": "^[^/\\s]+/[^/\\s]+$", "description": "§3.2: SHOULD take the form name/version." },
+        "feed": { "const": "feed.xml", "description": "§4: file names within the surface are protocol-fixed at 0.3." },
+        "items": { "const": "items/index.json", "description": "§4: protocol-fixed at 0.3." }
+      }
+    }
+  }
+}

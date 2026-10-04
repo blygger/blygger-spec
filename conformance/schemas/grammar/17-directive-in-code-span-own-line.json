@@ -1,0 +1,20 @@
+{
+  "id": "directive-in-code-span-own-line",
+  "title": "An own-line directive wrapped in a code span is inert",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#54"
+  ],
+  "content_md": "`![[7c9wk2mhq0v3xj8tn5rzfd41bg]]`",
+  "expect": {
+    "error": false,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [],
+    "literal": [
+      "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]"
+    ]
+  }
+}

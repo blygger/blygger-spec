@@ -1,0 +1,3 @@
+[toolchain]
+# Matches blygger-desktop's own pin.
+channel = "1.98.1"

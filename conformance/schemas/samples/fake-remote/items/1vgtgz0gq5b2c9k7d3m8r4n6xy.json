@@ -1,0 +1,26 @@
+{
+  "blyg": "0.3",
+  "id": "1vgtgz0gq5b2c9k7d3m8r4n6xy",
+  "kind": "fragment",
+  "origin": "https://source.example/",
+  "page": "f/1vgtgz0gq5b2c9k7d3m8r4n6xy/",
+  "author": {
+    "name": "Source Author",
+    "url": "https://source.example/",
+    "bio_hint": "opaque member kept verbatim (§5.5)"
+  },
+  "created": "2026-09-01T10:00:00Z",
+  "updated": "2026-09-01T10:00:00Z",
+  "version": 1,
+  "content_md": "धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.",
+  "content_html": "<p>धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.</p>\n",
+  "content_hash": "sha256:191c5d5c79c4f1674fc7172fee845891ffde31928d804a985a34594bba9a7f8d",
+  "media": [],
+  "changelog": [
+    {
+      "version": 1,
+      "at": "2026-09-01T10:00:00Z",
+      "note": null
+    }
+  ]
+}
