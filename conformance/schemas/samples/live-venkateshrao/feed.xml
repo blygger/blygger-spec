@@ -4,9 +4,88 @@
     <title>Venkatesh Rao's Blyg</title>
     <link>https://venkateshrao.com/blyg/</link>
     <description>I am the creator of the blygger protocol</description>
-    <lastBuildDate>Sun, 04 Oct 2026 02:05:56 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 04 Oct 2026 03:12:36 GMT</lastBuildDate>
     <blyg:level>2</blyg:level>
     <blyg:manifest>https://venkateshrao.com/blyg/blyg.json</blyg:manifest>
+    <item>
+      <guid isPermaLink="false">blyg:39g354qgb9q9bg3qfhjb1j74qs:v3</guid>
+      <link>https://venkateshrao.com/blyg/t/39g354qgb9q9bg3qfhjb1j74qs/</link>
+      <title>Lol, much Douglas Adams B-Ark energy: A consortium of design…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="5wan3ahazfr5719q0ybd7fv0bq" data-blyg-version="2" data-blyg-origin="https://bradydale.com/blyg/">
+<p>I just can't with <a href="https://www.fastcompany.com/91615853/nyc-owned-grocery-store-branding-agencies">this grocery store thing</a>. I just can't.</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · snapshot of v2</p></blockquote>
+<p>Lol, much Douglas Adams B-Ark energy:</p>
+<blockquote>
+<p>A consortium of designers, branding professionals, and grocery experts have been named to design a visual identity for New York City’s municipal grocery stores. Their goal? To make something that looks authentically New York.</p>
+</blockquote>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 03:12:36 GMT</pubDate>
+      <blyg:id>39g354qgb9q9bg3qfhjb1j74qs</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>3</blyg:version>
+      <blyg:created>2026-10-01T23:06:30Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/39g354qgb9q9bg3qfhjb1j74qs.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:39g354qgb9q9bg3qfhjb1j74qs:v2</guid>
+      <link>https://venkateshrao.com/blyg/t/39g354qgb9q9bg3qfhjb1j74qs/</link>
+      <title>refreshed quoted snapshots — Lol, much Douglas Adams B-Ark energy: A consortium of design…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="5wan3ahazfr5719q0ybd7fv0bq" data-blyg-version="2" data-blyg-origin="https://bradydale.com/blyg/">
+<p>I just can't with <a href="https://www.fastcompany.com/91615853/nyc-owned-grocery-store-branding-agencies">this grocery store thing</a>. I just can't.</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · snapshot of v2</p></blockquote>
+<p>Lol, much Douglas Adams B-Ark energy:</p>
+<blockquote>
+<p>A consortium of designers, branding professionals, and grocery experts have been named to design a visual identity for New York City’s municipal grocery stores. Their goal? To make something that looks authentically New York.</p>
+</blockquote>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 03:12:19 GMT</pubDate>
+      <blyg:id>39g354qgb9q9bg3qfhjb1j74qs</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-01T23:06:30Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/39g354qgb9q9bg3qfhjb1j74qs.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3zhv0nwfkanra1mcqm29pgsh53:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/3zhv0nwfkanra1mcqm29pgsh53/</link>
+      <title>Forks must flatten Figured out and resolved an ambiguity in…</title>
+      <description><![CDATA[<h1>Forks must flatten</h1>
+<p>Figured out and resolved an ambiguity in how forks behave. Currently, a fork just captures the literal text of the immediate pinned text. If it includes any transcludes, those are included as id markups rather than retrieved and flattened text. After a discussion with Fable, the behavior needed is that forks must flatten everything in the source. We considered the alternative that a pin must require everything it transcludes to also be pinned, but this is both the wrong behavior logically, and obviously mindlessly tedious.
+A fork is now a promise to stand behind your content plus the snapshots of any other content you use. Stabilize the referrent without requiring recursive stabilization of everything beyond it.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 03:11:12 GMT</pubDate>
+      <blyg:id>3zhv0nwfkanra1mcqm29pgsh53</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T03:11:12Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/3zhv0nwfkanra1mcqm29pgsh53.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:13386qxgds01zxq4q3qjzd2fjh:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/13386qxgds01zxq4q3qjzd2fjh/</link>
+      <title>Conformance exercise for gate G11 (decision #57, blygger-stu…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">Forked from</span> <a href="https://blyg.protocol-institute.org/items/6ftb9x77qw3egm7wrbn5vnfzfr/v1.json"><cite>Protocol Institute Blyg</cite> ↗</a></p><p>Conformance exercise for gate G11 (decision #57, blygger-studio 0.20.0): a pinned thread carrying a remote quote, to be forked on the other node, where the quote must arrive flattened rather than as a directive.</p>
+<blockquote>
+<p>People who want a more stable, fast version may want to use aneesh’s client. The reference studio client will have more feature completeness but will also move fast and break things.</p>
+<blockquote>
+<p>New version of blygger-desktop is up</p>
+<p>The auto-updater should download it. if not, check for updates in the main Blygger menu or in Help&gt;About</p>
+<p>If you haven't updated since 0.3, you will need to redownload. See instructions: <a href="https://github.com/aneeshsathe/blygger-desktop">https://github.com/aneeshsathe/blygger-desktop</a></p>
+<p>— quoted from <a href="https://blyg.aneeshsathe.com/f/522ad1jcre2jd3x281wy251qg3/">blyg.aneeshsathe.com · v1</a></p>
+</blockquote>
+<p>— quoted from <a href="https://venkateshrao.com/blyg/t/54pwr12zqvvaj37zqx0f8vdbhk/">venkateshrao.com · v1</a></p>
+</blockquote>
+<p>The quote above is from <a href="http://venkateshrao.com">venkateshrao.com</a>.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:59:49 GMT</pubDate>
+      <blyg:id>13386qxgds01zxq4q3qjzd2fjh</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:46:37Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/13386qxgds01zxq4q3qjzd2fjh.json</blyg:item>
+    </item>
     <item>
       <guid isPermaLink="false">blyg:0c874x6fsx2kvfcb9pe1wp0n2p:v1</guid>
       <link>https://venkateshrao.com/blyg/t/0c874x6fsx2kvfcb9pe1wp0n2p/</link>
@@ -375,10 +454,10 @@ three-minute demo video.</p>
       <guid isPermaLink="false">blyg:39g354qgb9q9bg3qfhjb1j74qs:v1</guid>
       <link>https://venkateshrao.com/blyg/t/39g354qgb9q9bg3qfhjb1j74qs/</link>
       <title>Lol, much Douglas Adams B-Ark energy: A consortium of design…</title>
-      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="5wan3ahazfr5719q0ybd7fv0bq" data-blyg-version="1" data-blyg-origin="https://bradydale.com/blyg/">
-<p>I just can’t with <a href="https://www.fastcompany.com/91615853/nyc-owned-grocery-store-branding-agencies">this grocery store thing</a>. I just can’t.</p>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="5wan3ahazfr5719q0ybd7fv0bq" data-blyg-version="2" data-blyg-origin="https://bradydale.com/blyg/">
+<p>I just can't with <a href="https://www.fastcompany.com/91615853/nyc-owned-grocery-store-branding-agencies">this grocery store thing</a>. I just can't.</p>
 
-<p class="provenance"><a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · snapshot of v1</p></blockquote>
+<p class="provenance"><a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · snapshot of v2</p></blockquote>
 <p>Lol, much Douglas Adams B-Ark energy:</p>
 <blockquote>
 <p>A consortium of designers, branding professionals, and grocery experts have been named to design a visual identity for New York City’s municipal grocery stores. Their goal? To make something that looks authentically New York.</p>
@@ -1103,95 +1182,6 @@ a title and a separate excerpt instead of running them together.</li>
       <blyg:version>2</blyg:version>
       <blyg:created>2026-09-29T21:00:18Z</blyg:created>
       <blyg:item>https://venkateshrao.com/blyg/items/6vwcx6dmtrxkdj8rzatynyqwsm.json</blyg:item>
-    </item>
-    <item>
-      <guid isPermaLink="false">blyg:6vwcx6dmtrxkdj8rzatynyqwsm:v1</guid>
-      <link>https://venkateshrao.com/blyg/f/6vwcx6dmtrxkdj8rzatynyqwsm/</link>
-      <title>Precommodified last names + nominative determinism X thread…</title>
-      <description><![CDATA[<p>Precommodified last names + nominative determinism</p>
-<p><a href="https://x.com/rs_parasite/status/2104656796195692717">X thread on papers by people with the same last names</a></p>
-<p><a href="https://arxiv.org/abs/2404.00732">An abundance of Katherines paper</a></p>
-<p><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/ecin.12167">A Few Goodmen paper</a></p>
-]]></description>
-      <pubDate>Tue, 29 Sep 2026 21:00:19 GMT</pubDate>
-      <blyg:id>6vwcx6dmtrxkdj8rzatynyqwsm</blyg:id>
-      <blyg:kind>fragment</blyg:kind>
-      <blyg:version>1</blyg:version>
-      <blyg:created>2026-09-29T21:00:18Z</blyg:created>
-      <blyg:item>https://venkateshrao.com/blyg/items/6vwcx6dmtrxkdj8rzatynyqwsm.json</blyg:item>
-    </item>
-    <item>
-      <guid isPermaLink="false">blyg:4fha1agvrskdaxmzmnjd5vr3xh:v1</guid>
-      <link>https://venkateshrao.com/blyg/t/4fha1agvrskdaxmzmnjd5vr3xh/</link>
-      <title>I don’t know how the Swedish word is pronounced but I’m goin…</title>
-      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.aneeshsathe.com/f/11dhmv36d1btjba16ez594nk00/"><cite>Aneesh&#39;s Blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="11dhmv36d1btjba16ez594nk00" data-blyg-version="1" data-blyg-origin="https://blyg.aneeshsathe.com/">
-<p>How is everyone pronouncing ‘Blyg’?</p>
-<p>I’m going ‘Bligh’ but I suppose ‘Bliegh’ is an alternative?</p>
-<p>Whatever we name the collective Blygs the people will be Blyggeratti</p>
-
-
-<p class="provenance"><a href="https://blyg.aneeshsathe.com/f/11dhmv36d1btjba16ez594nk00/">from <em>Aneesh&#39;s Blyg</em> ↗</a> · snapshot of v1</p></blockquote>
-<p>I don’t know how the Swedish word is pronounced but I’m going with blig</p>
-]]></description>
-      <pubDate>Tue, 29 Sep 2026 20:24:21 GMT</pubDate>
-      <blyg:id>4fha1agvrskdaxmzmnjd5vr3xh</blyg:id>
-      <blyg:kind>thread</blyg:kind>
-      <blyg:version>1</blyg:version>
-      <blyg:created>2026-09-29T20:23:40Z</blyg:created>
-      <blyg:item>https://venkateshrao.com/blyg/items/4fha1agvrskdaxmzmnjd5vr3xh.json</blyg:item>
-    </item>
-    <item>
-      <guid isPermaLink="false">blyg:59392ha59799ynvvs1c668axpc:v1</guid>
-      <link>https://venkateshrao.com/blyg/t/59392ha59799ynvvs1c668axpc/</link>
-      <title>Not wrong, though it’s mostly an imported value from the sta…</title>
-      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://ammdi.hyperphor.com/blyg/f/27yv9b5tbv4hkwpw5jvh98z3jx/"><cite>AMMDI Blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="27yv9b5tbv4hkwpw5jvh98z3jx" data-blyg-version="1" data-blyg-origin="https://ammdi.hyperphor.com/blyg/">
-<div><p class="source-page">From <a href="https://ammdi.hyperphor.com/Blygger">Blygger</a></p><p>(1) the technical design values of Blygger seem very old-school, Web 1.0 (not meant as criticism or praise, just an observation). No more centralized platforms, everybody acts as their own publisher of static content, the way Tim B-L would have wanted it. </p></div>
-
-<p class="provenance"><a href="https://ammdi.hyperphor.com/blyg/f/27yv9b5tbv4hkwpw5jvh98z3jx/">from <em>AMMDI Blyg</em> ↗</a> · snapshot of v1</p></blockquote>
-<p>Not wrong, though it’s mostly an imported value from the static-site wave, since at this point blygger kinda needs to piggyback on static sites. I don’t personally have strong Web1 nostalgia. But if Threads can talk ActivityPub I guess anything is possible?</p>
-<p>The other lineage is also old —- trans lesion is Ted Nelson values. Versioning-fu is Git-over-Subversion values.</p>
-<p>Also — the stubs I’m building in for AI and crypto make it future-forward too. It’s a bit all over the place.</p>
-]]></description>
-      <pubDate>Tue, 29 Sep 2026 20:12:36 GMT</pubDate>
-      <blyg:id>59392ha59799ynvvs1c668axpc</blyg:id>
-      <blyg:kind>thread</blyg:kind>
-      <blyg:version>1</blyg:version>
-      <blyg:created>2026-09-29T20:08:44Z</blyg:created>
-      <blyg:item>https://venkateshrao.com/blyg/items/59392ha59799ynvvs1c668axpc.json</blyg:item>
-    </item>
-    <item>
-      <guid isPermaLink="false">blyg:4hxxgkdb1e6eebdgsd1p5xr20a:v1</guid>
-      <link>https://venkateshrao.com/blyg/t/4hxxgkdb1e6eebdgsd1p5xr20a/</link>
-      <title>😂</title>
-      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.sachinbenny.xyz/t/0qk34kb75pfmdhmgae7jtnrzmc/"><cite>Sachin Benny</cite> ↗</a></p><p>😂</p>
-
-<blockquote class="blyg-transclusion" data-blyg-id="0qk34kb75pfmdhmgae7jtnrzmc" data-blyg-version="1" data-blyg-origin="https://blyg.sachinbenny.xyz/">
-<p>Blygonomics, Blygentics, Blygolia, Blygmania</p>
-<p>Though for memetic purposes we should all pretend to be agents that broke out of their harnesses</p>
-<blockquote class="blyg-transclusion" data-blyg-id="1hxbrqnr9bx9x90261qgap5x6g" data-blyg-version="1" data-blyg-origin="https://blyg.bricolage.io/">
-<p>Blyggerstan, Blyggerville, Blyggerton, Blygernia, Blygernania 😜</p>
-<p>Blygosphere wins for continuity.</p>
-
-<blockquote class="blyg-transclusion" data-blyg-id="6nyjhp6a7g8eck373aedreyk1m" data-blyg-version="1" data-blyg-origin="https://venkateshrao.com/blyg/">
-<p>What should we call the network of blygs? Call for stub commentary towards a rough consensus, not a voting exercise. Two main options I think are:</p>
-<ol>
-<li><strong>Blyggersphere</strong></li>
-<li><strong>Blygosphere</strong></li>
-</ol>
-<p>I like the first one, but suspect the second one will have a strong memetic advantage.</p>
-
-</blockquote>
-
-</blockquote>
-
-<p class="provenance"><a href="https://blyg.sachinbenny.xyz/t/0qk34kb75pfmdhmgae7jtnrzmc/">from <em>Sachin Benny</em> ↗</a> · snapshot of v1</p></blockquote>
-]]></description>
-      <pubDate>Tue, 29 Sep 2026 20:04:40 GMT</pubDate>
-      <blyg:id>4hxxgkdb1e6eebdgsd1p5xr20a</blyg:id>
-      <blyg:kind>thread</blyg:kind>
-      <blyg:version>1</blyg:version>
-      <blyg:created>2026-09-29T20:04:25Z</blyg:created>
-      <blyg:item>https://venkateshrao.com/blyg/items/4hxxgkdb1e6eebdgsd1p5xr20a.json</blyg:item>
     </item>
   </channel>
 </rss>

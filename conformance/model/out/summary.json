@@ -1,8 +1,8 @@
 {
   "area": "model",
   "title": "Stateful property tests: reference model + blygger-studio differential",
-  "generated_at": "2026-10-04T03:23:51.441Z",
-  "studio_version": "0.20.2",
+  "generated_at": "2026-10-04T03:49:58.751Z",
+  "studio_version": "0.21.0",
   "seeds": {
     "model": 20261003,
     "studio": 20261003
@@ -16,7 +16,7 @@
       "id": "model.P1",
       "title": "Served ⊆ live ∪ pinned; pins never disappear or change",
       "status": "pass",
-      "detail": "model: pass (1000 runs, seed 20261003, 12218 commands) | studio 0.20.2: pass (1000 runs, seed 20261003, 12218 commands)",
+      "detail": "model: pass (1000 runs, seed 20261003, 12218 commands) | studio 0.21.0: pass (1000 runs, seed 20261003, 12218 commands)",
       "spec_refs": [
         "§8",
         "§8.4",
@@ -39,7 +39,7 @@
       "id": "model.P2",
       "title": "Reader converges to the origin's index after a clean index diff",
       "status": "pass",
-      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.20.2: pass (1000 runs, seed 20261003, 14980 commands)",
+      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.21.0: pass (1000 runs, seed 20261003, 14980 commands)",
       "spec_refs": [
         "§13.2",
         "§6.2",
@@ -60,7 +60,7 @@
       "id": "model.P2b",
       "title": "Reader converges after a clean FEED poll (informative — the feed is lossy by design)",
       "status": "info",
-      "detail": "[expected] The feed is lossy by design (§7, §13.2): a feed-only poll misses entries the window never showed. Convergence is the index's job (P2), which holds. Model and studio agree. | model: fail (15 runs, seed 20261003, path 14:7:10:16:15:16:16:18:17:18:18:20:19:20:20:22:22:24:24:25, 2464 commands) — P2b: B:zz000000000000000000000003 v1 is in the index but missing from the reader | studio 0.20.2: fail (15 runs, seed 20261003, path 14:7:10:16:15:16:16:18:17:18:18:20:19:20:20:22:22:24:24:25, 2464 commands) — P2b: B:zz000000000000000000000003 v1 is in the index but missing from the reader",
+      "detail": "[expected] The feed is lossy by design (§7, §13.2): a feed-only poll misses entries the window never showed. Convergence is the index's job (P2), which holds. Model and studio agree. | model: fail (15 runs, seed 20261003, path 14:7:10:16:15:16:16:18:17:18:18:20:19:20:20:22:22:24:24:25, 2464 commands) — P2b: B:zz000000000000000000000003 v1 is in the index but missing from the reader | studio 0.21.0: fail (15 runs, seed 20261003, path 14:7:10:16:15:16:16:18:17:18:18:20:19:20:20:22:22:24:24:25, 2464 commands) — P2b: B:zz000000000000000000000003 v1 is in the index but missing from the reader",
       "spec_refs": [
         "§13.2",
         "§7"
@@ -78,7 +78,7 @@
       "id": "model.P3",
       "title": "Watermark never silently regresses; a history rewrite is surfaced",
       "status": "pass",
-      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.20.2: pass (1000 runs, seed 20261003, 14980 commands)",
+      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.21.0: pass (1000 runs, seed 20261003, 14980 commands)",
       "spec_refs": [
         "§13.3",
         "§5.2"
@@ -97,7 +97,7 @@
       "id": "model.P4",
       "title": "Reader retains nothing past withdrawal that the origin does not serve",
       "status": "pass",
-      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.20.2: pass (1000 runs, seed 20261003, 14980 commands)",
+      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.21.0: pass (1000 runs, seed 20261003, 14980 commands)",
       "spec_refs": [
         "§13.4",
         "§8",
@@ -117,7 +117,7 @@
       "id": "model.P5",
       "title": "Snapshot independence: a thread's published bytes never change",
       "status": "pass",
-      "detail": "model: pass (1000 runs, seed 20261003, 12218 commands) | studio 0.20.2: pass (1000 runs, seed 20261003, 12218 commands)",
+      "detail": "model: pass (1000 runs, seed 20261003, 12218 commands) | studio 0.21.0: pass (1000 runs, seed 20261003, 12218 commands)",
       "spec_refs": [
         "§10.4",
         "§10.2",
@@ -135,7 +135,7 @@
       "id": "model.P6-pre",
       "title": "Pre-#57 fork (copy content_md, re-resolve at the forker)",
       "status": "info",
-      "detail": "[expected (pre-#57)] The pre-#57 fork copied content_md and re-resolved at the forker, so it baked whatever version the forker held. This is the failure decision #57 / §16.6f fixed. | model: fail (2340 runs, seed 20261003, path 2339:5:4:7:7:18:17:17:14:14:18:18:21:27:28:28, 42314 commands) — P6: fork zz000000000000000000000009 of https://b.example/zz000000000000000000000005@v1: source pin baked [https://b.example/|zz000000000000000000000006|v2] but the fork baked [https://b.example/|zz000000000000000000000006|v1] | studio 0.20.2: not run",
+      "detail": "[expected (pre-#57)] The pre-#57 fork copied content_md and re-resolved at the forker, so it baked whatever version the forker held. This is the failure decision #57 / §16.6f fixed. | model: fail (2340 runs, seed 20261003, path 2339:5:4:7:7:18:17:17:14:14:18:18:21:27:28:28, 42314 commands) — P6: fork zz000000000000000000000009 of https://b.example/zz000000000000000000000005@v1: source pin baked [https://b.example/|zz000000000000000000000006|v2] but the fork baked [https://b.example/|zz000000000000000000000006|v1] | studio 0.21.0: not run",
       "spec_refs": [
         "§5.6",
         "§10.2",
@@ -154,7 +154,7 @@
       "id": "model.P6-pre-nopartial",
       "title": "Pre-#57 fork when the forker lacks the partial grammar",
       "status": "info",
-      "detail": "[expected (pre-#57)] Pre-#57, a forker without the partial grammar turned a partial into a whole quote: the selector was lost. | model: fail (106 runs, seed 20261003, path 105:5:7:7:7:10:11:12:11:9:9:12:13:13:13:16:18, 2997 commands) — P6: fork zz000000000000000000000009 of https://b.example/zz000000000000000000000005@v1: source pin baked [https://b.example/|zz000000000000000000000003|v1|sel:alpha] but the fork baked [https://b.example/|zz000000000000000000000003|v1] | studio 0.20.2: not run",
+      "detail": "[expected (pre-#57)] Pre-#57, a forker without the partial grammar turned a partial into a whole quote: the selector was lost. | model: fail (106 runs, seed 20261003, path 105:5:7:7:7:10:11:12:11:9:9:12:13:13:13:16:18, 2997 commands) — P6: fork zz000000000000000000000009 of https://b.example/zz000000000000000000000005@v1: source pin baked [https://b.example/|zz000000000000000000000003|v1|sel:alpha] but the fork baked [https://b.example/|zz000000000000000000000003|v1] | studio 0.21.0: not run",
       "spec_refs": [
         "§5.6",
         "§10.2",
@@ -173,7 +173,7 @@
       "id": "model.P6-post",
       "title": "Post-#57 fork (flatten the pinned document, §16.6f)",
       "status": "pass",
-      "detail": "model: pass (10000 runs, seed 20261003, 174147 commands) | studio 0.20.2: pass (2000 runs, seed 20261003, 34852 commands)",
+      "detail": "model: pass (10000 runs, seed 20261003, 174147 commands) | studio 0.21.0: pass (2000 runs, seed 20261003, 34852 commands)",
       "spec_refs": [
         "§16.6f",
         "§5.6",
@@ -193,7 +193,7 @@
       "id": "model.P6-post-legacy",
       "title": "Post-#57 fork of a thread published by a client WITHOUT the partial grammar",
       "status": "warn",
-      "detail": "[spec ambiguity — For Fable] blygger-studio's flattenFork consumes the `>` lines after every directive as part of it. For a pinned thread whose publisher predates the 2026-10-03 partial grammar (#49) those lines are the author's own blockquote — the bake shows a WHOLE quote — and the fork silently drops them, breaking §16.6f's \"own prose copied byte-exact\". The bake carries the answer (no `blyg-partial` class), so the fix is to consume the attached quote only when the baked element is partial. §16.6f should say which. | model: pass (10000 runs, seed 20261003, 174147 commands) | studio 0.20.2: fail (494 runs, seed 20261003, path 493:3:5:4:6:7:9:13:13:13:15:15, 9305 commands) — P6post: fork zz000000000000000000000009 of https://a.example/zz000000000000000000000003@v1: own prose line \"> alpha\" of the pinned content_md is missing from the fork",
+      "detail": "[spec ambiguity — For Fable] blygger-studio's flattenFork consumes the `>` lines after every directive as part of it. For a pinned thread whose publisher predates the 2026-10-03 partial grammar (#49) those lines are the author's own blockquote — the bake shows a WHOLE quote — and the fork silently drops them, breaking §16.6f's \"own prose copied byte-exact\". The bake carries the answer (no `blyg-partial` class), so the fix is to consume the attached quote only when the baked element is partial. §16.6f should say which. | model: pass (10000 runs, seed 20261003, 174147 commands) | studio 0.21.0: fail (494 runs, seed 20261003, path 493:3:5:4:6:7:9:13:13:13:15:15, 9305 commands) — P6post: fork zz000000000000000000000009 of https://a.example/zz000000000000000000000003@v1: own prose line \"> alpha\" of the pinned content_md is missing from the fork",
       "spec_refs": [
         "§16.6f",
         "§5.6",
@@ -213,7 +213,7 @@
       "id": "model.P7",
       "title": "A partial transclusion stays verifiable while its target version is served",
       "status": "pass",
-      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.20.2: pass (1000 runs, seed 20261003, 14980 commands)",
+      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.21.0: pass (1000 runs, seed 20261003, 14980 commands)",
       "spec_refs": [
         "§10.2",
         "§10.3",
@@ -232,7 +232,7 @@
       "id": "model.P8",
       "title": "The local transclusion graph stays acyclic (local closure check)",
       "status": "pass",
-      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.20.2: pass (1000 runs, seed 20261003, 14980 commands)",
+      "detail": "model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.21.0: pass (1000 runs, seed 20261003, 14980 commands)",
       "spec_refs": [
         "§10.2"
       ],
@@ -247,7 +247,7 @@
       "id": "model.P9",
       "title": "Stub version agreement: stub_of.version equals the version baked of the same target",
       "status": "fail",
-      "detail": "[studio bug (edge)] §10.6 rule 3 is about the stub's TARGET, an (origin, id) pair. blygger-studio's applyVersionAgreement matches baked quotes by id only, so a body quoting a DIFFERENT item that shares the id (own item vs. imported target) rewrites stub_of.version. Unreachable with random 128-bit ids (§5.1), reachable with copied or colliding ids; one-line fix (compare origin too). | model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.20.2: fail (936 runs, seed 20261003, path 935:8:7:13:14:12:11:11:11:11:13:15:15:18:18:18:18:18:21:23:25:25:25:25, 16203 commands) — P9: zz000000000000000000000008 v1: body does not quote https://b.example/zz000000000000000000000004, yet stub_of moved v2 → v1 (copied from a same-id quote of https://example.com/blyg/ — a different item)",
+      "detail": "[studio bug (edge)] §10.6 rule 3 is about the stub's TARGET, an (origin, id) pair. blygger-studio's applyVersionAgreement matches baked quotes by id only, so a body quoting a DIFFERENT item that shares the id (own item vs. imported target) rewrites stub_of.version. Unreachable with random 128-bit ids (§5.1), reachable with copied or colliding ids; one-line fix (compare origin too). | model: pass (1000 runs, seed 20261003, 14980 commands) | studio 0.21.0: fail (936 runs, seed 20261003, path 935:8:7:13:14:12:11:11:11:11:13:15:15:18:18:18:18:18:21:23:25:25:25:25, 16203 commands) — P9: zz000000000000000000000008 v1: body does not quote https://b.example/zz000000000000000000000004, yet stub_of moved v2 → v1 (copied from a same-id quote of https://example.com/blyg/ — a different item)",
       "spec_refs": [
         "§10.6"
       ],
@@ -263,7 +263,7 @@
       "id": "model.P10",
       "title": "L0 wrapper: entries are retained past the window; same-guid edits bump a local version",
       "status": "pass",
-      "detail": "model: pass (1000 runs, seed 20261003, 12218 commands) | studio 0.20.2: pass (1000 runs, seed 20261003, 12218 commands)",
+      "detail": "model: pass (1000 runs, seed 20261003, 12218 commands) | studio 0.21.0: pass (1000 runs, seed 20261003, 12218 commands)",
       "spec_refs": [
         "§13.6"
       ],
@@ -278,7 +278,7 @@
       "id": "model.D1-importer",
       "title": "Importer differential (honest origins, faulty network)",
       "status": "warn",
-      "detail": "[studio deviation (SHOULD)] §13.2: \"Any suspected gap — the previously newest-seen entry no longer in the window — falls back to an index diff.\" blygger-studio reconciles on a gap only if some feed entry also triggered a fetch (`gap && triggeredAny`, poll.ts). A window in which the newest-seen entry vanished but every visible entry is already known (e.g. a truncated feed) leaves a newer version unfetched until the 24 h periodic index sync. The model follows the sentence; no loss is permanent. | model: not run | studio 0.20.2: fail (311 runs, seed 20261003, path 310:3:2:7:9:8:8:6:6:6:8:8, 4359 commands) — D1: importer state differs: https://b.example/ zz000000000000000000000003: model {\"state\":\"current\",\"version\":2,\"hash\":\"sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8\",\"retained\":null,\"hasContent\":true} vs studio {\"state\":\"current\",\"version\":1,\"hash\":\"sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8\",\"retained\":null,\"hasContent\":true}",
+      "detail": "[studio deviation (SHOULD)] §13.2: \"Any suspected gap — the previously newest-seen entry no longer in the window — falls back to an index diff.\" blygger-studio reconciles on a gap only if some feed entry also triggered a fetch (`gap && triggeredAny`, poll.ts). A window in which the newest-seen entry vanished but every visible entry is already known (e.g. a truncated feed) leaves a newer version unfetched until the 24 h periodic index sync. The model follows the sentence; no loss is permanent. | model: not run | studio 0.21.0: fail (311 runs, seed 20261003, path 310:3:2:7:9:8:8:6:6:6:8:8, 4359 commands) — D1: importer state differs: https://b.example/ zz000000000000000000000003: model {\"state\":\"current\",\"version\":2,\"hash\":\"sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8\",\"retained\":null,\"hasContent\":true} vs studio {\"state\":\"current\",\"version\":1,\"hash\":\"sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8\",\"retained\":null,\"hasContent\":true}",
       "spec_refs": [
         "§13.2",
         "§13.3",
@@ -304,7 +304,7 @@
       "id": "model.D1-clean",
       "title": "Importer differential (honest origins, clean polls + index diffs only)",
       "status": "pass",
-      "detail": "model: not run | studio 0.20.2: pass (1000 runs, seed 20261003, 12218 commands)",
+      "detail": "model: not run | studio 0.21.0: pass (1000 runs, seed 20261003, 12218 commands)",
       "spec_refs": [
         "§13.2",
         "§13.3",
@@ -330,7 +330,7 @@
       "id": "model.D1-rogue",
       "title": "Importer differential with a rogue origin (rollback / stealth edit)",
       "status": "pass",
-      "detail": "model: not run | studio 0.20.2: pass (1000 runs, seed 20261003, 12218 commands)",
+      "detail": "model: not run | studio 0.21.0: pass (1000 runs, seed 20261003, 12218 commands)",
       "spec_refs": [
         "§13.2",
         "§13.3",
@@ -356,7 +356,7 @@
       "id": "model.D1-l0",
       "title": "L0 wrapper differential",
       "status": "pass",
-      "detail": "model: not run | studio 0.20.2: pass (1000 runs, seed 20261003, 10261 commands)",
+      "detail": "model: not run | studio 0.21.0: pass (1000 runs, seed 20261003, 10261 commands)",
       "spec_refs": [
         "§13.2",
         "§13.3",
@@ -382,7 +382,7 @@
       "id": "model.D2",
       "title": "Thread publish outcome differential, spec-letter §10.2 step 1",
       "status": "warn",
-      "detail": "[spec ambiguity — For Fable] §10.2 step 1 is \"a local, currently-published item\"; step 2 is \"otherwise an imported item\". Read literally, a local DRAFT or WITHDRAWN item with the same id falls through to the import. blygger-studio stops at any local row (\"item is a draft\" / \"item is withdrawn\"). Only reachable with id collisions, which §5.1 calls not a real case — but the order is normative text and the two readings differ. D2-shadow and D3 run under the studio's reading to look past it. | model: not run | studio 0.20.2: fail (311 runs, seed 20261003, path 310:9:14:15:7:7:7:7:7:10:10:10:12:15:15, 4856 commands) — D2: model accepted v1 — studio refused: item is a draft, not published",
+      "detail": "[spec ambiguity — For Fable] §10.2 step 1 is \"a local, currently-published item\"; step 2 is \"otherwise an imported item\". Read literally, a local DRAFT or WITHDRAWN item with the same id falls through to the import. blygger-studio stops at any local row (\"item is a draft\" / \"item is withdrawn\"). Only reachable with id collisions, which §5.1 calls not a real case — but the order is normative text and the two readings differ. D2-shadow and D3 run under the studio's reading to look past it. | model: not run | studio 0.21.0: fail (311 runs, seed 20261003, path 310:9:14:15:7:7:7:7:7:10:10:10:12:15:15, 4856 commands) — D2: model accepted v1 — studio refused: item is a draft, not published",
       "spec_refs": [
         "§10.2",
         "§10.1",
@@ -403,7 +403,7 @@
       "id": "model.D2-shadow",
       "title": "Thread publish outcome differential under studio's step-1 reading (looks past the D2 divergence)",
       "status": "pass",
-      "detail": "model: not run | studio 0.20.2: pass (1000 runs, seed 20261003, 12218 commands)",
+      "detail": "model: not run | studio 0.21.0: pass (1000 runs, seed 20261003, 12218 commands)",
       "spec_refs": [
         "§10.2",
         "§10.1",
@@ -424,7 +424,7 @@
       "id": "model.D3",
       "title": "Published-state differential (provenance, stubs, pins, post-#57 forks)",
       "status": "pass",
-      "detail": "model: not run | studio 0.20.2: pass (1000 runs, seed 20261003, 12218 commands)",
+      "detail": "model: not run | studio 0.21.0: pass (1000 runs, seed 20261003, 12218 commands)",
       "spec_refs": [
         "§10.2",
         "§10.1",

@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-04T03:36:53+00:00",
+ "generated_at": "2026-10-04T03:50:29+00:00",
  "spec": "docs/protocol-v0.3.md",
  "matrix": [
   {
@@ -4604,7 +4604,7 @@
   {
    "id": "schemas:schemas.studio.schema.manifest",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): manifest documents against manifest.schema.json",
+   "title": "blygger-studio 0.21.0 (in-process harness): manifest documents against manifest.schema.json",
    "status": "pass",
    "sections": [
     "6.1"
@@ -4619,7 +4619,7 @@
   {
    "id": "schemas:schemas.studio.advisory.manifest",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): manifest documents against the advisory (SHOULD) layer",
+   "title": "blygger-studio 0.21.0 (in-process harness): manifest documents against the advisory (SHOULD) layer",
    "status": "pass",
    "sections": [
     "3.2",
@@ -4637,7 +4637,7 @@
   {
    "id": "schemas:schemas.studio.schema.index",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): index documents against index.schema.json",
+   "title": "blygger-studio 0.21.0 (in-process harness): index documents against index.schema.json",
    "status": "pass",
    "sections": [
     "6.2"
@@ -4652,7 +4652,7 @@
   {
    "id": "schemas:schemas.studio.schema.item",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): item documents against item.schema.json",
+   "title": "blygger-studio 0.21.0 (in-process harness): item documents against item.schema.json",
    "status": "pass",
    "sections": [
     "5",
@@ -4677,7 +4677,7 @@
   {
    "id": "schemas:schemas.studio.advisory.item",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): item documents against the advisory (SHOULD) layer",
+   "title": "blygger-studio 0.21.0 (in-process harness): item documents against the advisory (SHOULD) layer",
    "status": "warn",
    "sections": [
     "5.3",
@@ -4700,7 +4700,7 @@
   {
    "id": "schemas:schemas.studio.schema.pinned",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): pinned documents against pinned.schema.json",
+   "title": "blygger-studio 0.21.0 (in-process harness): pinned documents against pinned.schema.json",
    "status": "pass",
    "sections": [
     "8"
@@ -4719,7 +4719,7 @@
   {
    "id": "schemas:schemas.studio.advisory.pinned",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): pinned documents against the advisory (SHOULD) layer",
+   "title": "blygger-studio 0.21.0 (in-process harness): pinned documents against the advisory (SHOULD) layer",
    "status": "pass",
    "sections": [
     "8"
@@ -4735,7 +4735,7 @@
   {
    "id": "schemas:schemas.studio.rule.index.order",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): index ordered by updated descending",
+   "title": "blygger-studio 0.21.0 (in-process harness): index ordered by updated descending",
    "status": "pass",
    "sections": [
     "6.2"
@@ -4746,7 +4746,7 @@
   {
    "id": "schemas:schemas.studio.rule.index.agrees-with-docs",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): index entries agree with item documents",
+   "title": "blygger-studio 0.21.0 (in-process harness): index entries agree with item documents",
    "status": "pass",
    "sections": [
     "6.2",
@@ -4760,7 +4760,7 @@
   {
    "id": "schemas:schemas.studio.rule.hash.matches-content_md",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): content_hash = sha256 of content_md",
+   "title": "blygger-studio 0.21.0 (in-process harness): content_hash = sha256 of content_md",
    "status": "pass",
    "sections": [
     "5.1"
@@ -4775,7 +4775,7 @@
   {
    "id": "schemas:schemas.studio.rule.updated.equals-last-changelog",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): updated equals the latest changelog entry's at",
+   "title": "blygger-studio 0.21.0 (in-process harness): updated equals the latest changelog entry's at",
    "status": "pass",
    "sections": [
     "5.2"
@@ -4788,7 +4788,7 @@
   {
    "id": "schemas:schemas.studio.rule.changelog.contiguous",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): changelog covers versions 1..version, +1 each",
+   "title": "blygger-studio 0.21.0 (in-process harness): changelog covers versions 1..version, +1 each",
    "status": "pass",
    "sections": [
     "5.2"
@@ -4801,7 +4801,7 @@
   {
    "id": "schemas:schemas.studio.rule.changelog.at-monotonic",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): changelog timestamps non-decreasing with version",
+   "title": "blygger-studio 0.21.0 (in-process harness): changelog timestamps non-decreasing with version",
    "status": "pass",
    "sections": [
     "5.2",
@@ -4813,7 +4813,7 @@
   {
    "id": "schemas:schemas.studio.rule.html.absolute-urls",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): every URL in content_html is absolute",
+   "title": "blygger-studio 0.21.0 (in-process harness): every URL in content_html is absolute",
    "status": "pass",
    "sections": [
     "5.2",
@@ -4830,7 +4830,7 @@
   {
    "id": "schemas:schemas.studio.rule.md.no-tk-grammar",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): no TK authoring grammar reaches the wire",
+   "title": "blygger-studio 0.21.0 (in-process harness): no TK authoring grammar reaches the wire",
    "status": "pass",
    "sections": [
     "5.7"
@@ -4843,7 +4843,7 @@
   {
    "id": "schemas:schemas.studio.rule.md.no-reserved-directive",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): no reserved ![[id@vN]] in published content_md",
+   "title": "blygger-studio 0.21.0 (in-process harness): no reserved ![[id@vN]] in published content_md",
    "status": "pass",
    "sections": [
     "10.1"
@@ -4858,7 +4858,7 @@
   {
    "id": "schemas:schemas.studio.rule.transclusions.match-directives",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): transclusions[] matches the directives in content_md, in order",
+   "title": "blygger-studio 0.21.0 (in-process harness): transclusions[] matches the directives in content_md, in order",
    "status": "pass",
    "sections": [
     "10.3",
@@ -4875,7 +4875,7 @@
   {
    "id": "schemas:schemas.studio.rule.transclusions.baked-wrappers",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
+   "title": "blygger-studio 0.21.0 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
    "status": "pass",
    "sections": [
     "10.2",
@@ -4893,7 +4893,7 @@
   {
    "id": "schemas:schemas.studio.rule.selector.matches-bake",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): a partial's baked <p> lines equal selector.exact",
+   "title": "blygger-studio 0.21.0 (in-process harness): a partial's baked <p> lines equal selector.exact",
    "status": "pass",
    "sections": [
     "10.2"
@@ -4908,7 +4908,7 @@
   {
    "id": "schemas:schemas.studio.rule.transclusions.own-origin-omitted",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): own-origin entries omit origin",
+   "title": "blygger-studio 0.21.0 (in-process harness): own-origin entries omit origin",
    "status": "pass",
    "sections": [
     "10.3"
@@ -4923,7 +4923,7 @@
   {
    "id": "schemas:schemas.studio.rule.stub_of.version-agreement",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
+   "title": "blygger-studio 0.21.0 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
    "status": "pass",
    "sections": [
     "10.6"
@@ -4938,7 +4938,7 @@
   {
    "id": "schemas:schemas.studio.rule.forked_from.cited-url-is-page",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
+   "title": "blygger-studio 0.21.0 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
    "status": "warn",
    "sections": [
     "5.9",
@@ -4955,7 +4955,7 @@
   {
    "id": "schemas:schemas.studio.rule.fork.carries-directives",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): a fork's content_md carries the source's directives, which re-resolve at the forker",
+   "title": "blygger-studio 0.21.0 (in-process harness): a fork's content_md carries the source's directives, which re-resolve at the forker",
    "status": "info",
    "sections": [
     "5.6"
@@ -4968,7 +4968,7 @@
   {
    "id": "schemas:schemas.studio.rule.page.origin-relative",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): page is origin-relative (no scheme, no leading /)",
+   "title": "blygger-studio 0.21.0 (in-process harness): page is origin-relative (no scheme, no leading /)",
    "status": "pass",
    "sections": [
     "5.8"
@@ -4985,7 +4985,7 @@
   {
    "id": "schemas:schemas.studio.rule.page.not-absolute-at-0.3",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): absolute page is a 0.4 construct",
+   "title": "blygger-studio 0.21.0 (in-process harness): absolute page is a 0.4 construct",
    "status": "pass",
    "sections": [
     "5.8",
@@ -5001,7 +5001,7 @@
   {
    "id": "schemas:schemas.studio.rule.generated.wrappers",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): generated spans are wrapped in blyg-tk-gen",
+   "title": "blygger-studio 0.21.0 (in-process harness): generated spans are wrapped in blyg-tk-gen",
    "status": "pass",
    "sections": [
     "5.7"
@@ -5017,7 +5017,7 @@
   {
    "id": "schemas:schemas.studio.rule.generated.disjoint-from-transclusions",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): generation sources never appear in transclusions[]",
+   "title": "blygger-studio 0.21.0 (in-process harness): generation sources never appear in transclusions[]",
    "status": "pass",
    "sections": [
     "5.7"
@@ -5030,7 +5030,7 @@
   {
    "id": "schemas:schemas.studio.rule.links.rendered-absolute",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): [[id]] links render as anchors with absolute hrefs",
+   "title": "blygger-studio 0.21.0 (in-process harness): [[id]] links render as anchors with absolute hrefs",
    "status": "pass",
    "sections": [
     "10.1"
@@ -5047,7 +5047,7 @@
   {
    "id": "schemas:schemas.studio.rule.code.inert",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): directive/link syntax inside code is left literal",
+   "title": "blygger-studio 0.21.0 (in-process harness): directive/link syntax inside code is left literal",
    "status": "pass",
    "sections": [
     "10.1"
@@ -5060,7 +5060,7 @@
   {
    "id": "schemas:schemas.studio.rule.media.referenced",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): every media[] entry is referenced by content_html",
+   "title": "blygger-studio 0.21.0 (in-process harness): every media[] entry is referenced by content_html",
    "status": "warn",
    "sections": [
     "5.4",
@@ -5072,7 +5072,7 @@
   {
    "id": "schemas:schemas.studio.rule.withdrawn.keeps-page",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): an endcap keeps page",
+   "title": "blygger-studio 0.21.0 (in-process harness): an endcap keeps page",
    "status": "pass",
    "sections": [
     "9",
@@ -5086,7 +5086,7 @@
   {
    "id": "schemas:schemas.studio.rule.id.matches-url",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): document id equals the id in its URL",
+   "title": "blygger-studio 0.21.0 (in-process harness): document id equals the id in its URL",
    "status": "pass",
    "sections": [
     "4",
@@ -5100,7 +5100,7 @@
   {
    "id": "schemas:schemas.studio.rule.origin.matches-fetch",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): document origin equals the origin it was fetched from",
+   "title": "blygger-studio 0.21.0 (in-process harness): document origin equals the origin it was fetched from",
    "status": "pass",
    "sections": [
     "12.2",
@@ -5115,7 +5115,7 @@
   {
    "id": "schemas:schemas.studio.rule.pins.served",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): every changelog pinned:true version is served as v{n}.json and nothing else is",
+   "title": "blygger-studio 0.21.0 (in-process harness): every changelog pinned:true version is served as v{n}.json and nothing else is",
    "status": "pass",
    "sections": [
     "8",
@@ -5132,7 +5132,7 @@
   {
    "id": "schemas:schemas.studio.rule.pinned.hash",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): pinned content_hash = sha256(content_md)",
+   "title": "blygger-studio 0.21.0 (in-process harness): pinned content_hash = sha256(content_md)",
    "status": "pass",
    "sections": [
     "8",
@@ -5146,7 +5146,7 @@
   {
    "id": "schemas:schemas.studio.rule.pinned.at-matches-changelog",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): pinned at/note match the item's changelog entry",
+   "title": "blygger-studio 0.21.0 (in-process harness): pinned at/note match the item's changelog entry",
    "status": "pass",
    "sections": [
     "8"
@@ -5157,7 +5157,7 @@
   {
    "id": "schemas:schemas.studio.rule.pinned.forked_from-immutable",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): a pin of a forked item carries the same forked_from",
+   "title": "blygger-studio 0.21.0 (in-process harness): a pin of a forked item carries the same forked_from",
    "status": "pass",
    "sections": [
     "5.6",
@@ -5171,7 +5171,7 @@
   {
    "id": "schemas:schemas.studio.rule.pinned.html.absolute-urls",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): every URL in content_html is absolute",
+   "title": "blygger-studio 0.21.0 (in-process harness): every URL in content_html is absolute",
    "status": "pass",
    "sections": [
     "5.2",
@@ -5188,7 +5188,7 @@
   {
    "id": "schemas:schemas.studio.rule.pinned.md.no-tk-grammar",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): no TK authoring grammar reaches the wire",
+   "title": "blygger-studio 0.21.0 (in-process harness): no TK authoring grammar reaches the wire",
    "status": "pass",
    "sections": [
     "5.7"
@@ -5201,7 +5201,7 @@
   {
    "id": "schemas:schemas.studio.rule.pinned.transclusions.match-directives",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): transclusions[] matches the directives in content_md, in order",
+   "title": "blygger-studio 0.21.0 (in-process harness): transclusions[] matches the directives in content_md, in order",
    "status": "pass",
    "sections": [
     "10.3",
@@ -5218,7 +5218,7 @@
   {
    "id": "schemas:schemas.studio.rule.pinned.transclusions.baked-wrappers",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
+   "title": "blygger-studio 0.21.0 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
    "status": "pass",
    "sections": [
     "10.2",
@@ -5236,7 +5236,7 @@
   {
    "id": "schemas:schemas.studio.rule.pinned.stub_of.version-agreement",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
+   "title": "blygger-studio 0.21.0 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
    "status": "pass",
    "sections": [
     "10.6"
@@ -5251,7 +5251,7 @@
   {
    "id": "schemas:schemas.studio.rule.pinned.forked_from.cited-url-is-page",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
+   "title": "blygger-studio 0.21.0 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
    "status": "pass",
    "sections": [
     "5.9",
@@ -5268,7 +5268,7 @@
   {
    "id": "schemas:schemas.studio.rule.feed.rss2-namespace",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): RSS 2.0 root declaring the permanent blyg namespace",
+   "title": "blygger-studio 0.21.0 (in-process harness): RSS 2.0 root declaring the permanent blyg namespace",
    "status": "pass",
    "sections": [
     "7"
@@ -5281,7 +5281,7 @@
   {
    "id": "schemas:schemas.studio.rule.feed.manifest-hook",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): <blyg:manifest> present and absolute",
+   "title": "blygger-studio 0.21.0 (in-process harness): <blyg:manifest> present and absolute",
    "status": "pass",
    "sections": [
     "7",
@@ -5297,7 +5297,7 @@
   {
    "id": "schemas:schemas.studio.rule.feed.entry-vocabulary",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
+   "title": "blygger-studio 0.21.0 (in-process harness): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
    "status": "pass",
    "sections": [
     "7"
@@ -5312,7 +5312,7 @@
   {
    "id": "schemas:schemas.studio.rule.feed.withdrawn-single-entry",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): a withdrawn item contributes exactly one empty 'withdrawn' entry",
+   "title": "blygger-studio 0.21.0 (in-process harness): a withdrawn item contributes exactly one empty 'withdrawn' entry",
    "status": "pass",
    "sections": [
     "7",
@@ -5328,7 +5328,7 @@
   {
    "id": "schemas:schemas.studio.rule.feed.injected-presentation",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): descriptions carry injected presentation lines (permitted by §7)",
+   "title": "blygger-studio 0.21.0 (in-process harness): descriptions carry injected presentation lines (permitted by §7)",
    "status": "info",
    "sections": [
     "7"
@@ -5341,7 +5341,7 @@
   {
    "id": "schemas:schemas.studio.rule.feed.latest-content",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): entries render the item's latest content_html",
+   "title": "blygger-studio 0.21.0 (in-process harness): entries render the item's latest content_html",
    "status": "pass",
    "sections": [
     "7"
@@ -5354,7 +5354,7 @@
   {
    "id": "schemas:schemas.studio.rule.feed.newest-first",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): one entry per publish event, newest first",
+   "title": "blygger-studio 0.21.0 (in-process harness): one entry per publish event, newest first",
    "status": "pass",
    "sections": [
     "7"
@@ -5365,7 +5365,7 @@
   {
    "id": "schemas:schemas.studio.rule.feed.window",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): window bounded (RECOMMENDED 50)",
+   "title": "blygger-studio 0.21.0 (in-process harness): window bounded (RECOMMENDED 50)",
    "status": "pass",
    "sections": [
     "7"
@@ -5378,7 +5378,7 @@
   {
    "id": "schemas:schemas.studio.rule.feed.dc-creator",
    "area": "schemas",
-   "title": "blygger-studio 0.20.2 (in-process harness): dc:creator emitted when author.name present",
+   "title": "blygger-studio 0.21.0 (in-process harness): dc:creator emitted when author.name present",
    "status": "warn",
    "sections": [
     "7"
@@ -5393,7 +5393,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.schema.manifest",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): manifest documents against manifest.schema.json",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): manifest documents against manifest.schema.json",
    "status": "pass",
    "sections": [
     "6.1"
@@ -5408,7 +5408,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.advisory.manifest",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): manifest documents against the advisory (SHOULD) layer",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): manifest documents against the advisory (SHOULD) layer",
    "status": "pass",
    "sections": [
     "3.2",
@@ -5426,7 +5426,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.schema.index",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): index documents against index.schema.json",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): index documents against index.schema.json",
    "status": "pass",
    "sections": [
     "6.2"
@@ -5441,7 +5441,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.schema.item",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): item documents against item.schema.json",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): item documents against item.schema.json",
    "status": "pass",
    "sections": [
     "5",
@@ -5466,7 +5466,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.advisory.item",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): item documents against the advisory (SHOULD) layer",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): item documents against the advisory (SHOULD) layer",
    "status": "pass",
    "sections": [
     "5.3",
@@ -5489,7 +5489,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.schema.pinned",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): pinned documents against pinned.schema.json",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): pinned documents against pinned.schema.json",
    "status": "pass",
    "sections": [
     "8"
@@ -5508,7 +5508,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.advisory.pinned",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): pinned documents against the advisory (SHOULD) layer",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): pinned documents against the advisory (SHOULD) layer",
    "status": "pass",
    "sections": [
     "8"
@@ -5524,7 +5524,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.index.order",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): index ordered by updated descending",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): index ordered by updated descending",
    "status": "pass",
    "sections": [
     "6.2"
@@ -5535,7 +5535,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.index.agrees-with-docs",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): index entries agree with item documents",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): index entries agree with item documents",
    "status": "pass",
    "sections": [
     "6.2",
@@ -5549,7 +5549,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.hash.matches-content_md",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): content_hash = sha256 of content_md",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): content_hash = sha256 of content_md",
    "status": "pass",
    "sections": [
     "5.1"
@@ -5564,7 +5564,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.updated.equals-last-changelog",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): updated equals the latest changelog entry's at",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): updated equals the latest changelog entry's at",
    "status": "pass",
    "sections": [
     "5.2"
@@ -5577,7 +5577,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.changelog.contiguous",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): changelog covers versions 1..version, +1 each",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): changelog covers versions 1..version, +1 each",
    "status": "pass",
    "sections": [
     "5.2"
@@ -5590,7 +5590,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.changelog.at-monotonic",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): changelog timestamps non-decreasing with version",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): changelog timestamps non-decreasing with version",
    "status": "pass",
    "sections": [
     "5.2",
@@ -5602,7 +5602,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.html.absolute-urls",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every URL in content_html is absolute",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): every URL in content_html is absolute",
    "status": "pass",
    "sections": [
     "5.2",
@@ -5619,7 +5619,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.md.no-tk-grammar",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): no TK authoring grammar reaches the wire",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): no TK authoring grammar reaches the wire",
    "status": "pass",
    "sections": [
     "5.7"
@@ -5632,7 +5632,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.md.no-reserved-directive",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): no reserved ![[id@vN]] in published content_md",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): no reserved ![[id@vN]] in published content_md",
    "status": "pass",
    "sections": [
     "10.1"
@@ -5647,7 +5647,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.transclusions.match-directives",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): transclusions[] matches the directives in content_md, in order",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): transclusions[] matches the directives in content_md, in order",
    "status": "pass",
    "sections": [
     "10.3",
@@ -5664,7 +5664,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.transclusions.baked-wrappers",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): each entry has a matching baked blockquote (classes, data attributes)",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): each entry has a matching baked blockquote (classes, data attributes)",
    "status": "pass",
    "sections": [
     "10.2",
@@ -5682,7 +5682,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.selector.matches-bake",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): a partial's baked <p> lines equal selector.exact",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): a partial's baked <p> lines equal selector.exact",
    "status": "pass",
    "sections": [
     "10.2"
@@ -5697,7 +5697,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.transclusions.own-origin-omitted",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): own-origin entries omit origin",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): own-origin entries omit origin",
    "status": "pass",
    "sections": [
     "10.3"
@@ -5712,7 +5712,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.stub_of.version-agreement",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): stub_of.version equals the baked version when the body quotes the target",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): stub_of.version equals the baked version when the body quotes the target",
    "status": "pass",
    "sections": [
     "10.6"
@@ -5727,7 +5727,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.forked_from.cited-url-is-page",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): forked_from.cited.url names a human page, not the v{n}.json document",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): forked_from.cited.url names a human page, not the v{n}.json document",
    "status": "warn",
    "sections": [
     "5.9",
@@ -5744,7 +5744,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.fork.carries-directives",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): a fork's content_md carries the source's directives, which re-resolve at the forker",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): a fork's content_md carries the source's directives, which re-resolve at the forker",
    "status": "info",
    "sections": [
     "5.6"
@@ -5757,7 +5757,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.page.origin-relative",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): page is origin-relative (no scheme, no leading /)",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): page is origin-relative (no scheme, no leading /)",
    "status": "pass",
    "sections": [
     "5.8"
@@ -5774,7 +5774,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.page.not-absolute-at-0.3",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): absolute page is a 0.4 construct",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): absolute page is a 0.4 construct",
    "status": "pass",
    "sections": [
     "5.8",
@@ -5790,7 +5790,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.generated.wrappers",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): generated spans are wrapped in blyg-tk-gen",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): generated spans are wrapped in blyg-tk-gen",
    "status": "pass",
    "sections": [
     "5.7"
@@ -5806,7 +5806,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.generated.disjoint-from-transclusions",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): generation sources never appear in transclusions[]",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): generation sources never appear in transclusions[]",
    "status": "pass",
    "sections": [
     "5.7"
@@ -5819,7 +5819,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.links.rendered-absolute",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): [[id]] links render as anchors with absolute hrefs",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): [[id]] links render as anchors with absolute hrefs",
    "status": "pass",
    "sections": [
     "10.1"
@@ -5836,7 +5836,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.code.inert",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): directive/link syntax inside code is left literal",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): directive/link syntax inside code is left literal",
    "status": "pass",
    "sections": [
     "10.1"
@@ -5849,7 +5849,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.media.referenced",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every media[] entry is referenced by content_html",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): every media[] entry is referenced by content_html",
    "status": "warn",
    "sections": [
     "5.4",
@@ -5861,7 +5861,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.withdrawn.keeps-page",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): an endcap keeps page",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): an endcap keeps page",
    "status": "pass",
    "sections": [
     "9",
@@ -5875,7 +5875,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.id.matches-url",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): document id equals the id in its URL",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): document id equals the id in its URL",
    "status": "pass",
    "sections": [
     "4",
@@ -5889,7 +5889,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.origin.matches-fetch",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): document origin equals the origin it was fetched from",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): document origin equals the origin it was fetched from",
    "status": "pass",
    "sections": [
     "12.2",
@@ -5904,7 +5904,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pins.served",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every changelog pinned:true version is served as v{n}.json and nothing else is",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): every changelog pinned:true version is served as v{n}.json and nothing else is",
    "status": "pass",
    "sections": [
     "8",
@@ -5921,7 +5921,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pinned.hash",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): pinned content_hash = sha256(content_md)",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): pinned content_hash = sha256(content_md)",
    "status": "pass",
    "sections": [
     "8",
@@ -5935,7 +5935,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pinned.at-matches-changelog",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): pinned at/note match the item's changelog entry",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): pinned at/note match the item's changelog entry",
    "status": "pass",
    "sections": [
     "8"
@@ -5946,7 +5946,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pinned.forked_from-immutable",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): a pin of a forked item carries the same forked_from",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): a pin of a forked item carries the same forked_from",
    "status": "pass",
    "sections": [
     "5.6",
@@ -5960,7 +5960,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pinned.html.absolute-urls",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every URL in content_html is absolute",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): every URL in content_html is absolute",
    "status": "pass",
    "sections": [
     "5.2",
@@ -5977,7 +5977,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pinned.md.no-tk-grammar",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): no TK authoring grammar reaches the wire",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): no TK authoring grammar reaches the wire",
    "status": "pass",
    "sections": [
     "5.7"
@@ -5990,7 +5990,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pinned.transclusions.match-directives",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): transclusions[] matches the directives in content_md, in order",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): transclusions[] matches the directives in content_md, in order",
    "status": "pass",
    "sections": [
     "10.3",
@@ -6007,7 +6007,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pinned.transclusions.baked-wrappers",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): each entry has a matching baked blockquote (classes, data attributes)",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): each entry has a matching baked blockquote (classes, data attributes)",
    "status": "pass",
    "sections": [
     "10.2",
@@ -6025,7 +6025,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pinned.stub_of.version-agreement",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): stub_of.version equals the baked version when the body quotes the target",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): stub_of.version equals the baked version when the body quotes the target",
    "status": "pass",
    "sections": [
     "10.6"
@@ -6040,7 +6040,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.pinned.forked_from.cited-url-is-page",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): forked_from.cited.url names a human page, not the v{n}.json document",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): forked_from.cited.url names a human page, not the v{n}.json document",
    "status": "pass",
    "sections": [
     "5.9",
@@ -6057,7 +6057,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.feed.rss2-namespace",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): RSS 2.0 root declaring the permanent blyg namespace",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): RSS 2.0 root declaring the permanent blyg namespace",
    "status": "pass",
    "sections": [
     "7"
@@ -6070,7 +6070,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.feed.manifest-hook",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): <blyg:manifest> present and absolute",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): <blyg:manifest> present and absolute",
    "status": "pass",
    "sections": [
     "7",
@@ -6086,7 +6086,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.feed.entry-vocabulary",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
    "status": "pass",
    "sections": [
     "7"
@@ -6101,7 +6101,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.feed.withdrawn-single-entry",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): a withdrawn item contributes exactly one empty 'withdrawn' entry",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): a withdrawn item contributes exactly one empty 'withdrawn' entry",
    "status": "pass",
    "sections": [
     "7",
@@ -6117,7 +6117,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.feed.injected-presentation",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): descriptions carry injected presentation lines (permitted by §7)",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): descriptions carry injected presentation lines (permitted by §7)",
    "status": "info",
    "sections": [
     "7"
@@ -6130,7 +6130,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.feed.latest-content",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): entries render the item's latest content_html",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): entries render the item's latest content_html",
    "status": "pass",
    "sections": [
     "7"
@@ -6143,7 +6143,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.feed.newest-first",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): one entry per publish event, newest first",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): one entry per publish event, newest first",
    "status": "pass",
    "sections": [
     "7"
@@ -6154,7 +6154,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.feed.window",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): window bounded (RECOMMENDED 50)",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): window bounded (RECOMMENDED 50)",
    "status": "pass",
    "sections": [
     "7"
@@ -6167,7 +6167,7 @@
   {
    "id": "schemas:schemas.live-venkateshrao.rule.feed.dc-creator",
    "area": "schemas",
-   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): dc:creator emitted when author.name present",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.21.0 (live, 76 items, fetched 2026-10-04): dc:creator emitted when author.name present",
    "status": "warn",
    "sections": [
     "7"

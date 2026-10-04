@@ -1,7 +1,7 @@
 {
-  "implementation": "blygger-studio 0.20.2",
-  "version": "0.20.2",
-  "local_id": "7f6h9ndemrm4f3k7085441gsa1",
+  "implementation": "blygger-studio 0.21.0",
+  "version": "0.21.0",
+  "local_id": "3c25ekpq3dvy0a1fa7bjfjkzm5",
   "results": [
     {
       "case": "whole-remote",
@@ -30,7 +30,7 @@
         "error": false,
         "transclusions": [
           {
-            "id": "7f6h9ndemrm4f3k7085441gsa1",
+            "id": "3c25ekpq3dvy0a1fa7bjfjkzm5",
             "partial": false
           }
         ],
@@ -407,7 +407,7 @@
         "links": [],
         "tk_sources": [
           [
-            "7f6h9ndemrm4f3k7085441gsa1"
+            "3c25ekpq3dvy0a1fa7bjfjkzm5"
           ]
         ],
         "literal": []
@@ -424,7 +424,7 @@
         "links": [],
         "tk_sources": [
           [
-            "7f6h9ndemrm4f3k7085441gsa1"
+            "3c25ekpq3dvy0a1fa7bjfjkzm5"
           ]
         ],
         "literal": []
@@ -446,7 +446,7 @@
         "links": [],
         "tk_sources": [
           [
-            "7f6h9ndemrm4f3k7085441gsa1"
+            "3c25ekpq3dvy0a1fa7bjfjkzm5"
           ]
         ],
         "literal": []
@@ -481,7 +481,7 @@
         "error": false,
         "transclusions": [
           {
-            "id": "7f6h9ndemrm4f3k7085441gsa1",
+            "id": "3c25ekpq3dvy0a1fa7bjfjkzm5",
             "partial": false
           }
         ],

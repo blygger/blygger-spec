@@ -3,6 +3,7 @@
 Tools for checking whether the Blygger spec does what it is meant to do, and
 whether implementations do what the spec says. Open `index.html` for the
 dashboard.
+The first-round report is `reports/2026-10-03-first-round.html`.
 
 A spec can fail in two different ways, and these tools look for both:
 

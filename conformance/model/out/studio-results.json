@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-10-04T03:23:50.842Z",
+ "generated_at": "2026-10-04T03:49:58.139Z",
  "studioDir": "/Users/aneeshsathe/Code/blygger-studio",
- "studioVersion": "0.20.2",
- "packageVersion": "0.20.2",
+ "studioVersion": "0.21.0",
+ "packageVersion": "0.21.0",
  "runs": 1000,
  "seed": 20261003,
- "ms": 448625,
+ "ms": 479371,
  "vitestExit": 0,
  "results": [
   {
@@ -22,7 +22,7 @@
    "hits": {
     "P6post": 1
    },
-   "ms": 46,
+   "ms": 44,
    "replayOf": "scenario:fork-remote-thread-with-partial",
    "trace": [
     {
@@ -498,7 +498,7 @@
    "hits": {
     "P6post": 1
    },
-   "ms": 42,
+   "ms": 41,
    "replayOf": "scenario:fork-own-thread-nested-cross-origin",
    "trace": [
     {
@@ -1283,7 +1283,7 @@
    "hits": {
     "P6post": 1
    },
-   "ms": 27,
+   "ms": 26,
    "replayOf": "scenario:fork-after-source-drift",
    "trace": [
     {
@@ -1803,7 +1803,7 @@
    "hits": {
     "P6post": 1
    },
-   "ms": 28,
+   "ms": 30,
    "replayOf": "scenario:fork-legacy-adjacency",
    "failure": {
     "prop": "P6post",
@@ -2348,7 +2348,7 @@
    "hits": {
     "P1": 3384
    },
-   "ms": 28888,
+   "ms": 29425,
    "transitions": {
     "absent→current": {
      "agree": 662,
@@ -2389,7 +2389,7 @@
    "hits": {
     "P2": 1930
    },
-   "ms": 24490,
+   "ms": 25059,
    "transitions": {
     "absent→current": {
      "agree": 1708,
@@ -2434,7 +2434,7 @@
    "hits": {
     "P2b": 740
    },
-   "ms": 6690,
+   "ms": 6124,
    "transitions": {
     "absent→current": {
      "agree": 737,
@@ -3375,7 +3375,7 @@
    "hits": {
     "P3": 13212
    },
-   "ms": 23711,
+   "ms": 23966,
    "transitions": {
     "absent→current": {
      "agree": 1528,
@@ -3420,7 +3420,7 @@
    "hits": {
     "P4": 58
    },
-   "ms": 24169,
+   "ms": 24985,
    "transitions": {
     "absent→current": {
      "agree": 1708,
@@ -3465,7 +3465,7 @@
    "hits": {
     "P5": 152
    },
-   "ms": 20936,
+   "ms": 21400,
    "transitions": {
     "absent→current": {
      "agree": 639,
@@ -3503,7 +3503,7 @@
    "hits": {
     "P6post": 363
    },
-   "ms": 53061,
+   "ms": 53456,
    "transitions": {
     "absent→current": {
      "agree": 2157,
@@ -3545,7 +3545,7 @@
    "hits": {
     "P6post": 1
    },
-   "ms": 20,
+   "ms": 17,
    "replayOf": "model:P6-pre",
    "trace": [
     {
@@ -3982,7 +3982,7 @@
    "hits": {
     "P6post": 1
    },
-   "ms": 17,
+   "ms": 16,
    "replayOf": "model:P6-pre-nopartial",
    "trace": [
     {
@@ -4371,7 +4371,7 @@
    "hits": {
     "P6post": 98
    },
-   "ms": 14999,
+   "ms": 14521,
    "transitions": {
     "absent→current": {
      "agree": 546,
@@ -4698,7 +4698,7 @@
    "hits": {
     "P7": 559
    },
-   "ms": 29944,
+   "ms": 28062,
    "transitions": {
     "absent→current": {
      "agree": 1135,
@@ -4735,7 +4735,7 @@
    "hits": {
     "P8": 1077
    },
-   "ms": 39303,
+   "ms": 45352,
    "transitions": {
     "absent→current": {
      "agree": 861,
@@ -4760,7 +4760,7 @@
    "hits": {
     "P9": 419
    },
-   "ms": 36301,
+   "ms": 39396,
    "transitions": {
     "absent→current": {
      "agree": 1648,
@@ -5450,7 +5450,7 @@
    "hits": {
     "P10": 14964
    },
-   "ms": 20215,
+   "ms": 22193,
    "transitions": {}
   },
   {
@@ -5467,7 +5467,7 @@
    "hits": {
     "D1": 4359
    },
-   "ms": 7631,
+   "ms": 8653,
    "transitions": {
     "absent→current": {
      "agree": 510,
@@ -5848,7 +5848,7 @@
    "hits": {
     "D1": 12218
    },
-   "ms": 20368,
+   "ms": 23437,
    "transitions": {
     "absent→current": {
      "agree": 1393,
@@ -5890,7 +5890,7 @@
    "hits": {
     "D1": 12218
    },
-   "ms": 19359,
+   "ms": 22795,
    "transitions": {
     "absent→current": {
      "agree": 1256,
@@ -5940,7 +5940,7 @@
    "hits": {
     "D1": 10261
    },
-   "ms": 17478,
+   "ms": 21400,
    "transitions": {}
   },
   {
@@ -5957,7 +5957,7 @@
    "hits": {
     "D2": 1207
    },
-   "ms": 10659,
+   "ms": 12079,
    "transitions": {
     "absent→current": {
      "agree": 285,
@@ -6322,7 +6322,7 @@
    "hits": {
     "D2": 2434
    },
-   "ms": 24037,
+   "ms": 27454,
    "transitions": {
     "absent→current": {
      "agree": 638,
@@ -6362,7 +6362,7 @@
     "D3": 12218,
     "D2": 2078
    },
-   "ms": 23026,
+   "ms": 26512,
    "transitions": {
     "absent→current": {
      "agree": 509,

@@ -132,7 +132,7 @@ button{margin-top:8px;width:100%;padding:9px;border:0;border-radius:8px;backgrou
 <body>
 <main>
 <h1>Blygger conformance dashboard</h1>
-<p class="sub">Does the spec do what it is meant to do? Each intention below is linked to the spec sections and decisions meant to deliver it, and to the evidence from five independent tools. <b>A clause can pass while its intention fails</b>, and those are the cases this page is built to surface.</p>
+<p class="sub">Does the spec do what it is meant to do? Each intention below is linked to the spec sections and decisions meant to deliver it, and to the evidence from five independent tools. <b>A clause can pass while its intention fails</b>, and those are the cases this page is built to surface. Start with the <a href="reports/2026-10-03-first-round.html">first-round report</a>.</p>
 <div id="stats" class="stats"></div>
 
 <h2>Intent ledger</h2>
