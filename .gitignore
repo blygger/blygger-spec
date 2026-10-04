@@ -5,3 +5,8 @@
 node_modules/
 .wrangler/
 .dev.vars
+
+# conformance toolkit
+conformance/**/cache/
+conformance/**/vendor/
+conformance/**/target/
