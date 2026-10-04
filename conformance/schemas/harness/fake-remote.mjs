@@ -82,7 +82,7 @@ export async function outboundService(request) {
   return new Response("not found", { status: 404 });
 }
 
-/** Targets as a resolver sees them (for the desktop grammar harness). */
+/** Targets as a resolver sees them: handed to adapters as ctx.remote.targets (ADAPTERS.md). */
 export function remoteTargets() {
   return Object.values(REMOTE_ITEMS).map((d) => ({ id: d.id, origin: REMOTE, version: d.version, kind: d.kind, content_html: d.content_html, page: d.page }));
 }

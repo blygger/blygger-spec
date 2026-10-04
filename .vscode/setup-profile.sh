@@ -46,7 +46,6 @@ say "using: $CODE ($("$CODE" --version 2>/dev/null | head -1))"
 step "Sibling repositories (in $PARENT)"
 SIBLINGS=(
   "blygger-studio|https://github.com/blygger/blygger-studio.git|reference client; needed by the property tests"
-  "blygger-desktop|https://github.com/aneeshsathe/blygger-desktop.git|Burrow, the Rust desktop client"
   "blygger-org|https://github.com/blygger/blygger-org.git|blygger.org site"
   "blygger-com|https://github.com/blygger/blygger-com.git|blygger.com directory"
 )

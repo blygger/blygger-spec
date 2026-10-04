@@ -14,14 +14,14 @@
 
 - It creates a VS Code profile named **Blygger**. The profile has its own extensions, so your Default profile is not changed.
 - It installs the extensions listed in `.vscode/extensions.json` into that profile only.
-- It checks for the sibling repos next to `blygger-spec` (`blygger-studio`, `blygger-desktop`, `blygger-org`, `blygger-com`). For each missing one it asks y/N before running `git clone`.
+- It checks for the sibling repos next to `blygger-spec` (`blygger-studio`, `blygger-org`, `blygger-com`). For each missing one it asks y/N before running `git clone`.
 - It checks for python3, node, Java 17+ and graphviz. It does not install them; it prints the `brew install` command for anything missing.
 
 **Java.** The Alloy model needs Java 17 or newer: `brew install openjdk@17`. The tasks find Homebrew's JDK on their own. The Alloy extension's **Execute** button runs `java` from VS Code's environment, so for that button macOS must also know about the JDK. `bash .vscode/bin/toolchain.sh --check` prints the one-line `sudo ln -sfn …` command that registers it.
 
 ## The workspace
 
-`blygger.code-workspace` opens up to five repos side by side, each from `../<name>`: blygger-spec, blygger-studio, blygger-desktop (Burrow), blygger-org and blygger-com. **A repo you have not cloned shows as a missing folder in the Explorer.** That is harmless; you can ignore it or clone the repo. The repo-specific settings (JSON schemas, markdown, spell-check words) are in `.vscode/settings.json`, so they also apply when you open `blygger-spec` on its own.
+`blygger.code-workspace` opens up to four repos side by side, each from `../<name>`: blygger-spec, blygger-studio, blygger-org and blygger-com. **A repo you have not cloned shows as a missing folder in the Explorer.** That is harmless; you can ignore it or clone the repo. The repo-specific settings (JSON schemas, markdown, spell-check words) are in `.vscode/settings.json`, so they also apply when you open `blygger-spec` on its own.
 
 ## Tasks (Terminal > Run Task…)
 
@@ -53,8 +53,7 @@ All tool tasks go through `.vscode/bin/run-tool.sh`, which holds the real comman
 | Vitest | `vitest.explorer` | Test explorer for blygger-studio and the TypeScript conformance tools |
 | Playwright | `ms-playwright.playwright` | blygger-studio's end-to-end tests |
 | Python | `ms-python.python` | The dashboard and clause-register scripts |
-| rust-analyzer | `rust-lang.rust-analyzer` | Burrow (blygger-desktop) |
-| Even Better TOML | `tamasfe.even-better-toml` | `Cargo.toml` and the ecosystem `projects.toml` |
+| Even Better TOML | `tamasfe.even-better-toml` | blygger-org's `ecosystem/projects.toml` |
 | Code Spell Checker | `streetsidesoftware.code-spell-checker` | Spell-checks spec prose; protocol words (blyg, transclusion, Webmention…) are already whitelisted |
 | GitLens | `eamodio.gitlens` | Who changed this line of the spec, when, and in which session |
 | Error Lens | `usernamehw.errorlens` | Shows schema and lint errors on the line they are about |

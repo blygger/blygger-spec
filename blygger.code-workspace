@@ -5,12 +5,9 @@
   // Sibling checkouts are expected next to blygger-spec (../<repo>). A folder
   // that is not cloned shows as missing in the Explorer and is otherwise
   // harmless; .vscode/setup-profile.sh offers to clone the missing ones.
-  // Aneesh's machine has blygger-studio + blygger-desktop; Venkat's has
-  // blygger-studio, blygger-org and blygger-com (and probably not blygger-desktop).
   "folders": [
     { "name": "blygger-spec (protocol + conformance)", "path": "." },
     { "name": "blygger-studio (reference client)", "path": "../blygger-studio" },
-    { "name": "blygger-desktop (Burrow)", "path": "../blygger-desktop" },
     { "name": "blygger-org (blygger.org site)", "path": "../blygger-org" },
     { "name": "blygger-com (directory)", "path": "../blygger-com" }
   ],
@@ -31,8 +28,7 @@
       "**/dist": true,
       "**/build": true,
       "**/.wrangler": true,
-      "**/package-lock.json": true,
-      "**/Cargo.lock": true
+      "**/package-lock.json": true
     },
     "files.watcherExclude": {
       "**/node_modules/**": true,
@@ -50,9 +46,6 @@
 
     // Vitest explorer: discover configs per folder; never inside dependencies.
     "vitest.configSearchPatternExclude": "{**/node_modules/**,**/.*/**,**/*.d.ts}",
-
-    // Burrow (Rust): clippy on save; rust-toolchain.toml pins the toolchain.
-    "rust-analyzer.check.command": "clippy",
 
     "errorLens.enabledDiagnosticLevels": ["error", "warning"],
     "gitlens.codeLens.enabled": false
@@ -73,7 +66,6 @@
       "vitest.explorer",
       "ms-playwright.playwright",
       "ms-python.python",
-      "rust-lang.rust-analyzer",
       "tamasfe.even-better-toml",
       "streetsidesoftware.code-spell-checker",
       "eamodio.gitlens",

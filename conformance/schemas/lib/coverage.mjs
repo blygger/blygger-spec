@@ -1,58 +1,7 @@
-// Schema explorer + coverage: the field tree of each document type, and
-// which implementation emits / understands each field.
+// Schema explorer + coverage: the field tree of each document type, and the
+// paths observed in a set of documents. Per-implementation "reads / keeps"
+// columns come from adapters' staticFields() (see ADAPTERS.md).
 import { loadSchema } from "./validate.mjs";
-
-const D = "blygger-desktop/crates/blyg-core/src";
-/**
- * Static reading of blygger-desktop 0.7.0's serde types for the public
- * surface. reads: the type has the field; keeps: it survives into the stored
- * ReadingItem/Lineage (what a round trip can re-emit). Verified dynamically by
- * harness/desktop-run.mjs for item documents.
- */
-export const DESKTOP_STATIC = {
-  item: {
-    blyg: [false, false, `${D}/api/public.rs:40 ItemDoc has no blyg`],
-    id: [true, true, "ItemDoc.id → ReadingItem.remote_id"],
-    kind: [true, true, "ItemDoc.kind; withdrawn → state 'tombstone'"],
-    origin: [false, false, "ItemDoc has no origin; the caller's origin is used instead (§15.4 identity is never checked against the document)"],
-    page: [true, true, "ItemDoc.page"],
-    author: [true, false, `${D}/model.rs:205 Author{name,url} — other members dropped (§5.5 C-5.5-05)`],
-    "author.name": [true, true, "Author.name"],
-    "author.url": [true, true, "Author.url"],
-    created: [true, true, ""], updated: [true, true, ""], version: [true, true, ""],
-    content_md: [true, true, ""], content_html: [true, true, ""],
-    content_hash: [false, false, "ItemDoc ignores it (PinDoc checks it)"],
-    media: [true, false, "ItemDoc.media read for display (versions_at), not stored on ReadingItem"],
-    "media[].url": [true, false, ""], "media[].mime": [true, false, ""], "media[].alt": [true, false, ""],
-    changelog: [true, true, "ChangelogEntry → RemoteVersion"],
-    "changelog[].version": [true, true, ""], "changelog[].at": [true, true, ""], "changelog[].note": [true, true, ""], "changelog[].pinned": [true, true, ""],
-    "changelog[].generated": [false, false, "ChangelogEntry has no generated (§16.6c, #40)"],
-    transclusions: [true, true, `${D}/model.rs:305 TransclusionRef`],
-    "transclusions[].origin": [true, true, ""], "transclusions[].id": [true, true, ""], "transclusions[].version": [true, true, "Option<u32>"],
-    "transclusions[].cited": [true, true, "Cited"],
-    "transclusions[].selector": [false, false, "TransclusionRef has no selector — partial quotes become whole on round trip (#49)"],
-    stub_of: [true, true, `${D}/model.rs:282 StubOf{origin,id,version,url}`],
-    "stub_of.cited": [false, false, "StubOf has no cited (#30, #55)"],
-    forked_from: [true, true, `${D}/model.rs:72 RemoteRef{origin,id,version}`],
-    "forked_from.cited": [false, false, "RemoteRef has no cited (#30)"],
-    generated: [false, false, "ItemDoc has no generated (§5.7) — imported generation provenance is invisible"],
-  },
-  pinned: {
-    id: [true, true, `${D}/api/public.rs:226 PinDoc`], version: [true, true, ""], at: [true, true, ""], note: [true, true, ""], pinned: [true, true, ""],
-    author: [true, false, "Author{name,url}"], content_md: [true, true, ""], content_html: [true, true, ""], content_hash: [true, true, "checked: hash_mismatch"],
-    kind: [false, false, "PinDoc has no kind"], origin: [false, false, ""], blyg: [false, false, ""],
-    transclusions: [false, false, "PinDoc drops a pin's citations (§8 rule 5)"], generated: [false, false, ""], stub_of: [false, false, ""], forked_from: [false, false, ""],
-  },
-  manifest: {
-    blyg: [true, false, `${D}/profile.rs is_manifest: presence of "blyg" is the §12.1 test`],
-    title: [true, true, `${D}/profile.rs:222 Manifest`], author: [true, true, "name, bio, avatar, links"], feed: [true, true, ""], items: [true, true, ""], blogroll: [true, true, ""],
-    level: [false, false, ""], generator: [false, false, ""], generator_url: [false, false, ""], site: [false, false, "correct: site is display-advisory (§12.2)"], webmention: [false, false, ""], updated: [false, false, ""],
-  },
-  index: {
-    updated: [false, false, ""], items: [true, true, `${D}/profile.rs:303 IndexEntry`],
-    "items[].id": [true, true, ""], "items[].kind": [true, true, ""], "items[].created": [true, true, ""], "items[].updated": [true, true, ""], "items[].version": [true, true, ""],
-  },
-};
 
 /** Flatten a schema's properties into explorer rows. */
 export function schemaTree() {

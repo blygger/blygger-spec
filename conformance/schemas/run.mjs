@@ -1,26 +1,35 @@
 #!/usr/bin/env node
 // One command regenerates everything:
-//   node run.mjs                  # studio harness + live snapshot + desktop harness + validate + report
+//   node run.mjs                  # adapters + live snapshot + validate + report
 //   node run.mjs --offline        # skip the live snapshot (reuse samples/live-*)
-//   node run.mjs --report-only    # reuse samples/ and out/*.json, rebuild summary + report
-// Env: STUDIO_DIR (default ~/Code/blygger-studio), DESKTOP_DIR (default ~/Code/blygger-desktop),
-//      LIVE_ORIGIN (default https://venkateshrao.com/blyg/)
+//   node run.mjs --report-only    # reuse samples/ and the adapters' saved results; rebuild summary + report
+//   node run.mjs --impl path/to/adapter.mjs [--impl …]   # add implementations (ADAPTERS.md)
+//   node run.mjs --out DIR        # write results somewhere other than out/ (use it for third-party runs)
+// Env: STUDIO_DIR (default ../blygger-studio next to this repo), IMPLS (extra adapter paths,
+//      comma- or colon-separated), OUT_DIR, LIVE_ORIGIN (default https://venkateshrao.com/blyg/)
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync, rmSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { checkSite } from "./lib/check-site.mjs";
 import { RULES } from "./lib/semantic.mjs";
 import { selftest } from "./lib/selftest.mjs";
-import { schemaTree, observedPaths, DESKTOP_STATIC } from "./lib/coverage.mjs";
-import { loadCases } from "./harness/grammar-common.mjs";
-import { REMOTE, REMOTE_ITEMS, REMOTE_PINS } from "./harness/fake-remote.mjs";
+import { schemaTree, observedPaths } from "./lib/coverage.mjs";
+import { adapterPaths, loadAdapters, leaves, dropped } from "./lib/adapters.mjs";
+import { loadCases, subst, compare } from "./harness/grammar-common.mjs";
+import { REMOTE, REMOTE_ITEMS, REMOTE_PINS, RA, RB, RC, remoteTargets } from "./harness/fake-remote.mjs";
 import { renderReport } from "./lib/report.mjs";
 
 const root = dirname(fileURLToPath(import.meta.url));
-const args = new Set(process.argv.slice(2));
+const argv = process.argv.slice(2);
+const args = new Set(argv);
+const argVal = (name) => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : argv.find((a) => a.startsWith(name + "="))?.slice(name.length + 1); };
+const OUT = resolve(process.cwd(), argVal("--out") || process.env.OUT_DIR || join(root, "out"));
+mkdirSync(OUT, { recursive: true });
 const node = process.execPath;
 const step = (label, file, a = []) => { console.log(`▸ ${label}`); execFileSync(node, [join(root, file), ...a], { stdio: "inherit", cwd: root }); };
+const readOut = (f) => (existsSync(join(OUT, f)) ? JSON.parse(readFileSync(join(OUT, f), "utf8")) : null);
+const writeOut = (f, v) => writeFileSync(join(OUT, f), JSON.stringify(v, null, 2));
 
 // 0. the fake remote origin's own documents are a sample set too
 {
@@ -31,30 +40,86 @@ const step = (label, file, a = []) => { console.log(`▸ ${label}`); execFileSyn
   for (const p of ["blyg.json", "feed.xml", "items/index.json"]) writeFileSync(join(dir, p), await (await outboundService(new Request(REMOTE + p))).text());
   for (const [id, d] of Object.entries(REMOTE_ITEMS)) writeFileSync(join(dir, "items", `${id}.json`), JSON.stringify(d, null, 2));
   for (const [id, vs] of Object.entries(REMOTE_PINS)) for (const [n, d] of Object.entries(vs)) { mkdirSync(join(dir, "items", id), { recursive: true }); writeFileSync(join(dir, "items", id, `v${n}.json`), JSON.stringify(d, null, 2)); }
-  writeFileSync(join(dir, "scenario.json"), JSON.stringify({ origin: REMOTE, note: "Hand-built 0.3 documents served to the studio harness as a remote blyg (harness/fake-remote.mjs)." }, null, 2));
+  writeFileSync(join(dir, "scenario.json"), JSON.stringify({ origin: REMOTE, note: "Hand-built 0.3 documents served to adapters as a remote blyg (harness/fake-remote.mjs)." }, null, 2));
 }
+
+// 1. implementations, through their adapters (ADAPTERS.md)
+const adapters = await loadAdapters(adapterPaths(argv));
+console.log(`adapters: ${adapters.map((a) => a.id).join(", ")}`);
+const cases = loadCases();
+const LOCAL = { content_md: "Local source fragment about gardens and paths.", content_html: "<p>Local source fragment about gardens and paths.</p>\n" };
+const ctxFor = (a) => {
+  const cacheDir = join(root, ".cache", a.id);
+  mkdirSync(cacheDir, { recursive: true });
+  return { root, outDir: OUT, cacheDir, samplesRoot: join(root, "samples"), local: LOCAL, subst, leaves, dropped,
+    remote: { origin: REMOTE, ids: { RA, RB, RC }, targets: remoteTargets(), items: REMOTE_ITEMS, pins: REMOTE_PINS } };
+};
+/** Every sampled item document, as roundtrip() receives them. */
+const sampledDocs = () => {
+  const out = [];
+  for (const set of readdirSync(join(root, "samples")).filter((d) => existsSync(join(root, "samples", d, "items"))).sort()) {
+    const meta = existsSync(join(root, "samples", set, "scenario.json")) ? JSON.parse(readFileSync(join(root, "samples", set, "scenario.json"), "utf8")) : {};
+    const idir = join(root, "samples", set, "items");
+    for (const f of readdirSync(idir).filter((f) => /^[0-9a-z]{26}\.json$/.test(f)).sort()) {
+      const json = readFileSync(join(idir, f), "utf8");
+      out.push({ path: `${set}/items/${f}`, origin: JSON.parse(json).origin || meta.origin || "", id: f.slice(0, 26), json });
+    }
+  }
+  return out;
+};
+
 if (!args.has("--report-only")) {
-  step("blygger-studio in-process harness", "harness/studio-run.mjs", process.env.STUDIO_DIR ? [process.env.STUDIO_DIR] : []);
+  for (const a of adapters) {
+    const ctx = ctxFor(a);
+    const version = await a.version(ctx);
+    const label = `${a.name} ${version}`;
+    console.log(`▸ ${label}`);
+    if (a.samples) await a.samples(join(root, "samples", a.id), ctx);
+    if (a.grammar) {
+      const g = await a.grammar(cases, ctx);
+      const byCase = Object.fromEntries(g.results.map((r) => [r.case, r]));
+      const results = cases.map((c0) => {
+        const c = subst(c0, g.localId);
+        const actual = byCase[c0.id];
+        if (!actual) return { case: c0.id, file: c0.file, ok: false, diffs: ["no result from the adapter"], parse: null };
+        const v = compare(c.expect, actual, [RA, RB, RC, g.localId]);
+        return { case: c0.id, file: c0.file, ok: v.ok, diffs: v.diffs, parse: v.parse };
+      });
+      writeOut(`grammar-${a.id}.json`, { implementation: g.implementation || label, version, local_id: g.localId, results });
+      console.log(`  grammar: ${results.filter((r) => r.ok).length}/${results.length} as expected`);
+    }
+    if (a.staticFields) writeOut(`static-${a.id}.json`, { implementation: label, version, fields: await a.staticFields(ctx) });
+    if (a.dispose && !a.roundtrip) await a.dispose(ctx);
+  }
   if (!args.has("--offline")) step("live snapshot", "harness/live-fetch.mjs", [process.env.LIVE_ORIGIN || "https://venkateshrao.com/blyg/", "live-venkateshrao"]);
-  step("blygger-desktop harness", "harness/desktop-run.mjs", process.env.DESKTOP_DIR ? [process.env.DESKTOP_DIR] : []);
+  for (const a of adapters.filter((a) => a.roundtrip)) {
+    const ctx = ctxFor(a);
+    const version = await a.version(ctx);
+    const docs = sampledDocs();
+    const r = await a.roundtrip(docs, ctx);
+    writeOut(`roundtrip-${a.id}.json`, { implementation: r.implementation || `${a.name} ${version}`, version, documents: docs.length, parsed: r.parsed, failed: r.failed || [], dropped: r.dropped || [] });
+    console.log(`  ${a.id} round trip: ${r.parsed}/${docs.length} parsed; ${(r.dropped || []).length} input paths dropped`);
+    if (a.dispose) await a.dispose(ctx);
+  }
+}
+const impls = []; // { id, name, version, label, grammar, roundtrip, static }
+for (const a of adapters) {
+  const g = readOut(`grammar-${a.id}.json`), rt = readOut(`roundtrip-${a.id}.json`), st = readOut(`static-${a.id}.json`);
+  const version = g?.version ?? rt?.version ?? st?.version ?? (await a.version(ctxFor(a)));
+  impls.push({ id: a.id, name: a.name, version, label: `${a.name} ${version}`, grammar: g, roundtrip: rt, static: st?.fields ?? null });
 }
 
-const readOut = (f) => (existsSync(join(root, "out", f)) ? JSON.parse(readFileSync(join(root, "out", f), "utf8")) : null);
-const gStudio = readOut("grammar-studio.json");
-const gDesktop = readOut("grammar-desktop.json");
-const roundtrip = readOut("desktop-roundtrip.json");
-
-// 1. validate every sample set
+// 2. validate every sample set: the adapters' own, the live snapshot, the fake remote
 const SETS = [
-  ["studio", "blygger-studio (in-process harness)"],
-  ["live-venkateshrao", "venkateshrao.com/blyg/ (live)"],
+  ...impls.map((i) => [i.id, `${i.label} (adapter samples)`]),
+  ...readdirSync(join(root, "samples")).filter((d) => d.startsWith("live-")).sort().map((d) => [d, d]),
   ["fake-remote", "fake remote origin (hand-built fixture)"],
 ].filter(([d]) => existsSync(join(root, "samples", d, "blyg.json")));
 const sites = SETS.map(([dir, title]) => ({ dir, title, ...checkSite(join(root, "samples", dir)) }));
-for (const s of sites) if (s.dir === "studio") s.title = `blygger-studio ${s.meta.studio_version} (in-process harness)`;
+for (const s of sites) if (s.meta.title) s.title = s.meta.title;
 for (const s of sites) if (s.dir.startsWith("live")) s.title = `${s.meta.origin} — ${s.meta.generator} (live, ${s.meta.items} items, fetched ${s.meta.fetched_at?.slice(0, 10)})`;
 
-// 2. clause mapping for each rule / schema layer (ids from conformance/clauses/clauses.json)
+// 3. clause mapping for each rule / schema layer (ids from conformance/clauses/clauses.json)
 const RULE_CLAUSES = {
   "hash.matches-content_md": ["C-5.1-03"], "updated.equals-last-changelog": ["C-5.2-02"], "changelog.contiguous": [], "changelog.at-monotonic": [],
   "html.absolute-urls": ["C-5.2-03", "C-7-07"], "md.no-tk-grammar": [], "md.no-reserved-directive": ["C-10.1-01"],
@@ -75,7 +140,7 @@ const SCHEMA_CLAUSES = {
 };
 const ADVISORY_CLAUSES = { item: ["C-5.4-01", "C-5.3-02", "C-5.7-03", "C-5.5-02", "C-5.9-05"], pinned: ["C-8-05", "C-5.7-03"], manifest: ["C-3.2-02", "C-4-02", "C-6.1-03"] };
 
-// 3. checks for summary.json
+// 4. checks for summary.json
 const checks = [];
 const add = (c) => checks.push({ spec_refs: [], decisions: [], ...c });
 for (const s of sites) {
@@ -102,60 +167,56 @@ for (const s of sites) {
   }
 }
 
-// grammar differential
+// grammar differential: one result per adapter that ran the corpus
 const GRAMMAR_CLAUSES = { "reserved-version": ["C-10.1-01"], "unknown-id": ["C-10.2-01"], "partial-not-in-target": ["C-10.2-02"] };
-const cases = loadCases();
 const gIndex = (g) => Object.fromEntries((g?.results || []).map((r) => [r.case, r]));
-const gs = gIndex(gStudio), gd = gIndex(gDesktop);
+const gByImpl = impls.filter((i) => i.grammar).map((i) => ({ id: i.id, idx: gIndex(i.grammar) }));
 for (const c of cases) {
-  const st = gs[c.id], dk = gd[c.id];
-  const bad = [st && !st.ok ? `studio: ${st.diffs.join("; ")}` : null, dk && !dk.ok ? `desktop: ${dk.diffs.join("; ")}` : null].filter(Boolean);
+  const bad = gByImpl.map(({ id, idx }) => (idx[c.id] && !idx[c.id].ok ? `${id}: ${idx[c.id].diffs.join("; ")}` : null)).filter(Boolean);
   const cl = GRAMMAR_CLAUSES[c.id] || (c.expect.transclusions.some((t) => t.partial) ? ["C-10.2-02", "C-10.3-01"] : c.expect.transclusions.length ? ["C-10.2-01"] : []);
   add({ id: `schemas.grammar.${c.id}`, title: `Grammar: ${c.title}`, status: bad.length ? "fail" : c.ambiguous ? "warn" : "pass",
-    detail: (bad.length ? bad.join(" | ") : `studio ${st ? "✓" : "–"} desktop ${dk ? "✓" : "–"}`) + (c.ambiguous ? ` — spec ambiguity: ${c.ambiguous}` : ""), spec_refs: c.spec_refs, decisions: c.decisions, clauses: cl });
+    detail: (bad.length ? bad.join(" | ") : gByImpl.map(({ id, idx }) => `${id} ${idx[c.id] ? "✓" : "–"}`).join(" ")) + (c.ambiguous ? ` — spec ambiguity: ${c.ambiguous}` : ""), spec_refs: c.spec_refs, decisions: c.decisions, clauses: cl });
 }
 
-// desktop round trip
-if (roundtrip) {
-  const D = roundtrip.dropped.map((x) => x.path);
-  const has = (re) => roundtrip.dropped.filter((x) => re.test(x.path));
-  const rt = (id, title, re, status, spec_refs, decisions, clauses, why) => {
-    const hit = has(re);
-    add({ id: `schemas.desktop.roundtrip.${id}`, title: `blygger-desktop round trip: ${title}`, status: hit.length ? status : "pass", detail: hit.length ? `${why} Dropped: ${hit.map((h) => `${h.path} (${h.count} docs)`).join(", ")}` : "preserved", spec_refs, decisions, clauses });
+// round trip: what an implementation that stores imported item documents loses
+for (const i of impls.filter((i) => i.roundtrip)) {
+  const R = i.roundtrip;
+  const rt = (key, title, re, status, spec_refs, decisions, clauses, why) => {
+    const hit = R.dropped.filter((x) => re.test(x.path));
+    add({ id: `schemas.${i.id}.roundtrip.${key}`, title: `${i.name} round trip: ${title}`, status: hit.length ? status : "pass", detail: hit.length ? `${why} Dropped: ${hit.map((h) => `${h.path} (${h.count} docs)`).join(", ")}` : "preserved", spec_refs, decisions, clauses });
   };
-  rt("selector", "partial-transclusion selector", /selector/, "warn", ["§10.3"], ["#49"], ["C-10.3-01"], "TransclusionRef has no selector. Readers may ignore it (§10.3), so this is not a reader failure; but desktop stores imported lineage, and any re-emission or local re-check (§10.2 MAY) from that store sees partial quotes as whole ones — the shape of the loss seen on the Blynger fork.");
-  rt("cited", "cited on stub_of / forked_from", /^(stub_of|forked_from)\.cited/, "warn", ["§5.9"], ["#30"], ["C-5.9-03", "C-5.9-07"], "StubOf and RemoteRef have no cited; §5.9 says importers retain it verbatim.");
-  rt("generated", "generation provenance", /^generated/, "warn", ["§5.7"], ["#20", "#37"], ["C-5.7-01"], "ItemDoc has no generated[]: imported machine-generated spans lose their disclosure.");
-  rt("author", "opaque author members", /^author\.(?!name$|url$)/, "fail", ["§5.5"], ["#11"], ["C-5.5-05"], "Author{name,url} drops every other member; clients that store item JSON MUST carry author verbatim.");
-  rt("changelog-generated", "changelog[].generated", /changelog\[\]\.generated/, "warn", ["§16.6c"], ["#40"], [], "Ruled member not modelled.");
-  add({ id: "schemas.desktop.roundtrip.parse", title: "blygger-desktop parses every sampled item document", status: roundtrip.failed.length ? "fail" : "pass", detail: `${roundtrip.parsed}/${roundtrip.documents} parsed${roundtrip.failed.length ? `; failures: ${roundtrip.failed.map((f) => f.path).join(", ")}` : ""}`, spec_refs: ["§13.1", "§3"], decisions: [], clauses: ["C-3-01", "C-5.5-03"] });
-  void D;
+  rt("selector", "partial-transclusion selector", /(^|\.)selector(\.|$)/, "warn", ["§10.3"], ["#49"], ["C-10.3-01"], "The stored transclusion has no selector. Readers may ignore it (§10.3), so this is not a reader failure; but any re-emission or local re-check (§10.2 MAY) from the stored copy sees partial quotes as whole ones.");
+  rt("cited", "cited on references", /^(stub_of|forked_from|transclusions\[\])\.cited/, "warn", ["§5.9"], ["#30"], ["C-5.9-03", "C-5.9-07"], "§5.9 says importers retain cited verbatim.");
+  rt("generated", "generation provenance", /^generated/, "warn", ["§5.7"], ["#20", "#37"], ["C-5.7-01"], "No generated[]: imported machine-generated spans lose their disclosure.");
+  rt("author", "opaque author members", /^author(\.|$)/, "fail", ["§5.5"], ["#11"], ["C-5.5-05"], "author is an opaque pass-through; clients that store item JSON MUST carry it verbatim.");
+  rt("changelog-generated", "changelog[].generated", /changelog\[\]\.generated/, "warn", ["§16.6c"], ["#40"], [], "Ruled member not kept.");
+  add({ id: `schemas.${i.id}.roundtrip.parse`, title: `${i.name} parses every sampled item document`, status: R.failed.length ? "fail" : "pass", detail: `${R.parsed}/${R.documents} parsed${R.failed.length ? `; failures: ${R.failed.map((f) => f.path).join(", ")}` : ""}`, spec_refs: ["§13.1", "§3"], decisions: [], clauses: ["C-3-01", "C-5.5-03"] });
 }
-// desktop static: pinned docs
-const pinMissing = Object.entries(DESKTOP_STATIC.pinned).filter(([k, v]) => !v[0] && ["transclusions", "stub_of", "forked_from", "generated"].includes(k)).map(([k]) => k);
-add({ id: "schemas.desktop.static.pinned-citations", title: "blygger-desktop PinDoc carries a pin's citations", status: pinMissing.length ? "warn" : "pass", detail: pinMissing.length ? `PinDoc (blyg-core api/public.rs:226) has no ${pinMissing.join(", ")} — §8 rule 5: "a pin carries its own citations".` : "ok", spec_refs: ["§8"], decisions: ["#27"], clauses: [] });
+// static field coverage: does the implementation's pinned-version type keep a pin's citations?
+for (const i of impls.filter((i) => i.static?.pinned)) {
+  const missing = ["transclusions", "stub_of", "forked_from", "generated"].filter((k) => !i.static.pinned[k]?.[0]);
+  add({ id: `schemas.${i.id}.static.pinned-citations`, title: `${i.name} reads a pin's citations`, status: missing.length ? "warn" : "pass", detail: missing.length ? `Its pinned-version type has no ${missing.join(", ")} — §8 rule 5: "a pin carries its own citations".` : "ok", spec_refs: ["§8"], decisions: ["#27"], clauses: [] });
+}
 
 // self-test
-const studio = sites.find((s) => s.dir === "studio");
+const studio = sites.find((s) => s.docs.some((d) => d.label === "thread")); // the reference scenario's labelled documents
 const pick = (label) => studio?.docs.find((d) => d.label === label)?.doc;
 const st = studio ? selftest({ thread: pick("thread"), stub: studio.docs.find((d) => d.label === "stubPartial")?.doc, fragment: pick("pins"), fork: pick("forkRemoteThread"), generated: pick("generated"), pinned: studio.docs.find((d) => d.type === "pinned")?.doc }) : [];
 for (const t of st) add({ id: `schemas.selftest.${t.id}`, title: `Self-test: checker catches ${t.title}`, status: t.caught ? "pass" : "fail", detail: t.caught ? `caught by ${t.by.join(" · ")}` : "NOT caught — the checker is too lenient here", spec_refs: [], decisions: ["#48"], clauses: t.clauses });
 
 const summary = { area: "schemas", title: "JSON Schemas, semantic rules and grammar differential", generated_at: new Date().toISOString(), checks };
-mkdirSync(join(root, "out"), { recursive: true });
-writeFileSync(join(root, "out", "summary.json"), JSON.stringify(summary, null, 2));
+writeOut("summary.json", summary);
 
-// coverage for the explorer
-const studioDocs = (s, type) => (s ? s.docs.filter((d) => d.type === type).map((d) => d.doc) : []);
-const live = sites.find((s) => s.dir.startsWith("live"));
-const raw = (dir, f) => JSON.parse(readFileSync(join(root, "samples", dir, f), "utf8"));
-const emits = {
-  item: observedPaths([...studioDocs(studio, "item"), ...studioDocs(live, "item")]),
-  pinned: observedPaths([...studioDocs(studio, "pinned"), ...studioDocs(live, "pinned")]),
-  manifest: observedPaths([raw("studio", "blyg.json"), ...(live ? [raw(live.dir, "blyg.json")] : [])]),
-  index: observedPaths([raw("studio", "items/index.json")]),
-};
+// coverage for the explorer: one "emits" column per sample set (fake remote excluded)
+const raw = (dir, f) => (existsSync(join(root, "samples", dir, f)) ? [JSON.parse(readFileSync(join(root, "samples", dir, f), "utf8"))] : []);
+const emitCols = sites.filter((s) => s.dir !== "fake-remote").map((s) => {
+  const of = (type) => s.docs.filter((d) => d.type === type).map((d) => d.doc);
+  return { label: `${s.dir} emits`, title: s.title, paths: {
+    item: observedPaths(of("item")), pinned: observedPaths(of("pinned")),
+    manifest: observedPaths(raw(s.dir, "blyg.json")), index: observedPaths(raw(s.dir, "items/index.json")),
+  } };
+});
 const tree = schemaTree();
-writeFileSync(join(root, "out", "report.html"), renderReport({ summary, sites, tree, emits, desktopStatic: DESKTOP_STATIC, roundtrip, gStudio, gDesktop, cases, selftest: st, rules: RULES }));
+writeFileSync(join(OUT, "report.html"), renderReport({ summary, sites, tree, emitCols, impls, cases, selftest: st, rules: RULES }));
 const tally = checks.reduce((a, c) => ((a[c.status] = (a[c.status] || 0) + 1), a), {});
-console.log(`summary: ${checks.length} checks ${JSON.stringify(tally)} → out/summary.json, out/report.html`);
+console.log(`summary: ${checks.length} checks ${JSON.stringify(tally)} → ${join(OUT, "summary.json")}, ${join(OUT, "report.html")}`);

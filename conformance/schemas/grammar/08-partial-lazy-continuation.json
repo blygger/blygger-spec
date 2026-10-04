@@ -1,6 +1,6 @@
 {
   "id": "partial-lazy-continuation",
-  "title": "A non-'>' line right after the quote run: CommonMark lazy continuation would extend the blockquote; implementations end the selection",
+  "title": "A non-'>' line right after the quote run: CommonMark lazy continuation would extend the blockquote; the reference client ends the selection",
   "spec_refs": [
     "§10.1"
   ],
@@ -21,5 +21,5 @@
     "tk_sources": [],
     "literal": []
   },
-  "ambiguous": "The spec says 'the blockquote's text is the selection'. In CommonMark the third line is a lazy continuation inside the blockquote; both implementations end the run at the first line not starting with '>'. Expectation encodes the implementations' reading."
+  "ambiguous": "The spec says 'the blockquote's text is the selection'. In CommonMark the third line is a lazy continuation inside the blockquote; blygger-studio ends the run at the first line not starting with '>'. Expectation encodes that reading."
 }

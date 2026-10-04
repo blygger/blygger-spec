@@ -12,7 +12,6 @@
     "vitest.explorer",
     "ms-playwright.playwright",
     "ms-python.python",
-    "rust-lang.rust-analyzer",
     "tamasfe.even-better-toml",
     "streetsidesoftware.code-spell-checker",
     "eamodio.gitlens",
