@@ -7,9 +7,9 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 33 (parallel, Opus) — 2026-10-03 — Six releases (0.17.0–0.20.2): the grammar's reach, lineage on import, forks flatten; G10 and G11 exercised
+## Session 33 (parallel, Opus) — 2026-10-03 — Seven releases (0.17.0–0.21.0): the grammar's reach, lineage on import, forks flatten; G10 and G11 exercised
 
-**Model:** Opus 5.5 · **Time:** ~19:00–21:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.17.0 → 0.20.2 to both nodes; migration 0017 applied to both D1s first. Tags v0.17.0–v0.19.0 cut; v0.20.0 tagged on green CI.
+**Model:** Opus 5.5 · **Time:** ~19:00–21:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.17.0 → 0.21.0 to both nodes; migration 0017 applied to both D1s first. Tags v0.17.0–v0.19.0 cut; v0.20.0 tagged on green CI.
 
 Ran beside the Fable session above. Opus held off `blygger-spec/` until Fable had committed.
 
@@ -45,11 +45,12 @@ Ran beside the Fable session above. Opus held off `blygger-spec/` until Fable ha
     - **studio#10.** `9000_`–`9999_` is reserved for operators' migrations, documented in the README and enforced by the same CI script. A first attempt put that check in a test, which would have repeated #1's mistake on operators' installs; it was caught before commit.
     - #1 and #10 are closed. #15 stays open for part 1, charset-aware imports.
 
-**State after.** blygger-studio 0.20.2 on both nodes, migrations through 0017. Suites: 823 Worker, 6 UI-state, 138 browser, all passing. Opus brief item 5 (fork flattening) is done; G8 is still deferred.
+11. **0.21.0: every changelog note is confirmed before a new version publishes** (Venkat's design). Publishing version 2 or later opens a *Version N / Change [editable] / Confirm / Cancel* dialog whenever there is a note to confirm: typed, from *draft note*, or drafted on the spot when the new `auto_change_notes` setting is on and the field was left empty. Version 1 never asks. An empty note with the setting off publishes as before. `note_generated` is sent only when the confirmed text equals the draft. One hook covers the full editor, quick edit and the list's publish/republish. The setting is **off on both our nodes**; turning it on is Venkat's call. **G6's reverse direction: Venkat ruled it unnecessary.** Fable can promote §16.6c on the one-direction exercise from session 32.
+
+**State after.** blygger-studio 0.21.0 on both nodes, migrations through 0017. Suites: 823 Worker, 6 UI-state, 142 browser, all passing. Opus brief item 5 (fork flattening) is done; G8 is still deferred.
 
 **Open threads.**
 - **For Fable — a conflict to reconcile (provisionally settled by Venkat in 0.20.1, §9.2's way).** The session-33 Fable entry's §9.2 says an own-line `![[id]]` left in TK output is "at publish, a real transclusion", and calls that consistent. That describes the code before 0.17.0. Following decision #20 ("inside a TK scope every `![[id]]` is a source reference … never a blockquote; scopes cannot contain transclusions") and aneesh's #5, 0.17.0 makes such a line inert. The code follows #20; §9.2's note should change, or #20 should be revisited.
-- **G6 reverse direction** is still Venkat's call (session 32).
 - Earlier imports have `stub_of_json` NULL until their origin's next version; no backfill was written.
 
 ## Session 33 (parallel, Fable) — 2026-10-03 — Forks flatten (#57); the TK-source questions were #44 all along
