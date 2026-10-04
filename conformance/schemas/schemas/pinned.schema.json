@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blygger.org/conformance/0.3/pinned.schema.json",
+  "title": "Pinned version — items/{id}/v{n}.json",
+  "description": "§8: the irrevocable per-version file. Never an endcap (§8 rule 2). Carries that version's transclusions, generated, stub_of and forked_from (§8 rule 5); no media array (§8 rule 4).",
+  "type": "object",
+  "required": ["id", "kind", "version", "at", "pinned", "origin", "content_md", "content_html", "content_hash"],
+  "properties": {
+    "blyg": { "type": "string", "pattern": "^0\\.[0-9]+$", "description": "§3.1: informative version key." },
+    "id": { "$ref": "defs.schema.json#/$defs/id" },
+    "kind": { "enum": ["fragment", "thread"], "description": "§8 rule 2: withdrawal endcaps MUST NOT be pinned; a pinned thread carries kind thread (rule 5)." },
+    "version": { "$ref": "defs.schema.json#/$defs/version" },
+    "at": { "$ref": "defs.schema.json#/$defs/utc", "description": "§8: publish time of the pinned version." },
+    "note": { "type": ["string", "null"], "description": "§8: that version's changelog note." },
+    "pinned": { "const": true, "description": "§8: always true; fork resolution checks it (§5.6 rule 2)." },
+    "origin": { "$ref": "defs.schema.json#/$defs/origin" },
+    "author": { "$ref": "defs.schema.json#/$defs/author", "description": "§8 rule 6: rides outside the pin promise; SHOULD be the assertion as published with that version." },
+    "content_md": { "type": "string", "minLength": 1, "description": "§8 rule 2: only a version with content may be pinned." },
+    "content_html": { "type": "string", "description": "§8 / §5.2: that version's publish-time HTML, self-contained (decision #53)." },
+    "content_hash": { "$ref": "defs.schema.json#/$defs/contentHash" },
+    "transclusions": { "type": "array", "items": { "$ref": "defs.schema.json#/$defs/transclusion" }, "description": "§8 rule 5: a pinned thread carries its transclusions provenance." },
+    "generated": { "type": "array", "minItems": 1, "items": { "$ref": "defs.schema.json#/$defs/generatedEntry" }, "description": "§5.7 rule 5 / §8 rule 5." },
+    "stub_of": { "$ref": "defs.schema.json#/$defs/stubOf", "description": "§8 rule 5: a pin carries its own citations (decision #27)." },
+    "forked_from": { "$ref": "defs.schema.json#/$defs/absoluteReference", "description": "§8 rule 5 / §5.6 rule 3." }
+  },
+  "allOf": [
+    { "if": { "properties": { "kind": { "const": "thread" } }, "required": ["kind"] }, "then": { "required": ["transclusions"] } },
+    { "if": { "properties": { "kind": { "const": "fragment" } }, "required": ["kind"] }, "then": { "not": { "anyOf": [{ "required": ["transclusions"] }, { "required": ["stub_of"] }] } } }
+  ]
+}

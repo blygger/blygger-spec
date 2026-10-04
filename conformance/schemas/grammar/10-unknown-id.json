@@ -1,0 +1,18 @@
+{
+  "id": "unknown-id",
+  "title": "An unresolvable directive is a publish error",
+  "spec_refs": [
+    "§10.2"
+  ],
+  "decisions": [
+    "#26"
+  ],
+  "content_md": "![[zzzzzzzzzzzzzzzzzzzzzzzzzz]]",
+  "expect": {
+    "error": true,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  }
+}

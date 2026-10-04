@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blygger.org/conformance/0.3/manifest.schema.json",
+  "title": "Manifest — blyg.json",
+  "description": "§6.1. The fixed-filename discovery anchor (decisions #14, #16). The spec lists no required members explicitly; blyg/feed/items are required here because §4 fixes the paths they name and §12 resolution reads them.",
+  "type": "object",
+  "required": ["blyg", "feed", "items"],
+  "properties": {
+    "blyg": { "type": "string", "pattern": "^0\\.[0-9]+$", "description": "§3.1: the protocol version key, informative (decision #18d); the URI namespace never tracks it (decision #22)." },
+    "level": { "type": "integer", "minimum": 0, "maximum": 3, "description": "§3.2: claimed conformance level; informative, readers MUST NOT gate on it." },
+    "generator": { "type": "string", "description": "§3.2: client name/version; SHOULD be `name/version` (advisory layer)." },
+    "generator_url": { "$ref": "defs.schema.json#/$defs/absoluteUrl", "description": "§6.1 (decision #34): OPTIONAL, one absolute URL; publishers SHOULD emit it." },
+    "site": { "type": "string", "format": "uri", "description": "§6.1: self-asserted, display-advisory; never establishes identity (§12.2, decision #17)." },
+    "title": { "type": "string", "description": "§6.1: the blyg's title." },
+    "author": { "type": "object", "description": "§6.1: the publication identity (imprint); opaque like §5.5." },
+    "feed": { "type": "string", "minLength": 1, "description": "§6.1/§4: path of the feed; protocol-fixed `feed.xml` at 0.3 (authoritative from 0.4, decision #51)." },
+    "items": { "type": "string", "minLength": 1, "description": "§6.1/§4: path of the archive index; protocol-fixed `items/index.json` at 0.3." },
+    "blogroll": { "type": "string", "description": "§6.1/§11: OPTIONAL origin-relative path, present only when a non-empty blogroll is served (decision #13)." },
+    "webmention": { "type": "string", "description": "§6.1/§15.1 (decision #28): OPTIONAL endpoint URL, origin-relative allowed; omitted by static exports." },
+    "updated": { "$ref": "defs.schema.json#/$defs/utc", "description": "§6.1: last update, UTC." }
+  }
+}

@@ -1,0 +1,4 @@
+vendor/
+out/raw/
+out_run.log
+__pycache__/

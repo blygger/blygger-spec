@@ -1,0 +1,18 @@
+{
+  "id": "partial-not-in-target",
+  "title": "A selection that is not a substring of the target's text content is a publish error",
+  "spec_refs": [
+    "§10.2"
+  ],
+  "decisions": [
+    "#49"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> words that are nowhere in the target",
+  "expect": {
+    "error": true,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  }
+}

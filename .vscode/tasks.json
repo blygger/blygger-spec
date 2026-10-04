@@ -1,0 +1,95 @@
+{
+  // Run with Terminal > Run Task... (or Cmd+Shift+P "Tasks: Run Task").
+  // Every tool task goes through .vscode/bin/run-tool.sh, which holds the actual
+  // commands (and the post-merge TODOs) in one place.
+  "version": "2.0.0",
+  "options": { "cwd": "${workspaceFolder}" },
+  "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+  "tasks": [
+    {
+      "label": "Conformance: run all tools",
+      "detail": "Regenerate every tool's report, then the dashboard (live crawl needs network)",
+      "type": "shell",
+      "command": "bash .vscode/bin/run-tool.sh all",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Conformance: open dashboard",
+      "detail": "Open conformance/index.html in your browser",
+      "type": "shell",
+      "command": "bash .vscode/bin/open-dashboard.sh",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Conformance: preview dashboard in VS Code",
+      "detail": "Live Preview of conformance/index.html inside VS Code (auto-refreshes); uses livePreview.defaultPreviewPath",
+      "type": "shell",
+      "command": "echo 'Live Preview started for conformance/index.html ${command:livePreview.start}'",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Conformance: rebuild dashboard",
+      "detail": "python3 conformance/build_dashboard.py (joins existing summaries to intents.json)",
+      "type": "shell",
+      "command": "bash .vscode/bin/run-tool.sh dashboard",
+      "problemMatcher": []
+    },
+    {
+      "label": "Conformance: rebuild and open dashboard",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Conformance: rebuild dashboard", "Conformance: open dashboard"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Conformance: clause register",
+      "detail": "TODO(post-merge): confirm command in conformance/clauses/README.md",
+      "type": "shell",
+      "command": "bash .vscode/bin/run-tool.sh clauses",
+      "problemMatcher": []
+    },
+    {
+      "label": "Conformance: schemas & grammar fixtures",
+      "detail": "npm --prefix conformance/schemas run all",
+      "type": "shell",
+      "command": "bash .vscode/bin/run-tool.sh schemas",
+      "problemMatcher": []
+    },
+    {
+      "label": "Conformance: live network crawl",
+      "detail": "TODO(post-merge): confirm flags in conformance/live/README.md; read-only, needs network",
+      "type": "shell",
+      "command": "bash .vscode/bin/run-tool.sh live",
+      "problemMatcher": []
+    },
+    {
+      "label": "Conformance: Alloy model",
+      "detail": "TODO(post-merge): confirm command in conformance/alloy/README.md; needs Java 17+ and graphviz",
+      "type": "shell",
+      "command": "bash .vscode/bin/run-tool.sh alloy",
+      "problemMatcher": []
+    },
+    {
+      "label": "Conformance: property tests (fast-check)",
+      "detail": "npm --prefix conformance/model run report (needs ../blygger-studio for the studio half)",
+      "type": "shell",
+      "command": "bash .vscode/bin/run-tool.sh model",
+      "problemMatcher": []
+    },
+    {
+      "label": "Setup: check toolchain (python, node, java, dot)",
+      "type": "shell",
+      "command": "bash .vscode/bin/toolchain.sh --check",
+      "problemMatcher": []
+    },
+    {
+      "label": "Graphviz: render current .dot to SVG",
+      "detail": "Writes <file>.svg next to the open .dot file",
+      "type": "shell",
+      "command": "bash .vscode/bin/toolchain.sh dot -Tsvg \"${file}\" -o \"${fileDirname}/${fileBasenameNoExtension}.svg\"",
+      "problemMatcher": []
+    }
+  ]
+}

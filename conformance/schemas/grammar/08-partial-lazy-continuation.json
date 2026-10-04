@@ -1,0 +1,25 @@
+{
+  "id": "partial-lazy-continuation",
+  "title": "A non-'>' line right after the quote run: CommonMark lazy continuation would extend the blockquote; the reference client ends the selection",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#49"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\nlazy continuation line",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+        "partial": true,
+        "exact": "Stigmergy is what a protocol looks like from inside"
+      }
+    ],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  },
+  "ambiguous": "The spec says 'the blockquote's text is the selection'. In CommonMark the third line is a lazy continuation inside the blockquote; blygger-studio ends the run at the first line not starting with '>'. Expectation encodes that reading."
+}

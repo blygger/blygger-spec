@@ -1,0 +1,62 @@
+{
+ "_doc": "Hand curation for the clause register. 'clauses' entries match by text substring (optionally within a section) so they survive renumbering. 'exclude' drops a sentence that uses a keyword without being a rule (meta-talk about keywords). 'set' overrides any field, most often 'side'. 'decision_classes' classifies decisions that ground in no normative clause on purpose. 'invariant_decisions' links the four §1 invariants to the decisions that state them.",
+ "clauses": [
+  {"section": "6.1", "match": "It is a SHOULD and will never be a MUST", "exclude": "meta: discusses the keyword choice, not a rule"},
+  {"section": "16.6a", "match": "SHOULD emit, MUST NOT gate", "exclude": "meta: pointer to promoted text"},
+  {"section": "16.7", "match": "Plain (non-structural) mentions — MAY", "exclude": "pointer to §15.6, not a rule"},
+  {"section": "3.2", "match": "a client rename is not a protocol change", "set": {"side": "reader"}},
+  {"section": "7", "match": "RSS requires the element, so publishers MUST emit one", "set": {"side": "publisher"}},
+  {"section": "12.2", "match": "Adopting a new origin is an **identity change**", "set": {"side": "reader"}},
+  {"section": "13.4", "match": "Retention follows the origin's own serving surface", "set": {"side": "reader"}},
+  {"section": "13.5", "match": "They MUST NOT appear in the publisher's", "set": {"side": "client"}},
+  {"section": "15.4", "match": "The document's `origin` MUST equal the final source URL's origin", "set": {"side": "receiver"}},
+  {"section": "15", "match": "OPTIONAL at every level.)", "set": {"side": "publisher"}},
+  {"section": "15.2", "match": "A publisher SHOULD send a mention for each", "set": {"side": "sender"}},
+  {"section": "5.6", "match": "Lineage across origins is a remote reference", "set": {"side": "sender"}},
+  {"section": "10.3", "match": "A remote entry is a **remote reference**", "set": {"side": "sender"}},
+  {"section": "10.6", "match": "whose relation is `stub`", "set": {"side": "sender"}},
+  {"section": "10.6", "match": "A `{url}` stub SHOULD send an ordinary W3C Webmention", "set": {"side": "sender"}},
+  {"section": "9", "match": "SHOULD re-send its mention once", "set": {"side": "sender"}},
+  {"section": "5.9", "match": "Mention verification (§15.4) reads the three identity members", "set": {"side": "receiver"}},
+  {"section": "10.2", "match": "Each directive MUST resolve, in this order", "set": {"side": "client"}},
+  {"section": "10.2", "match": "A directive with an attached blockquote", "set": {"side": "client"}},
+  {"section": "10.2", "match": "A thread MUST NOT transclude a local thread", "set": {"side": "client"}},
+  {"section": "10.1", "match": "0.3 publishers MUST reject it at publish time", "set": {"side": "client"}}
+ ],
+ "decision_classes": {
+  "_doc": "Why a decision has no (or only indirect) normative clause. process = governs the project, not the wire; note = lives in a technical note, never protocol; studio = client-side by design; refusal = a decision NOT to add something; vocabulary = spelling of tokens; deferred = pushed to a later level; foundational = stated as a §1 invariant rather than as clauses.",
+  "3": "foundational", "6": "process", "10": "process", "15": "process", "16": "vocabulary", "21": "process", "23": "process", "42": "process", "43": "process",
+  "31": "note", "35": "note", "36": "note", "38": "note", "39": "note", "52": "studio", "50": "studio", "48": "process",
+  "19": "refusal", "45": "refusal", "46": "refusal", "47": "refusal", "7": "deferred"
+ },
+ "decision_sections": {
+  "_doc": "Hand-traced spec homes for decisions whose records predate the spec or name no section. Added to the parsed spec_sections with via='curated'.",
+  "1": ["4", "6.2", "7"], "2": ["5.1"], "4": ["3", "13.1"], "5": ["5.7"], "8": ["8", "9", "13.4"],
+  "9": ["10.1", "10.2", "10.3"], "11": ["5.5"], "12": ["13.5"], "13": ["11", "15"], "14": ["4", "12.1"],
+  "16": ["4", "7"], "17": ["12", "12.1", "12.2"], "18": ["3.1", "13.2", "13.3", "13.4"], "19": ["5.2", "8"],
+  "20": ["5.7"], "22": ["7"], "26": ["10.2", "10.3"], "27": ["10.6"], "28": ["15"], "29": ["5.8"], "37": ["5.7"]
+ },
+ "decision_relations": [
+  {"from": 26, "to": 9, "type": "amends", "why": "#9 fixed fragments-only nesting; #26 allows thread targets and other origins"},
+  {"from": 28, "to": 13, "type": "refines", "why": "#13 locked Webmention + structural verification; #28 gives the mechanics"},
+  {"from": 17, "to": 14, "type": "refines", "why": "#14 deferred autodiscovery mechanics to the v0.2 plan; #17 is them"},
+  {"from": 44, "to": 33, "type": "resolves", "why": "#33 parked remote TK sources for 0.4 with a pre-committed shape; #44 rules them"},
+  {"from": 45, "to": 33, "type": "resolves", "why": "#33 left 'staleness over the DAG' undefined; #45 says it does not exist"},
+  {"from": 47, "to": 41, "type": "resolves", "why": "#41 recorded a per-item responses surface as a 0.4 candidate; #47 keeps it closed"},
+  {"from": 51, "to": 14, "type": "amends", "why": "#51 relaxes #14's fixed-filename rule to 'blyg.json is the first probe'"},
+  {"from": 55, "to": 49, "type": "refines", "why": "#55 narrows #49's 'plain-web targets get nothing' to verification only"},
+  {"from": 52, "to": 31, "type": "refines", "why": "#52 says an OAuth minting flow stays within #31's token model"},
+  {"from": 50, "to": 27, "type": "refines", "why": "#50 squares a link affordance with #27's one-response-affordance rule"},
+  {"from": 37, "to": 20, "type": "refines", "why": "#37 widens generated[] (#20) to imported text"},
+  {"from": 38, "to": 36, "type": "extends", "why": "#38 draws #36's response-vs-pipe line for agents"},
+  {"from": 39, "to": 38, "type": "extends", "why": "#39 turns #38 into a reference-agent contract"},
+  {"from": 42, "to": 21, "type": "refines", "why": "#42 keeps #21 (build, then prose) but moves ruled shapes into §16 at ruling time"},
+  {"from": 25, "to": 24, "type": "refines", "why": "#25 reads §8.4 as constraining routes; #24 added pinned pages under the same clause"}
+ ],
+ "invariant_decisions": {
+  "I1": [1, 3, 31],
+  "I2": [4],
+  "I3": [5, 20, 38],
+  "I4": [11, 35]
+ }
+}

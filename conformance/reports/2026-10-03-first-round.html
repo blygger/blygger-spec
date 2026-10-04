@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>First Round Report</title>
+<style>
+:root{--bg:#f6f4ef;--paper:#fff;--ink:#1d1d1b;--soft:#5b5a55;--rule:#dedad0;--accent:#2b5bab;--pass:#2f7a45;--warn:#a46a00;--fail:#a23b3b;--code:#f1efe9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171716;--paper:#201f1d;--ink:#e9e6df;--soft:#a5a29a;--rule:#38362f;--accent:#7fa6ea;--pass:#6cc08a;--warn:#e0a84a;--fail:#e07a7a;--code:#2a2925}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:940px;margin:0 auto;padding:32px 16px 230px}
+h1{font-size:30px;margin:0 0 4px}.sub{color:var(--soft);margin:0 0 22px;max-width:780px}
+h2.part{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin:34px 0 10px}
+section{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:20px 22px;margin:0 0 18px}
+h3{font-size:19px;margin:0 0 10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+a{color:var(--accent)}
+.pill{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid currentColor;white-space:nowrap}
+.pass{color:var(--pass)}.warn{color:var(--warn)}.fail{color:var(--fail)}.acc{color:var(--accent)}.soft{color:var(--soft)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:var(--code);padding:1px 4px;border-radius:4px;overflow-wrap:anywhere}
+table{border-collapse:collapse;width:100%;font-size:14px;margin:8px 0}
+th,td{border-bottom:1px solid var(--rule);padding:8px;text-align:left;vertical-align:top}
+th{color:var(--soft);font-weight:600}
+.tw{overflow-x:auto}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.stat{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:12px 14px}
+.stat b{display:block;font-size:28px;line-height:1.1}.stat span{font-size:13px;color:var(--soft)}
+.loop{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:12px 0}
+.loop div{border:1px solid var(--rule);border-radius:8px;padding:10px;font-size:14px;position:relative}
+.loop b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.note{font-size:13px;color:var(--soft);border-left:3px solid var(--rule);padding-left:10px;margin:10px 0}
+.tier{font-size:11px;font-weight:600;padding:1px 6px;border-radius:4px;background:var(--code);white-space:nowrap}
+textarea{width:100%;min-height:60px;margin-top:12px;padding:10px;border:1px solid var(--rule);border-radius:8px;background:var(--bg);color:var(--ink);font:14px/1.4 inherit;resize:vertical}
+.float{position:fixed;right:16px;bottom:16px;width:min(340px,calc(100vw - 32px));background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:12px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.float textarea{margin-top:6px;min-height:60px}.float label{font-size:13px;font-weight:600}
+button{margin-top:8px;width:100%;padding:9px;border:0;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer}
+</style>
+</head>
+<body>
+<main>
+<h1>Does the spec do what it means to? First round</h1>
+<p class="sub">2026-10-03. Run against <code>protocol-v0.3.md</code> as of decision #58 (spec <code>main</code> @ 87557b9), blygger-studio <b>0.21.0</b>, and 19 live blygs. Written for Venkat by Aneesh, with Claude. Each section ends in a reply box, and the button at the bottom right copies every reply, so you can answer in one paste. Nothing here edits the spec: every finding is evidence for you or a Fable round to rule on.</p>
+
+<div class="stats">
+<div class="stat"><span>Checks</span><b>364</b><span>across five tools</span></div>
+<div class="stat"><span>Failing</span><b class="fail">11</b><span>MUST-level, or a counterexample</span></div>
+<div class="stat"><span>Warnings</span><b class="warn">59</b><span>SHOULD-level, or untested</span></div>
+<div class="stat"><span>Passing</span><b class="pass">252</b><span>within the stated scope</span></div>
+<div class="stat"><span>MUSTs with a test</span><b>47/82</b><span>27 more at section level, 8 untested</span></div>
+</div>
+
+<section data-topic="0. Why this exists">
+<h3>0. The question these tools answer</h3>
+<p>A protocol can fail in three ways: <b>the text disagrees with itself</b>, <b>a party disagrees with the text</b>, or <b>everyone follows the text and what you intended still doesn't happen</b>. Conformance testing only catches the second. The third is the expensive one, and Brady Dale's report is the proof: <em>"I had Codex check the spec and it said Blynger is doing everything the spec requires"</em>, yet his fork page told a visitor nothing. Codex was right about the clauses. The intent failed anyway.</p>
+<p>So the toolkit has a piece for each kind of failure:</p>
+<div class="tw"><table>
+<tr><th>Tool</th><th>What it catches</th><th>Open</th></tr>
+<tr><td><b>Clause register</b>: every MUST/SHOULD/MAY gets a stable ID, linked to its decision and its tests</td><td>The text disagreeing with itself; untested rules</td><td><a href="../clauses/out/report.html">report</a></td></tr>
+<tr><td><b>Schemas & grammar</b>: JSON Schemas, rules relating fields to each other, 28 test cases for the quote syntax</td><td>blygger-studio disagreeing with the text</td><td><a href="../schemas/out/report.html">report</a></td></tr>
+<tr><td><b>Live crawler</b>: read-only, every blyg it can find</td><td>Rules that span blygs, checked on the real network</td><td><a href="../live/out/report.html">report</a></td></tr>
+<tr><td><b>Alloy model</b>: a formal model; the solver hunts for counterexamples</td><td>Rules that don't guarantee what they're meant to</td><td><a href="../alloy/out/report.html">report</a></td></tr>
+<tr><td><b>Property tests</b>: a model of the spec and the real studio, driven by the same random histories</td><td>Behaviour over time; studio diverging from the spec</td><td><a href="../model/out/report.html">report</a></td></tr>
+<tr><td><b>Intent ledger</b>: what the protocol is <em>for</em>, in your words, joined to all of the above</td><td>A text that passes and an intent that still fails</td><td><a href="../index.html">dashboard</a></td></tr>
+</table></div>
+<textarea placeholder="Reply on this section…"></textarea>
+</section>
+
+<section data-topic="1. The fork loop">
+<h3>1. The fork loop: found, ruled, built and measured in one day</h3>
+<div class="loop">
+<div><b>Found</b>Live crawler + schemas: forks copied <code>![[id]]</code> directives, which re-resolved at the forker's blyg. Brady's fork silently turned a partial quote into a whole one.</div>
+<div><b>Ruled</b>Decision #57 / §16.6f: a fork of a thread flattens the <em>pinned</em> document's baked quotes.</div>
+<div><b>Built</b>blygger-studio 0.20.0, <code>fork-flatten.ts</code>.</div>
+<div><b>Measured</b>Both models, run before and after the ruling (below).</div>
+</div>
+<div class="tw"><table>
+<tr><th>Property</th><th>§5.6 alone</th><th>§5.6 + #57</th></tr>
+<tr><td>A fork's text equals its pinned source</td><td class="fail">counterexample: the fork bakes C v2 where the pin baked C v1</td><td class="pass">holds (Alloy); 2,000 studio runs (property tests)</td></tr>
+<tr><td>A partial quote stays partial when forked</td><td class="fail">counterexample: a client without partial grammar widens it</td><td class="pass">holds</td></tr>
+<tr><td>Nested and cross-origin quotes keep their attribution</td><td>—</td><td class="pass">holds in studio 0.20+</td></tr>
+<tr><td>A fork never republishes words its author knows were withdrawn and unpinned</td><td class="pass">holds</td><td class="warn">counterexample: see §3, item 6</td></tr>
+</table></div>
+<p>This is the loop the toolkit exists to make routine: a finding with a minimal counterexample, a ruling that cites it, a build, and a rerun that shows the gap closed, plus whatever new gap the ruling opened.</p>
+<textarea placeholder="Reply on this section…"></textarea>
+</section>
+
+<h2 class="part">Findings for you to rule on</h2>
+<p class="note">The tier column is <b>my suggestion</b> under decision #58's four-question test, not a ruling. <b>Opus</b> means reversible, so a session could rule it and record it as "Fable review pending". <b>Fable</b> means it touches verification or identity semantics, a grammar form, what importers must do, or a locked decision.</p>
+
+<section data-topic="2. Text vs intent — model counterexamples">
+<h3>2. Where the rules don't guarantee what they're meant to <span class="pill fail">model counterexamples</span></h3>
+<div class="tw"><table>
+<tr><th>#</th><th>Finding</th><th>Evidence</th><th>Tier</th></tr>
+<tr><td>1</td><td><b>Two blygs path-mounted on one host can verify mentions in each other's name.</b> §15.4 step 2 compares scheme, host and port only, so <code>example.com/alice/</code> passes as <code>example.com/carol/</code>. That's exactly decision #36's group shape, and #14 makes path mounts first-class. Fix, confirmed by the model: require the source URL to sit inside the claimed origin's full base URL.</td><td>Alloy 7 / 7c</td><td><span class="tier">Fable</span></td></tr>
+<tr><td>2</td><td><b>A partial quote can be uncheckable from the moment it's published.</b> One baked from a stale local import names a version its origin no longer serves, so §10.2's "any reader MAY re-check" never applies. The window also closes once the target is republished without a pin. Two live partial quotes are already in this state. This bears on your stated intent: <em>"verifies that the quoted bit is actually part of the transcluded item"</em>.</td><td>Alloy 6b, 6c; live crawler</td><td><span class="tier">Fable</span></td></tr>
+<tr><td>3</td><td><b>The local closure check depends on which version it walks.</b> If it follows each local thread's <em>current</em> <code>transclusions[]</code>, a thread can contain itself (A v2 ⊃ C ⊃ B v1 ⊃ A v1). Walking the versions actually baked is safe. §10.2 doesn't say which.</td><td>Alloy 1a′ (fail) vs 1a (pass)</td><td><span class="tier">Fable</span></td></tr>
+<tr><td>4</td><td><b>A pinned copy of a stub keeps verifying after the stub is withdrawn.</b> The pin file still carries <code>stub_of</code>, which contradicts §9's "a withdrawn stub stops verifying". Fix, confirmed by the model: verify against the live <code>items/{id}.json</code>.</td><td>Alloy 7d / 7e</td><td><span class="tier">Fable</span></td></tr>
+<tr><td>5</td><td><b>The watermark should outlive the stored copy.</b> If a reader deletes both on withdrawal (§13.4 says it SHOULD delete the copy), a stale cache replaying v1 is silently adopted as the item coming back.</td><td>Alloy 4c</td><td><span class="tier">Fable</span></td></tr>
+<tr><td>6</td><td><b>#57 can republish withdrawn, unpinned words under a new id.</b> C is unpinned, a pinned thread quotes C, C is withdrawn, the thread is forked, and the flattened quote republishes C's words. That's the "freeze this quote at the withdrawn version" §10.2 says is deliberately not offered. Either accept it explicitly or add a SHOULD to drop or mark such quotes.</td><td>Alloy 5g (b)</td><td><span class="tier">Fable</span></td></tr>
+<tr><td>7</td><td><b>Decision #43's boundary test has a blind spot.</b> It asks whether <em>readers</em> must change, but a forker re-parses another blyg's <code>content_md</code>, so grammar forms travel between clients. #49 was classed as a revision on reader grounds. #57 closes this for forks of threads; the test itself should say it.</td><td>Alloy 5c; property tests</td><td><span class="tier">Fable</span></td></tr>
+</table></div>
+<textarea placeholder="Reply on this section…"></textarea>
+</section>
+
+<section data-topic="3. Text vs intent — what a reader sees">
+<h3>3. Intents with no clause behind them <span class="pill warn">intent ledger</span></h3>
+<div class="tw"><table>
+<tr><th>#</th><th>Finding</th><th>Evidence</th><th>Tier</th></tr>
+<tr><td>8</td><td><b>Nothing requires a fork's page to show its lineage.</b> You described forks as letting "a reader compare the mod to the source", but §5.6 specifies lineage on the wire only. 4 of 5 live forks link their pin; Brady's doesn't.</td><td>live: fork lineage; intent I1</td><td><span class="tier">Fable</span> <span class="soft">(it's your intent)</span></td></tr>
+<tr><td>9</td><td><b>The flattened quotes in a fork are now unverified</b> (the plain-web register, under #57), so the chain of custody runs one fork at a time, each back to its own pin. Is one hop per fork the chain you meant?</td><td>intent I3</td><td><span class="tier">Fable</span></td></tr>
+<tr><td>10</td><td><b>"Can find out when you're quoted" holds only for blygs with a Webmention endpoint.</b> 8 of 19 live blygs advertise one. Of 185 references between blygs, 55 point at a blyg with no endpoint, and 27 of those are stubs that can never notify their target. Brady Dale's blyg is the most-stubbed blyg without one.</td><td>live: Webmention reach; intent I9</td><td><span class="tier">—</span> <span class="soft">works as specified; a registry or adoption question</span></td></tr>
+</table></div>
+<textarea placeholder="Reply on this section…"></textarea>
+</section>
+
+<section data-topic="4. Text vs text — the document itself">
+<h3>4. The document disagreeing with itself <span class="pill warn">clause register</span></h3>
+<div class="tw"><table>
+<tr><th>#</th><th>Finding</th><th>Tier</th></tr>
+<tr><td>11</td><td><b>§8.1 is cited three times and doesn't exist</b> (lines 446, 882, 1463). §8 has only §8.4; "§8.1" seems to mean rule 1 of §8.</td><td><span class="tier">Opus</span></td></tr>
+<tr><td>12</td><td><b>Strength mismatches.</b> §14 says readers "must" apply an ordering policy; §13.7, the section it points to, says SHOULD. Five such sentences use lowercase modals (§14 ×2, §5.7, §7, §15.7).</td><td><span class="tier">Opus</span></td></tr>
+<tr><td>13</td><td><b>58 sentences state a rule in prose without a keyword</b> ("never", "always", "is a publish error"). Many restate a keyworded rule; some are its only statement, e.g. §10.2 "more than one imported match is a publish error" and §10.1 "an unresolvable link is a publish error". A suite cannot test what has no keyword. §6.2, §10.4 and §15.7 contain no keyword at all.</td><td><span class="tier">Opus</span> <span class="soft">for adding keywords to existing rules</span></td></tr>
+<tr><td>14</td><td><b>No list of required members</b> for an item document or manifest (§5, §6.1). The schema had to infer them, and <code>blyg</code>/<code>media</code> ended up advisory because §3.1 says "carry" with no keyword.</td><td><span class="tier">Fable</span> <span class="soft">(could narrow what conforms)</span></td></tr>
+<tr><td>15</td><td><b>Terms used as defined but missing from §2:</b> "remote reference", "text content" (the basis of the partial-quote substring check), "identity change", "per-item curation", "provenance shadow", "static discovery plane". Four terms §2 <em>does</em> define never appear in a normative clause.</td><td><span class="tier">Opus</span></td></tr>
+<tr><td>16</td><td><b>One-sided decision records.</b> #49 corrects #43, but #43 doesn't say so; the same goes for #26→#9 and #51→#14. #22 cites "spec §11.4", a 0.1 section number.</td><td><span class="tier">Opus</span></td></tr>
+<tr><td>17</td><td><b>Smaller ambiguities</b>, each with a test case already written:
+<ul>
+<li>§10.1: what CRLF means, and whether a line after the quote without <code>&gt;</code> still belongs to it</li>
+<li>§10.3: whether a target quoted twice gets one entry or two (bricolage lists one)</li>
+<li>§10.6 r3: read literally, it lets <code>stub_of.version</code> move backwards (Alloy 8b)</li>
+<li>§10.2 step 1: whether a local <em>draft</em> with the same id falls through to the import. Studio refuses, which is probably right.</li>
+<li>Whether a <code>stub_of</code> may name an RSS-wrapper id (one live stub does)</li>
+</ul></td><td><span class="tier">Fable</span> <span class="soft">for the grammar items; Opus for the wording</span></td></tr>
+<tr><td>18</td><td><b>Already on your list:</b> an own-line <code>![[id]]</code> in TK output. Studio 0.20.1 provisionally made it a quote again, against #20's text. The grammar test case is marked ambiguous until Fable reconciles.</td><td><span class="tier">Fable</span></td></tr>
+</table></div>
+<textarea placeholder="Reply on this section…"></textarea>
+</section>
+
+<h2 class="part">Implementations</h2>
+
+<section data-topic="5. blygger-studio">
+<h3>5. blygger-studio 0.21.0 <span class="pill pass">every checkable MUST holds</span></h3>
+<p>Every MUST the schemas could check holds. All 28 grammar test cases pass, and the property tests agree with the model on serving, convergence, the watermark, retention past withdrawal, snapshot independence and partial-quote verifiability. The issues below were filed with reproductions, each saying it was found by this toolkit:</p>
+<div class="tw"><table>
+<tr><th>Issue</th><th>What</th><th>Found by</th></tr>
+<!--issues:begin-->
+<tr><td><a href="https://github.com/blygger/blygger-studio/issues/27">#27</a></td><td>Importer skips the index diff when a feed drops every new entry (<code>poll.ts:209</code>, §13.2 / #18a)</td><td>property tests</td></tr>
+<tr><td><a href="https://github.com/blygger/blygger-studio/issues/28">#28</a></td><td>Stub version agreement matches by id, not origin (<code>stub.ts:140</code>, C-10.6-03)</td><td>property tests</td></tr>
+<tr><td><a href="https://github.com/blygger/blygger-studio/issues/29">#29</a></td><td>Forking a thread from a client without partial quotes drops the author's own <code>&gt;</code> lines (§16.6f)</td><td>property tests</td></tr>
+<tr><td><a href="https://github.com/blygger/blygger-studio/issues/30">#30</a></td><td><code>forked_from.cited.url</code> names JSON for a remote pin, the page for an own pin (#24)</td><td>schemas, live</td></tr>
+<tr><td><a href="https://github.com/blygger/blygger-studio/issues/31">#31</a></td><td>No <code>&lt;dc:creator&gt;</code> in <code>feed.xml</code> (C-7-08, SHOULD)</td><td>schemas</td></tr>
+<tr><td><a href="https://github.com/blygger/blygger-studio/issues/7#issuecomment-5976396505">#7</a> <span class="soft">(comment)</span></td><td>Removed images stay in <code>media[]</code> (8 live items)</td><td>schemas</td></tr>
+<!--issues:end-->
+</table></div>
+<textarea placeholder="Reply on this section…"></textarea>
+</section>
+
+<section data-topic="6. The live network">
+<h3>6. The live network <span class="pill acc">19 blygs</span></h3>
+<p>19 blygs (16 on protocol key 0.3, 3 on 0.2) running 16 different clients, with 185 references between blygs and 6 forks. Every fork points at a real pin, and every pinned version is served. The failures belong to other clients:</p>
+<ul>
+<li><b>artlu.xyz:</b> relative URLs in <code>content_html</code>, against #53 (18 items); thinking.drwip.com has one.</li>
+<li><b>ammdi.hyperphor:</b> in 5 items the recorded quote version is one lower than the baked one (§10.3).</li>
+<li><b>blyg.jdbb.net:</b> a copy of <code>jd-blyg.exe.xyz</code> whose documents claim jd-blyg's address, listed in the directory as a separate blyg. Mention verification correctly refuses it.</li>
+<li><b>blyg.aneeshsathe.com</b> (studio 0.11.0): one stub names an RSS-wrapper id (<code>l0-…</code>) instead of a <code>{url}</code> target.</li>
+<li><b>bradydale.com:</b> the fork that lost its partial-quote selection and doesn't show its lineage, a <code>page</code> that returns 404, and no <code>rel="alternate"</code> JSON link on pages, so mentions naming them can't be verified.</li>
+<li><b>Two partial quotes</b> name versions their origin no longer serves, so they can't be re-checked (finding 2).</li>
+</ul><p class="soft">Full detail, with a network graph of who quotes whom, is in the <a href="../live/out/report.html">live report</a>.</p>
+<p class="note">These are other clients' problems, not studio's or the spec's. The directory could show them per listing, the way the version census works today.</p>
+<textarea placeholder="Reply on this section…"></textarea>
+</section>
+
+<section data-topic="7. What held">
+<h3>7. What held <span class="pill pass">confidence, not just problems</span></h3>
+<ul>
+<li><b>No route ever serves a version that wasn't promised</b> (§8.4): every pinned version is served and every unpinned one returns 404, in the models, in studio and on the live network.</li>
+<li><b>Readers converge</b> after any history of dropped, reordered or duplicated feed entries, failures and garbled feeds, once the index is diffed (§13.2, #18a).</li>
+<li><b>The watermark never silently regresses; rewrites are loud</b> (§13.3, #18b), even against a blyg that rewrites its own history.</li>
+<li><b>Withdrawal rolls to null except for pins</b> (#18c). <b>Snapshot independence</b> (§10.4). <b>Mirrors can't take a subscription's identity</b> (§12.2, #17).</li>
+<li><b>Content hashes, index agreement, feed GUIDs, withdrawal endcaps and every fork's pin</b> check out across the live network.</li>
+</ul>
+<p class="note">Every Alloy "pass" is paired with a run proving the scenario can actually occur, so no pass is empty. Scopes are stated per check. A pass means "no counterexample within this scope", not "proven".</p>
+<textarea placeholder="Reply on this section…"></textarea>
+</section>
+
+<section data-topic="8. How to use it">
+<h3>8. How to use it</h3>
+<ol>
+<li><b>Set up once:</b> <code>bash .vscode/setup-profile.sh</code>, then <code>code --profile Blygger blygger.code-workspace</code>. It needs Node, Python 3, Graphviz and Java 17 (for Alloy); the script checks for them and says what's missing.</li>
+<li><b>Look:</b> run the <em>Conformance: open dashboard</em> task. Start with the intent ledger: those intents are my reading of your words, so <b>correct them</b> in <code>conformance/intents.json</code>. That file is yours.</li>
+<li><b>Rerun:</b> <em>Conformance: run all</em>, or one tool at a time. The Alloy model takes about 25 minutes, the property tests about 8, the rest a few minutes. Then <code>python3 conformance/build_dashboard.py</code>.</li>
+<li><b>After a ruling:</b> rerun, and the dashboard shows the gap closing (§1 is the worked example). After a spec edit, the clause register keeps every clause ID stable.</li>
+<li><b>Other clients</b> can run the same schema and grammar checks against their own code through <code>conformance/schemas/ADAPTERS.md</code>. That's the start of the public conformance suite (track 1.4, #48).</li>
+</ol>
+<textarea placeholder="Reply on this section…"></textarea>
+</section>
+</main>
+
+<div class="float">
+<label for="general">General comments</label>
+<textarea id="general" placeholder="Anything not tied to one section…"></textarea>
+<button id="copy">Copy all replies</button>
+</div>
+<script>
+document.getElementById('copy').addEventListener('click', async (e) => {
+  const parts = [];
+  document.querySelectorAll('section[data-topic]').forEach(s => { const t = s.querySelector('textarea').value.trim(); if (t) parts.push('## ' + s.dataset.topic + '\n' + t); });
+  const g = document.getElementById('general').value.trim(); if (g) parts.push('## General\n' + g);
+  const text = parts.join('\n\n') || '(no replies)';
+  try { await navigator.clipboard.writeText(text); } catch { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+  e.target.textContent = 'Copied ✓'; setTimeout(() => e.target.textContent = 'Copy all replies', 1500);
+});
+</script>
+</body>
+</html>

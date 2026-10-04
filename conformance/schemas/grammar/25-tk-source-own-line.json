@@ -1,0 +1,22 @@
+{
+  "id": "tk-source-own-line",
+  "title": "An own-line directive inside a TK scope is still a source",
+  "spec_refs": [
+    "§5.7"
+  ],
+  "decisions": [
+    "#20"
+  ],
+  "content_md": "[TK]Draw on this\n![[{{L}}]]\n[=]Some output.[/TK]",
+  "expect": {
+    "error": false,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [
+      [
+        "{{L}}"
+      ]
+    ],
+    "literal": []
+  }
+}

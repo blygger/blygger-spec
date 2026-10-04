@@ -1,0 +1,205 @@
+{
+  "about": "The intent ledger: what the protocol is FOR, stated as checkable intentions, each linked to the spec sections and decisions meant to deliver it. build_dashboard.py joins every check from conformance/*/out/summary.json to an intent when they share a spec section or decision. An intent can fail while every clause passes; that gap is what this file exists to show. Sources are quoted so Venkat can correct the reading.",
+  "intents": [
+    {
+      "id": "I1",
+      "title": "A fork can be compared with its source",
+      "quote": "A fork allows you to do whatever you want to the imported text, which is why it needs a pinned version to point to, so a reader can compare the mod to the source. For example if I tactically edit your original to misrepresent you, the pin ground-truths it.",
+      "source": "Venkat, https://venkateshrao.com/blyg/t/07xd1z3388zmsbz0987w8ae9yw/ (2026-10-03)",
+      "spec_refs": [
+        "§5.6",
+        "§8",
+        "§16.6f"
+      ],
+      "decisions": [
+        "#8",
+        "#24",
+        "#57"
+      ],
+      "suspected_gap": "Decision #57 (§16.6f, gate G11; built in blygger-studio 0.20.0) fixes the quote half: a fork of a thread now flattens the pinned document's baked quotes, so a fork no longer re-quotes at the forker's versions. Still open: no rule requires the fork's public page to show its lineage or link the pinned source. Live data has 4 of 5 fork pages doing it and Brady Dale's not doing it."
+    },
+    {
+      "id": "I2",
+      "title": "A quote is verifiably part of its source",
+      "quote": "It verifies that the quoted bit is actually part of the transcluded item and you're not making shit up.",
+      "source": "Venkat, https://venkateshrao.com/blyg/t/07xd1z3388zmsbz0987w8ae9yw/",
+      "spec_refs": [
+        "§10.1",
+        "§10.2",
+        "§10.3"
+      ],
+      "decisions": [
+        "#49",
+        "#9",
+        "#26"
+      ],
+      "suspected_gap": "Verifiable only while the origin still serves the quoted version (live or pinned). After the source is republished and that version was never pinned, the check can no longer run."
+    },
+    {
+      "id": "I3",
+      "title": "Forks are chain-of-custody trails",
+      "quote": "Forks are chain of custody trails when you want to proceed through transformations.",
+      "source": "Venkat, https://venkateshrao.com/blyg/t/07xd1z3388zmsbz0987w8ae9yw/",
+      "spec_refs": [
+        "§5.6",
+        "§16.6f"
+      ],
+      "decisions": [
+        "#8",
+        "#57"
+      ],
+      "suspected_gap": "#57 makes a fork descend from the pinned bytes, and flattened quotes keep a 'quoted from' line. Those quotes are now in the plain-web register (editable, unverified), so the chain of custody runs only through forked_from back to the pin, one hop at a time. Is one hop per fork the intended chain?"
+    },
+    {
+      "id": "I4",
+      "title": "A trustworthy ground-truth content graph that AI and humans can both use",
+      "quote": "The whole idea is to create a hardened ground truth content graph that can use AI and human creativity freely while remaining trustworthy.",
+      "source": "Venkat, https://venkateshrao.com/blyg/t/07xd1z3388zmsbz0987w8ae9yw/",
+      "spec_refs": [
+        "§5.7",
+        "§5.9",
+        "§10.4"
+      ],
+      "decisions": [
+        "#20",
+        "#37",
+        "#38",
+        "#44"
+      ],
+      "suspected_gap": "Provenance is self-asserted by design (#20). 'Hardened' therefore means 'inspectable', not 'verified'. Worth making sure that is the intended meaning."
+    },
+    {
+      "id": "I5",
+      "title": "Unpinned history is never exposed",
+      "quote": "No route serves unpinned history in any representation, and a version display MUST NOT offer, imply, or hint at access to unpinned versions.",
+      "source": "Decision #25; spec §8.4",
+      "spec_refs": [
+        "§8.4",
+        "§8"
+      ],
+      "decisions": [
+        "#8",
+        "#24",
+        "#25"
+      ],
+      "suspected_gap": null
+    },
+    {
+      "id": "I6",
+      "title": "Withdrawal rolls to null everywhere except pins",
+      "quote": "Readers may retain exactly what the origin still serves (pinned versions) and MUST roll everything else to null.",
+      "source": "Decision #18c; spec §9, §13.4",
+      "spec_refs": [
+        "§9",
+        "§13.4"
+      ],
+      "decisions": [
+        "#8",
+        "#18"
+      ],
+      "suspected_gap": "Thread snapshots are deliberately independent of source withdrawal (#9, §10.4), so the withdrawn text survives inside other people's threads. Is that the intended exception?"
+    },
+    {
+      "id": "I7",
+      "title": "The state plane is ground truth; the feed is only a signal",
+      "quote": "The archive index is the reconciliation surface; the feed is a cheap trigger. Gaps, skew, and malformed feeds degrade to an index diff, never to loss.",
+      "source": "Decision #18a; spec §1, §13.2",
+      "spec_refs": [
+        "§13.2",
+        "§6.2",
+        "§7"
+      ],
+      "decisions": [
+        "#1",
+        "#18"
+      ],
+      "suspected_gap": null
+    },
+    {
+      "id": "I8",
+      "title": "A reader's version watermark never silently goes backwards",
+      "quote": "The local version watermark never silently regresses. A lower-than-watermark version is surfaced as a suspected history rewrite.",
+      "source": "Decision #18b; spec §13.3",
+      "spec_refs": [
+        "§13.3"
+      ],
+      "decisions": [
+        "#18",
+        "#19"
+      ],
+      "suspected_gap": null
+    },
+    {
+      "id": "I9",
+      "title": "If you are quoted, stubbed or forked, you can find out, verifiably",
+      "quote": "An origin that has been quoted, stubbed, or forked can find out, reliably and verifiably, without subscribing to the quoter.",
+      "source": "Spec §1 (0.3 introduction); decision #28",
+      "spec_refs": [
+        "§15",
+        "§15.1",
+        "§15.4"
+      ],
+      "decisions": [
+        "#13",
+        "#28"
+      ],
+      "suspected_gap": "Webmention is optional at L2, so an origin that doesn't advertise an endpoint never learns it was responded to. 'Can find out' holds only for origins that opted in."
+    },
+    {
+      "id": "I10",
+      "title": "Every feed works in a plain RSS reader, with self-contained HTML",
+      "quote": "Every blyg feed is a valid RSS 2.0 feed whose items carry self-contained HTML.",
+      "source": "Spec §1 invariant 2; decision #53",
+      "spec_refs": [
+        "§7",
+        "§5.2"
+      ],
+      "decisions": [
+        "#4",
+        "#53"
+      ],
+      "suspected_gap": null
+    },
+    {
+      "id": "I11",
+      "title": "A mirror can't take on another origin's identity",
+      "quote": "Subscription identity = final fetch origin, never the manifest's self-asserted site. A mirror must not inherit another origin's identity.",
+      "source": "Decision #17; spec §12.2, §15.4",
+      "spec_refs": [
+        "§12.2",
+        "§15.4"
+      ],
+      "decisions": [
+        "#17",
+        "#28"
+      ],
+      "suspected_gap": null
+    },
+    {
+      "id": "I12",
+      "title": "Publishing never depends on the network",
+      "quote": "The local snapshot is what gets baked, never a live fetch: publish does not depend on the network, quoting follows reading.",
+      "source": "Decision #26; spec §10.2",
+      "spec_refs": [
+        "§10.2",
+        "§10.4"
+      ],
+      "decisions": [
+        "#26"
+      ],
+      "suspected_gap": "A fork's publish SHOULD check the pin with one fetch (§5.6 r2). That is softened to warn-on-network-failure, so it is consistent, but it is the one place publishing touches the network."
+    },
+    {
+      "id": "I13",
+      "title": "Long-form threads, pins and forks, not just a short-post feed",
+      "quote": "There's a lot more social stubbing than I expected and less forking, and not much threading with transcludes yet... Strong synchronic bias. I need to amp up the diachronic. Pins, threads, and forks are going to be the next focus.",
+      "source": "Venkat, https://venkateshrao.com/blyg/f/0xv94prcp2sgvknc2qq02f815c/ (2026-10-03)",
+      "spec_refs": [],
+      "decisions": [],
+      "suspected_gap": "A usage intent, not a protocol one. The live crawler's census of item kinds and references measures it directly.",
+      "areas": [
+        "live"
+      ]
+    }
+  ]
+}

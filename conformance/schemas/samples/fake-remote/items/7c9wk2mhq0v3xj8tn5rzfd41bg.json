@@ -1,0 +1,32 @@
+{
+  "blyg": "0.3",
+  "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+  "kind": "fragment",
+  "origin": "https://source.example/",
+  "page": "f/7c9wk2mhq0v3xj8tn5rzfd41bg/",
+  "author": {
+    "name": "Source Author",
+    "url": "https://source.example/",
+    "bio_hint": "opaque member kept verbatim (§5.5)"
+  },
+  "created": "2026-09-01T10:00:00Z",
+  "updated": "2026-09-02T10:00:00Z",
+  "version": 2,
+  "content_md": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\n\nA second paragraph about *emphasis* and traces left in the environment.",
+  "content_html": "<p>Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.</p>\n<p>A second paragraph about <em>emphasis</em> and traces left in the environment.</p>\n",
+  "content_hash": "sha256:84e660f173fcacd57794c3ebd072cac0103042bf014cd9057def823007831816",
+  "media": [],
+  "changelog": [
+    {
+      "version": 1,
+      "at": "2026-09-01T10:00:00Z",
+      "note": null,
+      "pinned": true
+    },
+    {
+      "version": 2,
+      "at": "2026-09-02T10:00:00Z",
+      "note": "second paragraph"
+    }
+  ]
+}

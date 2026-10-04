@@ -1,0 +1,116 @@
+{
+  // Folder settings for blygger-spec. They apply both when this folder is opened
+  // alone and inside blygger.code-workspace. Paths are relative to this folder.
+
+  "files.associations": {
+    "*.als": "alloy",
+    "*.dot": "dot",
+    "*.gv": "dot",
+    "*.code-profile": "json"
+  },
+
+  // ---- JSON Schemas (conformance/schemas/schemas/*.schema.json, 2020-12) ----
+  // Validation + hover docs for wire documents opened from samples, fixtures,
+  // or the live crawler's cache/out. Pattern-based: adjust after the merge if
+  // conformance/schemas lays its samples out differently.
+  "json.schemas": [
+    {
+      "url": "./conformance/schemas/schemas/manifest.schema.json",
+      "fileMatch": [
+        "**/blyg.json",
+        "/conformance/schemas/samples/**/manifest*.json",
+        "/conformance/schemas/fixtures/**/manifest*.json"
+      ]
+    },
+    {
+      "url": "./conformance/schemas/schemas/index.schema.json",
+      "fileMatch": [
+        "**/items/index.json",
+        "/conformance/schemas/samples/**/index*.json",
+        "/conformance/schemas/fixtures/**/index*.json"
+      ]
+    },
+    {
+      "url": "./conformance/schemas/schemas/pinned.schema.json",
+      "fileMatch": [
+        "/conformance/live/{cache,out}/**/items/*/v*.json",
+        "/conformance/schemas/samples/**/pinned*.json",
+        "/conformance/schemas/fixtures/**/pinned*.json"
+      ]
+    },
+    {
+      "url": "./conformance/schemas/schemas/item.schema.json",
+      "fileMatch": [
+        "/conformance/live/{cache,out}/**/items/*.json",
+        "!**/items/index.json",
+        "/conformance/schemas/samples/**/item*.json",
+        "/conformance/schemas/fixtures/**/item*.json"
+      ]
+    }
+  ],
+
+  // ---- Live Preview: "Start Server" opens the dashboard ----
+  "livePreview.defaultPreviewPath": "/conformance/index.html",
+
+  // ---- Long markdown (docs/protocol-v0.3.md is ~2,000 lines) ----
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": { "comments": "off", "strings": "off", "other": "off" },
+    "editor.formatOnSave": false,
+    "editor.stickyScroll.enabled": true,
+    "editor.rulers": []
+  },
+  "markdown.preview.scrollPreviewWithEditor": true,
+  "markdown.preview.scrollEditorWithPreview": true,
+  "markdown.preview.markEditorSelection": true,
+  "markdown.preview.typographer": false,
+  "markdown.validate.enabled": true,
+  "markdown.validate.fragmentLinks.enabled": "warning",
+  "markdown.validate.fileLinks.enabled": "warning",
+  "outline.showStrings": false,
+  // Markdown All in One: never rewrite normative text behind the author's back.
+  "markdown.extension.toc.updateOnSave": false,
+  "markdown.extension.orderedList.autoRenumber": false,
+  "markdown.extension.list.toggleCompletion": false,
+  "markdown.extension.toc.levels": "2..4",
+  "markdown.extension.tableFormatter.enabled": false,
+
+  // markdownlint: keep the signal, drop the house-style noise.
+  "markdownlint.config": {
+    "MD013": false,
+    "MD033": false,
+    "MD024": { "siblings_only": true },
+    "MD036": false,
+    "MD041": false,
+    "MD060": false
+  },
+
+  // ---- Spell check: protocol vocabulary ----
+  "cSpell.language": "en,en-GB",
+  "cSpell.enabledFileTypes": { "markdown": true, "json": false, "jsonc": false },
+  "cSpell.words": [
+    "blyg", "blygs", "blygger", "blyggers", "transclusion", "transclusions",
+    "transclude", "transcluded", "transcludes", "transcluding", "Webmention", "Webmentions",
+    "blogroll", "blogrolls", "hopper", "hoppers", "stubbing", "restub", "restubs",
+    "unpinned", "repin", "endcap", "Fable", "Venkat", "venkateshrao", "ribbonfarm",
+    "Yggdrasil", "ygg", "impyrt", "OPML", "Alloy", "Quint", "wrangler", "Hono",
+    "Cloudflare", "authorspace", "Micropub", "IndieAuth", "fast-check", "cytoscape"
+  ],
+
+  // ---- Generated / dependency trees ----
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.wrangler": true
+  },
+  "search.exclude": {
+    "conformance/**/cache": true,
+    "conformance/**/vendor": true,
+    "conformance/**/target": true,
+    "conformance/**/out": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "conformance/**/cache/**": true,
+    "conformance/**/vendor/**": true
+  }
+}

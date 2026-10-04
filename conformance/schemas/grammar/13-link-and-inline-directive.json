@@ -1,0 +1,22 @@
+{
+  "id": "link-and-inline-directive",
+  "title": "On one line, ![[a]] is inert and [[b]] is a link",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#32"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]] and [[1vgtgz0gq5b2c9k7d3m8r4n6xy]]",
+  "expect": {
+    "error": false,
+    "transclusions": [],
+    "links": [
+      "1vgtgz0gq5b2c9k7d3m8r4n6xy"
+    ],
+    "tk_sources": [],
+    "literal": [
+      "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]"
+    ]
+  }
+}

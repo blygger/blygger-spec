@@ -1,0 +1,20 @@
+{
+  "id": "link-in-code-span",
+  "title": "[[id]] inside a code span is inert",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#54"
+  ],
+  "content_md": "Code `[[7c9wk2mhq0v3xj8tn5rzfd41bg]]` here.",
+  "expect": {
+    "error": false,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [],
+    "literal": [
+      "[[7c9wk2mhq0v3xj8tn5rzfd41bg]]"
+    ]
+  }
+}

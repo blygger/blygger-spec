@@ -1,0 +1,23 @@
+{
+  "id": "tk-source-not-quote",
+  "title": "Inside a TK scope, ![[id]] is a generation source, never a transclusion",
+  "spec_refs": [
+    "§5.7",
+    "§10.1"
+  ],
+  "decisions": [
+    "#20"
+  ],
+  "content_md": "[TK]Summarise ![[{{L}}]][=]Some output.[/TK]",
+  "expect": {
+    "error": false,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [
+      [
+        "{{L}}"
+      ]
+    ],
+    "literal": []
+  }
+}

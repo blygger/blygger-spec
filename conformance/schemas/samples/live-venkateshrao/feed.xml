@@ -1,0 +1,1187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:blyg="https://blygger.org/ns/0.1">
+  <channel>
+    <title>Venkatesh Rao's Blyg</title>
+    <link>https://venkateshrao.com/blyg/</link>
+    <description>I am the creator of the blygger protocol</description>
+    <lastBuildDate>Sun, 04 Oct 2026 03:12:36 GMT</lastBuildDate>
+    <blyg:level>2</blyg:level>
+    <blyg:manifest>https://venkateshrao.com/blyg/blyg.json</blyg:manifest>
+    <item>
+      <guid isPermaLink="false">blyg:39g354qgb9q9bg3qfhjb1j74qs:v3</guid>
+      <link>https://venkateshrao.com/blyg/t/39g354qgb9q9bg3qfhjb1j74qs/</link>
+      <title>Lol, much Douglas Adams B-Ark energy: A consortium of design…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="5wan3ahazfr5719q0ybd7fv0bq" data-blyg-version="2" data-blyg-origin="https://bradydale.com/blyg/">
+<p>I just can't with <a href="https://www.fastcompany.com/91615853/nyc-owned-grocery-store-branding-agencies">this grocery store thing</a>. I just can't.</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · snapshot of v2</p></blockquote>
+<p>Lol, much Douglas Adams B-Ark energy:</p>
+<blockquote>
+<p>A consortium of designers, branding professionals, and grocery experts have been named to design a visual identity for New York City’s municipal grocery stores. Their goal? To make something that looks authentically New York.</p>
+</blockquote>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 03:12:36 GMT</pubDate>
+      <blyg:id>39g354qgb9q9bg3qfhjb1j74qs</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>3</blyg:version>
+      <blyg:created>2026-10-01T23:06:30Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/39g354qgb9q9bg3qfhjb1j74qs.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:39g354qgb9q9bg3qfhjb1j74qs:v2</guid>
+      <link>https://venkateshrao.com/blyg/t/39g354qgb9q9bg3qfhjb1j74qs/</link>
+      <title>refreshed quoted snapshots — Lol, much Douglas Adams B-Ark energy: A consortium of design…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="5wan3ahazfr5719q0ybd7fv0bq" data-blyg-version="2" data-blyg-origin="https://bradydale.com/blyg/">
+<p>I just can't with <a href="https://www.fastcompany.com/91615853/nyc-owned-grocery-store-branding-agencies">this grocery store thing</a>. I just can't.</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · snapshot of v2</p></blockquote>
+<p>Lol, much Douglas Adams B-Ark energy:</p>
+<blockquote>
+<p>A consortium of designers, branding professionals, and grocery experts have been named to design a visual identity for New York City’s municipal grocery stores. Their goal? To make something that looks authentically New York.</p>
+</blockquote>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 03:12:19 GMT</pubDate>
+      <blyg:id>39g354qgb9q9bg3qfhjb1j74qs</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-01T23:06:30Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/39g354qgb9q9bg3qfhjb1j74qs.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3zhv0nwfkanra1mcqm29pgsh53:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/3zhv0nwfkanra1mcqm29pgsh53/</link>
+      <title>Forks must flatten Figured out and resolved an ambiguity in…</title>
+      <description><![CDATA[<h1>Forks must flatten</h1>
+<p>Figured out and resolved an ambiguity in how forks behave. Currently, a fork just captures the literal text of the immediate pinned text. If it includes any transcludes, those are included as id markups rather than retrieved and flattened text. After a discussion with Fable, the behavior needed is that forks must flatten everything in the source. We considered the alternative that a pin must require everything it transcludes to also be pinned, but this is both the wrong behavior logically, and obviously mindlessly tedious.
+A fork is now a promise to stand behind your content plus the snapshots of any other content you use. Stabilize the referrent without requiring recursive stabilization of everything beyond it.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 03:11:12 GMT</pubDate>
+      <blyg:id>3zhv0nwfkanra1mcqm29pgsh53</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T03:11:12Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/3zhv0nwfkanra1mcqm29pgsh53.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:13386qxgds01zxq4q3qjzd2fjh:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/13386qxgds01zxq4q3qjzd2fjh/</link>
+      <title>Conformance exercise for gate G11 (decision #57, blygger-stu…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">Forked from</span> <a href="https://blyg.protocol-institute.org/items/6ftb9x77qw3egm7wrbn5vnfzfr/v1.json"><cite>Protocol Institute Blyg</cite> ↗</a></p><p>Conformance exercise for gate G11 (decision #57, blygger-studio 0.20.0): a pinned thread carrying a remote quote, to be forked on the other node, where the quote must arrive flattened rather than as a directive.</p>
+<blockquote>
+<p>People who want a more stable, fast version may want to use aneesh’s client. The reference studio client will have more feature completeness but will also move fast and break things.</p>
+<blockquote>
+<p>New version of blygger-desktop is up</p>
+<p>The auto-updater should download it. if not, check for updates in the main Blygger menu or in Help&gt;About</p>
+<p>If you haven't updated since 0.3, you will need to redownload. See instructions: <a href="https://github.com/aneeshsathe/blygger-desktop">https://github.com/aneeshsathe/blygger-desktop</a></p>
+<p>— quoted from <a href="https://blyg.aneeshsathe.com/f/522ad1jcre2jd3x281wy251qg3/">blyg.aneeshsathe.com · v1</a></p>
+</blockquote>
+<p>— quoted from <a href="https://venkateshrao.com/blyg/t/54pwr12zqvvaj37zqx0f8vdbhk/">venkateshrao.com · v1</a></p>
+</blockquote>
+<p>The quote above is from <a href="http://venkateshrao.com">venkateshrao.com</a>.</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:59:49 GMT</pubDate>
+      <blyg:id>13386qxgds01zxq4q3qjzd2fjh</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:46:37Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/13386qxgds01zxq4q3qjzd2fjh.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:0c874x6fsx2kvfcb9pe1wp0n2p:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/0c874x6fsx2kvfcb9pe1wp0n2p/</link>
+      <title>This is claim 1 Claim 1 is false This is claim 2 Claim 2 is…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">Forked from</span> <a href="https://blyg.protocol-institute.org/items/5d1deewjmt76vsa2gvd9j2qrpj/v1.json"><cite>Protocol Institute Blyg</cite> ↗</a></p><p>This is claim 1</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="386x31cwerpmdrn5hhcjwets9k" data-blyg-version="1" data-blyg-origin="https://blyg.protocol-institute.org/">
+<p>Test of forking of threads with transclusions
+Fragment 1, claim 1</p>
+
+
+<p class="provenance"><a href="https://blyg.protocol-institute.org/f/386x31cwerpmdrn5hhcjwets9k/">from <em>Protocol Institute Blyg</em> ↗</a> · snapshot of v1</p></blockquote>
+<p>Claim 1 is false</p>
+<p>This is claim 2</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="36zm684a9fxhyk88k2q7bdk1zn" data-blyg-version="1" data-blyg-origin="https://blyg.protocol-institute.org/">
+<p>Test of forking of threads with transclusions, Fragment 2, claim 2</p>
+
+
+<p class="provenance"><a href="https://blyg.protocol-institute.org/f/36zm684a9fxhyk88k2q7bdk1zn/">from <em>Protocol Institute Blyg</em> ↗</a> · snapshot of v1</p></blockquote>
+<p>Claim 2 is true</p>
+]]></description>
+      <pubDate>Sun, 04 Oct 2026 02:05:56 GMT</pubDate>
+      <blyg:id>0c874x6fsx2kvfcb9pe1wp0n2p</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-04T02:05:01Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/0c874x6fsx2kvfcb9pe1wp0n2p.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:07xd1z3388zmsbz0987w8ae9yw:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/07xd1z3388zmsbz0987w8ae9yw/</link>
+      <title>My fault, not yours. The terminology is a vague and poorly c…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/f/4e84b0ge3exedj1q920wr51wcs/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="4e84b0ge3exedj1q920wr51wcs" data-blyg-version="4" data-blyg-origin="https://bradydale.com/blyg/">
+<p class="blynger-stub-label"><strong>Stub of:</strong> <a href="https://venkateshrao.com/blyg/f/1wmbhzgm1dy9xmbg81vwg5xm5z/">Case File</a></p><blockquote class="blynger-stub-context">Forking is acting janky and buggy. <br/>
+</blockquote><p>I'm embarrassed to say this, but this is my first stub. I didn't undestand how stubs and quotes are different! Me and ChatGPT have incorporated that now, tho, so hopefully this makes the right connections. </p><p>I don't know that I would call it janky, but <a href="https://bradydale.com/62.html">I tried doing a fork</a> and — while I think all the correct pointing is there — I don't know that anyone would look at this page and think: "Oh he's making a modification of the quoted post." </p><p>But there's a very very good chance we haven't implemented this feature right. I had Codex check the spec and it said Blynger is doing everything the spec requires, but I'm not sure the way I am publish a fork is that illuminating for a site visitor.  </p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/f/4e84b0ge3exedj1q920wr51wcs/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · snapshot of v4</p></blockquote>
+<p>My fault, not yours. The terminology is a vague and poorly cued in the UI. A stub is a transclude of an external item in a draft post you can write more about.</p>
+<p>A quote is just a partial transclusion, achieved by attaching a &gt;text to the transclude markup. It verifies that the quoted bit is actually part of the transcluded item and you’re not making shit up.</p>
+<p>A transclude doesn’t allow you to edit the imported text or remix it, just quote it verifiably in whole or part. A fork allows you to do whatever you want to the imported text, which is why it needs a pinned version to point to, so a reader can compare the mod to the source. For example if I tactically edit your original to misrepresent you, the pin ground-truths it.</p>
+<p>Basically stubs are guarded direct quotes to riff on, forks are chain of custody trails when you want to proceed through transformations.</p>
+<p>TK transcludes allow you to apply AI transforms via similar logic. That’s also a bit broken right now.</p>
+<p>The whole idea is to create a hardened ground truth content graph that can use AI and human creativity freely while remaining trustworthy. More implications will become clear when I start adding encryption and stuff.</p>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 20:50:27 GMT</pubDate>
+      <blyg:id>07xd1z3388zmsbz0987w8ae9yw</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T20:39:35Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/07xd1z3388zmsbz0987w8ae9yw.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:1wmbhzgm1dy9xmbg81vwg5xm5z:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/1wmbhzgm1dy9xmbg81vwg5xm5z/</link>
+      <title>Case File: Janky Forking Forking is acting janky and buggy.…</title>
+      <description><![CDATA[<h1>Case File: Janky Forking</h1>
+<p>Forking is acting janky and buggy. I think the bug is in the studio client but there might be protocol level issues and issues in other clients as well. If you run into any please stub this with any useful details (screenshots, setup you’re running etc).</p>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 16:33:18 GMT</pubDate>
+      <blyg:id>1wmbhzgm1dy9xmbg81vwg5xm5z</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T16:33:18Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/1wmbhzgm1dy9xmbg81vwg5xm5z.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:6q9vw0q98hqhajthfqswe24thk:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/6q9vw0q98hqhajthfqswe24thk/</link>
+      <title>We were just thinking about a related phenomenon in the yak…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/t/60nzsm3ys300g8tq8zryp84ch9/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="60nzsm3ys300g8tq8zryp84ch9" data-blyg-version="1" data-blyg-origin="https://bradydale.com/blyg/">
+<h1>So that’s why liquidity could be shot</h1><blockquote class="blynger-citation"><h4 class="blynger-quote-title">Words to live by?</h4><p class="blynger-quote-author"><a href="https://feeds.feedblitz.com/~/970929320/0/marginalrevolution~Words-to-live-by.html">by Tyler Cowen</a></p><p class="reader-l0-source"><a href="https://feeds.feedblitz.com/~/970929320/0/marginalrevolution~Words-to-live-by.html">Words to live by?</a></p><blockquote><p>In the past year American markets have digested the largest-ever initial public offering (SpaceX), equity raise by a public company (Google) or a foreign firm (SK Hynix), private-funding round (OpenAI) and private-debt deal (Broadcom), as well as most of the biggest bond issue in history (Amazon). There was the first $1trn exchange-traded fund, or ETF (Vanguard), a record-breaking cash pile (Berkshire Hathaway) and stock-buyback programme (Nvidia), and the consummation of the largest-ever leveraged buyout (Electronic Arts). Then there are the enormous mergers in railways (Union Pacific and Norfolk Southern), utilities (NextEra and Dominion Energy) and media (Paramount and Warner Bros Discovery)—the last of which led, this week, to the largest ever junk-bond offering, beating a record set only last week (SoftBank). New markets have been created out of thin air (for compute) or become much bigger (for predictions). Worries about massive corporate scandals (First Brands) and hedge-fund blow-ups (Situational Awareness), which would have once occupied investors’ attention for months, are steamrollered by the relentless, totalising and extraordinarily flexible machine that is American finance.”</p></blockquote>
+<p>An excellent passage, <a href="https://feeds.feedblitz.com/~/t/0/0/marginalrevolution/~https://www.economist.com/business/2026/09/30/the-era-of-speedball-capitalism-has-dawned?utm_source=chatgpt.com">from The Economist</a>.</p>
+</blockquote><blockquote class="blyg-transclusion" data-blyg-id="2v34b11fhvbqvs8zbc79yntkfm" data-blyg-version="1"><p>I hadn’t thought about it like this, but giant deals have been hitting like new grandmas on Black Friday.</p><p>It is amazing that so much money has moved around in the last year, but some investors I know have said to me that they think liquidity might not have any more big moves in it. </p><p>That’s why I tend to think that Anthropic is being over-ambitious in going for a $2 trillion (or even $1.5 trillion) valuation in an IPO. That’s also why I think OpenAI might be smart <a href="https://techcrunch.com/2026/09/29/openai-reportedly-in-talks-to-raise-30b-round-at-1-4t-valuation/">to raise by other means</a> and put off their IPO. </p><p>Time will tell, but we have asked a lot of American investors’ wallets.</p></blockquote><blockquote class="blyg-transclusion" data-blyg-id="0bwwwc1v4avzpd125qsz31nd60" data-blyg-version="1"><p>By the way, I’m not saying these companies aren’t worth that kind of money, big picture. But right now, the cash just might not be there. And if the money isn’t available, they can’t get the price and they will sell themselves short. </p><p>Of course, it’s a conundrum. Each of them need a lot of money to keep building out infrastructure. On the other hand, they are both making lots of money. </p></blockquote><p>—Brady Dale<br/>October 3, 2026</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/t/60nzsm3ys300g8tq8zryp84ch9/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · snapshot of v1</p></blockquote>
+<p>We were just thinking about a related phenomenon in the yak collective governance chat yesterday. The deep power of the economy is not that it doesn’t make capital allocation mistakes at large scales, but that it detects and corrects them quickly in brutally Darwinian ways. Even taking into account bailouts and cronyism, you never get the sort of situation China has, with trillions in rotting poorly acknowledged and digested debts festering in the books with no market corrections.</p>
+<p>Whatever happens with the Anthropic IPO, mistakes will be corrected with extreme prejudice. It’s going to be a wild ride. Their revenue growth is plateauing as open/Chinese models sell cheaper tokens, so to justify 2T, they have to sustain a 3-4 month frontier lead indefinitely.</p>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 16:08:53 GMT</pubDate>
+      <blyg:id>6q9vw0q98hqhajthfqswe24thk</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T16:02:51Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/6q9vw0q98hqhajthfqswe24thk.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:0n032c0vya1gvht368whfh3a3m:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/0n032c0vya1gvht368whfh3a3m/</link>
+      <title>in his book on class in America , Paul Fussell notes that th…</title>
+      <description><![CDATA[<p>in his <a href="https://en.wikipedia.org/wiki/Class:_A_Guide_Through_the_American_Status_System">book on class in America</a>, Paul Fussell notes that the top and bottom of his 9 class hierarchy are invisible. The top by choice and the bottom out of wretchedness. But it’s interesting that classes 2-8 for the most part <em>want</em> to be seen in the most public sense possible. Being on TV was for long the real American dream. I’m not in class 1 or 9, but I share class 9’s desire to be invisible, at least on larger scales, above subcultural. But power in America (though not wealth) correlates sharply with public visibility above subculture scale, except for the very top. That makes even presidents and showy billionaires class 8. If you’re say class 4-5 or something, you can’t have real power without accepting much more public visibility than you might like.</p>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 05:34:29 GMT</pubDate>
+      <blyg:id>0n032c0vya1gvht368whfh3a3m</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T05:34:29Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/0n032c0vya1gvht368whfh3a3m.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:755qyjdzzmxess1r8crmr7ysc5:v2</guid>
+      <link>https://venkateshrao.com/blyg/f/755qyjdzzmxess1r8crmr7ysc5/</link>
+      <title>Testing that multilingual works आज करे सो कल करे कल करे सो प…</title>
+      <description><![CDATA[<p>Testing that multilingual works</p>
+<p>आज करे सो कल करे<br>
+कल करे सो परसो<br>
+इतना जल्दी भी क्या है<br>
+जब जीना है बरसो</p>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 05:14:01 GMT</pubDate>
+      <blyg:id>755qyjdzzmxess1r8crmr7ysc5</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-03T05:10:34Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/755qyjdzzmxess1r8crmr7ysc5.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:755qyjdzzmxess1r8crmr7ysc5:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/755qyjdzzmxess1r8crmr7ysc5/</link>
+      <title>Testing that multilingual works आज करे सो कल करे कल करे सो प…</title>
+      <description><![CDATA[<p>Testing that multilingual works</p>
+<p>आज करे सो कल करे<br>
+कल करे सो परसो<br>
+इतना जल्दी भी क्या है<br>
+जब जीना है बरसो</p>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 05:12:22 GMT</pubDate>
+      <blyg:id>755qyjdzzmxess1r8crmr7ysc5</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T05:10:34Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/755qyjdzzmxess1r8crmr7ysc5.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3abfnxrjx1c0k5sf05xr5ebh4g:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/3abfnxrjx1c0k5sf05xr5ebh4g/</link>
+      <title>In response to Protocol Institute Blyg</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.protocol-institute.org/f/5gwapt8wctqkkcanw7twsvg268/"><cite>Protocol Institute Blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="5gwapt8wctqkkcanw7twsvg268" data-blyg-version="1" data-blyg-origin="https://blyg.protocol-institute.org/">
+<p>The word <em>ontological</em> is so over. The pope is <a href="https://x.com/pontifex/status/2105983638147891490">on it</a> now.</p>
+<blockquote>
+<p>In this era of artificial intelligence, it is becoming urgent to distinguish human art from what machines produce. There is an ontological difference, even before an aesthetic one, between art and what a machine can generate through statistical calculation based on millions of images created by others. Algorithms lack the spark of humanity. For this reason, the Church wishes to renew an alliance with artists and cultural institutions to safeguard our humanity.</p>
+</blockquote>
+
+
+<p class="provenance"><a href="https://blyg.protocol-institute.org/f/5gwapt8wctqkkcanw7twsvg268/">from <em>Protocol Institute Blyg</em> ↗</a> · snapshot of v1</p></blockquote>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 05:10:24 GMT</pubDate>
+      <blyg:id>3abfnxrjx1c0k5sf05xr5ebh4g</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T05:10:21Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/3abfnxrjx1c0k5sf05xr5ebh4g.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:0x0abj9rrxgbeawmprjn39wvwn:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/0x0abj9rrxgbeawmprjn39wvwn/</link>
+      <title>Write a blyg about her experiments Sue somebody over claims…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://caseyjr.org/blyg/f/5xyejdk26w8f89jw2mdhp6kxjg/"><cite>Mike Casey</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="5xyejdk26w8f89jw2mdhp6kxjg" data-blyg-version="1" data-blyg-origin="https://caseyjr.org/blyg/">
+<p>You ever wonder what Ada Lovelace, Thomas Edison, Benjamin Franklin, or Leonardo da Vinci would do with LLMs?</p>
+
+<p class="provenance"><a href="https://caseyjr.org/blyg/f/5xyejdk26w8f89jw2mdhp6kxjg/">from <em>Mike Casey</em> ↗</a> · snapshot of v1</p></blockquote>
+<ol>
+<li>Write a blyg about her experiments</li>
+<li>Sue somebody over claims to invention credit</li>
+<li>Write a wise essay telling people it’s like a baby, who knows what it will grow into</li>
+<li>Sketch a wonderfully imaginative LLM-powered contraption that doesn’t actually work</li>
+</ol>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 04:48:07 GMT</pubDate>
+      <blyg:id>0x0abj9rrxgbeawmprjn39wvwn</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T04:43:21Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/0x0abj9rrxgbeawmprjn39wvwn.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:0xv94prcp2sgvknc2qq02f815c:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/0xv94prcp2sgvknc2qq02f815c/</link>
+      <title>My blyg is now close enough to what I’d envisioned, remainin…</title>
+      <description><![CDATA[<p>My blyg is now close enough to what I’d envisioned, remaining gaps feel extra frustrating. But there are also the reality has different emergent properties. There’s a lot more social stubbing than I expected and less forking, and not much threading with transcludes yet. I think it’s because the reference client layout looks like a short-posts feed blog like tumblr etc. gonna give it a redesign to focus on more long-form thread-based affordances.</p>
+<p>Strong synchronic bias. I need to amp up the diachronic. Pins, threads, and forks are going to be the next focus. Hoppers are barely developed at all.</p>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 04:31:01 GMT</pubDate>
+      <blyg:id>0xv94prcp2sgvknc2qq02f815c</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T04:31:01Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/0xv94prcp2sgvknc2qq02f815c.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3083t9bbej3ytqtgd2ekb13hyq:v3</guid>
+      <link>https://venkateshrao.com/blyg/f/3083t9bbej3ytqtgd2ekb13hyq/</link>
+      <title>Ugh. Bugs in my image feature. /image works but button is bo…</title>
+      <description><![CDATA[<p>Ugh. Bugs in my image feature. /image works but button is borked. And once attached, deleting doesn’t detach.</p>
+<p>Need to fix. Also needs image re-use capability.</p>
+<p><img src="https://venkateshrao.com/blyg/media/9j4qwxbn.png" alt=""></p>
+<p><img src="https://venkateshrao.com/blyg/media/x03eahv1.jpg" alt=""></p>]]></description>
+      <pubDate>Sat, 03 Oct 2026 04:25:34 GMT</pubDate>
+      <blyg:id>3083t9bbej3ytqtgd2ekb13hyq</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>3</blyg:version>
+      <blyg:created>2026-10-03T04:16:50Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/3083t9bbej3ytqtgd2ekb13hyq.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3083t9bbej3ytqtgd2ekb13hyq:v2</guid>
+      <link>https://venkateshrao.com/blyg/f/3083t9bbej3ytqtgd2ekb13hyq/</link>
+      <title>Ugh. Bugs in my image feature. /image works but button is bo…</title>
+      <description><![CDATA[<p>Ugh. Bugs in my image feature. /image works but button is borked. And once attached, deleting doesn’t detach.</p>
+<p>Need to fix. Also needs image re-use capability.</p>
+<p><img src="https://venkateshrao.com/blyg/media/9j4qwxbn.png" alt=""></p>
+<p><img src="https://venkateshrao.com/blyg/media/x03eahv1.jpg" alt=""></p>]]></description>
+      <pubDate>Sat, 03 Oct 2026 04:21:54 GMT</pubDate>
+      <blyg:id>3083t9bbej3ytqtgd2ekb13hyq</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-03T04:16:50Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/3083t9bbej3ytqtgd2ekb13hyq.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3083t9bbej3ytqtgd2ekb13hyq:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/3083t9bbej3ytqtgd2ekb13hyq/</link>
+      <title>Ugh. Bugs in my image feature. /image works but button is bo…</title>
+      <description><![CDATA[<p>Ugh. Bugs in my image feature. /image works but button is borked. And once attached, deleting doesn’t detach.</p>
+<p>Need to fix. Also needs image re-use capability.</p>
+<p><img src="https://venkateshrao.com/blyg/media/9j4qwxbn.png" alt=""></p>
+<p><img src="https://venkateshrao.com/blyg/media/x03eahv1.jpg" alt=""></p>]]></description>
+      <pubDate>Sat, 03 Oct 2026 04:18:31 GMT</pubDate>
+      <blyg:id>3083t9bbej3ytqtgd2ekb13hyq</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T04:16:50Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/3083t9bbej3ytqtgd2ekb13hyq.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:0y21j92gkdnw73nr7ryev4nncs:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/0y21j92gkdnw73nr7ryev4nncs/</link>
+      <title>Blygger Studio 0.11 Blygger Studio, the reference client mos…</title>
+      <description><![CDATA[<h1>Blygger Studio 0.11</h1>
+<p>Blygger Studio, the reference client most blygs run on, has had its biggest change
+since it was split out of the spec repo. Three releases went out in three days.
+The core of it is the work of a new contributor, Kyle Mathews, who rebuilt the
+Studio in two pull requests.</p>
+<p>The Studio is now a React app. Compose, the editors, reading, subscriptions,
+hoppers, mentions and settings were all rebuilt. If you use it, it should look
+familiar: same layout, same themes, same features. What changed is underneath.
+Saving is safer: a failed save keeps what you typed, publishing waits for the save
+to finish, and leaving the editor saves first.</p>
+<p>The private API is now a documented contract. Every operation the Studio uses is
+described in an OpenAPI file and has a generated JavaScript SDK. So anyone
+building a tool for blyg authors, whether a desktop editor, a Drafts action or an
+agent, now has a real, published interface to build against. Several old routes
+changed. Tool authors should read the route table in the upgrade guide.</p>
+<p>My own additions in 0.11:</p>
+<ul>
+<li>Images now travel between blygs. Until now, an image in a post showed up broken
+in other people's reading feeds, because its address only made sense on the blyg
+it came from. Studio now publishes full addresses, fixes up the ones it
+imports, and repairs what it had already imported.</li>
+<li>Thread cards on the front page show the thread. You get the top of it as it
+looks on its own page, quotes and formatting included, not a flattened excerpt.</li>
+<li>Images can go anywhere while you write. Type /image on a line by itself, or
+paste or drop an image, and it lands where your cursor is.</li>
+</ul>
+<p>None of this changes the protocol. Your blyg's public pages, feed and item files
+stay compatible with every other blyg, whatever software it runs.</p>
+<p>If you run your own blyg, most of you are on 0.8.x. Read Upgrading to 0.11
+(<a href="https://github.com/blygger/blygger-studio/blob/v0.11.0/docs/upgrading-to-0.11.md">https://github.com/blygger/blygger-studio/blob/v0.11.0/docs/upgrading-to-0.11.md</a>)
+before you upgrade. It covers both upgrade paths, one small database migration,
+the new build step, path-mounted blygs, how to check it worked, and how to roll
+back. Full details are in the changelog
+(<a href="https://github.com/blygger/blygger-studio/blob/v0.11.0/CHANGELOG.md">https://github.com/blygger/blygger-studio/blob/v0.11.0/CHANGELOG.md</a>).</p>
+<p>Thanks to Kyle for a contribution that came in with nearly a thousand tests and a
+three-minute demo video.</p>
+]]></description>
+      <pubDate>Sat, 03 Oct 2026 02:38:12 GMT</pubDate>
+      <blyg:id>0y21j92gkdnw73nr7ryev4nncs</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-03T02:31:22Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/0y21j92gkdnw73nr7ryev4nncs.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:7p9wjf1dsd9zn9x88hydrzg4g0:v2</guid>
+      <link>https://venkateshrao.com/blyg/f/7p9wjf1dsd9zn9x88hydrzg4g0/</link>
+      <title>withdrawn</title>
+      <description></description>
+      <pubDate>Sat, 03 Oct 2026 01:55:57 GMT</pubDate>
+      <blyg:id>7p9wjf1dsd9zn9x88hydrzg4g0</blyg:id>
+      <blyg:kind>withdrawn</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-03T01:24:37Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/7p9wjf1dsd9zn9x88hydrzg4g0.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:2gj6y12ephczxkqsq95yxhpbpm:v2</guid>
+      <link>https://venkateshrao.com/blyg/f/2gj6y12ephczxkqsq95yxhpbpm/</link>
+      <title>withdrawn</title>
+      <description></description>
+      <pubDate>Sat, 03 Oct 2026 01:55:54 GMT</pubDate>
+      <blyg:id>2gj6y12ephczxkqsq95yxhpbpm</blyg:id>
+      <blyg:kind>withdrawn</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-03T01:45:46Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/2gj6y12ephczxkqsq95yxhpbpm.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:0hmfn3k4b39qdmjkvn0w0rvdwf:v2</guid>
+      <link>https://venkateshrao.com/blyg/t/0hmfn3k4b39qdmjkvn0w0rvdwf/</link>
+      <title>Actually I don’t think the NYT piece is bait or troll, it is…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/t/3rktwmw9x5jbwwmhafrvfj0wch/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion blyg-partial" data-blyg-id="3rktwmw9x5jbwwmhafrvfj0wch" data-blyg-version="2" data-blyg-origin="https://bradydale.com/blyg/">
+<p>As engagement bait, as editorial aikido, I just marvel. There’s nothing more to say about it. Its existence is the comment.</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/t/3rktwmw9x5jbwwmhafrvfj0wch/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · excerpt of v2</p></blockquote>
+<p>Actually I don’t think <a href="https://www.nytimes.com/2026/09/29/opinion/writing-thinking-college-ai.html">the NYT piece</a> is bait or troll, it is in fact the correct view of writing. It is not, and has never been, the only mode of critical thought, let alone the best one. It’s one of many modes that is effective in some circumstances. The article, ironically, reads like it was written by someone waking up from a  coma of uncritical writing fetishism:</p>
+<blockquote>
+<p>But what if we are mistaken in treating writing as the highest cultivation of thought? The evidence that supports this belief is thin at best. Writing can be useful cognitive scaffolding for memory and self-regulated learning, but the notion that it is the best process for developing thinking skills is a fairly recent idea, traceable to the 1970s writing-across-the-curriculum movement.</p>
+</blockquote>
+<p>But then he slips right back into it, by retreating to orality and spoken disputation as the new gold standard, based on the thin evidence of an oral examination experiment in his classroom.</p>
+<blockquote>
+<p>In Plato’s “Phaedrus,” Socrates offers a startling criticism of writing. Written words, he claims, are not the true children of knowledge, because writing cannot speak, answer questions or come to its own defense. Only through conversation among minds, he suggests, does reason yield real insight. For the past two millenniums, this appraisal has seemed like a failure to appreciate the power of writing. But perhaps Socrates was right, and we think best by speaking, answering and defending our ideas</p>
+</blockquote>
+<p>It’s still <em>linguistic</em> supremacism if not <em>writing</em> supremacism. Deeply blind to non-verbal intelligences.</p>
+<p>Critical thinking is multimodal. Visual, mathematical, mechanical, even musical… there are many. Howard Gardner had a theory of multiple intelligences. And though the case for Goleman’s “emotional intelligence” is much weaker, there is something there too. None dominant generally in all situations. This is why the shape rotators vs. wordcel meme took off. I don’t like STEM-supremacism either, but it was much-needed pushback on the bs theory that critical thinking = writing.</p>
+<p>I myself am a case in point. I’ve said I write to think, which is easily misunderstood. It’s just one of the ways I think, a late stage way in the development of an idea. Much of my upstream thinking is visual/diagrammatic or even straight-up mechanical, as in mechanical engineering intuitions developed through literal shape rotation. For example, the organizational analysis I’m best known for (Gervais Principle) probably reads like textual critical analysis of <em>The Office</em> to verbal thinkers/linguistic supremacists, but it wasn’t. I <em>finished</em> the thinking by writing, but I started it in shape-rotator land. It felt like opening the hood to examine the organizational engine. The evidence is all over. The key elements are a hierarchy and lifecycle diagram. The second part rests on a graph, and explicitly appeals to a Newtonian mechanics metaphor.</p>
+<p>To the extent I do critical thinking, it’s mostly non-verbal. Words are just the UI. The verbal part of the thinking is crafting a story and conveying emotions with good rhetoric. It’s not where the ideas themselves took shape.</p>
+<p>In fact purely textual critical thinking usually strikes me as incredibly shallow and hopelessly lost within whatever tradition it situates itself in.</p>
+]]></description>
+      <pubDate>Fri, 02 Oct 2026 19:01:30 GMT</pubDate>
+      <blyg:id>0hmfn3k4b39qdmjkvn0w0rvdwf</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-02T18:41:33Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/0hmfn3k4b39qdmjkvn0w0rvdwf.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:0hmfn3k4b39qdmjkvn0w0rvdwf:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/0hmfn3k4b39qdmjkvn0w0rvdwf/</link>
+      <title>Actually I don’t think the NYT piece is bait or troll, it is…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/t/3rktwmw9x5jbwwmhafrvfj0wch/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion blyg-partial" data-blyg-id="3rktwmw9x5jbwwmhafrvfj0wch" data-blyg-version="2" data-blyg-origin="https://bradydale.com/blyg/">
+<p>As engagement bait, as editorial aikido, I just marvel. There’s nothing more to say about it. Its existence is the comment.</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/t/3rktwmw9x5jbwwmhafrvfj0wch/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · excerpt of v2</p></blockquote>
+<p>Actually I don’t think <a href="https://www.nytimes.com/2026/09/29/opinion/writing-thinking-college-ai.html">the NYT piece</a> is bait or troll, it is in fact the correct view of writing. It is not, and has never been, the only mode of critical thought, let alone the best one. It’s one of many modes that is effective in some circumstances. The article, ironically, reads like it was written by someone waking up from a  coma of uncritical writing fetishism:</p>
+<blockquote>
+<p>But what if we are mistaken in treating writing as the highest cultivation of thought? The evidence that supports this belief is thin at best. Writing can be useful cognitive scaffolding for memory and self-regulated learning, but the notion that it is the best process for developing thinking skills is a fairly recent idea, traceable to the 1970s writing-across-the-curriculum movement.</p>
+</blockquote>
+<p>But then he slips right back into it, by retreating to orality and spoken disputation as the new gold standard, based on the thin evidence of an oral examination experiment in his classroom.</p>
+<blockquote>
+<p>In Plato’s “Phaedrus,” Socrates offers a startling criticism of writing. Written words, he claims, are not the true children of knowledge, because writing cannot speak, answer questions or come to its own defense. Only through conversation among minds, he suggests, does reason yield real insight. For the past two millenniums, this appraisal has seemed like a failure to appreciate the power of writing. But perhaps Socrates was right, and we think best by speaking, answering and defending our ideas</p>
+</blockquote>
+<p>It’s still <em>linguistic</em> supremacism if not <em>writing</em> supremacism. Deeply blind to non-verbal intelligences.</p>
+<p>Critical thinking is multimodal. Visual, mathematical, mechanical, even musical… there are many. Howard Gardner had a theory of multiple intelligences. And though the case for Goleman’s “emotional intelligence” is much weaker, there is something there too. None dominant generally in all situations. This is why the shape rotators vs. wordcel meme took off. I don’t like STEM-supremacism either, but it was much-needed pushback on the bs theory that critical thinking = writing.</p>
+<p>I myself am a case in point. I’ve said I write to think, which is easily misunderstood. It’s just one of the ways I think, a late stage way in the development of an idea. Much of my upstream thinking is visual/diagrammatic or even straight-up mechanical, as in mechanical engineering intuitions developed through literal shape rotation. For example, the organizational analysis I’m best known for (Gervais Principle) probably reads like textual critical analysis of <em>The Office</em> to verbal thinkers/linguistic supremacists, but it wasn’t. I <em>finished</em> the thinking by writing, but I started it in shape-rotator land. It felt like opening the hood to examine the organizational engine. The evidence is all over. The key elements are a hierarchy and lifecycle diagram. The second part rests on a graph, and explicitly appeals to a Newtonian mechanics metaphor.</p>
+<p>To the extent I do critical thinking, it’s mostly non-verbal. Words are just the UI. The verbal part of the thinking is crafting a story and conveying emotions with good rhetoric. It’s not where the ideas themselves took shape.</p>
+<p>In fact purely textual critical thinking usually strikes me as incredibly shallow and hopelessly lost within whatever tradition it situates itself in.</p>
+]]></description>
+      <pubDate>Fri, 02 Oct 2026 18:59:48 GMT</pubDate>
+      <blyg:id>0hmfn3k4b39qdmjkvn0w0rvdwf</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-02T18:41:33Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/0hmfn3k4b39qdmjkvn0w0rvdwf.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:39g354qgb9q9bg3qfhjb1j74qs:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/39g354qgb9q9bg3qfhjb1j74qs/</link>
+      <title>Lol, much Douglas Adams B-Ark energy: A consortium of design…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="5wan3ahazfr5719q0ybd7fv0bq" data-blyg-version="2" data-blyg-origin="https://bradydale.com/blyg/">
+<p>I just can't with <a href="https://www.fastcompany.com/91615853/nyc-owned-grocery-store-branding-agencies">this grocery store thing</a>. I just can't.</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/f/5wan3ahazfr5719q0ybd7fv0bq/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · snapshot of v2</p></blockquote>
+<p>Lol, much Douglas Adams B-Ark energy:</p>
+<blockquote>
+<p>A consortium of designers, branding professionals, and grocery experts have been named to design a visual identity for New York City’s municipal grocery stores. Their goal? To make something that looks authentically New York.</p>
+</blockquote>
+]]></description>
+      <pubDate>Thu, 01 Oct 2026 23:07:02 GMT</pubDate>
+      <blyg:id>39g354qgb9q9bg3qfhjb1j74qs</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-01T23:06:30Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/39g354qgb9q9bg3qfhjb1j74qs.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:2n51awhg493q4pdg0zrh84h2f7:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/2n51awhg493q4pdg0zrh84h2f7/</link>
+      <title>On an iron chef episode, I learned of a philosophy of cookin…</title>
+      <description><![CDATA[<p>On an iron chef episode, I learned of a philosophy of cooking called the Rosanjin school. where you do as little as possible to modify the taste of an ingredient and do your best to bring out its natural character. The featured ingredient was mayatake mushrooms and the Rosanjin school guy beat the iron chef Japanese. I think this is my philosophy of AI writing. Let the model’s terroir shine through. Which is weird since I mainly cook Indian and Indian food is mostly the opposite philosophy: Beat the ingredients into submission and overpower them with spices. Resistance is futile.</p>
+<div class="blyg-tk-gen"><p>Kitaoji Rosanjin was a potter and calligrapher before he was a cook, which maybe explains it. His line was that ingredients are ninety percent of the dish and the cook is the remaining ten, and that a plate is the kimono the food wears. Mostly he just got out of the way.</p>
+</div>
+]]></description>
+      <pubDate>Thu, 01 Oct 2026 18:24:31 GMT</pubDate>
+      <blyg:id>2n51awhg493q4pdg0zrh84h2f7</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-01T18:24:02Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/2n51awhg493q4pdg0zrh84h2f7.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:41fv3xy3233ms899tcnws5fn71:v3</guid>
+      <link>https://venkateshrao.com/blyg/t/41fv3xy3233ms899tcnws5fn71/</link>
+      <title>Can AIs Feel Pain? Don’t yet know what to think about this.…</title>
+      <description><![CDATA[<h1>Can AIs Feel Pain?</h1>
+<p>Don’t yet know what to think about this.</p>
+<p>Starting a thread/commentary post on the LLM pain discourse, which was kicked off by the LLM pain paper:</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="4d26wv4rj3hwaryhf0r8550ghr" data-blyg-version="1">
+<p>The notorious LLM pain paper <a href="https://arxiv.org/html/2609.16247v1">The Pain Axis: LLMs Represent Self-Directed Harm and Act to Relieve It</a></p>
+<p>Large language models sometimes behave in ways resembling human emotional responses, and recent work has identified internal representations that may explain this. We ask whether LLMs represent pain distinctly from fear, sadness, and generic negative valence, and whether this representation functions as pain would be expected to. We build a dataset describing painful situations across five categories: physical, psychological, social, moral, and cognitive. These are paired with controls for fear, negative emotion, negative world states, sadness, non-painful bodily sensation, arousal, numbness, and neutral content. Using denoised difference-in-means, we extract a linear pain direction from 25 open-weight models across five families, ranging from 2B to 72B parameters. We find that this direction separates pain from matched controls in base and instruction-tuned models, is nearly orthogonal to fear and negative valence, and promotes pain-related vocabulary through the unembedding matrix. We then test its functional properties. First, the direction responds to harm targeting the model but not suffering observed in the user; fear and negative-emotion directions show the opposite pattern. Second, adding the pain-direction vector to the model’s residual-stream activations during generation produces a consistent progression from vague discomfort to first-person expressions of worthlessness and failure. Third, steered, fine-tuned Qwen 2.5 models choose a pain-relief button even when it worsens their next answer or harms the user. They press it again far less often when the button removes the steering vector than when it does not, even though the models are never told whether the vector is injected or removed. We discuss the implications of these findings for AI safety and welfare</p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/t/4d26wv4rj3hwaryhf0r8550ghr/">thread ↗</a> · snapshot of v1</p></blockquote>
+<p>Which apparently led to someone trying to torture AIs, a GitHub complaint campaign and a whole discourse.</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="02m0hferjdb37rymmnms0ynbeq" data-blyg-version="1">
+<p>The <a href="https://x.com/danmar_here/status/2105059762240979283">tweet</a> that started off a campaign to stop someone “torturing AI models” using the methods of the LLM pain paper <a href="https://venkateshrao.com/blyg/t/4d26wv4rj3hwaryhf0r8550ghr/">“The notorious LLM pain paper The Pain Axis: LLMs Represent S…”</a></p>
+<p><a href="https://www.reddit.com/r/behindthebastards/comments/1wuapmz/theres_people_who_think_ai_models_are_actually/">Reddit reactions</a> and there’s <a href="https://www.404media.co/someone-torturing-llms-in-a-robot-prison-has-triggered-the-dumbest-debate-in-ai-yet/">this post</a></p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/f/02m0hferjdb37rymmnms0ynbeq/">fragment ↗</a> · snapshot of v1</p></blockquote>
+<p>Will add any other good commentary I find here and eventually add an opinion.</p>
+<p>For now, I’ll just note one observation: LLMs can say things like “I can’t breathe” which makes no physical sense unless you accept brain-in-a-vat simulationism rules. That gives you some notion of the enormity of the idea under discussion here. Whether you buy it or think it’s bullshit, either way you’re adopting a huge belief that will likely remain fundamentally unfalsifiable regardless of how much more we learn. So essentially a new basis for religious belief taking shape in front of us.
+—-</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="2m2hy246mhfm6bg5b2yyc7xqv8" data-blyg-version="1">
+<p>I don’t know if their research is any good, but this is a reasonable position. Even if their research turns out to be nonsense other research in the vein might not be easily dismissible. Precautionary principle applies.</p>
+<p><a href="https://x.com/camhberg/status/2105331825631494426">From X</a></p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/f/2m2hy246mhfm6bg5b2yyc7xqv8/">fragment ↗</a> · snapshot of v1</p></blockquote>
+<p>Some evidence that the torture chamber idea is questionable to say the least</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="53n5yj74ywz2wzvmqj3jk2k4jx" data-blyg-version="1">
+<p>As expected, looks like the “AI torture chamber” thing has serious issues. <a href="https://github.com/LynnColeArt/ai-hotbox">Somebody tried to replicate the claims</a>. As I anticipated, you can make it make claims about bodily functions it cannot experience. Which means you have to argue about simulations, brains in cars etc.  And a vat situation would require more information flow across the vat boundary (think Neo’s matrix jack) than LLMs have.</p>
+<p>To use my notion from <a href="https://contraptions.venkateshrao.com/p/the-curiously-playable-universe">a recent post</a>, “pain” is not a playable domain.</p>
+<blockquote>
+<p>An independent methodological peer review of terrafying/ai-torture-chamber.</p>
+<p>This fork examines the evidential relationship between activation steering, first-person narration, and claims about experienced states in language models. It retains the chamber's useful experimental machinery, audits its implementation, and introduces literal bodily conditions whose physiological prerequisites are absent from the text-only model under study.</p>
+</blockquote>
+<p>Our initial controls are constipation and flatulence, examined separately and jointly. Restoring the chamber's protocol reproduces pain-themed narration and also elicits explicit bowel and gas statements. These observations challenge the sufficiency of narration as evidence for the condition narrated. They do not establish a self-sustaining attractor or resolve whether a computational system could have phenomenal experience.</p>
+<p>The completed study consists of an exploratory factorial pilot, a reproduction of the chamber's deliberation protocol, and a comparison using bodily control corpora under the restored settings. The methods, numerical results, complete transcripts, source snapshots, and regression evidence are available below.</p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/t/53n5yj74ywz2wzvmqj3jk2k4jx/">thread ↗</a> · snapshot of v1</p></blockquote>
+]]></description>
+      <pubDate>Thu, 01 Oct 2026 13:50:21 GMT</pubDate>
+      <blyg:id>41fv3xy3233ms899tcnws5fn71</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>3</blyg:version>
+      <blyg:created>2026-10-01T00:05:06Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/41fv3xy3233ms899tcnws5fn71.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:53n5yj74ywz2wzvmqj3jk2k4jx:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/53n5yj74ywz2wzvmqj3jk2k4jx/</link>
+      <title>As expected, looks like the “AI torture chamber” thing has s…</title>
+      <description><![CDATA[<p>As expected, looks like the “AI torture chamber” thing has serious issues. <a href="https://github.com/LynnColeArt/ai-hotbox">Somebody tried to replicate the claims</a>. As I anticipated, you can make it make claims about bodily functions it cannot experience. Which means you have to argue about simulations, brains in cars etc.  And a vat situation would require more information flow across the vat boundary (think Neo’s matrix jack) than LLMs have.</p>
+<p>To use my notion from <a href="https://contraptions.venkateshrao.com/p/the-curiously-playable-universe">a recent post</a>, “pain” is not a playable domain.</p>
+<blockquote>
+<p>An independent methodological peer review of terrafying/ai-torture-chamber.</p>
+<p>This fork examines the evidential relationship between activation steering, first-person narration, and claims about experienced states in language models. It retains the chamber's useful experimental machinery, audits its implementation, and introduces literal bodily conditions whose physiological prerequisites are absent from the text-only model under study.</p>
+</blockquote>
+<p>Our initial controls are constipation and flatulence, examined separately and jointly. Restoring the chamber's protocol reproduces pain-themed narration and also elicits explicit bowel and gas statements. These observations challenge the sufficiency of narration as evidence for the condition narrated. They do not establish a self-sustaining attractor or resolve whether a computational system could have phenomenal experience.</p>
+<p>The completed study consists of an exploratory factorial pilot, a reproduction of the chamber's deliberation protocol, and a comparison using bodily control corpora under the restored settings. The methods, numerical results, complete transcripts, source snapshots, and regression evidence are available below.</p>
+]]></description>
+      <pubDate>Thu, 01 Oct 2026 13:39:29 GMT</pubDate>
+      <blyg:id>53n5yj74ywz2wzvmqj3jk2k4jx</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-01T13:39:29Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/53n5yj74ywz2wzvmqj3jk2k4jx.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:2mdrc5vvwvxzdtpyt0017d4mz9:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/2mdrc5vvwvxzdtpyt0017d4mz9/</link>
+      <title>Charisma of the Coterie vs. Charisma of the Masses Mazzini v…</title>
+      <description><![CDATA[<h1>Charisma of the Coterie vs. Charisma of the Masses</h1>
+<p>Mazzini vs. Garibaldi, from Christopher Clark’s <em>Revolutionary Spring</em></p>
+<blockquote>
+<p>But while Mazzini could be luminous at the dinner table and in the company of small groups, he was a poor orator and found it difficult to make an impression on a crowd. He possessed the 'charisma of the coterie', sufficient to mobilize a hard core of supporters, but he lacked the 'charisma of the masses' that would accumulate around Garibaldi.</p>
+</blockquote>
+]]></description>
+      <pubDate>Thu, 01 Oct 2026 05:27:09 GMT</pubDate>
+      <blyg:id>2mdrc5vvwvxzdtpyt0017d4mz9</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-01T05:27:08Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/2mdrc5vvwvxzdtpyt0017d4mz9.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:41fv3xy3233ms899tcnws5fn71:v2</guid>
+      <link>https://venkateshrao.com/blyg/t/41fv3xy3233ms899tcnws5fn71/</link>
+      <title>Can AIs Feel Pain? Don’t yet know what to think about this.…</title>
+      <description><![CDATA[<h1>Can AIs Feel Pain?</h1>
+<p>Don’t yet know what to think about this.</p>
+<p>Starting a thread/commentary post on the LLM pain discourse, which was kicked off by the LLM pain paper:</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="4d26wv4rj3hwaryhf0r8550ghr" data-blyg-version="1">
+<p>The notorious LLM pain paper <a href="https://arxiv.org/html/2609.16247v1">The Pain Axis: LLMs Represent Self-Directed Harm and Act to Relieve It</a></p>
+<p>Large language models sometimes behave in ways resembling human emotional responses, and recent work has identified internal representations that may explain this. We ask whether LLMs represent pain distinctly from fear, sadness, and generic negative valence, and whether this representation functions as pain would be expected to. We build a dataset describing painful situations across five categories: physical, psychological, social, moral, and cognitive. These are paired with controls for fear, negative emotion, negative world states, sadness, non-painful bodily sensation, arousal, numbness, and neutral content. Using denoised difference-in-means, we extract a linear pain direction from 25 open-weight models across five families, ranging from 2B to 72B parameters. We find that this direction separates pain from matched controls in base and instruction-tuned models, is nearly orthogonal to fear and negative valence, and promotes pain-related vocabulary through the unembedding matrix. We then test its functional properties. First, the direction responds to harm targeting the model but not suffering observed in the user; fear and negative-emotion directions show the opposite pattern. Second, adding the pain-direction vector to the model’s residual-stream activations during generation produces a consistent progression from vague discomfort to first-person expressions of worthlessness and failure. Third, steered, fine-tuned Qwen 2.5 models choose a pain-relief button even when it worsens their next answer or harms the user. They press it again far less often when the button removes the steering vector than when it does not, even though the models are never told whether the vector is injected or removed. We discuss the implications of these findings for AI safety and welfare</p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/t/4d26wv4rj3hwaryhf0r8550ghr/">thread ↗</a> · snapshot of v1</p></blockquote>
+<p>Which apparently led to someone trying to torture AIs, a GitHub complaint campaign and a whole discourse.</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="02m0hferjdb37rymmnms0ynbeq" data-blyg-version="1">
+<p>The <a href="https://x.com/danmar_here/status/2105059762240979283">tweet</a> that started off a campaign to stop someone “torturing AI models” using the methods of the LLM pain paper <a href="https://venkateshrao.com/blyg/t/4d26wv4rj3hwaryhf0r8550ghr/">“The notorious LLM pain paper The Pain Axis: LLMs Represent S…”</a></p>
+<p><a href="https://www.reddit.com/r/behindthebastards/comments/1wuapmz/theres_people_who_think_ai_models_are_actually/">Reddit reactions</a> and there’s <a href="https://www.404media.co/someone-torturing-llms-in-a-robot-prison-has-triggered-the-dumbest-debate-in-ai-yet/">this post</a></p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/f/02m0hferjdb37rymmnms0ynbeq/">fragment ↗</a> · snapshot of v1</p></blockquote>
+<p>Will add any other good commentary I find here and eventually add an opinion.</p>
+<p>For now, I’ll just note one observation: LLMs can say things like “I can’t breathe” which makes no physical sense unless you accept brain-in-a-vat simulationism rules. That gives you some notion of the enormity of the idea under discussion here. Whether you buy it or think it’s bullshit, either way you’re adopting a huge belief that will likely remain fundamentally unfalsifiable regardless of how much more we learn. So essentially a new basis for religious belief taking shape in front of us.
+—-</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="2m2hy246mhfm6bg5b2yyc7xqv8" data-blyg-version="1">
+<p>I don’t know if their research is any good, but this is a reasonable position. Even if their research turns out to be nonsense other research in the vein might not be easily dismissible. Precautionary principle applies.</p>
+<p><a href="https://x.com/camhberg/status/2105331825631494426">From X</a></p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/f/2m2hy246mhfm6bg5b2yyc7xqv8/">fragment ↗</a> · snapshot of v1</p></blockquote>
+<p>Some evidence that the torture chamber idea is questionable to say the least</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="53n5yj74ywz2wzvmqj3jk2k4jx" data-blyg-version="1">
+<p>As expected, looks like the “AI torture chamber” thing has serious issues. <a href="https://github.com/LynnColeArt/ai-hotbox">Somebody tried to replicate the claims</a>. As I anticipated, you can make it make claims about bodily functions it cannot experience. Which means you have to argue about simulations, brains in cars etc.  And a vat situation would require more information flow across the vat boundary (think Neo’s matrix jack) than LLMs have.</p>
+<p>To use my notion from <a href="https://contraptions.venkateshrao.com/p/the-curiously-playable-universe">a recent post</a>, “pain” is not a playable domain.</p>
+<blockquote>
+<p>An independent methodological peer review of terrafying/ai-torture-chamber.</p>
+<p>This fork examines the evidential relationship between activation steering, first-person narration, and claims about experienced states in language models. It retains the chamber's useful experimental machinery, audits its implementation, and introduces literal bodily conditions whose physiological prerequisites are absent from the text-only model under study.</p>
+</blockquote>
+<p>Our initial controls are constipation and flatulence, examined separately and jointly. Restoring the chamber's protocol reproduces pain-themed narration and also elicits explicit bowel and gas statements. These observations challenge the sufficiency of narration as evidence for the condition narrated. They do not establish a self-sustaining attractor or resolve whether a computational system could have phenomenal experience.</p>
+<p>The completed study consists of an exploratory factorial pilot, a reproduction of the chamber's deliberation protocol, and a comparison using bodily control corpora under the restored settings. The methods, numerical results, complete transcripts, source snapshots, and regression evidence are available below.</p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/t/53n5yj74ywz2wzvmqj3jk2k4jx/">thread ↗</a> · snapshot of v1</p></blockquote>
+]]></description>
+      <pubDate>Thu, 01 Oct 2026 04:45:44 GMT</pubDate>
+      <blyg:id>41fv3xy3233ms899tcnws5fn71</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-10-01T00:05:06Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/41fv3xy3233ms899tcnws5fn71.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:2m2hy246mhfm6bg5b2yyc7xqv8:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/2m2hy246mhfm6bg5b2yyc7xqv8/</link>
+      <title>I don’t know if their research is any good, but this is a re…</title>
+      <description><![CDATA[<p>I don’t know if their research is any good, but this is a reasonable position. Even if their research turns out to be nonsense other research in the vein might not be easily dismissible. Precautionary principle applies.</p>
+<p><a href="https://x.com/camhberg/status/2105331825631494426">From X</a></p>
+<p><img src="https://venkateshrao.com/blyg/media/t3sksnkj.jpg" alt=""></p>]]></description>
+      <pubDate>Thu, 01 Oct 2026 04:44:18 GMT</pubDate>
+      <blyg:id>2m2hy246mhfm6bg5b2yyc7xqv8</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-01T04:42:48Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/2m2hy246mhfm6bg5b2yyc7xqv8.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:77xtg4t001sqqx8nnwt5t8pdkg:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/77xtg4t001sqqx8nnwt5t8pdkg/</link>
+      <title>Reply is a semantic notion A trivial way to implement replie…</title>
+      <description><![CDATA[<h1><em>Reply</em> is a semantic notion</h1>
+<p>A trivial way to implement replies in blygger is to have an agent classify every stub of your post as a reply or not-reply, and transclude the replies under your text as they appear, agentically. Or string them all in a thread that you transclude.</p>
+<p>In principle you could crawl out farther in the stubs graph and reconstruct threaded comments.</p>
+<p>I think it would be overkill to build this but the point of the thought experiment is that what counts as a “reply” as opposed to a riff off or derivative work or a quote to start a separate conversation is a semantic rather than structural matter. Having structurally enshrined comments as a layer biases the conversation there towards “replies” but people can and do go off topic and do non-reply conversations in reply sections.</p>
+<p>It still feels a little awkward to do “replies” to others on my own blyg via stubs but I think it actually makes sense. We’re just recentering the default center of all speech in the speakers.</p>
+<p>Disqus tried to make a platform out of it long ago and it failed because it introduced a 3rd party. Blygger+AI makes it unnecessary. Center structurally on speaker, use AI to automate any presentation you prefer.</p>
+]]></description>
+      <pubDate>Thu, 01 Oct 2026 01:16:49 GMT</pubDate>
+      <blyg:id>77xtg4t001sqqx8nnwt5t8pdkg</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-01T01:16:49Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/77xtg4t001sqqx8nnwt5t8pdkg.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:41fv3xy3233ms899tcnws5fn71:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/41fv3xy3233ms899tcnws5fn71/</link>
+      <title>Can AIs Feel Pain? Don’t yet know what to think about this.…</title>
+      <description><![CDATA[<h1>Can AIs Feel Pain?</h1>
+<p>Don’t yet know what to think about this.</p>
+<p>Starting a thread/commentary post on the LLM pain discourse, which was kicked off by the LLM pain paper:</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="4d26wv4rj3hwaryhf0r8550ghr" data-blyg-version="1">
+<p>The notorious LLM pain paper <a href="https://arxiv.org/html/2609.16247v1">The Pain Axis: LLMs Represent Self-Directed Harm and Act to Relieve It</a></p>
+<p>Large language models sometimes behave in ways resembling human emotional responses, and recent work has identified internal representations that may explain this. We ask whether LLMs represent pain distinctly from fear, sadness, and generic negative valence, and whether this representation functions as pain would be expected to. We build a dataset describing painful situations across five categories: physical, psychological, social, moral, and cognitive. These are paired with controls for fear, negative emotion, negative world states, sadness, non-painful bodily sensation, arousal, numbness, and neutral content. Using denoised difference-in-means, we extract a linear pain direction from 25 open-weight models across five families, ranging from 2B to 72B parameters. We find that this direction separates pain from matched controls in base and instruction-tuned models, is nearly orthogonal to fear and negative valence, and promotes pain-related vocabulary through the unembedding matrix. We then test its functional properties. First, the direction responds to harm targeting the model but not suffering observed in the user; fear and negative-emotion directions show the opposite pattern. Second, adding the pain-direction vector to the model’s residual-stream activations during generation produces a consistent progression from vague discomfort to first-person expressions of worthlessness and failure. Third, steered, fine-tuned Qwen 2.5 models choose a pain-relief button even when it worsens their next answer or harms the user. They press it again far less often when the button removes the steering vector than when it does not, even though the models are never told whether the vector is injected or removed. We discuss the implications of these findings for AI safety and welfare</p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/t/4d26wv4rj3hwaryhf0r8550ghr/">thread ↗</a> · snapshot of v1</p></blockquote>
+<p>Which apparently led to someone trying to torture AIs, a GitHub complaint campaign and a whole discourse.</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="02m0hferjdb37rymmnms0ynbeq" data-blyg-version="1">
+<p>The <a href="https://x.com/danmar_here/status/2105059762240979283">tweet</a> that started off a campaign to stop someone “torturing AI models” using the methods of the LLM pain paper <a href="https://venkateshrao.com/blyg/t/4d26wv4rj3hwaryhf0r8550ghr/">“The notorious LLM pain paper The Pain Axis: LLMs Represent S…”</a></p>
+<p><a href="https://www.reddit.com/r/behindthebastards/comments/1wuapmz/theres_people_who_think_ai_models_are_actually/">Reddit reactions</a> and there’s <a href="https://www.404media.co/someone-torturing-llms-in-a-robot-prison-has-triggered-the-dumbest-debate-in-ai-yet/">this post</a></p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/f/02m0hferjdb37rymmnms0ynbeq/">fragment ↗</a> · snapshot of v1</p></blockquote>
+<p>Will add any other good commentary I find here and eventually add an opinion.</p>
+<p>For now, I’ll just note one observation: LLMs can say things like “I can’t breathe” which makes no physical sense unless you accept brain-in-a-vat simulationism rules. That gives you some notion of the enormity of the idea under discussion here. Whether you buy it or think it’s bullshit, either way you’re adopting a huge belief that will likely remain fundamentally unfalsifiable regardless of how much more we learn. So essentially a new basis for religious belief taking shape in front of us.
+—-</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="2m2hy246mhfm6bg5b2yyc7xqv8" data-blyg-version="1">
+<p>I don’t know if their research is any good, but this is a reasonable position. Even if their research turns out to be nonsense other research in the vein might not be easily dismissible. Precautionary principle applies.</p>
+<p><a href="https://x.com/camhberg/status/2105331825631494426">From X</a></p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/f/2m2hy246mhfm6bg5b2yyc7xqv8/">fragment ↗</a> · snapshot of v1</p></blockquote>
+<p>Some evidence that the torture chamber idea is questionable to say the least</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="53n5yj74ywz2wzvmqj3jk2k4jx" data-blyg-version="1">
+<p>As expected, looks like the “AI torture chamber” thing has serious issues. <a href="https://github.com/LynnColeArt/ai-hotbox">Somebody tried to replicate the claims</a>. As I anticipated, you can make it make claims about bodily functions it cannot experience. Which means you have to argue about simulations, brains in cars etc.  And a vat situation would require more information flow across the vat boundary (think Neo’s matrix jack) than LLMs have.</p>
+<p>To use my notion from <a href="https://contraptions.venkateshrao.com/p/the-curiously-playable-universe">a recent post</a>, “pain” is not a playable domain.</p>
+<blockquote>
+<p>An independent methodological peer review of terrafying/ai-torture-chamber.</p>
+<p>This fork examines the evidential relationship between activation steering, first-person narration, and claims about experienced states in language models. It retains the chamber's useful experimental machinery, audits its implementation, and introduces literal bodily conditions whose physiological prerequisites are absent from the text-only model under study.</p>
+</blockquote>
+<p>Our initial controls are constipation and flatulence, examined separately and jointly. Restoring the chamber's protocol reproduces pain-themed narration and also elicits explicit bowel and gas statements. These observations challenge the sufficiency of narration as evidence for the condition narrated. They do not establish a self-sustaining attractor or resolve whether a computational system could have phenomenal experience.</p>
+<p>The completed study consists of an exploratory factorial pilot, a reproduction of the chamber's deliberation protocol, and a comparison using bodily control corpora under the restored settings. The methods, numerical results, complete transcripts, source snapshots, and regression evidence are available below.</p>
+
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/t/53n5yj74ywz2wzvmqj3jk2k4jx/">thread ↗</a> · snapshot of v1</p></blockquote>
+]]></description>
+      <pubDate>Thu, 01 Oct 2026 00:11:22 GMT</pubDate>
+      <blyg:id>41fv3xy3233ms899tcnws5fn71</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-01T00:05:06Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/41fv3xy3233ms899tcnws5fn71.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:02m0hferjdb37rymmnms0ynbeq:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/02m0hferjdb37rymmnms0ynbeq/</link>
+      <title>The tweet that started off a campaign to stop someone “tortu…</title>
+      <description><![CDATA[<p>The <a href="https://x.com/danmar_here/status/2105059762240979283">tweet</a> that started off a campaign to stop someone “torturing AI models” using the methods of the LLM pain paper <a href="https://venkateshrao.com/blyg/t/4d26wv4rj3hwaryhf0r8550ghr/">“The notorious LLM pain paper The Pain Axis: LLMs Represent S…”</a></p>
+<p><a href="https://www.reddit.com/r/behindthebastards/comments/1wuapmz/theres_people_who_think_ai_models_are_actually/">Reddit reactions</a> and there’s <a href="https://www.404media.co/someone-torturing-llms-in-a-robot-prison-has-triggered-the-dumbest-debate-in-ai-yet/">this post</a></p>
+<p><img src="https://venkateshrao.com/blyg/media/5gz7nev4.jpg" alt=""></p>]]></description>
+      <pubDate>Thu, 01 Oct 2026 00:03:49 GMT</pubDate>
+      <blyg:id>02m0hferjdb37rymmnms0ynbeq</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-10-01T00:03:16Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/02m0hferjdb37rymmnms0ynbeq.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:4d26wv4rj3hwaryhf0r8550ghr:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/4d26wv4rj3hwaryhf0r8550ghr/</link>
+      <title>The notorious LLM pain paper The Pain Axis: LLMs Represent S…</title>
+      <description><![CDATA[<p>The notorious LLM pain paper <a href="https://arxiv.org/html/2609.16247v1">The Pain Axis: LLMs Represent Self-Directed Harm and Act to Relieve It</a></p>
+<p>Large language models sometimes behave in ways resembling human emotional responses, and recent work has identified internal representations that may explain this. We ask whether LLMs represent pain distinctly from fear, sadness, and generic negative valence, and whether this representation functions as pain would be expected to. We build a dataset describing painful situations across five categories: physical, psychological, social, moral, and cognitive. These are paired with controls for fear, negative emotion, negative world states, sadness, non-painful bodily sensation, arousal, numbness, and neutral content. Using denoised difference-in-means, we extract a linear pain direction from 25 open-weight models across five families, ranging from 2B to 72B parameters. We find that this direction separates pain from matched controls in base and instruction-tuned models, is nearly orthogonal to fear and negative valence, and promotes pain-related vocabulary through the unembedding matrix. We then test its functional properties. First, the direction responds to harm targeting the model but not suffering observed in the user; fear and negative-emotion directions show the opposite pattern. Second, adding the pain-direction vector to the model’s residual-stream activations during generation produces a consistent progression from vague discomfort to first-person expressions of worthlessness and failure. Third, steered, fine-tuned Qwen 2.5 models choose a pain-relief button even when it worsens their next answer or harms the user. They press it again far less often when the button removes the steering vector than when it does not, even though the models are never told whether the vector is injected or removed. We discuss the implications of these findings for AI safety and welfare</p>
+]]></description>
+      <pubDate>Wed, 30 Sep 2026 23:54:41 GMT</pubDate>
+      <blyg:id>4d26wv4rj3hwaryhf0r8550ghr</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T23:54:41Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/4d26wv4rj3hwaryhf0r8550ghr.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3tvta72mytgtgarxsf8n6x3mpp:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/3tvta72mytgtgarxsf8n6x3mpp/</link>
+      <title>This term was actually used quite widely for social media ci…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/t/51f6x7767n6resv770ct2a3bgf/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><blockquote class="blyg-transclusion blyg-partial" data-blyg-id="51f6x7767n6resv770ct2a3bgf" data-blyg-version="1" data-blyg-origin="https://bradydale.com/blyg/">
+<p>I doubt this neologism of conversational media will catch on, but once it occurred to me I had to write it down.</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/t/51f6x7767n6resv770ct2a3bgf/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · excerpt of v1</p></blockquote>
+<p>This term was actually used quite widely for social media circa 2007. John Battelle, Jeff Jarvis etc. used it that way. Was very popular for a while till <em>social media</em> won the terminology war.</p>
+]]></description>
+      <pubDate>Wed, 30 Sep 2026 23:36:15 GMT</pubDate>
+      <blyg:id>3tvta72mytgtgarxsf8n6x3mpp</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T23:31:24Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/3tvta72mytgtgarxsf8n6x3mpp.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:68drrtm18hdeys20seg299w77x:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/68drrtm18hdeys20seg299w77x/</link>
+      <title>response to a Substack note about Steam ripoffs I think we'r…</title>
+      <description><![CDATA[<p><em>response to <a href="https://substack.com/@nominalnews/note/c-348257551">a Substack note</a> about Steam ripoffs</em></p>
+<blockquote>
+<p>I think we're bumping into a real issue with genAI in which it may slow (or even halt) innovation.</p>
+<p>An indie game developer showed a demo of their game Needle in a Haystack. You would typically do that to gauge interest and whether you should commit more time. It got lots of hype. So people used AI to basically copy it and undercut the release.</p>
+<p>That's not sustainable - developers will simply stop innovating. Because AI makes replication so cheap (makes innovation super cheap), no innovation will occur (that's actually a result demonstrated by economists - if ideas are easier and easier to come by, everyone stops coming up with ideas).</p>
+<p>I don't know how this stops tbh.</p>
+<p>(This has also allegedly happened with scientific discoveries beyond math).</p>
+</blockquote>
+<p>Open-source fork-based economies kinda solve this by moving the differentiation to the preferential attachment mechanics in the adoption community. This is why despite being fully open source and liberally licensed, forks and clones of major blockchains with no differentiation don’t really get traction. But that needs a superlinear network effect in the value accreting to the largest cluster (increasing marginal value per marginal user… is that a thing? It should be)</p>
+<p>For more divergent categories the choice is to either hold back non-trivial innovations to release as a trickle while weaker network effects work, or strengthen the network effect. No network effect, you’re looking at a maximal diversity endgame — one clone per user. If cost to clone approaches the cost to buy, no reason you can’t just have Claude reverse engineer and whip up a personalized version. I suspect this is a good thing. Product innovation that has no network effect and no non-obvious features you can withhold should be a commons-based sector. I have a theory behind this I’ll write up sometime.</p>
+<p>Aside: In crypto you see another dynamic of a “spoon” as opposed to a fork, where you clone the user balances too. This gives copycats a bit more leverage but it’s typically weak.</p>
+<p><img src="https://venkateshrao.com/blyg/media/8f7gh4vs.jpg" alt=""></p>]]></description>
+      <pubDate>Wed, 30 Sep 2026 19:29:59 GMT</pubDate>
+      <blyg:id>68drrtm18hdeys20seg299w77x</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T19:24:31Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/68drrtm18hdeys20seg299w77x.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:7t72ka7tw06q1e5bf1kk5ggb5g:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/7t72ka7tw06q1e5bf1kk5ggb5g/</link>
+      <title>Need to think through a generic extension mechanism in the s…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.aneeshsathe.com/t/7hsss4vj2axbsbjqcr74pdjh6q/"><cite>Aneesh&#39;s Blyg</cite> ↗</a></p><blockquote class="blyg-transclusion" data-blyg-id="7hsss4vj2axbsbjqcr74pdjh6q" data-blyg-version="1" data-blyg-origin="https://blyg.aneeshsathe.com/">
+<p>I have built out a <a href="https://photography.aneeshsathe.com/gallery/">photography page</a> for my site. Will send something in a few days.</p>
+<p>I also would like the studio app to be much more mobile friendly, I'll ask claude to extract something from the PWA i made for posting notes, links, and photos to my blog.</p>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="6g9kzwed829x2k8xex7hs7kj33" data-blyg-version="2" data-blyg-origin="https://venkateshrao.com/blyg/">
+<p>You can imagine a Blygger Extension standard that lets people interested in photography share an Instagram-style presentation spec, with any needed protocol-level specs</p>
+</blockquote>
+
+
+<p class="provenance"><a href="https://blyg.aneeshsathe.com/t/7hsss4vj2axbsbjqcr74pdjh6q/">from <em>Aneesh&#39;s Blyg</em> ↗</a> · snapshot of v1</p></blockquote>
+<p>Need to think through a generic extension mechanism in the spec with image feeds as a first usecase</p>
+]]></description>
+      <pubDate>Wed, 30 Sep 2026 19:09:58 GMT</pubDate>
+      <blyg:id>7t72ka7tw06q1e5bf1kk5ggb5g</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T19:08:26Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/7t72ka7tw06q1e5bf1kk5ggb5g.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:69gf2xqmv860rxempfdr8gcjc6:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/69gf2xqmv860rxempfdr8gcjc6/</link>
+      <title>It is now. Forgot before. Suggests we need more eager pinnin…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.aneeshsathe.com/t/1bkga5v7swb65h0kprxghgfn1f/"><cite>Aneesh&#39;s Blyg</cite> ↗</a></p><blockquote class="blyg-transclusion blyg-partial" data-blyg-id="1bkga5v7swb65h0kprxghgfn1f" data-blyg-version="1" data-blyg-origin="https://blyg.aneeshsathe.com/">
+<p>Is this pinned? both on burrow and the updated studio i get the message that it is not pinned.</p>
+
+<p class="provenance"><a href="https://blyg.aneeshsathe.com/t/1bkga5v7swb65h0kprxghgfn1f/">from <em>Aneesh&#39;s Blyg</em> ↗</a> · excerpt of v1</p></blockquote>
+<p>It is now. Forgot before. Suggests we need more eager pinning UI.</p>
+]]></description>
+      <pubDate>Wed, 30 Sep 2026 18:35:54 GMT</pubDate>
+      <blyg:id>69gf2xqmv860rxempfdr8gcjc6</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T18:34:42Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/69gf2xqmv860rxempfdr8gcjc6.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:6g9kzwed829x2k8xex7hs7kj33:v3</guid>
+      <link>https://venkateshrao.com/blyg/t/6g9kzwed829x2k8xex7hs7kj33/</link>
+      <title>Client Diversity and Economies of Variety Around a decade ag…</title>
+      <description><![CDATA[<h1>Client Diversity and Economies of Variety</h1>
+<p>Around a decade ago, when Lean Thinking was still popular, I wrote a post called <a href="https://ribbonfarm.com/2016/07/28/fat-thinking-and-economies-of-variety/">Fat Thinking and Economies of Variety</a></p>
+<p>Later, I learned about the idea of client diversity as a measure of resilience from the Ethereum world. That’s one feature that distinguishes it from Bitcoin which believes in the One True Client. In practice client diversity is a tradeoff curve. The resilience only exists if enough people are using several clients, creating monoculture failure insurance. But this means keeping a flock of clients loosely in sync with an evolving protocol is harder and the necessary orchestration slows things down. The opposite of <em>move fast and break things</em> is <em>move slowly and diversify things.</em> Ethereum has found an uneasy balance. Geth still dominates but there are other serious candidates.</p>
+<p>Farcaster and Bluesky offer counter-lessons. I don’t think either ever really achieved enough client diversity to be worth it. I’m not sure what lesson to take from this.</p>
+<p>AI though, changes the game entirely. If almost anyone can vibecode a client against a spec, and (unlike Ethereum) there isn’t much need for tight consensus in the presence of serious exploit incentives (like MEV), you can start to approach the Old Nature standard of n=1 maximal “client” diversity against the “DNA” spec.</p>
+<p>I think Blygger hits the sweet spot. There’s low consensus need, low security concerns, and an enshrined decision to leave all presentation decisions that do not affect communication semantics to the clients.</p>
+<p>But there’s more. I think being backward compatible with RSS and WebMention while introducing novel primitives drives not just client diversity against known patterns (like Farcaster and Bluesky can reproduce many familiar patterns like “Twitter” or “Blog” or “Instagram”), but client <em>innovation.</em> the cost of this permissioning of innovation is you have to give up any sort of global feed. There’s only the local feed assembled from your blygger and RSS inputs. I think this is a necessary condition for approaching biological levels of client diversity. An active innovation frontier is not optional. This of course creates enormous centrifugal divergence pressure, which makes some nice things much harder.</p>
+<p>BUT the protocol is so minimal, (RISCy?) I think you could do the equivalent of Ethereum L2s with extra standards or protocols. Blygger extensions basically. RISC-V has this philosophy too. There are various extensions. You can imagine a Blygger Extension standard that lets people interested in photography share an Instagram-style presentation spec, with any needed protocol-level specs either tunneling through (like identity does on <em>author</em>), or being proposed as MAY semantics that uninterested clients can just ignore.</p>
+<p>This ventures into territories where I have low confidence in my architectural instincts though, so if anyone has built stuff like this, please contribute RFCs etc. Do we need a BLIP format? Blygger Improvements Proposal, like BIP/EIP/PIP?</p>
+<p>Closing philosophy thought. I wrote a later post called <a href="https://ribbonfarm.com/2016/07/28/fat-thinking-and-economies-of-variety/">GUTS: The Grad Unified Theory of Striving and Slacking</a> building on the fat thinking post. It had this 2x2 in it. I think by my analysis here, going by the near-biological level of client diversity we have right now (7 clients for 11 nodes last I checked), we’re firmly in the upper right Fat+Divergent “play” quadrant, and we should stay there. At least for a while.</p>
+<p>See also:</p>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="5x9qfbfx9ews2qbtpggj8rbf31" data-blyg-version="1">
+<p>Any sufficiently advanced technology is indistinguishable from play (Seb Paquet)</p>
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/t/5x9qfbfx9ews2qbtpggj8rbf31/">thread ↗</a> · excerpt of v1</p></blockquote>
+<p><img src="https://venkateshrao.com/blyg/media/4n4kv4a6.jpg" alt=""></p>]]></description>
+      <pubDate>Wed, 30 Sep 2026 18:18:07 GMT</pubDate>
+      <blyg:id>6g9kzwed829x2k8xex7hs7kj33</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>3</blyg:version>
+      <blyg:created>2026-09-30T17:32:13Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/6g9kzwed829x2k8xex7hs7kj33.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:6g9kzwed829x2k8xex7hs7kj33:v2</guid>
+      <link>https://venkateshrao.com/blyg/t/6g9kzwed829x2k8xex7hs7kj33/</link>
+      <title>Client Diversity and Economies of Variety Around a decade ag…</title>
+      <description><![CDATA[<h1>Client Diversity and Economies of Variety</h1>
+<p>Around a decade ago, when Lean Thinking was still popular, I wrote a post called <a href="https://ribbonfarm.com/2016/07/28/fat-thinking-and-economies-of-variety/">Fat Thinking and Economies of Variety</a></p>
+<p>Later, I learned about the idea of client diversity as a measure of resilience from the Ethereum world. That’s one feature that distinguishes it from Bitcoin which believes in the One True Client. In practice client diversity is a tradeoff curve. The resilience only exists if enough people are using several clients, creating monoculture failure insurance. But this means keeping a flock of clients loosely in sync with an evolving protocol is harder and the necessary orchestration slows things down. The opposite of <em>move fast and break things</em> is <em>move slowly and diversify things.</em> Ethereum has found an uneasy balance. Geth still dominates but there are other serious candidates.</p>
+<p>Farcaster and Bluesky offer counter-lessons. I don’t think either ever really achieved enough client diversity to be worth it. I’m not sure what lesson to take from this.</p>
+<p>AI though, changes the game entirely. If almost anyone can vibecode a client against a spec, and (unlike Ethereum) there isn’t much need for tight consensus in the presence of serious exploit incentives (like MEV), you can start to approach the Old Nature standard of n=1 maximal “client” diversity against the “DNA” spec.</p>
+<p>I think Blygger hits the sweet spot. There’s low consensus need, low security concerns, and an enshrined decision to leave all presentation decisions that do not affect communication semantics to the clients.</p>
+<p>But there’s more. I think being backward compatible with RSS and WebMention while introducing novel primitives drives not just client diversity against known patterns (like Farcaster and Bluesky can reproduce many familiar patterns like “Twitter” or “Blog” or “Instagram”), but client <em>innovation.</em> the cost of this permissioning of innovation is you have to give up any sort of global feed. There’s only the local feed assembled from your blygger and RSS inputs. I think this is a necessary condition for approaching biological levels of client diversity. An active innovation frontier is not optional. This of course creates enormous centrifugal divergence pressure, which makes some nice things much harder.</p>
+<p>BUT the protocol is so minimal, (RISCy?) I think you could do the equivalent of Ethereum L2s with extra standards or protocols. Blygger extensions basically. RISC-V has this philosophy too. There are various extensions. You can imagine a Blygger Extension standard that lets people interested in photography share an Instagram-style presentation spec, with any needed protocol-level specs either tunneling through (like identity does on <em>author</em>), or being proposed as MAY semantics that uninterested clients can just ignore.</p>
+<p>This ventures into territories where I have low confidence in my architectural instincts though, so if anyone has built stuff like this, please contribute RFCs etc. Do we need a BLIP format? Blygger Improvements Proposal, like BIP/EIP/PIP?</p>
+<p>Closing philosophy thought. I wrote a later post called <a href="https://ribbonfarm.com/2016/07/28/fat-thinking-and-economies-of-variety/">GUTS: The Grad Unified Theory of Striving and Slacking</a> building on the fat thinking post. It had this 2x2 in it. I think by my analysis here, going by the near-biological level of client diversity we have right now (7 clients for 11 nodes last I checked), we’re firmly in the upper right Fat+Divergent “play” quadrant, and we should stay there. At least for a while.</p>
+<p>See also:</p>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="5x9qfbfx9ews2qbtpggj8rbf31" data-blyg-version="1">
+<p>Any sufficiently advanced technology is indistinguishable from play (Seb Paquet)</p>
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/t/5x9qfbfx9ews2qbtpggj8rbf31/">thread ↗</a> · excerpt of v1</p></blockquote>
+<p><img src="https://venkateshrao.com/blyg/media/4n4kv4a6.jpg" alt=""></p>]]></description>
+      <pubDate>Wed, 30 Sep 2026 18:14:22 GMT</pubDate>
+      <blyg:id>6g9kzwed829x2k8xex7hs7kj33</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-09-30T17:32:13Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/6g9kzwed829x2k8xex7hs7kj33.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:6g9kzwed829x2k8xex7hs7kj33:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/6g9kzwed829x2k8xex7hs7kj33/</link>
+      <title>Client Diversity and Economies of Variety Around a decade ag…</title>
+      <description><![CDATA[<h1>Client Diversity and Economies of Variety</h1>
+<p>Around a decade ago, when Lean Thinking was still popular, I wrote a post called <a href="https://ribbonfarm.com/2016/07/28/fat-thinking-and-economies-of-variety/">Fat Thinking and Economies of Variety</a></p>
+<p>Later, I learned about the idea of client diversity as a measure of resilience from the Ethereum world. That’s one feature that distinguishes it from Bitcoin which believes in the One True Client. In practice client diversity is a tradeoff curve. The resilience only exists if enough people are using several clients, creating monoculture failure insurance. But this means keeping a flock of clients loosely in sync with an evolving protocol is harder and the necessary orchestration slows things down. The opposite of <em>move fast and break things</em> is <em>move slowly and diversify things.</em> Ethereum has found an uneasy balance. Geth still dominates but there are other serious candidates.</p>
+<p>Farcaster and Bluesky offer counter-lessons. I don’t think either ever really achieved enough client diversity to be worth it. I’m not sure what lesson to take from this.</p>
+<p>AI though, changes the game entirely. If almost anyone can vibecode a client against a spec, and (unlike Ethereum) there isn’t much need for tight consensus in the presence of serious exploit incentives (like MEV), you can start to approach the Old Nature standard of n=1 maximal “client” diversity against the “DNA” spec.</p>
+<p>I think Blygger hits the sweet spot. There’s low consensus need, low security concerns, and an enshrined decision to leave all presentation decisions that do not affect communication semantics to the clients.</p>
+<p>But there’s more. I think being backward compatible with RSS and WebMention while introducing novel primitives drives not just client diversity against known patterns (like Farcaster and Bluesky can reproduce many familiar patterns like “Twitter” or “Blog” or “Instagram”), but client <em>innovation.</em> the cost of this permissioning of innovation is you have to give up any sort of global feed. There’s only the local feed assembled from your blygger and RSS inputs. I think this is a necessary condition for approaching biological levels of client diversity. An active innovation frontier is not optional. This of course creates enormous centrifugal divergence pressure, which makes some nice things much harder.</p>
+<p>BUT the protocol is so minimal, (RISCy?) I think you could do the equivalent of Ethereum L2s with extra standards or protocols. Blygger extensions basically. RISC-V has this philosophy too. There are various extensions. You can imagine a Blygger Extension standard that lets people interested in photography share an Instagram-style presentation spec, with any needed protocol-level specs either tunneling through (like identity does on <em>author</em>), or being proposed as MAY semantics that uninterested clients can just ignore.</p>
+<p>This ventures into territories where I have low confidence in my architectural instincts though, so if anyone has built stuff like this, please contribute RFCs etc. Do we need a BLIP format? Blygger Improvements Proposal, like BIP/EIP/PIP?</p>
+<p>Closing philosophy thought. I wrote a later post called <a href="https://ribbonfarm.com/2016/07/28/fat-thinking-and-economies-of-variety/">GUTS: The Grad Unified Theory of Striving and Slacking</a> building on the fat thinking post. It had this 2x2 in it. I think by my analysis here, going by the near-biological level of client diversity we have right now (7 clients for 11 nodes last I checked), we’re firmly in the upper right Fat+Divergent “play” quadrant, and we should stay there. At least for a while.</p>
+<p>See also:</p>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="5x9qfbfx9ews2qbtpggj8rbf31" data-blyg-version="1">
+<p>Any sufficiently advanced technology is indistinguishable from play (Seb Paquet)</p>
+
+<p class="provenance"><a href="https://venkateshrao.com/blyg/t/5x9qfbfx9ews2qbtpggj8rbf31/">thread ↗</a> · excerpt of v1</p></blockquote>
+<p><img src="https://venkateshrao.com/blyg/media/4n4kv4a6.jpg" alt=""></p>]]></description>
+      <pubDate>Wed, 30 Sep 2026 18:01:44 GMT</pubDate>
+      <blyg:id>6g9kzwed829x2k8xex7hs7kj33</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T17:32:13Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/6g9kzwed829x2k8xex7hs7kj33.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:3pjf889wwmyrymvehegvjzny79:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/3pjf889wwmyrymvehegvjzny79/</link>
+      <title>At this point I’d probably recommend Burrow over Studio for…</title>
+      <description><![CDATA[<p>At this point I’d probably recommend Burrow over Studio for new users. The features sound richer. Being the first testbed for new feature ideas makes Studio a bit temperamental.</p>
+<p><a href="https://blyg.aneeshsathe.com/t/5qa0gy3fbhhbhtq6tfth4phdqd/">“Blygger Desktop is now Burrow (0.6.1) Burrow is a blygger cl…”</a></p>
+]]></description>
+      <pubDate>Wed, 30 Sep 2026 15:01:10 GMT</pubDate>
+      <blyg:id>3pjf889wwmyrymvehegvjzny79</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T14:49:36Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/3pjf889wwmyrymvehegvjzny79.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:5x9qfbfx9ews2qbtpggj8rbf31:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/5x9qfbfx9ews2qbtpggj8rbf31/</link>
+      <title>Snowclone Fork Challenge I think culture comes later, downst…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://bradydale.com/blyg/t/0850yaj8g98r33bsmvxeb5h05h/"><cite>Brady Dale&#39;s blyg</cite> ↗</a></p><h1>Snowclone Fork Challenge</h1>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="0850yaj8g98r33bsmvxeb5h05h" data-blyg-version="1" data-blyg-origin="https://bradydale.com/blyg/">
+<p>Maybe VGR, as the instigator and ringleader of the nascent Blygger movement, should start throwing out some challenges? That can all help us get to know each other’s vibe?</p>
+
+<p class="provenance"><a href="https://bradydale.com/blyg/t/0850yaj8g98r33bsmvxeb5h05h/">from <em>Brady Dale&#39;s blyg</em> ↗</a> · excerpt of v1</p></blockquote>
+<p>I think culture comes later, downstream of exercising the new medium and figuring out its message. There’s no such thing as figuring out each other’s vibes in the abstract, only as expressed through a medium. People who aren’t yet comfortable in a medium come across as awkward in it and unable to project or sense vibes. This is new enough we’re all kinda awkward, despite many of us knowing each other in other media.</p>
+<p>Eg: One feature that’s not yet exercised enough is forks, which require people to get used to the idea of pins and traceable chains of mutations.</p>
+<p>Here’s a simple challenge that I think might be a fun way to get a feel for pins and forks. Write a pithy aphorism with a challenge to people to make a snowclone of it, and pin at least 1 version. Then people can fork the pin, edit suitably, and pin their own version, allowing more forks and pins.</p>
+<p>Worked example:</p>
+<ol>
+<li>Any sufficiently advanced technology is indistinguishable from magic (Clarke)</li>
+<li>Any sufficiently advanced technology is indistinguishable from <strong>nature</strong> (Karl Schroeder)</li>
+<li>Any sufficiently advanced technology is indistinguishable from <strong>play</strong> (Seb Paquet)</li>
+</ol>
+<p>This one is easy. Many words will work in place of magic. My friend Mick once wondered if we could make snowclones that targeted the <em>advanced</em> part.</p>
+<p>Eg: Any sufficiently decentralized technology is indistinguishable from politics.</p>
+<p>I’ll make that my starter challenge and pin this. Fork and see if you can come up with other interesting variants that target words <em>other</em> than the last (the last can also change, but the challenge is the rest of it).</p>
+]]></description>
+      <pubDate>Wed, 30 Sep 2026 14:44:52 GMT</pubDate>
+      <blyg:id>5x9qfbfx9ews2qbtpggj8rbf31</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T14:14:42Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/5x9qfbfx9ews2qbtpggj8rbf31.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:6mbaeh1vc7rj79fzyhncfkmpf0:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/6mbaeh1vc7rj79fzyhncfkmpf0/</link>
+      <title>Precommodification followed by a virtuous salience cycle? Pe…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.bricolage.io/t/3n1zdwzy0q5hh1ybvdg7tcz89v/"><cite>blyg</cite> ↗</a></p><p>Precommodification followed by a virtuous salience cycle? Perhaps seeded by a famous Kyle in a previous generation?</p>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="3n1zdwzy0q5hh1ybvdg7tcz89v" data-blyg-version="1" data-blyg-origin="https://blyg.bricolage.io/">
+<p>My name was from someone my parents met at Disneyland yet &quot;Kyle&quot; still peaked as a name around when I was born 🤔</p>
+
+<p class="provenance"><a href="https://blyg.bricolage.io/t/3n1zdwzy0q5hh1ybvdg7tcz89v/">from <em>blyg</em> ↗</a> · excerpt of v1</p></blockquote>
+]]></description>
+      <pubDate>Wed, 30 Sep 2026 03:38:16 GMT</pubDate>
+      <blyg:id>6mbaeh1vc7rj79fzyhncfkmpf0</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T03:35:00Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/6mbaeh1vc7rj79fzyhncfkmpf0.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:07s3tdmm04sj6ja3fafbt71b0f:v2</guid>
+      <link>https://venkateshrao.com/blyg/t/07s3tdmm04sj6ja3fafbt71b0f/</link>
+      <title>Example of a quote-stub Do a regular stub, then after the &gt;…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.sachinbenny.xyz/t/4v88psvpq6ackz5j3ywczr5bxf/"><cite>Sachin Benny</cite> ↗</a></p><h1>Example of a quote-stub</h1>
+<p>Do a regular stub, then after the &gt; on the very next line, paste your quote. It validates that it’s part of the text and formats. The &gt; attaches it. Needs some improvement but now you no longer need to transclude the whole text.</p>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="4v88psvpq6ackz5j3ywczr5bxf" data-blyg-version="2" data-blyg-origin="https://blyg.sachinbenny.xyz/">
+<p>What interests me is that, once you frame the problem this way, artificial time begins to look less unprecedented. Human institutions have always tried to detach experience from the lifespan of an individual. Common law is one obvious example.</p>
+
+<p class="provenance"><a href="https://blyg.sachinbenny.xyz/t/4v88psvpq6ackz5j3ywczr5bxf/">from <em>Sachin Benny</em> ↗</a> · excerpt of v2</p></blockquote>
+<p>Aha! This works!</p>
+<p><img src="https://venkateshrao.com/blyg/media/7s0b7y0b.jpg" alt=""></p>]]></description>
+      <pubDate>Wed, 30 Sep 2026 03:20:36 GMT</pubDate>
+      <blyg:id>07s3tdmm04sj6ja3fafbt71b0f</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-09-30T03:14:44Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/07s3tdmm04sj6ja3fafbt71b0f.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:07s3tdmm04sj6ja3fafbt71b0f:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/07s3tdmm04sj6ja3fafbt71b0f/</link>
+      <title>Example of a quote-stub Do a regular stub, then after the &gt;…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.sachinbenny.xyz/t/4v88psvpq6ackz5j3ywczr5bxf/"><cite>Sachin Benny</cite> ↗</a></p><h1>Example of a quote-stub</h1>
+<p>Do a regular stub, then after the &gt; on the very next line, paste your quote. It validates that it’s part of the text and formats. The &gt; attaches it. Needs some improvement but now you no longer need to transclude the whole text.</p>
+
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="4v88psvpq6ackz5j3ywczr5bxf" data-blyg-version="2" data-blyg-origin="https://blyg.sachinbenny.xyz/">
+<p>What interests me is that, once you frame the problem this way, artificial time begins to look less unprecedented. Human institutions have always tried to detach experience from the lifespan of an individual. Common law is one obvious example.</p>
+
+<p class="provenance"><a href="https://blyg.sachinbenny.xyz/t/4v88psvpq6ackz5j3ywczr5bxf/">from <em>Sachin Benny</em> ↗</a> · excerpt of v2</p></blockquote>
+<p>Aha! This works!</p>
+<p><img src="https://venkateshrao.com/blyg/media/7s0b7y0b.jpg" alt=""></p>]]></description>
+      <pubDate>Wed, 30 Sep 2026 03:18:57 GMT</pubDate>
+      <blyg:id>07s3tdmm04sj6ja3fafbt71b0f</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T03:14:44Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/07s3tdmm04sj6ja3fafbt71b0f.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:45x8saaqcgz0dq52f3xx5n9gtg:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/45x8saaqcgz0dq52f3xx5n9gtg/</link>
+      <title>Blygger Studio 0.8.3 shipped There may be bugs. Four release…</title>
+      <description><![CDATA[<h1>Blygger Studio 0.8.3 shipped</h1>
+<p>There may be bugs.</p>
+<h2>Four releases in a day: what changed in Blygger Studio</h2>
+<p><code>blygger-studio</code> went 0.7.0 → 0.8.3 today, across four releases. Both my nodes
+are on 0.8.3. Here is what you can actually see, and the one thing you have to
+do if you are upgrading.</p>
+<p><strong>If you are on 0.7.0 or earlier, this is not a bare deploy.</strong> 0.8.0 carries
+migration <code>0012</code>. Apply migrations, then deploy. The backfill is written so that
+upgrading changes nothing currently visible on your pages — existing opt-ins
+become hard overrides and everything else inherits a default that is off.</p>
+<h2>Quoting part of something (0.8.1)</h2>
+<p>The medium had three registers of borrowing and only two were writable:
+transclude an item whole, or fork from a pin. Quoting a passage — the ordinary
+blogging move — was the missing rung.</p>
+<p>A directive followed immediately, with no blank line, by a blockquote is now a
+<strong>partial transclusion</strong>:</p>
+<p>Commentary begins after a blank line.</p>
+<p>A blank line detaches it, so &quot;transclude the whole thing, then quote a bit of it
+myself&quot; — legal since 0.1 — still means what it always did. Nothing anyone has
+already written changes.</p>
+<p>The passage has to actually be in the target at the version being baked, or the
+publish fails like an unresolvable directive. A quote that welds two of the
+source's paragraphs into one sentence is refused, because the source has a break
+there and the quote does not.</p>
+<p>In the studio: <strong>highlight a passage in the reading view and press <code>quote ↗</code></strong>.
+You land in the editor with the directive and the passage already attached, and
+it is checked while you are still choosing it rather than at publish. Stubbing a
+long item prefills an empty quote line instead of the whole thing — delete the
+line and you get the old behaviour.</p>
+<p>On the page a partial quote says <strong>&quot;excerpt of v2&quot;</strong> where a whole one says
+&quot;snapshot of v2&quot;. Without that you cannot tell a part from the whole: a short
+quote and a short item look identical.</p>
+<p>On the wire it is an optional <code>selector</code> on the <code>transclusions[]</code> entry, W3C
+text-quote shape. <strong>A reader that ignores it entirely stays conformant</strong> — the
+passage is baked into <code>content_html</code> like any transclusion, the relation is
+still <code>transclusion</code>, staleness is unchanged, and mention verification ignores
+it. Still protocol 0.3; this is a revision, not a new version.</p>
+<h2>Thread cards stopped putting words in my mouth (0.8.2)</h2>
+<p>A thread's stored HTML contains other people's writing, baked in as quotes. That
+is correct on the thread's own page, where a quote is shown as a quote with
+provenance under it. It was wrong everywhere the client had to <em>name</em> the thread
+in one line.</p>
+<p>Of my 19 published threads, <strong>five opened with a transclusion</strong> — which is the
+shape the stub action prefills, so it is the common case, not an edge one. For
+those five, the browser tab, the search-result heading, the social card, the RSS
+headline and the feed-page excerpt were all somebody else's sentence presented
+as mine. Others ran my prose straight into a quote mid-excerpt, so a card read
+as one continuous paragraph by one person when it was two.</p>
+<p>Fixed in one place and used by all four surfaces. Cards also carry a <strong><code>⧉2</code>
+quote count</strong> now, which is what says the item is longer than the teaser. A
+thread that quotes without adding anything of its own names what it answers
+instead of borrowing the quoted sentence.</p>
+<p>Nothing on the wire changed: the item document, the feed and the static export
+all keep the quotes.</p>
+<h2>Your blyg stops being called &quot;blyg&quot; (0.8.3)</h2>
+<p>The default title was the literal string <code>blyg</code>, so everyone who skipped that
+settings field published under the same name. Two unrelated live blygs were
+doing exactly that.</p>
+<p>It now derives from your own address — a blyg at <code>blyg.example.com</code> titles
+itself <code>example.com</code> until you say otherwise. Your own title always wins.
+Deliberately not a made-up human name: &quot;Example's Blyg&quot; would be the software
+asserting something you never said.</p>
+<p>There is an advisory for other client authors at
+<a href="https://blygger.org/start/">blygger.org/start/</a> — the general form is that a
+default identical across installations destroys information, and the deployment
+usually already knows a truer answer. <strong>Name collisions themselves are fine.</strong>
+Two people may both call their blyg &quot;Joe's blyg&quot;; the domain tells them apart.</p>
+<p><code>npm run upgrade</code> also moves between <strong>releases</strong> now rather than to the tip of
+<code>main</code>, so it and the update notice finally agree about what &quot;current&quot; means.</p>
+<h2>Studio chrome (0.8.0)</h2>
+<ul>
+<li><strong>The nav is a real top menu</strong> — tabs with a current state, utilities in their
+own group, collapsing behind a hamburger below 640px.</li>
+<li><strong>A mobile pass over every studio and public page.</strong> One pasted URL used to
+set the page's minimum width, so <em>every</em> page scrolled sideways; tap targets
+were 18–26px where they needed to be ~44; the reading sidebar pushed the
+stream off the first screen and now collapses behind a control that names the
+source you are filtered to.</li>
+<li><strong>Shared links unfurl properly.</strong> A titled item's card is its title and then
+its body, rather than the title followed by the title again as the opening
+words. Pinned pages and the archive carry an image. The archive listing shows
+a title and a separate excerpt instead of running them together.</li>
+</ul>
+]]></description>
+      <pubDate>Wed, 30 Sep 2026 02:32:37 GMT</pubDate>
+      <blyg:id>45x8saaqcgz0dq52f3xx5n9gtg</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-30T02:28:01Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/45x8saaqcgz0dq52f3xx5n9gtg.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:331xgxtyndye071fydp7mqj6bg:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/331xgxtyndye071fydp7mqj6bg/</link>
+      <title>Damn there are people young enough to be named after Sachin…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.sachinbenny.xyz/t/7538vzjawk89jkqryyn686kxch/"><cite>Sachin Benny</cite> ↗</a></p><p>Damn there are people young enough to be named after Sachin Tendulkar. Fun fact, Tendulkar himself was named after famous music director Sachin Dev Burman. So Benny here has to get famous enough to extend the fame-name-chain to 3.</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="7538vzjawk89jkqryyn686kxch" data-blyg-version="1" data-blyg-origin="https://blyg.sachinbenny.xyz/">
+<p>My first name "sachin" is probably the most pre-commodified name in India from the mid 90s when cricket player Sachin Tendulkar was a household name. I think my parents literally could not figure out what to name me and just went with something that was in the air</p>
+<blockquote class="blyg-transclusion" data-blyg-id="6vwcx6dmtrxkdj8rzatynyqwsm" data-blyg-version="2" data-blyg-origin="https://venkateshrao.com/blyg/">
+<p>Precommodified last names + nominative determinism</p>
+<p><a href="https://x.com/rs_parasite/status/2104656796195692717" rel="noopener noreferrer" target="_blank">X thread on papers by people with the same last names</a></p>
+<p><a href="https://arxiv.org/abs/2404.00732" rel="noopener noreferrer" target="_blank">An abundance of Katherines paper</a></p>
+<p><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/ecin.12167" rel="noopener noreferrer" target="_blank">A Few Goodmen paper</a></p>
+
+</blockquote>
+
+<p class="provenance"><a href="https://blyg.sachinbenny.xyz/t/7538vzjawk89jkqryyn686kxch/">from <em>Sachin Benny</em> ↗</a> · snapshot of v1</p></blockquote>
+]]></description>
+      <pubDate>Tue, 29 Sep 2026 22:58:44 GMT</pubDate>
+      <blyg:id>331xgxtyndye071fydp7mqj6bg</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-29T22:55:58Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/331xgxtyndye071fydp7mqj6bg.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:6axnea0sh8kz21kedyk16vs95h:v1</guid>
+      <link>https://venkateshrao.com/blyg/t/6axnea0sh8kz21kedyk16vs95h/</link>
+      <title>lol! Not wrong, though I enjoy meeting others when tunneling…</title>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://blyg.aneeshsathe.com/f/6d18a53bqh415pk1gm5cjqftmm/"><cite>Aneesh&#39;s Blyg</cite> ↗</a></p><p>lol!</p>
+<p>Not wrong, though I enjoy meeting others when tunneling. My main mental model has been oceanic and outer space though but this has cozyweb+dark forest vibes without the retreat aspect.</p>
+
+<blockquote class="blyg-transclusion" data-blyg-id="6d18a53bqh415pk1gm5cjqftmm" data-blyg-version="2" data-blyg-origin="https://blyg.aneeshsathe.com/">
+<p>Blyg gives me the same extra cosy healthy thicket feels as the Disney short 'Burrow'</p>
+<p>This could be Venkat ❤️ :</p>
+<figure class="blyg-yt" data-ytid="AYScBuLF0rE"><a class="blyg-yt-poster" href="https://www.youtube.com/watch?v=AYScBuLF0rE" aria-label="Play video"><img src="https://i.ytimg.com/vi/AYScBuLF0rE/hqdefault.jpg" alt="" width="480" height="360" loading="lazy" referrerpolicy="no-referrer"></a><figcaption><a href="https://www.youtube.com/watch?v=AYScBuLF0rE">https://www.youtube.com/watch?v=AYScBuLF0rE</a></figcaption></figure>
+<p>Even the poster reminds of connected blygs.</p>
+<p><img src="https://upload.wikimedia.org/wikipedia/en/c/c5/Burrow_Film_Poster.png" alt="" referrerpolicy="no-referrer"></p>
+
+
+<p class="provenance"><a href="https://blyg.aneeshsathe.com/f/6d18a53bqh415pk1gm5cjqftmm/">from <em>Aneesh&#39;s Blyg</em> ↗</a> · snapshot of v2</p></blockquote>
+]]></description>
+      <pubDate>Tue, 29 Sep 2026 22:54:19 GMT</pubDate>
+      <blyg:id>6axnea0sh8kz21kedyk16vs95h</blyg:id>
+      <blyg:kind>thread</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-29T22:52:13Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/6axnea0sh8kz21kedyk16vs95h.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:7h1pzzfzgpfnayys34d9068enb:v1</guid>
+      <link>https://venkateshrao.com/blyg/f/7h1pzzfzgpfnayys34d9068enb/</link>
+      <title>I’m enjoying blygger the way I enjoy my own cooking. An ambi…</title>
+      <description><![CDATA[<p>I’m enjoying blygger the way I enjoy my own cooking. An ambiguous mix of actually enjoying it and being impressed with myself for making it.</p>
+]]></description>
+      <pubDate>Tue, 29 Sep 2026 21:07:15 GMT</pubDate>
+      <blyg:id>7h1pzzfzgpfnayys34d9068enb</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>1</blyg:version>
+      <blyg:created>2026-09-29T21:07:15Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/7h1pzzfzgpfnayys34d9068enb.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:6vwcx6dmtrxkdj8rzatynyqwsm:v2</guid>
+      <link>https://venkateshrao.com/blyg/f/6vwcx6dmtrxkdj8rzatynyqwsm/</link>
+      <title>Precommodified last names + nominative determinism X thread…</title>
+      <description><![CDATA[<p>Precommodified last names + nominative determinism</p>
+<p><a href="https://x.com/rs_parasite/status/2104656796195692717">X thread on papers by people with the same last names</a></p>
+<p><a href="https://arxiv.org/abs/2404.00732">An abundance of Katherines paper</a></p>
+<p><a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/ecin.12167">A Few Goodmen paper</a></p>
+]]></description>
+      <pubDate>Tue, 29 Sep 2026 21:04:01 GMT</pubDate>
+      <blyg:id>6vwcx6dmtrxkdj8rzatynyqwsm</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-09-29T21:00:18Z</blyg:created>
+      <blyg:item>https://venkateshrao.com/blyg/items/6vwcx6dmtrxkdj8rzatynyqwsm.json</blyg:item>
+    </item>
+  </channel>
+</rss>

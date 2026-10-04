@@ -1,0 +1,27 @@
+{
+  "id": "tk-in-code-is-not-a-scope",
+  "title": "A [TK] written inside code is an example of the grammar, not a scope; the directive below it is real",
+  "spec_refs": [
+    "§5.7",
+    "§10.1"
+  ],
+  "decisions": [
+    "#20",
+    "#54"
+  ],
+  "content_md": "`[TK]x ![[7c9wk2mhq0v3xj8tn5rzfd41bg]][/TK]`\n\n![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "1vgtgz0gq5b2c9k7d3m8r4n6xy",
+        "partial": false
+      }
+    ],
+    "links": [],
+    "tk_sources": [],
+    "literal": [
+      "[TK]"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "link-in-fenced-code",
+  "title": "[[id]] inside a fenced block is inert",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#54"
+  ],
+  "content_md": "```\nsee [[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n```",
+  "expect": {
+    "error": false,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [],
+    "literal": [
+      "[[7c9wk2mhq0v3xj8tn5rzfd41bg]]"
+    ]
+  }
+}
