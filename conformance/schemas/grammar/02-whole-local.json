@@ -1,0 +1,24 @@
+{
+  "id": "whole-local",
+  "title": "Own-line directive naming a local fragment",
+  "spec_refs": [
+    "§10.1",
+    "§10.2"
+  ],
+  "decisions": [
+    "#9"
+  ],
+  "content_md": "Intro.\n\n![[{{L}}]]\n\nOutro.",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "{{L}}",
+        "partial": false
+      }
+    ],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  }
+}

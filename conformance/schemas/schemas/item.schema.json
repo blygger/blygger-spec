@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blygger.org/conformance/0.3/item.schema.json",
+  "title": "Item document — items/{id}.json",
+  "description": "§5 (all kinds) and §9 (withdrawal endcap). Ground truth for one item. Required members are those the spec's MUST clauses depend on; the spec gives no explicit required-member list (see README, For Fable).",
+  "type": "object",
+  "required": ["id", "kind", "origin", "created", "updated", "version", "content_md", "content_html", "content_hash", "changelog"],
+  "properties": {
+    "blyg": { "type": "string", "pattern": "^0\\.[0-9]+$", "description": "§3.1: the spec version the publisher implements; informative, readers accept any 0.x (decision #18d)." },
+    "id": { "$ref": "defs.schema.json#/$defs/id", "description": "§5.1: permanent identity, never changes across versions or withdrawal (decision #2)." },
+    "kind": { "enum": ["fragment", "thread", "withdrawn"], "description": "§5.3: fragment | thread | withdrawn at 0.3. Readers treat unknown kinds as unknown constructs; a 0.3 publisher emits only these." },
+    "origin": { "$ref": "defs.schema.json#/$defs/origin", "description": "§5 / §15.4: the publisher's identity origin; mention verification requires it to equal the source URL's origin (decision #28)." },
+    "page": { "type": "string", "minLength": 1, "description": "§5.8 (decision #29): origin-relative permalink (absolute permitted by #51 at 0.4). SHOULD be stable for the life of the item (decision #56). Kept on withdrawn endcaps (§9)." },
+    "author": { "$ref": "defs.schema.json#/$defs/author" },
+    "created": { "$ref": "defs.schema.json#/$defs/utc", "description": "§5/§4: creation time, UTC." },
+    "updated": { "$ref": "defs.schema.json#/$defs/utc", "description": "§5.2: MUST equal the latest changelog entry's `at` (semantic rule updated.equals-last-changelog)." },
+    "version": { "$ref": "defs.schema.json#/$defs/version" },
+    "content_md": { "type": "string", "description": "§5: markdown source of the latest version; keeps directives (§10.2); never TK grammar (§5.7, decision #20)." },
+    "content_html": { "type": "string", "description": "§5.2 (decision #53): self-contained — every URL absolute (semantic rule html.absolute-urls)." },
+    "content_hash": { "$ref": "defs.schema.json#/$defs/contentHash" },
+    "media": { "type": "array", "items": { "$ref": "defs.schema.json#/$defs/media" }, "description": "§5.4: media referenced by the item; [] on an endcap (§9)." },
+    "changelog": { "type": "array", "minItems": 1, "items": { "$ref": "defs.schema.json#/$defs/changelogEntry" }, "description": "§5.2: one entry per version, metadata only (semantic rule changelog.contiguous)." },
+    "transclusions": { "type": "array", "items": { "$ref": "defs.schema.json#/$defs/transclusion" }, "description": "§10.3: threads always carry it, in directive order; fragments omit it; a withdrawn thread's endcap carries []." },
+    "stub_of": { "$ref": "defs.schema.json#/$defs/stubOf", "description": "§10.6 (decision #27): threads only; lives on versions; omitted on endcaps." },
+    "forked_from": { "$ref": "defs.schema.json#/$defs/absoluteReference", "description": "§5.6: reference to the pinned version this item was copied from; origin REQUIRED; immutable; survives withdrawal." },
+    "generated": { "type": "array", "minItems": 1, "items": { "$ref": "defs.schema.json#/$defs/generatedEntry" }, "description": "§5.7 rule 4: omitted entirely when the version involved no generation; never on an endcap." }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "withdrawn" } }, "required": ["kind"] },
+      "then": {
+        "description": "§9: endcap — content_md = \"\", content_html = \"\", media = [], transclusions empty if present, no stub_of, no generated.",
+        "properties": {
+          "content_md": { "const": "" },
+          "content_html": { "const": "" },
+          "media": { "maxItems": 0 },
+          "transclusions": { "maxItems": 0 }
+        },
+        "not": { "anyOf": [{ "required": ["stub_of"] }, { "required": ["generated"] }] }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "fragment" } }, "required": ["kind"] },
+      "then": {
+        "description": "§10.3: fragments omit transclusions entirely; §10.6: stubs are threads only.",
+        "not": { "anyOf": [{ "required": ["transclusions"] }, { "required": ["stub_of"] }] }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "thread" } }, "required": ["kind"] },
+      "then": { "required": ["transclusions"], "description": "§10.3: threads always carry transclusions." }
+    }
+  ]
+}

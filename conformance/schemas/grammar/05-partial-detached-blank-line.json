@@ -1,0 +1,23 @@
+{
+  "id": "partial-detached-blank-line",
+  "title": "A blank line detaches the blockquote: whole transclusion + the author's own quotation",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#49"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n\n> My own quotation, not theirs.\n\nCommentary.",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+        "partial": false
+      }
+    ],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  }
+}

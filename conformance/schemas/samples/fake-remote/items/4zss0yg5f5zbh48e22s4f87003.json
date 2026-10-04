@@ -1,0 +1,37 @@
+{
+  "blyg": "0.3",
+  "id": "4zss0yg5f5zbh48e22s4f87003",
+  "kind": "thread",
+  "origin": "https://source.example/",
+  "page": "t/4zss0yg5f5zbh48e22s4f87003/",
+  "author": {
+    "name": "Source Author",
+    "url": "https://source.example/",
+    "bio_hint": "opaque member kept verbatim (§5.5)"
+  },
+  "created": "2026-09-03T10:00:00Z",
+  "updated": "2026-09-03T10:00:00Z",
+  "version": 1,
+  "content_md": "Opening line of a remote thread.\n\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n\nClosing line with a link to [[1vgtgz0gq5b2c9k7d3m8r4n6xy]].",
+  "content_html": "<p>Opening line of a remote thread.</p>\n<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"7c9wk2mhq0v3xj8tn5rzfd41bg\" data-blyg-version=\"2\">\n<p>Stigmergy is what a protocol looks like from inside</p>\n</blockquote>\n<p>Closing line with a link to <a href=\"https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/\">“धर्म और कर्म”</a>.</p>\n",
+  "content_hash": "sha256:0031206e75128892152337adb2854b86f2ab11577bb9526341f89e3598eca24f",
+  "media": [],
+  "transclusions": [
+    {
+      "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+      "version": 2,
+      "selector": {
+        "exact": "Stigmergy is what a protocol looks like from inside",
+        "suffix": ", and the reason it looks like noth"
+      }
+    }
+  ],
+  "changelog": [
+    {
+      "version": 1,
+      "at": "2026-09-03T10:00:00Z",
+      "note": null,
+      "pinned": true
+    }
+  ]
+}

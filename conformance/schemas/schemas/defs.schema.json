@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://blygger.org/conformance/0.3/defs.schema.json",
+  "title": "Blygger 0.3 shared definitions",
+  "description": "Shared $defs for the 0.3 publication surface (docs/protocol-v0.3.md). MUST-level constraints only; SHOULD/RECOMMENDED live in advisory.schema.json (decision #48: MUST fails, SHOULD warns, MAY is shape-checked when present).",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9abcdefghjkmnpqrstvwxyz]{26}$",
+      "description": "§5.1: 128 random bits as 26 chars of lowercase Crockford base32 (alphabet 0-9a-z minus i l o u). Decisions #2, #16."
+    },
+    "utc": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$",
+      "description": "§4: every protocol timestamp is ISO 8601 UTC ending in Z; a publisher MUST NOT write local time into any protocol surface."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "§5.2: positive integer, +1 per publish event; a bare counter (decision #19)."
+    },
+    "contentHash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "§5.1: \"sha256:\" + hex(SHA-256(content_md as UTF-8)). Recomputed by the semantic rule hash.matches-content_md."
+    },
+    "absoluteUrl": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://",
+      "description": "An absolute http(s) URL."
+    },
+    "origin": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https?://[^?#]*/$",
+      "description": "§5.9/§12.2: a target's identity origin — the post-redirect manifest URL minus blyg.json, so it ends in '/'. Decisions #14, #17."
+    },
+    "author": {
+      "type": "object",
+      "description": "§5.5 (decision #11): OPTIONAL, opaque, client-asserted pass-through. Readers MUST accept any object; `name` RECOMMENDED, `url` OPTIONAL, any other members are the client's private authorspace grammar. Only the object type is checked.",
+      "properties": {
+        "name": { "type": "string", "description": "§5.5: display string, RECOMMENDED (decision #11)." },
+        "url": { "type": "string", "description": "§5.5: OPTIONAL. Identity practice (decision #35) recommends a URL the person controls." }
+      }
+    },
+    "cited": {
+      "type": "object",
+      "description": "§5.9 (decision #30): the human half of a citation — self-asserted, frozen when the reference was made, never verified, never baked into content_html. Also permitted on a {url} stub (§16.1a, decision #55; ruled, next revision).",
+      "required": ["retrieved"],
+      "properties": {
+        "retrieved": { "$ref": "#/$defs/utc", "description": "§5.9: REQUIRED whenever cited is present — a citation without a date is not a citation (decision #30)." },
+        "source": { "type": "string", "description": "§5.9: OPTIONAL — the target blyg's title as seen." },
+        "author": { "type": "string", "description": "§5.9: OPTIONAL — the target's own author.name passed through (§5.5, decision #11)." },
+        "excerpt": { "type": "string", "description": "§5.9: OPTIONAL caption, not a quotation; publishers SHOULD cap near 200 chars (advisory layer)." },
+        "url": { "type": "string", "description": "§5.9: OPTIONAL — the target's page as it stood. For forked_from the cited target is a pin, whose human page is {page}v{n}/ (§8.4, decision #24)." }
+      }
+    },
+    "selector": {
+      "type": "object",
+      "description": "§10.3 (decision #49): W3C Web Annotation text-quote selector on a partial transclusion entry. Ignored by verification; readers MAY ignore.",
+      "required": ["exact"],
+      "properties": {
+        "exact": { "type": "string", "minLength": 1, "description": "§10.3: REQUIRED — the selection, normalized by §10.2's text-content rule; MUST be a substring of the target snapshot's text content at the baked version (§10.2)." },
+        "prefix": { "type": "string", "description": "§10.3: OPTIONAL and short." },
+        "suffix": { "type": "string", "description": "§10.3: OPTIONAL and short." }
+      }
+    },
+    "referenceCore": {
+      "type": "object",
+      "description": "§5.9: the reference shape shared by forked_from, stub_of and transclusions[] — origin/id/version is the whole machine-readable identity; cited (and, on transclusions, selector) are the only other members.",
+      "required": ["id", "version"],
+      "properties": {
+        "origin": { "$ref": "#/$defs/origin" },
+        "id": { "$ref": "#/$defs/id" },
+        "version": { "$ref": "#/$defs/version", "description": "§5.9: the version the publisher actually saw and, for a transclusion, baked." },
+        "cited": { "$ref": "#/$defs/cited" }
+      }
+    },
+    "absoluteReference": {
+      "description": "§5.6 rule 1 / §10.6: a reference whose origin is REQUIRED even when it is the publisher's own — a citation is absolute (decisions #27, #26). No other members than origin/id/version/cited (§5.9: \"and nothing else\").",
+      "allOf": [{ "$ref": "#/$defs/referenceCore" }],
+      "required": ["origin", "id", "version"],
+      "properties": { "origin": true, "id": true, "version": true, "cited": true },
+      "additionalProperties": false
+    },
+    "transclusion": {
+      "description": "§10.3: one transclusions[] entry; origin omitted for own-origin sources (decision #26), present for remote; OPTIONAL selector for a partial transclusion (decision #49).",
+      "allOf": [{ "$ref": "#/$defs/referenceCore" }],
+      "properties": {
+        "origin": true, "id": true, "version": true, "cited": true,
+        "selector": { "$ref": "#/$defs/selector" }
+      },
+      "additionalProperties": false
+    },
+    "stubOf": {
+      "description": "§10.6 (decision #27): exactly one target — a blyg reference with origin REQUIRED, or {url} for a plain-web target. cited on {url} is ruled (§16.1a, #55) and accepted here.",
+      "oneOf": [
+        { "$ref": "#/$defs/absoluteReference" },
+        {
+          "type": "object",
+          "required": ["url"],
+          "properties": {
+            "url": { "$ref": "#/$defs/absoluteUrl", "description": "§10.6: plain-web target URL." },
+            "cited": { "$ref": "#/$defs/cited", "description": "§16.1a (decision #55): ruled, enters §10.6 once a client emits it." }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "generatedEntry": {
+      "type": "object",
+      "description": "§5.7 (decision #20, #37): one generated span's provenance. MUST NOT carry instruction text or other pre-generation authoring state (rule 2).",
+      "required": ["sources"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "description": "§5.7 rule 1: exact published versions of this origin's items drawn on; MAY be empty (no sources declared). At 0.3 a source is own-origin and carries no origin member (remote sources are 0.4, §16.3, decision #44).",
+          "items": {
+            "type": "object",
+            "required": ["id", "version"],
+            "properties": {
+              "id": { "$ref": "#/$defs/id" },
+              "version": { "$ref": "#/$defs/version" }
+            },
+            "not": { "required": ["origin"] }
+          }
+        },
+        "model": { "type": "string", "description": "§5.7 rule 1: RECOMMENDED." },
+        "at": { "$ref": "#/$defs/utc", "description": "§5.7 rule 1: RECOMMENDED." }
+      },
+      "not": { "anyOf": [{ "required": ["instruction"] }, { "required": ["prompt"] }] }
+    },
+    "changelogEntry": {
+      "type": "object",
+      "description": "§5.2: metadata only — version, time, optional note, optional pinned:true — never diffs or content.",
+      "required": ["version", "at"],
+      "properties": {
+        "version": { "$ref": "#/$defs/version" },
+        "at": { "$ref": "#/$defs/utc" },
+        "note": { "type": ["string", "null"], "description": "§5.2: describes a change; where the prior version is unpinned it MUST NOT reproduce it (not machine-checkable)." },
+        "pinned": { "const": true, "description": "§5.2/§8: present only as true on pinned versions." },
+        "generated": { "type": "boolean", "description": "§16.6c (decision #40): ruled, not yet normative — the studio wrote the note." }
+      }
+    },
+    "media": {
+      "type": "object",
+      "description": "§5.4: a media object referenced by the item.",
+      "required": ["url", "mime"],
+      "properties": {
+        "url": { "type": "string", "minLength": 1, "description": "§5.4: relative to the origin or absolute; a structured field readers resolve (unaffected by #53)." },
+        "mime": { "type": "string", "pattern": "^[a-z0-9.+-]+/[a-z0-9.+-]+", "description": "§5.4: media type." },
+        "alt": { "type": "string", "description": "§5.4: SHOULD be carried (advisory layer)." }
+      }
+    }
+  }
+}

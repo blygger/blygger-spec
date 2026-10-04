@@ -1,0 +1,24 @@
+{
+  "id": "partial-multiparagraph",
+  "title": "A selection spanning two paragraphs keeps the block boundary as a line break",
+  "spec_refs": [
+    "§10.2"
+  ],
+  "decisions": [
+    "#49"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\n>\n> A second paragraph about *emphasis* and traces",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+        "partial": true,
+        "exact": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\nA second paragraph about emphasis and traces"
+      }
+    ],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  }
+}

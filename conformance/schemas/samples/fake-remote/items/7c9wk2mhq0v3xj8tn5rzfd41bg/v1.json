@@ -1,0 +1,18 @@
+{
+  "blyg": "0.3",
+  "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+  "kind": "fragment",
+  "version": 1,
+  "at": "2026-09-01T10:00:00Z",
+  "note": null,
+  "pinned": true,
+  "origin": "https://source.example/",
+  "author": {
+    "name": "Source Author",
+    "url": "https://source.example/",
+    "bio_hint": "opaque member kept verbatim (§5.5)"
+  },
+  "content_md": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.",
+  "content_html": "<p>Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.</p>\n",
+  "content_hash": "sha256:4754b1adfca4e5e84580f822a2c0690118289e2a3bc1967e72558310a4654bdf"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "whole-surrounding-whitespace",
+  "title": "Surrounding whitespace is allowed on the directive line",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#9"
+  ],
+  "content_md": "   ![[7c9wk2mhq0v3xj8tn5rzfd41bg]] \t",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+        "partial": false
+      }
+    ],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  }
+}

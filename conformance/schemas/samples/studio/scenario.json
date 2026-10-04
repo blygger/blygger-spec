@@ -1,0 +1,697 @@
+{
+  "studio_version": "0.17.0",
+  "origin": "https://studio.example/",
+  "remote": "https://source.example/",
+  "scenario": {
+    "local": "5pqmtw6bzrk5xe4720ep9k475s",
+    "media": "31bfdmhdw06cc43va15jp0d0v8",
+    "pins": "53am1pbn2926j81e34ppxpe8z8",
+    "thread": "2xz23gh273q91f68ypz52tta6z",
+    "stub": "3g49r95k96m9ajn6h8mn7zvhvq",
+    "stubPartial": "12dh2ja4hknb6dtk9g8phzsgzx",
+    "stubUrl": "0hhxgp4n8qjdkw79t9drgxmz3b",
+    "forkRemoteThread": "11f1528gb45bn3rvhs1bbyekk7",
+    "forkRemoteFragment": "69msys59gjzqjpez3y03g5fhge",
+    "forkOwn": "2q80ch7fwhk22yvt5a761kz9dy",
+    "generated": "3st6phc0axyqsm4zsd260nh3c4",
+    "impyrt": "4mbjpgrkkrs92yrnpn3qmz7zdp",
+    "withdrawn": "1n32g39m4dyttqz8mebm4r2fhw"
+  },
+  "labels": {
+    "5pqmtw6bzrk5xe4720ep9k475s": "local",
+    "31bfdmhdw06cc43va15jp0d0v8": "media",
+    "53am1pbn2926j81e34ppxpe8z8": "pins",
+    "2xz23gh273q91f68ypz52tta6z": "thread",
+    "3g49r95k96m9ajn6h8mn7zvhvq": "stub",
+    "12dh2ja4hknb6dtk9g8phzsgzx": "stubPartial",
+    "0hhxgp4n8qjdkw79t9drgxmz3b": "stubUrl",
+    "11f1528gb45bn3rvhs1bbyekk7": "forkRemoteThread",
+    "69msys59gjzqjpez3y03g5fhge": "forkRemoteFragment",
+    "2q80ch7fwhk22yvt5a761kz9dy": "forkOwn",
+    "3st6phc0axyqsm4zsd260nh3c4": "generated",
+    "4mbjpgrkkrs92yrnpn3qmz7zdp": "impyrt",
+    "1n32g39m4dyttqz8mebm4r2fhw": "withdrawn"
+  },
+  "log": [
+    {
+      "label": "settings",
+      "status": 200,
+      "body": {
+        "site_title": "Studio Under Test",
+        "theme": "auto",
+        "author_name": "Tester",
+        "author_bio": "",
+        "author_links": [],
+        "site_url": "https://studio.example/",
+        "avatar_media_id": "",
+        "ai_model": "fake-model-1",
+        "ai_style_prompt": "",
+        "accept_mentions": true,
+        "timezone": "",
+        "show_responses_default": false,
+        "update_check": true,
+        "update_feed_url": "",
+        "update_notice_ack": false
+      }
+    },
+    {
+      "label": "subscribe",
+      "status": 201,
+      "body": {
+        "id": "7c7k8y2r640ehrrm3g42jqz130",
+        "kind": "blyg",
+        "origin": "https://source.example/",
+        "feed_url": "https://source.example/feed.xml",
+        "title": "Fake Source Blyg",
+        "status": "active",
+        "last_poll_at": "2026-10-04T02:41:47Z",
+        "fail_count": 0,
+        "last_index_sync_at": "2026-10-04T02:41:47Z",
+        "created": "2026-10-04T02:41:47Z",
+        "in_blogroll": false,
+        "flags": []
+      }
+    },
+    {
+      "label": "create local",
+      "status": 201,
+      "body": {
+        "id": "5pqmtw6bzrk5xe4720ep9k475s",
+        "kind": "fragment",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "Local source fragment about gardens and paths.",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish local",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "create media",
+      "status": 201,
+      "body": {
+        "id": "31bfdmhdw06cc43va15jp0d0v8",
+        "kind": "fragment",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "Image post (draft)",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "upload media",
+      "status": 201,
+      "body": {
+        "id": "awq56qbf",
+        "url": "media/awq56qbf.png",
+        "mime": "image/png"
+      }
+    },
+    {
+      "label": "edit media",
+      "status": 200,
+      "body": {
+        "id": "31bfdmhdw06cc43va15jp0d0v8",
+        "kind": "fragment",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "Image post\n\n![a single pixel](media/awq56qbf.png)",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish media v1",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "edit media",
+      "status": 200,
+      "body": {
+        "id": "31bfdmhdw06cc43va15jp0d0v8",
+        "kind": "fragment",
+        "status": "public",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 1,
+        "content_md": "Image post — the image has been deleted from the text.",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish media v2",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 2
+      }
+    },
+    {
+      "label": "create pins",
+      "status": 201,
+      "body": {
+        "id": "53am1pbn2926j81e34ppxpe8z8",
+        "kind": "fragment",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "First draft of a claim.",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish pins v1",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "edit pins",
+      "status": 200,
+      "body": {
+        "id": "53am1pbn2926j81e34ppxpe8z8",
+        "kind": "fragment",
+        "status": "public",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 1,
+        "content_md": "First draft of a claim, typo fixed.",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish pins v2",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 2
+      }
+    },
+    {
+      "label": "edit pins",
+      "status": 200,
+      "body": {
+        "id": "53am1pbn2926j81e34ppxpe8z8",
+        "kind": "fragment",
+        "status": "public",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 2,
+        "content_md": "A sharpened claim.",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish pins v3",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 3
+      }
+    },
+    {
+      "label": "pin pins v2",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 2,
+        "already": false
+      }
+    },
+    {
+      "label": "create thread",
+      "status": 201,
+      "body": {
+        "id": "2xz23gh273q91f68ypz52tta6z",
+        "kind": "thread",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "Intro to the thread.\n\n![[5pqmtw6bzrk5xe4720ep9k475s]]\n\n![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]\n\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n\nSee also [[4zss0yg5f5zbh48e22s4f87003]] and [[5pqmtw6bzrk5xe4720ep9k475s]].\n\n```\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n```",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish thread",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "pin thread v1",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1,
+        "already": false
+      }
+    },
+    {
+      "label": "create stub",
+      "status": 201,
+      "body": {
+        "id": "3g49r95k96m9ajn6h8mn7zvhvq",
+        "kind": "thread",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n\n",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": {
+          "origin": "https://source.example/",
+          "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+          "version": 2
+        },
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish stub",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "create stub-partial",
+      "status": 201,
+      "body": {
+        "id": "12dh2ja4hknb6dtk9g8phzsgzx",
+        "kind": "thread",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n\n",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": {
+          "origin": "https://source.example/",
+          "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+          "version": 2
+        },
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish stub-partial",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "create stub-url",
+      "status": 201,
+      "body": {
+        "id": "0hhxgp4n8qjdkw79t9drgxmz3b",
+        "kind": "thread",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "A response to a plain web page: [the post](https://plain.example/post).",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "stub-url set",
+      "status": 200,
+      "body": {
+        "id": "0hhxgp4n8qjdkw79t9drgxmz3b",
+        "kind": "thread",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "A response to a plain web page: [the post](https://plain.example/post).",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": {
+          "url": "https://plain.example/post"
+        },
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "stub-url publish",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "create fork remote thread",
+      "status": 201,
+      "body": {
+        "id": "11f1528gb45bn3rvhs1bbyekk7",
+        "kind": "thread",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "Opening line of a remote thread.\n\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n\nClosing line with a link to [[1vgtgz0gq5b2c9k7d3m8r4n6xy]].",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": {
+          "origin": "https://source.example/",
+          "id": "4zss0yg5f5zbh48e22s4f87003",
+          "version": 1
+        },
+        "fork_cite": {
+          "source": "Fake Source Blyg",
+          "author": "Source Author",
+          "excerpt": "Opening line of a remote thread. Stigmergy is what a protocol looks like from in…",
+          "url": "https://source.example/items/4zss0yg5f5zbh48e22s4f87003/v1.json",
+          "retrieved": "2026-10-04T02:41:47Z"
+        }
+      }
+    },
+    {
+      "label": "fork remote thread publish",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "create fork remote fragment",
+      "status": 201,
+      "body": {
+        "id": "69msys59gjzqjpez3y03g5fhge",
+        "kind": "fragment",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": {
+          "origin": "https://source.example/",
+          "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+          "version": 1
+        },
+        "fork_cite": {
+          "source": "Fake Source Blyg",
+          "author": "Source Author",
+          "excerpt": "Stigmergy is what a protocol looks like from inside, and the reason it looks lik…",
+          "url": "https://source.example/items/7c9wk2mhq0v3xj8tn5rzfd41bg/v1.json",
+          "retrieved": "2026-10-04T02:41:47Z"
+        }
+      }
+    },
+    {
+      "label": "publish fork remote fragment",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "create fork own",
+      "status": 201,
+      "body": {
+        "id": "2q80ch7fwhk22yvt5a761kz9dy",
+        "kind": "thread",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "Intro to the thread.\n\n![[5pqmtw6bzrk5xe4720ep9k475s]]\n\n![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]\n\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n\nSee also [[4zss0yg5f5zbh48e22s4f87003]] and [[5pqmtw6bzrk5xe4720ep9k475s]].\n\n```\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n```",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": {
+          "origin": "https://studio.example/",
+          "id": "2xz23gh273q91f68ypz52tta6z",
+          "version": 1
+        },
+        "fork_cite": {
+          "source": "Studio Under Test",
+          "excerpt": "Intro to the thread. Local source fragment about gardens and paths. धर्म और कर्म…",
+          "url": "https://studio.example/t/2xz23gh273q91f68ypz52tta6z/v1/",
+          "retrieved": "2026-10-04T02:41:47Z"
+        }
+      }
+    },
+    {
+      "label": "publish fork own",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "pin fork own v1",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1,
+        "already": false
+      }
+    },
+    {
+      "label": "create generated",
+      "status": 201,
+      "body": {
+        "id": "3st6phc0axyqsm4zsd260nh3c4",
+        "kind": "thread",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "[TK]Summarise ![[5pqmtw6bzrk5xe4720ep9k475s]][/TK]\n\nAfterword by the author.",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "generate",
+      "status": 200,
+      "body": {
+        "text": "Generated summary sentence from the fake provider.",
+        "model": "fake-model-1"
+      }
+    },
+    {
+      "label": "publish generated",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "pin generated v1",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1,
+        "already": false
+      }
+    },
+    {
+      "label": "create impyrt",
+      "status": 201,
+      "body": {
+        "id": "4mbjpgrkkrs92yrnpn3qmz7zdp",
+        "kind": "fragment",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "Pasted from elsewhere: [TK]impyrt other-model=Text another tool produced.[/TK]",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish impyrt",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "create withdrawn",
+      "status": 201,
+      "body": {
+        "id": "1n32g39m4dyttqz8mebm4r2fhw",
+        "kind": "fragment",
+        "status": "draft",
+        "created": "2026-10-04T02:41:47Z",
+        "updated": "2026-10-04T02:41:47Z",
+        "version": 0,
+        "content_md": "Soon to be withdrawn.",
+        "dirty": true,
+        "responses": "default",
+        "provenance": [],
+        "stub_of": null,
+        "forked_from": null,
+        "fork_cite": null
+      }
+    },
+    {
+      "label": "publish withdrawn",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1
+      }
+    },
+    {
+      "label": "pin withdrawn v1",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 1,
+        "already": false
+      }
+    },
+    {
+      "label": "withdraw withdrawn",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 2
+      }
+    },
+    {
+      "label": "withdraw stub",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 2
+      }
+    },
+    {
+      "label": "withdraw fork remote fragment",
+      "status": 200,
+      "body": {
+        "ok": true,
+        "version": 2
+      }
+    }
+  ],
+  "outbound": [
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/feed.xml",
+    "GET https://source.example/items/4zss0yg5f5zbh48e22s4f87003.json",
+    "GET https://source.example/items/7c9wk2mhq0v3xj8tn5rzfd41bg.json",
+    "GET https://source.example/items/1vgtgz0gq5b2c9k7d3m8r4n6xy.json",
+    "GET https://source.example/items/index.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/blyg.json",
+    "HEAD https://plain.example/post",
+    "GET https://plain.example/post",
+    "GET https://source.example/items/4zss0yg5f5zbh48e22s4f87003/v1.json",
+    "GET https://source.example/items/4zss0yg5f5zbh48e22s4f87003/v1.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/items/7c9wk2mhq0v3xj8tn5rzfd41bg/v1.json",
+    "GET https://source.example/items/7c9wk2mhq0v3xj8tn5rzfd41bg/v1.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/blyg.json",
+    "GET https://source.example/blyg.json"
+  ]
+}

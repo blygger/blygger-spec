@@ -1,0 +1,21 @@
+{
+  "id": "inline-directive-inert",
+  "title": "A directive sequence that is not alone on its line is inert text (and not a link)",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#9",
+    "#32"
+  ],
+  "content_md": "Text ![[7c9wk2mhq0v3xj8tn5rzfd41bg]] inline.",
+  "expect": {
+    "error": false,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [],
+    "literal": [
+      "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]"
+    ]
+  }
+}
