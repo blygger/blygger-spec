@@ -1,6 +1,7 @@
 {
-  "implementation": "blygger-studio 0.17.0",
-  "local_id": "5pqmtw6bzrk5xe4720ep9k475s",
+  "implementation": "blygger-studio 0.20.2",
+  "version": "0.20.2",
+  "local_id": "7f6h9ndemrm4f3k7085441gsa1",
   "results": [
     {
       "case": "whole-remote",
@@ -29,7 +30,7 @@
         "error": false,
         "transclusions": [
           {
-            "id": "5pqmtw6bzrk5xe4720ep9k475s",
+            "id": "7f6h9ndemrm4f3k7085441gsa1",
             "partial": false
           }
         ],
@@ -406,7 +407,7 @@
         "links": [],
         "tk_sources": [
           [
-            "5pqmtw6bzrk5xe4720ep9k475s"
+            "7f6h9ndemrm4f3k7085441gsa1"
           ]
         ],
         "literal": []
@@ -423,7 +424,7 @@
         "links": [],
         "tk_sources": [
           [
-            "5pqmtw6bzrk5xe4720ep9k475s"
+            "7f6h9ndemrm4f3k7085441gsa1"
           ]
         ],
         "literal": []
@@ -445,7 +446,7 @@
         "links": [],
         "tk_sources": [
           [
-            "5pqmtw6bzrk5xe4720ep9k475s"
+            "7f6h9ndemrm4f3k7085441gsa1"
           ]
         ],
         "literal": []
@@ -469,6 +470,24 @@
         "literal": [
           "[TK]"
         ]
+      }
+    },
+    {
+      "case": "tk-output-own-line-directive",
+      "file": "28-tk-output-own-line-directive.json",
+      "ok": true,
+      "diffs": [],
+      "parse": {
+        "error": false,
+        "transclusions": [
+          {
+            "id": "7f6h9ndemrm4f3k7085441gsa1",
+            "partial": false
+          }
+        ],
+        "links": [],
+        "tk_sources": [],
+        "literal": []
       }
     }
   ]

@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 AREAS = [
     ("clauses", "Clause register", "Every MUST/SHOULD/MAY in the spec, given an ID and linked to decisions and tests."),
-    ("schemas", "Schemas & grammar", "Wire-document schemas and directive-grammar fixtures, run against blygger-studio and Burrow."),
+    ("schemas", "Schemas & grammar", "Wire-document schemas and directive-grammar fixtures, run against blygger-studio and any implementation with an adapter."),
     ("live", "Live network", "A read-only crawl of every known blyg, checking invariants that span origins."),
     ("alloy", "Alloy model", "A formal model of the protocol's rules; the solver searches for counterexamples."),
     ("model", "Property tests", "Random action sequences run through a spec-derived model and the real blygger-studio importer."),

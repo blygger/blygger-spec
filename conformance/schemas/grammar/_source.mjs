@@ -25,8 +25,8 @@ const cases = [
     `![[${RA}]]\n> Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\n>\n> A second paragraph about *emphasis* and traces`,
     { transclusions: [P(RA, "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\nA second paragraph about emphasis and traces")] }],
   ["partial-not-in-target", "A selection that is not a substring of the target's text content is a publish error", ["§10.2"], ["#49"], `![[${RA}]]\n> words that are nowhere in the target`, { error: true }],
-  ["partial-lazy-continuation", "A non-'>' line right after the quote run: CommonMark lazy continuation would extend the blockquote; implementations end the selection", ["§10.1"], ["#49"],
-    `![[${RA}]]\n> ${SEL}\nlazy continuation line`, { transclusions: [P(RA, SEL)], ambiguous: "The spec says 'the blockquote's text is the selection'. In CommonMark the third line is a lazy continuation inside the blockquote; both implementations end the run at the first line not starting with '>'. Expectation encodes the implementations' reading." }],
+  ["partial-lazy-continuation", "A non-'>' line right after the quote run: CommonMark lazy continuation would extend the blockquote; the reference client ends the selection", ["§10.1"], ["#49"],
+    `![[${RA}]]\n> ${SEL}\nlazy continuation line`, { transclusions: [P(RA, SEL)], ambiguous: "The spec says 'the blockquote's text is the selection'. In CommonMark the third line is a lazy continuation inside the blockquote; blygger-studio ends the run at the first line not starting with '>'. Expectation encodes that reading." }],
   ["reserved-version", "![[id@vN]] is reserved: 0.3 publishers MUST reject it", ["§10.1"], ["#9"], `![[${RA}@v1]]`, { error: true }],
   ["unknown-id", "An unresolvable directive is a publish error", ["§10.2"], ["#26"], `![[zzzzzzzzzzzzzzzzzzzzzzzzzz]]`, { error: true }],
   ["inline-directive-inert", "A directive sequence that is not alone on its line is inert text (and not a link)", ["§10.1"], ["#9", "#32"], `Text ![[${RA}]] inline.`, { literal: [`![[${RA}]]`] }],
@@ -47,12 +47,16 @@ const cases = [
   ["tk-source-own-line", "An own-line directive inside a TK scope is still a source", ["§5.7"], ["#20"], `[TK]Draw on this\n![[{{L}}]]\n[=]Some output.[/TK]`, { tk_sources: [["{{L}}"]] }],
   ["tk-scope-beside-transclusion", "A TK scope and a real transclusion in one thread: one quote, one source", ["§5.7", "§10.3"], ["#20"], `![[${RA}]]\n\n[TK]Summarise ![[{{L}}]][=]Some output.[/TK]`, { transclusions: [W(RA)], tk_sources: [["{{L}}"]] }],
   ["tk-in-code-is-not-a-scope", "A [TK] written inside code is an example of the grammar, not a scope; the directive below it is real", ["§5.7", "§10.1"], ["#20", "#54"], "`[TK]x ![[" + RA + "]][/TK]`\n\n![[" + RB + "]]", { transclusions: [W(RB)], literal: ["[TK]"] }],
+  ["tk-output-own-line-directive", "An own-line directive left in hand-written TK output: provisionally a real transclusion at publish", ["§5.7", "§10.1"], ["#20"],
+    `Intro.\n\n[TK]write it[=]Mine.\n\n![[{{L}}]][/TK]\n\nOutro.`,
+    { transclusions: [W("{{L}}")], generate: false, ambiguous: "Decision #20 says that inside a TK scope every ![[id]] is a source reference, never a blockquote, and blygger-studio 0.17.0 (studio#5) made this line inert. Venkat's provisional ruling, shipped in blygger-studio 0.20.1 (DEVLOG session 33, item 8, taking the v0.4-plan §9.2 reading), makes an own-line directive left in TK output a real transclusion at publish, pending a Fable ruling that reconciles it with #20. The expectation encodes the provisional ruling. The output is hand-written (generate: false), so no harness regenerates it." }],
 ];
 
 for (const f of readdirSync(here).filter((f) => f.endsWith(".json"))) unlinkSync(join(here, f));
 cases.forEach(([id, title, spec_refs, decisions, content_md, exp], i) => {
-  const { ambiguous, ...rest } = exp;
+  const { ambiguous, generate, ...rest } = exp;
   const c = { id, title, spec_refs, decisions, content_md, expect: { ...none, ...rest } };
+  if (generate === false) c.generate = false; // TK output is the author's: harnesses must not regenerate it
   if (ambiguous) c.ambiguous = ambiguous;
   writeFileSync(join(here, `${String(i + 1).padStart(2, "0")}-${id}.json`), JSON.stringify(c, null, 2) + "\n");
 });

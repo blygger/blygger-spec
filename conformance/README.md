@@ -16,7 +16,7 @@ A spec can fail in two different ways, and these tools look for both:
 | Directory | Tool | Checks against |
 |---|---|---|
 | `clauses/` | Clause register: every normative sentence in `docs/protocol-v0.3.md` with a stable ID, linked to decisions, sections and tests; graph + coverage views | the spec and `CLAUDE.md` decisions |
-| `schemas/` | JSON Schemas for every wire document, rules relating fields to each other, and test cases for the `![[id]]`/`[[id]]` syntax | blygger-studio, Burrow (blygger-desktop) |
+| `schemas/` | JSON Schemas for every wire document, rules relating fields to each other, and test cases for the `![[id]]`/`[[id]]` syntax | blygger-studio, plus any client that supplies an adapter (`schemas/ADAPTERS.md`) |
 | `live/` | Read-only crawler of every known blyg; checks invariants that span origins (fork targets pinned, quotes are substrings of their source, Webmention reach) | the live network |
 | `alloy/` | Alloy 6 model of the protocol's rules; the solver searches for counterexamples | the spec |
 | `model/` | fast-check stateful property tests: a model written from the spec, and the real blygger-studio importer, driven by the same random action sequences | the spec, blygger-studio |
