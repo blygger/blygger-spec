@@ -7,9 +7,9 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 33 (parallel, Opus) — 2026-10-03 — Four releases (0.17.0–0.20.0): the grammar's reach, lineage on import, forks flatten; G10 and G11 exercised
+## Session 33 (parallel, Opus) — 2026-10-03 — Six releases (0.17.0–0.20.2): the grammar's reach, lineage on import, forks flatten; G10 and G11 exercised
 
-**Model:** Opus 5.5 · **Time:** ~19:00–20:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.17.0 → 0.20.0 to both nodes; migration 0017 applied to both D1s first. Tags v0.17.0–v0.19.0 cut; v0.20.0 tagged on green CI.
+**Model:** Opus 5.5 · **Time:** ~19:00–21:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.17.0 → 0.20.2 to both nodes; migration 0017 applied to both D1s first. Tags v0.17.0–v0.19.0 cut; v0.20.0 tagged on green CI.
 
 Ran beside the Fable session above. Opus held off `blygger-spec/` until Fable had committed.
 
@@ -34,13 +34,21 @@ Ran beside the Fable session above. Opus held off `blygger-spec/` until Fable ha
    - The session-24 test asserting directives were kept was rewritten to the ruling.
 5. **Gate G10 exercised:** PI stub `2ba4jjx71hnpatspwpa7a3kv4k` (a `{url}` stub of the living spec, full `cited`) imported onto venkateshrao with `stub_of_json` byte-identical. **Fable can promote §16.1a.**
 6. **Gate G11 exercised as a draft:** PI thread `6ftb9x77qw3egm7wrbn5vnfzfr` (pinned v1, quoting venkateshrao `54pwr12zqvvaj37zqx0f8vdbhk`, which itself quotes `blyg.aneeshsathe.com`) forked on venkateshrao as draft `13386qxgds01zxq4q3qjzd2fjh`. No directive remains. Both layers arrived flattened with their attribution, so three origins were crossed. **Publishing the fork is Venkat's call**, since it is his node and his voice. Left as a draft.
-7. Studio issues #3, #4, #5, #6, #12, #13, #14 and #23 closed with replies.
+7. Studio issues #3, #4, #5, #6, #12, #13, #14 and #23 closed with replies. #5 was reopened later in the session (point 8).
+8. **0.20.1, Venkat's provisional ruling on the conflict below.** An own-line `![[id]]` left in TK output is a real transclusion at publish, per the Fable §9.2 reading, which reverts 0.17.0's #5 change. Code stays inert (#54). studio#5 is reopened with an explanation. The generate route's misleading "unresolvable source" for a valid imported or thread id now reads **"TK transcludes are not yet implemented"** (Venkat's wording). That restriction is the v0.1 `resolveFragment` rule, which still accepts only own published fragments. It hits **own threads** as well as imported items, and #44 / G8's R2 lifts both. Drafts, withdrawn items and unknown ids keep an "unresolvable source: <reason>" error.
+9. **Gate G11 fully exercised:** Venkat had the fork published. venkateshrao `t/13386qxgds01zxq4q3qjzd2fjh` v1: `forked_from` = PI `6ftb9x77qw3egm7wrbn5vnfzfr` v1 (pinned), `transclusions: []`, no `blyg-transclusion`, both attribution lines present. **Fable can promote §16.6f into §5.6.**
 
-**State after.** blygger-studio 0.20.0 on both nodes, migrations through 0017. Suites: 819 Worker, 6 UI-state, 138 browser, all passing. Opus brief item 5 (fork flattening) is done; G8 is still deferred.
+10. **0.20.2, small fixes before wrap-up:**
+    - **studio#15 parts 2–3.** `escapeXml` and `cdata` drop XML-1.0-invalid characters. One of them breaks a subscriber's *whole* feed in libxml2 readers, while our `fast-xml-parser` tolerates it. Publish strips them and the U+E000–E005 sentinels from published text.
+    - **Grapheme-safe truncation.** `graphemePrefix` in the new dependency-free `src/text.ts` (it has to be importable by the Studio bundle, which `util.ts` is not) replaces `slice(0, n)` at five sites.
+    - **studio#1.** The template assertions on `wrangler.jsonc` moved from `npm test` (which operators run on their own config) to the CI-only `npm run check:template`.
+    - **studio#10.** `9000_`–`9999_` is reserved for operators' migrations, documented in the README and enforced by the same CI script. A first attempt put that check in a test, which would have repeated #1's mistake on operators' installs; it was caught before commit.
+    - #1 and #10 are closed. #15 stays open for part 1, charset-aware imports.
+
+**State after.** blygger-studio 0.20.2 on both nodes, migrations through 0017. Suites: 823 Worker, 6 UI-state, 138 browser, all passing. Opus brief item 5 (fork flattening) is done; G8 is still deferred.
 
 **Open threads.**
-- **For Fable — a conflict to reconcile.** The session-33 Fable entry's §9.2 says an own-line `![[id]]` left in TK output is "at publish, a real transclusion", and calls that consistent. That describes the code before 0.17.0. Following decision #20 ("inside a TK scope every `![[id]]` is a source reference … never a blockquote; scopes cannot contain transclusions") and aneesh's #5, 0.17.0 makes such a line inert. The code follows #20; §9.2's note should change, or #20 should be revisited.
-- **G11 needs the fork published** (or Venkat's word that a draft suffices) before Fable promotes §16.6f into §5.6.
+- **For Fable — a conflict to reconcile (provisionally settled by Venkat in 0.20.1, §9.2's way).** The session-33 Fable entry's §9.2 says an own-line `![[id]]` left in TK output is "at publish, a real transclusion", and calls that consistent. That describes the code before 0.17.0. Following decision #20 ("inside a TK scope every `![[id]]` is a source reference … never a blockquote; scopes cannot contain transclusions") and aneesh's #5, 0.17.0 makes such a line inert. The code follows #20; §9.2's note should change, or #20 should be revisited.
 - **G6 reverse direction** is still Venkat's call (session 32).
 - Earlier imports have `stub_of_json` NULL until their origin's next version; no backfill was written.
 
