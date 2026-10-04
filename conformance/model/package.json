@@ -1,0 +1,19 @@
+{
+  "name": "@blygger/conformance-model",
+  "private": true,
+  "type": "module",
+  "description": "Stateful property-based tests of the Blygger protocol: an executable reference model, plus differential runs against blygger-studio.",
+  "scripts": {
+    "model": "tsx scripts/run-model.ts",
+    "studio": "tsx scripts/run-studio.ts",
+    "render": "tsx scripts/render-report.ts",
+    "report": "npm run model && npm run studio && npm run render",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "fast-check": "^4.10.2",
+    "tsx": "^4.23.15",
+    "typescript": "^5"
+  }
+}

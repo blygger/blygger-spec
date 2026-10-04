@@ -1,0 +1,3039 @@
+{
+ "generated_at": "2026-10-04T03:16:21.745Z",
+ "runs": 1000,
+ "seed": 20261003,
+ "results": [
+  {
+   "id": "P1",
+   "props": [
+    "P1"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1000,
+   "seed": 20261003,
+   "commandsExecuted": 12218,
+   "hits": {
+    "P1": 3804
+   },
+   "ms": 177
+  },
+  {
+   "id": "P2",
+   "props": [
+    "P2"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1000,
+   "seed": 20261003,
+   "commandsExecuted": 14980,
+   "hits": {
+    "P2": 1930
+   },
+   "ms": 155
+  },
+  {
+   "id": "P2b",
+   "props": [
+    "P2b"
+   ],
+   "subject": "model",
+   "status": "fail",
+   "numRuns": 15,
+   "seed": 20261003,
+   "commandsExecuted": 2464,
+   "hits": {
+    "P2b": 740
+   },
+   "ms": 37,
+   "path": "14:7:10:16:15:16:16:18:17:18:18:20:19:20:20:22:22:24:24:25",
+   "numShrinks": 19,
+   "failure": {
+    "prop": "P2b",
+    "detail": "B:zz000000000000000000000003 v1 is in the index but missing from the reader",
+    "step": 7,
+    "commands": [
+     "S polls B [none]",
+     "B.publish(slot 0 = #3)",
+     "B.publish(slot 1 = #4)",
+     "B.publish(slot 1 = #4)",
+     "B.publish(slot 1 = #4)",
+     "B.publish(slot 1 = #4)",
+     "S polls B [none]"
+    ],
+    "cmdData": [
+     {
+      "t": "poll",
+      "o": "B",
+      "fault": {
+       "kind": "none"
+      }
+     },
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 0,
+      "w": 0,
+      "dirs": []
+     },
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 1,
+      "w": 0,
+      "dirs": []
+     },
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 1,
+      "w": 0,
+      "dirs": []
+     },
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 1,
+      "w": 0,
+      "dirs": []
+     },
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 1,
+      "w": 0,
+      "dirs": []
+     },
+     {
+      "t": "poll",
+      "o": "B",
+      "fault": {
+       "kind": "none"
+      }
+     }
+    ],
+    "trace": [
+     {
+      "n": 1,
+      "cmd": {
+       "t": "poll",
+       "o": "B",
+       "fault": {
+        "kind": "none"
+       }
+      },
+      "text": "S polls B [none]",
+      "events": [
+       {
+        "lane": "reader",
+        "to": "B",
+        "kind": "fetch",
+        "label": "poll B"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/feed.xml → 200"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/items/index.json → 200"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 2,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 0,
+       "w": 0,
+       "dirs": []
+      },
+      "text": "B.publish(slot 0 = #3)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #3 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 3,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 1,
+       "w": 0,
+       "dirs": []
+      },
+      "text": "B.publish(slot 1 = #4)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #4 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 4,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 1,
+       "w": 0,
+       "dirs": []
+      },
+      "text": "B.publish(slot 1 = #4)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #4 v2"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 5,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 1,
+       "w": 0,
+       "dirs": []
+      },
+      "text": "B.publish(slot 1 = #4)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #4 v3"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 6,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 1,
+       "w": 0,
+       "dirs": []
+      },
+      "text": "B.publish(slot 1 = #4)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #4 v4"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 7,
+      "cmd": {
+       "t": "poll",
+       "o": "B",
+       "fault": {
+        "kind": "none"
+       }
+      },
+      "text": "S polls B [none]",
+      "events": [
+       {
+        "lane": "reader",
+        "to": "B",
+        "kind": "fetch",
+        "label": "poll B"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/feed.xml → 200"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/items/#4.json → 200"
+       },
+       {
+        "lane": "S",
+        "kind": "diverge",
+        "label": "✗ P2b"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {
+         "zz000000000000000000000004": {
+          "state": "current",
+          "version": 4,
+          "hash": "sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8",
+          "retained": null,
+          "hasContent": true
+         }
+        }
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      },
+      "violation": "P2b: B:zz000000000000000000000003 v1 is in the index but missing from the reader"
+     }
+    ]
+   }
+  },
+  {
+   "id": "P3",
+   "props": [
+    "P3"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1000,
+   "seed": 20261003,
+   "commandsExecuted": 14980,
+   "hits": {
+    "P3": 13235
+   },
+   "ms": 142
+  },
+  {
+   "id": "P4",
+   "props": [
+    "P4"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1000,
+   "seed": 20261003,
+   "commandsExecuted": 14980,
+   "hits": {
+    "P4": 58
+   },
+   "ms": 147
+  },
+  {
+   "id": "P5",
+   "props": [
+    "P5"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1000,
+   "seed": 20261003,
+   "commandsExecuted": 12218,
+   "hits": {
+    "P5": 154
+   },
+   "ms": 86
+  },
+  {
+   "id": "P6-pre",
+   "title": "Pre-#57 fork (copy content_md, re-resolve at the forker)",
+   "props": [
+    "P6"
+   ],
+   "subject": "model",
+   "status": "fail",
+   "numRuns": 2340,
+   "seed": 20261003,
+   "commandsExecuted": 42314,
+   "hits": {
+    "P6": 442
+   },
+   "ms": 304,
+   "path": "2339:5:4:7:7:18:17:17:14:14:18:18:21:27:28:28",
+   "numShrinks": 15,
+   "failure": {
+    "prop": "P6",
+    "detail": "fork zz000000000000000000000009 of https://b.example/zz000000000000000000000005@v1: source pin baked [https://b.example/|zz000000000000000000000006|v2] but the fork baked [https://b.example/|zz000000000000000000000006|v1]",
+    "step": 6,
+    "commands": [
+     "B.publish(slot 3 = #6)",
+     "S index-diffs B (clean)",
+     "B.publish(slot 3 = #6)",
+     "B.publish(slot 2 = #5, quotes [#6])",
+     "B.pin(#5, latest-0)",
+     "S forks B:#5 @ pin #0 → #9"
+    ],
+    "cmdData": [
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 3,
+      "w": 0,
+      "dirs": []
+     },
+     {
+      "t": "reconcile",
+      "o": "B"
+     },
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 3,
+      "w": 0,
+      "dirs": []
+     },
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 2,
+      "w": 0,
+      "dirs": [
+       {
+        "id": 3
+       }
+      ]
+     },
+     {
+      "t": "pin",
+      "o": "B",
+      "slot": 2,
+      "back": 0
+     },
+     {
+      "t": "fork",
+      "o": "B",
+      "slot": 2,
+      "back": 0,
+      "into": 0
+     }
+    ],
+    "trace": [
+     {
+      "n": 1,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 3,
+       "w": 0,
+       "dirs": []
+      },
+      "text": "B.publish(slot 3 = #6)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #6 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 2,
+      "cmd": {
+       "t": "reconcile",
+       "o": "B"
+      },
+      "text": "S index-diffs B (clean)",
+      "events": [
+       {
+        "lane": "reader",
+        "to": "B",
+        "kind": "fetch",
+        "label": "index diff B (clean)"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/items/index.json → 200"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/items/#6.json → 200"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {
+         "zz000000000000000000000006": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8",
+          "retained": null,
+          "hasContent": true
+         }
+        }
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 3,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 3,
+       "w": 0,
+       "dirs": []
+      },
+      "text": "B.publish(slot 3 = #6)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #6 v2"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {
+         "zz000000000000000000000006": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8",
+          "retained": null,
+          "hasContent": true
+         }
+        }
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 4,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 2,
+       "w": 0,
+       "dirs": [
+        {
+         "id": 3
+        }
+       ]
+      },
+      "text": "B.publish(slot 2 = #5, quotes [#6])",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #5 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {
+         "zz000000000000000000000006": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8",
+          "retained": null,
+          "hasContent": true
+         }
+        }
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 5,
+      "cmd": {
+       "t": "pin",
+       "o": "B",
+       "slot": 2,
+       "back": 0
+      },
+      "text": "B.pin(#5, latest-0)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "pin #5 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {
+         "zz000000000000000000000006": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8",
+          "retained": null,
+          "hasContent": true
+         }
+        }
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 6,
+      "cmd": {
+       "t": "fork",
+       "o": "B",
+       "slot": 2,
+       "back": 0,
+       "into": 0
+      },
+      "text": "S forks B:#5 @ pin #0 → #9",
+      "events": [
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/items/#5/v1.json → 200"
+       },
+       {
+        "lane": "S",
+        "to": "B",
+        "kind": "act",
+        "label": "fork #5@v1 → #9 published"
+       },
+       {
+        "lane": "S",
+        "kind": "diverge",
+        "label": "✗ P6"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {
+         "zz000000000000000000000006": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8",
+          "retained": null,
+          "hasContent": true
+         }
+        }
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {
+        "zz000000000000000000000009": {
+         "versions": [
+          {
+           "version": 1,
+           "kind": "thread",
+           "transclusions": [
+            {
+             "id": "zz000000000000000000000006",
+             "version": 1,
+             "origin": "https://b.example/"
+            }
+           ],
+           "html": "<p>alpha eta epsilon</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"zz000000000000000000000006\" data-blyg-version=\"1\" data-blyg-origin=\"https://b.example/\">\n<p>alpha eta epsilon alpha epsilon n0</p>\n</blockquote>\n<p>closing beta beta</p>",
+           "md": "alpha eta epsilon\n\n![[zz000000000000000000000006]]\n\nclosing beta beta"
+          }
+         ],
+         "pinned": [],
+         "forked_from": {
+          "origin": "https://b.example/",
+          "id": "zz000000000000000000000005",
+          "version": 1
+         }
+        }
+       }
+      },
+      "violation": "P6: fork zz000000000000000000000009 of https://b.example/zz000000000000000000000005@v1: source pin baked [https://b.example/|zz000000000000000000000006|v2] but the fork baked [https://b.example/|zz000000000000000000000006|v1]"
+     }
+    ]
+   }
+  },
+  {
+   "id": "P6-pre-nopartial",
+   "title": "Pre-#57 fork when the forker lacks the partial grammar",
+   "props": [
+    "P6"
+   ],
+   "subject": "model",
+   "status": "fail",
+   "numRuns": 106,
+   "seed": 20261003,
+   "commandsExecuted": 2997,
+   "hits": {
+    "P6": 62
+   },
+   "ms": 25,
+   "path": "105:5:7:7:7:10:11:12:11:9:9:12:13:13:13:16:18",
+   "numShrinks": 16,
+   "failure": {
+    "prop": "P6",
+    "detail": "fork zz000000000000000000000009 of https://b.example/zz000000000000000000000005@v1: source pin baked [https://b.example/|zz000000000000000000000003|v1|sel:alpha] but the fork baked [https://b.example/|zz000000000000000000000003|v1]",
+    "step": 5,
+    "commands": [
+     "B.publish(slot 0 = #3)",
+     "B.publish(slot 2 = #5, quotes [#3 (partial)])",
+     "B.pin(#5, latest-0)",
+     "S index-diffs B (clean)",
+     "S forks B:#5 @ pin #0 → #9"
+    ],
+    "cmdData": [
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 0,
+      "w": 0,
+      "dirs": []
+     },
+     {
+      "t": "pub",
+      "o": "B",
+      "slot": 2,
+      "w": 0,
+      "dirs": [
+       {
+        "id": 0,
+        "partial": {
+         "from": 0,
+         "len": 0
+        }
+       }
+      ]
+     },
+     {
+      "t": "pin",
+      "o": "B",
+      "slot": 2,
+      "back": 0
+     },
+     {
+      "t": "reconcile",
+      "o": "B"
+     },
+     {
+      "t": "fork",
+      "o": "B",
+      "slot": 2,
+      "back": 0,
+      "into": 0
+     }
+    ],
+    "trace": [
+     {
+      "n": 1,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 0,
+       "w": 0,
+       "dirs": []
+      },
+      "text": "B.publish(slot 0 = #3)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #3 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 2,
+      "cmd": {
+       "t": "pub",
+       "o": "B",
+       "slot": 2,
+       "w": 0,
+       "dirs": [
+        {
+         "id": 0,
+         "partial": {
+          "from": 0,
+          "len": 0
+         }
+        }
+       ]
+      },
+      "text": "B.publish(slot 2 = #5, quotes [#3 (partial)])",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "publish #5 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 3,
+      "cmd": {
+       "t": "pin",
+       "o": "B",
+       "slot": 2,
+       "back": 0
+      },
+      "text": "B.pin(#5, latest-0)",
+      "events": [
+       {
+        "lane": "B",
+        "kind": "act",
+        "label": "pin #5 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 4,
+      "cmd": {
+       "t": "reconcile",
+       "o": "B"
+      },
+      "text": "S index-diffs B (clean)",
+      "events": [
+       {
+        "lane": "reader",
+        "to": "B",
+        "kind": "fetch",
+        "label": "index diff B (clean)"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/items/index.json → 200"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/items/#3.json → 200"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/items/#5.json → 200"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {
+         "zz000000000000000000000003": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8",
+          "retained": null,
+          "hasContent": true
+         },
+         "zz000000000000000000000005": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:b1757ed5715bb5b661b2f92a3cc4c8d4d15de9dadebf907dc4b42c1956e026c7",
+          "retained": null,
+          "hasContent": true
+         }
+        }
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 5,
+      "cmd": {
+       "t": "fork",
+       "o": "B",
+       "slot": 2,
+       "back": 0,
+       "into": 0
+      },
+      "text": "S forks B:#5 @ pin #0 → #9",
+      "events": [
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET B/items/#5/v1.json → 200"
+       },
+       {
+        "lane": "S",
+        "to": "B",
+        "kind": "act",
+        "label": "fork #5@v1 → #9 published"
+       },
+       {
+        "lane": "S",
+        "kind": "diverge",
+        "label": "✗ P6"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {
+         "zz000000000000000000000003": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:b63601e9443ce09003ffcf1d587fc83cc621fee05e68df6bd3c53b4d771002b8",
+          "retained": null,
+          "hasContent": true
+         },
+         "zz000000000000000000000005": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:b1757ed5715bb5b661b2f92a3cc4c8d4d15de9dadebf907dc4b42c1956e026c7",
+          "retained": null,
+          "hasContent": true
+         }
+        }
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {
+        "zz000000000000000000000009": {
+         "versions": [
+          {
+           "version": 1,
+           "kind": "thread",
+           "transclusions": [
+            {
+             "id": "zz000000000000000000000003",
+             "version": 1,
+             "origin": "https://b.example/"
+            }
+           ],
+           "html": "<p>alpha eta epsilon</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"zz000000000000000000000003\" data-blyg-version=\"1\" data-blyg-origin=\"https://b.example/\">\n<p>alpha eta epsilon alpha epsilon n0</p>\n</blockquote>\n<blockquote>\n<p>alpha</p>\n</blockquote>\n<p>closing beta beta</p>",
+           "md": "alpha eta epsilon\n\n![[zz000000000000000000000003]]\n> alpha\n\nclosing beta beta"
+          }
+         ],
+         "pinned": [],
+         "forked_from": {
+          "origin": "https://b.example/",
+          "id": "zz000000000000000000000005",
+          "version": 1
+         }
+        }
+       }
+      },
+      "violation": "P6: fork zz000000000000000000000009 of https://b.example/zz000000000000000000000005@v1: source pin baked [https://b.example/|zz000000000000000000000003|v1|sel:alpha] but the fork baked [https://b.example/|zz000000000000000000000003|v1]"
+     }
+    ]
+   }
+  },
+  {
+   "id": "P6-post",
+   "title": "Post-#57 fork (flatten the pinned document, §16.6f)",
+   "props": [
+    "P6post"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 10000,
+   "seed": 20261003,
+   "commandsExecuted": 174147,
+   "hits": {
+    "P6post": 2112
+   },
+   "ms": 1185
+  },
+  {
+   "id": "P6-post-legacy",
+   "title": "Post-#57 fork of a thread published by a client WITHOUT the partial grammar",
+   "props": [
+    "P6post"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 10000,
+   "seed": 20261003,
+   "commandsExecuted": 174147,
+   "hits": {
+    "P6post": 2134
+   },
+   "ms": 1153
+  },
+  {
+   "id": "P7",
+   "props": [
+    "P7"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1000,
+   "seed": 20261003,
+   "commandsExecuted": 14980,
+   "hits": {
+    "P7": 571
+   },
+   "ms": 118
+  },
+  {
+   "id": "P8",
+   "props": [
+    "P8"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1000,
+   "seed": 20261003,
+   "commandsExecuted": 14980,
+   "hits": {
+    "P8": 1085
+   },
+   "ms": 136
+  },
+  {
+   "id": "P9",
+   "props": [
+    "P9"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1000,
+   "seed": 20261003,
+   "commandsExecuted": 14980,
+   "hits": {
+    "P9": 135
+   },
+   "ms": 125
+  },
+  {
+   "id": "P10",
+   "props": [
+    "P10"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1000,
+   "seed": 20261003,
+   "commandsExecuted": 12218,
+   "hits": {
+    "P10": 14964
+   },
+   "ms": 66
+  },
+  {
+   "id": "P6-post",
+   "title": "S forks A's pinned thread (one whole quote, one partial)",
+   "props": [
+    "P6post"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1,
+   "seed": 0,
+   "commandsExecuted": 6,
+   "hits": {
+    "P6post": 1
+   },
+   "ms": 0,
+   "replayOf": "scenario:fork-remote-thread-with-partial",
+   "trace": [
+    {
+     "n": 1,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 0,
+      "w": 1,
+      "dirs": []
+     },
+     "text": "A.publish(slot 0 = #1)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #1 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 2,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 1,
+      "w": 2,
+      "dirs": []
+     },
+     "text": "A.publish(slot 1 = #2)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #2 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 3,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 2,
+      "w": 3,
+      "dirs": [
+       {
+        "id": 0
+       },
+       {
+        "id": 1,
+        "partial": {
+         "from": 1,
+         "len": 1
+        }
+       }
+      ]
+     },
+     "text": "A.publish(slot 2 = #3, quotes [#1, #2 (partial)])",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #3 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 4,
+     "cmd": {
+      "t": "pin",
+      "o": "A",
+      "slot": 2,
+      "back": 0
+     },
+     "text": "A.pin(#3, latest-0)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "pin #3 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 5,
+     "cmd": {
+      "t": "reconcile",
+      "o": "A"
+     },
+     "text": "S index-diffs A (clean)",
+     "events": [
+      {
+       "lane": "reader",
+       "to": "A",
+       "kind": "fetch",
+       "label": "index diff A (clean)"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/index.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#1.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#2.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#3.json → 200"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:12907b29b933035987d5c430900a4ec3901ff83ae18c74e229316c96fa19245a",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 6,
+     "cmd": {
+      "t": "fork",
+      "o": "A",
+      "slot": 2,
+      "back": 0,
+      "into": 0
+     },
+     "text": "S forks A:#3 @ pin #0 → #9",
+     "events": [
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#3/v1.json → 200"
+      },
+      {
+       "lane": "S",
+       "to": "A",
+       "kind": "act",
+       "label": "fork #3@v1 → #9 published"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:12907b29b933035987d5c430900a4ec3901ff83ae18c74e229316c96fa19245a",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {
+       "zz000000000000000000000009": {
+        "versions": [
+         {
+          "version": 1,
+          "kind": "thread",
+          "transclusions": [],
+          "html": "<p>iota epsilon alpha</p>\n<blockquote>\n<p>eta lambda lambda eta gamma n1</p>\n<p>— quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)</p>\n</blockquote>\n<blockquote>\n<p>eta gamma</p>\n<p>— quoted from https://a.example/ zz000000000000000000000002 v1 (https://a.example/items/zz000000000000000000000002.json)</p>\n</blockquote>\n<p>closing delta gamma</p>",
+          "md": "iota epsilon alpha\n\n> eta lambda lambda eta gamma n1\n>\n> — quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)\n\n> eta gamma\n>\n> — quoted from https://a.example/ zz000000000000000000000002 v1 (https://a.example/items/zz000000000000000000000002.json)\n\nclosing delta gamma"
+         }
+        ],
+        "pinned": [],
+        "forked_from": {
+         "origin": "https://a.example/",
+         "id": "zz000000000000000000000003",
+         "version": 1
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "P6-post",
+   "title": "S forks its OWN pinned thread, which quotes A's thread (which quotes A's fragments): nested cross-origin quotes",
+   "props": [
+    "P6post"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1,
+   "seed": 0,
+   "commandsExecuted": 7,
+   "hits": {
+    "P6post": 1
+   },
+   "ms": 1,
+   "replayOf": "scenario:fork-own-thread-nested-cross-origin",
+   "trace": [
+    {
+     "n": 1,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 0,
+      "w": 1,
+      "dirs": []
+     },
+     "text": "A.publish(slot 0 = #1)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #1 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 2,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 1,
+      "w": 2,
+      "dirs": []
+     },
+     "text": "A.publish(slot 1 = #2)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #2 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 3,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 2,
+      "w": 3,
+      "dirs": [
+       {
+        "id": 0
+       },
+       {
+        "id": 1,
+        "partial": {
+         "from": 1,
+         "len": 1
+        }
+       }
+      ]
+     },
+     "text": "A.publish(slot 2 = #3, quotes [#1, #2 (partial)])",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #3 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 4,
+     "cmd": {
+      "t": "reconcile",
+      "o": "A"
+     },
+     "text": "S index-diffs A (clean)",
+     "events": [
+      {
+       "lane": "reader",
+       "to": "A",
+       "kind": "fetch",
+       "label": "index diff A (clean)"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/index.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#1.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#2.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#3.json → 200"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:12907b29b933035987d5c430900a4ec3901ff83ae18c74e229316c96fa19245a",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 5,
+     "cmd": {
+      "t": "spub",
+      "slot": 1,
+      "w": 4,
+      "dirs": [
+       {
+        "id": 2
+       },
+       {
+        "id": 0,
+        "partial": {
+         "from": 0,
+         "len": 2
+        }
+       }
+      ]
+     },
+     "text": "S.publish(#7, quotes [#3, #1 (partial)])",
+     "events": [
+      {
+       "lane": "S",
+       "kind": "act",
+       "label": "publish #7 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:12907b29b933035987d5c430900a4ec3901ff83ae18c74e229316c96fa19245a",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {
+       "zz000000000000000000000007": {
+        "versions": [
+         {
+          "version": 1,
+          "kind": "thread",
+          "transclusions": [
+           {
+            "id": "zz000000000000000000000003",
+            "version": 1,
+            "origin": "https://a.example/"
+           },
+           {
+            "id": "zz000000000000000000000001",
+            "version": 1,
+            "origin": "https://a.example/",
+            "selector": {
+             "exact": "eta lambda lambda"
+            }
+           }
+          ],
+          "html": "<p>kappa zeta zeta</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"zz000000000000000000000003\" data-blyg-version=\"1\" data-blyg-origin=\"https://a.example/\">\n<p>iota epsilon alpha</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"zz000000000000000000000001\" data-blyg-version=\"1\">\n<p>eta lambda lambda eta gamma n1</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"zz000000000000000000000002\" data-blyg-version=\"1\">\n<p>eta gamma</p>\n</blockquote>\n<p>closing delta gamma</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"zz000000000000000000000001\" data-blyg-version=\"1\" data-blyg-origin=\"https://a.example/\">\n<p>eta lambda lambda</p>\n</blockquote>\n<p>closing lambda gamma</p>",
+          "md": "kappa zeta zeta\n\n![[zz000000000000000000000003]]\n\n![[zz000000000000000000000001]]\n> eta lambda lambda\n\nclosing lambda gamma"
+         }
+        ],
+        "pinned": []
+       }
+      }
+     }
+    },
+    {
+     "n": 6,
+     "cmd": {
+      "t": "pin",
+      "o": "S",
+      "slot": 1,
+      "back": 0
+     },
+     "text": "S.pin(#7, latest-0)",
+     "events": [
+      {
+       "lane": "S",
+       "kind": "act",
+       "label": "pin #7 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:12907b29b933035987d5c430900a4ec3901ff83ae18c74e229316c96fa19245a",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {
+       "zz000000000000000000000007": {
+        "versions": [
+         {
+          "version": 1,
+          "kind": "thread",
+          "transclusions": [
+           {
+            "id": "zz000000000000000000000003",
+            "version": 1,
+            "origin": "https://a.example/"
+           },
+           {
+            "id": "zz000000000000000000000001",
+            "version": 1,
+            "origin": "https://a.example/",
+            "selector": {
+             "exact": "eta lambda lambda"
+            }
+           }
+          ],
+          "html": "<p>kappa zeta zeta</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"zz000000000000000000000003\" data-blyg-version=\"1\" data-blyg-origin=\"https://a.example/\">\n<p>iota epsilon alpha</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"zz000000000000000000000001\" data-blyg-version=\"1\">\n<p>eta lambda lambda eta gamma n1</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"zz000000000000000000000002\" data-blyg-version=\"1\">\n<p>eta gamma</p>\n</blockquote>\n<p>closing delta gamma</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"zz000000000000000000000001\" data-blyg-version=\"1\" data-blyg-origin=\"https://a.example/\">\n<p>eta lambda lambda</p>\n</blockquote>\n<p>closing lambda gamma</p>",
+          "md": "kappa zeta zeta\n\n![[zz000000000000000000000003]]\n\n![[zz000000000000000000000001]]\n> eta lambda lambda\n\nclosing lambda gamma"
+         }
+        ],
+        "pinned": [
+         1
+        ]
+       }
+      }
+     }
+    },
+    {
+     "n": 7,
+     "cmd": {
+      "t": "fork",
+      "o": "S",
+      "slot": 1,
+      "back": 0,
+      "into": 0
+     },
+     "text": "S forks S:#7 @ pin #0 → #9",
+     "events": [
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET S/blyg/items/#7/v1.json → 200"
+      },
+      {
+       "lane": "S",
+       "to": "S",
+       "kind": "act",
+       "label": "fork #7@v1 → #9 published"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:12907b29b933035987d5c430900a4ec3901ff83ae18c74e229316c96fa19245a",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {
+       "zz000000000000000000000007": {
+        "versions": [
+         {
+          "version": 1,
+          "kind": "thread",
+          "transclusions": [
+           {
+            "id": "zz000000000000000000000003",
+            "version": 1,
+            "origin": "https://a.example/"
+           },
+           {
+            "id": "zz000000000000000000000001",
+            "version": 1,
+            "origin": "https://a.example/",
+            "selector": {
+             "exact": "eta lambda lambda"
+            }
+           }
+          ],
+          "html": "<p>kappa zeta zeta</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"zz000000000000000000000003\" data-blyg-version=\"1\" data-blyg-origin=\"https://a.example/\">\n<p>iota epsilon alpha</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"zz000000000000000000000001\" data-blyg-version=\"1\">\n<p>eta lambda lambda eta gamma n1</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"zz000000000000000000000002\" data-blyg-version=\"1\">\n<p>eta gamma</p>\n</blockquote>\n<p>closing delta gamma</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"zz000000000000000000000001\" data-blyg-version=\"1\" data-blyg-origin=\"https://a.example/\">\n<p>eta lambda lambda</p>\n</blockquote>\n<p>closing lambda gamma</p>",
+          "md": "kappa zeta zeta\n\n![[zz000000000000000000000003]]\n\n![[zz000000000000000000000001]]\n> eta lambda lambda\n\nclosing lambda gamma"
+         }
+        ],
+        "pinned": [
+         1
+        ]
+       },
+       "zz000000000000000000000009": {
+        "versions": [
+         {
+          "version": 1,
+          "kind": "thread",
+          "transclusions": [],
+          "html": "<p>kappa zeta zeta</p>\n<blockquote>\n<p>iota epsilon alpha</p>\n<blockquote>\n<p>eta lambda lambda eta gamma n1</p>\n<p>— quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)</p>\n</blockquote>\n<blockquote>\n<p>eta gamma</p>\n<p>— quoted from https://a.example/ zz000000000000000000000002 v1 (https://a.example/items/zz000000000000000000000002.json)</p>\n</blockquote>\n<p>closing delta gamma</p>\n<p>— quoted from https://a.example/ zz000000000000000000000003 v1 (https://a.example/items/zz000000000000000000000003.json)</p>\n</blockquote>\n<blockquote>\n<p>eta lambda lambda</p>\n<p>— quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)</p>\n</blockquote>\n<p>closing lambda gamma</p>",
+          "md": "kappa zeta zeta\n\n> iota epsilon alpha\n>\n> > eta lambda lambda eta gamma n1\n> >\n> > — quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)\n>\n> > eta gamma\n> >\n> > — quoted from https://a.example/ zz000000000000000000000002 v1 (https://a.example/items/zz000000000000000000000002.json)\n>\n> closing delta gamma\n>\n> — quoted from https://a.example/ zz000000000000000000000003 v1 (https://a.example/items/zz000000000000000000000003.json)\n\n> eta lambda lambda\n>\n> — quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)\n\nclosing lambda gamma"
+         }
+        ],
+        "pinned": [],
+        "forked_from": {
+         "origin": "https://example.com/blyg/",
+         "id": "zz000000000000000000000007",
+         "version": 1
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "P6-post",
+   "title": "A's quoted fragment moves on after the pin; S has imported the newer version, then forks the pin",
+   "props": [
+    "P6post"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1,
+   "seed": 0,
+   "commandsExecuted": 7,
+   "hits": {
+    "P6post": 1
+   },
+   "ms": 0,
+   "replayOf": "scenario:fork-after-source-drift",
+   "trace": [
+    {
+     "n": 1,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 0,
+      "w": 1,
+      "dirs": []
+     },
+     "text": "A.publish(slot 0 = #1)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #1 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 2,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 1,
+      "w": 2,
+      "dirs": []
+     },
+     "text": "A.publish(slot 1 = #2)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #2 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 3,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 2,
+      "w": 3,
+      "dirs": [
+       {
+        "id": 0
+       },
+       {
+        "id": 1,
+        "partial": {
+         "from": 1,
+         "len": 1
+        }
+       }
+      ]
+     },
+     "text": "A.publish(slot 2 = #3, quotes [#1, #2 (partial)])",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #3 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 4,
+     "cmd": {
+      "t": "pin",
+      "o": "A",
+      "slot": 2,
+      "back": 0
+     },
+     "text": "A.pin(#3, latest-0)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "pin #3 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 5,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 0,
+      "w": 9,
+      "dirs": []
+     },
+     "text": "A.publish(slot 0 = #1)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #1 v2"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 6,
+     "cmd": {
+      "t": "reconcile",
+      "o": "A"
+     },
+     "text": "S index-diffs A (clean)",
+     "events": [
+      {
+       "lane": "reader",
+       "to": "A",
+       "kind": "fetch",
+       "label": "index diff A (clean)"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/index.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#1.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#2.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#3.json → 200"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 2,
+         "hash": "sha256:f2cbb8b932ac50460f6140d46be7a82dea006ea2d9b2878d8828089cb124e190",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 7,
+     "cmd": {
+      "t": "fork",
+      "o": "A",
+      "slot": 2,
+      "back": 0,
+      "into": 0
+     },
+     "text": "S forks A:#3 @ pin #0 → #9",
+     "events": [
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#3/v1.json → 200"
+      },
+      {
+       "lane": "S",
+       "to": "A",
+       "kind": "act",
+       "label": "fork #3@v1 → #9 published"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 2,
+         "hash": "sha256:f2cbb8b932ac50460f6140d46be7a82dea006ea2d9b2878d8828089cb124e190",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {
+       "zz000000000000000000000009": {
+        "versions": [
+         {
+          "version": 1,
+          "kind": "thread",
+          "transclusions": [],
+          "html": "<p>iota epsilon alpha</p>\n<blockquote>\n<p>eta lambda lambda eta gamma n1</p>\n<p>— quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)</p>\n</blockquote>\n<blockquote>\n<p>eta gamma</p>\n<p>— quoted from https://a.example/ zz000000000000000000000002 v1 (https://a.example/items/zz000000000000000000000002.json)</p>\n</blockquote>\n<p>closing delta gamma</p>",
+          "md": "iota epsilon alpha\n\n> eta lambda lambda eta gamma n1\n>\n> — quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)\n\n> eta gamma\n>\n> — quoted from https://a.example/ zz000000000000000000000002 v1 (https://a.example/items/zz000000000000000000000002.json)\n\nclosing delta gamma"
+         }
+        ],
+        "pinned": [],
+        "forked_from": {
+         "origin": "https://a.example/",
+         "id": "zz000000000000000000000003",
+         "version": 1
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "P6-post-legacy",
+   "title": "S forks a thread from a publisher WITHOUT the partial grammar, whose `>` lines after a directive are the author's own prose",
+   "props": [
+    "P6post"
+   ],
+   "subject": "model",
+   "status": "pass",
+   "numRuns": 1,
+   "seed": 0,
+   "commandsExecuted": 6,
+   "hits": {
+    "P6post": 1
+   },
+   "ms": 0,
+   "replayOf": "scenario:fork-legacy-adjacency",
+   "trace": [
+    {
+     "n": 1,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 0,
+      "w": 1,
+      "dirs": []
+     },
+     "text": "A.publish(slot 0 = #1)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #1 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 2,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 1,
+      "w": 2,
+      "dirs": []
+     },
+     "text": "A.publish(slot 1 = #2)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #2 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 3,
+     "cmd": {
+      "t": "pub",
+      "o": "A",
+      "slot": 2,
+      "w": 3,
+      "dirs": [
+       {
+        "id": 0
+       },
+       {
+        "id": 1,
+        "partial": {
+         "from": 1,
+         "len": 1
+        }
+       }
+      ]
+     },
+     "text": "A.publish(slot 2 = #3, quotes [#1, #2 (partial)])",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "publish #3 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 4,
+     "cmd": {
+      "t": "pin",
+      "o": "A",
+      "slot": 2,
+      "back": 0
+     },
+     "text": "A.pin(#3, latest-0)",
+     "events": [
+      {
+       "lane": "A",
+       "kind": "act",
+       "label": "pin #3 v1"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {},
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 5,
+     "cmd": {
+      "t": "reconcile",
+      "o": "A"
+     },
+     "text": "S index-diffs A (clean)",
+     "events": [
+      {
+       "lane": "reader",
+       "to": "A",
+       "kind": "fetch",
+       "label": "index diff A (clean)"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/index.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#1.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#2.json → 200"
+      },
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#3.json → 200"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:12907b29b933035987d5c430900a4ec3901ff83ae18c74e229316c96fa19245a",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {}
+     }
+    },
+    {
+     "n": 6,
+     "cmd": {
+      "t": "fork",
+      "o": "A",
+      "slot": 2,
+      "back": 0,
+      "into": 0
+     },
+     "text": "S forks A:#3 @ pin #0 → #9",
+     "events": [
+      {
+       "lane": "network",
+       "to": "reader",
+       "kind": "fetch",
+       "label": "model: GET A/items/#3/v1.json → 200"
+      },
+      {
+       "lane": "S",
+       "to": "A",
+       "kind": "act",
+       "label": "fork #3@v1 → #9 published"
+      }
+     ],
+     "model": {
+      "imports": {
+       "https://a.example/": {
+        "zz000000000000000000000001": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:12907b29b933035987d5c430900a4ec3901ff83ae18c74e229316c96fa19245a",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000002": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+         "retained": null,
+         "hasContent": true
+        },
+        "zz000000000000000000000003": {
+         "state": "current",
+         "version": 1,
+         "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+         "retained": null,
+         "hasContent": true
+        }
+       },
+       "https://b.example/": {}
+      },
+      "l0": {},
+      "flags": {
+       "https://a.example/": [],
+       "https://b.example/": [],
+       "https://legacy.example/": []
+      },
+      "own": {
+       "zz000000000000000000000009": {
+        "versions": [
+         {
+          "version": 1,
+          "kind": "thread",
+          "transclusions": [],
+          "html": "<p>iota epsilon alpha</p>\n<blockquote>\n<p>eta lambda lambda eta gamma n1</p>\n<p>— quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)</p>\n</blockquote>\n<blockquote>\n<p>alpha eta gamma gamma lambda n2</p>\n<p>— quoted from https://a.example/ zz000000000000000000000002 v1 (https://a.example/items/zz000000000000000000000002.json) eta gamma</p>\n</blockquote>\n<p>closing delta gamma</p>",
+          "md": "iota epsilon alpha\n\n> eta lambda lambda eta gamma n1\n>\n> — quoted from https://a.example/ zz000000000000000000000001 v1 (https://a.example/items/zz000000000000000000000001.json)\n\n> alpha eta gamma gamma lambda n2\n>\n> — quoted from https://a.example/ zz000000000000000000000002 v1 (https://a.example/items/zz000000000000000000000002.json)\n> eta gamma\n\nclosing delta gamma"
+         }
+        ],
+        "pinned": [],
+        "forked_from": {
+         "origin": "https://a.example/",
+         "id": "zz000000000000000000000003",
+         "version": 1
+        }
+       }
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "P6-pre",
+   "title": "Same drift sequence under the PRE-#57 fork (copy content_md, re-resolve)",
+   "props": [
+    "P6"
+   ],
+   "subject": "model",
+   "status": "fail",
+   "numRuns": 1,
+   "seed": 0,
+   "commandsExecuted": 7,
+   "hits": {
+    "P6": 1
+   },
+   "ms": 0,
+   "replayOf": "scenario:pre57-drift",
+   "failure": {
+    "prop": "P6",
+    "detail": "fork zz000000000000000000000009 of https://a.example/zz000000000000000000000003@v1: source pin baked [https://a.example/|zz000000000000000000000001|v1 ; https://a.example/|zz000000000000000000000002|v1|sel:eta gamma] but the fork baked [https://a.example/|zz000000000000000000000001|v2 ; https://a.example/|zz000000000000000000000002|v1|sel:eta gamma]",
+    "step": 7,
+    "commands": [
+     "A.publish(slot 0 = #1)",
+     "A.publish(slot 1 = #2)",
+     "A.publish(slot 2 = #3, quotes [#1, #2 (partial)])",
+     "A.pin(#3, latest-0)",
+     "A.publish(slot 0 = #1)",
+     "S index-diffs A (clean)",
+     "S forks A:#3 @ pin #0 → #9"
+    ],
+    "cmdData": [
+     {
+      "t": "pub",
+      "o": "A",
+      "slot": 0,
+      "w": 1,
+      "dirs": []
+     },
+     {
+      "t": "pub",
+      "o": "A",
+      "slot": 1,
+      "w": 2,
+      "dirs": []
+     },
+     {
+      "t": "pub",
+      "o": "A",
+      "slot": 2,
+      "w": 3,
+      "dirs": [
+       {
+        "id": 0
+       },
+       {
+        "id": 1,
+        "partial": {
+         "from": 1,
+         "len": 1
+        }
+       }
+      ]
+     },
+     {
+      "t": "pin",
+      "o": "A",
+      "slot": 2,
+      "back": 0
+     },
+     {
+      "t": "pub",
+      "o": "A",
+      "slot": 0,
+      "w": 9,
+      "dirs": []
+     },
+     {
+      "t": "reconcile",
+      "o": "A"
+     },
+     {
+      "t": "fork",
+      "o": "A",
+      "slot": 2,
+      "back": 0,
+      "into": 0
+     }
+    ],
+    "trace": [
+     {
+      "n": 1,
+      "cmd": {
+       "t": "pub",
+       "o": "A",
+       "slot": 0,
+       "w": 1,
+       "dirs": []
+      },
+      "text": "A.publish(slot 0 = #1)",
+      "events": [
+       {
+        "lane": "A",
+        "kind": "act",
+        "label": "publish #1 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 2,
+      "cmd": {
+       "t": "pub",
+       "o": "A",
+       "slot": 1,
+       "w": 2,
+       "dirs": []
+      },
+      "text": "A.publish(slot 1 = #2)",
+      "events": [
+       {
+        "lane": "A",
+        "kind": "act",
+        "label": "publish #2 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 3,
+      "cmd": {
+       "t": "pub",
+       "o": "A",
+       "slot": 2,
+       "w": 3,
+       "dirs": [
+        {
+         "id": 0
+        },
+        {
+         "id": 1,
+         "partial": {
+          "from": 1,
+          "len": 1
+         }
+        }
+       ]
+      },
+      "text": "A.publish(slot 2 = #3, quotes [#1, #2 (partial)])",
+      "events": [
+       {
+        "lane": "A",
+        "kind": "act",
+        "label": "publish #3 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 4,
+      "cmd": {
+       "t": "pin",
+       "o": "A",
+       "slot": 2,
+       "back": 0
+      },
+      "text": "A.pin(#3, latest-0)",
+      "events": [
+       {
+        "lane": "A",
+        "kind": "act",
+        "label": "pin #3 v1"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 5,
+      "cmd": {
+       "t": "pub",
+       "o": "A",
+       "slot": 0,
+       "w": 9,
+       "dirs": []
+      },
+      "text": "A.publish(slot 0 = #1)",
+      "events": [
+       {
+        "lane": "A",
+        "kind": "act",
+        "label": "publish #1 v2"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {},
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 6,
+      "cmd": {
+       "t": "reconcile",
+       "o": "A"
+      },
+      "text": "S index-diffs A (clean)",
+      "events": [
+       {
+        "lane": "reader",
+        "to": "A",
+        "kind": "fetch",
+        "label": "index diff A (clean)"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET A/items/index.json → 200"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET A/items/#1.json → 200"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET A/items/#2.json → 200"
+       },
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET A/items/#3.json → 200"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {
+         "zz000000000000000000000001": {
+          "state": "current",
+          "version": 2,
+          "hash": "sha256:f2cbb8b932ac50460f6140d46be7a82dea006ea2d9b2878d8828089cb124e190",
+          "retained": null,
+          "hasContent": true
+         },
+         "zz000000000000000000000002": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+          "retained": null,
+          "hasContent": true
+         },
+         "zz000000000000000000000003": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+          "retained": null,
+          "hasContent": true
+         }
+        },
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {}
+      }
+     },
+     {
+      "n": 7,
+      "cmd": {
+       "t": "fork",
+       "o": "A",
+       "slot": 2,
+       "back": 0,
+       "into": 0
+      },
+      "text": "S forks A:#3 @ pin #0 → #9",
+      "events": [
+       {
+        "lane": "network",
+        "to": "reader",
+        "kind": "fetch",
+        "label": "model: GET A/items/#3/v1.json → 200"
+       },
+       {
+        "lane": "S",
+        "to": "A",
+        "kind": "act",
+        "label": "fork #3@v1 → #9 published"
+       },
+       {
+        "lane": "S",
+        "kind": "diverge",
+        "label": "✗ P6"
+       }
+      ],
+      "model": {
+       "imports": {
+        "https://a.example/": {
+         "zz000000000000000000000001": {
+          "state": "current",
+          "version": 2,
+          "hash": "sha256:f2cbb8b932ac50460f6140d46be7a82dea006ea2d9b2878d8828089cb124e190",
+          "retained": null,
+          "hasContent": true
+         },
+         "zz000000000000000000000002": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:987a6f39cf35706abe14397c6772a3d25224b0d2f363a9e08aa4e34e7b1ae71b",
+          "retained": null,
+          "hasContent": true
+         },
+         "zz000000000000000000000003": {
+          "state": "current",
+          "version": 1,
+          "hash": "sha256:6c8790f9b45ca99eda06cce21bb405f5a4d2e8b0e0401bd140d7a3d6eecf481d",
+          "retained": null,
+          "hasContent": true
+         }
+        },
+        "https://b.example/": {}
+       },
+       "l0": {},
+       "flags": {
+        "https://a.example/": [],
+        "https://b.example/": [],
+        "https://legacy.example/": []
+       },
+       "own": {
+        "zz000000000000000000000009": {
+         "versions": [
+          {
+           "version": 1,
+           "kind": "thread",
+           "transclusions": [
+            {
+             "id": "zz000000000000000000000001",
+             "version": 2,
+             "origin": "https://a.example/"
+            },
+            {
+             "id": "zz000000000000000000000002",
+             "version": 1,
+             "origin": "https://a.example/",
+             "selector": {
+              "exact": "eta gamma"
+             }
+            }
+           ],
+           "html": "<p>iota epsilon alpha</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"zz000000000000000000000001\" data-blyg-version=\"2\" data-blyg-origin=\"https://a.example/\">\n<p>gamma alpha epsilon epsilon epsilon n9</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"zz000000000000000000000002\" data-blyg-version=\"1\" data-blyg-origin=\"https://a.example/\">\n<p>eta gamma</p>\n</blockquote>\n<p>closing delta gamma</p>",
+           "md": "iota epsilon alpha\n\n![[zz000000000000000000000001]]\n\n![[zz000000000000000000000002]]\n> eta gamma\n\nclosing delta gamma"
+          }
+         ],
+         "pinned": [],
+         "forked_from": {
+          "origin": "https://a.example/",
+          "id": "zz000000000000000000000003",
+          "version": 1
+         }
+        }
+       }
+      },
+      "violation": "P6: fork zz000000000000000000000009 of https://a.example/zz000000000000000000000003@v1: source pin baked [https://a.example/|zz000000000000000000000001|v1 ; https://a.example/|zz000000000000000000000002|v1|sel:eta gamma] but the fork baked [https://a.example/|zz000000000000000000000001|v2 ; https://a.example/|zz000000000000000000000002|v1|sel:eta gamma]"
+     }
+    ]
+   }
+  }
+ ]
+}
