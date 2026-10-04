@@ -1,0 +1,773 @@
+{
+ "area": "clauses",
+ "title": "Clause register & traceability",
+ "generated_at": "2026-10-04T02:34:32+00:00",
+ "checks": [
+  {
+   "id": "register.counts",
+   "title": "Clause register extracted",
+   "status": "info",
+   "detail": "165 normative clauses (MUST 82, SHOULD 52, MAY 31) in 43 sections; 16 pending §16 sentences; 56 decisions; 0 tests joined from other areas. Side split: publisher 84, reader 51, client 12, receiver 9, sender 9",
+   "spec_refs": [],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must",
+   "title": "MUST clauses with a test",
+   "status": "warn",
+   "detail": "0/82 MUST clauses have a clause-level test; 0 more are covered only at section level; 82 have no test at all. (Decision #48: every MUST is a failable clause, so every MUST wants a test.)",
+   "spec_refs": [],
+   "decisions": [
+    "#48"
+   ]
+  },
+  {
+   "id": "coverage.must.3",
+   "title": "§3 Conformance levels — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-3-01",
+   "spec_refs": [
+    "§3"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.3.1",
+   "title": "§3.1 The protocol version key — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-3.1-01",
+   "spec_refs": [
+    "§3.1"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.3.2",
+   "title": "§3.2 The `level`, `generator` and `generator_url` keys are inform — MUST coverage",
+   "status": "warn",
+   "detail": "2/2 MUST clauses untested at clause level: C-3.2-01, C-3.2-03",
+   "spec_refs": [
+    "§3.2"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.4",
+   "title": "§4 The publication surface — MUST coverage",
+   "status": "warn",
+   "detail": "7/7 MUST clauses untested at clause level: C-4-01, C-4-02, C-4-03, C-4-08, C-4-09, C-4-10, C-4-12",
+   "spec_refs": [
+    "§4"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.5.1",
+   "title": "§5.1 Identity — MUST coverage",
+   "status": "warn",
+   "detail": "3/3 MUST clauses untested at clause level: C-5.1-01, C-5.1-02, C-5.1-03",
+   "spec_refs": [
+    "§5.1"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.5.2",
+   "title": "§5.2 Versioning and rollup presentation — MUST coverage",
+   "status": "warn",
+   "detail": "4/4 MUST clauses untested at clause level: C-5.2-01, C-5.2-02, C-5.2-03, C-5.2-04",
+   "spec_refs": [
+    "§5.2"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.5.3",
+   "title": "§5.3 Kinds — MUST coverage",
+   "status": "warn",
+   "detail": "3/3 MUST clauses untested at clause level: C-5.3-01, C-5.3-03, C-5.3-04",
+   "spec_refs": [
+    "§5.3"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.5.4",
+   "title": "§5.4 Media — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-5.4-02",
+   "spec_refs": [
+    "§5.4"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.5.5",
+   "title": "§5.5 The `author` field — MUST coverage",
+   "status": "warn",
+   "detail": "3/3 MUST clauses untested at clause level: C-5.5-03, C-5.5-04, C-5.5-05",
+   "spec_refs": [
+    "§5.5"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.5.6",
+   "title": "§5.6 Lineage — `forked_from` — MUST coverage",
+   "status": "warn",
+   "detail": "4/4 MUST clauses untested at clause level: C-5.6-02, C-5.6-03, C-5.6-06, C-5.6-08",
+   "spec_refs": [
+    "§5.6"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.5.7",
+   "title": "§5.7 Generation provenance — the `generated` array — MUST coverage",
+   "status": "warn",
+   "detail": "2/2 MUST clauses untested at clause level: C-5.7-05, C-5.7-07",
+   "spec_refs": [
+    "§5.7"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.5.9",
+   "title": "§5.9 The reference shape — MUST coverage",
+   "status": "warn",
+   "detail": "4/4 MUST clauses untested at clause level: C-5.9-01, C-5.9-04, C-5.9-06, C-5.9-07",
+   "spec_refs": [
+    "§5.9"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.6.1",
+   "title": "§6.1 Manifest — `blyg.json` — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-6.1-04",
+   "spec_refs": [
+    "§6.1"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.7",
+   "title": "§7 The feed — `feed.xml` — MUST coverage",
+   "status": "warn",
+   "detail": "5/5 MUST clauses untested at clause level: C-7-02, C-7-03, C-7-05, C-7-07, C-7-09",
+   "spec_refs": [
+    "§7"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.8",
+   "title": "§8 Pins — `items/{id}/v{n}.json` — MUST coverage",
+   "status": "warn",
+   "detail": "3/3 MUST clauses untested at clause level: C-8-01, C-8-03, C-8-04",
+   "spec_refs": [
+    "§8"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.8.4",
+   "title": "§8.4 Historical versions: pinned-only, JSON promised, HTML option — MUST coverage",
+   "status": "warn",
+   "detail": "4/4 MUST clauses untested at clause level: C-8.4-01, C-8.4-02, C-8.4-06, C-8.4-07",
+   "spec_refs": [
+    "§8.4"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.10.1",
+   "title": "§10.1 Grammar (permanent protocol surface) — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-10.1-01",
+   "spec_refs": [
+    "§10.1"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.10.2",
+   "title": "§10.2 Publish-time resolution — MUST coverage",
+   "status": "warn",
+   "detail": "3/3 MUST clauses untested at clause level: C-10.2-01, C-10.2-02, C-10.2-04",
+   "spec_refs": [
+    "§10.2"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.10.3",
+   "title": "§10.3 Provenance — MUST coverage",
+   "status": "warn",
+   "detail": "2/2 MUST clauses untested at clause level: C-10.3-01, C-10.3-03",
+   "spec_refs": [
+    "§10.3"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.10.6",
+   "title": "§10.6 Stubs — `stub_of` — MUST coverage",
+   "status": "warn",
+   "detail": "2/2 MUST clauses untested at clause level: C-10.6-02, C-10.6-03",
+   "spec_refs": [
+    "§10.6"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.11",
+   "title": "§11 The blogroll — `blogroll.opml` — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-11-04",
+   "spec_refs": [
+    "§11"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.12",
+   "title": "§12 Resolution — from URL to subscription — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-12-01",
+   "spec_refs": [
+    "§12"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.12.1",
+   "title": "§12.1 The algorithm — MUST coverage",
+   "status": "warn",
+   "detail": "2/2 MUST clauses untested at clause level: C-12.1-02, C-12.1-04",
+   "spec_refs": [
+    "§12.1"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.12.2",
+   "title": "§12.2 Subscription identity — MUST coverage",
+   "status": "warn",
+   "detail": "2/2 MUST clauses untested at clause level: C-12.2-01, C-12.2-04",
+   "spec_refs": [
+    "§12.2"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.12.3",
+   "title": "§12.3 Polling etiquette — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-12.3-02",
+   "spec_refs": [
+    "§12.3"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.13.1",
+   "title": "§13.1 Ground rules — MUST coverage",
+   "status": "warn",
+   "detail": "7/7 MUST clauses untested at clause level: C-13.1-01, C-13.1-02, C-13.1-03, C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08",
+   "spec_refs": [
+    "§13.1"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.13.2",
+   "title": "§13.2 The reconciliation model — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-13.2-02",
+   "spec_refs": [
+    "§13.2"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.13.3",
+   "title": "§13.3 The watermark, history rewrites, and stealth edits — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-13.3-01",
+   "spec_refs": [
+    "§13.3"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.13.4",
+   "title": "§13.4 Withdrawal and retention — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-13.4-01",
+   "spec_refs": [
+    "§13.4"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.13.5",
+   "title": "§13.5 Curation display and re-emission — MUST coverage",
+   "status": "warn",
+   "detail": "2/2 MUST clauses untested at clause level: C-13.5-01, C-13.5-02",
+   "spec_refs": [
+    "§13.5"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.13.6",
+   "title": "§13.6 L0 grandfathering — the legacy RSS wrapper — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-13.6-01",
+   "spec_refs": [
+    "§13.6"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.14",
+   "title": "§14 Security and privacy considerations — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-14-02",
+   "spec_refs": [
+    "§14"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.15.2",
+   "title": "§15.2 Sending — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-15.2-04",
+   "spec_refs": [
+    "§15.2"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.15.3",
+   "title": "§15.3 Receiving — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-15.3-01",
+   "spec_refs": [
+    "§15.3"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.15.4",
+   "title": "§15.4 Structural verification — MUST coverage",
+   "status": "warn",
+   "detail": "2/2 MUST clauses untested at clause level: C-15.4-02, C-15.4-03",
+   "spec_refs": [
+    "§15.4"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "coverage.must.15.6",
+   "title": "§15.6 Plain mentions — MUST coverage",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-15.6-01",
+   "spec_refs": [
+    "§15.6"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "refs.dangling.C-13.4-02",
+   "title": "C-13.4-02 cites §8.1, which has no heading",
+   "status": "warn",
+   "detail": "Clause text: “**Retention follows the origin's own serving surface**: content corresponding to a version the origin has **pinned** (a fetchable `items/{id}/v{n}.json`) MAY be retained and continue to be displayed, with attribution lin”. §8.1 does not exist in docs/protocol-v0.3.md (sections under §8: 8, 8.4).",
+   "spec_refs": [
+    "§13.4",
+    "§8.1"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "refs.dangling.document",
+   "title": "§ references to headings that do not exist (whole document)",
+   "status": "warn",
+   "detail": "§8.1 on lines 446, 880, 1461",
+   "spec_refs": [
+    "§8.1"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "decisions.cited",
+   "title": "Decision numbers cited in normative text exist",
+   "status": "pass",
+   "detail": "The spec cites 4 decisions by number in keyword sentences: #49, #53, #55, #56. The other 52 are linked only through the sections their records name.",
+   "spec_refs": [],
+   "decisions": [
+    "#49",
+    "#53",
+    "#55",
+    "#56"
+   ]
+  },
+  {
+   "id": "decisions.grounding",
+   "title": "How each locked decision reaches the living spec",
+   "status": "info",
+   "detail": "normative 40, pending (§16 only) 5, token-only 5, none 6. A decision is 'normative' when a normative clause cites it or sits in a section its record names; 'token-only' when the only link is a shared wire token such as `stub_of`.",
+   "spec_refs": [],
+   "decisions": []
+  },
+  {
+   "id": "decisions.unground.3",
+   "title": "#3 Studio/page split — none",
+   "status": "info",
+   "detail": "classified 'foundational' in overrides.json — no normative clause expected.",
+   "spec_refs": [],
+   "decisions": [
+    "#3"
+   ]
+  },
+  {
+   "id": "decisions.unground.6",
+   "title": "#6 Roadmap order — none",
+   "status": "info",
+   "detail": "classified 'process' in overrides.json — no normative clause expected.",
+   "spec_refs": [],
+   "decisions": [
+    "#6"
+   ]
+  },
+  {
+   "id": "decisions.unground.7",
+   "title": "#7 Private content in v1 = never-published drafts — none",
+   "status": "info",
+   "detail": "classified 'deferred' in overrides.json — no normative clause expected.",
+   "spec_refs": [],
+   "decisions": [
+    "#7"
+   ]
+  },
+  {
+   "id": "decisions.unground.10",
+   "title": "#10 Licensing — none",
+   "status": "info",
+   "detail": "classified 'process' in overrides.json — no normative clause expected.",
+   "spec_refs": [],
+   "decisions": [
+    "#10"
+   ]
+  },
+  {
+   "id": "decisions.unground.15",
+   "title": "#15 Spec publishing model — none",
+   "status": "info",
+   "detail": "classified 'process' in overrides.json — no normative clause expected.",
+   "spec_refs": [],
+   "decisions": [
+    "#15"
+   ]
+  },
+  {
+   "id": "decisions.unground.21",
+   "title": "#21 Development-phase strategy: pre-1.0 spec is always draft; 1.0 is the r — none",
+   "status": "info",
+   "detail": "classified 'process' in overrides.json — no normative clause expected.",
+   "spec_refs": [],
+   "decisions": [
+    "#21"
+   ]
+  },
+  {
+   "id": "decisions.unground.23",
+   "title": "#23 Per-version spec documents; the highest version is the living one — token-only",
+   "status": "info",
+   "detail": "classified 'process' in overrides.json — no normative clause expected. Shares tokens with P-16.6c-02.",
+   "spec_refs": [],
+   "decisions": [
+    "#23"
+   ]
+  },
+  {
+   "id": "decisions.unground.31",
+   "title": "#31 No normative write surface, ever; a companion note after it is built — pending",
+   "status": "info",
+   "detail": "classified 'note' in overrides.json — no normative clause expected; its §16 entry records the ruling. Record names spec §16.6.",
+   "spec_refs": [
+    "§16.6"
+   ],
+   "decisions": [
+    "#31"
+   ]
+  },
+  {
+   "id": "decisions.unground.35",
+   "title": "#35 Identity practice: URL-shaped, proven by reciprocal link or signature  — token-only",
+   "status": "info",
+   "detail": "classified 'note' in overrides.json — no normative clause expected. Shares tokens with C-13.1-05, C-13.3-03, C-5.1-03, C-5.4-01, C-5.5-01, C-5.5-02.",
+   "spec_refs": [],
+   "decisions": [
+    "#35"
+   ]
+  },
+  {
+   "id": "decisions.unground.38",
+   "title": "#38 The protocol is agent-agnostic at every level, and says so; the respon — token-only",
+   "status": "info",
+   "detail": "classified 'note' in overrides.json — no normative clause expected. Shares tokens with C-13.1-05, C-13.3-03, C-5.1-03, C-5.5-01, C-5.5-03, C-5.5-05.",
+   "spec_refs": [],
+   "decisions": [
+    "#38"
+   ]
+  },
+  {
+   "id": "decisions.unground.39",
+   "title": "#39 A minimal reference agent is worth building; the contract it proves is — token-only",
+   "status": "info",
+   "detail": "classified 'note' in overrides.json — no normative clause expected. Shares tokens with C-13.1-06, C-13.2-03, C-13.5-02, C-8.4-06.",
+   "spec_refs": [],
+   "decisions": [
+    "#39"
+   ]
+  },
+  {
+   "id": "decisions.unground.41",
+   "title": "#41 Discovery through stub chains: four client surfaces need nothing from  — pending",
+   "status": "info",
+   "detail": "ruled shape in §16, not yet normative (expected under #21/#42). Shares tokens with C-15.2-01, C-5-01, C-5.9-01, C-9-01, P-16.5-01, P-16.6d-01. Record names spec §16.6d.",
+   "spec_refs": [
+    "§16.6d"
+   ],
+   "decisions": [
+    "#41"
+   ]
+  },
+  {
+   "id": "decisions.unground.42",
+   "title": "#42 Publication guidance: implement the published living text, pin to snap — pending",
+   "status": "info",
+   "detail": "classified 'process' in overrides.json — no normative clause expected; its §16 entry records the ruling. Record names spec §16, §17.",
+   "spec_refs": [
+    "§16",
+    "§17"
+   ],
+   "decisions": [
+    "#42"
+   ]
+  },
+  {
+   "id": "decisions.unground.43",
+   "title": "#43 Version boundary rule: revisions add what readers already ignore safel — pending",
+   "status": "info",
+   "detail": "classified 'process' in overrides.json — no normative clause expected; its §16 entry records the ruling. Shares tokens with C-10.3-03, C-10.6-02, C-15.2-01, C-15.4-03, C-5.2-03, C-5.6-02. Record names spec §16.",
+   "spec_refs": [
+    "§16"
+   ],
+   "decisions": [
+    "#43"
+   ]
+  },
+  {
+   "id": "decisions.unground.45",
+   "title": "#45 Transitive staleness does not exist and will not be defined — pending",
+   "status": "info",
+   "detail": "classified 'refusal' in overrides.json — no normative clause expected; its §16 entry records the ruling. Shares tokens with P-16.5-01. Record names spec §16.5, §10.4.",
+   "spec_refs": [
+    "§16.5",
+    "§10.4"
+   ],
+   "decisions": [
+    "#45"
+   ]
+  },
+  {
+   "id": "decisions.unground.50",
+   "title": "#50 A reader affordance that inserts `[[id]]` does not collide with #27, b — token-only",
+   "status": "info",
+   "detail": "classified 'studio' in overrides.json — no normative clause expected. Shares tokens with C-5.2-03.",
+   "spec_refs": [],
+   "decisions": [
+    "#50"
+   ]
+  },
+  {
+   "id": "decisions.stale-ref.22",
+   "title": "#22 names spec §11.4, absent from 0.3",
+   "status": "warn",
+   "detail": "Decision #22 (session 15) points at §11.4 (spec). The section number may come from an earlier spec version; the record is now a dangling pointer.",
+   "spec_refs": [],
+   "decisions": [
+    "#22"
+   ]
+  },
+  {
+   "id": "decisions.chains",
+   "title": "Amend / supersede / refine chains between decisions",
+   "status": "info",
+   "detail": "24 edges (9 parsed from the records, 15 curated). #9 ← #26 amends; #13 ← #28 refines; #14 ← #16 amends, #22 resolves, #17 refines, #51 amends; #15 ← #21 amends, #23 amends; #16 ← #22 resolves; #20 ← #37 refines; #21 ← #23 refines, #43 refines, #42 refines; #23 ← #43 refines; #24 ← #25 refines; #27 ← #50 refines; #31 ← #52 refines; #33 ← #44 resolves, #45 resolves; #36 ← #38 extends; #38 ← #39 extends; #41 ← #47 resolves; #43 ← #49 corrects; #49 ← #55 refines",
+   "spec_refs": [],
+   "decisions": [
+    "#9",
+    "#13",
+    "#14",
+    "#15",
+    "#16",
+    "#20",
+    "#21",
+    "#23",
+    "#24",
+    "#27",
+    "#31",
+    "#33",
+    "#36",
+    "#38",
+    "#41",
+    "#43",
+    "#49"
+   ]
+  },
+  {
+   "id": "decisions.one-sided.49-43",
+   "title": "#43 does not record that #49 corrects it",
+   "status": "warn",
+   "detail": "#49 says it corrects #43, but #43's record never mentions #49; a reader of #43 alone gets the pre-correct rule.",
+   "spec_refs": [],
+   "decisions": [
+    "#49",
+    "#43"
+   ]
+  },
+  {
+   "id": "decisions.one-sided.26-9",
+   "title": "#9 does not record that #26 amends it",
+   "status": "warn",
+   "detail": "#26 says it amends #9, but #9's record never mentions #26; a reader of #9 alone gets the pre-amend rule.",
+   "spec_refs": [],
+   "decisions": [
+    "#26",
+    "#9"
+   ]
+  },
+  {
+   "id": "decisions.one-sided.51-14",
+   "title": "#14 does not record that #51 amends it",
+   "status": "warn",
+   "detail": "#51 says it amends #14, but #14's record never mentions #51; a reader of #14 alone gets the pre-amend rule.",
+   "spec_refs": [],
+   "decisions": [
+    "#51",
+    "#14"
+   ]
+  },
+  {
+   "id": "terms.bold-not-in-glossary",
+   "title": "Bold terms in normative clauses that §2 Terminology does not define",
+   "status": "warn",
+   "detail": "6 terms: “remote reference” (§10.3, §10.6, §15.2); “identity change” (§12.2); “per-item curation” (§15.5); “provenance shadow” (§5.7); “static discovery plane” (§11); “text content” (§10.2)",
+   "spec_refs": [
+    "§2"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "terms.glossary-unused",
+   "title": "§2 terms never used in a normative clause",
+   "status": "info",
+   "detail": "conformance level, generation provenance, l0 wrapper, watermark",
+   "spec_refs": [
+    "§2"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "terms.fields-prose-only",
+   "title": "Field-like tokens in clauses that appear in no JSON example or heading",
+   "status": "pass",
+   "detail": "Every field named in a clause appears in an example.",
+   "spec_refs": [],
+   "decisions": []
+  },
+  {
+   "id": "lint.lowercase-modals",
+   "title": "Sentences in normative sections using lowercase must/should/required",
+   "status": "warn",
+   "detail": "5 sentences read like obligations but carry no RFC 2119 keyword, so a conformance suite cannot see them. Most in: §14 (2), §5.7 (1), §7 (1), §15.7 (1). Full list in out/analysis.json → lowercase_modals.",
+   "spec_refs": [
+    "§5.7",
+    "§7",
+    "§14",
+    "§15.7"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "lint.absolutes",
+   "title": "Absolute statements (never / always / publish error) with no RFC 2119 keyword",
+   "status": "info",
+   "detail": "58 sentences in normative sections state a rule in prose ('never', 'always', 'is a publish error') without a keyword. Many are deliberate restatements; some are the only statement of a rule. Most in: §10.2 (6), §5.7 (5), §10.6 (5), §10.3 (4), §7 (3), §13.2 (3), §13.5 (3), §5.2 (2). Full list in out/analysis.json → absolutes.",
+   "spec_refs": [
+    "§2",
+    "§3",
+    "§3.1",
+    "§5.1",
+    "§5.2",
+    "§5.5",
+    "§5.7",
+    "§5.8",
+    "§5.9",
+    "§6.1",
+    "§7",
+    "§8",
+    "§8.4",
+    "§9",
+    "§10",
+    "§10.1",
+    "§10.2",
+    "§10.3",
+    "§10.6",
+    "§12.1",
+    "§12.3",
+    "§13.2",
+    "§13.3",
+    "§13.5",
+    "§13.6",
+    "§13.7",
+    "§14",
+    "§15.1",
+    "§15.2",
+    "§15.3",
+    "§15.5"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "density.sections",
+   "title": "Keyword density per section",
+   "status": "info",
+   "detail": "Densest: §13.1 40.0/100 lines, §5.4 28.6/100 lines, §12.3 27.3/100 lines, §5.3 25.0/100 lines, §4 20.7/100 lines. Normative sections of 12+ lines with no keyword at all: §2 Terminology (45 lines), §6.2 Archive index — `items/index.json` (19 lines), §10.4 Snapshot independence (22 lines), §15.7 Withdrawal and static deployments (13 lines).",
+   "spec_refs": [],
+   "decisions": []
+  },
+  {
+   "id": "side.unknown",
+   "title": "Normative clauses with no identifiable conforming party",
+   "status": "pass",
+   "detail": "Every clause has a side.",
+   "spec_refs": [],
+   "decisions": []
+  },
+  {
+   "id": "pending.shapes",
+   "title": "§16 ruled / deferred / reserved constructs",
+   "status": "info",
+   "detail": "promoted 4, ruled 3, ruled-0.4 2, closed 1, never 3, reserved 1. Ruled-but-unbuilt: §16.1a `cited` on a plain-web stub (ruled 2026-10-03; nex, §16.3 Remote generation sources (ruled 2026-09-28; a 0.4, §16.6c Generated changelog notes (ruled; next revision), §16.6d Discovery through references (ruled; no construct;, §16.6e The manifest locates the surface (ruled 2026-09-28",
+   "spec_refs": [],
+   "decisions": []
+  }
+ ]
+}
