@@ -32,7 +32,6 @@ missing() {
 run() {
   case "$1" in
     clauses)
-      # TODO(post-merge): confirm entry point; extract.py exists, a report builder may be separate.
       [ -f conformance/clauses/build.py ] || { missing clauses; return; }
       bash "$TC" python3 conformance/clauses/build.py
       ;;
