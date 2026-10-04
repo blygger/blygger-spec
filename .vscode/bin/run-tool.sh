@@ -41,10 +41,9 @@ run() {
       bash "$TC" npm --prefix conformance/schemas run all
       ;;
     live)
-      # TODO(post-merge): confirm flags (read-only crawl of every known blyg; needs network).
-      [ -f conformance/live/crawl.mjs ] || { missing live; return; }
-      need_npm_deps conformance/live
-      bash "$TC" node conformance/live/crawl.mjs
+      # Read-only crawl of every known blyg (needs network); add --offline to re-check the committed snapshot.
+      [ -f conformance/live/run.mjs ] || { missing live; return; }
+      bash "$TC" node conformance/live/run.mjs
       ;;
     alloy)
       # TODO(post-merge): replace with the command in conformance/alloy/README.md.
