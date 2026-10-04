@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-04T02:34:32+00:00",
+ "generated_at": "2026-10-04T02:56:31+00:00",
  "spec": "docs/protocol-v0.3.md",
  "matrix": [
   {
@@ -8,7 +8,7 @@
    "mode": "normative",
    "MUST": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-3-01"
@@ -34,7 +34,7 @@
    "MUST": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-3.1-01"
     ]
@@ -59,7 +59,7 @@
    "MUST": {
     "n": 2,
     "exact": 0,
-    "section": 0,
+    "section": 2,
     "ids": [
      "C-3.2-01",
      "C-3.2-03"
@@ -67,7 +67,7 @@
    },
    "SHOULD": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-3.2-02"
@@ -86,8 +86,8 @@
    "mode": "normative",
    "MUST": {
     "n": 7,
-    "exact": 0,
-    "section": 0,
+    "exact": 5,
+    "section": 2,
     "ids": [
      "C-4-01",
      "C-4-02",
@@ -100,8 +100,8 @@
    },
    "SHOULD": {
     "n": 2,
-    "exact": 0,
-    "section": 0,
+    "exact": 1,
+    "section": 1,
     "ids": [
      "C-4-07",
      "C-4-11"
@@ -110,7 +110,7 @@
    "MAY": {
     "n": 3,
     "exact": 0,
-    "section": 0,
+    "section": 3,
     "ids": [
      "C-4-04",
      "C-4-05",
@@ -137,7 +137,7 @@
    "MAY": {
     "n": 2,
     "exact": 0,
-    "section": 0,
+    "section": 2,
     "ids": [
      "C-5-01",
      "C-5-02"
@@ -150,7 +150,7 @@
    "mode": "normative",
    "MUST": {
     "n": 3,
-    "exact": 0,
+    "exact": 3,
     "section": 0,
     "ids": [
      "C-5.1-01",
@@ -177,8 +177,8 @@
    "mode": "normative",
    "MUST": {
     "n": 4,
-    "exact": 0,
-    "section": 0,
+    "exact": 2,
+    "section": 2,
     "ids": [
      "C-5.2-01",
      "C-5.2-02",
@@ -206,7 +206,7 @@
    "MUST": {
     "n": 3,
     "exact": 0,
-    "section": 0,
+    "section": 3,
     "ids": [
      "C-5.3-01",
      "C-5.3-03",
@@ -215,7 +215,7 @@
    },
    "SHOULD": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-5.3-02"
@@ -235,14 +235,14 @@
    "MUST": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-5.4-02"
     ]
    },
    "SHOULD": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-5.4-01"
@@ -261,8 +261,8 @@
    "mode": "normative",
    "MUST": {
     "n": 3,
-    "exact": 0,
-    "section": 0,
+    "exact": 2,
+    "section": 1,
     "ids": [
      "C-5.5-03",
      "C-5.5-04",
@@ -271,7 +271,7 @@
    },
    "SHOULD": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-5.5-02"
@@ -279,7 +279,7 @@
    },
    "MAY": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-5.5-01"
@@ -292,7 +292,7 @@
    "mode": "normative",
    "MUST": {
     "n": 4,
-    "exact": 0,
+    "exact": 4,
     "section": 0,
     "ids": [
      "C-5.6-02",
@@ -304,7 +304,7 @@
    "SHOULD": {
     "n": 3,
     "exact": 0,
-    "section": 0,
+    "section": 3,
     "ids": [
      "C-5.6-04",
      "C-5.6-05",
@@ -314,7 +314,7 @@
    "MAY": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-5.6-01"
     ]
@@ -326,7 +326,7 @@
    "mode": "normative",
    "MUST": {
     "n": 2,
-    "exact": 0,
+    "exact": 2,
     "section": 0,
     "ids": [
      "C-5.7-05",
@@ -335,8 +335,8 @@
    },
    "SHOULD": {
     "n": 3,
-    "exact": 0,
-    "section": 0,
+    "exact": 2,
+    "section": 1,
     "ids": [
      "C-5.7-01",
      "C-5.7-03",
@@ -345,8 +345,8 @@
    },
    "MAY": {
     "n": 2,
-    "exact": 0,
-    "section": 0,
+    "exact": 1,
+    "section": 1,
     "ids": [
      "C-5.7-02",
      "C-5.7-04"
@@ -365,8 +365,8 @@
    },
    "SHOULD": {
     "n": 4,
-    "exact": 0,
-    "section": 0,
+    "exact": 2,
+    "section": 2,
     "ids": [
      "C-5.8-02",
      "C-5.8-03",
@@ -376,8 +376,8 @@
    },
    "MAY": {
     "n": 2,
-    "exact": 0,
-    "section": 0,
+    "exact": 1,
+    "section": 1,
     "ids": [
      "C-5.8-01",
      "C-5.8-06"
@@ -390,8 +390,8 @@
    "mode": "normative",
    "MUST": {
     "n": 4,
-    "exact": 0,
-    "section": 0,
+    "exact": 3,
+    "section": 1,
     "ids": [
      "C-5.9-01",
      "C-5.9-04",
@@ -401,7 +401,7 @@
    },
    "SHOULD": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-5.9-05"
@@ -409,7 +409,7 @@
    },
    "MAY": {
     "n": 2,
-    "exact": 0,
+    "exact": 2,
     "section": 0,
     "ids": [
      "C-5.9-02",
@@ -424,7 +424,7 @@
    "MUST": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-6.1-04"
     ]
@@ -437,8 +437,8 @@
    },
    "MAY": {
     "n": 4,
-    "exact": 0,
-    "section": 0,
+    "exact": 2,
+    "section": 2,
     "ids": [
      "C-6.1-01",
      "C-6.1-02",
@@ -453,7 +453,7 @@
    "mode": "normative",
    "MUST": {
     "n": 5,
-    "exact": 0,
+    "exact": 5,
     "section": 0,
     "ids": [
      "C-7-02",
@@ -465,8 +465,8 @@
    },
    "SHOULD": {
     "n": 3,
-    "exact": 0,
-    "section": 0,
+    "exact": 2,
+    "section": 1,
     "ids": [
      "C-7-01",
      "C-7-04",
@@ -475,7 +475,7 @@
    },
    "MAY": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-7-06"
@@ -488,8 +488,8 @@
    "mode": "normative",
    "MUST": {
     "n": 3,
-    "exact": 0,
-    "section": 0,
+    "exact": 2,
+    "section": 1,
     "ids": [
      "C-8-01",
      "C-8-03",
@@ -498,7 +498,7 @@
    },
    "SHOULD": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-8-05"
@@ -507,7 +507,7 @@
    "MAY": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-8-02"
     ]
@@ -519,8 +519,8 @@
    "mode": "normative",
    "MUST": {
     "n": 4,
-    "exact": 0,
-    "section": 0,
+    "exact": 1,
+    "section": 3,
     "ids": [
      "C-8.4-01",
      "C-8.4-02",
@@ -531,15 +531,15 @@
    "SHOULD": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-8.4-05"
     ]
    },
    "MAY": {
     "n": 2,
-    "exact": 0,
-    "section": 0,
+    "exact": 1,
+    "section": 1,
     "ids": [
      "C-8.4-03",
      "C-8.4-04"
@@ -559,7 +559,7 @@
    "SHOULD": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-9-01"
     ]
@@ -577,7 +577,7 @@
    "mode": "normative",
    "MUST": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-10.1-01"
@@ -602,8 +602,8 @@
    "mode": "normative",
    "MUST": {
     "n": 3,
-    "exact": 0,
-    "section": 0,
+    "exact": 2,
+    "section": 1,
     "ids": [
      "C-10.2-01",
      "C-10.2-02",
@@ -613,14 +613,14 @@
    "SHOULD": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-10.2-05"
     ]
    },
    "MAY": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-10.2-03"
@@ -633,8 +633,8 @@
    "mode": "normative",
    "MUST": {
     "n": 2,
-    "exact": 0,
-    "section": 0,
+    "exact": 1,
+    "section": 1,
     "ids": [
      "C-10.3-01",
      "C-10.3-03"
@@ -643,7 +643,7 @@
    "SHOULD": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-10.3-02"
     ]
@@ -661,7 +661,7 @@
    "mode": "normative",
    "MUST": {
     "n": 2,
-    "exact": 0,
+    "exact": 2,
     "section": 0,
     "ids": [
      "C-10.6-02",
@@ -671,7 +671,7 @@
    "SHOULD": {
     "n": 2,
     "exact": 0,
-    "section": 0,
+    "section": 2,
     "ids": [
      "C-10.6-04",
      "C-10.6-05"
@@ -679,7 +679,7 @@
    },
    "MAY": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-10.6-01"
@@ -749,7 +749,7 @@
    "MUST": {
     "n": 2,
     "exact": 0,
-    "section": 0,
+    "section": 2,
     "ids": [
      "C-12.1-02",
      "C-12.1-04"
@@ -758,7 +758,7 @@
    "SHOULD": {
     "n": 3,
     "exact": 0,
-    "section": 0,
+    "section": 3,
     "ids": [
      "C-12.1-01",
      "C-12.1-03",
@@ -778,8 +778,8 @@
    "mode": "normative",
    "MUST": {
     "n": 2,
-    "exact": 0,
-    "section": 0,
+    "exact": 1,
+    "section": 1,
     "ids": [
      "C-12.2-01",
      "C-12.2-04"
@@ -788,7 +788,7 @@
    "SHOULD": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-12.2-02"
     ]
@@ -796,7 +796,7 @@
    "MAY": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-12.2-03"
     ]
@@ -837,7 +837,7 @@
    "MUST": {
     "n": 7,
     "exact": 0,
-    "section": 0,
+    "section": 7,
     "ids": [
      "C-13.1-01",
      "C-13.1-02",
@@ -851,7 +851,7 @@
    "SHOULD": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-13.1-06"
     ]
@@ -870,7 +870,7 @@
    "MUST": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-13.2-02"
     ]
@@ -878,7 +878,7 @@
    "SHOULD": {
     "n": 2,
     "exact": 0,
-    "section": 0,
+    "section": 2,
     "ids": [
      "C-13.2-01",
      "C-13.2-03"
@@ -1015,7 +1015,7 @@
    "SHOULD": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-13.7-01"
     ]
@@ -1092,7 +1092,7 @@
    },
    "SHOULD": {
     "n": 1,
-    "exact": 0,
+    "exact": 1,
     "section": 0,
     "ids": [
      "C-15.1-01"
@@ -1112,15 +1112,15 @@
    "MUST": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "C-15.2-04"
     ]
    },
    "SHOULD": {
     "n": 3,
-    "exact": 0,
-    "section": 0,
+    "exact": 1,
+    "section": 2,
     "ids": [
      "C-15.2-01",
      "C-15.2-02",
@@ -1168,8 +1168,8 @@
    "mode": "normative",
    "MUST": {
     "n": 2,
-    "exact": 0,
-    "section": 0,
+    "exact": 1,
+    "section": 1,
     "ids": [
      "C-15.4-02",
      "C-15.4-03"
@@ -1178,7 +1178,7 @@
    "SHOULD": {
     "n": 2,
     "exact": 0,
-    "section": 0,
+    "section": 2,
     "ids": [
      "C-15.4-01",
      "C-15.4-04"
@@ -1280,7 +1280,7 @@
    "SHOULD": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "P-16.3-03"
     ]
@@ -1288,7 +1288,7 @@
    "MAY": {
     "n": 2,
     "exact": 0,
-    "section": 0,
+    "section": 2,
     "ids": [
      "P-16.3-01",
      "P-16.3-02"
@@ -1377,7 +1377,7 @@
    "MUST": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "P-16.6c-02"
     ]
@@ -1391,7 +1391,7 @@
    "MAY": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "P-16.6c-01"
     ]
@@ -1432,7 +1432,7 @@
    "MUST": {
     "n": 1,
     "exact": 0,
-    "section": 0,
+    "section": 1,
     "ids": [
      "P-16.6e-02"
     ]
@@ -1446,11 +1446,36 @@
    "MAY": {
     "n": 2,
     "exact": 0,
-    "section": 0,
+    "section": 2,
     "ids": [
      "P-16.6e-01",
      "P-16.6e-03"
     ]
+   }
+  },
+  {
+   "section": "16.6f",
+   "heading": "A fork of a thread descends from the pinned document (ruled 2026-10-03; next revision)",
+   "mode": "pending",
+   "MUST": {
+    "n": 1,
+    "exact": 0,
+    "section": 0,
+    "ids": [
+     "P-16.6f-01"
+    ]
+   },
+   "SHOULD": {
+    "n": 0,
+    "exact": 0,
+    "section": 0,
+    "ids": []
+   },
+   "MAY": {
+    "n": 0,
+    "exact": 0,
+    "section": 0,
+    "ids": []
    }
   }
  ],
@@ -1902,6 +1927,22 @@
    "inferred": false,
    "grounding": "normative",
    "cls": null
+  },
+  {
+   "number": 57,
+   "title": "A fork of a thread descends from the pinned document, not from its composition: baked quotes are flattened into ordinary blockquotes with an attribution line, recursively, and the fork inherits no `transclusions[]`",
+   "session": 33,
+   "inferred": false,
+   "grounding": "normative",
+   "cls": null
+  },
+  {
+   "number": 58,
+   "title": "Model routing gates on blast radius, not topic: Opus 5.5 rules reversible questions under a four-question test and Fable reviews in batch; Fable keeps what reaches the wire",
+   "session": 33,
+   "inferred": false,
+   "grounding": "pending",
+   "cls": null
   }
  ],
  "relations": [
@@ -2188,9 +2229,9 @@
   {
    "section": "5.6",
    "heading": "Lineage — `forked_from`",
-   "lines": 39,
+   "lines": 41,
    "clauses": 8,
-   "per100": 20.5,
+   "per100": 19.5,
    "MUST": 4,
    "SHOULD": 3,
    "MAY": 1
@@ -2589,31 +2630,31 @@
  "lowercase_modals": [
   {
    "section": "5.7",
-   "line": 527,
+   "line": 529,
    "word": "required",
    "text": "No data attributes are required: span-level source mapping is deliberately not promised (the JSON provenance is version-level and robust; span-level claims would be brittle across the author's post-generation edits)."
   },
   {
    "section": "7",
-   "line": 756,
+   "line": 758,
    "word": "should",
    "text": "This derivation is documented so that the same item reads the same in different plain-RSS readers; a client that derives differently is conformant but should know that it is choosing to make its items read differently elsewhere."
   },
   {
    "section": "14",
-   "line": 1528,
+   "line": 1530,
    "word": "should",
    "text": "Publishers should understand pins are irrevocable before pinning, and should understand that anything published can be quoted into a thread whose snapshot they cannot recall."
   },
   {
    "section": "14",
-   "line": 1536,
+   "line": 1538,
    "word": "must",
    "text": "Readers that care about ordering across origins must apply their own observation-time policy (§13.7)."
   },
   {
    "section": "15.7",
-   "line": 1760,
+   "line": 1762,
    "word": "required",
    "text": "It may still *send* — a static export is produced by some dynamic studio, which can send at export time — but is not required to."
   }
@@ -2656,257 +2697,257 @@
   },
   {
    "section": "5.7",
-   "line": 469,
+   "line": 471,
    "text": "Invariant 3 stands: AI is never in the protocol."
   },
   {
    "section": "5.7",
-   "line": 488,
+   "line": 490,
    "text": "At 0.3 a source is always own-origin and carries no `origin` member; generation from another origin's items is not expressible on the wire at this version."
   },
   {
    "section": "5.7",
-   "line": 500,
+   "line": 502,
    "text": "Disclosure covers what was produced and from what, never how it was asked for."
   },
   {
    "section": "5.7",
-   "line": 503,
+   "line": 505,
    "text": "Drawn-upon material is woven into new prose, not quoted: source references never appear in `transclusions` and never produce a `blyg-transclusion` blockquote."
   },
   {
    "section": "5.7",
-   "line": 508,
+   "line": 510,
    "text": "The key is omitted entirely when the version involved no generation, and a withdrawal endcap (§9) never carries it."
   },
   {
    "section": "5.8",
-   "line": 552,
+   "line": 554,
    "text": "The reference client always emits it."
   },
   {
    "section": "5.9",
-   "line": 583,
+   "line": 585,
    "text": "`origin` is the target's **identity origin** as §12.2 defines it — the post-redirect URL the target's manifest was fetched from, minus `blyg.json` — never the target manifest's self-asserted `site`."
   },
   {
    "section": "5.9",
-   "line": 621,
+   "line": 623,
    "text": "It is **self-asserted and never authoritative**, like every other provenance member in this protocol, and it is **frozen at the moment the reference was made** — publish time for a transclusion, which is re-resolved at every publish (§10.2); creation time for `stub_of` and `forked_from`."
   },
   {
    "section": "6.1",
-   "line": 672,
+   "line": 674,
    "text": "The `site` value is self-asserted and display-advisory only; it never establishes identity (§12.2)."
   },
   {
    "section": "6.1",
-   "line": 672,
+   "line": 674,
    "text": "**There is deliberately no maintained/unmaintained declaration**: the software that would need to say \"I am unmaintained\" is exactly the software nobody is updating, so maintenance status is a fact for directories to observe, never for the wire to assert."
   },
   {
    "section": "7",
-   "line": 785,
+   "line": 787,
    "text": "The opaque `author` object itself never appears in the XML: the state plane is ground truth, the feed is a signal."
   },
   {
    "section": "7",
-   "line": 796,
+   "line": 798,
    "text": "It never tracks the protocol version: the `0.1` inside it is part of the spelling, not a version claim, and it stays unchanged across protocol versions."
   },
   {
    "section": "7",
-   "line": 796,
+   "line": 798,
    "text": "Later versions add elements to this same namespace under the reader ignore rule (§13.1); the protocol version signal is the manifest's `blyg` key (§3.1), never the namespace."
   },
   {
    "section": "8",
-   "line": 850,
+   "line": 852,
    "text": "`content_hash` covers `content_md` only, so the pin's immutability guarantee covers *content*, never the author bytes."
   },
   {
    "section": "8.4",
-   "line": 870,
+   "line": 872,
    "text": "Keep each pinned version discrete, visibly frozen, and individually citable; a presentation cannot reconstruct a continuous edit history, because the bytes for one are never served."
   },
   {
    "section": "8.4",
-   "line": 890,
+   "line": 892,
    "text": "The route exposes only bytes already promised forever — never unpinned history."
   },
   {
    "section": "9",
-   "line": 909,
+   "line": 911,
    "text": "(Discarding a never-published draft is a hard delete — nothing was ever public.)"
   },
   {
    "section": "9",
-   "line": 913,
+   "line": 915,
    "text": "For threads, the endcap also empties `transclusions` to `[]` (§10.4) and omits `stub_of` (§10.6); an endcap never carries a `generated` array (§5.7)."
   },
   {
    "section": "10",
-   "line": 939,
+   "line": 941,
    "text": "**At 0.3 both restrictions are lifted**: a thread may transclude fragments or threads, of its own origin or of any origin its publisher has imported — and the rule that makes this safe is that the quote is always the publisher's **local snapshot**, never a live fetch."
   },
   {
    "section": "10.1",
-   "line": 976,
+   "line": 978,
    "text": "An unresolvable link is a publish error, like an unresolvable directive."
   },
   {
    "section": "10.2",
-   "line": 994,
+   "line": 996,
    "text": "Resolution happens in the studio at publish time; **readers never resolve anything**."
   },
   {
    "section": "10.2",
-   "line": 1005,
+   "line": 1007,
    "text": "otherwise a **publish error**."
   },
   {
    "section": "10.2",
-   "line": 1005,
+   "line": 1007,
    "text": "**More than one imported match is a publish error**, never a guess — the directive names an identity, and the publisher does not pick an origin on the author's behalf."
   },
   {
    "section": "10.2",
-   "line": 1011,
+   "line": 1013,
    "text": "**The local snapshot is what gets baked — never a live fetch.**"
   },
   {
    "section": "10.2",
-   "line": 1072,
+   "line": 1074,
    "text": "**Publish never depends on the network.**"
   },
   {
    "section": "10.2",
-   "line": 1091,
+   "line": 1093,
    "text": "A source that has since been withdrawn at its origin, and not pin-retained, is a publish error on republish — exactly as a withdrawn local fragment is — and the author removes the directive or leaves the thread at its current version."
   },
   {
    "section": "10.3",
-   "line": 1122,
+   "line": 1124,
    "text": "`origin` is **omitted for own-origin sources** — every 0.2 thread document is therefore a valid 0.3 document unchanged — and for remote sources is the subscription's identity origin (§12.2), never the source manifest's self-asserted `site`."
   },
   {
    "section": "10.3",
-   "line": 1139,
+   "line": 1141,
    "text": "Mention verification (§15.4) ignores it, as it ignores `cited`; a reader that ignores it entirely remains conformant, because readers display baked HTML and never resolve."
   },
   {
    "section": "10.3",
-   "line": 1144,
+   "line": 1146,
    "text": "Fragments omit the key entirely; threads always carry it (a withdrawn thread's endcap carries `[]`)."
   },
   {
    "section": "10.3",
-   "line": 1144,
+   "line": 1146,
    "text": "Generation sources are disclosed separately and never appear here (§5.7), and a plain internal link (§10.1) produces no entry: only copied words are disclosed."
   },
   {
    "section": "10.6",
-   "line": 1185,
+   "line": 1187,
    "text": "Threads only — the frozen v0 concept's own framing (\"stubs are threads, so a stack always looks like a link to a local thread\"), and what makes stubs stackable: threads can be transcluded, so a stub of a stub is nesting, not a new construct."
   },
   {
    "section": "10.6",
-   "line": 1212,
+   "line": 1214,
    "text": "The protocol never requires the body to transclude the target."
   },
   {
    "section": "10.6",
-   "line": 1212,
+   "line": 1214,
    "text": "`stub_of` is the machine-readable response marker, and readers rely on it, never on body inspection."
   },
   {
    "section": "10.6",
-   "line": 1212,
+   "line": 1214,
    "text": "(The reference client's stub action always starts the body with `![[id]]` for a blyg target, because a stub without the quote is not a stub in the medium's own aesthetic; an author who deletes the directive has still published a stub.)"
   },
   {
    "section": "10.6",
-   "line": 1220,
+   "line": 1222,
    "text": "The two can never disagree on a published document."
   },
   {
    "section": "12.1",
-   "line": 1324,
+   "line": 1326,
    "text": "**One hop only**: a rel target's own HTML is never scanned — no recursive discovery, no loops."
   },
   {
    "section": "12.3",
-   "line": 1372,
+   "line": 1374,
    "text": "Poll failure never justifies discarding stored state (§13.2)."
   },
   {
    "section": "13.2",
-   "line": 1417,
+   "line": 1419,
    "text": "Rollup is driven by version numbers, never timestamps."
   },
   {
    "section": "13.2",
-   "line": 1419,
+   "line": 1421,
    "text": "**Malformed input degrades; it never corrupts.**"
   },
   {
    "section": "13.2",
-   "line": 1424,
+   "line": 1426,
    "text": "The feed never mutates state directly: an interesting entry — including a withdrawal entry — triggers an item-document fetch, and **only the fetched document advances state**."
   },
   {
    "section": "13.3",
-   "line": 1434,
+   "line": 1436,
    "text": "The highest version ever observed per imported item is a monotonic **watermark**, and it never silently regresses:"
   },
   {
    "section": "13.5",
-   "line": 1475,
+   "line": 1477,
    "text": "**Imported items are never re-emitted.**"
   },
   {
    "section": "13.5",
-   "line": 1482,
+   "line": 1484,
    "text": "Publicity is a property of the displayed *list*, never of an imported item."
   },
   {
    "section": "13.5",
-   "line": 1489,
+   "line": 1491,
    "text": "It never re-emits, and it never stubs on the members' behalf (§10.6)."
   },
   {
    "section": "13.6",
-   "line": 1503,
+   "line": 1505,
    "text": "An L0 row is never a transclusion source (§10.2); a response to an L0 entry is a `{url}` stub (§10.6)."
   },
   {
    "section": "13.7",
-   "line": 1519,
+   "line": 1521,
    "text": "Ordering the merged reading surface is the reader's own policy, never the protocol's — remote timestamps are self-asserted (§5.2) and comparable only advisorily."
   },
   {
    "section": "14",
-   "line": 1588,
+   "line": 1590,
    "text": "It is therefore per-item curation (§15.5), never automatic."
   },
   {
    "section": "15.1",
-   "line": 1621,
+   "line": 1623,
    "text": "The reference endpoint is `{origin}webmention` — *inside* the origin surface, because it is a protocol surface, unlike a studio or its API, which are host-rooted client internals and never protocol."
   },
   {
    "section": "15.2",
-   "line": 1627,
+   "line": 1629,
    "text": "Same-origin references never generate mentions."
   },
   {
    "section": "15.3",
-   "line": 1672,
+   "line": 1674,
    "text": "A claim refused by any cap is 429 and is never queued."
   },
   {
    "section": "15.5",
-   "line": 1734,
+   "line": 1736,
    "text": "They are never auto-published, never enter the feed, the archive index, or any item document, and add no manifest vocabulary."
   }
  ],
@@ -2939,7 +2980,3557 @@
   "watermark"
  ],
  "prose_only_fields": [],
- "tests": [],
+ "tests": [
+  {
+   "id": "live:live.resolve",
+   "area": "live",
+   "title": "Every listed / discovered URL resolves per §12.1",
+   "status": "fail",
+   "sections": [
+    "12.1"
+   ],
+   "clauses": [
+    "C-4-02",
+    "C-4-03"
+   ],
+   "decisions": [
+    17
+   ]
+  },
+  {
+   "id": "live:live.census",
+   "area": "live",
+   "title": "Client, version key and level census per origin",
+   "status": "info",
+   "sections": [
+    "3.1",
+    "3.2",
+    "6.1"
+   ],
+   "clauses": [
+    "C-3.2-02",
+    "C-6.1-03"
+   ],
+   "decisions": [
+    18,
+    34
+   ]
+  },
+  {
+   "id": "live:live.identity",
+   "area": "live",
+   "title": "Item documents speak for the origin they are served from; manifest `site` agrees",
+   "status": "fail",
+   "sections": [
+    "12.2",
+    "15.4"
+   ],
+   "clauses": [
+    "C-12.2-01",
+    "C-15.4-03"
+   ],
+   "decisions": [
+    17,
+    28
+   ]
+  },
+  {
+   "id": "live:live.content-hash",
+   "area": "live",
+   "title": "`content_hash` = sha256(content_md) on item and pinned documents",
+   "status": "pass",
+   "sections": [
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-03"
+   ],
+   "decisions": [
+    2
+   ]
+  },
+  {
+   "id": "live:live.index-agree",
+   "area": "live",
+   "title": "Archive index agrees with item documents (versions, kinds, order)",
+   "status": "pass",
+   "sections": [
+    "6.2"
+   ],
+   "clauses": [
+    "C-4-03",
+    "C-4-09"
+   ],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "live:live.feed",
+   "area": "live",
+   "title": "Feed GUIDs are `blyg:{id}:v{n}` and agree with `blyg:id`/`blyg:version`; `<blyg:manifest>` present; withdrawn = one entry",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-03",
+    "C-7-05",
+    "C-7-09"
+   ],
+   "decisions": [
+    8
+   ]
+  },
+  {
+   "id": "live:live.reference-target",
+   "area": "live",
+   "title": "Every reference names a reachable blyg identity origin and an existing item/version",
+   "status": "fail",
+   "sections": [
+    "5.9",
+    "10.2",
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.2-01",
+    "C-5.1-01",
+    "C-5.9-01"
+   ],
+   "decisions": [
+    26,
+    27
+   ]
+  },
+  {
+   "id": "live:live.fork-pinned",
+   "area": "live",
+   "title": "Every `forked_from` targets a version pinned at its origin",
+   "status": "pass",
+   "sections": [
+    "5.6",
+    "8"
+   ],
+   "clauses": [
+    "C-5.6-02",
+    "C-5.6-03"
+   ],
+   "decisions": [
+    8,
+    24
+   ]
+  },
+  {
+   "id": "live:live.selector-substring",
+   "area": "live",
+   "title": "Partial transclusion: `selector.exact` is a substring of the target version's text content",
+   "status": "warn",
+   "sections": [
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.2-03",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "live:live.transclusion-correspondence",
+   "area": "live",
+   "title": "`transclusions[]` ⇔ directives in `content_md` ⇔ baked `blockquote.blyg-transclusion`",
+   "status": "fail",
+   "sections": [
+    "10.1",
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    9,
+    26,
+    49
+   ]
+  },
+  {
+   "id": "live:live.reserved-directive",
+   "area": "live",
+   "title": "No published `![[id@vN]]` (reserved; publishers MUST reject)",
+   "status": "info",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.1-01"
+   ],
+   "decisions": [
+    9
+   ]
+  },
+  {
+   "id": "live:live.stub",
+   "area": "live",
+   "title": "`stub_of` ⇒ kind thread, origin present, version agrees with the baked target",
+   "status": "fail",
+   "sections": [
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.6-01",
+    "C-10.6-02",
+    "C-10.6-03",
+    "C-5.9-01"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "live:live.html-absolute",
+   "area": "live",
+   "title": "`content_html` contains no relative URLs",
+   "status": "fail",
+   "sections": [
+    "5.2",
+    "7"
+   ],
+   "clauses": [
+    "C-5.2-03",
+    "C-7-07"
+   ],
+   "decisions": [
+    53
+   ]
+  },
+  {
+   "id": "live:live.page",
+   "area": "live",
+   "title": "`page` resolves (200)",
+   "status": "fail",
+   "sections": [
+    "5.8"
+   ],
+   "clauses": [
+    "C-5.8-01",
+    "C-5.8-04"
+   ],
+   "decisions": [
+    29,
+    56
+   ]
+  },
+  {
+   "id": "live:live.page-alt-json",
+   "area": "live",
+   "title": "Permalink page carries `rel=alternate type=application/json` to its item document",
+   "status": "warn",
+   "sections": [
+    "5.8",
+    "15.4"
+   ],
+   "clauses": [
+    "C-5.8-03"
+   ],
+   "decisions": [
+    29
+   ]
+  },
+  {
+   "id": "live:live.withdrawn-endcap",
+   "area": "live",
+   "title": "Withdrawn items have the endcap shape",
+   "status": "pass",
+   "sections": [
+    "9"
+   ],
+   "clauses": [
+    "C-4-09",
+    "C-8-03"
+   ],
+   "decisions": [
+    8
+   ]
+  },
+  {
+   "id": "live:live.pins-served",
+   "area": "live",
+   "title": "Every changelog `pinned: true` version is served at `items/{id}/v{n}.json` (incl. after withdrawal)",
+   "status": "pass",
+   "sections": [
+    "8",
+    "9"
+   ],
+   "clauses": [
+    "C-4-10",
+    "C-8-01"
+   ],
+   "decisions": [
+    8
+   ]
+  },
+  {
+   "id": "live:live.pin-pages",
+   "area": "live",
+   "title": "Pinned-version HTML pages `{page}v{n}/` (MAY)",
+   "status": "info",
+   "sections": [
+    "8.4"
+   ],
+   "clauses": [
+    "C-8.4-04"
+   ],
+   "decisions": [
+    24
+   ]
+  },
+  {
+   "id": "live:live.unpinned-404",
+   "area": "live",
+   "title": "Unpinned historical versions are not served (404)",
+   "status": "pass",
+   "sections": [
+    "4",
+    "8.4"
+   ],
+   "clauses": [
+    "C-4-10",
+    "C-8.4-01"
+   ],
+   "decisions": [
+    24,
+    25
+   ]
+  },
+  {
+   "id": "live:live.cors",
+   "area": "live",
+   "title": "Public JSON/XML served with `Access-Control-Allow-Origin: *`",
+   "status": "warn",
+   "sections": [
+    "4"
+   ],
+   "clauses": [
+    "C-4-11"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "live:live.webmention-advertised",
+   "area": "live",
+   "title": "Which origins advertise a Webmention endpoint (manifest key / rel=webmention)",
+   "status": "info",
+   "sections": [
+    "15.1"
+   ],
+   "clauses": [
+    "C-15.1-01",
+    "C-6.1-02"
+   ],
+   "decisions": [
+    28
+   ]
+  },
+  {
+   "id": "live:live.webmention-reachability",
+   "area": "live",
+   "title": "Cross-origin references whose sender would find an endpoint at the target",
+   "status": "info",
+   "sections": [
+    "15.1",
+    "15.2"
+   ],
+   "clauses": [
+    "C-15.1-01",
+    "C-15.2-01",
+    "C-6.1-02"
+   ],
+   "decisions": [
+    28
+   ]
+  },
+  {
+   "id": "live:live.generated-sources",
+   "area": "live",
+   "title": "`generated[].sources[]` stay own-origin at 0.3",
+   "status": "pass",
+   "sections": [
+    "5.7",
+    "16.3"
+   ],
+   "clauses": [
+    "C-5.7-02"
+   ],
+   "decisions": [
+    20,
+    44
+   ]
+  },
+  {
+   "id": "live:live.updated-changelog",
+   "area": "live",
+   "title": "`updated` equals the latest changelog entry's `at`",
+   "status": "pass",
+   "sections": [
+    "5.2"
+   ],
+   "clauses": [
+    "C-5.2-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "live:live.fork-reresolution",
+   "area": "live",
+   "title": "Fork content vs. source pin: directives, selectors, baked versions, origins",
+   "status": "warn",
+   "sections": [
+    "5.6",
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-01",
+    "C-5.6-08"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "live:live.fork-lineage-visible",
+   "area": "live",
+   "title": "A fork's public page links its source (origin / pinned version)",
+   "status": "warn",
+   "sections": [
+    "5.6"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.schema.manifest",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): manifest documents against manifest.schema.json",
+   "status": "pass",
+   "sections": [
+    "6.1"
+   ],
+   "clauses": [
+    "C-6.1-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.advisory.manifest",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): manifest documents against the advisory (SHOULD) layer",
+   "status": "pass",
+   "sections": [
+    "3.2",
+    "6.1"
+   ],
+   "clauses": [
+    "C-3.2-02",
+    "C-4-02",
+    "C-6.1-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.schema.index",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): index documents against index.schema.json",
+   "status": "pass",
+   "sections": [
+    "6.2"
+   ],
+   "clauses": [
+    "C-4-12"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.schema.item",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): item documents against item.schema.json",
+   "status": "pass",
+   "sections": [
+    "5",
+    "9"
+   ],
+   "clauses": [
+    "C-10.3-01",
+    "C-10.6-02",
+    "C-4-12",
+    "C-5.1-01",
+    "C-5.5-01",
+    "C-5.6-02",
+    "C-5.7-05",
+    "C-5.9-01",
+    "C-5.9-02",
+    "C-5.9-04"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.advisory.item",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): item documents against the advisory (SHOULD) layer",
+   "status": "warn",
+   "sections": [
+    "5.3",
+    "5.4",
+    "5.5",
+    "5.7",
+    "5.9"
+   ],
+   "clauses": [
+    "C-5.3-02",
+    "C-5.4-01",
+    "C-5.5-02",
+    "C-5.7-03",
+    "C-5.9-05"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.schema.pinned",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): pinned documents against pinned.schema.json",
+   "status": "pass",
+   "sections": [
+    "8"
+   ],
+   "clauses": [
+    "C-10.6-02",
+    "C-4-12",
+    "C-5.1-01",
+    "C-5.6-02",
+    "C-8-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.advisory.pinned",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): pinned documents against the advisory (SHOULD) layer",
+   "status": "pass",
+   "sections": [
+    "8"
+   ],
+   "clauses": [
+    "C-5.7-03",
+    "C-8-05"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.index.order",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): index ordered by updated descending",
+   "status": "pass",
+   "sections": [
+    "6.2"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.index.agrees-with-docs",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): index entries agree with item documents",
+   "status": "pass",
+   "sections": [
+    "6.2",
+    "13.2"
+   ],
+   "clauses": [],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.hash.matches-content_md",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): content_hash = sha256 of content_md",
+   "status": "pass",
+   "sections": [
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-03"
+   ],
+   "decisions": [
+    2
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.updated.equals-last-changelog",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): updated equals the latest changelog entry's at",
+   "status": "pass",
+   "sections": [
+    "5.2"
+   ],
+   "clauses": [
+    "C-5.2-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.changelog.contiguous",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): changelog covers versions 1..version, +1 each",
+   "status": "pass",
+   "sections": [
+    "5.2"
+   ],
+   "clauses": [],
+   "decisions": [
+    19
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.changelog.at-monotonic",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): changelog timestamps non-decreasing with version",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "13.7"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.html.absolute-urls",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): every URL in content_html is absolute",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "7"
+   ],
+   "clauses": [
+    "C-5.2-03",
+    "C-7-07"
+   ],
+   "decisions": [
+    53
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.md.no-tk-grammar",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): no TK authoring grammar reaches the wire",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.md.no-reserved-directive",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): no reserved ![[id@vN]] in published content_md",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.1-01"
+   ],
+   "decisions": [
+    9
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.transclusions.match-directives",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): transclusions[] matches the directives in content_md, in order",
+   "status": "pass",
+   "sections": [
+    "10.3",
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.transclusions.baked-wrappers",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
+   "status": "pass",
+   "sections": [
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.selector.matches-bake",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): a partial's baked <p> lines equal selector.exact",
+   "status": "pass",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-02"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.transclusions.own-origin-omitted",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): own-origin entries omit origin",
+   "status": "pass",
+   "sections": [
+    "10.3"
+   ],
+   "clauses": [
+    "C-5.9-01"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.stub_of.version-agreement",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
+   "status": "pass",
+   "sections": [
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.6-03"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.forked_from.cited-url-is-page",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
+   "status": "warn",
+   "sections": [
+    "5.9",
+    "8.4"
+   ],
+   "clauses": [
+    "C-5.9-05"
+   ],
+   "decisions": [
+    24,
+    30
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.fork.carries-directives",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): a fork's content_md carries the source's directives, which re-resolve at the forker",
+   "status": "info",
+   "sections": [
+    "5.6"
+   ],
+   "clauses": [],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.page.origin-relative",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): page is origin-relative (no scheme, no leading /)",
+   "status": "pass",
+   "sections": [
+    "5.8"
+   ],
+   "clauses": [
+    "C-5.8-01"
+   ],
+   "decisions": [
+    29,
+    14,
+    51
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.page.not-absolute-at-0.3",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): absolute page is a 0.4 construct",
+   "status": "pass",
+   "sections": [
+    "5.8",
+    "16.6e"
+   ],
+   "clauses": [
+    "C-5.8-01"
+   ],
+   "decisions": [
+    51
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.generated.wrappers",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): generated spans are wrapped in blyg-tk-gen",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [
+    "C-5.7-07"
+   ],
+   "decisions": [
+    20,
+    25
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.generated.disjoint-from-transclusions",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): generation sources never appear in transclusions[]",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.links.rendered-absolute",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): [[id]] links render as anchors with absolute hrefs",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-5.2-03"
+   ],
+   "decisions": [
+    32,
+    53,
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.code.inert",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): directive/link syntax inside code is left literal",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.media.referenced",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): every media[] entry is referenced by content_html",
+   "status": "warn",
+   "sections": [
+    "5.4",
+    "4"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.withdrawn.keeps-page",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): an endcap keeps page",
+   "status": "pass",
+   "sections": [
+    "9",
+    "5.8"
+   ],
+   "clauses": [],
+   "decisions": [
+    29
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.id.matches-url",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): document id equals the id in its URL",
+   "status": "pass",
+   "sections": [
+    "4",
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.origin.matches-fetch",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): document origin equals the origin it was fetched from",
+   "status": "pass",
+   "sections": [
+    "12.2",
+    "15.4"
+   ],
+   "clauses": [],
+   "decisions": [
+    17,
+    28
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pins.served",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): every changelog pinned:true version is served as v{n}.json and nothing else is",
+   "status": "pass",
+   "sections": [
+    "8",
+    "8.4"
+   ],
+   "clauses": [
+    "C-4-10",
+    "C-8-01"
+   ],
+   "decisions": [
+    8
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pinned.hash",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): pinned content_hash = sha256(content_md)",
+   "status": "pass",
+   "sections": [
+    "8",
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-03"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pinned.at-matches-changelog",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): pinned at/note match the item's changelog entry",
+   "status": "pass",
+   "sections": [
+    "8"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pinned.forked_from-immutable",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): a pin of a forked item carries the same forked_from",
+   "status": "pass",
+   "sections": [
+    "5.6",
+    "8"
+   ],
+   "clauses": [
+    "C-5.6-06"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pinned.html.absolute-urls",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): every URL in content_html is absolute",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "7"
+   ],
+   "clauses": [
+    "C-5.2-03",
+    "C-7-07"
+   ],
+   "decisions": [
+    53
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pinned.md.no-tk-grammar",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): no TK authoring grammar reaches the wire",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pinned.transclusions.match-directives",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): transclusions[] matches the directives in content_md, in order",
+   "status": "pass",
+   "sections": [
+    "10.3",
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pinned.transclusions.baked-wrappers",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
+   "status": "pass",
+   "sections": [
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pinned.stub_of.version-agreement",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
+   "status": "pass",
+   "sections": [
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.6-03"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.pinned.forked_from.cited-url-is-page",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
+   "status": "pass",
+   "sections": [
+    "5.9",
+    "8.4"
+   ],
+   "clauses": [
+    "C-5.9-05"
+   ],
+   "decisions": [
+    24,
+    30
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.feed.rss2-namespace",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): RSS 2.0 root declaring the permanent blyg namespace",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [],
+   "decisions": [
+    22
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.feed.manifest-hook",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): <blyg:manifest> present and absolute",
+   "status": "pass",
+   "sections": [
+    "7",
+    "12.1"
+   ],
+   "clauses": [
+    "C-7-09"
+   ],
+   "decisions": [
+    17
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.feed.entry-vocabulary",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-03"
+   ],
+   "decisions": [
+    16
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.feed.withdrawn-single-entry",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): a withdrawn item contributes exactly one empty 'withdrawn' entry",
+   "status": "pass",
+   "sections": [
+    "7",
+    "9"
+   ],
+   "clauses": [
+    "C-7-05"
+   ],
+   "decisions": [
+    8
+   ]
+  },
+  {
+   "id": "schemas:schemas.studio.rule.feed.injected-presentation",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): descriptions carry injected presentation lines (permitted by §7)",
+   "status": "info",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-06"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.feed.latest-content",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): entries render the item's latest content_html",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.feed.newest-first",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): one entry per publish event, newest first",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.feed.window",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): window bounded (RECOMMENDED 50)",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-01"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.studio.rule.feed.dc-creator",
+   "area": "schemas",
+   "title": "blygger-studio 0.17.0 (in-process harness): dc:creator emitted when author.name present",
+   "status": "warn",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-08"
+   ],
+   "decisions": [
+    11
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.schema.manifest",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): manifest documents against manifest.schema.json",
+   "status": "pass",
+   "sections": [
+    "6.1"
+   ],
+   "clauses": [
+    "C-6.1-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.advisory.manifest",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): manifest documents against the advisory (SHOULD) layer",
+   "status": "pass",
+   "sections": [
+    "3.2",
+    "6.1"
+   ],
+   "clauses": [
+    "C-3.2-02",
+    "C-4-02",
+    "C-6.1-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.schema.index",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): index documents against index.schema.json",
+   "status": "pass",
+   "sections": [
+    "6.2"
+   ],
+   "clauses": [
+    "C-4-12"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.schema.item",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): item documents against item.schema.json",
+   "status": "pass",
+   "sections": [
+    "5",
+    "9"
+   ],
+   "clauses": [
+    "C-10.3-01",
+    "C-10.6-02",
+    "C-4-12",
+    "C-5.1-01",
+    "C-5.5-01",
+    "C-5.6-02",
+    "C-5.7-05",
+    "C-5.9-01",
+    "C-5.9-02",
+    "C-5.9-04"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.advisory.item",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): item documents against the advisory (SHOULD) layer",
+   "status": "pass",
+   "sections": [
+    "5.3",
+    "5.4",
+    "5.5",
+    "5.7",
+    "5.9"
+   ],
+   "clauses": [
+    "C-5.3-02",
+    "C-5.4-01",
+    "C-5.5-02",
+    "C-5.7-03",
+    "C-5.9-05"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.schema.pinned",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): pinned documents against pinned.schema.json",
+   "status": "pass",
+   "sections": [
+    "8"
+   ],
+   "clauses": [
+    "C-10.6-02",
+    "C-4-12",
+    "C-5.1-01",
+    "C-5.6-02",
+    "C-8-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.advisory.pinned",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): pinned documents against the advisory (SHOULD) layer",
+   "status": "pass",
+   "sections": [
+    "8"
+   ],
+   "clauses": [
+    "C-5.7-03",
+    "C-8-05"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.index.order",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): index ordered by updated descending",
+   "status": "pass",
+   "sections": [
+    "6.2"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.index.agrees-with-docs",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): index entries agree with item documents",
+   "status": "pass",
+   "sections": [
+    "6.2",
+    "13.2"
+   ],
+   "clauses": [],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.hash.matches-content_md",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): content_hash = sha256 of content_md",
+   "status": "pass",
+   "sections": [
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-03"
+   ],
+   "decisions": [
+    2
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.updated.equals-last-changelog",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): updated equals the latest changelog entry's at",
+   "status": "pass",
+   "sections": [
+    "5.2"
+   ],
+   "clauses": [
+    "C-5.2-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.changelog.contiguous",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): changelog covers versions 1..version, +1 each",
+   "status": "pass",
+   "sections": [
+    "5.2"
+   ],
+   "clauses": [],
+   "decisions": [
+    19
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.changelog.at-monotonic",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): changelog timestamps non-decreasing with version",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "13.7"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.html.absolute-urls",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every URL in content_html is absolute",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "7"
+   ],
+   "clauses": [
+    "C-5.2-03",
+    "C-7-07"
+   ],
+   "decisions": [
+    53
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.md.no-tk-grammar",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): no TK authoring grammar reaches the wire",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.md.no-reserved-directive",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): no reserved ![[id@vN]] in published content_md",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.1-01"
+   ],
+   "decisions": [
+    9
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.transclusions.match-directives",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): transclusions[] matches the directives in content_md, in order",
+   "status": "pass",
+   "sections": [
+    "10.3",
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.transclusions.baked-wrappers",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): each entry has a matching baked blockquote (classes, data attributes)",
+   "status": "pass",
+   "sections": [
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.selector.matches-bake",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): a partial's baked <p> lines equal selector.exact",
+   "status": "pass",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-02"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.transclusions.own-origin-omitted",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): own-origin entries omit origin",
+   "status": "pass",
+   "sections": [
+    "10.3"
+   ],
+   "clauses": [
+    "C-5.9-01"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.stub_of.version-agreement",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): stub_of.version equals the baked version when the body quotes the target",
+   "status": "pass",
+   "sections": [
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.6-03"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.forked_from.cited-url-is-page",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): forked_from.cited.url names a human page, not the v{n}.json document",
+   "status": "warn",
+   "sections": [
+    "5.9",
+    "8.4"
+   ],
+   "clauses": [
+    "C-5.9-05"
+   ],
+   "decisions": [
+    24,
+    30
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.fork.carries-directives",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): a fork's content_md carries the source's directives, which re-resolve at the forker",
+   "status": "info",
+   "sections": [
+    "5.6"
+   ],
+   "clauses": [],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.page.origin-relative",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): page is origin-relative (no scheme, no leading /)",
+   "status": "pass",
+   "sections": [
+    "5.8"
+   ],
+   "clauses": [
+    "C-5.8-01"
+   ],
+   "decisions": [
+    29,
+    14,
+    51
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.page.not-absolute-at-0.3",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): absolute page is a 0.4 construct",
+   "status": "pass",
+   "sections": [
+    "5.8",
+    "16.6e"
+   ],
+   "clauses": [
+    "C-5.8-01"
+   ],
+   "decisions": [
+    51
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.generated.wrappers",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): generated spans are wrapped in blyg-tk-gen",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [
+    "C-5.7-07"
+   ],
+   "decisions": [
+    20,
+    25
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.generated.disjoint-from-transclusions",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): generation sources never appear in transclusions[]",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.links.rendered-absolute",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): [[id]] links render as anchors with absolute hrefs",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-5.2-03"
+   ],
+   "decisions": [
+    32,
+    53,
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.code.inert",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): directive/link syntax inside code is left literal",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.media.referenced",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every media[] entry is referenced by content_html",
+   "status": "warn",
+   "sections": [
+    "5.4",
+    "4"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.withdrawn.keeps-page",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): an endcap keeps page",
+   "status": "pass",
+   "sections": [
+    "9",
+    "5.8"
+   ],
+   "clauses": [],
+   "decisions": [
+    29
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.id.matches-url",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): document id equals the id in its URL",
+   "status": "pass",
+   "sections": [
+    "4",
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.origin.matches-fetch",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): document origin equals the origin it was fetched from",
+   "status": "pass",
+   "sections": [
+    "12.2",
+    "15.4"
+   ],
+   "clauses": [],
+   "decisions": [
+    17,
+    28
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pins.served",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every changelog pinned:true version is served as v{n}.json and nothing else is",
+   "status": "pass",
+   "sections": [
+    "8",
+    "8.4"
+   ],
+   "clauses": [
+    "C-4-10",
+    "C-8-01"
+   ],
+   "decisions": [
+    8
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pinned.hash",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): pinned content_hash = sha256(content_md)",
+   "status": "pass",
+   "sections": [
+    "8",
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-03"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pinned.at-matches-changelog",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): pinned at/note match the item's changelog entry",
+   "status": "pass",
+   "sections": [
+    "8"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pinned.forked_from-immutable",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): a pin of a forked item carries the same forked_from",
+   "status": "pass",
+   "sections": [
+    "5.6",
+    "8"
+   ],
+   "clauses": [
+    "C-5.6-06"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pinned.html.absolute-urls",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every URL in content_html is absolute",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "7"
+   ],
+   "clauses": [
+    "C-5.2-03",
+    "C-7-07"
+   ],
+   "decisions": [
+    53
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pinned.md.no-tk-grammar",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): no TK authoring grammar reaches the wire",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pinned.transclusions.match-directives",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): transclusions[] matches the directives in content_md, in order",
+   "status": "pass",
+   "sections": [
+    "10.3",
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pinned.transclusions.baked-wrappers",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): each entry has a matching baked blockquote (classes, data attributes)",
+   "status": "pass",
+   "sections": [
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pinned.stub_of.version-agreement",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): stub_of.version equals the baked version when the body quotes the target",
+   "status": "pass",
+   "sections": [
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.6-03"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.pinned.forked_from.cited-url-is-page",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): forked_from.cited.url names a human page, not the v{n}.json document",
+   "status": "pass",
+   "sections": [
+    "5.9",
+    "8.4"
+   ],
+   "clauses": [
+    "C-5.9-05"
+   ],
+   "decisions": [
+    24,
+    30
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.feed.rss2-namespace",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): RSS 2.0 root declaring the permanent blyg namespace",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [],
+   "decisions": [
+    22
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.feed.manifest-hook",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): <blyg:manifest> present and absolute",
+   "status": "pass",
+   "sections": [
+    "7",
+    "12.1"
+   ],
+   "clauses": [
+    "C-7-09"
+   ],
+   "decisions": [
+    17
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.feed.entry-vocabulary",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-03"
+   ],
+   "decisions": [
+    16
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.feed.withdrawn-single-entry",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): a withdrawn item contributes exactly one empty 'withdrawn' entry",
+   "status": "pass",
+   "sections": [
+    "7",
+    "9"
+   ],
+   "clauses": [
+    "C-7-05"
+   ],
+   "decisions": [
+    8
+   ]
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.feed.injected-presentation",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): descriptions carry injected presentation lines (permitted by §7)",
+   "status": "info",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-06"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.feed.latest-content",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): entries render the item's latest content_html",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.feed.newest-first",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): one entry per publish event, newest first",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.feed.window",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): window bounded (RECOMMENDED 50)",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-01"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.live-venkateshrao.rule.feed.dc-creator",
+   "area": "schemas",
+   "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.19.0 (live, 74 items, fetched 2026-10-04): dc:creator emitted when author.name present",
+   "status": "warn",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-08"
+   ],
+   "decisions": [
+    11
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.schema.manifest",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): manifest documents against manifest.schema.json",
+   "status": "pass",
+   "sections": [
+    "6.1"
+   ],
+   "clauses": [
+    "C-6.1-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.advisory.manifest",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): manifest documents against the advisory (SHOULD) layer",
+   "status": "pass",
+   "sections": [
+    "3.2",
+    "6.1"
+   ],
+   "clauses": [
+    "C-3.2-02",
+    "C-4-02",
+    "C-6.1-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.schema.index",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): index documents against index.schema.json",
+   "status": "pass",
+   "sections": [
+    "6.2"
+   ],
+   "clauses": [
+    "C-4-12"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.schema.item",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): item documents against item.schema.json",
+   "status": "pass",
+   "sections": [
+    "5",
+    "9"
+   ],
+   "clauses": [
+    "C-10.3-01",
+    "C-10.6-02",
+    "C-4-12",
+    "C-5.1-01",
+    "C-5.5-01",
+    "C-5.6-02",
+    "C-5.7-05",
+    "C-5.9-01",
+    "C-5.9-02",
+    "C-5.9-04"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.advisory.item",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): item documents against the advisory (SHOULD) layer",
+   "status": "pass",
+   "sections": [
+    "5.3",
+    "5.4",
+    "5.5",
+    "5.7",
+    "5.9"
+   ],
+   "clauses": [
+    "C-5.3-02",
+    "C-5.4-01",
+    "C-5.5-02",
+    "C-5.7-03",
+    "C-5.9-05"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.schema.pinned",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): pinned documents against pinned.schema.json",
+   "status": "pass",
+   "sections": [
+    "8"
+   ],
+   "clauses": [
+    "C-10.6-02",
+    "C-4-12",
+    "C-5.1-01",
+    "C-5.6-02",
+    "C-8-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.advisory.pinned",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): pinned documents against the advisory (SHOULD) layer",
+   "status": "pass",
+   "sections": [
+    "8"
+   ],
+   "clauses": [
+    "C-5.7-03",
+    "C-8-05"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.index.order",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): index ordered by updated descending",
+   "status": "pass",
+   "sections": [
+    "6.2"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.index.agrees-with-docs",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): index entries agree with item documents",
+   "status": "pass",
+   "sections": [
+    "6.2",
+    "13.2"
+   ],
+   "clauses": [],
+   "decisions": [
+    18
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.hash.matches-content_md",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): content_hash = sha256 of content_md",
+   "status": "pass",
+   "sections": [
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-03"
+   ],
+   "decisions": [
+    2
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.updated.equals-last-changelog",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): updated equals the latest changelog entry's at",
+   "status": "pass",
+   "sections": [
+    "5.2"
+   ],
+   "clauses": [
+    "C-5.2-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.changelog.contiguous",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): changelog covers versions 1..version, +1 each",
+   "status": "pass",
+   "sections": [
+    "5.2"
+   ],
+   "clauses": [],
+   "decisions": [
+    19
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.changelog.at-monotonic",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): changelog timestamps non-decreasing with version",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "13.7"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.html.absolute-urls",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): every URL in content_html is absolute",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "7"
+   ],
+   "clauses": [
+    "C-5.2-03",
+    "C-7-07"
+   ],
+   "decisions": [
+    53
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.md.no-tk-grammar",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): no TK authoring grammar reaches the wire",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.md.no-reserved-directive",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): no reserved ![[id@vN]] in published content_md",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.1-01"
+   ],
+   "decisions": [
+    9
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.transclusions.match-directives",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): transclusions[] matches the directives in content_md, in order",
+   "status": "pass",
+   "sections": [
+    "10.3",
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.transclusions.baked-wrappers",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): each entry has a matching baked blockquote (classes, data attributes)",
+   "status": "pass",
+   "sections": [
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.selector.matches-bake",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): a partial's baked <p> lines equal selector.exact",
+   "status": "pass",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-02"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.transclusions.own-origin-omitted",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): own-origin entries omit origin",
+   "status": "pass",
+   "sections": [
+    "10.3"
+   ],
+   "clauses": [
+    "C-5.9-01"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.stub_of.version-agreement",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): stub_of.version equals the baked version when the body quotes the target",
+   "status": "pass",
+   "sections": [
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.6-03"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.forked_from.cited-url-is-page",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): forked_from.cited.url names a human page, not the v{n}.json document",
+   "status": "pass",
+   "sections": [
+    "5.9",
+    "8.4"
+   ],
+   "clauses": [
+    "C-5.9-05"
+   ],
+   "decisions": [
+    24,
+    30
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.fork.carries-directives",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): a fork's content_md carries the source's directives, which re-resolve at the forker",
+   "status": "pass",
+   "sections": [
+    "5.6"
+   ],
+   "clauses": [],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.page.origin-relative",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): page is origin-relative (no scheme, no leading /)",
+   "status": "pass",
+   "sections": [
+    "5.8"
+   ],
+   "clauses": [
+    "C-5.8-01"
+   ],
+   "decisions": [
+    29,
+    14,
+    51
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.page.not-absolute-at-0.3",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): absolute page is a 0.4 construct",
+   "status": "pass",
+   "sections": [
+    "5.8",
+    "16.6e"
+   ],
+   "clauses": [
+    "C-5.8-01"
+   ],
+   "decisions": [
+    51
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.generated.wrappers",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): generated spans are wrapped in blyg-tk-gen",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [
+    "C-5.7-07"
+   ],
+   "decisions": [
+    20,
+    25
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.generated.disjoint-from-transclusions",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): generation sources never appear in transclusions[]",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.links.rendered-absolute",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): [[id]] links render as anchors with absolute hrefs",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-5.2-03"
+   ],
+   "decisions": [
+    32,
+    53,
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.code.inert",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): directive/link syntax inside code is left literal",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.media.referenced",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): every media[] entry is referenced by content_html",
+   "status": "pass",
+   "sections": [
+    "5.4",
+    "4"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.withdrawn.keeps-page",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): an endcap keeps page",
+   "status": "pass",
+   "sections": [
+    "9",
+    "5.8"
+   ],
+   "clauses": [],
+   "decisions": [
+    29
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.id.matches-url",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): document id equals the id in its URL",
+   "status": "pass",
+   "sections": [
+    "4",
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.origin.matches-fetch",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): document origin equals the origin it was fetched from",
+   "status": "pass",
+   "sections": [
+    "12.2",
+    "15.4"
+   ],
+   "clauses": [],
+   "decisions": [
+    17,
+    28
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pins.served",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): every changelog pinned:true version is served as v{n}.json and nothing else is",
+   "status": "pass",
+   "sections": [
+    "8",
+    "8.4"
+   ],
+   "clauses": [
+    "C-4-10",
+    "C-8-01"
+   ],
+   "decisions": [
+    8
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pinned.hash",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): pinned content_hash = sha256(content_md)",
+   "status": "pass",
+   "sections": [
+    "8",
+    "5.1"
+   ],
+   "clauses": [
+    "C-5.1-03"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pinned.at-matches-changelog",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): pinned at/note match the item's changelog entry",
+   "status": "pass",
+   "sections": [
+    "8"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pinned.forked_from-immutable",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): a pin of a forked item carries the same forked_from",
+   "status": "pass",
+   "sections": [
+    "5.6",
+    "8"
+   ],
+   "clauses": [
+    "C-5.6-06"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pinned.html.absolute-urls",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): every URL in content_html is absolute",
+   "status": "pass",
+   "sections": [
+    "5.2",
+    "7"
+   ],
+   "clauses": [
+    "C-5.2-03",
+    "C-7-07"
+   ],
+   "decisions": [
+    53
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pinned.md.no-tk-grammar",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): no TK authoring grammar reaches the wire",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pinned.transclusions.match-directives",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): transclusions[] matches the directives in content_md, in order",
+   "status": "pass",
+   "sections": [
+    "10.3",
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pinned.transclusions.baked-wrappers",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): each entry has a matching baked blockquote (classes, data attributes)",
+   "status": "pass",
+   "sections": [
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    26,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pinned.stub_of.version-agreement",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): stub_of.version equals the baked version when the body quotes the target",
+   "status": "pass",
+   "sections": [
+    "10.6"
+   ],
+   "clauses": [
+    "C-10.6-03"
+   ],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.pinned.forked_from.cited-url-is-page",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): forked_from.cited.url names a human page, not the v{n}.json document",
+   "status": "pass",
+   "sections": [
+    "5.9",
+    "8.4"
+   ],
+   "clauses": [
+    "C-5.9-05"
+   ],
+   "decisions": [
+    24,
+    30
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.feed.rss2-namespace",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): RSS 2.0 root declaring the permanent blyg namespace",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [],
+   "decisions": [
+    22
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.feed.manifest-hook",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): <blyg:manifest> present and absolute",
+   "status": "pass",
+   "sections": [
+    "7",
+    "12.1"
+   ],
+   "clauses": [
+    "C-7-09"
+   ],
+   "decisions": [
+    17
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.feed.entry-vocabulary",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-03"
+   ],
+   "decisions": [
+    16
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.feed.withdrawn-single-entry",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): a withdrawn item contributes exactly one empty 'withdrawn' entry",
+   "status": "pass",
+   "sections": [
+    "7",
+    "9"
+   ],
+   "clauses": [
+    "C-7-05"
+   ],
+   "decisions": [
+    8
+   ]
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.feed.latest-content",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): entries render the item's latest content_html",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-02"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.feed.newest-first",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): one entry per publish event, newest first",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.feed.window",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): window bounded (RECOMMENDED 50)",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-01"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.fake-remote.rule.feed.dc-creator",
+   "area": "schemas",
+   "title": "fake remote origin (hand-built fixture): dc:creator emitted when author.name present",
+   "status": "pass",
+   "sections": [
+    "7"
+   ],
+   "clauses": [
+    "C-7-08"
+   ],
+   "decisions": [
+    11
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.whole-remote",
+   "area": "schemas",
+   "title": "Grammar: Own-line directive naming an imported item is a whole transclusion",
+   "status": "pass",
+   "sections": [
+    "10.1",
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    9,
+    26
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.whole-local",
+   "area": "schemas",
+   "title": "Grammar: Own-line directive naming a local fragment",
+   "status": "pass",
+   "sections": [
+    "10.1",
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    9
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.whole-surrounding-whitespace",
+   "area": "schemas",
+   "title": "Grammar: Surrounding whitespace is allowed on the directive line",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    9
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.partial-attached",
+   "area": "schemas",
+   "title": "Grammar: Directive immediately followed by a blockquote is a partial transclusion",
+   "status": "pass",
+   "sections": [
+    "10.1",
+    "10.2",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.partial-detached-blank-line",
+   "area": "schemas",
+   "title": "Grammar: A blank line detaches the blockquote: whole transclusion + the author's own quotation",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.partial-multiparagraph",
+   "area": "schemas",
+   "title": "Grammar: A selection spanning two paragraphs keeps the block boundary as a line break",
+   "status": "pass",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.partial-not-in-target",
+   "area": "schemas",
+   "title": "Grammar: A selection that is not a substring of the target's text content is a publish error",
+   "status": "pass",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-02"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.partial-lazy-continuation",
+   "area": "schemas",
+   "title": "Grammar: A non-'>' line right after the quote run: CommonMark lazy continuation would extend the blockquote; implementations end the selection",
+   "status": "warn",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.reserved-version",
+   "area": "schemas",
+   "title": "Grammar: ![[id@vN]] is reserved: 0.3 publishers MUST reject it",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.1-01"
+   ],
+   "decisions": [
+    9
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.unknown-id",
+   "area": "schemas",
+   "title": "Grammar: An unresolvable directive is a publish error",
+   "status": "pass",
+   "sections": [
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.inline-directive-inert",
+   "area": "schemas",
+   "title": "Grammar: A directive sequence that is not alone on its line is inert text (and not a link)",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    9,
+    32
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.link-inline",
+   "area": "schemas",
+   "title": "Grammar: [[id]] inline outside code is a plain internal link",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    32
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.link-and-inline-directive",
+   "area": "schemas",
+   "title": "Grammar: On one line, ![[a]] is inert and [[b]] is a link",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    32
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.directive-then-link-line",
+   "area": "schemas",
+   "title": "Grammar: A directive followed by a [[id]] line: whole transclusion + link",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    32,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.multiple-directives",
+   "area": "schemas",
+   "title": "Grammar: Several directives, consecutive and separated, in order",
+   "status": "pass",
+   "sections": [
+    "10.1",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    26
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.link-in-code-span",
+   "area": "schemas",
+   "title": "Grammar: [[id]] inside a code span is inert",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.directive-in-code-span-own-line",
+   "area": "schemas",
+   "title": "Grammar: An own-line directive wrapped in a code span is inert",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.directive-in-fenced-code",
+   "area": "schemas",
+   "title": "Grammar: An own-line directive inside a backtick fence is inert",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.partial-in-tilde-fence",
+   "area": "schemas",
+   "title": "Grammar: Directive + quote inside a tilde fence is inert",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    54,
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.directive-in-indented-code",
+   "area": "schemas",
+   "title": "Grammar: An own-line directive in an indented code block is inert",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.link-in-fenced-code",
+   "area": "schemas",
+   "title": "Grammar: [[id]] inside a fenced block is inert",
+   "status": "pass",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.crlf-partial-and-link",
+   "area": "schemas",
+   "title": "Grammar: CRLF line endings: partial transclusion and link still recognized",
+   "status": "warn",
+   "sections": [
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    49,
+    32
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.devanagari-partial",
+   "area": "schemas",
+   "title": "Grammar: Unicode (Devanagari) selection and surrounding prose",
+   "status": "pass",
+   "sections": [
+    "10.1",
+    "10.2"
+   ],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.tk-source-not-quote",
+   "area": "schemas",
+   "title": "Grammar: Inside a TK scope, ![[id]] is a generation source, never a transclusion",
+   "status": "pass",
+   "sections": [
+    "5.7",
+    "10.1"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.tk-source-own-line",
+   "area": "schemas",
+   "title": "Grammar: An own-line directive inside a TK scope is still a source",
+   "status": "pass",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.tk-scope-beside-transclusion",
+   "area": "schemas",
+   "title": "Grammar: A TK scope and a real transclusion in one thread: one quote, one source",
+   "status": "pass",
+   "sections": [
+    "5.7",
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    20
+   ]
+  },
+  {
+   "id": "schemas:schemas.grammar.tk-in-code-is-not-a-scope",
+   "area": "schemas",
+   "title": "Grammar: A [TK] written inside code is an example of the grammar, not a scope; the directive below it is real",
+   "status": "fail",
+   "sections": [
+    "5.7",
+    "10.1"
+   ],
+   "clauses": [
+    "C-10.2-01"
+   ],
+   "decisions": [
+    20,
+    54
+   ]
+  },
+  {
+   "id": "schemas:schemas.desktop.roundtrip.selector",
+   "area": "schemas",
+   "title": "blygger-desktop round trip: partial-transclusion selector",
+   "status": "warn",
+   "sections": [
+    "10.3"
+   ],
+   "clauses": [
+    "C-10.3-01"
+   ],
+   "decisions": [
+    49
+   ]
+  },
+  {
+   "id": "schemas:schemas.desktop.roundtrip.cited",
+   "area": "schemas",
+   "title": "blygger-desktop round trip: cited on stub_of / forked_from",
+   "status": "warn",
+   "sections": [
+    "5.9"
+   ],
+   "clauses": [
+    "C-5.9-03",
+    "C-5.9-07"
+   ],
+   "decisions": [
+    30
+   ]
+  },
+  {
+   "id": "schemas:schemas.desktop.roundtrip.generated",
+   "area": "schemas",
+   "title": "blygger-desktop round trip: generation provenance",
+   "status": "warn",
+   "sections": [
+    "5.7"
+   ],
+   "clauses": [
+    "C-5.7-01"
+   ],
+   "decisions": [
+    20,
+    37
+   ]
+  },
+  {
+   "id": "schemas:schemas.desktop.roundtrip.author",
+   "area": "schemas",
+   "title": "blygger-desktop round trip: opaque author members",
+   "status": "fail",
+   "sections": [
+    "5.5"
+   ],
+   "clauses": [
+    "C-5.5-05"
+   ],
+   "decisions": [
+    11
+   ]
+  },
+  {
+   "id": "schemas:schemas.desktop.roundtrip.changelog-generated",
+   "area": "schemas",
+   "title": "blygger-desktop round trip: changelog[].generated",
+   "status": "warn",
+   "sections": [
+    "16.6c"
+   ],
+   "clauses": [],
+   "decisions": [
+    40
+   ]
+  },
+  {
+   "id": "schemas:schemas.desktop.roundtrip.parse",
+   "area": "schemas",
+   "title": "blygger-desktop parses every sampled item document",
+   "status": "pass",
+   "sections": [
+    "13.1",
+    "3"
+   ],
+   "clauses": [
+    "C-3-01",
+    "C-5.5-03"
+   ],
+   "decisions": []
+  },
+  {
+   "id": "schemas:schemas.desktop.static.pinned-citations",
+   "area": "schemas",
+   "title": "blygger-desktop PinDoc carries a pin's citations",
+   "status": "warn",
+   "sections": [
+    "8"
+   ],
+   "clauses": [],
+   "decisions": [
+    27
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.stub-origin-missing",
+   "area": "schemas",
+   "title": "Self-test: checker catches stub_of without origin",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-10.6-02",
+    "C-5.9-01"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.fork-origin-missing",
+   "area": "schemas",
+   "title": "Self-test: checker catches forked_from without origin",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.6-02",
+    "C-5.9-01"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.cited-no-retrieved",
+   "area": "schemas",
+   "title": "Self-test: checker catches cited without retrieved",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.9-04"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.reference-extra-member",
+   "area": "schemas",
+   "title": "Self-test: checker catches an extra member on a reference",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.9-02"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.relative-url",
+   "area": "schemas",
+   "title": "Self-test: checker catches a relative href in content_html",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.2-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.hash-wrong",
+   "area": "schemas",
+   "title": "Self-test: checker catches content_hash not sha256(content_md)",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.1-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.updated-mismatch",
+   "area": "schemas",
+   "title": "Self-test: checker catches updated ≠ last changelog at",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.2-02"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.local-time",
+   "area": "schemas",
+   "title": "Self-test: checker catches a timestamp in local time",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-4-12"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.bad-id",
+   "area": "schemas",
+   "title": "Self-test: checker catches an id outside Crockford base32",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.1-01"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.stub-version-disagrees",
+   "area": "schemas",
+   "title": "Self-test: checker catches stub_of.version ≠ the version the body bakes",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-10.6-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.selector-dropped",
+   "area": "schemas",
+   "title": "Self-test: checker catches partial directive but selector dropped (the Blynger fork loss)",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-10.2-02",
+    "C-10.3-01"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.partial-class-missing",
+   "area": "schemas",
+   "title": "Self-test: checker catches selector present but bake lacks blyg-partial",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-10.2-02"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.instruction-leaked",
+   "area": "schemas",
+   "title": "Self-test: checker catches generated[] entry carrying instruction text",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.7-05"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.tk-on-wire",
+   "area": "schemas",
+   "title": "Self-test: checker catches TK grammar left in content_md",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.7-05"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.endcap-with-content",
+   "area": "schemas",
+   "title": "Self-test: checker catches withdrawn endcap with content",
+   "status": "pass",
+   "sections": [],
+   "clauses": [],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.fragment-transclusions",
+   "area": "schemas",
+   "title": "Self-test: checker catches a fragment carrying transclusions",
+   "status": "pass",
+   "sections": [],
+   "clauses": [],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.changelog-gap",
+   "area": "schemas",
+   "title": "Self-test: checker catches changelog skips a version",
+   "status": "pass",
+   "sections": [],
+   "clauses": [],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.page-host-rooted",
+   "area": "schemas",
+   "title": "Self-test: checker catches page host-rooted (/f/…)",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-5.8-01"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.pinned-endcap",
+   "area": "schemas",
+   "title": "Self-test: checker catches a pinned file for a withdrawal endcap",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-8-03"
+   ],
+   "decisions": [
+    48
+   ]
+  },
+  {
+   "id": "schemas:schemas.selftest.reserved-directive",
+   "area": "schemas",
+   "title": "Self-test: checker catches ![[id@vN]] published",
+   "status": "pass",
+   "sections": [],
+   "clauses": [
+    "C-10.1-01"
+   ],
+   "decisions": [
+    48
+   ]
+  }
+ ],
  "decisions": {
   "1": {
    "title": "Protocol = static file contract",
@@ -3395,7 +6986,8 @@
    ],
    "token_clauses": [
     "C-13.5-04",
-    "C-4-02"
+    "C-4-02",
+    "P-16.6f-01"
    ],
    "spec_sections": [
     {
@@ -3995,7 +7587,8 @@
     "P-16.6d-03",
     "P-16.6e-01",
     "P-16.6e-02",
-    "P-16.6e-03"
+    "P-16.6e-03",
+    "P-16.6f-01"
    ],
    "token_clauses": [],
    "spec_sections": [
@@ -4123,7 +7716,8 @@
     "P-16.6d-03",
     "P-16.6e-01",
     "P-16.6e-02",
-    "P-16.6e-03"
+    "P-16.6e-03",
+    "P-16.6f-01"
    ],
    "token_clauses": [
     "C-13.1-02",
@@ -4310,7 +7904,8 @@
     "P-16.6d-03",
     "P-16.6e-01",
     "P-16.6e-02",
-    "P-16.6e-03"
+    "P-16.6e-03",
+    "P-16.6f-01"
    ],
    "token_clauses": [
     "P-16.6c-01"
@@ -4382,7 +7977,8 @@
     "P-16.6d-03",
     "P-16.6e-01",
     "P-16.6e-02",
-    "P-16.6e-03"
+    "P-16.6e-03",
+    "P-16.6f-01"
    ],
    "token_clauses": [],
    "spec_sections": [
@@ -4420,7 +8016,8 @@
     "P-16.6d-03",
     "P-16.6e-01",
     "P-16.6e-02",
-    "P-16.6e-03"
+    "P-16.6e-03",
+    "P-16.6f-01"
    ],
    "token_clauses": [
     "C-10.3-03",
@@ -4686,7 +8283,8 @@
     "C-5.9-06",
     "P-16.1a-01",
     "P-16.1a-02",
-    "P-16.3-02"
+    "P-16.3-02",
+    "P-16.6f-01"
    ],
    "spec_sections": [
     {
@@ -4806,7 +8404,8 @@
     "P-16.6d-03",
     "P-16.6e-01",
     "P-16.6e-02",
-    "P-16.6e-03"
+    "P-16.6e-03",
+    "P-16.6f-01"
    ],
    "token_clauses": [
     "C-4-02"
@@ -5029,6 +8628,90 @@
    "spec_sections": [
     {
      "section": "5.8",
+     "via": "spec?"
+    }
+   ],
+   "missing_sections": []
+  },
+  "57": {
+   "title": "A fork of a thread descends from the pinned document, not from its composition: baked quotes are flattened into ordinary blockquotes with an attribution line, recursively, and the fork inherits no `transclusions[]`",
+   "session": 33,
+   "grounding": "normative",
+   "class": null,
+   "direct_clauses": [],
+   "nearby_clauses": [
+    "C-5.6-08"
+   ],
+   "section_clauses": [
+    "C-5.6-01",
+    "C-5.6-02",
+    "C-5.6-03",
+    "C-5.6-04",
+    "C-5.6-05",
+    "C-5.6-06",
+    "C-5.6-07",
+    "C-5.6-08",
+    "P-16.6f-01"
+   ],
+   "token_clauses": [
+    "C-10.2-02",
+    "C-10.2-04",
+    "C-13.3-03",
+    "C-14-02",
+    "C-15.2-01",
+    "C-5.2-03",
+    "C-5.3-02",
+    "C-5.3-04",
+    "C-5.7-07",
+    "C-5.9-01",
+    "C-5.9-07",
+    "C-7-06",
+    "C-7-07",
+    "P-16.6c-02",
+    "P-16.6f-01"
+   ],
+   "spec_sections": [
+    {
+     "section": "5.6",
+     "via": "spec?"
+    },
+    {
+     "section": "16.6f",
+     "via": "spec?"
+    }
+   ],
+   "missing_sections": []
+  },
+  "58": {
+   "title": "Model routing gates on blast radius, not topic: Opus 5.5 rules reversible questions under a four-question test and Fable reviews in batch; Fable keeps what reaches the wire",
+   "session": 33,
+   "grounding": "pending",
+   "class": null,
+   "direct_clauses": [],
+   "nearby_clauses": [],
+   "section_clauses": [
+    "P-16.1a-01",
+    "P-16.1a-02",
+    "P-16.3-01",
+    "P-16.3-02",
+    "P-16.3-03",
+    "P-16.4-01",
+    "P-16.5-01",
+    "P-16.6b-01",
+    "P-16.6c-01",
+    "P-16.6c-02",
+    "P-16.6d-01",
+    "P-16.6d-02",
+    "P-16.6d-03",
+    "P-16.6e-01",
+    "P-16.6e-02",
+    "P-16.6e-03",
+    "P-16.6f-01"
+   ],
+   "token_clauses": [],
+   "spec_sections": [
+    {
+     "section": "16",
      "via": "spec?"
     }
    ],

@@ -916,6 +916,11 @@
    "section": "16.6e",
    "text": "**`page` MAY be absolute** (§5.8), since a CMS permalink lives outside the surface's mount; media URLs already may be (§5.4)."
   },
+  "P-16.6f-01": {
+   "fp": "7ea1c453dd34",
+   "section": "16.6f",
+   "text": "The `blyg-transclusion` class MUST NOT survive into the fork: the forking publisher baked nothing and verified nothing."
+  },
   "P-16.7-01": {
    "fp": "560c6fe11354",
    "section": "16.7",

@@ -1,13 +1,13 @@
 {
  "area": "clauses",
  "title": "Clause register & traceability",
- "generated_at": "2026-10-04T02:34:32+00:00",
+ "generated_at": "2026-10-04T02:56:31+00:00",
  "checks": [
   {
    "id": "register.counts",
    "title": "Clause register extracted",
    "status": "info",
-   "detail": "165 normative clauses (MUST 82, SHOULD 52, MAY 31) in 43 sections; 16 pending §16 sentences; 56 decisions; 0 tests joined from other areas. Side split: publisher 84, reader 51, client 12, receiver 9, sender 9",
+   "detail": "165 normative clauses (MUST 82, SHOULD 52, MAY 31) in 43 sections; 17 pending §16 sentences; 58 decisions; 235 tests joined from other areas. Side split: publisher 84, reader 51, client 12, receiver 9, sender 9",
    "spec_refs": [],
    "decisions": []
   },
@@ -15,7 +15,7 @@
    "id": "coverage.must",
    "title": "MUST clauses with a test",
    "status": "warn",
-   "detail": "0/82 MUST clauses have a clause-level test; 0 more are covered only at section level; 82 have no test at all. (Decision #48: every MUST is a failable clause, so every MUST wants a test.)",
+   "detail": "38/82 MUST clauses have a clause-level test; 33 more are covered only at section level; 11 have no test at all. (Decision #48: every MUST is a failable clause, so every MUST wants a test.)",
    "spec_refs": [],
    "decisions": [
     "#48"
@@ -24,8 +24,8 @@
   {
    "id": "coverage.must.3",
    "title": "§3 Conformance levels — MUST coverage",
-   "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-3-01",
+   "status": "pass",
+   "detail": "All 1 MUST clauses tested.",
    "spec_refs": [
     "§3"
    ],
@@ -35,7 +35,7 @@
    "id": "coverage.must.3.1",
    "title": "§3.1 The protocol version key — MUST coverage",
    "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-3.1-01",
+   "detail": "1/1 MUST clauses untested at clause level: C-3.1-01 (section-level coverage only: C-3.1-01)",
    "spec_refs": [
     "§3.1"
    ],
@@ -45,7 +45,7 @@
    "id": "coverage.must.3.2",
    "title": "§3.2 The `level`, `generator` and `generator_url` keys are inform — MUST coverage",
    "status": "warn",
-   "detail": "2/2 MUST clauses untested at clause level: C-3.2-01, C-3.2-03",
+   "detail": "2/2 MUST clauses untested at clause level: C-3.2-01, C-3.2-03 (section-level coverage only: C-3.2-01, C-3.2-03)",
    "spec_refs": [
     "§3.2"
    ],
@@ -55,7 +55,7 @@
    "id": "coverage.must.4",
    "title": "§4 The publication surface — MUST coverage",
    "status": "warn",
-   "detail": "7/7 MUST clauses untested at clause level: C-4-01, C-4-02, C-4-03, C-4-08, C-4-09, C-4-10, C-4-12",
+   "detail": "2/7 MUST clauses untested at clause level: C-4-01, C-4-08 (section-level coverage only: C-4-01, C-4-08)",
    "spec_refs": [
     "§4"
    ],
@@ -64,8 +64,8 @@
   {
    "id": "coverage.must.5.1",
    "title": "§5.1 Identity — MUST coverage",
-   "status": "warn",
-   "detail": "3/3 MUST clauses untested at clause level: C-5.1-01, C-5.1-02, C-5.1-03",
+   "status": "pass",
+   "detail": "All 3 MUST clauses tested.",
    "spec_refs": [
     "§5.1"
    ],
@@ -75,7 +75,7 @@
    "id": "coverage.must.5.2",
    "title": "§5.2 Versioning and rollup presentation — MUST coverage",
    "status": "warn",
-   "detail": "4/4 MUST clauses untested at clause level: C-5.2-01, C-5.2-02, C-5.2-03, C-5.2-04",
+   "detail": "2/4 MUST clauses untested at clause level: C-5.2-01, C-5.2-04 (section-level coverage only: C-5.2-01, C-5.2-04)",
    "spec_refs": [
     "§5.2"
    ],
@@ -85,7 +85,7 @@
    "id": "coverage.must.5.3",
    "title": "§5.3 Kinds — MUST coverage",
    "status": "warn",
-   "detail": "3/3 MUST clauses untested at clause level: C-5.3-01, C-5.3-03, C-5.3-04",
+   "detail": "3/3 MUST clauses untested at clause level: C-5.3-01, C-5.3-03, C-5.3-04 (section-level coverage only: C-5.3-01, C-5.3-03, C-5.3-04)",
    "spec_refs": [
     "§5.3"
    ],
@@ -95,7 +95,7 @@
    "id": "coverage.must.5.4",
    "title": "§5.4 Media — MUST coverage",
    "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-5.4-02",
+   "detail": "1/1 MUST clauses untested at clause level: C-5.4-02 (section-level coverage only: C-5.4-02)",
    "spec_refs": [
     "§5.4"
    ],
@@ -105,7 +105,7 @@
    "id": "coverage.must.5.5",
    "title": "§5.5 The `author` field — MUST coverage",
    "status": "warn",
-   "detail": "3/3 MUST clauses untested at clause level: C-5.5-03, C-5.5-04, C-5.5-05",
+   "detail": "1/3 MUST clauses untested at clause level: C-5.5-04 (section-level coverage only: C-5.5-04)",
    "spec_refs": [
     "§5.5"
    ],
@@ -114,8 +114,8 @@
   {
    "id": "coverage.must.5.6",
    "title": "§5.6 Lineage — `forked_from` — MUST coverage",
-   "status": "warn",
-   "detail": "4/4 MUST clauses untested at clause level: C-5.6-02, C-5.6-03, C-5.6-06, C-5.6-08",
+   "status": "pass",
+   "detail": "All 4 MUST clauses tested.",
    "spec_refs": [
     "§5.6"
    ],
@@ -124,8 +124,8 @@
   {
    "id": "coverage.must.5.7",
    "title": "§5.7 Generation provenance — the `generated` array — MUST coverage",
-   "status": "warn",
-   "detail": "2/2 MUST clauses untested at clause level: C-5.7-05, C-5.7-07",
+   "status": "pass",
+   "detail": "All 2 MUST clauses tested.",
    "spec_refs": [
     "§5.7"
    ],
@@ -135,7 +135,7 @@
    "id": "coverage.must.5.9",
    "title": "§5.9 The reference shape — MUST coverage",
    "status": "warn",
-   "detail": "4/4 MUST clauses untested at clause level: C-5.9-01, C-5.9-04, C-5.9-06, C-5.9-07",
+   "detail": "1/4 MUST clauses untested at clause level: C-5.9-06 (section-level coverage only: C-5.9-06)",
    "spec_refs": [
     "§5.9"
    ],
@@ -145,7 +145,7 @@
    "id": "coverage.must.6.1",
    "title": "§6.1 Manifest — `blyg.json` — MUST coverage",
    "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-6.1-04",
+   "detail": "1/1 MUST clauses untested at clause level: C-6.1-04 (section-level coverage only: C-6.1-04)",
    "spec_refs": [
     "§6.1"
    ],
@@ -154,8 +154,8 @@
   {
    "id": "coverage.must.7",
    "title": "§7 The feed — `feed.xml` — MUST coverage",
-   "status": "warn",
-   "detail": "5/5 MUST clauses untested at clause level: C-7-02, C-7-03, C-7-05, C-7-07, C-7-09",
+   "status": "pass",
+   "detail": "All 5 MUST clauses tested.",
    "spec_refs": [
     "§7"
    ],
@@ -165,7 +165,7 @@
    "id": "coverage.must.8",
    "title": "§8 Pins — `items/{id}/v{n}.json` — MUST coverage",
    "status": "warn",
-   "detail": "3/3 MUST clauses untested at clause level: C-8-01, C-8-03, C-8-04",
+   "detail": "1/3 MUST clauses untested at clause level: C-8-04 (section-level coverage only: C-8-04)",
    "spec_refs": [
     "§8"
    ],
@@ -175,7 +175,7 @@
    "id": "coverage.must.8.4",
    "title": "§8.4 Historical versions: pinned-only, JSON promised, HTML option — MUST coverage",
    "status": "warn",
-   "detail": "4/4 MUST clauses untested at clause level: C-8.4-01, C-8.4-02, C-8.4-06, C-8.4-07",
+   "detail": "3/4 MUST clauses untested at clause level: C-8.4-02, C-8.4-06, C-8.4-07 (section-level coverage only: C-8.4-02, C-8.4-06, C-8.4-07)",
    "spec_refs": [
     "§8.4"
    ],
@@ -184,8 +184,8 @@
   {
    "id": "coverage.must.10.1",
    "title": "§10.1 Grammar (permanent protocol surface) — MUST coverage",
-   "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-10.1-01",
+   "status": "pass",
+   "detail": "All 1 MUST clauses tested.",
    "spec_refs": [
     "§10.1"
    ],
@@ -195,7 +195,7 @@
    "id": "coverage.must.10.2",
    "title": "§10.2 Publish-time resolution — MUST coverage",
    "status": "warn",
-   "detail": "3/3 MUST clauses untested at clause level: C-10.2-01, C-10.2-02, C-10.2-04",
+   "detail": "1/3 MUST clauses untested at clause level: C-10.2-04 (section-level coverage only: C-10.2-04)",
    "spec_refs": [
     "§10.2"
    ],
@@ -205,7 +205,7 @@
    "id": "coverage.must.10.3",
    "title": "§10.3 Provenance — MUST coverage",
    "status": "warn",
-   "detail": "2/2 MUST clauses untested at clause level: C-10.3-01, C-10.3-03",
+   "detail": "1/2 MUST clauses untested at clause level: C-10.3-03 (section-level coverage only: C-10.3-03)",
    "spec_refs": [
     "§10.3"
    ],
@@ -214,8 +214,8 @@
   {
    "id": "coverage.must.10.6",
    "title": "§10.6 Stubs — `stub_of` — MUST coverage",
-   "status": "warn",
-   "detail": "2/2 MUST clauses untested at clause level: C-10.6-02, C-10.6-03",
+   "status": "pass",
+   "detail": "All 2 MUST clauses tested.",
    "spec_refs": [
     "§10.6"
    ],
@@ -245,7 +245,7 @@
    "id": "coverage.must.12.1",
    "title": "§12.1 The algorithm — MUST coverage",
    "status": "warn",
-   "detail": "2/2 MUST clauses untested at clause level: C-12.1-02, C-12.1-04",
+   "detail": "2/2 MUST clauses untested at clause level: C-12.1-02, C-12.1-04 (section-level coverage only: C-12.1-02, C-12.1-04)",
    "spec_refs": [
     "§12.1"
    ],
@@ -255,7 +255,7 @@
    "id": "coverage.must.12.2",
    "title": "§12.2 Subscription identity — MUST coverage",
    "status": "warn",
-   "detail": "2/2 MUST clauses untested at clause level: C-12.2-01, C-12.2-04",
+   "detail": "1/2 MUST clauses untested at clause level: C-12.2-04 (section-level coverage only: C-12.2-04)",
    "spec_refs": [
     "§12.2"
    ],
@@ -275,7 +275,7 @@
    "id": "coverage.must.13.1",
    "title": "§13.1 Ground rules — MUST coverage",
    "status": "warn",
-   "detail": "7/7 MUST clauses untested at clause level: C-13.1-01, C-13.1-02, C-13.1-03, C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08",
+   "detail": "7/7 MUST clauses untested at clause level: C-13.1-01, C-13.1-02, C-13.1-03, C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08 (section-level coverage only: C-13.1-01, C-13.1-02, C-13.1-03, C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08)",
    "spec_refs": [
     "§13.1"
    ],
@@ -285,7 +285,7 @@
    "id": "coverage.must.13.2",
    "title": "§13.2 The reconciliation model — MUST coverage",
    "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-13.2-02",
+   "detail": "1/1 MUST clauses untested at clause level: C-13.2-02 (section-level coverage only: C-13.2-02)",
    "spec_refs": [
     "§13.2"
    ],
@@ -345,7 +345,7 @@
    "id": "coverage.must.15.2",
    "title": "§15.2 Sending — MUST coverage",
    "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-15.2-04",
+   "detail": "1/1 MUST clauses untested at clause level: C-15.2-04 (section-level coverage only: C-15.2-04)",
    "spec_refs": [
     "§15.2"
    ],
@@ -365,7 +365,7 @@
    "id": "coverage.must.15.4",
    "title": "§15.4 Structural verification — MUST coverage",
    "status": "warn",
-   "detail": "2/2 MUST clauses untested at clause level: C-15.4-02, C-15.4-03",
+   "detail": "1/2 MUST clauses untested at clause level: C-15.4-02 (section-level coverage only: C-15.4-02)",
    "spec_refs": [
     "§15.4"
    ],
@@ -396,7 +396,7 @@
    "id": "refs.dangling.document",
    "title": "§ references to headings that do not exist (whole document)",
    "status": "warn",
-   "detail": "§8.1 on lines 446, 880, 1461",
+   "detail": "§8.1 on lines 446, 882, 1463",
    "spec_refs": [
     "§8.1"
    ],
@@ -406,20 +406,21 @@
    "id": "decisions.cited",
    "title": "Decision numbers cited in normative text exist",
    "status": "pass",
-   "detail": "The spec cites 4 decisions by number in keyword sentences: #49, #53, #55, #56. The other 52 are linked only through the sections their records name.",
+   "detail": "The spec cites 5 decisions by number in keyword sentences: #49, #53, #55, #56, #57. The other 53 are linked only through the sections their records name.",
    "spec_refs": [],
    "decisions": [
     "#49",
     "#53",
     "#55",
-    "#56"
+    "#56",
+    "#57"
    ]
   },
   {
    "id": "decisions.grounding",
    "title": "How each locked decision reaches the living spec",
    "status": "info",
-   "detail": "normative 40, pending (§16 only) 5, token-only 5, none 6. A decision is 'normative' when a normative clause cites it or sits in a section its record names; 'token-only' when the only link is a shared wire token such as `stub_of`.",
+   "detail": "normative 41, pending (§16 only) 6, token-only 5, none 6. A decision is 'normative' when a normative clause cites it or sits in a section its record names; 'token-only' when the only link is a shared wire token such as `stub_of`.",
    "spec_refs": [],
    "decisions": []
   },
@@ -596,6 +597,18 @@
    ]
   },
   {
+   "id": "decisions.unground.58",
+   "title": "#58 Model routing gates on blast radius, not topic: Opus 5.5 rules reversi — pending",
+   "status": "info",
+   "detail": "ruled shape in §16, not yet normative (expected under #21/#42). Record names spec §16.",
+   "spec_refs": [
+    "§16"
+   ],
+   "decisions": [
+    "#58"
+   ]
+  },
+  {
    "id": "decisions.stale-ref.22",
    "title": "#22 names spec §11.4, absent from 0.3",
    "status": "warn",
@@ -765,7 +778,7 @@
    "id": "pending.shapes",
    "title": "§16 ruled / deferred / reserved constructs",
    "status": "info",
-   "detail": "promoted 4, ruled 3, ruled-0.4 2, closed 1, never 3, reserved 1. Ruled-but-unbuilt: §16.1a `cited` on a plain-web stub (ruled 2026-10-03; nex, §16.3 Remote generation sources (ruled 2026-09-28; a 0.4, §16.6c Generated changelog notes (ruled; next revision), §16.6d Discovery through references (ruled; no construct;, §16.6e The manifest locates the surface (ruled 2026-09-28",
+   "detail": "promoted 4, ruled 4, ruled-0.4 2, closed 1, never 3, reserved 1. Ruled-but-unbuilt: §16.1a `cited` on a plain-web stub (ruled 2026-10-03; nex, §16.3 Remote generation sources (ruled 2026-09-28; a 0.4, §16.6c Generated changelog notes (ruled; next revision), §16.6d Discovery through references (ruled; no construct;, §16.6e The manifest locates the surface (ruled 2026-09-28, §16.6f A fork of a thread descends from the pinned docume",
    "spec_refs": [],
    "decisions": []
   }

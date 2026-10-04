@@ -1904,6 +1904,83 @@
     "page",
     "version"
    ]
+  },
+  {
+   "number": 57,
+   "title": "A fork of a thread descends from the pinned document, not from its composition: baked quotes are flattened into ordinary blockquotes with an attribution line, recursively, and the fork inherits no `transclusions[]`",
+   "session": 33,
+   "session_inferred": false,
+   "date": "2026-10-03",
+   "by": [],
+   "line": 102,
+   "text": "**A fork of a thread descends from the pinned document, not from its composition: baked quotes are flattened into ordinary blockquotes with an attribution line, recursively, and the fork inherits no `transclusions[]`** (session 33, 2026-10-03, Fable + Venkat; Venkat's report: forking a thread with quotes gave an editable top level and, one level down, uneditable directive ids; his proposal: unroll the whole tree): the reference client copied the pinned version's `content_md`, in which quotes exist only as `![[id]]` directives, so the fork inherited a *composition* that re-resolved in the forker's context — an own-origin fork quoted the fragment as it is now rather than as v1 baked it, a remote fork failed at publish for every quoted origin the forker was not subscribed to and drifted for the rest, and the fork sent quote-mentions to third parties on the forker's behalf, a composition act the forker never chose. That contradicts §5.6's own rationale (the bytes a fork descends from must be the bytes anyone can still fetch) and rule 6 (a copy, not a transclusion). **Pin-closure rejected** — a thread may be pinned only when everything it quotes is pinned — for a stronger reason than tedium: a thread's pin already freezes every baked quote in its `content_html`, nested ones included, so the fragments' pins add nothing to the promise, and imported sources could never satisfy it. **Shape:** the source of quoted text is the pinned file's `content_html`, never the forker's local snapshots; the thread's own prose stays byte-exact from `content_md`; each `blyg-transclusion` blockquote becomes an ordinary markdown blockquote, recursively, with a visible attribution line naming origin and id and linking to the quoted item's page where the node can compute it and to its item document otherwise — the plain-web register (a quote plus a link, editable, not verified), with lineage to the pinned thread as the way to verify; the `blyg-transclusion` token MUST NOT survive, because the forker's node baked and verified nothing; the fork carries no inherited `transclusions[]` and sends no quote-mentions; the forker re-cites by writing `![[id]]` where a live quote is wanted. Generated spans (`blyg-tk-gen`) in the pinned document are re-wrapped as `impyrt` so disclosure survives — which exposed that the current fork drops `generated[]` from a forked fragment too, the same class of leak as session 32's restore-then-publish finding; one re-wrap fixes both. Forking the quoted fragment directly stays the precise instrument for owning one passage with its own lineage. Publisher behaviour, no wire change: a revision by #43. Strict #21: §16.6f now; §5.6 rule 6 once built and a fork of a thread with a remote quote has crossed both nodes (gate **G11**). Plan `v0.4-plan.md` §9.1; Opus queue item 5.",
+   "spec_sections": [
+    {
+     "section": "5.6",
+     "via": "spec?"
+    },
+    {
+     "section": "16.6f",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "9.1",
+     "via": "other"
+    }
+   ],
+   "relations": [],
+   "mentions": [
+    21,
+    43
+   ],
+   "tokens": [
+    "![[id]]",
+    "blyg-tk-gen",
+    "blyg-transclusion",
+    "content_html",
+    "content_md",
+    "generated[]",
+    "impyrt",
+    "transclusions[]",
+    "v0.4-plan.md"
+   ]
+  },
+  {
+   "number": 58,
+   "title": "Model routing gates on blast radius, not topic: Opus 5.5 rules reversible questions under a four-question test and Fable reviews in batch; Fable keeps what reaches the wire",
+   "session": 33,
+   "session_inferred": false,
+   "date": "2026-10-03",
+   "by": [
+    "Fable",
+    "Opus"
+   ],
+   "line": 103,
+   "text": "**Model routing gates on blast radius, not topic: Opus 5.5 rules reversible questions under a four-question test and Fable reviews in batch; Fable keeps what reaches the wire** (session 33, 2026-10-03, Fable + Venkat; Venkat's prompt: Opus 5.5 is released and said to be near Fable-grade — reduce the need for Fable rounds as far as feasible): the old rule routed by subject (\"protocol semantics\") and made Fable the bottleneck for reversible work. The record argues for a narrower gate: of #52–#57, three (#53, #56, #57) needed no new principle and changed nothing on the wire, today's TK questions were lookups of #44 and #32, and Opus 5.5 in sessions 30–32 found non-obvious bugs, held a recorded choice against a skill pushing the other way, deferred the model-cost call to Venkat and recorded spec gaps as open threads — the behaviours the gate exists to protect. **The test** (`## Model routing`): no reader/receiver/importer must change (#43), nothing readers see is added, removed or renamed, no locked decision is reinterpreted and nothing on the do-not-open list is touched, and a locked decision's principle can be cited as settling it — then Opus rules, records in the same format with a `Fable review pending` label, and builds; §16-to-normative promotions after a gate are in this tier. Any yes, or no citable principle: Fable. **What Fable keeps:** opening the 0.4 document (G8), any new wire surface, verification and identity semantics including the Unicode round, conflicts between locked decisions, reversals, and the batch review. **Why it is safe regardless of the capability claim, which is unverified:** the test classifies by reversibility, so a wrong Opus ruling costs one studio release and a right one saves a round. Mixed authorship in this list is fine because every entry names who ruled it. Process, not protocol: no spec text changes. Recorded here, in `docs/roadmap.md`'s reading rule, and in both briefs.",
+   "spec_sections": [
+    {
+     "section": "16",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [],
+   "relations": [],
+   "mentions": [
+    32,
+    43,
+    44,
+    52,
+    53,
+    56,
+    57
+   ],
+   "tokens": [
+    "## Model routing",
+    "Fable review pending",
+    "docs/roadmap.md"
+   ]
   }
  ]
 }
