@@ -53,7 +53,6 @@ All tool tasks go through `.vscode/bin/run-tool.sh`, which holds the real comman
 | Vitest | `vitest.explorer` | Test explorer for blygger-studio and the TypeScript conformance tools |
 | Playwright | `ms-playwright.playwright` | blygger-studio's end-to-end tests |
 | Python | `ms-python.python` | The dashboard and clause-register scripts |
-| Even Better TOML | `tamasfe.even-better-toml` | blygger-org's `ecosystem/projects.toml` |
 | Code Spell Checker | `streetsidesoftware.code-spell-checker` | Spell-checks spec prose; protocol words (blyg, transclusion, Webmention…) are already whitelisted |
 | GitLens | `eamodio.gitlens` | Who changed this line of the spec, when, and in which session |
 | Error Lens | `usernamehw.errorlens` | Shows schema and lint errors on the line they are about |

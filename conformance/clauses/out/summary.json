@@ -1,13 +1,13 @@
 {
  "area": "clauses",
  "title": "Clause register & traceability",
- "generated_at": "2026-10-04T03:14:05+00:00",
+ "generated_at": "2026-10-04T03:33:18+00:00",
  "checks": [
   {
    "id": "register.counts",
    "title": "Clause register extracted",
    "status": "info",
-   "detail": "165 normative clauses (MUST 82, SHOULD 52, MAY 31) in 43 sections; 17 pending §16 sentences; 58 decisions; 235 tests joined from other areas. Side split: publisher 84, reader 51, client 12, receiver 9, sender 9",
+   "detail": "165 normative clauses (MUST 82, SHOULD 52, MAY 31) in 43 sections; 17 pending §16 sentences; 58 decisions; 255 tests joined from other areas. Side split: publisher 84, reader 51, client 12, receiver 9, sender 9",
    "spec_refs": [],
    "decisions": []
   },
@@ -15,7 +15,7 @@
    "id": "coverage.must",
    "title": "MUST clauses with a test",
    "status": "warn",
-   "detail": "38/82 MUST clauses have a clause-level test; 33 more are covered only at section level; 11 have no test at all. (Decision #48: every MUST is a failable clause, so every MUST wants a test.)",
+   "detail": "43/82 MUST clauses have a clause-level test; 30 more are covered only at section level; 9 have no test at all. (Decision #48: every MUST is a failable clause, so every MUST wants a test.)",
    "spec_refs": [],
    "decisions": [
     "#48"
@@ -24,8 +24,8 @@
   {
    "id": "coverage.must.3",
    "title": "§3 Conformance levels — MUST coverage",
-   "status": "pass",
-   "detail": "All 1 MUST clauses tested.",
+   "status": "warn",
+   "detail": "1/1 MUST clauses untested at clause level: C-3-01",
    "spec_refs": [
     "§3"
    ],
@@ -105,7 +105,7 @@
    "id": "coverage.must.5.5",
    "title": "§5.5 The `author` field — MUST coverage",
    "status": "warn",
-   "detail": "1/3 MUST clauses untested at clause level: C-5.5-04 (section-level coverage only: C-5.5-04)",
+   "detail": "3/3 MUST clauses untested at clause level: C-5.5-03, C-5.5-04, C-5.5-05 (section-level coverage only: C-5.5-03, C-5.5-04, C-5.5-05)",
    "spec_refs": [
     "§5.5"
    ],
@@ -135,7 +135,7 @@
    "id": "coverage.must.5.9",
    "title": "§5.9 The reference shape — MUST coverage",
    "status": "warn",
-   "detail": "1/4 MUST clauses untested at clause level: C-5.9-06 (section-level coverage only: C-5.9-06)",
+   "detail": "2/4 MUST clauses untested at clause level: C-5.9-06, C-5.9-07 (section-level coverage only: C-5.9-06, C-5.9-07)",
    "spec_refs": [
     "§5.9"
    ],
@@ -194,8 +194,8 @@
   {
    "id": "coverage.must.10.2",
    "title": "§10.2 Publish-time resolution — MUST coverage",
-   "status": "warn",
-   "detail": "1/3 MUST clauses untested at clause level: C-10.2-04 (section-level coverage only: C-10.2-04)",
+   "status": "pass",
+   "detail": "All 3 MUST clauses tested.",
    "spec_refs": [
     "§10.2"
    ],
@@ -204,8 +204,8 @@
   {
    "id": "coverage.must.10.3",
    "title": "§10.3 Provenance — MUST coverage",
-   "status": "warn",
-   "detail": "1/2 MUST clauses untested at clause level: C-10.3-03 (section-level coverage only: C-10.3-03)",
+   "status": "pass",
+   "detail": "All 2 MUST clauses tested.",
    "spec_refs": [
     "§10.3"
    ],
@@ -275,7 +275,7 @@
    "id": "coverage.must.13.1",
    "title": "§13.1 Ground rules — MUST coverage",
    "status": "warn",
-   "detail": "7/7 MUST clauses untested at clause level: C-13.1-01, C-13.1-02, C-13.1-03, C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08 (section-level coverage only: C-13.1-01, C-13.1-02, C-13.1-03, C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08)",
+   "detail": "4/7 MUST clauses untested at clause level: C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08 (section-level coverage only: C-13.1-04, C-13.1-05, C-13.1-07, C-13.1-08)",
    "spec_refs": [
     "§13.1"
    ],
@@ -284,8 +284,8 @@
   {
    "id": "coverage.must.13.2",
    "title": "§13.2 The reconciliation model — MUST coverage",
-   "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-13.2-02 (section-level coverage only: C-13.2-02)",
+   "status": "pass",
+   "detail": "All 1 MUST clauses tested.",
    "spec_refs": [
     "§13.2"
    ],
@@ -294,8 +294,8 @@
   {
    "id": "coverage.must.13.3",
    "title": "§13.3 The watermark, history rewrites, and stealth edits — MUST coverage",
-   "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-13.3-01",
+   "status": "pass",
+   "detail": "All 1 MUST clauses tested.",
    "spec_refs": [
     "§13.3"
    ],
@@ -304,8 +304,8 @@
   {
    "id": "coverage.must.13.4",
    "title": "§13.4 Withdrawal and retention — MUST coverage",
-   "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-13.4-01",
+   "status": "pass",
+   "detail": "All 1 MUST clauses tested.",
    "spec_refs": [
     "§13.4"
    ],
@@ -324,8 +324,8 @@
   {
    "id": "coverage.must.13.6",
    "title": "§13.6 L0 grandfathering — the legacy RSS wrapper — MUST coverage",
-   "status": "warn",
-   "detail": "1/1 MUST clauses untested at clause level: C-13.6-01",
+   "status": "pass",
+   "detail": "All 1 MUST clauses tested.",
    "spec_refs": [
     "§13.6"
    ],
