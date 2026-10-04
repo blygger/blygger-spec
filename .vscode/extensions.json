@@ -1,0 +1,22 @@
+{
+  "recommendations": [
+    "anthropic.claude-code",
+    "ms-vscode.live-server",
+    "arashsahebolamri.alloy",
+    "tintinweb.graphviz-interactive-preview",
+    "yzhang.markdown-all-in-one",
+    "bierner.markdown-mermaid",
+    "bierner.markdown-preview-github-styles",
+    "davidanson.vscode-markdownlint",
+    "redhat.vscode-yaml",
+    "vitest.explorer",
+    "ms-playwright.playwright",
+    "ms-python.python",
+    "rust-lang.rust-analyzer",
+    "tamasfe.even-better-toml",
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens",
+    "usernamehw.errorlens",
+    "informal.quint-vscode"
+  ]
+}
