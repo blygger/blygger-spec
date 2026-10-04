@@ -1,0 +1,69 @@
+<svg width="214pt" height="215pt" class="g"
+ viewBox="0.00 0.00 214.00 215.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 208.2)">
+<title>G</title>
+<g id="clust1" class="cluster">
+<title>cluster_Origin$0</title>
+<path fill="none" stroke="#b9b4a7" stroke-dasharray="5,2" d="M20,-8C20,-8 179.25,-8 179.25,-8 185.25,-8 191.25,-14 191.25,-20 191.25,-20 191.25,-181 191.25,-181 191.25,-187 185.25,-193 179.25,-193 179.25,-193 20,-193 20,-193 14,-193 8,-187 8,-181 8,-181 8,-20 8,-20 8,-14 14,-8 20,-8"/>
+<text xml:space="preserve" text-anchor="middle" x="99.62" y="-179.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#5b5a55">O1 · partial&#45;aware</text>
+</g>
+<!-- Origin$0 -->
+<g id="node1" class="node">
+<title>Origin$0</title>
+<polygon fill="#f1efe9" stroke="#5b5a55" points="65.62,-52 17.62,-52 17.62,-16 71.62,-16 71.62,-46 65.62,-52"/>
+<polyline fill="none" stroke="#5b5a55" points="65.62,-52 65.62,-46"/>
+<polyline fill="none" stroke="#5b5a55" points="71.62,-46 65.62,-46"/>
+<text xml:space="preserve" text-anchor="middle" x="44.62" y="-30.12" font-family="Helvetica,sans-Serif" font-size="10.00">O1 store</text>
+</g>
+<!-- Version$4 -->
+<g id="node2" class="node">
+<title>Version$4</title>
+<path fill="#ffffff" stroke="#5b5a55" d="M171.25,-166C171.25,-166 141.25,-166 141.25,-166 135.25,-166 129.25,-160 129.25,-154 129.25,-154 129.25,-142 129.25,-142 129.25,-136 135.25,-130 141.25,-130 141.25,-130 171.25,-130 171.25,-130 177.25,-130 183.25,-136 183.25,-142 183.25,-142 183.25,-154 183.25,-154 183.25,-160 177.25,-166 171.25,-166"/>
+<text xml:space="preserve" text-anchor="middle" x="156.25" y="-149.75" font-family="Helvetica,sans-Serif" font-size="10.00">A v1</text>
+<text xml:space="preserve" text-anchor="middle" x="156.25" y="-138.5" font-family="Helvetica,sans-Serif" font-size="10.00">thread</text>
+</g>
+<!-- Version$2 -->
+<g id="node3" class="node">
+<title>Version$2</title>
+<path fill="#ffffff" stroke="#5b5a55" d="M171.25,-102C171.25,-102 141.25,-102 141.25,-102 135.25,-102 129.25,-96 129.25,-90 129.25,-90 129.25,-78 129.25,-78 129.25,-72 135.25,-66 141.25,-66 141.25,-66 171.25,-66 171.25,-66 177.25,-66 183.25,-72 183.25,-78 183.25,-78 183.25,-90 183.25,-90 183.25,-96 177.25,-102 171.25,-102"/>
+<text xml:space="preserve" text-anchor="middle" x="156.25" y="-85.75" font-family="Helvetica,sans-Serif" font-size="10.00">A v2</text>
+<text xml:space="preserve" text-anchor="middle" x="156.25" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">thread</text>
+</g>
+<!-- Version$0 -->
+<g id="node4" class="node">
+<title>Version$0</title>
+<path fill="#ffffff" stroke="#5b5a55" d="M61.25,-111.88C61.25,-111.88 28,-111.88 28,-111.88 22,-111.88 16,-105.88 16,-99.88 16,-99.88 16,-82.12 16,-82.12 16,-76.12 22,-70.12 28,-70.12 28,-70.12 61.25,-70.12 61.25,-70.12 67.25,-70.12 73.25,-76.12 73.25,-82.12 73.25,-82.12 73.25,-99.88 73.25,-99.88 73.25,-105.88 67.25,-111.88 61.25,-111.88"/>
+<text xml:space="preserve" text-anchor="middle" x="44.62" y="-98.38" font-family="Helvetica,sans-Serif" font-size="10.00">B v1</text>
+<text xml:space="preserve" text-anchor="middle" x="44.62" y="-87.12" font-family="Helvetica,sans-Serif" font-size="10.00">thread</text>
+<text xml:space="preserve" text-anchor="middle" x="44.62" y="-75.88" font-family="Helvetica,sans-Serif" font-size="10.00">md: ![[A]]</text>
+</g>
+<!-- Version$0&#45;&gt;Version$2 -->
+<g id="edge1" class="edge">
+<title>Version$0&#45;&gt;Version$2</title>
+<path fill="none" stroke="#2b5bab" d="M73.7,-72.92C77.78,-71 82.03,-69.35 86.25,-68.25 99.15,-64.88 103.16,-65.71 116.25,-68.25 116.77,-68.35 117.29,-68.46 117.81,-68.57"/>
+<polygon fill="#2b5bab" stroke="#2b5bab" points="116.78,-71.92 127.36,-71.34 118.72,-65.19 116.78,-71.92"/>
+<text xml:space="preserve" text-anchor="middle" x="101.25" y="-69.45" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#2b5bab">quotes</text>
+</g>
+<!-- Version$0&#45;&gt;Version$2 -->
+<g id="edge2" class="edge">
+<title>Version$0&#45;&gt;Version$2</title>
+<path fill="none" stroke="#a46a00" d="M73.57,-89.22C86.99,-88.36 103.25,-87.32 117.73,-86.4"/>
+<polygon fill="#a46a00" stroke="#a46a00" points="117.6,-89.91 127.35,-85.78 117.15,-82.93 117.6,-89.91"/>
+<text xml:space="preserve" text-anchor="middle" x="101.25" y="-89.53" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#a46a00">stub_of</text>
+</g>
+<!-- Version$3 -->
+<g id="node5" class="node">
+<title>Version$3</title>
+<path fill="#ffffff" stroke="#a23b3b" stroke-width="2.5" d="M59.62,-166C59.62,-166 29.62,-166 29.62,-166 23.63,-166 17.62,-160 17.62,-154 17.62,-154 17.62,-142 17.62,-142 17.62,-136 23.62,-130 29.62,-130 29.62,-130 59.62,-130 59.62,-130 65.62,-130 71.62,-136 71.62,-142 71.62,-142 71.62,-154 71.62,-154 71.62,-160 65.62,-166 59.62,-166"/>
+<text xml:space="preserve" text-anchor="middle" x="44.62" y="-149.75" font-family="Helvetica,sans-Serif" font-size="10.00">B v2</text>
+<text xml:space="preserve" text-anchor="middle" x="44.62" y="-138.5" font-family="Helvetica,sans-Serif" font-size="10.00">thread</text>
+</g>
+<!-- Version$3&#45;&gt;Version$4 -->
+<g id="edge3" class="edge">
+<title>Version$3&#45;&gt;Version$4</title>
+<path fill="none" stroke="#a46a00" d="M72.72,-148C86.23,-148 102.79,-148 117.52,-148"/>
+<polygon fill="#a46a00" stroke="#a46a00" points="117.33,-151.5 127.33,-148 117.33,-144.5 117.33,-151.5"/>
+<text xml:space="preserve" text-anchor="middle" x="101.25" y="-149.2" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#a46a00">stub_of</text>
+</g>
+</g>
+</svg>

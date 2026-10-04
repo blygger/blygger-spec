@@ -1,0 +1,53 @@
+<svg width="274pt" height="209pt" class="g"
+ viewBox="0.00 0.00 274.00 209.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(7.2 202.2)">
+<title>G</title>
+<g id="clust1" class="cluster">
+<title>cluster_Origin$0</title>
+<path fill="none" stroke="#b9b4a7" stroke-dasharray="5,2" d="M12,-62C12,-62 98.5,-62 98.5,-62 104.5,-62 110.5,-68 110.5,-74 110.5,-74 110.5,-121 110.5,-121 110.5,-127 104.5,-133 98.5,-133 98.5,-133 12,-133 12,-133 6,-133 0,-127 0,-121 0,-121 0,-74 0,-74 0,-68 6,-62 12,-62"/>
+<text xml:space="preserve" text-anchor="middle" x="55.25" y="-119.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#5b5a55">O1 · whole&#45;only client</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_Origin$1</title>
+<path fill="none" stroke="#b9b4a7" stroke-dasharray="5,2" d="M161,-8C161,-8 247.5,-8 247.5,-8 253.5,-8 259.5,-14 259.5,-20 259.5,-20 259.5,-175 259.5,-175 259.5,-181 253.5,-187 247.5,-187 247.5,-187 161,-187 161,-187 155,-187 149,-181 149,-175 149,-175 149,-20 149,-20 149,-14 155,-8 161,-8"/>
+<text xml:space="preserve" text-anchor="middle" x="204.25" y="-173.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#5b5a55">O2 · whole&#45;only client</text>
+</g>
+<!-- Origin$0 -->
+<g id="node1" class="node">
+<title>Origin$0</title>
+<polygon fill="#f1efe9" stroke="#5b5a55" points="75.75,-106 27.75,-106 27.75,-70 81.75,-70 81.75,-100 75.75,-106"/>
+<polyline fill="none" stroke="#5b5a55" points="75.75,-106 75.75,-100"/>
+<polyline fill="none" stroke="#5b5a55" points="81.75,-100 75.75,-100"/>
+<text xml:space="preserve" text-anchor="middle" x="54.75" y="-84.12" font-family="Helvetica,sans-Serif" font-size="10.00">O1 store</text>
+</g>
+<!-- Version$3 -->
+<g id="node3" class="node">
+<title>Version$3</title>
+<path fill="#ffffff" stroke="#5b5a55" d="M218.75,-106C218.75,-106 188.75,-106 188.75,-106 182.75,-106 176.75,-100 176.75,-94 176.75,-94 176.75,-82 176.75,-82 176.75,-76 182.75,-70 188.75,-70 188.75,-70 218.75,-70 218.75,-70 224.75,-70 230.75,-76 230.75,-82 230.75,-82 230.75,-94 230.75,-94 230.75,-100 224.75,-106 218.75,-106"/>
+<text xml:space="preserve" text-anchor="middle" x="203.75" y="-89.75" font-family="Helvetica,sans-Serif" font-size="10.00">A v1</text>
+<text xml:space="preserve" text-anchor="middle" x="203.75" y="-78.5" font-family="Helvetica,sans-Serif" font-size="10.00">thread</text>
+</g>
+<!-- Origin$0&#45;&gt;Version$3 -->
+<g id="edge1" class="edge">
+<title>Origin$0&#45;&gt;Version$3</title>
+<path fill="none" stroke="#5b5a55" stroke-dasharray="1,5" d="M82.03,-88C105.23,-88 139.32,-88 165.37,-88"/>
+<polygon fill="#5b5a55" stroke="#5b5a55" points="165.18,-91.5 175.18,-88 165.18,-84.5 165.18,-91.5"/>
+<text xml:space="preserve" text-anchor="middle" x="129.75" y="-89.2" font-family="Helvetica,sans-Serif" font-size="9.00" fill="#5b5a55">holds</text>
+</g>
+<!-- Origin$1 -->
+<g id="node2" class="node">
+<title>Origin$1</title>
+<polygon fill="#f1efe9" stroke="#5b5a55" points="224.75,-52 176.75,-52 176.75,-16 230.75,-16 230.75,-46 224.75,-52"/>
+<polyline fill="none" stroke="#5b5a55" points="224.75,-52 224.75,-46"/>
+<polyline fill="none" stroke="#5b5a55" points="230.75,-46 224.75,-46"/>
+<text xml:space="preserve" text-anchor="middle" x="203.75" y="-30.12" font-family="Helvetica,sans-Serif" font-size="10.00">O2 store</text>
+</g>
+<!-- Version$0 -->
+<g id="node4" class="node">
+<title>Version$0</title>
+<path fill="#fbe3e3" stroke="#5b5a55" d="M221.88,-160C221.88,-160 185.62,-160 185.62,-160 179.62,-160 173.62,-154 173.62,-148 173.62,-148 173.62,-136 173.62,-136 173.62,-130 179.62,-124 185.62,-124 185.62,-124 221.88,-124 221.88,-124 227.88,-124 233.88,-130 233.88,-136 233.88,-136 233.88,-148 233.88,-148 233.88,-154 227.88,-160 221.88,-160"/>
+<text xml:space="preserve" text-anchor="middle" x="203.75" y="-143.75" font-family="Helvetica,sans-Serif" font-size="10.00">A v2</text>
+<text xml:space="preserve" text-anchor="middle" x="203.75" y="-132.5" font-family="Helvetica,sans-Serif" font-size="10.00">withdrawn</text>
+</g>
+</g>
+</svg>
