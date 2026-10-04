@@ -1,0 +1,13 @@
+{
+  "_comment": "Seeds beyond the blygger.com directory. 'known' = origins named when the toolkit was built; 'extra' = add any URL here (site, feed or origin) and it is resolved per spec §12.1.",
+  "known": [
+    "https://venkateshrao.com/blyg/",
+    "https://blyg.protocol-institute.org/",
+    "https://bradydale.com/blyg/",
+    "https://blyg.aneeshsathe.com/",
+    "https://caseyjr.org/blyg/",
+    "https://thinking.drwip.com/blyg/",
+    "https://jd-blyg.exe.xyz/"
+  ],
+  "extra": []
+}
