@@ -46,7 +46,6 @@ run() {
       bash "$TC" node conformance/live/run.mjs
       ;;
     alloy)
-      # TODO(post-merge): replace with the command in conformance/alloy/README.md.
       # Needs Java 17+ and graphviz `dot`; toolchain.sh puts both on PATH.
       if [ -x conformance/alloy/run.sh ]; then bash "$TC" conformance/alloy/run.sh
       elif [ -f conformance/alloy/run.py ]; then bash "$TC" python3 conformance/alloy/run.py
