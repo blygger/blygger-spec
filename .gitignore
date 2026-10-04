@@ -10,3 +10,4 @@ node_modules/
 conformance/**/cache/
 conformance/**/vendor/
 conformance/**/target/
+.claude/worktrees/
