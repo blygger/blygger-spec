@@ -104,6 +104,17 @@ writing; read it on the PR branch).
     cited #26 for id-only matching.
   - studio#29 reads partiality from `blyg-partial`; see item 4.
   - studio#30 cites a remote pin's page when the origin serves one, else the JSON (§8.4).
+- **Studio 0.27.0 styles `blyg-tk-gen`, which §5.7 says the reference client does not**
+  (session 35, at Venkat's request). §5.7's last paragraph says the reference client
+  "deliberately leaves it unstyled, because a visible tint would present self-asserted
+  provenance as a verified authorship badge." 0.27.0 adds an opt-in tint, a robot
+  badge (Brady Dale's convention) and an info box drawn from `generated[]`. It is off by
+  default, overridable per post, and the box says "the author marked this … Self-reported,
+  not verified." Presentation is the client's call (session 20), so nothing on the wire
+  changes. But the 0.3 text now describes the reference client wrongly, and the rationale
+  it gives is the one this design had to answer. Rule whether the next protocol document
+  drops that sentence, keeps it as a caution, or turns the "not verified" wording into
+  guidance for any client that styles the class.
 - **Gate promotions G6, G10 and G11 are Opus's under #58** and arrive here for review once
   done. G6 and G10 are exercised and ready to promote. G11 should wait for item 4.
 
