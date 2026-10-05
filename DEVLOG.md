@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 35 — 2026-10-04/05 — Studio 0.26.1–0.27.1: reading fixes, a feed-first reader, highlighted generated text with a robot that discloses; releases unbroken
 
-**Model:** Opus 5.5 · **Time:** ~21:00–23:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.27.0, 0.27.1, then 0.27.2 to both nodes; migration 0020 applied to both D1s first. Tags v0.26.1, v0.27.0, v0.27.1; only v0.27.1 released (see below).
+**Model:** Opus 5.5 · **Time:** ~21:00–23:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.27.0, 0.27.1, then 0.27.2 to both nodes; migration 0020 applied to both D1s first. Tags v0.26.1, v0.27.0, v0.27.1, v0.27.2; v0.27.1 and v0.27.2 released (v0.27.2 is latest).
 
 **What & why:** A session of reading-interface fixes Venkat reported from his iPad and laptop, then two presentation features.
 
@@ -27,7 +27,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 **State after:** blygger-studio 0.27.2 live on both nodes; 863 Worker tests, 218 browser tests. Both highlight settings are off on both nodes. Kyle Mathews' OAuth/MCP PR ("Add scoped client access with OAuth and MCP") is open; **Venkat said not to merge it this session.**
 
-**Open threads:** v0.27.1's Release run succeeded (downloads published; latest release again, replacing v0.20.2), and `main`'s Check is green. Duplicate subscriptions already on the nodes need deleting by hand. Review Kyle's PR against #52's four invariants next session. Fable: the §5.7 sentence.
+**Open threads:** The v0.27.1 and v0.27.2 Release runs succeeded (v0.27.2 is the latest release, replacing v0.20.2), and `main`'s Check is green. Two blyg drafts were handed to Venkat to publish: the 0.27 announcement and the 0.27.2 generate-bug notice. Duplicate subscriptions already on the nodes need deleting by hand. Review Kyle's PR against #52's four invariants next session. Fable: the §5.7 sentence.
 
 ## Session 34 — 2026-10-04 — Seven releases (0.21.1–0.26.0): contributor PRs, the conformance report triaged, updates tab, public hoppers, reading scaffolding, multi-provider models
 
