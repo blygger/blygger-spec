@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 35 — 2026-10-04/05 — Studio 0.26.1–0.27.1: reading fixes, a feed-first reader, highlighted generated text with a robot that discloses; releases unbroken
 
-**Model:** Opus 5.5 · **Time:** ~21:00–23:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.27.0 then 0.27.1 to both nodes; migration 0020 applied to both D1s first. Tags v0.26.1, v0.27.0, v0.27.1 (only 0.27.1's release can succeed; see below).
+**Model:** Opus 5.5 · **Time:** ~21:00–23:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.27.0 then 0.27.1 to both nodes; migration 0020 applied to both D1s first. Tags v0.26.1, v0.27.0, v0.27.1; only v0.27.1 released (see below).
 
 **What & why:** A session of reading-interface fixes Venkat reported from his iPad and laptop, then two presentation features.
 
@@ -25,7 +25,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 **State after:** blygger-studio 0.27.1 live on both nodes; 863 Worker tests, 216 browser tests. Both highlight settings are off on both nodes. Kyle Mathews' OAuth/MCP PR ("Add scoped client access with OAuth and MCP") is open; **Venkat said not to merge it this session.**
 
-**Open threads:** Confirm the v0.27.1 Release run produced downloads (it was running at wrap-up). Duplicate subscriptions already on the nodes need deleting by hand. Review Kyle's PR against #52's four invariants next session. Fable: the §5.7 sentence.
+**Open threads:** v0.27.1's Release run succeeded (downloads published; latest release again, replacing v0.20.2), and `main`'s Check is green. Duplicate subscriptions already on the nodes need deleting by hand. Review Kyle's PR against #52's four invariants next session. Fable: the §5.7 sentence.
 
 ## Session 34 — 2026-10-04 — Seven releases (0.21.1–0.26.0): contributor PRs, the conformance report triaged, updates tab, public hoppers, reading scaffolding, multi-provider models
 
