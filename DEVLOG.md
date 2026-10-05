@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 35 — 2026-10-04/05 — Studio 0.26.1–0.27.1: reading fixes, a feed-first reader, highlighted generated text with a robot that discloses; releases unbroken
 
-**Model:** Opus 5.5 · **Time:** ~21:00–23:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.27.0 then 0.27.1 to both nodes; migration 0020 applied to both D1s first. Tags v0.26.1, v0.27.0, v0.27.1; only v0.27.1 released (see below).
+**Model:** Opus 5.5 · **Time:** ~21:00–23:00 PT · **Committed:** yes (blygger-studio, blygger-spec) · **Deployed:** blygger-studio 0.27.0, 0.27.1, then 0.27.2 to both nodes; migration 0020 applied to both D1s first. Tags v0.26.1, v0.27.0, v0.27.1; only v0.27.1 released (see below).
 
 **What & why:** A session of reading-interface fixes Venkat reported from his iPad and laptop, then two presentation features.
 
@@ -23,7 +23,9 @@ Per-session development log. Non-skippable: every coding session appends an entr
 - **A spec tension, flagged not resolved.** §5.7's last paragraph says the reference client "deliberately leaves it unstyled, because a visible tint would present self-asserted provenance as a verified authorship badge." 0.27.0 contradicts the sentence, though not the concern: off by default, and the box says "the author marked this … Self-reported, not verified." Presentation is the client's call (session 20). Queued for Fable in `fable-round-queue.md` §C.
 - **Releases had failed on every tag since v0.21.2**, and nobody had noticed: the newest GitHub release was v0.20.2. Two plumbing causes, neither in shipped code: an e2e test screenshotting to a Claude scratchpad path (v0.21.2–v0.25.0), and `verify-oracle-mutations` copying `build/` without `models.json` (since 0.26.0). Fixed in 0.27.1 and redeployed, rather than moving the already-pushed v0.27.0 tag.
 
-**State after:** blygger-studio 0.27.1 live on both nodes; 863 Worker tests, 216 browser tests. Both highlight settings are off on both nodes. Kyle Mathews' OAuth/MCP PR ("Add scoped client access with OAuth and MCP") is open; **Venkat said not to merge it this session.**
+- **TK generate threw away the draft (0.27.2, after wrap-up).** Venkat reported that generating a scope in the editor left only the scope. Since the SPA rebuild (0.10.0, a38f64c) the editor replaced its whole draft with the route's `text`, which is the scope's output alone, then autosaved that over the working copy the server had spliced and saved correctly. The route now also returns `content_md` (the spliced copy, as saved) and the editor uses it. No browser test had ever pressed *generate*; one does now, and it fails on the old line. **Text lost this way is unrecoverable for unpublished drafts**: the studio keeps no history of draft saves.
+
+**State after:** blygger-studio 0.27.2 live on both nodes; 863 Worker tests, 218 browser tests. Both highlight settings are off on both nodes. Kyle Mathews' OAuth/MCP PR ("Add scoped client access with OAuth and MCP") is open; **Venkat said not to merge it this session.**
 
 **Open threads:** v0.27.1's Release run succeeded (downloads published; latest release again, replacing v0.20.2), and `main`'s Check is green. Duplicate subscriptions already on the nodes need deleting by hand. Review Kyle's PR against #52's four invariants next session. Fable: the §5.7 sentence.
 
