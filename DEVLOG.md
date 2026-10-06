@@ -29,7 +29,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 **State after:** blygger-studio 0.30.0 live on both nodes; 1,269 Worker, 23 UI, 273 browser tests. Picker typing defaults to automatic. Owner limits raised in the private config.
 
-**Open threads:** Tag v0.30.0 when CI is green and check the Release run; release 0.30.1 (`fix/preview-budget`). During resync-all's burst a few follow-up fetches failed (manifest, index) though the feeds succeeded; it isn't the 50-subrequest cap nor DoH throttling (both measured from the edge); cause unknown; it self-heals at the next poll. Sachin Benny's subscription should rename to "Summer Lightning" at its next poll. The `item-lifecycle` property test was flaking on the owner budget; the test environment now sets high limits. Note the budget regression on studio#39.
+**Open threads:** Tag v0.30.0 when CI is green and check the Release run; release 0.30.1 (`fix/preview-budget`). For Sachin Benny's blyg the manifest and index fetches that follow a successful feed fetch fail on every poll, not just in resync-all's burst (checked at the 00:00 UTC cron after wrap-up), so its name has not refreshed. Isolated resync works; not the subrequest cap, DoH throttling or refetching. Cause unknown (carry-over). The `item-lifecycle` property test was flaking on the owner budget; the test environment now sets high limits. Note the budget regression on studio#39.
 
 ## Session 35 — 2026-10-04/05 — Studio 0.26.1–0.27.1: reading fixes, a feed-first reader, highlighted generated text with a robot that discloses; releases unbroken
 
