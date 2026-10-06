@@ -93,6 +93,17 @@ writing; read it on the PR branch).
     never re-emitted on the feed): a list of links is not a re-emission, but it is
     the first time a hopper would be discoverable by machine.
 
+15. **A manifest at a query-string URL** (Robert Peake, blygger-spec#2, 2026-10-06). His
+    WordPress plugin Soapbox (`soapbox-blyg`) builds the first templated blyg (gate G9). On
+    WordPress's "Plain" permalinks the REST API is at `/?rest_route=…`, so a manifest
+    served there has a query string. §12.1 step 1 strips the query when normalizing, and
+    §16.6e's identity rule ("the manifest's final URL minus its last path segment") has
+    no path segment to drop. Rule: out of scope (a manifest needs a path), or a line in
+    §16.6e saying how such a URL normalizes and what its identity is. Fable's because it
+    is identity semantics (#58). Blocks nothing: his main plan keeps the manifest at
+    `{origin}blyg.json` with only the templates on `/wp-json/`, and the reply (session 37,
+    posted in Venkat's voice) told him so and promised the ruling in the issue.
+
 ## C. Review after the fact (#58 batch)
 
 - **Two gate promotions, Opus 5.5, session 37 (2026-10-06): the seventh revision of
