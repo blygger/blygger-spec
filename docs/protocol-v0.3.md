@@ -348,15 +348,27 @@ Threads additionally carry `transclusions` (§10.3) and MAY carry `stub_of`
 - Only the **latest** version's content is served in the item document. Older
   content is withheld — the publisher's history stays private by default —
   unless a version is pinned (§8). The `changelog` is metadata (version, time,
-  optional note, optional `"pinned": true`), never diffs or content.
+  optional note, optional `"pinned": true`, optional `"generated": true`),
+  never diffs or content.
   **A note describes a change; it never reproduces withheld content.** A
   note that quotes the prior version's text is a diff by another name and
   leaks exactly what withholding protects, so where the prior version is
   unpinned a note MUST NOT reproduce it. Between two pinned versions nothing
   is withheld — any reader can fetch both files — and a note may be as full
   as the author likes. Notes are the publisher's description, and like the
-  feed `<title>` derived from them (§7) they may be machine-written; a
-  disclosure member for that case is ruled and described in §16.6c.
+  feed `<title>` derived from them (§7) they may be machine-written.
+- **A changelog entry MAY carry `"generated": true`** (revision of
+  2026-10-06, decision #40), meaning the publisher's client wrote the note,
+  typically from the local diff between versions, rather than the author.
+  It is self-asserted and unverifiable like `generated[]` (§5.7 rule 6).
+  Absent means only "not stated", never "the author wrote this". Readers
+  MUST NOT gate on it, and a reader that ignores it stays conformant. It
+  exists because a note is prose that readers read and the source of the
+  feed `<title>`, so a reader reconstructing an item's history from its
+  notes can tell the author's words from a machine's summary. The depth rule
+  above binds generated notes exactly as it binds authored ones. An entry
+  then reads `{ "version": 3, "at": "2026-07-18T09:30:00Z", "note":
+  "Sharpened the second paragraph's claim.", "generated": true }`.
 - `updated` MUST equal the latest changelog entry's `at`. All timestamps are
   self-asserted by the origin; readers order events per their own policy
   (§13.7).
@@ -633,8 +645,8 @@ publisher saw when it made the reference.
 - **The excerpt is a caption, not a quotation.** Verbatim quotation of
   another item is exclusively transclusion (§10); the length cap is what
   keeps `cited` from becoming a second quotation channel.
-- The same object is permitted in `forked_from`, `stub_of` and every
-  `transclusions[]` entry, and pinned version files (§8) carry each
+- The same object is permitted in `forked_from`, `stub_of` (including a
+  plain-web `{url}` target, §10.6) and every `transclusions[]` entry, and pinned version files (§8) carry each
   reference's `cited` as they carry the reference itself.
 
 Why it is on the wire at all: a transclusion already bakes the target's
@@ -1067,7 +1079,8 @@ the source does not survive into the quote; that is the visible cost.
 partiality is visible to any reader and survives import. A **plain-web
 target gets nothing**: quoting an ordinary web page under a `{url}` stub
 (§10.6) is an ordinary markdown blockquote, because there is no versioned
-document to verify against.
+document to verify against. The stub may still carry a frozen `cited`
+label (§10.6), which promises no test.
 
 Consequences of the snapshot rule, all deliberate:
 
@@ -1205,6 +1218,26 @@ publisher's own, because a citation is absolute — or
 ```
 
 for a plain-web target: an L0 subscription's entry, or anything with a URL.
+
+Either shape MAY carry the `cited` object of §5.9 (revision of 2026-10-06,
+decision #55), under that section's rules unchanged: `retrieved` REQUIRED,
+self-asserted, frozen when the stub was created, ignored by verification,
+never baked, ignorable by any reader, and `excerpt` a caption capped near
+200 characters. On a `{url}` target the frozen label matters more than
+anywhere else, because a plain-web page has no version to re-fetch and the
+label is the only record of what was read:
+
+```json
+"stub_of": { "url": "https://simonwillison.net/2026/Sep/10/some-post/",
+             "cited": { "source": "Simon Willison's Weblog",
+                        "excerpt": "Some post",
+                        "url": "https://simonwillison.net/2026/Sep/10/some-post/",
+                        "retrieved": "2026-09-16T20:11:00Z" } }
+```
+
+A plain-web target gets nothing else: no `selector`, because there is no
+versioned document to check a quotation against (§10.2). It is quoted with
+an ordinary markdown blockquote, which is why the caption cap stands.
 
 Rules:
 
@@ -1784,24 +1817,17 @@ stub's mention verified on the bare reference with the citation ignored), and
 promoted into §5.9 in the first published revision. The normative text is
 there; this number is kept only so that earlier citations of §16.1 resolve.
 
-### 16.1a `cited` on a plain-web stub (ruled 2026-10-03; next revision)
+### 16.1a `cited` on a plain-web stub (promoted to §10.6, 2026-10-06)
 
-**Ruled: a `{url}` stub (§10.6) MAY carry the same `cited` object**, under
-§5.9's rules unchanged — `retrieved` REQUIRED, self-asserted, frozen when the
-stub was created, ignored by verification, never baked, ignorable by any
-reader, `excerpt` a caption capped near 200 characters — entering §10.6 once
-a client emits it and an import across nodes retains it (decision #55, on
-[blygger-spec#7](https://github.com/blygger/blygger-spec/issues/7)).
-§10.2's "plain-web targets get nothing" is about *verification*: a selector
-promises a faithfulness test that cannot run against a page with no
-versioned document. `cited` promises no test — §15.4 MUST ignore it and a
-reader that drops it stays conformant — and §5.9's own argument is
-*stronger* for a target that cannot be re-fetched at any version: the citing
-publisher's frozen label is the only record of what was read. The cap stays,
-because the quotation channel for the plain web is an ordinary markdown
-blockquote and `cited` is a caption there too. Four reference sites instead
-of three; the object is the one §5.9 describes, attached to a reference
-whose identity is a `url` rather than `origin`/`id`/`version`.
+Ruled 2026-10-03 (decision #55, on
+[blygger-spec#7](https://github.com/blygger/blygger-spec/issues/7)). The
+reference client has emitted a hostname-only `cited` on `{url}` stubs since
+0.4 and a full one since 0.18.0, which freezes the subscription's name as
+`source` and the entry's title as `excerpt` at creation. A protocol-institute
+`{url}` stub carrying it was imported onto venkateshrao with `stub_of`
+byte-identical, and it was promoted into §10.6 in the seventh revision. The
+normative text is there; this number is kept so that earlier citations
+resolve.
 
 ### 16.2 Plain internal links — `[[id]]` (promoted to §10.1, 2026-09-28)
 
@@ -1953,22 +1979,15 @@ are recorded here so that the absence is legible as a decision:
   agent's byline SHOULD name an operator; that convention lives in the
   identity note. A blyg is two-author only when an agent signs items.
 
-### 16.6c Generated changelog notes (ruled; next revision)
+### 16.6c Generated changelog notes (promoted to §5.2, 2026-10-06)
 
-**Ruled 2026-09-28: a changelog entry MAY carry `"generated": true`**, meaning the
-publisher's studio wrote the note (from the local diff between versions) rather
-than the author. Self-asserted and unverifiable like `generated[]` (§5.7 rule 6);
-absent means only "not stated"; readers MUST NOT gate on it. It exists because a
-note is prose readers read and is the source of the feed `<title>`, so a client
-reconstructing an item's history from its notes should be able to tell the
-author's words from a machine's summary. The depth rule of §5.2 binds generated
-notes exactly as it binds authored ones. Enters §5.2 once a client emits it.
-
-```json
-{ "version": 3, "at": "2026-07-18T09:30:00Z",
-  "note": "Sharpened the second paragraph's claim; no change to the examples.",
-  "generated": true }
-```
+Ruled 2026-09-28 (decision #40), emitted by blygger-studio 0.14.0 and read back
+across nodes by its 0.15.0 history view (a protocol-institute item carrying a
+generated note, read on venkateshrao), and promoted into §5.2 in the seventh
+revision. The reference client marks a note generated only when the author
+published the drafted text unchanged; a draft the author edited goes out as
+the author's. That is the client's policy, not a protocol rule. The normative
+text is in §5.2; this number is kept so that earlier citations resolve.
 
 *Considered and not opened (2026-09-28):* feed entries for **pinned** publish
 events carrying that pinned version's content rather than the latest, which §7
@@ -2124,6 +2143,13 @@ a fourth mention relation for links; and a normative write API.
 One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.3/{date}/` and each carries a diff link to the one
 before it.
+
+- **2026-10-06, seventh revision** — Two ruled shapes promoted after their
+  gates ran on both live nodes (decision #58; Opus 5.5, Fable review
+  pending): `changelog[].generated` (§16.6c → §5.2, decision #40; gate G6)
+  and `cited` on a plain-web `{url}` stub (§16.1a → §10.6, with §5.9's list
+  of sites updated; decision #55; gate G10). Both are revisions by #43:
+  members a conformant reader already ignores safely. Not snapshotted.
 
 - **2026-10-03, sixth revision** — §16.6f: a fork of a thread descends from
   the pinned document, its baked quotes flattened into ordinary blockquotes

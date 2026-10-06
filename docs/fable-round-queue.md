@@ -95,7 +95,16 @@ writing; read it on the PR branch).
 
 ## C. Review after the fact (#58 batch)
 
-- **No decision carries the `Fable review pending` label yet**, so #58 is still untested.
+- **Two gate promotions, Opus 5.5, session 37 (2026-10-06): the seventh revision of
+  `protocol-v0.3.md`.** G6: §16.6c → §5.2 (`changelog[].generated`, #40). G10: §16.1a →
+  §10.6 (`cited` on a `{url}` stub, #55), with §5.9's list of sites and §10.2's
+  "plain-web target gets nothing" sentence updated. Both §16 numbers are now pointers
+  recording the build's calls: notes are marked generated only when published
+  unchanged, and `excerpt` is the entry title. The text is not yet published to
+  blygger.org. Check the wording, especially "absent means only 'not stated'" and
+  "MUST NOT gate on it", which carry #40's text over unchanged.
+- **No decision carries the `Fable review pending` label yet**, so #58's ruling half is
+  still untested.
 - **Session 34's studio fixes made four calls a reviewer may want to confirm.** None
   changes the wire or a reader. Details are in the 0.21.2 changelog.
   - studio#27 drops the v0.2 plan's "and the trigger set was non-empty" from the gap
