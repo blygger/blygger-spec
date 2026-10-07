@@ -172,6 +172,22 @@ that cites, and citations that can be checked.
   publisher chose to show (§11).
 - **L0 wrapper** — reader-side grandfathering of a plain RSS feed as summary
   items (§13.6).
+- **Remote reference** — a reference (§5.9) whose `origin` is not the
+  publisher's own: a cross-origin `stub_of`, `transclusions[]` entry or
+  `forked_from`. Each SHOULD send a mention (§15.2).
+- **Text content** — an item's `content_html` with tags stripped, whitespace
+  collapsed within a block and block boundaries kept as line breaks; what a
+  partial transclusion's selection is checked against (§10.2).
+- **Identity change** — a reader adopting a new origin for an existing
+  subscription, which MUST be user-confirmed (§12.2).
+- **Per-item curation** — a publisher's public display of the verified
+  mentions of one of its items, under the curation rules of §13.5 (§15.5).
+- **Provenance shadow** — what generation leaves on the wire: the
+  `generated` array and the `blyg-tk-gen` class, never the instruction
+  (§5.7).
+- **Static discovery plane** — the blogroll (§11): the outbound, curated
+  half of the public graph, as against verified mentions, its dynamic
+  inbound half (§15).
 - **Conformance level** — L0–L3, strict supersets (§3).
 
 ## 3. Conformance levels
@@ -455,7 +471,7 @@ Rules:
    additively; nothing ever emitted it.)
 2. The referenced version MUST be pinned at its origin, i.e. fetchable as
    `{origin}items/{id}/v{n}.json`. A pin is the only version anyone can
-   promise a lineage still points at (§8.1). Publishers SHOULD check this at
+   promise a lineage still points at (§8 rule 1). Publishers SHOULD check this at
    publish time with one conditional fetch, and SHOULD refuse to publish on
    **evidence** that the promise is not kept — a 4xx, or a 200 that is not
    that pinned version. A network failure, timeout, or 5xx is evidence of
@@ -557,7 +573,7 @@ renderer MUST wrap each generated span in `content_html` as
 `<div class="blyg-tk-gen">…</div>` (block output). The class name
 `blyg-tk-gen` is a **permanent wire token** — it is baked into published
 `content_html`, like `blyg-transclusion` (§10.2), and cannot be renamed. No
-data attributes are required: span-level source mapping is deliberately not
+data attributes are REQUIRED: span-level source mapping is deliberately not
 promised (the JSON provenance is version-level and robust; span-level claims
 would be brittle across the author's post-generation edits). Styling the
 class is presentation, any client's free choice. A client that makes
@@ -791,8 +807,8 @@ Rules:
   there is no note; a withdrawal entry's title is the literal `withdrawn`.
   This derivation is documented so that the same item reads the same in
   different plain-RSS readers; a client that derives differently is
-  conformant but should know that it is choosing to make its items read
-  differently elsewhere.
+  conformant, and is choosing to make its items read differently
+  elsewhere.
 - **`<link>` is the item's page** (§5.8), absolute.
 - **A withdrawn item contributes exactly one entry** — its withdrawal event,
   with title `withdrawn` and empty description. Its earlier publish events MUST
@@ -907,7 +923,7 @@ discrete, visibly frozen, and individually citable; a presentation cannot
 reconstruct a continuous edit history, because the bytes for one are never
 served.
 
-The pin's *promise* is the JSON file (§8.1). Additionally, a publisher **MAY**
+The pin's *promise* is the JSON file (§8 rule 1). Additionally, a publisher **MAY**
 serve a rendered page for each pinned version at the item's permalink path
 plus a version segment:
 
@@ -1014,7 +1030,7 @@ fetch.
   anchor text is presentation. It is **silent on the wire**: no
   `transclusions[]` entry (§10.3), no mention (§15), no relation (§15.4) —
   a link asserts nothing on the target's behalf, so there is nothing for the
-  target to verify. An unresolvable link is a publish error, like an
+  target to verify. An unresolvable link MUST be a publish error, like an
   unresolvable directive. This deliberately preserves the one way to cite
   without notifying: in a medium where every other citation form notifies,
   that affordance is necessary, not accidental.
@@ -1034,7 +1050,7 @@ anything**.
    around someone's RSS summary, not their item);
 3. otherwise a **publish error**. Drafts, unknown ids, withdrawn items with
    nothing retained, and L0 rows are publish errors. **More than one imported
-   match is a publish error**, never a guess — the directive names an
+   match MUST be a publish error**, never a guess — the directive names an
    identity, and the publisher does not pick an origin on the author's
    behalf.
 
@@ -1510,7 +1526,7 @@ stored copy — with one principled exception. **Retention follows the origin's
 own serving surface**: content corresponding to a version the origin has
 **pinned** (a fetchable `items/{id}/v{n}.json`) MAY be retained and continue
 to be displayed, with attribution linking the pin — the origin itself still
-serves those exact bytes forever (§8.1), so local retention never exceeds the
+serves those exact bytes forever (§8 rule 1), so local retention never exceeds the
 origin's own promise. Everything unpinned rolls to null.
 
 A reader that wants a durable citation of someone else's content has exactly
@@ -1582,12 +1598,13 @@ when the reader actually saw it.)
   (pinned-backed retention excepted, §13.4), pinned versions survive by
   design, baked snapshots in other people's threads survive by design
   (§10.4), and nothing forces non-conforming copies to do anything.
-  Publishers should understand pins are irrevocable before pinning, and
-  should understand that anything published can be quoted into a thread
-  whose snapshot they cannot recall.
+  A pin is irrevocable, and anything published can be quoted into a
+  thread whose snapshot its publisher cannot recall; both are worth
+  knowing before the act, not after.
 - **Timestamps are self-asserted.** Nothing prevents an origin from
-  backdating. Readers that care about ordering across origins must apply
-  their own observation-time policy (§13.7).
+  backdating. Ordering across origins is each reader's own
+  observation-time policy, which §13.7 says SHOULD keep a skewed origin
+  from dominating.
 - **`author` is an unverified assertion** (§5.5). Displaying it is displaying
   the origin's claim. Impersonation resistance across origins is out of scope
   by design; within an origin, accountability is the origin's.
@@ -1826,7 +1843,7 @@ the stubber's speech and stays published.
 A static-only deployment does **nothing**: it advertises no endpoint,
 receives nothing, and remains fully conformant at every level. It may still
 *send* — a static export is produced by some dynamic studio, which can send
-at export time — but is not required to.
+at export time — but is not REQUIRED to.
 
 ## 16. Ruled, deferred, and reserved constructs (non-normative)
 
@@ -2208,6 +2225,16 @@ a fourth mention relation for links; and a normative write API.
 One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.3/{date}/` and each carries a diff link to the one
 before it.
+
+- **2026-10-06, tenth revision** (Opus 5.5 under #58, clerical; Aneesh
+  Sathe's conformance findings F11–F13, F15) — three citations of a
+  nonexistent §8.1 now read §8 rule 1; five lowercase modals resolved (two
+  given their RFC 2119 keyword, two advisory sentences reworded without a
+  modal, and §14's "must" on ordering, which contradicted §13.7's SHOULD,
+  now defers to it); the two rules F13 named as stated only in prose gain
+  their MUST (an unresolvable `[[id]]` link, more than one imported match);
+  six terms used as defined are added to §2. No rule changes meaning. Not
+  snapshotted.
 
 - **2026-10-06, ninth revision** (Opus 5.5 under #58, Fable review pending;
   session 38, on Venkat's statement of intent) — §5.6 rules 7 and 8: a

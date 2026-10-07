@@ -79,10 +79,12 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
 
 ## Not for Fable
 
-- Report F11, F12, F13 (adding keywords to existing rules), F15 and F16 are clerical spec
-  fixes that Opus can do under #58. They are §8.1 cited three times and missing, modal
-  strength mismatches, keyword-less rule sentences, undefined terms, and one-sided decision
-  records.
+- Report F11, F12, F15 and F16 were **done session 38** (Opus): the spec's tenth revision
+  plus back-references on decisions #9, #14, #43 and a corrected section number in #22.
+  **F13 is partly done:** the two rules it named as stated only in prose gained their MUST.
+  The other ~56 keyword-less sentences need Aneesh's full list (`conformance/clauses/out/
+  analysis.json`, gitignored; run `clauses/analyze.py` on the PR branch) and a pass that
+  separates restatements from sole statements. Opus's, once #11 is merged.
 - Report F10 (Webmention reach: 8 of 19 live blygs advertise an endpoint) works as
   specified. It is a registry or adoption question.
 - Merging blygger-spec#11: Aneesh made all three review changes on 2026-10-04 (98af8da). It waits only on Venkat's `intents.json` correction pass.

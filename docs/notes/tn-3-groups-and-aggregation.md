@@ -9,6 +9,10 @@ rationale, not protocol. Written against protocol 0.3 as published on
 version promises anything (#21), so check the living text before you lean on a
 detail.
 
+**Revised session 38, 2026-10-06 (Opus 5.5)**, after decision #61: §3 gains the
+consequence that members on one host cannot verify mentions in each other's
+name, which was not true of the 0.3 text this note was first written against.
+
 ## 1. The question
 
 Two requests arrived from early users within days of the first strangers
@@ -92,6 +96,17 @@ Consequences worth naming before choosing this shape:
 - Cross-member quoting is ordinary cross-client transclusion (#26) and sends
   real Webmentions (§15). The house's internal conversation is publicly
   checkable exactly like anybody else's — a feature, not overhead.
+- **Members cannot speak in each other's name.** A mention verifies only if
+  the source's item document was fetched from exactly `{origin}items/{id}.json`
+  for the origin it declares (§15.4 step 2, decision #61). So a document
+  served under `house.example/alice/` that claims to be `house.example/bob/`
+  fails, and Bob's items are safe from Alice even though they share a host.
+  This was not true when this note was first written: the 0.3 text compared
+  scheme, host and port only, and Aneesh Sathe's conformance model found the
+  hole in exactly this shape (finding F1). The eighth revision of the spec
+  closed it on 2026-10-06, and blygger-studio 0.32.2 implements it. A receiver
+  still running older code keeps the hole until it upgrades, so a house on a
+  shared host should run current clients for all its members.
 - The cost is real: N deploys, N polling crons, N sets of pin promises, N
   archives to keep serving forever. Withdrawal being permanent and pins being
   irrevocable means an origin is a long commitment, and this shape makes N of

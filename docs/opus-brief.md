@@ -75,7 +75,7 @@ of `protocol-v0.3.md`. In order:
   **Build first:** `fork.ts` copies a fragment's `content_md` with its `[[id]]` links intact;
   flatten them to absolute markdown links from the pinned `content_html` (#63). Add the §17
   line; publish. Label `Fable review pending`.
-- **e. `tn-3` revision — unblocked, 0.32.2 is live** (groups): the group shape is now sound — #61 is its exact case. Say
+- **e. Done session 38:** `tn-3` revised and republished. Was: **`tn-3` revision** (groups): the group shape is now sound — #61 is its exact case. Say
   so, cite the eighth revision, and note that receivers on older studio versions are the
   remaining hole until they upgrade.
 - **f. Done session 38** (posted on #11). Was: **Tell Aneesh** on blygger-spec#11: grammar case 24 is unambiguous (instruction = source,

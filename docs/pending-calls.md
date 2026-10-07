@@ -98,7 +98,8 @@ here only if the recommendation was reversed, so the reasoning is not lost.
 
 11. **The unpublished blyg draft summarising session 37** on venkateshrao
     (`4557xemndwty74r06etwt6rdtx`) — edit and publish, or discard.
-12. **Kyle's `models/d1-polling-cache/logs/`** (TLA+ and docker logs) in the studio repo
-    — harmless; trim whenever.
+12. ~~**Kyle's `models/d1-polling-cache/logs/`**~~ **Dropped session 38 (Opus):** the logs are
+    deliberate. The model's README cites them by name as the preserved evidence of the
+    model-checking runs, including the first failing runs. Keep them.
 13. **Quoted lists lose their bullets and the faithfulness check ignores list markers**
     (session 37 open thread) — leave it until someone quotes a list and minds.
