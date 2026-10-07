@@ -547,10 +547,13 @@ renderer MUST wrap each generated span in `content_html` as
 data attributes are required: span-level source mapping is deliberately not
 promised (the JSON provenance is version-level and robust; span-level claims
 would be brittle across the author's post-generation edits). Styling the
-class is presentation, any client's free choice — the reference client
-deliberately leaves it unstyled, because a visible tint would present
-self-asserted provenance as a verified authorship badge, a claim the
-protocol refuses to make.
+class is presentation, any client's free choice. A client that makes
+generated spans visible SHOULD say, wherever it explains the mark, that the
+disclosure is the publisher's own and unverified (rule 6); a tint that reads
+as a verified authorship badge makes a claim the protocol refuses to make
+(revision of 2026-10-06, decision #59; until then this paragraph said the
+reference client left the class unstyled for that reason — it has styled it,
+off by default and with that disclaimer, since blygger-studio 0.27.0).
 
 ### 5.8 The `page` field
 
@@ -1219,8 +1222,9 @@ publisher's own, because a citation is absolute — or
 
 for a plain-web target: an L0 subscription's entry, or anything with a URL.
 
-Either shape MAY carry the `cited` object of §5.9 (revision of 2026-10-06,
-decision #55), under that section's rules unchanged: `retrieved` REQUIRED,
+Either shape MAY carry the `cited` object of §5.9 — the blyg-target shape
+since §5.9 named `stub_of` as a site, the `{url}` shape by the revision of
+2026-10-06 (decision #55) — under that section's rules unchanged: `retrieved` REQUIRED,
 self-asserted, frozen when the stub was created, ignored by verification,
 never baked, ignorable by any reader, and `excerpt` a caption capped near
 200 characters. On a `{url}` target the frozen label matters more than
@@ -1699,9 +1703,9 @@ The endpoint contract is the W3C's: `POST`, body
 `application/x-www-form-urlencoded`, `source` and `target`.
 
 1. **Syntactic checks → 400.** Both MUST be absolute `http(s)` URLs; `source`
-   MUST differ from `target`; `target`'s origin (scheme, host, port) MUST be
-   this blyg's own, and its path MUST name a published item — by `page`, or
-   as `items/{id}.json`. An unknown item is 400, not 404: the endpoint
+   MUST differ from `target`; `target` MUST lie within this blyg's own origin — the full base URL
+   (§12.2), not merely its host — and MUST name a published item — by
+   `page`, or as `items/{id}.json`. An unknown item is 400, not 404: the endpoint
    exists, the claim is bad. A withdrawn target is accepted (people may
    respond to a withdrawal).
 2. **Rate limit → 429.** RECOMMENDED: more than 60 mentions from one source
@@ -1730,11 +1734,25 @@ receiver's protection, not a nicety (§14).
    document. If it is HTML, find `<link rel="alternate"
    type="application/json">` (§5.8) and fetch that; it MUST be a blyg item
    document. Anything else → **failed**.
-2. **The document's `origin` MUST equal the final source URL's origin**
-   (scheme, host, port; trailing slash normalized). A page on one host
-   pointing at a document claiming another origin does not verify. This is
-   §12.2's identity rule applied inbound, and it is what stops a mirror or an
-   impostor from speaking in a real blyg's name.
+2. **The item document's final URL MUST be exactly `{origin}items/{id}.json`
+   for the document's own `origin` and `id`** (revision of 2026-10-06,
+   decision #61; scheme and host compared case-insensitively, default port
+   dropped, trailing slash of `origin` normalized). This is §12.2's identity
+   rule applied inbound — the identity origin is the full base URL, path
+   included (§4, §12.2), never merely its host — and it is what stops a
+   mirror or an impostor from speaking in a real blyg's name. Two
+   consequences are the point: a document served under one path-mounted
+   blyg cannot verify in the name of another on the same host (two blygs on
+   one host is an ordinary deployment, §13.5), and a **pinned version file
+   never verifies a mention** — its URL is not the live document's, so a
+   stub whose pin still carries `stub_of` stops verifying the moment its
+   live document is an endcap (§9, §10.6 rule 4), with no extra fetch. A
+   legitimate sender is unaffected: its source is the page (§15.2), whose
+   alternate link names the live document (§5.8). Until this revision the
+   rule here compared scheme, host and port only; a receiver built on that
+   reading has a hole to close. A 0.4 blyg whose manifest templates place
+   item documents outside its identity origin is verified against its own
+   templates (§16.6e).
 3. A document with `"kind": "withdrawn"` → **gone**.
 4. **Relation**, in order: `stub_of` naming `{ origin: this blyg, id: target }`
    → `stub`; else a `transclusions[]` entry with `origin` = this blyg and
@@ -2050,7 +2068,23 @@ clients that want to leave room now:
   segment* — the existing rule stated without the filename. A publisher
   whose manifest lives at `/wp-json/blyg/v1/manifest` has the identity origin
   `/wp-json/blyg/v1/`, every reference to it names that string, and so it
-  must be as stable as any origin.
+  must be as stable as any origin. **A manifest's address is a path**
+  (ruled 2026-10-06, decision #64, on blygger-spec#2): a URL with a query
+  string cannot anchor origin-relative references — resolving `items/x.json`
+  against `/?rest_route=…` drops the query — so it has no surface and no
+  identity prefix, and §12.1 step 1 strips the query for that reason. A
+  manifest served only at such a URL is out of scope; the `feed`, `items`,
+  `item` and `pin` values MAY carry a query string, because they are
+  expanded or fetched, never resolved against.
+- **Verification under templates** (ruled 2026-10-06, decision #61). §15.4
+  step 2 requires the item document's final URL to be `{origin}items/{id}.json`;
+  a templated blyg's `item` template may place it elsewhere. A receiver
+  that supports templates therefore checks the final URL against the
+  asserted origin's own `item` template, read from `{origin}blyg.json` —
+  one more fetch, within §15.4's bounds raised to 3 — and fails the claim
+  when the manifest is missing or the URL matches neither the default nor
+  the template. Publishers who want their mentions verifiable by 0.3
+  receivers keep item documents under the identity origin.
 - **`page` MAY be absolute** (§5.8), since a CMS permalink lives outside the
   surface's mount; media URLs already may be (§5.4).
 - **Nothing else moves.** The static-file requirement stands — a template
@@ -2096,7 +2130,25 @@ The shape, which a client may build against now:
   id and linking to its page (§5.8) where the publisher can compute it, else
   to its item document. The line's wording is the client's. A partial
   transclusion (`blyg-partial`) flattens the same way, from its baked
-  paragraphs.
+  paragraphs. **Partiality is read from the `blyg-partial` class in the
+  pinned bake, never from `>` lines in `content_md`** (ruled 2026-10-06,
+  decision #62): a bake from a client that predates the partial grammar
+  carries none, and the lines after its directive are the author's prose.
+- **A quote the pinned document carries is copied whatever the quoted
+  item's current state** (ruled 2026-10-06, decision #62). The pinned
+  thread serves those bytes forever (§8, §10.4), so the fork adds a place
+  the words can be fetched from, not a disclosure; the "freeze at the
+  withdrawn version" that §10.2 refuses is a live, verified quote wrapper,
+  which the flattened blockquote is not. The attribution line points at an
+  id whose live document says what the quoted item's state now is, and
+  that is the honest record. A client MAY note that state beside the quote
+  when it holds it, and MUST NOT need the network at publish to decide.
+- **Inherited `[[id]]` links flatten too** (ruled 2026-10-06, decision
+  #63), in a forked fragment as in a forked thread: a copied link
+  re-resolves in the forker's context (§10.2) and fails at publish for an
+  origin the forker has not imported, so the forking client SHOULD replace
+  each with an ordinary markdown link to the target's absolute page as the
+  pinned `content_html` rendered it — the same register as the quotes.
 - The `blyg-transclusion` class MUST NOT survive into the fork: the forking
   publisher baked nothing and verified nothing. The flattened quote is in
   the plain-web register of §10.2 — a quotation with a link, editable,
@@ -2144,9 +2196,21 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.3/{date}/` and each carries a diff link to the one
 before it.
 
+- **2026-10-06, eighth revision** (Fable 5.1, session 38; after Aneesh
+  Sathe's conformance report, blygger-spec#11) — §15.4 step 2 corrected to
+  the full identity origin, which also stops pinned files verifying
+  mentions (decision #61, findings F1/F4); §15.3 step 1 worded to match;
+  §5.7's last paragraph turned from a false description of the reference
+  client into guidance for any client that styles `blyg-tk-gen` (#59);
+  §16.6e gains the manifest-address rule (#64) and verification under
+  templates (#61); §16.6f gains partiality-from-the-bake, withdrawn quotes
+  copied as pinned, and inherited links flattened (#62, #63); §10.6's
+  parenthetical on which `stub_of` shape #55 added, reworded. The seventh
+  revision was reviewed and confirmed. Not snapshotted.
+
 - **2026-10-06, seventh revision** — Two ruled shapes promoted after their
-  gates ran on both live nodes (decision #58; Opus 5.5, Fable review
-  pending): `changelog[].generated` (§16.6c → §5.2, decision #40; gate G6)
+  gates ran on both live nodes (decision #58; Opus 5.5; reviewed and
+  confirmed by Fable 5.1 the same day): `changelog[].generated` (§16.6c → §5.2, decision #40; gate G6)
   and `cited` on a plain-web `{url}` stub (§16.1a → §10.6, with §5.9's list
   of sites updated; decision #55; gate G10). Both are revisions by #43:
   members a conformant reader already ignores safely. Not snapshotted.

@@ -2,6 +2,9 @@
 
 **Written:** session 34 (2026-10-04), by Opus 5.5, at Venkat's request, after triaging
 blygger-spec#11 (Aneesh Sathe's conformance toolkit and first-round report) and #12.
+**Pruned:** session 38 (2026-10-06), Fable 5.1 — items 1–5 and 15 ruled (decisions
+#59–#64, reasoning `v0.4-plan.md` §10), the seventh revision reviewed, the 0.27.0 styling
+question ruled (#59). Numbers are kept so earlier references resolve.
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -9,41 +12,13 @@ when it is empty.
 Each item says what it blocks, why it is Fable's under the four-question test (#58), and
 where the evidence is. "Report F*n*" is finding *n* of
 `conformance/reports/2026-10-03-first-round.html` in blygger-spec#11 (not merged as of
-writing; read it on the PR branch).
+writing; read it on the PR branch — `gh api` with the URL quoted, zsh globs the `?`).
 
-## A. Blocking — rule these first
+## A. Blocking — none
 
-1. **§9.2 versus decision #20: an own-line `![[id]]` left in TK output.**
-   Blocks: blygger-studio#5 (reopened) and report F18's grammar case, which stays marked
-   ambiguous. Venkat provisionally took §9.2 in studio 0.20.1 (it transcludes at publish);
-   #20 says every `![[id]]` in a scope is a source, never a blockquote. Fable's because it is
-   a conflict between a locked decision and a later plan note. Either amend #20's text or
-   reverse 0.20.1. Evidence: session 33 Opus devlog, open threads.
-2. **§15.4: two blygs path-mounted on one host can verify mentions in each other's name.**
-   Report F1, Alloy checks 7/7c. Step 2 compares scheme, host and port only, so
-   `example.com/alice/` passes as `example.com/carol/`. Decision #14 makes path mounts
-   first-class and #36's group shape is exactly this case. Blocks: `tn-3` (groups), which
-   the Opus queue says is writable now. Fable's because it is verification semantics.
-   The report's proposed fix, confirmed in its model: the source URL must sit inside the
-   claimed origin's full base URL.
-3. **A pinned copy of a stub keeps verifying after the stub is withdrawn.** Report F4,
-   Alloy 7d/7e. The pin file still carries `stub_of`, against §9's "a withdrawn stub stops
-   verifying". Proposed fix: verify against the live `items/{id}.json`. Verification
-   semantics.
-4. **#57 can republish withdrawn, unpinned words under a new id.** Report F6, Alloy 5g(b).
-   A pinned thread quotes unpinned C, C is withdrawn, the thread is forked, and the flattened
-   quote republishes C's words: the "freeze at the withdrawn version" §10.2 says is
-   deliberately not offered. Accept it explicitly, or add a SHOULD to drop or mark such
-   quotes. Blocks: the G11 promotion of §16.6f into §5.6, which should carry the answer.
-   Fold in studio#29's question while here: should §16.6f say that a forker decides a
-   quote's partiality from the pinned `content_html` (`blyg-partial`), as studio 0.21.2 now
-   does? Fable's because it touches locked decision #57.
-5. **#43's boundary test has a blind spot.** Report F7. #43 asks whether readers must
-   change, but a forker re-parses another blyg's `content_md`, so grammar forms travel
-   between clients; #49 was classed as a revision on reader grounds. #57 closes it for
-   forks of threads, but the test itself should say so. Blocks: nothing built, but #58's
-   question 1 is #43's test, so every Opus ruling inherits the gap. Fable's because it
-   reinterprets a locked decision.
+Items 1–5 were ruled in session 38: #60 (§9.2 vs #20), #61 (path-mounted verification
+and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), #63
+(#43's third party). G11's promotion is unblocked.
 
 ## B. Needs a ruling, blocks no build
 
@@ -93,50 +68,18 @@ writing; read it on the PR branch).
     never re-emitted on the feed): a list of links is not a re-emission, but it is
     the first time a hopper would be discoverable by machine.
 
-15. **A manifest at a query-string URL** (Robert Peake, blygger-spec#2, 2026-10-06). His
-    WordPress plugin Soapbox (`soapbox-blyg`) builds the first templated blyg (gate G9). On
-    WordPress's "Plain" permalinks the REST API is at `/?rest_route=…`, so a manifest
-    served there has a query string. §12.1 step 1 strips the query when normalizing, and
-    §16.6e's identity rule ("the manifest's final URL minus its last path segment") has
-    no path segment to drop. Rule: out of scope (a manifest needs a path), or a line in
-    §16.6e saying how such a URL normalizes and what its identity is. Fable's because it
-    is identity semantics (#58). Blocks nothing: his main plan keeps the manifest at
-    `{origin}blyg.json` with only the templates on `/wp-json/`, and the reply (session 37,
-    posted in Venkat's voice) told him so and promised the ruling in the issue.
-
 ## C. Review after the fact (#58 batch)
 
-- **Two gate promotions, Opus 5.5, session 37 (2026-10-06): the seventh revision of
-  `protocol-v0.3.md`.** G6: §16.6c → §5.2 (`changelog[].generated`, #40). G10: §16.1a →
-  §10.6 (`cited` on a `{url}` stub, #55), with §5.9's list of sites and §10.2's
-  "plain-web target gets nothing" sentence updated. Both §16 numbers are now pointers
-  recording the build's calls: notes are marked generated only when published
-  unchanged, and `excerpt` is the entry title. The text is not yet published to
-  blygger.org. Check the wording, especially "absent means only 'not stated'" and
-  "MUST NOT gate on it", which carry #40's text over unchanged.
-- **No decision carries the `Fable review pending` label yet**, so #58's ruling half is
-  still untested.
 - **Session 34's studio fixes made four calls a reviewer may want to confirm.** None
-  changes the wire or a reader. Details are in the 0.21.2 changelog.
+  changes the wire or a reader. Details are in the 0.21.2 changelog. Two were taken up in
+  session 38 (#29 → decision #62; #30 is consistent with §8.4); the other two stand on
+  the text they cite.
   - studio#27 drops the v0.2 plan's "and the trigger set was non-empty" from the gap
     check, following §13.2's text.
   - studio#28 matches stub version agreement on origin as well as id. The old comment
     cited #26 for id-only matching.
-  - studio#29 reads partiality from `blyg-partial`; see item 4.
-  - studio#30 cites a remote pin's page when the origin serves one, else the JSON (§8.4).
-- **Studio 0.27.0 styles `blyg-tk-gen`, which §5.7 says the reference client does not**
-  (session 35, at Venkat's request). §5.7's last paragraph says the reference client
-  "deliberately leaves it unstyled, because a visible tint would present self-asserted
-  provenance as a verified authorship badge." 0.27.0 adds an opt-in tint, a robot
-  badge (Brady Dale's convention) and an info box drawn from `generated[]`. It is off by
-  default, overridable per post, and the box says "the author marked this … Self-reported,
-  not verified." Presentation is the client's call (session 20), so nothing on the wire
-  changes. But the 0.3 text now describes the reference client wrongly, and the rationale
-  it gives is the one this design had to answer. Rule whether the next protocol document
-  drops that sentence, keeps it as a caution, or turns the "not verified" wording into
-  guidance for any client that styles the class.
-- **Gate promotions G6, G10 and G11 are Opus's under #58** and arrive here for review once
-  done. G6 and G10 are exercised and ready to promote. G11 should wait for item 4.
+- **Any decision Opus labels `Fable review pending` from session 38 on.** None yet; the
+  seventh revision (G6, G10) was the first batch and was confirmed.
 
 ## Not for Fable
 

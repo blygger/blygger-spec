@@ -7,6 +7,28 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 38 — 2026-10-06 — Fable round: seventh revision reviewed, decisions #59–#64, eighth revision of 0.3
+
+**Model:** Fable 5.1 · **Time:** ~16:48–17:45 PT · **Committed:** yes (blygger-spec) · **Deployed:** — (eighth revision written, not yet published; Opus brief item b)
+
+**What & why:**
+
+- **First use of #58's review half.** The seventh revision (Opus, session 37: G6 `changelog[].generated` → §5.2, G10 `cited` on `{url}` stubs → §10.6) was confirmed — routing right, #40's words carried intact, §16 pointers in the client-policy register. One parenthetical in §10.6 attributed both `stub_of` shapes' `cited` to #55; reworded. The queue's "not yet published" note was stale (session 37 deployed it).
+- **#59 — `blyg-tk-gen` styling.** §5.7 said the reference client leaves the class unstyled; studio 0.27.0 styles it with a "self-reported, not verified" disclaimer. The sentence became the rule: a client that makes generated spans visible SHOULD say the disclosure is the publisher's own and unverified.
+- **#60 — own-line `![[id]]` in TK output transcludes; #20 amended.** "Inside a TK scope" means the instruction. The wire has no scope to exempt a line, and 0.17.0's inert reading published a directive with no bake — a malformed document. 0.20.1 stands. Finding: the studio scans the whole scope for source ids; an output-only directive is disclosed as a source the generator never read. studio#5 settled.
+- **#61 — mention verification tests the final URL against `{origin}items/{id}.json` exactly.** Aneesh's F1 (path-mounted blygs verify in each other's name) and F4 (pinned stub copies keep verifying) are one bug: step 2 compared hosts and accepted whatever document came back. One exact test fixes both with no third fetch. The studio has the hole (`receive.ts` compares `URL.origin`) — security fix, first in the Opus brief. §16.6e gains verification under templates for the Soapbox case (item documents outside the identity origin → read the asserted origin's manifest, bounds raised to 3).
+- **#62 — #57 stands against F6.** A fork copying a pinned thread's quote of a withdrawn unpinned item republishes words the pin already serves forever; it adds a place, not a disclosure. Accepted explicitly. Partiality is read from `blyg-partial` in the bake (studio#29's call, now the rule). G11 unblocked.
+- **#63 — #43's test names the re-parsing publisher** (F7); and the remaining case after #57 — `[[id]]` links in a forked fragment re-resolving in the forker's context — flattens like quotes. The studio's fork doesn't do it today.
+- **#64 — a manifest's address is a path** (Robert Peake, blygger-spec#2). RFC 3986 resolution against a base with a query drops the query, so a query-string manifest has no surface. Templates and `feed`/`items` may carry one. Replied on #2 in Venkat's voice with the verification note from #61.
+- **Eighth revision of `protocol-v0.3.md`:** §15.4 step 2, §15.3 step 1, §5.7 last paragraph, §16.6e two bullets, §16.6f three bullets, §10.6 parenthetical, §17 entry. Not snapshotted. `fable-round-queue.md` pruned to items 6–14; `fable-brief.md` rewritten; Opus brief gains six items (a–f); plan §10 holds the reasoning.
+- **Not taken, deliberately:** queue items 6–14 (none blocking; several want measurement first), blygger-spec#12 (a round of its own — multiple parents reopen #27), Unicode.
+
+**State after:** 0.3 text at the eighth revision locally, seventh live on blygger.org. Decisions through #64. No `Fable review pending` labels outstanding. G11 promotion, the §15.4 fix, the TK source scan, fork link flattening and the `tn-3` revision are Opus's next.
+
+**Open threads:** publish the eighth revision; the §15.4 step 2 fix is a live hole in both nodes until released; reply to Aneesh on #11 (brief item f); blygger-spec#12 unanswered; Robert will post Soapbox's staging origin on #2.
+
+---
+
 ## Session 37 — 2026-10-06 — The 304 sync bug; one stub action with an editor passage chooser; Kyle's D1 polling cache; spec seventh revision (0.30.1–0.32.1)
 
 **Model:** Opus 5.5 · **Time:** ~08:45–16:15 PT · **Committed:** yes (blygger-studio, blygger-spec, blygger-org) · **Deployed:** 0.30.1, 0.31.0 and 0.32.1 to both nodes (migration 0024 first); three crons in `wrangler.private.jsonc`; spec 0.3 seventh revision to blygger.org. Released: v0.30.1, v0.31.0, v0.32.1 (v0.32.0 tagged with a broken migration; its run was force-cancelled and the tag deleted before it released).

@@ -49,6 +49,39 @@ verb, no refresh-only scope; MCP = same operations and scopes, provenance record
 when it passes; flag to Venkat if it wants something outside them. `tn-4` is yours to
 draft from his build once gate G3 opens.
 
+## New from the session-38 Fable round (2026-10-06) — do these before the queue below
+
+Decisions #59–#64 (`CLAUDE.md`), reasoning `v0.4-plan.md` §10, text in the eighth revision
+of `protocol-v0.3.md`. In order:
+
+- **a. Security fix, ships first: §15.4 step 2** (#61). `src/mentions/receive.ts` compares
+  `new URL(asserted).origin` to the final URL's — host only. The rule is now: the item
+  document's final URL MUST equal `{origin}items/{id}.json` for the document's own `origin`
+  and `id` (case-insensitive scheme/host, default port dropped, trailing slash of `origin`
+  normalized). This also makes a pinned file's URL fail, which is intended (F4). §15.3 step 1:
+  `target` lies within the full identity origin, not merely the host. Tests: a path-mounted
+  impostor on the same host; a source that resolves to a pin; a legitimate page → alternate
+  → live document. Re-verify stored mentions on both nodes after deploy; any that flip to
+  gone or failed are findings, record them.
+- **b. Publish the eighth revision** via `blygger-org/deploy.sh`, as session 37 did the
+  seventh. Render with blygger.org's own markdown first (session 37 caught a swallowed fence).
+- **c. TK sources from the instruction only** (#60): `extractSourceIds(contentMd.slice(tkIdx,
+  end))` in `src/tk.ts` scans the whole scope; scan the instruction. Keep 0.20.1's behaviour
+  (an own-line directive in output transcludes). Ship the warning from item 5 below if not
+  already shipped. Then comment on studio#5 (a comment is posted; add the version) and close it.
+- **d. G11 promotion** (#57, #62, #63): move §16.6f into §5.6 rule 6, carrying its three
+  session-38 bullets (partiality from `blyg-partial`; withdrawn quotes copied as pinned;
+  inherited `[[id]]` links flattened). Record the attribution line's form as the build's call.
+  **Build first:** `fork.ts` copies a fragment's `content_md` with its `[[id]]` links intact;
+  flatten them to absolute markdown links from the pinned `content_html` (#63). Add the §17
+  line; publish. Label `Fable review pending`.
+- **e. `tn-3` revision** (groups): the group shape is now sound — #61 is its exact case. Say
+  so, cite the eighth revision, and note that receivers on older studio versions are the
+  remaining hole until they upgrade.
+- **f. Tell Aneesh** on blygger-spec#11: grammar case 24 is unambiguous (instruction = source,
+  output = quote, #60); F1/F4/F6/F7/F18 ruled (#60–#63); items 6–14 of his report remain
+  queued and are not blocked on him. Merging #11 still waits on his reply to the review.
+
 ## The queue, in order
 
 Everything here is unblocked. Semantics are fixed by the decisions cited; implement
@@ -119,8 +152,7 @@ normative text session 31).
 Studio backlog ticks with what was built and what it found; `CHANGELOG.md` entries
 stating `Migrations:`; tagged releases; both nodes deployed and verified; your
 `(parallel, Opus)` devlog entry; any decisions you ruled under #58, numbered and
-labelled `Fable review pending`; gate promotions you performed (G6, G10, G11 are yours
-once their exercise has run — move the §16 text, fix cross-references, add the §17
+labelled `Fable review pending`; gate promotions you performed (G6 and G10 are done and reviewed; G11 is yours now — move the §16 text, fix cross-references, add the §17
 line, publish via `blygger-org/deploy.sh`); and anything outside the test that the
 spec should say, as an open thread — not as a spec edit. Ideas you have that are neither ruled nor scheduled
 go in that open-threads list too; the next Fable pass files them in `docs/backlog.md`.
