@@ -150,6 +150,7 @@ Everything else is implementation: do what the plan doc specifies; small local j
 
 Delete an entry once it is done or Venkat says to drop it. An empty list means say nothing.
 
+- **Plan Venkat's session-39 studio backlog before executing it** — eleven items in `## TODO` → "Studio backlog (session 39)". Next session opens with a plan for all of them (grouping, order, which need Fable or a #58 check), not with building. Drop once the plan is agreed.
 - **Thirteen items wait on Venkat's call**, each with a recommendation, in [`docs/pending-calls.md`](docs/pending-calls.md) (session 38). All three cheap ones were done session 38 (Glass Bead Game declined, Aneesh told, fork intents ruled as #65). #11's merge now waits only on Venkat's `intents.json` pass — Aneesh did the review changes 2026-10-04. Drop once the file is empty.
 - **Nine Fable items remain queued** (session 38): [`docs/fable-round-queue.md`](docs/fable-round-queue.md) items 6–14 — Aneesh's non-blocking findings (uncheckable partial quotes, closure-walk version, watermark, fork intents, required members, grammar ambiguities), blygger-spec#12 (Glass Bead Game, no reply yet), Venkat's `ignyr` directive and public hoppers in the manifest. Session 38 ruled items 1–5 and 15 (decisions #59–#64) and reviewed the seventh revision. Drop once the queue file is empty.
 - **Technical notes and a reference agent are queued for Opus** (decisions #35–#39; outline in `DEVLOG.md` session 27 §11 and `roadmap-tracks.md` 1.6/1.10/2.10). **`tn-3` (groups) is written and published** (session 28, blygger.org/notes/tn-3/), **revised session 38** for #61: members on one host cannot verify in each other's name. **`tn-2` identity** can start now that #61 and #64 are ruled. **`tn-4` write surface** waits on gate G3 (a third-party tool on a scoped token; Kyle's tokens shipped in 0.28, so check whether a tool uses them). **`tn-5` agent contract** waits on the reference agent (2.10, unbuilt). Drop once all are written.
@@ -193,6 +194,39 @@ needs to reconstruct design rationale from this alone.
 **Writing standard** (inherited from ribbonfarm_site): the devlog is a load-bearing architectural reference, not a diary. Why over what; decisions that locked in a direction get named; a future agent should be able to onboard from DEVLOG.md + docs alone.
 
 ## TODO
+
+### Studio backlog (session 39, 2026-10-06, Venkat) — plan before executing
+
+Venkat's list at the end of session 39. **Plan these together at the start of the next
+session before building any of them** (his instruction). Interpretations marked *(confirm)*
+are Opus's reading of a one-line note.
+
+- [ ] **Mentions as a discovery surface and a parallel reading channel** — the mentions
+  feed should work as a way to find new blygs and to read what others wrote in response,
+  alongside the subscription reading list.
+- [ ] **Local backup / export** — the owner can download their whole blyg (items,
+  versions, pins, media, settings) to local storage. Relate to the existing static export
+  (`scripts/export.ts`) and the archive instructions.
+- [ ] **Reorganize the settings page into clearer sections.**
+- [ ] **Custom colour pickers and more theme options** beyond the current presets.
+- [ ] **Removable links to blygger.org and to the blyg's hoppers** on public pages
+  *(confirm: a "made with blygger" link and a public-hoppers nav, each on by default and
+  removable in settings)*.
+- [ ] **Optional use of blygger.com for discovery** — opt-in from the studio (listing the
+  blyg, and/or browsing the directory to subscribe). Ties to `blygger-com#1` and the
+  directory's OPML/Atom surfaces.
+- [ ] **Image resizing** on upload (and/or responsive variants) so large photos are not
+  served full size.
+- [ ] **Titles for internal links** — `[[id]]` anchors currently render a quoted excerpt
+  (`anchorText` in `transclusion.ts`, §16.2); allow a title or author-chosen link text
+  *(confirm: e.g. `[[id|text]]` or using an item's heading — the grammar half is a
+  #58 four-question check, since `[[…]]` is studio authoring grammar, not wire)*.
+- [ ] **Stub action: choose the passage in the preview** instead of the separate "quote a
+  passage" pane (0.31.0's `src/ui/stub-quote.ts`).
+- [ ] **Theme as a skin artifact** — separate the theme into a file that can be saved,
+  shared and imported.
+- [ ] **Feed author settable manually in settings** (the `author` in `feed.xml` and item
+  documents) rather than only derived.
 
 ### Studio UI / subscribe-side backlog (session 17, 2026-09-12, Venkat)
 
