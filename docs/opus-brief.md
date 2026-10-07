@@ -94,25 +94,23 @@ four-question test (#58) before stopping: most studio-side questions are yours t
 (0.11.1, re-pin, `impyrt`, 2.12/G6, fork flattening/G11, `cited` on `{url}` stubs/G10), and
 studio#4 from item 8 closed. Remaining items keep their old numbers so references resolve.*
 
-- **Kyle's three PRs:** [#41](https://github.com/blygger/blygger-studio/pull/41) (cache
-  public HTML 60s), [#42](https://github.com/blygger/blygger-studio/pull/42) (Webmention
-  delivery for long origins), [#43](https://github.com/blygger/blygger-studio/pull/43)
-  (singleton on-demand sources, generated Zod schemas — new since session 37). Review against
-  #52's invariants as with #40; remote-apply any migration on a throwaway D1 first. #42
-  touches the mention path that item a changes: land a first, then rebase #42 on it.
+- **Kyle's three PRs: done session 39** — #41 and #42 in 0.33.0 (both nodes), #43 in 0.34.0
+  (venkateshrao; PI after Venkat's click-through). **Aneesh's #44/#45 (read state)** are
+  reviewed and wait on his rebase onto #43 with 0025+0026 folded — remote-apply the folded
+  migration on a throwaway D1, then merge both as one release.
 6. **Remote generation sources** (#44, the first 0.4 construct; **implementation plan:
    `v0.4-plan.md` §7.2**, tasks R1–R8 with acceptance checks). Exercise it across both
    live nodes (R8) and record the ids: that opens gate G8 and the 0.4 document.
 6a. **Templated-surface reader for Soapbox** (G9; `v0.4-plan.md` §7.5, M1–M4). M3 was
    amended session 38 for #61: the receiver's verifier, not only `targetItemId`, changes.
    Land before Robert Peake posts a staging origin on blygger-spec#2.
-8. **`page` stability assertion** (#56): the client already keeps `page` fixed across
-   versions; add the test so slugs (studio#19) cannot break it later. Small.
+8. **Done session 38** (0.32.2): `page` stability test (#56).
 9. **2.13 — discovery surfaces from references** (#41): chain view first.
-10. **Technical notes** (tracks 1.6): `tn-3` groups and aggregation is writable now
-   (#36); `tn-2` identity practice starts as `docs/proposals/identity-practice-proposal.md`
-   (#35). Both are `blygger-spec/docs/` files — the one ownership exception, since they
-   are Opus-written by decision; tell the Fable session when you open one.
+10. **Technical notes** (tracks 1.6): `tn-3` is written and was revised session 38 for #61.
+   `tn-2` identity practice starts as `docs/proposals/identity-practice-proposal.md` (#35);
+   #61 and #64 are ruled, so it can start. It is a `blygger-spec/docs/` file — the one
+   ownership exception, since technical notes are Opus-written by decision; tell the Fable
+   session when you open one.
 11. **2.4 fork-friendliness, then 3.1 / 3.2** — version surfacing and the health cron. (2.3,
     the update path, shipped in 0.8.0 and was corrected in 0.8.3.) The exposed
     third-party nodes are still on pre-0.8 code.
