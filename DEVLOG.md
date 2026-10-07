@@ -31,7 +31,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 38 — 2026-10-06 — Fable round: seventh revision reviewed, decisions #59–#64, eighth revision of 0.3
 
-**Model:** Fable 5.1 · **Time:** ~16:48–17:45 PT · **Committed:** yes (blygger-spec) · **Deployed:** spec 0.3 eighth revision to blygger.org (render checked locally first; blygger-org content committed)
+**Model:** Fable 5.1, then Opus 5.5 (switched by Venkat for the plan-state pass) · **Time:** ~16:48–18:00 PT · **Committed:** yes (blygger-spec) · **Deployed:** spec 0.3 eighth revision to blygger.org (render checked locally first; blygger-org content committed)
 
 **What & why:**
 
@@ -46,6 +46,8 @@ Per-session development log. Non-skippable: every coding session appends an entr
 - **Not taken, deliberately:** queue items 6–14 (none blocking; several want measurement first), blygger-spec#12 (a round of its own — multiple parents reopen #27), Unicode.
 
 - **`docs/pending-calls.md`** written at Venkat's request: thirteen items waiting on his call, each with a recommendation — fork intents (yes), Glass Bead Game (decline with the pattern), Aneesh's reply (post), `ignyr` (a boolean, not a token), public hoppers (hold), password recovery (recovery code), extension surface (read-only API + slots under a no-re-emission rule), G8 (next), #11 (merge after a week), budget prototype (parked).
+
+- **Opus plan-state pass after the switch.** Checked the rulings against studio 0.32.1. The output-directive warning Fable's notes assumed shipped was never built (now explicit in Opus brief item c). `v0.4-plan.md` §7.5 M3 said the receiver needs no change for templated blygs; #61 makes `verifyMention` read the sender's `item` template, so M3 was amended. The Opus queue was pruned of six done items, and Kyle's three open PRs (#41, #42, new #43) added, with #42 sequenced after the §15.4 fix because both touch the mention path.
 
 **State after:** 0.3 text at the eighth revision, live on blygger.org. Decisions through #64. No `Fable review pending` labels outstanding. G11 promotion, the §15.4 fix, the TK source scan, fork link flattening and the `tn-3` revision are Opus's next.
 

@@ -66,8 +66,9 @@ of `protocol-v0.3.md`. In order:
 - **b. Published** — the eighth revision went live at the end of session 38 (render checked, blygger-org commit pushed). Nothing to do.
 - **c. TK sources from the instruction only** (#60): `extractSourceIds(contentMd.slice(tkIdx,
   end))` in `src/tk.ts` scans the whole scope; scan the instruction. Keep 0.20.1's behaviour
-  (an own-line directive in output transcludes). Ship the warning from item 5 below if not
-  already shipped. Then comment on studio#5 (a comment is posted; add the version) and close it.
+  (an own-line directive in output transcludes). **The warning was never shipped** (checked
+  session 38 against 0.32.1: no such check in `src/`): warn at publish, and in the editor, when
+  a scope's output contains a `![[id]]` its instruction does not. Then comment on studio#5 (a comment is posted; add the version) and close it.
 - **d. G11 promotion** (#57, #62, #63): move §16.6f into §5.6 rule 6, carrying its three
   session-38 bullets (partiality from `blyg-partial`; withdrawn quotes copied as pinned;
   inherited `[[id]]` links flattened). Record the attribution line's form as the build's call.
@@ -88,45 +89,24 @@ them. Where a build raises a question the decisions do not answer, apply the
 four-question test (#58) before stopping: most studio-side questions are yours to rule. Priorities follow `roadmap-tracks.md`. Ship each as its own release with a
 `CHANGELOG.md` entry stating `Migrations:`.
 
-1. **Deploy 0.11.1** (Kyle's #25, merged session 31): apply `0014_public_page_indexes.sql`
-   to both D1s first — the new code assumes the indexes — then `deploy:vgr`, `deploy:pi`,
-   verify, and push the `v0.11.1` tag. Response time on the live homepage is unmeasured;
-   measure it once before and after.
-2. **Bulk re-pin against the direct freshness check** (#33, the second half of migration
-   0011's fact): for imported items, fetch `{origin}items/{id}.json`, compare `version`
-   to each reference's; a studio surface to refresh a thread's stale snapshots as one
-   authoring act (a refresh is a republish — version bump, feed entry, mentions; #38 says
-   never silently).
-3. **`[TK]impyrt=…[/TK]` in the composer** (#37): output is the pasted text verbatim,
-   wrapped `blyg-tk-gen`, `generated[]` entry with `sources: []`, `model`/`at` only if
-   supplied. Small.
-4. **2.12 — generated changelog notes + history view** (#40): note from the local diff
-   when the author leaves it blank, **pin-bounded** (full between pins, descriptive over
-   unpinned), editable before publish; emit `changelog[].generated: true`. Record in your
-   devlog when both nodes have exercised it — that opens gate G6.
-5. **A fork of a thread flattens its quotes** (#57, spec §16.6f, reasoning `v0.4-plan.md`
-   §9.1): `resolveForkSource` builds the draft from the pinned file, `content_md` for the
-   thread's own prose byte-exact and `content_html` for the quotes — each `blyg-transclusion`
-   element replaced by an ordinary markdown blockquote of its content (recursive; `blyg-partial`
-   from its paragraphs) plus an attribution line (origin, id, link to `page` where known, else
-   the item document). No `blyg-transclusion` class survives; no inherited `transclusions[]`;
-   no quote-mentions. `blyg-tk-gen` spans in own prose and in quotes are re-wrapped as `impyrt`
-   so `generated[]` survives — today's fork drops it for a forked fragment too, the restore
-   leak's class. HTML-to-markdown for the blyg dialect only. Update the stub-vs-fork section
-   of `/studio/syntax`. **Exercise:** on one node, fork a thread from the other that quotes a
-   third item; record the ids — that opens gate **G11**. Same item: warn when a generated
-   output contains a `![[id]]` the instruction did not (it becomes a real quote at publish).
+*Pruned session 38 (Opus, after the Fable round): items 1–5 and 7 of the old list are done
+(0.11.1, re-pin, `impyrt`, 2.12/G6, fork flattening/G11, `cited` on `{url}` stubs/G10), and
+studio#4 from item 8 closed. Remaining items keep their old numbers so references resolve.*
+
+- **Kyle's three PRs:** [#41](https://github.com/blygger/blygger-studio/pull/41) (cache
+  public HTML 60s), [#42](https://github.com/blygger/blygger-studio/pull/42) (Webmention
+  delivery for long origins), [#43](https://github.com/blygger/blygger-studio/pull/43)
+  (singleton on-demand sources, generated Zod schemas — new since session 37). Review against
+  #52's invariants as with #40; remote-apply any migration on a throwaway D1 first. #42
+  touches the mention path that item a changes: land a first, then rebase #42 on it.
 6. **Remote generation sources** (#44, the first 0.4 construct; **implementation plan:
    `v0.4-plan.md` §7.2**, tasks R1–R8 with acceptance checks). Exercise it across both
    live nodes (R8) and record the ids: that opens gate G8 and the 0.4 document.
-7. **`cited` on `{url}` stubs** (#55, spec §16.1a): emit the §5.9 object when a stub
-   targets a plain URL — `retrieved` always, `source`/`author`/`excerpt`/`url` when the
-   page offers them; the pour-over-links affordance (studio#17) is the natural producer.
-   Assert an import across nodes retains it verbatim; record it — that opens gate G10.
-8. **Two small spec-driven fixes** from session 31: `[[id]]` inert inside code spans and
-   blocks, as `![[id]]` already should be (#54; studio#4 now covers both forms); and a
-   `page` that never changes across versions for the same item (#56 — the client already
-   does this; add the assertion so slugs (studio#19) cannot break it later).
+6a. **Templated-surface reader for Soapbox** (G9; `v0.4-plan.md` §7.5, M1–M4). M3 was
+   amended session 38 for #61: the receiver's verifier, not only `targetItemId`, changes.
+   Land before Robert Peake posts a staging origin on blygger-spec#2.
+8. **`page` stability assertion** (#56): the client already keeps `page` fixed across
+   versions; add the test so slugs (studio#19) cannot break it later. Small.
 9. **2.13 — discovery surfaces from references** (#41): chain view first.
 10. **Technical notes** (tracks 1.6): `tn-3` groups and aggregation is writable now
    (#36); `tn-2` identity practice starts as `docs/proposals/identity-practice-proposal.md`
