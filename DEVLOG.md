@@ -29,9 +29,9 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 **Open threads:** `blyg.jdbb.net` will carry a public "site mismatch" mark until its operator updates `site`. blygger-com#1 (waits on #11). The talk's transclusion cue attributes "transclusion" to *Computer Lib* (1974); I believe it is *Literary Machines* (~1980) — Venkat's to check. Three clients still unidentified (astro-gyoza, my-garden-site, rafael-fyi-blyg). The contributors page is hand-written and needs a touch when PRs land.
 
-## Session 38 — 2026-10-06 — Fable round: seventh revision reviewed, decisions #59–#64, eighth revision of 0.3
+## Session 38 — 2026-10-06 — Fable round (#59–#64), then Opus: studio 0.32.2 mention-verification fix, #65 fork intents, spec revisions 8–10, tn-3
 
-**Model:** Fable 5.1, then Opus 5.5 (switched by Venkat for the plan-state pass) · **Time:** ~16:48–18:00 PT · **Committed:** yes (blygger-spec) · **Deployed:** spec 0.3 eighth and ninth revisions to blygger.org (render checked locally first); blygger-studio 0.32.2 to both nodes (no migrations), tag v0.32.2
+**Model:** Fable 5.1, then Opus 5.5 (switched by Venkat for the plan-state pass and builds) · **Time:** ~16:48–18:37 PT · **Committed:** yes (blygger-spec, blygger-studio, blygger-org) · **Deployed:** spec 0.3 eighth, ninth and tenth revisions and `tn-3` to blygger.org (render checked locally first); blygger-studio 0.32.2 to both nodes (no migrations), tag v0.32.2
 
 **What & why:**
 
