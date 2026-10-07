@@ -3,7 +3,7 @@
 **Written:** session 31 (2026-10-03), by Fable 5.1, replacing the session-28 brief after
 Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped. **Session 33** (same
 day, Fable) inserted item 5, fork flattening (#57); items 1–4 shipped in session 32.
-**Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
+**Session 40** (2026-10-07, Fable) added the official-blyg section below (#66–#68). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
 session starts (`CLAUDE.md` → At Session Start, step 4).
 
 > **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#57** (sessions 31, 33) and
@@ -82,6 +82,44 @@ of `protocol-v0.3.md`. In order:
 - **f. Done session 38** (posted on #11). Was: **Tell Aneesh** on blygger-spec#11: grammar case 24 is unambiguous (instruction = source,
   output = quote, #60); F1/F4/F6/F7/F18 ruled (#60–#63); items 6–14 of his report remain
   queued and are not blocked on him. Merging #11 still waits on his reply to the review.
+
+## New from session 40 (2026-10-07) — the official blyg and the RFCs; do these before the queue below
+
+Decisions #66 (official blyg, with its Fable review inline), #67 (RFC-1) and #68 (RFC-2) in
+`CLAUDE.md`; reasoning in the RFCs' own last sections and `v0.4-plan.md` §10.10–10.11.
+`https://blyg.blygger.org/` is live, empty, on Venkat's personal Cloudflare account. In order:
+
+- **a. A publishing sync for the blyg.** Each `docs/rfcs/rfc-N-*.md` and, when ported,
+  `docs/notes/tn-N-*.md` is published as a **thread** on `blyg.blygger.org` through the studio
+  API with a scoped publish token (mint it on the blyg, register as `BLYG_BLYGGER_ORG_*` in
+  `.env.keys`). The git file is the single source; a change republishes as a new version,
+  never a hand-edited copy (#66). Keep the file→item-id map committed in `blygger-spec`
+  (e.g. `docs/rfcs/published.json`). Every item records a whole-item `generated[]` span
+  naming the drafting and editing models, under Venkat's byline (#66 review (b)); the
+  API's provenance path (#52 invariant 4) is how. For an RFC: pin the version under comment,
+  put the close date and the `blygger-spec` comment-anchor issue link in the text. Fragment
+  caps do not apply to threads. Where to put the script is yours (`blygger-org/` beside
+  `sync_spec.py` is the obvious home; it already parses `docs/notes/`).
+- **b. Publish RFC-1, then RFC-2**, once Venkat gives the close dates (four weeks recommended,
+  #67 ruling 1). One `blygger-spec` issue per RFC for people without a blyg. Public responses
+  are already on, so stubs show under each item.
+- **c. blygger.org follows #66.** The notes index and each `/notes/tn-N/` page keep serving the
+  text and gain a link to the blyg item once ported (#66 review (c)); the front page and nav
+  link `blyg.blygger.org`; the stale "RFC section" idea does not get built. Whether the blyg
+  self-lists on blygger.com is Venkat's call — ask.
+- **d. Release announcements** go on the blyg, third-party clients' included (#66): one item
+  per release, same byline and `generated[]` rule as (a). The format is yours; the
+  `Release` workflow could post it, or a sync from `CHANGELOG.md`. Then check
+  `roadmap-tracks.md` 3.1: the generic `/updates.xml` is likely redundant with the blyg's
+  feed (the per-node "you are behind" notice is not) — tick or strike.
+- **e. Studio work from RFC-1 is gated on its comment period closing** (#67 ruling 1c). Record
+  it now in `blygger-studio/CLAUDE.md`'s backlog as gated, build later: sanitizer keeps
+  `<data value>`; member roster with per-token bylines; address book with `@handle`
+  consumed at publish; agent members per RFC-1 §5.6 (`operator`/`model` on the roster,
+  scope decides the byline, resolver-only provenance, no pin/withdraw scopes by default).
+  RFC-2 produces no studio work at all (#68).
+- **f. `tn-2`** (identity), when written, absorbs #67 rulings 3 (shared-origin proof via the
+  member's page under the origin) and 5 (`ids`), and cites RFC-1 for the rest.
 
 ## The queue, in order
 
