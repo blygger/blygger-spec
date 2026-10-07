@@ -100,6 +100,8 @@ Three compatibility rules keep the client ecology forgiving:
 
 ## Roadmap
 
+**What is being worked on now,** across all four repositories, is one prioritised list: [ROADMAP.md](ROADMAP.md), also at [blygger.org/roadmap/](https://blygger.org/roadmap/). The table below is the protocol's version ladder.
+
 | Version | Name | What lands |
 |---|---|---|
 | **v0.1** | Seed | Publishing: compose fragments, edit with rollup, `/blyg` page, RSS out, stable IDs, item files + manifest. Protocol L1 (publish side). |
