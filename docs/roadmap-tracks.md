@@ -40,7 +40,7 @@ The clients in the wild, from their manifests:
 | `sachin-blyg/0.1.0` | blyg.sachinbenny.xyz | 0.3 | not located |
 | `caseyjr-blyg/0.1.0` | caseyjr.org/blyg/ | 0.2 | not located |
 | `blyg-publisher/0.0.1` | lightsong.ink/blyg/ | 0.2 | `brndnpink/blyg-publisher` (Obsidian) |
-| `goddinpotty-blyg/0.1` | ammdi.hyperphor.com/blyg/ | 0.2 | goddinpotty (Roam→static mod) |
+| `goddinpotty-blyg/0.1` | ammdi.hyperphor.com/blyg/ | 0.2 | goddinpotty (Logseq digital-garden generator) |
 | `thinking.drwip.com` | thinking.drwip.com/blyg/ | 0.2 | not located |
 
 **Two corrections to the session-25 record**, both found by reading the live manifests
