@@ -45,11 +45,8 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
     rule 3 read literally lets `stub_of.version` move backwards (Alloy 8b); whether a local
     draft with the same id falls through to the import (§10.2 step 1; the studio refuses);
     whether `stub_of` may name an RSS-wrapper id (one live stub does).
-12. **blygger-spec#12, Glass Bead Game moves** (msmsim, 2026-10-04). Proposes a `game_of`
-    field naming a brief, and letting `stub_of` name several parents (or, conservatively,
-    treating a move's transclusions as its extra parents). New wire surface, and multiple
-    parents reopen locked decision #27's citation shape. Check it against the do-not-open
-    list's refusal of a general extension bag (blygger-spec#10). The issue has no reply yet.
+12. *Decided session 38 by Venkat on the `pending-calls.md` recommendation: declined, with the
+    working pattern; reply posted on blygger-spec#12; parked in `backlog.md` §1.*
 
 13. **A reserved `ignyr` directive in a changelog note** (Venkat, session 34). It would
     tell feed consumers to move that version to a lower-priority queue: the wire half of
@@ -89,7 +86,7 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
   records.
 - Report F10 (Webmention reach: 8 of 19 live blygs advertise an endpoint) works as
   specified. It is a registry or adoption question.
-- Merging blygger-spec#11 waits on Aneesh's reply to the review posted 2026-10-04.
+- Merging blygger-spec#11: Aneesh made all three review changes on 2026-10-04 (98af8da). It waits only on Venkat's `intents.json` correction pass.
 
 ## Optional
 

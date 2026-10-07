@@ -78,7 +78,7 @@ of `protocol-v0.3.md`. In order:
 - **e. `tn-3` revision** (groups): the group shape is now sound — #61 is its exact case. Say
   so, cite the eighth revision, and note that receivers on older studio versions are the
   remaining hole until they upgrade.
-- **f. Tell Aneesh** on blygger-spec#11: grammar case 24 is unambiguous (instruction = source,
+- **f. Done session 38** (posted on #11). Was: **Tell Aneesh** on blygger-spec#11: grammar case 24 is unambiguous (instruction = source,
   output = quote, #60); F1/F4/F6/F7/F18 ruled (#60–#63); items 6–14 of his report remain
   queued and are not blocked on him. Merging #11 still waits on his reply to the review.
 

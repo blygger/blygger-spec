@@ -1,5 +1,7 @@
 # Pending calls — items waiting on Venkat, with recommendations
 
+**Reviewed by Opus 5.5 the same session**, after the switch: two items done, one stale, one
+recommendation disputed (item 8). Opus notes are marked *Opus:*.
 **Written:** session 38 (2026-10-06), by Fable 5.1, at Venkat's request, after the
 conformance round (decisions #59–#64). Each item is one that nobody else can close: a
 design intent, a scope decision, or a timing call. Each carries a recommendation and the
@@ -16,7 +18,9 @@ here only if the recommendation was reversed, so the reasoning is not lost.
    at a time. No wire change; a SHOULD and a sentence of intent in §5.6, a revision by
    #43. *Needed:* "yes", and the round that records it (Fable, since it is the author's
    intent being written down).
-2. **Glass Bead Game** (`fable-round-queue.md` item 12; blygger-spec#12, msmsim,
+2. ~~**Glass Bead Game**~~ **Done session 38:** declined with the working pattern, reply
+   posted in Venkat's voice, parked in `backlog.md` §1 with its trigger. Original entry kept:
+   (`fable-round-queue.md` item 12; blygger-spec#12, msmsim,
    2026-10-04, unanswered). *Recommendation:* decline the protocol change, warmly, with
    the pattern that already works. Both halves fail tests already made: multiple parents
    reopen #27's single-target shape, and a `game_of` field is the extension bag
@@ -26,7 +30,8 @@ here only if the recommendation was reversed, so the reasoning is not lost.
    (§13.5) for the finished game. *Needed:* approval to post that reply in Venkat's voice;
    or a word if the Protocol Institute wants to host one, which changes the register of
    the reply but not the ruling.
-3. **Tell Aneesh his blocking findings were ruled** (blygger-spec#11). F1, F4, F6, F7 and
+3. ~~**Tell Aneesh his blocking findings were ruled**~~ **Done session 38** (posted on #11,
+   naming studio 0.32.2 as the fix for F1/F4). Original entry: (blygger-spec#11). F1, F4, F6, F7 and
    F18 → decisions #60–#63; grammar case 24 is unambiguous (instruction = source, output =
    quote); items 6–14 of his report remain queued and are not blocked on him. Opus brief
    item f. *Recommendation:* post today; the report was written for exactly this loop.
@@ -54,6 +59,8 @@ here only if the recommendation was reversed, so the reasoning is not lost.
    through the login page writes a D1-held hash and re-keys the session HMAC and OAuth
    credential cache (the mechanics Opus recorded). No email path for a single-owner
    tool; passkeys as the second phase. *Needed:* yes/no on the recovery-code anchor.
+   *Opus:* agree, with a sizing note — the D1-held hash, HMAC re-keying and OAuth cache
+   invalidation are a full session, not a patch. The anchor decision is cheap; the build is not.
 7. **Studio extension mechanism for UI experiments** (carry-over, session 36; Aneesh's
    #35 is the first candidate). *Recommendation:* decide the surface before more is
    built against the absence of one. Cheapest honest shape: a documented set of read-only
@@ -68,12 +75,20 @@ here only if the recommendation was reversed, so the reasoning is not lost.
    session 32). *Recommendation:* schedule it right after the §15.4 security fix ships.
    It is the build that opens the 0.4 document, nothing in the queue blocks it, and the
    Soapbox reader side (M1–M4) is small enough to run beside it. *Needed:* a date, or
-   "next".
-9. **Merge blygger-spec#11** (the conformance toolkit). Waiting on Aneesh's reply to the
+"next".
+   *Opus — disputed on order:* do **G9's reader side (M1–M4) before G8**. Robert Peake is
+   building Soapbox now and was promised our reader side "now" on 2026-10-06; M1–M4 is
+   smaller than R1–R8 and has an outside party waiting, and #61 has since added a
+   verification step to M3. G8 has no one waiting. Both open 0.4 constructs, so the 0.4
+   document opens on whichever exercises first; neither order wastes work.
+9. **Merge blygger-spec#11** (the conformance toolkit). *Opus — stale premise:* Aneesh
+   made all three review changes the same day (98af8da, 2026-10-04 23:47Z), so nothing waits
+   on him. What remains is Venkat's own promised `intents.json` correction pass, then the
+   merge. Original text: waiting on Aneesh's reply to the
    review posted 2026-10-04. *Recommendation:* if no reply within a week of that review,
    merge with your own edits — the toolkit found four real studio bugs and two spec
    contradictions in one pass, and blygger-com#1 is queued behind it. *Needed:* the
-   deadline.
+   `intents.json` pass (it is Venkat's reading of his own words, so only he can do it).
 10. **AI spend budget prototype** (carry-over, session 36; branch `proto/ai-integrations`,
     migration renumbered to 0025). *Recommendation:* keep parked until the session-36/37
     merges settle, as already decided; the interim 200-call cap is holding. *Needed:*
