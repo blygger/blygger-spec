@@ -1,0 +1,55 @@
+{
+  "$note": "Map from blygger-spec files to their items on https://blyg.blygger.org/ (decision #66). Written by blygger-org/publish_blyg.py; edit only to add an entry. source_sha256 is the source last published.",
+  "items": [
+    {
+      "file": "docs/notes/tn-1-versioning-and-pins.md",
+      "id": "5b1m5zwte5yjpa7e410fkpsyq8",
+      "model": "claude-fable-5",
+      "canonical": "https://blygger.org/notes/tn-1/",
+      "pin": false,
+      "version": 1,
+      "source_sha256": "6ee726c88cd9da4dd8ff333ad9c066253c2c00e00a9e560875318bed08f7cf5e",
+      "notes": {
+        "first": "TN-1, ported from blygger.org/notes/tn-1/.",
+        "revision": "TN-1 revised; see the source history."
+      }
+    },
+    {
+      "file": "docs/notes/tn-3-groups-and-aggregation.md",
+      "id": "0v96x743shpy68yjamqdxrnaxk",
+      "model": "claude-opus-5",
+      "canonical": "https://blygger.org/notes/tn-3/",
+      "pin": false,
+      "version": 1,
+      "source_sha256": "06916e904b7ec25ef7f35bdc2d35fbe765ab33e6a35663a01b26145a14361e50",
+      "notes": {
+        "first": "TN-3, ported from blygger.org/notes/tn-3/.",
+        "revision": "TN-3 revised; see the source history."
+      }
+    },
+    {
+      "file": "docs/rfcs/rfc-1-mentions-and-identifier-schemes.md",
+      "model": "claude-opus-5-5+claude-fable-5-1",
+      "pin": true,
+      "notes": {
+        "first": "RFC-1 open for comment until 2026-11-04.",
+        "revision": "RFC-1 revised during its comment period."
+      },
+      "id": "7eeh3bfzfcnhh90d5pkvkc2r1n",
+      "version": 1,
+      "source_sha256": "2977752463bdaeb48be51f8bc0872d0cc4e4f3f10f8fd4b24045a0f64aea4940"
+    },
+    {
+      "file": "docs/rfcs/rfc-2-comments-sections.md",
+      "model": "claude-opus-5-5+claude-fable-5-1",
+      "pin": true,
+      "notes": {
+        "first": "RFC-2 open for comment until 2026-11-04.",
+        "revision": "RFC-2 revised during its comment period."
+      },
+      "id": "2mzqh4jt3ye14xm6sr5gf32cah",
+      "version": 1,
+      "source_sha256": "45b38db6a37ec933899b0f1a1dee37ae7c4d5c621ca7780ed3a05cd9909503ee"
+    }
+  ]
+}

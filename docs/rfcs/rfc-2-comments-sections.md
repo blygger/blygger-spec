@@ -1,7 +1,8 @@
 # RFC-2 — Comments sections: a curated display of responses, every comment a real item
 
-**Request for comments · non-normative · DRAFT, awaiting publication on
-`blyg.blygger.org` (#66) · session 40, 2026-10-07.** Drafted by Opus 5.5 at Venkat
+**Request for comments · non-normative · OPEN FOR COMMENT until 2026-11-04 on
+[blyg.blygger.org](https://blyg.blygger.org/t/2mzqh4jt3ye14xm6sr5gf32cah/) (#66); without a blyg,
+comment on [blygger-spec#15](https://github.com/blygger/blygger-spec/issues/15) · session 40, 2026-10-07.** Drafted by Opus 5.5 at Venkat
 Rao's request; edited the same session by Fable 5.1, whose rulings on the seven open
 questions are section 11. This proposes a **Recommendation for clients that want a
 comments section**. Like a technical note, an RFC constrains nothing. Blygger Studio
@@ -463,8 +464,8 @@ is presentation. Measuring the stubber's own words by leaving out the baked
 `blyg-transclusion` of the target reads a wire token for the purpose it exists
 for, and is the same reading §5.6 rule 6 and this RFC's section 5.3 already make.
 
-**What happens next.** Publish for comment on `blyg.blygger.org` under #66 once
-it exists, after RFC-1, with a stated close date. The reference client builds
+**What happens next.** Published for comment on `blyg.blygger.org` under #66 on
+2026-10-07, after RFC-1; the period closes 2026-11-04. The reference client builds
 nothing from this RFC. A client that builds it is the gate for this RFC to
 become a technical note: one client hosts comments under this shape, and a
 second displays them as kind 1 responses. The decision list records these

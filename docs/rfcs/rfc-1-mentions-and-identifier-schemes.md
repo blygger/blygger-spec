@@ -1,7 +1,8 @@
 # RFC-1 — Mentions across identifier schemes: petnames in the studio, full identifiers on the wire
 
-**Request for comments · non-normative · DRAFT, awaiting publication on
-`blyg.blygger.org` (#66) · session 40, 2026-10-07.** Drafted by Opus 5.5 at Venkat Rao's request; edited the same session by
+**Request for comments · non-normative · OPEN FOR COMMENT until 2026-11-04 on
+[blyg.blygger.org](https://blyg.blygger.org/t/7eeh3bfzfcnhh90d5pkvkc2r1n/) (#66); without a blyg,
+comment on [blygger-spec#14](https://github.com/blygger/blygger-spec/issues/14) · session 40, 2026-10-07.** Drafted by Opus 5.5 at Venkat Rao's request; edited the same session by
 Fable 5.1, whose rulings on the five open questions are section 10. An RFC is a
 recommendation put up for comment *before* any client builds it, because the
 reference client shipping a convention reads as a blessing. Like a technical note,
@@ -641,7 +642,7 @@ hold: a reader matching `ids` against its book is making a display decision,
 never a merge. The draft's reason stands as the practical one: a reader should
 not need a fetch to match a byline against its address book.
 
-**What happens next.** Publish for comment under ruling 1 once `blyg.blygger.org`
-exists (#66; nothing built as of this session). Until then this file is the
-record. The decision list carries one entry for the five rulings (#67), with
+**What happens next.** Published for comment under ruling 1 on 2026-10-07; the
+period closes 2026-11-04 (four weeks, as recommended). Revisions during the
+period are made in this file and republished as new versions of the same item. The decision list carries one entry for the five rulings (#67), with
 this section as its reasoning.
