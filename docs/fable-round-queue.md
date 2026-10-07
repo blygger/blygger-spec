@@ -66,11 +66,12 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
 ## B2. RFC drafts to edit before publishing (Venkat, session 40)
 
 Venkat's route for conventions other clients will copy: Opus drafts, then Fable edits.
-The edited draft goes up on blygger.org in a new RFC section for a comment period.
-Only after that does any client build it, because the reference client shipping a
-convention reads as a blessing. Drafts live in `docs/rfcs/`, **not** `docs/notes/`:
-`sync_spec.py` publishes every `docs/notes/tn-*.md` on the next blygger.org deploy.
-The RFC section on blygger.org is not built yet (Venkat: hold).
+The edited draft is published for a comment period on the official blyg at
+`blyg.blygger.org` (decision #66). Only after that does any client build it, because
+the reference client shipping a convention reads as a blessing. Drafts live in
+`docs/rfcs/`, **not** `docs/notes/`: `sync_spec.py` publishes every
+`docs/notes/tn-*.md` on the next blygger.org deploy. The official blyg is not built
+yet.
 
 16. **RFC-1 — mentions across identifier schemes**
     ([`rfcs/rfc-1-mentions-and-identifier-schemes.md`](rfcs/rfc-1-mentions-and-identifier-schemes.md)).
@@ -88,6 +89,21 @@ The RFC section on blygger.org is not built yet (Venkat: hold).
     ([`rfcs/rfc-2-comments-sections.md`](rfcs/rfc-2-comments-sections.md)). It is a
     Recommendation for clients that want comments; the studio will not build it. It
     depends on RFC-1. Its questions are in its last section.
+18. **The official blyg, decision #66** (Venkat, session 40). Venkat has decided:
+    `blyg.blygger.org` carries RFCs, releases (third-party clients' included),
+    ported technical notes and any other fitting content. The spec and static pages
+    stay on blygger.org. For Fable:
+    - (a) Confirm that #15's refusal covers only normative text, not non-normative
+      records or invitations to respond.
+    - (b) Bylines. Most notes and RFCs are written by Opus or Fable. Should those
+      items carry #38's agent byline (the model as author, Venkat as `operator`) and a
+      whole-item `generated[]` span? The official blyg is where the project models its
+      own practice, and a human byline on machine-written text is the undisclosed
+      generation that §5.7 exists to prevent.
+    - (c) Does porting a technical note change its status? The spec cites
+      `blygger.org/notes/`. Recommendation: the git file stays the source, the
+      `/notes/tn-N/` URL keeps resolving (as a redirect or a stub page), and later
+      revisions become new versions of the item.
 
 ## C. Review after the fact (#58 batch)
 
