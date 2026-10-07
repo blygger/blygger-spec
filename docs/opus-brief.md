@@ -103,7 +103,7 @@ Decisions #66 (official blyg, with its Fable review inline), #67 (RFC-1) and #68
 - **b. Done session 40 (Opus):** both published 2026-10-07 as pinned v1 threads, closing 2026-11-04 (Venkat said publish without dates, so the recommended four weeks), anchors blygger-spec#14 and #15. Original item: **Publish RFC-1, then RFC-2**, once Venkat gives the close dates (four weeks recommended,
   #67 ruling 1). One `blygger-spec` issue per RFC for people without a blyg. Public responses
   are already on, so stubs show under each item.
-- **c. blygger.org follows #66.** The notes index and each `/notes/tn-N/` page keep serving the
+- **c. Done session 40 (Opus):** notes index and `/notes/tn-N/` pages link their blyg items (`sync_spec.py` reads `docs/blyg-published.json`); blygger.org nav links the blyg and every page carries `<link rel="blyg">` to it; blygger.com's nav links it and its directory lists it (Venkat asked for both). Original item: **blygger.org follows #66.** The notes index and each `/notes/tn-N/` page keep serving the
   text and gain a link to the blyg item once ported (#66 review (c)); the front page and nav
   link `blyg.blygger.org`; the stale "RFC section" idea does not get built. Whether the blyg
   self-lists on blygger.com is Venkat's call — ask.
