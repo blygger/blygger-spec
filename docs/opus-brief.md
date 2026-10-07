@@ -69,7 +69,8 @@ of `protocol-v0.3.md`. In order:
   (an own-line directive in output transcludes). **The warning was never shipped** (checked
   session 38 against 0.32.1: no such check in `src/`): warn at publish, and in the editor, when
   a scope's output contains a `![[id]]` its instruction does not. Then comment on studio#5 (a comment is posted; add the version) and close it.
-- **d. G11 promotion** (#57, #62, #63): move §16.6f into §5.6 rule 6, carrying its three
+- **d. Done session 39:** eleventh revision (§5.6 rule 6, Fable review pending) and studio
+  0.32.3 (inherited `[[id]]` links flattened). Was: **G11 promotion** (#57, #62, #63): move §16.6f into §5.6 rule 6, carrying its three
   session-38 bullets (partiality from `blyg-partial`; withdrawn quotes copied as pinned;
   inherited `[[id]]` links flattened). Record the attribution line's form as the build's call.
   **Build first:** `fork.ts` copies a fragment's `content_md` with its `[[id]]` links intact;

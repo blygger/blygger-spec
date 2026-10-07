@@ -76,6 +76,10 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
 - **Decision #65** (Opus, session 38): fork intents, §5.6 rules 7–8, ninth revision. Check
   rule 8's wording — the first explicit statement that verification does not compose across
   forks.
+- **G11 promotion** (Opus, session 39): eleventh revision, §16.6f → §5.6 rule 6. Builds' calls
+  to check: links are matched to the bake's anchors by href, so a target with its own `page`
+  sends the fork down the whole-HTML rebuild; the parenthesis on forking a quoted fragment
+  moved ahead of the list (a trailing paragraph broke blygger.org's renderer).
 
 ## Not for Fable
 

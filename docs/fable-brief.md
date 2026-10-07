@@ -38,8 +38,9 @@ A Fable round begins by reading every entry labelled `Fable review pending`, in 
 confirm (strike the label), amend (edit the entry, note the amendment with the date), or
 reverse (a new numbered decision that says why). Check each against the four questions as
 well as on its merits — an entry that should have stopped is the finding that matters most.
-**Pending now:** decision #65 (fork intents, §5.6 rules 7–8). **Expected next time:** the G11 promotion (§16.6f → §5.6 rule 6, carrying its three
-session-38 bullets and the attribution line's form), the studio's §15.4 step 2 fix if Opus
+**Pending now:** decision #65 (fork intents, §5.6 rules 7–8) and the G11 promotion (eleventh
+revision, session 39: §16.6f → §5.6 rule 6 with its three session-38 bullets; the attribution
+line's form recorded in §16.6f; built as studio 0.32.3). **Expected next time:** the studio's §15.4 step 2 fix if Opus
 recorded a call while building it, and the `tn-3` revision.
 
 ## The gates
@@ -54,7 +55,7 @@ under #58; Fable reviews them.**
 | **G5** | The reference agent (2.10) has run against a live node long enough to refresh a snapshot, answer a mention, and author under its own byline | Review `tn-5` for anything that wants a construct — the refresh scope on the re-bake identity (#38, backlog §1) is the candidate. |
 | **G8** | **Remote generation sources** built (`v0.4-plan.md` §7.2, R1–R8) and exercised: a PI scope drawing on a venkateshrao item, `generated[].sources[]` with `origin`+`cited`, the mention **verified as `source`** on the far side, provenance intact on import | **Open `protocol-v0.4.md`**: a standalone superset of the 0.3 text, 0.3 section numbers preserved, §16.3 promoted into §5.7 and §15.4 (relation set gains `source`), §16.6e carried as a ruled shape until G9. Register 0.4 in `sync_spec.py`, flip 0.3 to `("SUPERSEDED", "0.4")`, publish, cut the first snapshot the same day — in that order (#42). Rewrite this brief. |
 | **G9** | Soapbox (Robert Peake's WordPress plugin, blygger-spec#2) publishes through `item`/`pin` templates and the studio (§7.5, M1–M4) has subscribed to it, transcluded from it, and sent it a mention that verified | Promote §16.6e — with its session-38 bullets (manifest address, verification under templates) — into §4, §6.1, §12.1 step 4, §12.2, §5.8 and §15.4 of the living document (0.4 if G8 has opened it; otherwise it waits, a 0.4 construct by #43). |
-| **G11** | Done (session 33). | *Opus:* promote §16.6f into §5.6 rule 6 — a 0.3 revision. Fable reviews. |
+| **G11** | Done (session 33). | Promoted by Opus in the eleventh revision (session 39). Fable reviews. |
 
 G6 and G10 closed in session 37 and were reviewed in session 38.
 
