@@ -7,6 +7,56 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 40 (Opus) — 2026-10-07 — RFCs drafted and published, the official blyg, Soapbox read (0.35), the public roadmap
+
+**Model:** Opus 5.5 (Fable 5.1 ran in parallel in the same tree; its entry is below) · **Time:** ~10:30–16:05 PT · **Committed:** yes (blygger-spec, blygger-studio, blygger-org, blygger-com; all pushed) · **Deployed:** blygger-studio 0.34.1, 0.35.0 and 0.35.1 to all three nodes (migration 0025 on each); the new node blyg.blygger.org; blygger.org ×5; blygger.com once. Released: v0.34.1, v0.35.0, v0.35.1.
+
+**What & why:**
+- **Two RFCs, a new genre.** Venkat asked for multi-author identifiers and @-mentions across ID schemes, then for client comments sections. I drafted both, Fable edited and ruled them (#67, #68), and they are now open for comment until 2026-11-04 on the official blyg, with blygger-spec#14 and #15 as fallbacks for people without a blyg.
+  - RFC-1's core is Venkat's address-book idea, done as petnames. `@handle` is studio grammar consumed at publish. The full identifiers travel as an h-card with `<data class="u-url">` values. The stable identifier goes on the wire, never the human-readable name.
+  - RFC-2 reduces every kind of comment to a published stub, rebuilt for display. It recommends a sibling comments origin for house-hosted comments so the main feed stays clean.
+  - Why an RFC before the studio builds anything: a convention in the reference client reads as a blessing. Drafts live in `docs/rfcs/`, never `docs/notes/`, which auto-publishes.
+- **The official blyg, decision #66.**
+  - Venkat ruled that `blyg.blygger.org` carries RFCs, release announcements (third-party clients' included), technical notes and anything else that fits. The spec and static pages stay on blygger.org. It sits on the personal Cloudflare account, because the blygger repos stay their own org though PI sponsors them. It's a Custom Domain route.
+  - Fable's review: items written by models carry Venkat's byline plus a whole-item `generated[]` span, the TK pattern rather than an agent byline. `/notes/tn-N/` stays canonical.
+  - `blygger-org/publish_blyg.py` and `docs/blyg-published.json` publish RFCs and notes from git as threads; a changed file becomes a new version. TN-1, TN-3, RFC-1, RFC-2 and a hello post are live. blygger.org and blygger.com both link the blyg, blygger.org pages carry `rel="blyg"` pointing at it, and blygger.com lists it.
+- **0.34.1.** Venkat's click-through of 0.34.0 passed. I checked PI's data against Kyle's generated validators (94 responses) before deploying it there. Three fixes from the click-through:
+  - the mentions heading opens the item's public page;
+  - the top bar's "public page" link follows the editor;
+  - a note that the edge cache lags about a minute.
+
+  The cache-purge question went to Kyle on #41, and the held merge note on #43.
+- **0.35.0 and 0.35.1: reading templated blygs** (gate G9; `v0.4-plan.md` §7.5 M1–M3). `src/surface.ts` is the one helper behind every remote item and pin URL. Migration 0025 adds `subscriptions.surface` and recreates Kyle's subscriptions change trigger; it was proven first on a throwaway remote D1. Other changes:
+  - Resolution follows `rel="blyg"` to a manifest at any path, and identity is the manifest's URL minus its last segment.
+  - Verification reads the sender's own `item` template.
+  - For origins we don't subscribe to, the default path is tried first, which keeps the fork-discovery oracle's one-fetch bound.
+
+  Robert Peake's live Soapbox (robertpeake.com/blyg/, 853 items) exposed two real bugs the fixtures had not:
+  - The verifier accepted any alternate whose type *began* with `application/json`, so WordPress's oEmbed link won and every Soapbox mention would have failed.
+  - `blygItemUrl` glued an absolute `page` onto the origin. That broke reading links and the target of every mention to such a blyg; 0.35.1 fixes it.
+
+  M4: the official blyg subscribes to Soapbox and quoted his item in its 0.35 announcement, and his endpoint accepted the mention. He has been asked on #2 to confirm verification, and told to keep `"blyg": "0.3"` until 0.4 is published.
+- **Working in public.** `ROADMAP.md` is one prioritised list across all four repos, published at blygger.org/roadmap/. Each row has an area, planning-poker points, a status, an open question and a link. A `roadmap` label exists in every repo. Venkat triaged the open issues:
+  - accepted: spec#13, studio#8/#9/#16–#20/#37;
+  - closed: spec#12;
+  - org#2 closed because Blynger is already listed;
+  - declined and closed: studio#35, held for the extension mechanism, which is a roadmap row.
+
+**State after:**
+- blygger-studio is at 0.35.1 on venkateshrao, PI and blyg.blygger.org; migration 0025 is applied everywhere. Release runs: v0.34.1 and v0.35.0 succeeded; v0.35.1 was still running at wrap-up (confirm it finished).
+- RFC-1 and RFC-2 are open until 2026-11-04.
+- The roadmap is live with 48 rows.
+- Aneesh has been told his read-state migration must become 0026.
+
+**Open threads:**
+- Robert's confirmation that the mention verified (then §16.6e promotion, with G8).
+- The Soapbox backfill finishing through cron; check that the subscription reaches about 853 items.
+- Studio bug: a final impyrt scope followed by one newline renders inline. Worked around in `publish_blyg.py`; it's roadmap row 2.
+- `publish_blyg.py` signs in with the owner password; a publish-only token is still to do.
+- Three roadmap open questions (rows 5, 15, 17), answered when picked up.
+- Venkat's key rotation left uncommitted edits in `blygger-studio/CLAUDE.md` and `blygger-org/CLAUDE.md`; those are his.
+- The official blyg's TK generation is untested with its new key (his checklist).
+
 ## Session 40 (Fable) — 2026-10-07 — RFC-1 and RFC-2 edited and ruled (#67, #68); #66 reviewed; the official blyg is live
 
 **Model:** Fable 5.1 (Opus 5.5 ran in parallel in the same tree as `blygger-protocol-c5`: drafted both RFCs, recorded #66, deployed the blyg) · **Time:** ~11:45–13:00 PT · **Committed:** yes (blygger-spec) · **Deployed:** — (the blyg deploy was the Opus session's)
