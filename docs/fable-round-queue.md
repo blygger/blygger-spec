@@ -63,6 +63,32 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
     never re-emitted on the feed): a list of links is not a re-emission, but it is
     the first time a hopper would be discoverable by machine.
 
+## B2. RFC drafts to edit before publishing (Venkat, session 40)
+
+Venkat's route for conventions other clients will copy: Opus drafts, then Fable edits.
+The edited draft goes up on blygger.org in a new RFC section for a comment period.
+Only after that does any client build it, because the reference client shipping a
+convention reads as a blessing. Drafts live in `docs/rfcs/`, **not** `docs/notes/`:
+`sync_spec.py` publishes every `docs/notes/tn-*.md` on the next blygger.org deploy.
+The RFC section on blygger.org is not built yet (Venkat: hold).
+
+16. **RFC-1 — mentions across identifier schemes**
+    ([`rfcs/rfc-1-mentions-and-identifier-schemes.md`](rfcs/rfc-1-mentions-and-identifier-schemes.md)).
+    It covers multi-author bylines and an address book of petnames. The full identifiers
+    travel as an h-card in `content_html`, built from the web, ActivityPub, ATProto,
+    DID and Ethereum schemes. Edit freely. Section 10 holds five questions:
+    - Q1: the sequencing route;
+    - Q2: may a mention send a plain Webmention, given §16.8 and #32?
+    - Q3: `rel="me"` versus an acknowledgement on group origins;
+    - Q4: whether the spec should say anything about preserving microformats;
+    - Q5: `ids` as a member of `author`.
+
+    Q2 and Q3 touch identity semantics, so they are Fable's under #58.
+17. **RFC-2 — client comments sections**
+    ([`rfcs/rfc-2-comments-sections.md`](rfcs/rfc-2-comments-sections.md)). It is a
+    Recommendation for clients that want comments; the studio will not build it. It
+    depends on RFC-1. Its questions are in its last section.
+
 ## C. Review after the fact (#58 batch)
 
 - **Session 34's studio fixes made four calls a reviewer may want to confirm.** None
