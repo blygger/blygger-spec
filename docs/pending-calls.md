@@ -11,7 +11,7 @@ here only if the recommendation was reversed, so the reasoning is not lost.
 
 ## A. Decide now — cheap, and someone is waiting
 
-1. **Fork intents** (`fable-round-queue.md` item 9; Aneesh Sathe's findings F8 and F9).
+1. ~~**Fork intents**~~ **Done session 38:** Venkat said yes; decision #65, §5.6 rules 7–8 (ninth revision), Fable review pending. Original entry: (`fable-round-queue.md` item 9; Aneesh Sathe's findings F8 and F9).
    *Recommendation:* yes to both. A fork's page SHOULD show its lineage — that is what
    lineage is for, and four of five live forks already do. One hop per fork is the chain
    that was meant: each fork vouches for its own pin only, and a reader walks back a hop

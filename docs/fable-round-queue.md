@@ -33,10 +33,8 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
 8. **The watermark should outlive the stored copy.** Report F5, Alloy 4c. If a reader
    deletes both on withdrawal (§13.4 says it SHOULD delete the copy), a stale cache
    replaying v1 is adopted as the item coming back. Importer behaviour, so Fable's.
-9. **Fork intents (Venkat's to state, Fable's to write).** Report F8: nothing requires a
-   fork's page to show its lineage; four of five live forks do, Brady Dale's does not.
-   Report F9: after #57 a fork's quotes are unverified, so custody runs one fork at a time.
-   Is one hop the chain that was meant?
+9. *Decided session 38: Venkat said yes to both; Opus wrote it as decision #65 (§5.6 rules 7–8,
+   ninth revision), Fable review pending — see section C.*
 10. **No list of required members for an item document or manifest.** Report F14. The
     schemas had to infer them. Writing one could narrow what conforms, so Fable's.
 11. **Grammar ambiguities, each with a test case already written** (report F17): what CRLF
@@ -75,8 +73,9 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
     check, following §13.2's text.
   - studio#28 matches stub version agreement on origin as well as id. The old comment
     cited #26 for id-only matching.
-- **Any decision Opus labels `Fable review pending` from session 38 on.** None yet; the
-  seventh revision (G6, G10) was the first batch and was confirmed.
+- **Decision #65** (Opus, session 38): fork intents, §5.6 rules 7–8, ninth revision. Check
+  rule 8's wording — the first explicit statement that verification does not compose across
+  forks.
 
 ## Not for Fable
 

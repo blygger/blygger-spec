@@ -38,7 +38,7 @@ A Fable round begins by reading every entry labelled `Fable review pending`, in 
 confirm (strike the label), amend (edit the entry, note the amendment with the date), or
 reverse (a new numbered decision that says why). Check each against the four questions as
 well as on its merits — an entry that should have stopped is the finding that matters most.
-**Expected next time:** the G11 promotion (§16.6f → §5.6 rule 6, carrying its three
+**Pending now:** decision #65 (fork intents, §5.6 rules 7–8). **Expected next time:** the G11 promotion (§16.6f → §5.6 rule 6, carrying its three
 session-38 bullets and the attribution line's form), the studio's §15.4 step 2 fix if Opus
 recorded a call while building it, and the `tn-3` revision.
 

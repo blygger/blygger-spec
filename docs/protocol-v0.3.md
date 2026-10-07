@@ -477,6 +477,19 @@ Rules:
    resembles its source. For a **thread** source, what is copied is the
    pinned *document* with its baked quotes flattened, not the directives —
    ruled 2026-10-03 as §16.6f (decision #57), entering here once built.
+7. **A fork's page SHOULD show its lineage** (revision of 2026-10-06,
+   decision #65): a publisher that renders an HTML page for a fork SHOULD
+   show on it that the item was forked, linking the pinned version it names
+   (its page where the origin serves one, else its pinned file). Lineage
+   exists so that a reader can compare a fork with its source; on the wire
+   alone, only machines can.
+8. **Custody runs one hop per fork** (decision #65). A fork vouches only for
+   the pinned bytes it copied: its flattened quotes (§16.6f) are unverified,
+   and the way to verify one is to follow `forked_from` to the pinned
+   source, where the quote is still a verified transclusion — and, for a
+   fork of a fork, to repeat that one hop at a time. Nothing carries
+   verification through a chain of forks, by design: each fork can only
+   honestly assert what it copied.
 
 ### 5.7 Generation provenance — the `generated` array
 
@@ -2195,6 +2208,11 @@ a fourth mention relation for links; and a normative write API.
 One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.3/{date}/` and each carries a diff link to the one
 before it.
+
+- **2026-10-06, ninth revision** (Opus 5.5 under #58, Fable review pending;
+  session 38, on Venkat's statement of intent) — §5.6 rules 7 and 8: a
+  fork's page SHOULD show its lineage, and custody runs one hop per fork
+  (decision #65, conformance findings F8 and F9). Not snapshotted.
 
 - **2026-10-06, eighth revision** (Fable 5.1, session 38; after Aneesh
   Sathe's conformance report, blygger-spec#11) — §15.4 step 2 corrected to
