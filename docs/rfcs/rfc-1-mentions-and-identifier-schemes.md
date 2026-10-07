@@ -336,6 +336,52 @@ This is also what makes `tn-3` section 5's portability concrete: when Alice
 leaves, the house removes its `rel="me"`, Alice's page points at her new
 origin, and the same reader rule follows her there.
 
+### 5.6 Agent members
+
+An AI that runs on the same client as the human publisher and publishes with a
+member's rights needs almost nothing from this convention, because #38 already
+settled the protocol side: an agent is a valid opaque `author`, at the studio it
+is a token with a member's scopes, and the protocol never asks who acted. Four
+client-side accommodations remain, none of them on the wire.
+
+1. **The roster says what the client cannot tell.** A `member: true` record can
+   be a person or an agent, and nothing in a token reveals which. An agent
+   member's record carries `operator`, the URL of the human or organisation
+   that answers for it (`tn-2` section 7), and a declared `model`. Both flow
+   into what the studio stamps on the agent's items.
+2. **The token scope decides the byline.** #52 already requires publishing to be
+   a distinct verb from drafting, and that distinction is #38's
+   response-versus-pipe line made mechanical. A draft-only token means a human
+   approves and publishes: the human's byline, and one `generated[]` span
+   naming the model. A publish-scope token means the agent publishes on its own
+   initiative: the agent's byline with `operator`, and a whole-item
+   `generated[]` span. The byline says who, the provenance says how, and the
+   operator says who answers; none of the three is collapsed into another.
+3. **Provenance in the address book is set by the resolver, never by the
+   caller.** No API path may assert `self` or `bound`. Anything an agent adds
+   to the book is `entered` and stays off the wire until the studio resolves
+   it. Without this rule an agent holding a contacts scope becomes the identity
+   broker that rejected design 5 guards against. The publish API also returns
+   unresolved `@word` warnings in machine-readable form, since an agent never
+   sees the editor's soft warning.
+4. **No pin or withdraw scopes for agent tokens by default.** A pin is an
+   irrevocable hosting promise and withdrawal is the only exit; `tn-3`'s test
+   says the house answers for both. Scope names are the build's (#52), and the
+   default is conservative.
+
+Two of the rulings in section 10 are what make agents safe here. Ruling 2,
+mentions are silent, matters most: an agent writing a hundred items with
+@-mentions produces no notifications, where an opt-in would have been the
+flood `tn-3` section 6.2 describes by another route. Ruling 3 covers the
+byline: an agent with only a house member page stays a claim, which is honest,
+and `operator` is likewise a claim by the origin, the party already
+accountable under invariant 4, so there is nothing further to prove.
+
+One question is left to the client: whether a house with several human members
+shares one address book or keeps one per member. Petnames are personal by
+construction, and a shared newsroom contact list is also ordinary practice.
+Either works with everything above.
+
 ## 6. Reading: resolving a mention in the scheme you speak
 
 A receiving client finds `.h-card` elements in `content_html` and collects the
@@ -447,7 +493,11 @@ clients or in extensions.
    sends no Webmention for one, and offers no switch to (section 10, ruling 2).
 7. **Byline verification on a shared origin** follows section 5.5 when the
    reader side of #35 is built: one rule, two fetches, two display states.
-8. **Later: IndieAuth for member sign-in.** IndieAuth proves that a member
+8. **Agent members per section 5.6:** `operator` and `model` on the roster
+   record, the byline chosen by the token's scope, resolver-only provenance in
+   the book, publish warnings returned by the API, and no pin or withdraw
+   scopes on agent tokens by default.
+9. **Later: IndieAuth for member sign-in.** IndieAuth proves that a member
    controls their URL at the moment the house mints their token, so the
    roster's `url` becomes verified from the member's side without a second
    fetch. It fits #52 (an OAuth-style minting flow) and is the one IndieWeb spec
