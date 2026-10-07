@@ -9,7 +9,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 38 — 2026-10-06 — Fable round: seventh revision reviewed, decisions #59–#64, eighth revision of 0.3
 
-**Model:** Fable 5.1 · **Time:** ~16:48–17:45 PT · **Committed:** yes (blygger-spec) · **Deployed:** — (eighth revision written, not yet published; Opus brief item b)
+**Model:** Fable 5.1 · **Time:** ~16:48–17:45 PT · **Committed:** yes (blygger-spec) · **Deployed:** spec 0.3 eighth revision to blygger.org (render checked locally first; blygger-org content committed)
 
 **What & why:**
 
@@ -23,9 +23,9 @@ Per-session development log. Non-skippable: every coding session appends an entr
 - **Eighth revision of `protocol-v0.3.md`:** §15.4 step 2, §15.3 step 1, §5.7 last paragraph, §16.6e two bullets, §16.6f three bullets, §10.6 parenthetical, §17 entry. Not snapshotted. `fable-round-queue.md` pruned to items 6–14; `fable-brief.md` rewritten; Opus brief gains six items (a–f); plan §10 holds the reasoning.
 - **Not taken, deliberately:** queue items 6–14 (none blocking; several want measurement first), blygger-spec#12 (a round of its own — multiple parents reopen #27), Unicode.
 
-**State after:** 0.3 text at the eighth revision locally, seventh live on blygger.org. Decisions through #64. No `Fable review pending` labels outstanding. G11 promotion, the §15.4 fix, the TK source scan, fork link flattening and the `tn-3` revision are Opus's next.
+**State after:** 0.3 text at the eighth revision, live on blygger.org. Decisions through #64. No `Fable review pending` labels outstanding. G11 promotion, the §15.4 fix, the TK source scan, fork link flattening and the `tn-3` revision are Opus's next.
 
-**Open threads:** publish the eighth revision; the §15.4 step 2 fix is a live hole in both nodes until released; reply to Aneesh on #11 (brief item f); blygger-spec#12 unanswered; Robert will post Soapbox's staging origin on #2.
+**Open threads:** the §15.4 step 2 fix is a live hole in both nodes until released; reply to Aneesh on #11 (brief item f); blygger-spec#12 unanswered; Robert will post Soapbox's staging origin on #2.
 
 ---
 

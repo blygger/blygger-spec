@@ -74,8 +74,8 @@ in each live client. Nothing here is pre-decided.
 
 ## Sequencing notes
 
-- **The eighth revision must be published** (`blygger-org/deploy.sh`) and the studio's
-  §15.4 step 2 fix released before `tn-3` is revised; the note's claim depends on both.
+- **The studio's §15.4 step 2 fix must be released** before `tn-3` is revised; the note's
+  claim depends on it. The eighth revision is published.
 - **G8 opens 0.4.** If G9's exercise arrives first, §16.6e waits as a ruled shape; the
   Soapbox reader side (§7.5) should still land before Robert ships.
 - **blygger-spec#12 (Glass Bead Game)** is a round of its own: multiple parents reopen #27's

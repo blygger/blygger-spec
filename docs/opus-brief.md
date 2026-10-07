@@ -63,8 +63,7 @@ of `protocol-v0.3.md`. In order:
   impostor on the same host; a source that resolves to a pin; a legitimate page → alternate
   → live document. Re-verify stored mentions on both nodes after deploy; any that flip to
   gone or failed are findings, record them.
-- **b. Publish the eighth revision** via `blygger-org/deploy.sh`, as session 37 did the
-  seventh. Render with blygger.org's own markdown first (session 37 caught a swallowed fence).
+- **b. Published** — the eighth revision went live at the end of session 38 (render checked, blygger-org commit pushed). Nothing to do.
 - **c. TK sources from the instruction only** (#60): `extractSourceIds(contentMd.slice(tkIdx,
   end))` in `src/tk.ts` scans the whole scope; scan the instruction. Keep 0.20.1's behaviour
   (an own-line directive in output transcludes). Ship the warning from item 5 below if not
