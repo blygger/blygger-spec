@@ -183,8 +183,8 @@ receiver sees a valid thread with a valid marker — so they degrade the signal 
 noise with no filter available, and the noise is loudest for exactly the
 publishers a group aggregator would target.
 
-This is the trackback failure reproduced on our own side of the fence.
-Trackback died of unverified spam and we answered it with structural
+This is the trackback failure reproduced inside the protocol.
+Trackback died of unverified spam, and the protocol answered it with structural
 verification (#13). Verification defeats the *impostor*, who claims a relation
 that isn't in the document. It does nothing about the *relay*, whose relation
 is genuinely there and genuinely empty.
@@ -261,7 +261,7 @@ built:
    relationship for a directory to have with the medium it indexes.
 3. **Optionally a plain RSS digest, outside the blyg surface** (§13.5).
    Excerpts and links to origin permalinks, no `blyg:` namespace, not
-   `feed.xml`. Its consumers are L0 readers who need nothing from us, and
+   `feed.xml`. Its consumers are L0 readers who need nothing from the protocol, and
    keeping it outside the surface is what stops it being re-emission.
 4. **Optionally its own blyg**, if it has an editorial voice — see section 3 above. A
    digest is plumbing; an editorial voice is a publisher, and a publisher's
