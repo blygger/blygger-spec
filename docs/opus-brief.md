@@ -89,7 +89,7 @@ Decisions #66 (official blyg, with its Fable review inline), #67 (RFC-1) and #68
 `CLAUDE.md`; reasoning in the RFCs' own last sections and `v0.4-plan.md` §10.10–10.11.
 `https://blyg.blygger.org/` is live, empty, on Venkat's personal Cloudflare account. In order:
 
-- **a. A publishing sync for the blyg.** Each `docs/rfcs/rfc-N-*.md` and, when ported,
+- **a. Done session 40 (Opus):** `blygger-org/publish_blyg.py` + `docs/blyg-published.json`. One deviation: it signs in with the owner password (`BLYG_BLYGGER_ORG_OWNER_PASSWORD`) rather than a scoped token; minting a publish-only token is still worth doing. Disclosure uses whole-item `impyrt` spans, which produce the same `generated[]`. Original item: **A publishing sync for the blyg.** Each `docs/rfcs/rfc-N-*.md` and, when ported,
   `docs/notes/tn-N-*.md` is published as a **thread** on `blyg.blygger.org` through the studio
   API with a scoped publish token (mint it on the blyg, register as `BLYG_BLYGGER_ORG_*` in
   `.env.keys`). The git file is the single source; a change republishes as a new version,
@@ -100,7 +100,7 @@ Decisions #66 (official blyg, with its Fable review inline), #67 (RFC-1) and #68
   put the close date and the `blygger-spec` comment-anchor issue link in the text. Fragment
   caps do not apply to threads. Where to put the script is yours (`blygger-org/` beside
   `sync_spec.py` is the obvious home; it already parses `docs/notes/`).
-- **b. Publish RFC-1, then RFC-2**, once Venkat gives the close dates (four weeks recommended,
+- **b. Done session 40 (Opus):** both published 2026-10-07 as pinned v1 threads, closing 2026-11-04 (Venkat said publish without dates, so the recommended four weeks), anchors blygger-spec#14 and #15. Original item: **Publish RFC-1, then RFC-2**, once Venkat gives the close dates (four weeks recommended,
   #67 ruling 1). One `blygger-spec` issue per RFC for people without a blyg. Public responses
   are already on, so stubs show under each item.
 - **c. blygger.org follows #66.** The notes index and each `/notes/tn-N/` page keep serving the
