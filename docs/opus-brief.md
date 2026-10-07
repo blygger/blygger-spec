@@ -54,7 +54,7 @@ draft from his build once gate G3 opens.
 Decisions #59–#64 (`CLAUDE.md`), reasoning `v0.4-plan.md` §10, text in the eighth revision
 of `protocol-v0.3.md`. In order:
 
-- **a. Security fix, ships first: §15.4 step 2** (#61). `src/mentions/receive.ts` compares
+- **a. Done session 38: 0.32.2, deployed to both nodes; all 47 stored verified mentions recheck clean.** Was: **Security fix, ships first: §15.4 step 2** (#61). `src/mentions/receive.ts` compares
   `new URL(asserted).origin` to the final URL's — host only. The rule is now: the item
   document's final URL MUST equal `{origin}items/{id}.json` for the document's own `origin`
   and `id` (case-insensitive scheme/host, default port dropped, trailing slash of `origin`
@@ -64,7 +64,7 @@ of `protocol-v0.3.md`. In order:
   → live document. Re-verify stored mentions on both nodes after deploy; any that flip to
   gone or failed are findings, record them.
 - **b. Published** — the eighth revision went live at the end of session 38 (render checked, blygger-org commit pushed). Nothing to do.
-- **c. TK sources from the instruction only** (#60): `extractSourceIds(contentMd.slice(tkIdx,
+- **c. Done session 38 in 0.32.2; studio#5 closed.** Was: **TK sources from the instruction only** (#60): `extractSourceIds(contentMd.slice(tkIdx,
   end))` in `src/tk.ts` scans the whole scope; scan the instruction. Keep 0.20.1's behaviour
   (an own-line directive in output transcludes). **The warning was never shipped** (checked
   session 38 against 0.32.1: no such check in `src/`): warn at publish, and in the editor, when
@@ -75,7 +75,7 @@ of `protocol-v0.3.md`. In order:
   **Build first:** `fork.ts` copies a fragment's `content_md` with its `[[id]]` links intact;
   flatten them to absolute markdown links from the pinned `content_html` (#63). Add the §17
   line; publish. Label `Fable review pending`.
-- **e. `tn-3` revision** (groups): the group shape is now sound — #61 is its exact case. Say
+- **e. `tn-3` revision — unblocked, 0.32.2 is live** (groups): the group shape is now sound — #61 is its exact case. Say
   so, cite the eighth revision, and note that receivers on older studio versions are the
   remaining hole until they upgrade.
 - **f. Done session 38** (posted on #11). Was: **Tell Aneesh** on blygger-spec#11: grammar case 24 is unambiguous (instruction = source,

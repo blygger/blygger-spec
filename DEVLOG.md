@@ -31,7 +31,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 ## Session 38 — 2026-10-06 — Fable round: seventh revision reviewed, decisions #59–#64, eighth revision of 0.3
 
-**Model:** Fable 5.1, then Opus 5.5 (switched by Venkat for the plan-state pass) · **Time:** ~16:48–18:00 PT · **Committed:** yes (blygger-spec) · **Deployed:** spec 0.3 eighth revision to blygger.org (render checked locally first; blygger-org content committed)
+**Model:** Fable 5.1, then Opus 5.5 (switched by Venkat for the plan-state pass) · **Time:** ~16:48–18:00 PT · **Committed:** yes (blygger-spec) · **Deployed:** spec 0.3 eighth and ninth revisions to blygger.org (render checked locally first); blygger-studio 0.32.2 to both nodes (no migrations), tag v0.32.2
 
 **What & why:**
 
@@ -54,9 +54,11 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 - **Fork intents: Venkat said yes** to both of Fable's recommendations. Opus ruled it under #58 as decision #65 (Fable review pending): §5.6 rule 7, a fork's page SHOULD show its lineage, and rule 8, custody runs one hop per fork. Ninth revision, written, not yet published. The reference client already complies.
 
-**State after:** 0.3 text at the eighth revision, live on blygger.org; ninth revision written locally. Decisions through #64. No `Fable review pending` labels outstanding. G11 promotion, the §15.4 fix, the TK source scan, fork link flattening and the `tn-3` revision are Opus's next.
+- **Deploy and recheck.** 0.32.2 deployed per node (`deploy:vgr`, `deploy:pi`); both manifests report `blygger-studio/0.32.2`. The studio has no re-verify route, so stored mentions were rechecked read-only: every verified `mentions_in` row on both D1s (32 on venkateshrao, 15 on PI) fetched source → alternate → final URL and compared to `{origin}items/{id}.json`. All 47 pass; no legitimate sender is affected. studio#5 closed. Ninth revision published.
 
-**Open threads:** the §15.4 step 2 fix is a live hole in both nodes until released; reply to Aneesh on #11 (brief item f); blygger-spec#12 unanswered; Robert will post Soapbox's staging origin on #2.
+**State after:** blygger-studio 0.32.2 live on both nodes. 0.3 text at the ninth revision, live on blygger.org. Decisions through #65; #65 is Fable review pending. Decisions through #64. No `Fable review pending` labels outstanding. G11 promotion, the §15.4 fix, the TK source scan, fork link flattening and the `tn-3` revision are Opus's next.
+
+**Open threads:** Venkat's `intents.json` pass, then merge #11. G11 promotion (now carrying fork-link flattening, #63, unbuilt). `tn-3` revision. Soapbox reader (M1–M4, with #61's verifier step) before G8. Robert will post Soapbox's staging origin on #2. Kyle's PRs #41–#43 unreviewed.
 
 ---
 
