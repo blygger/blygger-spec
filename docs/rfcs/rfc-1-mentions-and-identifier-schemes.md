@@ -1,7 +1,7 @@
 # RFC-1 — Mentions across identifier schemes: petnames in the studio, full identifiers on the wire
 
-**Request for comments · non-normative · DRAFT, awaiting publication · session 40,
-2026-10-07.** Drafted by Opus 5.5 at Venkat Rao's request; edited the same session by
+**Request for comments · non-normative · DRAFT, awaiting publication on
+`blyg.blygger.org` (#66) · session 40, 2026-10-07.** Drafted by Opus 5.5 at Venkat Rao's request; edited the same session by
 Fable 5.1, whose rulings on the five open questions are section 10. An RFC is a
 recommendation put up for comment *before* any client builds it, because the
 reference client shipping a convention reads as a blessing. Like a technical note,
@@ -509,23 +509,26 @@ The draft closed with five questions. The rulings follow, each with the
 principle it rests on; where a ruling differs from the draft's own
 recommendation, it says so.
 
-**1. Sequencing.** The route is confirmed, with its steps named. (a) This
-edited draft is published at blygger.org in a new RFC section with a stated
-close date for comments; an RFC page takes dated revisions during its period,
-unlike a spec snapshot, and its status line reads *open*, *closed* or
-*superseded by TN-n*. The length of the period is Venkat's call; four weeks is
-the recommendation, since the people most likely to comment are the ones
-already building clients and active in the repos. (b) Comments arrive the way
-every other piece of exploration does: a GitHub issue on `blygger-spec` opened
-as the RFC's comment anchor and linked from the page. (c) Nothing in section 8
-is built in the reference client until the period closes. (d) After that, the
-RFC becomes a technical note of its own by the gate #35 uses for `tn-2`: one
-client emits mention h-cards and a second resolves them. It does **not** fold
-into `tn-2`. That note's subject is one person's URL and the two proofs of it;
-this one's is a client convention for naming *other* people, and folding them
-would make the identity note carry a studio design. Two rulings here are about
+**1. Sequencing.** The route is confirmed, and where it runs was decided the same
+session (decision #66): the project's own blyg at `blyg.blygger.org` carries RFCs,
+and comment periods run there. (a) This edited draft is published as a thread on
+that blyg, with a stated close date in the text; the version under comment is
+pinned, a revision during the period is a new version, pinned in turn when
+comments should move to it. (b) Comments are the protocol's own responses: a
+stub of the RFC item, whose `stub_of.version` records which draft it answers; a
+quote is a partial transclusion; a counter-proposal is a fork from the pin.
+Anyone without a blyg can open an issue on `blygger-spec` instead, and the item
+says so. There is no RFC section on blygger.org. (c) Nothing in section 8 is
+built in the reference client until the period closes. (d) After that, the RFC
+becomes a technical note of its own by the gate #35 uses for `tn-2`: one client
+emits mention h-cards and a second resolves them. It does **not** fold into
+`tn-2`. That note's subject is one person's URL and the two proofs of it; this
+one's is a client convention for naming *other* people, and folding them would
+make the identity note carry a studio design. Two rulings here are about
 `author` rather than about mentions, and `tn-2` absorbs them when it is
-written: the shared-origin proof (ruling 3) and `ids` (ruling 5).
+written: the shared-origin proof (ruling 3) and `ids` (ruling 5). The git file
+stays the single source throughout; the blyg publishes versions of it, never
+hand-edited copies (#66).
 
 **2. A mention does not notify.** Mentions are silent, and the reference
 client sends nothing for one and offers no switch to. This is #32's principle
@@ -588,7 +591,7 @@ hold: a reader matching `ids` against its book is making a display decision,
 never a merge. The draft's reason stands as the practical one: a reader should
 not need a fetch to match a byline against its address book.
 
-**What happens next.** Publish for comment under ruling 1 once the RFC section
-exists at blygger.org (held by Venkat as of this session). Until then this file
-is the record. The decision list carries one entry for the five rulings, with
+**What happens next.** Publish for comment under ruling 1 once `blyg.blygger.org`
+exists (#66; nothing built as of this session). Until then this file is the
+record. The decision list carries one entry for the five rulings (#67), with
 this section as its reasoning.
