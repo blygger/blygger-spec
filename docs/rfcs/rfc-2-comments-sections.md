@@ -1,14 +1,22 @@
 # RFC-2 — Comments sections: a curated display of responses, every comment a real item
 
-**Request for comments · non-normative · DRAFT FOR FABLE REVIEW · session 40, 2026-10-07
-(Opus 5.5, at Venkat's request).** This proposes a **Recommendation for clients that
-want a comments section**. Like a technical note, an RFC constrains nothing.
-blygger-studio will not implement it. If it is approved after the comment period, it
-is published as guidance for the clients that choose to. **It depends on RFC-1**
-(mentions across identifier schemes), which supplies commenter bylines, identities
-and the address book. RFC-1 has to be adopted first. Section 11 lists the questions
-for Fable. Written against protocol 0.3 as published on 2026-10-07; no pre-1.0 version
-promises anything (#21).
+**Request for comments · non-normative · DRAFT, awaiting publication on
+`blyg.blygger.org` (#66) · session 40, 2026-10-07.** Drafted by Opus 5.5 at Venkat
+Rao's request; edited the same session by Fable 5.1, whose rulings on the seven open
+questions are section 11. This proposes a **Recommendation for clients that want a
+comments section**. Like a technical note, an RFC constrains nothing. Blygger Studio
+will not implement it; its public responses list stays a citation trail. After the
+comment period it is published as guidance for the clients that choose to build it.
+**It depends softly on RFC-1** (mentions across identifier schemes, section 9): kind 1
+and kind 3 need nothing from it, kind 2 takes its address book, provenance and
+bylines, which is why the RFCs are ordered this way. Written against protocol 0.3 as
+published on 2026-10-07; no pre-1.0 version promises anything (#21).
+
+The medium's first answer to "how do I comment" is **from your own blyg** (kind 1,
+section 5). Hosted comments (kinds 2 and 3) are an on-ramp for people who have no
+blyg yet, and the house that hosts them takes on their accountability. The comment
+period of this RFC runs that way itself: comments on it are stubs on
+`blyg.blygger.org`'s RFC item (#66).
 
 ## 1. The question
 
@@ -106,9 +114,13 @@ Why C:
   what moderation is. Its manifest `author` names the house, for example
   `{ "name": "House comments", "url": "https://house.example/" }`.
 
-The cost is a second origin with its own deployment, its own archive and its own
+The cost is a second origin with its own deployment, its own archive, its own
+Webmention endpoint (replies to hosted comments arrive there) and its own
 permanence (withdrawal endcaps are served forever). A client that offers comments
-should run both origins from one install, so the owner deploys one thing.
+should run both origins from one install, so the owner deploys one thing. The
+comments origin must also **import the main origin** as a subscription, because a
+partial transclusion in a comment resolves only against a local or imported item
+(§10.2); one install can share the store, but the resolution rule is the same.
 
 ## 5. Kind 1 — responses from other blygs as comments
 
@@ -200,8 +212,10 @@ The client records the commenter in its address book (RFC-1 section 5.1):
 - the commenter's display name is theirs to set;
 - `member` stays false: a commenter is a guest, not a masthead writer.
 
-Commenters receive a **comment scope**, a token in the shape #31 describes (bearer,
-owner-revocable). It can do only:
+Commenters receive a **comment scope**: a token in the shape #31 describes (bearer,
+owner-revocable), minted by the house's client to a guest at sign-in. This is the
+client's own guest authentication, part of the write surface #31 leaves to clients,
+and it borrows only the token's shape from the owner's tokens. It can do only:
 
 - publish a stub on the comments origin whose `stub_of` names an item on the main
   origin or the comments origin;
@@ -301,7 +315,7 @@ offers it.
 - **No `url`, no `ids`.** Nothing about an anonymous commenter is checkable, so
   nothing is asserted. Bylines that are byte-equal group only for display within
   this origin (§5.5), never across origins and never as an identity.
-- Readers see the house's assertion, as with every byline (§14). A client SHOULD label
+- Readers see the house's assertion, as with every byline (§5.5). A client SHOULD label
   these comments "anonymous, approved by the editor" so that the house's role is
   visible.
 
@@ -387,40 +401,71 @@ Recorded because each will be re-proposed.
    on the wire is that they become part of the medium. A client that wants Disqus
    can have Disqus.
 
-## 11. Questions for Fable
+## 11. Rulings (Fable 5.1, session 40, 2026-10-07)
 
-- **Q1. Does a comments Recommendation fit §16.8 and §10.6's "no thread of
-  replies"?** Recommendation: yes. The stance governs the wire, and this adds nothing
-  there. The RFC should state plainly that the comments section is the owner's
-  curation and that no reply primitive exists or is implied. The risk is not to the
-  wire but to the medium's character: a Recommendation will be read as the project
-  saying comments are welcome. Venkat's call that the demand justifies that is the
-  premise of this RFC, so the check here is only that the wording keeps the
-  soapbox framing.
-- **Q2. Displayed text against §15.4 step 5's "no content is stored".**
-  Recommendation: displaying a stub's text is §13.5 curation display, which §13.5
-  already names for mentions. A short-lived cache is part of "fetched when
-  displayed", provided it is refreshed and purged on `gone`. If Fable reads step 5
-  as forbidding any stored copy, the RFC changes to fetch-at-render only.
-- **Q3. Edits are not signalled.** §15.2 re-sends a stub only when its target
-  version changes, so a comment edited in place leaves stale text on the target's
-  page until the next refresh. Options:
-  - (a) receivers refresh on a schedule. Recommended, and needs nothing.
-  - (b) also recommend that senders re-send stub mentions on every republish. §15.2
-    already calls that "conformant but noisy", so a client may do it.
-  - (c) make (b) a spec SHOULD for stubs. That changes sender behaviour, so it
-    would be a revision, and it is Fable's to rule.
-- **Q4. Steering clients toward two origins.** Is it right for a Recommendation to
-  make a sibling comments origin the default (section 4)? It is the only shape that
-  keeps the main feed clean without new wire vocabulary.
-- **Q5. Counts and comments markup.** Recommendation: no counts, and no `h-cite`
-  responses markup on post pages (section 8). Both are presentation, but the
-  Recommendation is a blessing, and #12, #41 and #47 all point the same way.
-- **Q6. Anonymous bylines.** Is house-vetted anonymous speech under
-  `{"name": "anon 7f3k"}` consistent with §5.5 and #38? Recommendation: yes. The
-  origin is the accountable party, the byline is the house's assertion, and the
-  "approved by the editor" label states the house's role.
-- **Q7. Classifying by length.** Section 5.1 shows short stubs in full and long ones
-  as excerpts. §10.6 rule 2 forbids deciding *whether* something is a response by
-  body inspection. Length decides only how much is displayed. Confirm that this is
-  on the right side of the rule.
+The draft closed with seven questions. The rulings follow with the principle each
+rests on; where one differs from the draft's recommendation, it says so.
+
+**1. Fit with §16.8 and §10.6.** Yes, on the wire: the design adds no field, no
+relation and no feed element, and a display tree rebuilt from `stub_of` is §10.6's
+own nesting, since a stub of a stub is a thread transcluding a thread. The character
+risk the draft names is real and is answered by framing, not by machinery: the
+header now says that the medium's first answer is to respond from your own blyg,
+that hosted comments are an on-ramp whose accountability the house takes on, and
+that the reference client's responses list stays a citation trail. Section 2's
+sentence, the owner's curated display of published responses, is the whole of
+what a comments section is, and the RFC must never describe a comment as a reply.
+
+**2. Displayed text against §15.4 step 5.** A bounded cache is fetching on display.
+The rule exists so that a receiver never becomes a store of other people's words
+that outlives their withdrawal, and §13.5 names verified mentions as displayable
+under curation. The test a client must pass: if the stub's origin withdraws and
+the receiver never fetches again, the text must stop showing. So the cache has a
+bounded lifetime after which display requires revalidation, `gone` and an endcap
+purge it, and a durable copy exists only by the origin's pin (§13.4). This is only
+a kind 1 question; for kinds 2 and 3 the house is the publisher of the comment
+and holds it as its own item.
+
+**3. Edits are not signalled.** (a) and (b), no spec change. The house controls
+the sender for kinds 2 and 3, so its comments origin re-sends a stub's mention when
+the comment is edited; §15.2 already permits it. For kind 1 the receiver refreshes
+on a schedule and accepts the staleness window. (c), a spec SHOULD to re-send on
+every stub edit, is rejected: it would make every edit of a stub notify its target,
+which is the noise §15.2 chose to permit and not require, and it is sender
+behaviour the spec would be changing for a presentation feature.
+
+**4. Steering clients toward a sibling origin.** Confirmed, for the reason the
+draft gives: it is the only shape that keeps the house's own feed its own writing
+without new wire vocabulary, and it reduces three kinds to one renderer because
+#61 makes the two origins verify each other exactly as strangers would. It is not
+`tn-3` section 6's pipe: every item on the comments origin is a person's words,
+published or approved by the house, which withdraws any of them. Two
+requirements are added to section 4: the comments origin imports the main origin
+so quotes resolve, and it runs its own Webmention endpoint for replies.
+
+**5. Counts and comments markup.** Confirmed: no counts anywhere, no `h-cite` or
+other machine-readable responses markup on the post page. #12 and #13 refuse
+metrics, #47 kept the responses surface closed because a count is the first thing
+a ranking attaches to, and #41 tells readers never to parse one. The comments
+origin's feed and index are the machine-readable record, as the draft says. The
+h-card bylines inside comments say who wrote them and nothing more.
+
+**6. Anonymous bylines.** Consistent with §5.5 and #38. `author` is the origin's
+unverified assertion, byte-equal values group only within one origin and only
+for display, and the origin is the accountable party. The three conditions in
+section 7 are what make it so and are kept as written: mandatory pre-moderation,
+a suffix that cannot be reversed to a person, and no `url` or `ids`. The
+withdrawal link must say what withdrawal is: permanent, and visible as an endcap.
+
+**7. Classifying by length.** On the right side of §10.6 rule 2. The marker alone
+decides that an item is a response; length decides how much of it is shown, which
+is presentation. Measuring the stubber's own words by leaving out the baked
+`blyg-transclusion` of the target reads a wire token for the purpose it exists
+for, and is the same reading §5.6 rule 6 and this RFC's section 5.3 already make.
+
+**What happens next.** Publish for comment on `blyg.blygger.org` under #66 once
+it exists, after RFC-1, with a stated close date. The reference client builds
+nothing from this RFC. A client that builds it is the gate for this RFC to
+become a technical note: one client hosts comments under this shape, and a
+second displays them as kind 1 responses. The decision list records these
+rulings beside RFC-1's (#67), with this section as the reasoning.
