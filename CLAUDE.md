@@ -208,6 +208,11 @@ needs to reconstruct design rationale from this alone.
 
 ## TODO
 
+### Left over from session 41 (2026-10-07)
+
+- [ ] **Check how our outbound mention sender handles a 429.** Studio 0.36.1 refuses a repeat claim for the same source/target pair within 60 s (and any new claim while 30 are pending), with a per-reason `Retry-After`. `src/mentions/send.ts` was not checked: a quick re-send after a republish may now be refused. Read `drainOutbound` for its 429 handling, and test sender against receiver. Drop once confirmed or fixed.
+- [ ] **Rule on `roadmap-tracks.md` 3.1** (Fable/Venkat): is the generic `/updates.xml` redundant now that releases are announced on `blyg.blygger.org` (`blygger-org/publish_releases.py`, Opus brief item d)? The per-node "you are behind" notice is a different thing and stays. Tick or strike the row.
+
 ### Studio backlog (session 39, 2026-10-06, Venkat) — plan before executing
 
 Venkat's list at the end of session 39. **Plan these together at the start of the next
