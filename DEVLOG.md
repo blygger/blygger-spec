@@ -7,6 +7,22 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 41 (Sonnet) — 2026-10-07 — New key and ritual set up; per-blyg [TK] proven; studio 0.36.0 and 0.36.1; release announcements on the blyg
+
+**Model:** Sonnet 5.5 · **Time:** ~18:44–19:45 PT · **Committed:** yes (all four repos) · **Deployed:** blygger-studio 0.36.0 and 0.36.1 to all three nodes (no migrations); release announcements for 0.35.1, 0.36.0, 0.36.1 on blyg.blygger.org. Released: v0.36.0, v0.36.1.
+
+**What & why:**
+- **Setup for the new base ritual (v1.0) and per-project keys.** Committed the three sub-repos' uncommitted `CLAUDE.md` edits from the devops rollout; reconciled this repo's *At Session Start* / *After Each Work Session* with S1–S7 / W0–W7 (adds `date`, four-repo git check, devops cross-project grep, the W3 security sweep, a wrap-up report keyed to step IDs); sub-repos now name this `DEVLOG.md` as their log.
+- **Per-blyg [TK] key proof** (the devops open item). One private draft, one generation, discard, on each node: all three returned 200 from `claude-sonnet-5-5`. blyg.blygger.org first failed 502 because it had never had an AI key and so no `ai_model_tk`; set it to `claude-sonnet-5-5` in its settings (live config change, reversible). Console-side usage per key is Venkat's check.
+- **Studio 0.36.0 (roadmap rows 2, 6, 8).** Row 2: `BLANK_BEFORE`/`BLANK_AFTER` in `tk.ts` did not treat a single trailing or leading newline as a blank line, so a final generated scope rendered inline; session 40's `publish_blyg.py` had worked around it by stripping the newline. Row 6: `author_url` setting (validated absolute http(s); blank = own address). Row 8: `[[id]]` link text is the target's opening heading when it has one, else the quoted excerpt as before.
+- **Studio 0.36.1 (row 11).** Audit found the 0.4.1 hardening already did the per-domain and global caps and the failed-row prune. The real gap: all caps count rows, and a repeat claim for a stored pair adds none, so identical POSTs were unbounded, each re-running two fetches and flipping a verified mention to pending. Added a 60 s per-pair cooldown (429, row untouched) and a pending-queue cap of 30 over a 10-minute window; per-reason `Retry-After`. Two older tests seeded 60/120 pending rows and now mark them resolved so the new cap does not trip first.
+- **Row 7: `blygger-org/publish_releases.py`** announces tagged studio releases from `CHANGELOG.md` as threads (whole-item `impyrt` disclosure, `claude-opus-5-5` by default), map in `docs/blyg-releases.json`. Live pages checked: H1, release link, two block spans, `generated[]` models. The 0.35 announcement session 40 posted predates the map, so backfill started at 0.35.1.
+- **Process notes.** Production deploys were refused once by the auto-mode classifier and went through after Venkat approved; the Release workflow for 0.36.0 passed (about 15 min). A request to move "unpublished release drafts" from the venkateshrao blyg found none (its 8 drafts are test stubs, link notes and empty shells) and was withdrawn; nothing on venkateshrao was touched.
+
+**State after:** Roadmap rows 2, 6, 7, 8, 11 shipped (ROADMAP.md updated); studio 0.36.1 live on venkateshrao, protocol-institute and blyg.blygger.org; official blyg holds 9 items, all public. Opus brief item (d) ticked.
+
+**Open threads:** Row 3 (settings sections) is next of the small rows; rows 5, 15, 17 still need Venkat's confirmations. `roadmap-tracks.md` 3.1 (`/updates.xml` vs the blyg's feed) is for Fable/Venkat to tick or strike. `publish_blyg.py`'s trailing-newline workaround can go at its next edit. Venkat: Console check that the three `ANTHROPIC_KEY_BLYGS_*` keys show usage, then devops can disable the old shared key. Whether our own outbound mention sender copes with the new 429s was not checked.
+
 ## Session 40 (Opus) — 2026-10-07 — RFCs drafted and published, the official blyg, Soapbox read (0.35), the public roadmap
 
 **Model:** Opus 5.5 (Fable 5.1 ran in parallel in the same tree; its entry is below) · **Time:** ~10:30–16:05 PT · **Committed:** yes (blygger-spec, blygger-studio, blygger-org, blygger-com; all pushed) · **Deployed:** blygger-studio 0.34.1, 0.35.0 and 0.35.1 to all three nodes (migration 0025 on each); the new node blyg.blygger.org; blygger.org ×5; blygger.com once. Released: v0.34.1, v0.35.0, v0.35.1.

@@ -27,16 +27,16 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | # | Item | Area | Est | Status | Open question | Link |
 |---|---|---|---|---|---|---|
 | 1 | Fresh source installs fail their first deploy: `npm run init` writes no `nodejs_compat` | studio | 1 | in review |  | [studio#46](https://github.com/blygger/blygger-studio/pull/46) |
-| 2 | A disclosure span at the very end of a post renders inline instead of as a block | studio | 2 | next |  |  |
+| 2 | A disclosure span at the very end of a post renders inline instead of as a block | studio | 2 | shipped: studio 0.36.0 |  |  |
 | 3 | Settings page reorganised into sections | studio | 5 | next |  |  |
 | 4 | Custom theme with live preview, shareable as a file, plus a reading typeface | studio | 3 | in review |  | [studio#38](https://github.com/blygger/blygger-studio/issues/38) |
 | 5 | Links back to blygger.org and to public collections, each removable in settings | studio | 2 | next | Exactly which links: a footer link to blygger.org and a public collections menu? |  |
-| 6 | The blyg's author URL settable in settings (today it is always the blyg's own address) | studio | 2 | next |  |  |
-| 7 | Release announcements for every client on the official blyg | org | 3 | next |  |  |
-| 8 | Internal `[[id]]` links take a heading as their text when the target has one | studio | 2 | next |  |  |
+| 6 | The blyg's author URL settable in settings (today it is always the blyg's own address) | studio | 2 | shipped: studio 0.36.0 |  |  |
+| 7 | Release announcements for every client on the official blyg | org | 3 | shipped: `publish_releases.py`; third-party clients by hand |  |  |
+| 8 | Internal `[[id]]` links take a heading as their text when the target has one | studio | 2 | shipped: studio 0.36.0 |  |  |
 | 9 | Stub editor: choose the quoted passage in the preview | studio | 5 | next |  |  |
 | 10 | Images resized in the browser before upload | studio | 5 | next |  |  |
-| 11 | Webmention receiver hardening: per-domain limits, a cap on pending checks | studio | 3 | next |  |  |
+| 11 | Webmention receiver hardening: per-domain limits, a cap on pending checks | studio | 3 | shipped: studio 0.36.1 |  |  |
 | 12 | Read state for imported items, then mark unread | studio | 3 | waiting: rebase |  | [studio#44](https://github.com/blygger/blygger-studio/pull/44), [#45](https://github.com/blygger/blygger-studio/pull/45) |
 | 13 | Templated surfaces (§16.6e) promoted to normative text | spec | 2 | waiting: Soapbox's confirmation |  | [spec#2](https://github.com/blygger/blygger-spec/issues/2) |
 | 14 | Technical note TN-2: identity practice | spec | 5 | next |  |  |

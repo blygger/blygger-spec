@@ -1,0 +1,20 @@
+{
+  "$note": "Map from blygger-studio release versions to their announcements on https://blyg.blygger.org/. Written by blygger-org/publish_releases.py.",
+  "releases": {
+    "0.35.1": {
+      "id": "0vhq1w0dbxyk6medsz5j29054w",
+      "version": 1,
+      "source_sha256": "b9d9deff4e8b67e7d69a87e92a0265c792163d6cd82ed4e6ab5da2788318e5e2"
+    },
+    "0.36.0": {
+      "id": "0fejyn0nd11qkykvyjm06fazfh",
+      "version": 1,
+      "source_sha256": "e9c79af929a345e3975286d63369bf6152c2aa58217ffb67c7fca5a106cdc0da"
+    },
+    "0.36.1": {
+      "id": "2ctvy2tr1kvz3eg43n6x3ksnzw",
+      "version": 1,
+      "source_sha256": "91166184645a6d2632fbc8db5f3e758a524aebb4166007147a8b78d0e3115e9f"
+    }
+  }
+}

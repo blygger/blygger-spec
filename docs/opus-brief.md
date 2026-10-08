@@ -107,7 +107,7 @@ Decisions #66 (official blyg, with its Fable review inline), #67 (RFC-1) and #68
   text and gain a link to the blyg item once ported (#66 review (c)); the front page and nav
   link `blyg.blygger.org`; the stale "RFC section" idea does not get built. Whether the blyg
   self-lists on blygger.com is Venkat's call — ask.
-- **d. Release announcements** go on the blyg, third-party clients' included (#66): one item
+- **d. Done session 41 (Opus/Sonnet):** `blygger-org/publish_releases.py` announces tagged studio releases from `CHANGELOG.md`, map in `docs/blyg-releases.json` (0.35.1, 0.36.0, 0.36.1 live); third-party clients' releases by hand. `roadmap-tracks.md` 3.1 (`/updates.xml` vs the blyg's feed) left for Fable/Venkat to tick or strike. Original item: **Release announcements** go on the blyg, third-party clients' included (#66): one item
   per release, same byline and `generated[]` rule as (a). The format is yours; the
   `Release` workflow could post it, or a sync from `CHANGELOG.md`. Then check
   `roadmap-tracks.md` 3.1: the generic `/updates.xml` is likely redundant with the blyg's
