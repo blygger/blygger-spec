@@ -143,16 +143,17 @@ Everything else is implementation: do what the plan doc specifies; small local j
 
 ## At Session Start (always, before any other work)
 
-> **Base ritual:** [`Code/devops/rituals.md`](../../devops/rituals.md) (v1.0) is canonical: startup S1–S7, wrap-up W0–W7. The steps below are this project's **local mods** — they run in addition to the base, and the stricter step wins. Check this section against the base when you next edit it; `Code/devops/rituals-survey.md` lists the common gaps (`date`, security sweep W3, cross-project items S4, a wrap-up report keyed to step IDs).
+> **Base ritual:** [`Code/devops/rituals.md`](../../devops/rituals.md) (v1.0) is canonical: startup S1–S7, wrap-up W0–W7. The steps below are this project's **local mods** — they run in addition to the base, and the stricter step wins. Reconciled with the base 2026-10-07 (session 41).
 
-1. Run `date` — record as session start time. Do NOT ask Venkat for it.
-2. Read the **latest DEVLOG.md entry** (especially *Open threads* and *State after*) and skim the current plan doc's task list.
-3. Determine session number (last entry + 1).
-4. Check model routing: if today's intended work hits a ⚠️ FABLE item and you aren't Fable, flag it now.
-   **If you are Opus or Sonnet, read [`docs/opus-brief.md`](docs/opus-brief.md) first** — the ordered queue and the file-ownership rules for running beside a Fable session.
-   **If you ARE Fable, read [`docs/fable-brief.md`](docs/fable-brief.md) first** — it is the standing agenda — since session 28 a gate table (G3–G9) that says what Opus must have built and exercised before there is Fable work — and it names what not to open.
-5. Give Venkat a one-line orientation: session number, where things stand, proposed focus.
-6. **Raise the carry-overs below, if any are still listed.** Venkat asked (2026-09-25) to be reminded of these at session start rather than having to remember them.
+Base steps run first (S1–S4); the list below is the local config.
+
+- **S1** `date` — record it as session start; never ask Venkat for it.
+- **S2** Read the **latest `DEVLOG.md` entry** (especially *Open threads* and *State after*) and skim the current plan doc's task list. The program log for all four repos is this `DEVLOG.md`.
+- **S3** `git status --short` and `git log @{u}..` in **all four repos** (`blygger-spec`, `blygger-studio`, `blygger-org`, `blygger-com`); dirty or unpushed state is the first thing to report.
+- **S4** `grep -n -i blygger ../../devops/status.md` — cross-project items from devops (key rotations, follow-ups).
+- **S5 (local)** Session number = last entry + 1. Check model routing: if today's work hits a ⚠️ FABLE item and you aren't Fable, flag it now. **If you are Opus or Sonnet, read [`docs/opus-brief.md`](docs/opus-brief.md) first** (queue and file-ownership rules for running beside a Fable session). **If you ARE Fable, read [`docs/fable-brief.md`](docs/fable-brief.md) first** (standing agenda; since session 28 a gate table G3–G9 saying what Opus must have built before there is Fable work).
+- **S6** Raise the carry-overs below, if any are still listed (Venkat asked 2026-09-25 to be reminded at session start).
+- **S7** One-line orientation: date, session number, where things stand, proposed focus. Then wait for Venkat.
 
 ### Carry-overs to raise at session start
 
@@ -176,14 +177,17 @@ Delete an entry once it is done or Venkat says to drop it. An empty list means s
 
 ## After Each Work Session
 
-**Before starting wrap-up:** ask "Ready to wrap up, or is there more to do?" unless Venkat has explicitly said to wrap up. Never initiate the wrap-up ritual unilaterally.
+**Before starting wrap-up (W0):** ask "Ready to wrap up, or is there more to do?" unless Venkat has explicitly said to wrap up. Never initiate the wrap-up ritual unilaterally.
 
-1. **`DEVLOG.md` — append a session entry. NON-SKIPPABLE.** Every session gets an entry, however trivial; a two-line entry is acceptable for a trivial session, a missing entry never is.
-2. `CLAUDE.md` — check off / add TODOs; update the document map if docs were added. **Ideas raised but not ruled or scheduled go in `docs/backlog.md`**, not in a TODO.
-3. `docs/roadmap.md` — tick exit criteria if met; `docs/v0.1-plan.md` (or current plan doc) — tick completed tasks.
-4. Git: `git add` relevant files, commit, push.
-5. Claude memory — save anything non-obvious not already in the repo docs.
-6. **Wrap-up report (never skip):** checklist table of items 1–5, ✅ done / ❌ skipped / n/a, one-line note each.
+Base W1–W7 apply; the local mapping:
+
+- **W1** `date` — record the end time (goes in the entry's **Time**).
+- **W2 Verify** — tests plus a look at the real artifact (browser or live endpoint); a change that builds is not a change that works.
+- **W3 Security sweep** — `git diff --staged | grep -nE 'sk-ant-|github_pat_|ghp_|gho_|AKIA|-----BEGIN [A-Z ]*PRIVATE KEY'` in every repo being committed prints nothing; new credentials registered per `security-policy.md`; incidents get a file.
+- **W4 `DEVLOG.md` — append a session entry. NON-SKIPPABLE.** Every session gets an entry, however trivial; a two-line entry is acceptable, a missing entry never is. Write it **before** committing so it ships with the work.
+- **W5 Docs** — `CLAUDE.md` (check off/add TODOs, update the document map); **ideas raised but not ruled or scheduled go in `docs/backlog.md`**; tick `docs/roadmap.md` exit criteria and the current plan doc's tasks; keep `ROADMAP.md` current; Claude memory only for what is non-obvious and not in the repo.
+- **W6** Commit in each touched repo (stage by name after a fresh `git status`; Opus and Fable share the tree). **Ask before the first outward action** (push, deploy); deploy only if Venkat says so.
+- **W7 Wrap-up report (never skip)** in the base format, keyed to W1–W6, ✅ / ❌ (why) / n/a, one line each.
 
 ### DEVLOG.md entry template
 
