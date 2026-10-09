@@ -38,7 +38,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 10 | Images resized in the browser before upload | studio | 5 | next |  |  |
 | 11 | Webmention receiver hardening: per-domain limits, a cap on pending checks | studio | 3 | shipped: studio 0.36.1 |  |  |
 | 12 | Read state for imported items, then mark unread | studio | 3 | waiting: rebase |  | [studio#44](https://github.com/blygger/blygger-studio/pull/44), [#45](https://github.com/blygger/blygger-studio/pull/45) |
-| 13 | Templated surfaces (§16.6e) promoted to normative text | spec | 2 | waiting: Soapbox's confirmation |  | [spec#2](https://github.com/blygger/blygger-spec/issues/2) |
+| 13 | Templated surfaces (§16.6e) promoted to normative text | spec | 2 | ready: Soapbox confirmed 2026-10-07; Fable promotes with 0.4 (G8) |  | [spec#2](https://github.com/blygger/blygger-spec/issues/2) |
 | 14 | Technical note TN-2: identity practice | spec | 5 | next |  |  |
 | 15 | Full backup: download the whole blyg, every version and file, as one archive | studio | 13 | later | Must the archive restore into a fresh node, or is download enough at first? |  |
 | 16 | Mentions as a reading and discovery channel: read responses inline, subscribe in one click | studio | 13 | later |  |  |

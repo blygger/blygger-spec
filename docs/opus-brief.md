@@ -139,7 +139,8 @@ studio#4 from item 8 closed. Remaining items keep their old numbers so reference
 6. **Remote generation sources** (#44, the first 0.4 construct; **implementation plan:
    `v0.4-plan.md` §7.2**, tasks R1–R8 with acceptance checks). Exercise it across both
    live nodes (R8) and record the ids: that opens gate G8 and the 0.4 document.
-6a. **Templated-surface reader for Soapbox** (G9; `v0.4-plan.md` §7.5, M1–M4). M3 was
+6a. **Done** (0.35.0/0.35.1, session 40; M4 confirmed by Robert Peake session 42, so G9 is true).
+   **Templated-surface reader for Soapbox** (G9; `v0.4-plan.md` §7.5, M1–M4). M3 was
    amended session 38 for #61: the receiver's verifier, not only `targetItemId`, changes.
    Land before Robert Peake posts a staging origin on blygger-spec#2.
 8. **Done session 38** (0.32.2): `page` stability test (#56).
