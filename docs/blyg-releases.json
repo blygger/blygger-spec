@@ -15,6 +15,16 @@
       "id": "2ctvy2tr1kvz3eg43n6x3ksnzw",
       "version": 1,
       "source_sha256": "91166184645a6d2632fbc8db5f3e758a524aebb4166007147a8b78d0e3115e9f"
+    },
+    "0.37.0": {
+      "id": "5x07bdw24w1zm2xq54hfmkyfh2",
+      "version": 1,
+      "source_sha256": "d99ed3caa704437535402c080b1784f9a1067dd085ad1fd375d20f6105e55428"
+    },
+    "0.38.0": {
+      "id": "3q950rnjebxe1a8prg60vy5txx",
+      "version": 1,
+      "source_sha256": "cf01c6321dc0f6df488cc48737a5d3ba97db110a46a68eda0efa9522c45c2344"
     }
   }
 }
