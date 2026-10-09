@@ -7,6 +7,26 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 42 — 2026-10-09 — G9 closed; extensions merged and shipped with two defaults; studio 0.37.0 and 0.38.0
+**Model:** Opus 5.5 · **Time:** ~13:37–16:40 PT · **Committed:** yes (all four repos) · **Deployed:** blygger-studio 0.37.0 then 0.38.0 to all three nodes (no migrations); release announcements for both on blyg.blygger.org. Released: v0.37.0, v0.38.0.
+
+**What & why:**
+- **Gate G9 is true.** Robert Peake confirmed on blygger-spec#2 that the M4 mention from the session-40 exercise verified on Soapbox. Ids are in `v0.4-plan.md` §7.5 M4; the Fable brief's G9 row, Opus brief 6a, ROADMAP row 13 and the carry-over are updated. Promoting §16.6e is Fable's and waits for the 0.4 document, so G8 (remote generation sources, R1–R8, unstarted: `MentionRelation` still has three members, `tk-generate.ts` still calls `resolveFragment`) is now the only Opus build between here and 0.4.
+- **Four studio PRs merged together, tested as one tree** (typecheck, `check:template`, no OpenAPI drift, UI 80, worker 1454, e2e 281): #46 ruthvik-947 (init writes `nodejs_compat`), #55 and #47 Kyle Mathews (shared reads; paced autosave on TanStack DB), #52 Aneesh Sathe (the extension mechanism, blessed session 39 under four invariants). On #52 a security note was added to `docs/extensions.md`: "reads only" describes an extension's server routes, not its UI, which holds the owner's session through the SDK client — review its UI like any screen that writes. Released as **0.37.0**.
+- **#53 (lineage glyph) is the extension-only feature, as agreed** for #35: reviewed on main (worker 1465, e2e 299), still Aneesh's draft. It has a server half, so it can only ever be operator-compiled, never shipped.
+- **Two default extensions, so the mechanism is exercised without building from source** (Venkat asked for trivial ones to ship with the reference client). Chosen by one test: browser-only, so no `/api/ext` routes reach every node. `reading-time` (byline "· N min", 230 words/min, Han/kana/Hangul at 500 characters/min, counted separately because those scripts are not space-separated) and `inspect` (⋯ row → sheet with the record this Studio holds, `content_*` elided, `*_json` parsed, copy button; reads own or imported copy through the existing API, never the origin). Both ship **off**; `extensions.json` now lists them; a UI test fails if anything shipped has `server.ts` or `contract.ts`; `{"remove": [...]}` in the local file drops one. Considered and not shipped: `blyg-stats` (needs a server half). Released as **0.38.0**, which also shows the Settings extensions card on every node.
+- **Release announcements:** nothing landed after v0.38.0, so no new release; `publish_releases.py` posted 0.37.0 and 0.38.0 on blyg.blygger.org (`5x07bdw24w1zm2xq54hfmkyfh2`, `3q950rnjebxe1a8prg60vy5txx`).
+- **Ritual (Venkat):** startup step S5b lists new PRs and issues in all four repos; wrap-up step W5b updates `ROADMAP.md` every session. Sibling repos' ritual configs point at both.
+
+**State after:** studio 0.38.0 on venkateshrao.com/blyg, blyg.protocol-institute.org and blyg.blygger.org (bundle checked on all three; `/api/ext` 401 unauthenticated); both Release runs green. ROADMAP rows 1, 35 and 50 shipped, 49 (#53) in review, 0.36.0 rows dropped. The extension-mechanism carry-over is removed.
+
+**Open threads:**
+- #53: needs a rebase onto the new `extensions/catalog.ts`; merge as catalog-only once Aneesh marks it ready. A review comment was suggested but not posted.
+- Venkat has not yet enabled Reading time / Inspect on his nodes.
+- One load-sensitive worker timing test failed once on #52's first run and passed on rerun.
+- Next build: G8 (R1–R8). Roadmap row 3 (settings sections) is the top unstarted studio row.
+- `ROADMAP.md` changes reach blygger.org/roadmap/ only on the next `blygger-org/deploy.sh`.
+
 ## Session 41 (Sonnet) — 2026-10-07 — New key and ritual set up; per-blyg [TK] proven; studio 0.36.0 and 0.36.1; release announcements on the blyg
 
 **Model:** Sonnet 5.5 · **Time:** ~18:44–19:45 PT · **Committed:** yes (all four repos) · **Deployed:** blygger-studio 0.36.0 and 0.36.1 to all three nodes (no migrations); release announcements for 0.35.1, 0.36.0, 0.36.1 on blyg.blygger.org. Released: v0.36.0, v0.36.1.
