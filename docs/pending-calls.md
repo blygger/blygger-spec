@@ -98,7 +98,7 @@ here only if the recommendation was reversed, so the reasoning is not lost.
 
 ## D. Small and stale
 
-11. **The session-37 summary on venkateshrao** — *session 43: Venkat said discard, but the item is not a draft:* it is a **public thread at v1** (published ~2026-10-07 00:00Z, "Studio notes: one response action, faster feeds, and a WordPress blyg on the way"). Left untouched; deleting it would mean withdrawal. *Needed:* leave it, or withdraw it. Original entry: **The unpublished blyg draft summarising session 37** on venkateshrao
+11. ~~**The session-37 summary on venkateshrao**~~ **Done session 43: withdrawn** (v2, Venkat's call once told it was published). *Earlier the same session: Venkat said discard, but the item is not a draft:* it is a **public thread at v1** (published ~2026-10-07 00:00Z, "Studio notes: one response action, faster feeds, and a WordPress blyg on the way"). Left untouched; deleting it would mean withdrawal. *Needed:* leave it, or withdraw it. Original entry: **The unpublished blyg draft summarising session 37** on venkateshrao
     (`4557xemndwty74r06etwt6rdtx`) — edit and publish, or discard.
 12. ~~**Kyle's `models/d1-polling-cache/logs/`**~~ **Dropped session 38 (Opus):** the logs are
     deliberate. The model's README cites them by name as the preserved evidence of the

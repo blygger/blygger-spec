@@ -33,7 +33,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 7 | Release announcements for every client on the official blyg | org | 3 | shipped: `publish_releases.py`; third-party clients by hand |  |  |
 | 9 | Stub editor: choose the quoted passage in the preview | studio | 5 | next |  |  |
 | 10 | Images resized in the browser before upload | studio | 5 | next |  |  |
-| 12 | Read state for imported items, then mark unread, under a new `reading:state` scope | studio | 3 | in progress: merging locally |  | [studio#44](https://github.com/blygger/blygger-studio/pull/44), [#45](https://github.com/blygger/blygger-studio/pull/45) |
+| 12 | Read state for imported items, then mark unread, under a new `reading:state` scope | studio | 3 | shipped: studio 0.39.0 |  | [studio#44](https://github.com/blygger/blygger-studio/pull/44), [#45](https://github.com/blygger/blygger-studio/pull/45) |
 | 13 | Templated surfaces (§16.6e) promoted to normative text | spec | 2 | ready: Soapbox confirmed 2026-10-07; Fable promotes with 0.4 (G8) |  | [spec#2](https://github.com/blygger/blygger-spec/issues/2) |
 | 14 | Technical note TN-2: identity practice | spec | 5 | next |  |  |
 | 15 | Full backup: download the whole blyg, every version and file, as one archive | studio | 5 | later |  |  |
@@ -45,7 +45,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 20 | RFC-1 in the studio: address book, @-mentions, member bylines | studio | 20 | waiting: RFC-1 closes |  | [spec#14](https://github.com/blygger/blygger-spec/issues/14) |
 | 21 | Conformance and intent toolkit merged | spec | 3 | in review: intent ledger corrected, merging |  | [spec#11](https://github.com/blygger/blygger-spec/pull/11) |
 | 22 | The directory runs the conformance toolkit daily | com | 8 | waiting: spec#11 |  | [com#1](https://github.com/blygger/blygger-com/issues/1) |
-| 23 | Remote generation sources: generation that draws on another blyg's items, with a `source` mention | studio | 20 | next: after row 12 |  |  |
+| 23 | Remote generation sources: generation that draws on another blyg's items, with a `source` mention | studio | 20 | next |  |  |
 | 24 | The 0.4 spec document opened | spec | 8 | waiting: item 23 |  |  |
 | 25 | Author-chosen text for `[[id]]` links (new syntax in posts) | spec | ? | needs ruling |  |  |
 | 26 | Unicode on the wire: normalization and origin comparison | spec | 8 | needs ruling |  | [spec#6](https://github.com/blygger/blygger-spec/issues/6) |

@@ -25,6 +25,11 @@
       "id": "3q950rnjebxe1a8prg60vy5txx",
       "version": 1,
       "source_sha256": "cf01c6321dc0f6df488cc48737a5d3ba97db110a46a68eda0efa9522c45c2344"
+    },
+    "0.39.0": {
+      "id": "0jwr7x38zkf7gazr0ckkmp8dn4",
+      "version": 1,
+      "source_sha256": "37e92db919d08ae7a5cb2421ef0b4d007fb120dc4bdf94289e9f2760d4616ae6"
     }
   }
 }
