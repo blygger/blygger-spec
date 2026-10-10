@@ -26,7 +26,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 - Pending call #11: leave or withdraw the session-37 summary thread.
 - Kyle on #54. That thread may reopen invariant 2 (`/.well-known/`); the Studio already serves `/.well-known/oauth-authorization-server`, which deserves a look against the invariant.
 - Flaky e2e `compose-pwa.spec.ts:179`.
-- Venkat: Console usage check for the three `ANTHROPIC_KEY_BLYGS_*` keys (devops item).
+- ~~Venkat: Console usage check for the three `ANTHROPIC_KEY_BLYGS_*` keys~~ — confirmed by Venkat the same evening; devops item ticked.
 
 ## Session 42 — 2026-10-09 — G9 closed; extensions merged and shipped with two defaults; studio 0.37.0 and 0.38.0
 **Model:** Opus 5.5 · **Time:** ~13:37–16:40 PT · **Committed:** yes (all four repos) · **Deployed:** blygger-studio 0.37.0 then 0.38.0 to all three nodes (no migrations); release announcements for both on blyg.blygger.org. Released: v0.37.0, v0.38.0.
