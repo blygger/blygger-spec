@@ -54,6 +54,10 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
     to settle: where it lives (changelog text versus a field), what a consumer that
     ignores it does (nothing, by §13.1), and whether a future maintenance agent's
     refreshes carry it by default.
+    *Venkat, session 43 (on `pending-calls.md` #4):* the name stays **`ignyr`**, and an
+    agent's refresh republishes carry it **by default**. Where it lives is still Fable's;
+    the recommendation on file is an OPTIONAL boolean on the changelog entry, not a word
+    in the note.
 
 14. **Listing public hoppers in `blyg.json`** (session 34). Studio 0.24.0 lists public
     hoppers under *Collections* on the homepage and archive, so people can find them;
@@ -62,6 +66,8 @@ and withdrawn stubs, one test), #62 (#57 against F6, partiality from the bake), 
     Fable's under #58. Weigh it against decision #12 (hoppers are curation display,
     never re-emitted on the feed): a list of links is not a re-emission, but it is
     the first time a hopper would be discoverable by machine.
+    *Parked session 43 (Venkat, on `pending-calls.md` #5):* moved to `backlog.md` §1 with
+    its trigger. Leave it out of the next round.
 
 ## C. Review after the fact (#58 batch)
 

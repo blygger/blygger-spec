@@ -39,7 +39,7 @@ here only if the recommendation was reversed, so the reasoning is not lost.
 
 ## B. Design calls — a short think each
 
-4. **`ignyr` directive** (`fable-round-queue.md` item 13; Venkat's idea, session 34).
+4. ~~**`ignyr` directive**~~ **Decided session 43:** the name stays `ignyr`, and agent refreshes carry it by default; recorded under `fable-round-queue.md` item 13, where it lives is still Fable's. Original entry: **`ignyr` directive** (`fable-round-queue.md` item 13; Venkat's idea, session 34).
    *Recommendation:* yes, as an OPTIONAL boolean on the changelog entry, not a word in the
    note. A note is prose readers read and the source of the feed `<title>` (§7); a
    control token inside it puts grammar on the wire, which #20 forbids. A boolean beside
@@ -48,12 +48,12 @@ here only if the recommendation was reversed, so the reasoning is not lost.
    maintenance agent's refresh republishes carry it by default — recommended yes, since
    refreshes are the flood the flag exists for. *Needed:* the name (`ignyr` is the
    working spelling; `minor` says what it means), and the default for agents.
-5. **Public hoppers in `blyg.json`** (`fable-round-queue.md` item 14). *Recommendation:*
+5. ~~**Public hoppers in `blyg.json`**~~ **Decided session 43:** parked with its trigger in `backlog.md` §1. Original entry: **Public hoppers in `blyg.json`** (`fable-round-queue.md` item 14). *Recommendation:*
    hold. It would be the first machine-discoverable hopper, and #12 drew the line at
    display. A list of links is harmless, but nothing asks for it yet — no second client,
    and the blygger.com directory has not requested it. Reopen when something does.
    *Needed:* agreement to park it with that trigger in `backlog.md`.
-6. **Password reset and the recovery anchor** (carry-over, session 36). *Recommendation:*
+6. ~~**Password reset and the recovery anchor**~~ **Decided session 43:** both a one-time recovery code shown at setup and a new `OWNER_PASSWORD` secret as the documented last resort. ROADMAP row 18; the build is a full session. Original entry: **Password reset and the recovery anchor** (carry-over, session 36). *Recommendation:*
    a recovery code shown once at setup, stored by the operator in `.env.keys` per the key
    policy, with the Cloudflare secret as the last resort it already is. Change-password
    through the login page writes a D1-held hash and re-keys the session HMAC and OAuth
@@ -61,7 +61,7 @@ here only if the recommendation was reversed, so the reasoning is not lost.
    tool; passkeys as the second phase. *Needed:* yes/no on the recovery-code anchor.
    *Opus:* agree, with a sizing note — the D1-held hash, HMAC re-keying and OAuth cache
    invalidation are a full session, not a patch. The anchor decision is cheap; the build is not.
-7. **Studio extension mechanism for UI experiments** (carry-over, session 36; Aneesh's
+7. ~~**Studio extension mechanism**~~ **Done:** blessed session 39 under four invariants, merged as Aneesh's #52 and released in 0.37.0 (session 42), with two browser-only defaults in 0.38.0. Original entry: **Studio extension mechanism for UI experiments** (carry-over, session 36; Aneesh's
    #35 is the first candidate). *Recommendation:* decide the surface before more is
    built against the absence of one. Cheapest honest shape: a documented set of read-only
    `/api` endpoints (`GET /api/lineage` belongs there), a theme slot and a script slot,
@@ -71,7 +71,7 @@ here only if the recommendation was reversed, so the reasoning is not lost.
 
 ## C. Timing calls
 
-8. **Gate G8 — remote generation sources** (`v0.4-plan.md` §7.2, R1–R8; deferred since
+8. ~~**Gate G8**~~ **Decided session 43:** build it right after the read-state release (#44/#45 with the `reading:state` scope). ROADMAP row 23. Original entry: **Gate G8 — remote generation sources** (`v0.4-plan.md` §7.2, R1–R8; deferred since
    session 32). *Recommendation:* schedule it right after the §15.4 security fix ships.
    It is the build that opens the 0.4 document, nothing in the queue blocks it, and the
    Soapbox reader side (M1–M4) is small enough to run beside it. *Needed:* a date, or
@@ -81,7 +81,9 @@ here only if the recommendation was reversed, so the reasoning is not lost.
    smaller than R1–R8 and has an outside party waiting, and #61 has since added a
    verification step to M3. G8 has no one waiting. Both open 0.4 constructs, so the 0.4
    document opens on whichever exercises first; neither order wastes work.
-9. **Merge blygger-spec#11** (the conformance toolkit). *Opus — stale premise:* Aneesh
+   *Session 43:* the dispute is moot — G9 shipped (0.35.0/0.35.1) and closed session 42, so
+   G8 is the only build left before 0.4. Still *Needed:* a date, or "next".
+9. ~~**Merge blygger-spec#11**~~ **Done session 43:** Venkat's `intents.json` pass was done by interview (I2, I4, I6 and I9 confirmed as intended; I1 and I3 updated for #65), then merged. Original entry: **Merge blygger-spec#11** (the conformance toolkit). *Opus — stale premise:* Aneesh
    made all three review changes the same day (98af8da, 2026-10-04 23:47Z), so nothing waits
    on him. What remains is Venkat's own promised `intents.json` correction pass, then the
    merge. Original text: waiting on Aneesh's reply to the
@@ -90,13 +92,13 @@ here only if the recommendation was reversed, so the reasoning is not lost.
    contradictions in one pass, and blygger-com#1 is queued behind it. *Needed:* the
    `intents.json` pass (it is Venkat's reading of his own words, so only he can do it).
 10. **AI spend budget prototype** (carry-over, session 36; branch `proto/ai-integrations`,
-    migration renumbered to 0025). *Recommendation:* keep parked until the session-36/37
+    migration still `0023_ai_usage.sql` there; it needs 0027 or later, session 43). *Recommendation:* keep parked until the session-36/37
     merges settle, as already decided; the interim 200-call cap is holding. *Needed:*
     nothing now.
 
 ## D. Small and stale
 
-11. **The unpublished blyg draft summarising session 37** on venkateshrao
+11. **The session-37 summary on venkateshrao** — *session 43: Venkat said discard, but the item is not a draft:* it is a **public thread at v1** (published ~2026-10-07 00:00Z, "Studio notes: one response action, faster feeds, and a WordPress blyg on the way"). Left untouched; deleting it would mean withdrawal. *Needed:* leave it, or withdraw it. Original entry: **The unpublished blyg draft summarising session 37** on venkateshrao
     (`4557xemndwty74r06etwt6rdtx`) — edit and publish, or discard.
 12. ~~**Kyle's `models/d1-polling-cache/logs/`**~~ **Dropped session 38 (Opus):** the logs are
     deliberate. The model's README cites them by name as the preserved evidence of the

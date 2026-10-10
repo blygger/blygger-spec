@@ -29,23 +29,23 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 1 | Fresh source installs fail their first deploy: `npm run init` writes no `nodejs_compat` | studio | 1 | shipped: studio 0.37.0 |  | [studio#46](https://github.com/blygger/blygger-studio/pull/46) |
 | 3 | Settings page reorganised into sections | studio | 5 | next |  |  |
 | 4 | Custom theme with live preview, shareable as a file, plus a reading typeface | studio | 3 | in review |  | [studio#38](https://github.com/blygger/blygger-studio/issues/38) |
-| 5 | Links back to blygger.org and to public collections, each removable in settings | studio | 2 | next | Exactly which links: a footer link to blygger.org and a public collections menu? |  |
+| 5 | A footer link to blygger.org and a public Collections menu, each removable in settings | studio | 2 | next |  |  |
 | 7 | Release announcements for every client on the official blyg | org | 3 | shipped: `publish_releases.py`; third-party clients by hand |  |  |
 | 9 | Stub editor: choose the quoted passage in the preview | studio | 5 | next |  |  |
 | 10 | Images resized in the browser before upload | studio | 5 | next |  |  |
-| 11 | Webmention receiver hardening: per-domain limits, a cap on pending checks | studio | 3 | shipped: studio 0.36.1 |  |  |
-| 12 | Read state for imported items, then mark unread | studio | 3 | waiting: rebase |  | [studio#44](https://github.com/blygger/blygger-studio/pull/44), [#45](https://github.com/blygger/blygger-studio/pull/45) |
+| 12 | Read state for imported items, then mark unread, under a new `reading:state` scope | studio | 3 | in progress: merging locally |  | [studio#44](https://github.com/blygger/blygger-studio/pull/44), [#45](https://github.com/blygger/blygger-studio/pull/45) |
 | 13 | Templated surfaces (§16.6e) promoted to normative text | spec | 2 | ready: Soapbox confirmed 2026-10-07; Fable promotes with 0.4 (G8) |  | [spec#2](https://github.com/blygger/blygger-spec/issues/2) |
 | 14 | Technical note TN-2: identity practice | spec | 5 | next |  |  |
-| 15 | Full backup: download the whole blyg, every version and file, as one archive | studio | 13 | later | Must the archive restore into a fresh node, or is download enough at first? |  |
+| 15 | Full backup: download the whole blyg, every version and file, as one archive | studio | 5 | later |  |  |
+| 53 | Restore a full backup into a fresh node | studio | 8 | later | Waits on row 15. |  |
 | 16 | Mentions as a reading and discovery channel: read responses inline, subscribe in one click | studio | 13 | later |  |  |
-| 17 | Opt-in blygger.com from the studio: list this blyg, browse the directory | studio | 8 | later | Listing, browsing, or both? |  |
-| 18 | Owner password change and reset in settings | studio | 8 | waiting: recovery design |  |  |
+| 17 | Opt-in blygger.com from the studio: list this blyg, and browse the directory with one-click subscribe | studio | 8 | later |  |  |
+| 18 | Owner password change and reset in settings; recovery by a one-time code, or a new `OWNER_PASSWORD` secret as the last resort | studio | 8 | later |  |  |
 | 19 | RFC-1 and RFC-2 comment periods | spec | – | waiting: closes 2026-11-04 |  | [spec#14](https://github.com/blygger/blygger-spec/issues/14), [#15](https://github.com/blygger/blygger-spec/issues/15) |
 | 20 | RFC-1 in the studio: address book, @-mentions, member bylines | studio | 20 | waiting: RFC-1 closes |  | [spec#14](https://github.com/blygger/blygger-spec/issues/14) |
-| 21 | Conformance and intent toolkit merged | spec | 3 | in review |  | [spec#11](https://github.com/blygger/blygger-spec/pull/11) |
+| 21 | Conformance and intent toolkit merged | spec | 3 | in review: intent ledger corrected, merging |  | [spec#11](https://github.com/blygger/blygger-spec/pull/11) |
 | 22 | The directory runs the conformance toolkit daily | com | 8 | waiting: spec#11 |  | [com#1](https://github.com/blygger/blygger-com/issues/1) |
-| 23 | Remote generation sources: generation that draws on another blyg's items, with a `source` mention | studio | 20 | later |  |  |
+| 23 | Remote generation sources: generation that draws on another blyg's items, with a `source` mention | studio | 20 | next: after row 12 |  |  |
 | 24 | The 0.4 spec document opened | spec | 8 | waiting: item 23 |  |  |
 | 25 | Author-chosen text for `[[id]]` links (new syntax in posts) | spec | ? | needs ruling |  |  |
 | 26 | Unicode on the wire: normalization and origin comparison | spec | 8 | needs ruling |  | [spec#6](https://github.com/blygger/blygger-spec/issues/6) |
@@ -56,7 +56,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 31 | Discovery from references: quote-chain view, "responds to" walk, second-degree blogrolls | studio | 13 | later |  |  |
 | 32 | Self-host template with `npm run upgrade` | studio | 20 | later |  |  |
 | 33 | A "you are behind" notice per listed node | com | 5 | later |  |  |
-| 34 | Passkey sign-in | studio | 13 | later |  |  |
+| 34 | Passkey sign-in | studio | 13 | later |  | [studio#50](https://github.com/blygger/blygger-studio/issues/50) |
 | 35 | A way to run UI experiments as extensions without changing the reference design | studio | 8 | shipped: studio 0.37.0; two (reading time, inspect) ship off in 0.38.0 |  | [studio#52](https://github.com/blygger/blygger-studio/pull/52) |
 | 49 | Lineage glyph on reading entries, as an operator-compiled extension | studio | 3 | in review: draft, needs a rebase |  | [studio#53](https://github.com/blygger/blygger-studio/pull/53) |
 | 50 | Autosave keeps one write in flight; shared item and hopper reads | studio | 3 | shipped: studio 0.37.0 |  | [studio#47](https://github.com/blygger/blygger-studio/pull/47), [#55](https://github.com/blygger/blygger-studio/pull/55) |
@@ -71,5 +71,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 44 | Publishing patterns: six client affordances | studio | 20 | later | Probably splits into six rows once each is sized. | [studio#18](https://github.com/blygger/blygger-studio/issues/18) |
 | 45 | Tangling: publish a thread and its fragments together | studio | 13 | needs ruling | Proposes new syntax in posts. | [studio#20](https://github.com/blygger/blygger-studio/issues/20) |
 | 46 | Optional `cid` on pinned versions (IPFS mirror and pin log) | spec | 8 | needs ruling |  | [spec#13](https://github.com/blygger/blygger-spec/issues/13) |
-| 47 | Read templated blygs (WordPress via Soapbox) | studio | 8 | shipped 0.35.1 |  | [spec#2](https://github.com/blygger/blygger-spec/issues/2) |
 | 48 | The official blyg at blyg.blygger.org, with RFCs and technical notes | org | 5 | shipped |  |  |
+| 51 | A discard-draft control in plain view, not only in the ⋯ menu | studio | 2 | next |  | [studio#56](https://github.com/blygger/blygger-studio/issues/56) |
+| 52 | Smart Feed: reading ordered by a scoring model the owner chooses | studio | ? | later | Which scoring models, and whether core or an extension. | [studio#57](https://github.com/blygger/blygger-studio/issues/57) |
+| 54 | The MCP server registers behind Cloudflare's MCP portals | studio | ? | waiting: Kyle |  | [studio#54](https://github.com/blygger/blygger-studio/issues/54) |
