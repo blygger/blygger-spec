@@ -1,5 +1,5 @@
 {
-  "about": "The intent ledger: what the protocol is FOR, stated as checkable intentions, each linked to the spec sections and decisions meant to deliver it. build_dashboard.py joins every check from conformance/*/out/summary.json to an intent when they share a spec section or decision. An intent can fail while every clause passes; that gap is what this file exists to show. Sources are quoted so Venkat can correct the reading.",
+  "about": "The intent ledger: what the protocol is FOR, stated as checkable intentions, each linked to the spec sections and decisions meant to deliver it. build_dashboard.py joins every check from conformance/*/out/summary.json to an intent when they share a spec section or decision. An intent can fail while every clause passes; that gap is what this file exists to show. Sources are quoted so Venkat can correct the reading. A 'reading' field records Venkat's answer where he has confirmed or corrected the reading; a suspected gap he ruled intended is cleared.",
   "intents": [
     {
       "id": "I1",
@@ -16,7 +16,8 @@
         "#24",
         "#57"
       ],
-      "suspected_gap": "Decision #57 (§16.6f, gate G11; built in blygger-studio 0.20.0) fixes the quote half: a fork of a thread now flattens the pinned document's baked quotes, so a fork no longer re-quotes at the forker's versions. Still open: no rule requires the fork's public page to show its lineage or link the pinned source. Live data has 4 of 5 fork pages doing it and Brady Dale's not doing it."
+      "suspected_gap": null,
+      "reading": "Venkat, 2026-10-09: this is the intent. The lineage half is now ruled too: decision #65 (§5.6 rules 7–8) says a fork's page SHOULD show its lineage and link the pinned source. Brady Dale's fork page is the one live case still to follow."
     },
     {
       "id": "I2",
@@ -33,7 +34,8 @@
         "#9",
         "#26"
       ],
-      "suspected_gap": "Verifiable only while the origin still serves the quoted version (live or pinned). After the source is republished and that version was never pinned, the check can no longer run."
+      "suspected_gap": null,
+      "reading": "Venkat, 2026-10-09: intended. A quote is verifiable for as long as the origin serves the quoted version; pinning is how an author makes that permanent. Not a gap."
     },
     {
       "id": "I3",
@@ -48,7 +50,8 @@
         "#8",
         "#57"
       ],
-      "suspected_gap": "#57 makes a fork descend from the pinned bytes, and flattened quotes keep a 'quoted from' line. Those quotes are now in the plain-web register (editable, unverified), so the chain of custody runs only through forked_from back to the pin, one hop at a time. Is one hop per fork the intended chain?"
+      "suspected_gap": null,
+      "reading": "Venkat, 2026-10-09: yes, one hop per fork is the intended chain (decision #65). Each fork vouches for its own pin, and a reader walks back one hop at a time."
     },
     {
       "id": "I4",
@@ -66,7 +69,8 @@
         "#38",
         "#44"
       ],
-      "suspected_gap": "Provenance is self-asserted by design (#20). 'Hardened' therefore means 'inspectable', not 'verified'. Worth making sure that is the intended meaning."
+      "suspected_gap": null,
+      "reading": "Venkat, 2026-10-09: 'hardened' means inspectable. Every claim can be checked against public bytes; provenance stays self-asserted (#20), with no signatures."
     },
     {
       "id": "I5",
@@ -97,7 +101,8 @@
         "#8",
         "#18"
       ],
-      "suspected_gap": "Thread snapshots are deliberately independent of source withdrawal (#9, §10.4), so the withdrawn text survives inside other people's threads. Is that the intended exception?"
+      "suspected_gap": null,
+      "reading": "Venkat, 2026-10-09: the exception is intended. A quote is the quoter's speech, so withdrawal governs the author's own surface and not other people's threads (#9, §10.4)."
     },
     {
       "id": "I7",
@@ -143,7 +148,8 @@
         "#13",
         "#28"
       ],
-      "suspected_gap": "Webmention is optional at L2, so an origin that doesn't advertise an endpoint never learns it was responded to. 'Can find out' holds only for origins that opted in."
+      "suspected_gap": null,
+      "reading": "Venkat, 2026-10-09: opt-in is fine. 'Can find out' means 'can choose to'; an origin without a Webmention endpoint has opted out."
     },
     {
       "id": "I10",

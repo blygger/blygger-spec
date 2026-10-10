@@ -109,7 +109,7 @@ a{color:var(--accent)}
 .areas h3{margin:0 0 4px;font-size:17px}
 .muted{color:var(--soft);font-size:13px}
 blockquote{margin:10px 0;padding:6px 12px;border-left:3px solid var(--accent);color:var(--ink);font-style:italic}
-.gap{font-size:14px;background:var(--code);border-radius:8px;padding:8px 12px;margin:10px 0}
+.gap,.reading{font-size:14px;background:var(--code);border-radius:8px;padding:8px 12px;margin:10px 0}
 .intent h3{margin:0;font-size:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .ev{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
 .ev td{border-top:1px solid var(--rule);padding:6px 6px;vertical-align:top}
@@ -181,6 +181,7 @@ document.getElementById("intents").innerHTML = D.intents.map(i => `
   <blockquote>${esc(i.quote)}</blockquote>
   <div class="muted">${esc(i.source)} · ${i.spec_refs.map(esc).join(", ") || "no spec section"} · ${i.decisions.map(esc).join(", ")}</div>
   ${i.suspected_gap ? `<div class="gap"><b>Suspected gap:</b> ${esc(i.suspected_gap)}</div>` : ""}
+  ${i.reading ? `<div class="reading"><b>Reading confirmed:</b> ${esc(i.reading)}</div>` : ""}
   ${bar(i.evidence)}
   <details ${i.status === "fail" ? "open" : ""}><summary>${i.evidence.length} checks bear on this</summary>
   <table class="ev">${i.evidence.map(c => `<tr><td>${pill(c.status)}</td><td><b>${esc(c.title)}</b> <span class="muted">· ${esc(c.area)}${c.id ? " · " + esc(c.id) : ""}</span><br><span class="muted">${esc(c.detail)}</span></td></tr>`).join("") || "<tr><td></td><td class='muted'>No tool produced evidence for this intention yet.</td></tr>"}</table>
