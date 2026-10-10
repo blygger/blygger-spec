@@ -28,13 +28,14 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 |---|---|---|---|---|---|---|
 | 1 | Fresh source installs fail their first deploy: `npm run init` writes no `nodejs_compat` | studio | 1 | shipped: studio 0.37.0 |  | [studio#46](https://github.com/blygger/blygger-studio/pull/46) |
 | 3 | Settings page reorganised into sections | studio | 5 | next |  |  |
-| 4 | Custom theme with live preview, shareable as a file, plus a reading typeface | studio | 3 | in review |  | [studio#38](https://github.com/blygger/blygger-studio/issues/38) |
+| 55 | CI reliability: a dedicated session to evaluate and test the e2e suite in CI (four different tests failed once each in two days, all passing locally, and one Check run took 45 minutes against a usual 15) | studio | 5 | next | Which failures share a cause: shared fixture state, timing on slower runners, or the runner itself. |  |
+| 4 | Custom theme with live preview, shareable as a file, plus a reading typeface | studio | 3 | shipped: studio 0.40.0 (#58) |  | [studio#38](https://github.com/blygger/blygger-studio/issues/38) |
 | 5 | A footer link to blygger.org and a public Collections menu, each removable in settings | studio | 2 | next |  |  |
 | 7 | Release announcements for every client on the official blyg | org | 3 | shipped: `publish_releases.py`; third-party clients by hand |  |  |
 | 9 | Stub editor: choose the quoted passage in the preview | studio | 5 | next |  |  |
 | 10 | Images resized in the browser before upload | studio | 5 | next |  |  |
 | 12 | Read state for imported items, then mark unread, under a new `reading:state` scope | studio | 3 | shipped: studio 0.39.0 |  | [studio#44](https://github.com/blygger/blygger-studio/pull/44), [#45](https://github.com/blygger/blygger-studio/pull/45) |
-| 13 | Templated surfaces (§16.6e) promoted to normative text | spec | 2 | ready: Soapbox confirmed 2026-10-07; Fable promotes with 0.4 (G8) |  | [spec#2](https://github.com/blygger/blygger-spec/issues/2) |
+| 13 | Templated surfaces (§16.6e) promoted to normative text | spec | 2 | ready: Soapbox confirmed 2026-10-07; Fable promotes with the 0.4 document (row 24) |  | [spec#2](https://github.com/blygger/blygger-spec/issues/2) |
 | 14 | Technical note TN-2: identity practice | spec | 5 | next |  |  |
 | 15 | Full backup: download the whole blyg, every version and file, as one archive | studio | 5 | later |  |  |
 | 53 | Restore a full backup into a fresh node | studio | 8 | later | Waits on row 15. |  |
@@ -45,8 +46,8 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 20 | RFC-1 in the studio: address book, @-mentions, member bylines | studio | 20 | waiting: RFC-1 closes |  | [spec#14](https://github.com/blygger/blygger-spec/issues/14) |
 | 21 | Conformance and intent toolkit merged | spec | 3 | in review: intent ledger corrected, merging |  | [spec#11](https://github.com/blygger/blygger-spec/pull/11) |
 | 22 | The directory runs the conformance toolkit daily | com | 8 | waiting: spec#11 |  | [com#1](https://github.com/blygger/blygger-com/issues/1) |
-| 23 | Remote generation sources: generation that draws on another blyg's items, with a `source` mention | studio | 20 | next |  |  |
-| 24 | The 0.4 spec document opened | spec | 8 | waiting: item 23 |  |  |
+| 23 | Remote generation sources: generation that draws on another blyg's items, with a `source` mention | studio | 20 | shipped: studio 0.41.0; exercised PI → venkateshrao 2026-10-10 (G8 open) |  |  |
+| 24 | The 0.4 spec document opened | spec | 8 | next: Fable opens it (G8 open) |  |  |
 | 25 | Author-chosen text for `[[id]]` links (new syntax in posts) | spec | ? | needs ruling |  |  |
 | 26 | Unicode on the wire: normalization and origin comparison | spec | 8 | needs ruling |  | [spec#6](https://github.com/blygger/blygger-spec/issues/6) |
 | 27 | Open findings from the first conformance report (partial quotes, closure walk, watermark, required members, grammar edge cases) | spec | 8 | needs ruling |  | [spec#11](https://github.com/blygger/blygger-spec/pull/11) |
@@ -58,14 +59,14 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 33 | A "you are behind" notice per listed node | com | 5 | later |  |  |
 | 34 | Passkey sign-in | studio | 13 | later |  | [studio#50](https://github.com/blygger/blygger-studio/issues/50) |
 | 35 | A way to run UI experiments as extensions without changing the reference design | studio | 8 | shipped: studio 0.37.0; two (reading time, inspect) ship off in 0.38.0 |  | [studio#52](https://github.com/blygger/blygger-studio/pull/52) |
-| 49 | Lineage glyph on reading entries, as an operator-compiled extension | studio | 3 | in review: draft, needs a rebase |  | [studio#53](https://github.com/blygger/blygger-studio/pull/53) |
+| 49 | Lineage glyph on reading entries, as an operator-compiled extension | studio | 3 | shipped: studio 0.40.0 |  | [studio#53](https://github.com/blygger/blygger-studio/pull/53) |
 | 50 | Autosave keeps one write in flight; shared item and hopper reads | studio | 3 | shipped: studio 0.37.0 |  | [studio#47](https://github.com/blygger/blygger-studio/pull/47), [#55](https://github.com/blygger/blygger-studio/pull/55) |
 | 36 | Technical note TN-4: a write surface | spec | 5 | later |  |  |
 | 37 | Reference agent and technical note TN-5: the contract between a blyg and an agent | spec | 40 | later |  |  |
-| 38 | YouTube links embed on public pages; a failed off-origin image shows as a link | studio | 3 | later |  | [studio#9](https://github.com/blygger/blygger-studio/issues/9) |
+| 38 | YouTube links embed on public pages; a failed off-origin image shows as a link | studio | 3 | shipped: studio 0.40.0 (#62) |  | [studio#9](https://github.com/blygger/blygger-studio/issues/9) |
 | 39 | Author-sized inline images | studio | 3 | needs ruling | The size has to be written in the post, so this is new syntax other clients will meet. | [studio#37](https://github.com/blygger/blygger-studio/issues/37) |
 | 40 | Pour-over links: paste a URL and bring the source into the draft | studio | 5 | later |  | [studio#17](https://github.com/blygger/blygger-studio/issues/17) |
-| 41 | TK generation through the Workers AI binding, with no API key | studio | 5 | later |  | [studio#8](https://github.com/blygger/blygger-studio/issues/8) |
+| 41 | TK generation through the Workers AI binding, with no API key | studio | 5 | shipped: studio 0.40.0 (#60), with OpenAI-compatible endpoints |  | [studio#8](https://github.com/blygger/blygger-studio/issues/8) |
 | 42 | Human-readable permalinks (`page` slugs) | studio | 8 | later |  | [studio#19](https://github.com/blygger/blygger-studio/issues/19) |
 | 43 | A richer editor without a vendored dependency | studio | 13 | later |  | [studio#16](https://github.com/blygger/blygger-studio/issues/16) |
 | 44 | Publishing patterns: six client affordances | studio | 20 | later | Probably splits into six rows once each is sized. | [studio#18](https://github.com/blygger/blygger-studio/issues/18) |
