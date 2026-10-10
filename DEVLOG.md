@@ -25,6 +25,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 - The public AI box's source link uses the browser's default link colour; one CSS line (`.gen-pop a`) next release.
 - New issue studio#63 (OPML import) and spec#2/studio#7 activity were not read this session.
 - AI-budget prototype migration now needs 0028+.
+- **Unconfirmed at close (watchers stopped):** the v0.41.0 Release re-run (run `38072308097`, failed job re-run) and the 0.41.0 Check run (`38072306898`). Check with `gh run list --repo blygger/blygger-studio --limit 4` and `gh release view v0.41.0 --repo blygger/blygger-studio`; if the release failed again, `gh run rerun 38072308097 --repo blygger/blygger-studio --failed`. The live nodes do not depend on either.
 
 ## Session 43 — 2026-10-09 — Admin session: housekeeping, then a decision interview; #11 merged, read state merged locally with a new scope
 **Model:** Opus 5.5 · **Time:** ~16:49–18:10 PT · **Committed:** yes (all four repos where touched) · **Deployed:** blygger.org (ecosystem, contributors, roadmap); a settings change on venkateshrao (two extensions on); **blygger-studio 0.39.0 to all three nodes (migration 0026)**. Released: v0.39.0.
