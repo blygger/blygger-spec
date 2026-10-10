@@ -1,0 +1,850 @@
+{
+  "area": "alloy",
+  "title": "Alloy 6 model of the Blygger 0.3 rules",
+  "generated_at": "2026-10-04T03:35:44+00:00",
+  "tool": "Alloy 6.2.0 (glucose)",
+  "checks": [
+    {
+      "id": "alloy.blygger.NoLocalSelfContainment",
+      "title": "1a. Local closure check prevents self-containment (version-level reading)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 1 Origin, 3 Item, 6 Version, 3 Directive, 4 Bake, 1 Passage, 5 Int, 1..7 steps. If the closure walk follows the transclusions[] of the versions actually baked (recursively, as the data-blyg-* tree records them), no thread can contain — through local hops — a quote of itself. [non-vacuity run Vac_LocalNesting (for 3 but 1 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..6 steps): instance found] Solve time 188.2s.",
+      "spec_refs": [
+        "§10.2"
+      ],
+      "decisions": [
+        "#26"
+      ],
+      "clauses": [
+        "C-10.2-04",
+        "C-10.2-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "NoLocalSelfContainment",
+      "scope": "for 3 but 1 Origin, 3 Item, 6 Version, 3 Directive, 4 Bake, 1 Passage, 5 Int, 1..7 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.blygger.NoLocalSelfContainment_ItemReading",
+      "title": "1a′. Local closure check, item-level reading (each local thread's current transclusions[])",
+      "status": "fail",
+      "detail": "Counterexample found — scope: for 3 but 1 Origin, 3 Item, 6 Version, 3 Directive, 4 Bake, 1 Passage, 5 Int, 1..7 steps. All on one origin. A v1 is published. B v1 quotes A v1. C v1 quotes B v1, so C's baked HTML holds B v1, which holds A v1. B is republished as v2 without its quote. A is republished as v2 quoting C. The closure check walks C's current transclusions[] (→ B) and B's current transclusions[] (→ nothing): A is not found, so the publish goes through. But the snapshot actually baked is C v1 ⊃ B v1 ⊃ A v1: A v2's own HTML contains a quote of A — the \"silly doubling\" the check exists to stop. Sound only if the walk follows the transclusions[] of the versions that were baked, not each item's current version. [non-vacuity run Vac_LocalNesting (for 3 but 1 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..6 steps): instance found] Solve time 81.4s.",
+      "spec_refs": [
+        "§10.2",
+        "§10.3"
+      ],
+      "decisions": [
+        "#26"
+      ],
+      "clauses": [
+        "C-10.2-04",
+        "C-10.2-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "NoLocalSelfContainment_ItemReading",
+      "scope": "for 3 but 1 Origin, 3 Item, 6 Version, 3 Directive, 4 Bake, 1 Passage, 5 Int, 1..7 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.blygger.NoSelfContainmentAnyPath",
+      "title": "1b. Self-containment through a remote hop (cross-origin cycle)",
+      "status": "info",
+      "detail": "Counterexample found — scope: for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..8 steps. Two origins. O2 publishes thread A v1. O1 imports it and publishes B v1 quoting A v1. O2 imports B and republishes A as v2 quoting B v1. A v2 contains B v1, which contains A v1: A quotes itself through a remote hop. The cycle the spec explicitly permits; 1c shows it is finite. [non-vacuity run Vac_CrossOriginCycle (for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..8 steps): instance found] Solve time 23.2s.",
+      "spec_refs": [
+        "§10.2"
+      ],
+      "decisions": [
+        "#26"
+      ],
+      "clauses": [
+        "C-10.2-04"
+      ],
+      "model": "models/blygger.als",
+      "command": "NoSelfContainmentAnyPath",
+      "scope": "for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..8 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.blygger.SnapshotsWellFounded",
+      "title": "1c. Snapshots are well-founded: no version contains itself",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 2 Origin, 3 Item, 5 Version, 3 Directive, 3 Bake, 1 Passage, 5 Int, 1..7 steps. Over versions (not items) the quotation graph is acyclic: a version can only bake versions that were already published when it was. So every baked document is finite, which is what makes 1b harmless — the spec's claim holds. [non-vacuity run Vac_CrossOriginCycle (for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..8 steps): instance found] Solve time 39.9s.",
+      "spec_refs": [
+        "§10.2",
+        "§10.4"
+      ],
+      "decisions": [
+        "#26"
+      ],
+      "clauses": [
+        "C-10.2-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "SnapshotsWellFounded",
+      "scope": "for 3 but 2 Origin, 3 Item, 5 Version, 3 Directive, 3 Bake, 1 Passage, 5 Int, 1..7 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.blygger.ServedIsPromised",
+      "title": "2. Served is promised: only live + pinned are served; pins survive withdrawal",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 2 Origin, 2 Item, 5 Version, 1 Directive, 1 Bake, 1 Passage, 5 Int, 1..8 steps. Every served version is the live one or a pin; every pin stays pinned and served forever, through withdrawal and return; no endcap is ever pinned. Honest caveat: with `served` defined as live ∪ pinned this is close to definitional — what it really checks is that no event in the model (withdraw, republish, return) can remove a pin. [non-vacuity run Vac_PinSurvivesWithdrawal (for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 2 Bake, 1 Passage, 5 Int, 1..6 steps): instance found] Solve time 28.6s.",
+      "spec_refs": [
+        "§4",
+        "§8",
+        "§8.4",
+        "§9"
+      ],
+      "decisions": [
+        "#8",
+        "#24",
+        "#25"
+      ],
+      "clauses": [
+        "C-8-01",
+        "C-8-02",
+        "C-8-03",
+        "C-4-09",
+        "C-4-10",
+        "C-8.4-01",
+        "C-8.4-02"
+      ],
+      "model": "models/blygger.als",
+      "command": "ServedIsPromised",
+      "scope": "for 3 but 2 Origin, 2 Item, 5 Version, 1 Directive, 1 Bake, 1 Passage, 5 Int, 1..8 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.blygger.QuotedContentStillServedByItsAuthor",
+      "title": "2b. Withdrawal does not reach other origins' baked quotes",
+      "status": "info",
+      "detail": "Counterexample found — scope: for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 2 Bake, 1 Passage, 5 Int, 1..8 steps. One origin is enough: thread B v1 quotes A v1; A is then republished as v2 and v1 was never pinned. B keeps serving A v1's words, which A's own origin no longer serves anywhere. The same holds after withdrawal and across origins. The spec chose this (snapshot independence): \"retention follows the origin's serving surface\" (§13.4) binds readers' stores, not other publishers' baked HTML. Solve time 8.6s.",
+      "spec_refs": [
+        "§9",
+        "§10.4",
+        "§13.4"
+      ],
+      "decisions": [
+        "#8",
+        "#9",
+        "#26"
+      ],
+      "clauses": [
+        "C-13.4-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "QuotedContentStillServedByItsAuthor",
+      "scope": "for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 2 Bake, 1 Passage, 5 Int, 1..8 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.blygger.ReaderNeverHoldsUnserved",
+      "title": "3. Reader never holds unserved content past withdrawal (#18c)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 2 Origin, 2 Item, 5 Version, 1 Directive, 1 Bake, 1 Passage, 5 Int, 1..8 steps. After a reader has seen an item's endcap, whatever it still holds of that item is a pinned version its origin still serves. [non-vacuity run Vac_ReaderRetainsPin (for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 2 Bake, 1 Passage, 5 Int, 1..7 steps): instance found] Solve time 27.9s.",
+      "spec_refs": [
+        "§13.1",
+        "§13.4"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-13.1-03",
+        "C-13.4-01",
+        "C-13.4-02",
+        "C-13.1-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "ReaderNeverHoldsUnserved",
+      "scope": "for 3 but 2 Origin, 2 Item, 5 Version, 1 Directive, 1 Bake, 1 Passage, 5 Int, 1..8 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.blygger.ReaderHoldsOnlyServed",
+      "title": "3b. Between polls a reader may hold what the origin no longer serves",
+      "status": "info",
+      "detail": "Counterexample found — scope: for 3 but 2 Origin, 2 Item, 4 Version, 1 Directive, 1 Bake, 1 Passage, 5 Int, 1..6 steps. The origin republishes an item; a reader that has not polled yet still holds v1, which is no longer served. Ordinary lag, not a violation — retention is bounded only at withdrawal. Shown because 6b/8 build on it: a publisher's studio is such a reader, and what it bakes is what it holds. Solve time 5.7s.",
+      "spec_refs": [
+        "§13.2",
+        "§13.4"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-13.1-01",
+        "C-13.4-02"
+      ],
+      "model": "models/blygger.als",
+      "command": "ReaderHoldsOnlyServed",
+      "scope": "for 3 but 2 Origin, 2 Item, 4 Version, 1 Directive, 1 Bake, 1 Passage, 5 Int, 1..6 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.blygger.ForkFaithful",
+      "title": "5 (a). ForkFaithful under §5.6 alone: a fork bakes what its source pin baked",
+      "status": "warn",
+      "detail": "Counterexample found — scope: for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps. Smallest case, one origin and no grammar issue at all: C v1 is published, B v1 quotes C v1, B v1 is pinned, C is republished as v2, then B v1 is forked as A. The fork copies B v1's content_md, the directive re-resolves to the current snapshot, and A v1 bakes C v2 — not the C v1 the pin shows. (This is the own-origin case Venkat reported before #57.) Across origins the same mechanism yields stale versions, unresolvable directives, and — see 5c — partial quotes turned whole. §5.6 does not promise faithfulness (r6: readers MUST NOT infer resemblance), so this is a gap, not a contradiction. [non-vacuity run Vac_ForkWithQuotes (for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..8 steps): instance found] Solve time 25.0s.",
+      "spec_refs": [
+        "§5.6",
+        "§10.2"
+      ],
+      "decisions": [
+        "#26",
+        "#49"
+      ],
+      "clauses": [
+        "C-5.6-03",
+        "C-5.6-06",
+        "C-5.6-08",
+        "C-10.2-01",
+        "C-10.2-02"
+      ],
+      "model": "models/blygger.als",
+      "command": "ForkFaithful",
+      "scope": "for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps",
+      "counterexample": true,
+      "expected": "counterexample",
+      "rule_set": "§5.6 alone"
+    },
+    {
+      "id": "alloy.blygger.ForkSameTargets",
+      "title": "5b (a). Weaker, §5.6 alone: a fork quotes the same items (ids) as its source pin",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..7 steps. What the spec can guarantee: an unedited fork, if it publishes at all, quotes exactly the same items as its source pin. Versions and partiality may differ (5, 5c); identity does not. [non-vacuity run Vac_ForkWithQuotes (for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..8 steps): instance found] Solve time 45.3s.",
+      "spec_refs": [
+        "§5.6",
+        "§10.1",
+        "§10.2"
+      ],
+      "decisions": [
+        "#26"
+      ],
+      "clauses": [
+        "C-10.2-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "ForkSameTargets",
+      "scope": "for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..7 steps",
+      "counterexample": false,
+      "expected": "none",
+      "rule_set": "§5.6 alone"
+    },
+    {
+      "id": "alloy.blygger.ForkPreservesPartiality",
+      "title": "5c (a). §5.6 alone: a partial quote stays partial in a fork (any client)",
+      "status": "warn",
+      "detail": "Counterexample found — scope: for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps. O2 publishes fragment B v1. O3 (partial-aware) imports it, publishes thread A v1 quoting one passage of B (partial), pins A v1. O2 — whose client predates the 2026-10-03 partial grammar — forks A v1. Its parser treats the attached blockquote as ordinary markdown: the fork C v1 bakes B v1 whole and carries the selection as unverified prose. #49 was admitted as a revision (not 0.4) under #43's test, \"readers display baked HTML and never resolve\" — true of readers, not of a forker that re-parses another origin's content_md. [non-vacuity run Vac_AwareForkOfPartial (for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps): instance found] Solve time 24.6s.",
+      "spec_refs": [
+        "§10.1",
+        "§10.3",
+        "§16.4"
+      ],
+      "decisions": [
+        "#43",
+        "#49"
+      ],
+      "clauses": [
+        "C-10.2-02",
+        "C-10.3-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "ForkPreservesPartiality",
+      "scope": "for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps",
+      "counterexample": true,
+      "expected": "counterexample",
+      "rule_set": "§5.6 alone"
+    },
+    {
+      "id": "alloy.blygger.ForkPreservesPartialityIfAware",
+      "title": "5d (a). §5.6 alone: …it does stay partial when the forker knows the grammar",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 3 Origin, 3 Item, 5 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps. With a partial-aware forker, a partial quote in the source is partial in the fork (or the fork cannot publish because the passage is gone from the forker's snapshot). So 5c's failure is exactly the grammar gap, nothing else. [non-vacuity run Vac_AwareForkOfPartial (for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps): instance found] Solve time 148.4s.",
+      "spec_refs": [
+        "§10.2"
+      ],
+      "decisions": [
+        "#49"
+      ],
+      "clauses": [
+        "C-10.2-02"
+      ],
+      "model": "models/blygger.als",
+      "command": "ForkPreservesPartialityIfAware",
+      "scope": "for 3 but 3 Origin, 3 Item, 5 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps",
+      "counterexample": false,
+      "expected": "none",
+      "rule_set": "§5.6 alone"
+    },
+    {
+      "id": "alloy.blygger.ForkTextEqualsPin_CopyMd",
+      "title": "5e (a). §5.6 alone: a fork's text equals its pinned source's text",
+      "status": "warn",
+      "detail": "Counterexample found — scope: for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps. The grammar gap in the other direction: B v1 was written on a whole-only client (O1), so its attached blockquote rendered as an ordinary blockquote under a whole quote of C v1. A partial-aware client (O2) forks it: the same content_md now parses as a partial transclusion, and the fork shows only the selected passage instead of the whole of C. Copying content_md changes the text whenever forker and source differ in snapshots or grammar. [non-vacuity run Vac_ForkWithQuotes (for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..8 steps): instance found] Solve time 28.2s.",
+      "spec_refs": [
+        "§5.6",
+        "§10.2"
+      ],
+      "decisions": [
+        "#26"
+      ],
+      "clauses": [
+        "C-5.6-03",
+        "C-5.6-08",
+        "C-10.2-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "ForkTextEqualsPin_CopyMd",
+      "scope": "for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps",
+      "counterexample": true,
+      "expected": "counterexample",
+      "rule_set": "§5.6 alone"
+    },
+    {
+      "id": "alloy.blygger.ForkTextEqualsPin_57",
+      "title": "5e (b). §5.6 + §16.6f (#57): a fork's text equals its pinned source's text",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 3 Origin, 4 Item, 5 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps. The gap closes: under #57 every fork's text content equals its pinned source's, whatever the forker holds, whatever its grammar, with nested and cross-origin quotes, and for a fork of a fork (whose flattened quotes are already own prose). [non-vacuity run Vac_Fork57NestedRemotePartial (for 3 but 3 Origin, 4 Item, 5 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps): instance found] Solve time 120.1s.",
+      "spec_refs": [
+        "§5.6",
+        "§16.6f"
+      ],
+      "decisions": [
+        "#57"
+      ],
+      "clauses": [
+        "C-5.6-03",
+        "C-5.6-08"
+      ],
+      "model": "models/blygger.als",
+      "command": "ForkTextEqualsPin_57",
+      "scope": "for 3 but 3 Origin, 4 Item, 5 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps",
+      "counterexample": false,
+      "expected": "none",
+      "rule_set": "§5.6 + §16.6f (#57)"
+    },
+    {
+      "id": "alloy.blygger.ForkQuotesFaithful_57",
+      "title": "5f (b). #57: the fork's quoted text equals the pin's baked quote text, and nothing re-resolves",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 3 Origin, 4 Item, 5 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps. Holds within scope: a #57 fork bakes nothing (no transclusions[], no quote-mentions, no blyg-transclusion), its flattened blockquotes are exactly the pin's quote text (a partial keeps exactly its passage), and every quoted layer — nested and cross-origin — gets an attribution line. The non-vacuity run exhibits a fork of a pin containing a partial quote and a nested remote quote. [non-vacuity run Vac_Fork57NestedRemotePartial (for 3 but 3 Origin, 4 Item, 5 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps): instance found] Solve time 79.6s.",
+      "spec_refs": [
+        "§16.6f",
+        "§5.6",
+        "§10.2"
+      ],
+      "decisions": [
+        "#57",
+        "#49"
+      ],
+      "clauses": [
+        "C-5.6-08",
+        "C-10.2-02"
+      ],
+      "model": "models/blygger.als",
+      "command": "ForkQuotesFaithful_57",
+      "scope": "for 3 but 3 Origin, 4 Item, 5 Version, 2 Directive, 3 Bake, 2 Passage, 5 Int, 1..8 steps",
+      "counterexample": false,
+      "expected": "none",
+      "rule_set": "§5.6 + §16.6f (#57)"
+    },
+    {
+      "id": "alloy.blygger.ForkHonoursKnownWithdrawal_CopyMd",
+      "title": "5g (a). §5.6 alone: a fork never re-publishes words its forker knows were withdrawn (unpinned)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 2 Origin, 3 Item, 5 Version, 1 Directive, 2 Bake, 1 Passage, 5 Int, 1..8 steps. Holds: re-resolution refuses a directive whose source the forker knows is withdrawn and unpinned, so the fork cannot be published with it (the author must remove the directive) — the same rule as republishing a thread. [non-vacuity run Vac_ForkWithQuotes (for 3 but 3 Origin, 3 Item, 4 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..8 steps): instance found] Solve time 28.5s.",
+      "spec_refs": [
+        "§10.2",
+        "§13.4",
+        "§5.6"
+      ],
+      "decisions": [
+        "#26",
+        "#18"
+      ],
+      "clauses": [
+        "C-10.2-01",
+        "C-13.4-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "ForkHonoursKnownWithdrawal_CopyMd",
+      "scope": "for 3 but 2 Origin, 3 Item, 5 Version, 1 Directive, 2 Bake, 1 Passage, 5 Int, 1..8 steps",
+      "counterexample": false,
+      "expected": "none",
+      "rule_set": "§5.6 alone"
+    },
+    {
+      "id": "alloy.blygger.ForkHonoursKnownWithdrawal_57",
+      "title": "5g (b). #57: …and with flattening?",
+      "status": "warn",
+      "detail": "Counterexample found — scope: for 3 but 2 Origin, 3 Item, 5 Version, 1 Directive, 2 Bake, 1 Passage, 5 Int, 1..8 steps. One origin: C v1 is published, thread A v1 quotes it, A v1 is pinned, C is withdrawn (never pinned). A v1 is then forked as B (by the same origin here; any origin works). Under #57 the fork is A v1's baked HTML flattened, so C's withdrawn, unpinned words are published afresh under a new id as an ordinary blockquote — although the forker knows C is withdrawn, and although the same publisher could not republish a thread of its own quoting C (publish error, §10.2). Under §5.6 alone (5g a) this cannot happen. Defensible — the pin of A already serves those words forever, the ground on which #57 rejected pin-closure — but it is the \"freeze this quote at the withdrawn version\" §10.2 says is deliberately not offered, now available through fork. Solve time 18.7s.",
+      "spec_refs": [
+        "§16.6f",
+        "§10.2",
+        "§13.4"
+      ],
+      "decisions": [
+        "#57",
+        "#26",
+        "#18"
+      ],
+      "clauses": [
+        "C-13.4-01",
+        "C-10.2-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "ForkHonoursKnownWithdrawal_57",
+      "scope": "for 3 but 2 Origin, 3 Item, 5 Version, 1 Directive, 2 Bake, 1 Passage, 5 Int, 1..8 steps",
+      "counterexample": true,
+      "expected": "counterexample",
+      "rule_set": "§5.6 + §16.6f (#57)"
+    },
+    {
+      "id": "alloy.blygger.QuoteIsVerbatim",
+      "title": "6a. Every partial quote was a substring of the version it names",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 2 Origin, 3 Item, 5 Version, 3 Directive, 3 Bake, 2 Passage, 5 Int, 1..7 steps. Holds — including through nesting: a selection may come from a whole quote nested inside the target, or from a partial quote inside it. (Substring is abstracted as passage membership, which is generous: a real substring test is stricter.) [non-vacuity run Vac_PartialQuote (for 3 but 2 Origin, 2 Item, 3 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..6 steps): instance found] Solve time 153.2s.",
+      "spec_refs": [
+        "§10.2"
+      ],
+      "decisions": [
+        "#49"
+      ],
+      "clauses": [
+        "C-10.2-02",
+        "C-10.3-01"
+      ],
+      "model": "models/blygger.als",
+      "command": "QuoteIsVerbatim",
+      "scope": "for 3 but 2 Origin, 3 Item, 5 Version, 3 Directive, 3 Bake, 2 Passage, 5 Int, 1..7 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.blygger.QuoteCheckableAtPublish",
+      "title": "6b. Is a partial quote re-checkable at the moment it is published?",
+      "status": "fail",
+      "detail": "Counterexample found — scope: for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..8 steps. O1 publishes B v1. O2 imports it. O1 republishes B as v2 (v1 never pinned). O2, not having polled since, publishes thread A partially quoting B v1 — the substring check passes against O2's local snapshot, exactly as the spec requires. But O1 no longer serves v1 anywhere: the \"any reader MAY re-check\" window is empty from the moment the quote exists. Publish-from-local-snapshot (#26) and re-checkability (#49) coincide only when the quoted version is live or pinned at publish. [non-vacuity run Vac_PartialQuote (for 3 but 2 Origin, 2 Item, 3 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..6 steps): instance found] Solve time 11.6s.",
+      "spec_refs": [
+        "§10.2",
+        "§5.9"
+      ],
+      "decisions": [
+        "#26",
+        "#49"
+      ],
+      "clauses": [
+        "C-10.2-03",
+        "C-10.2-02"
+      ],
+      "model": "models/blygger.als",
+      "command": "QuoteCheckableAtPublish",
+      "scope": "for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..8 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.blygger.QuoteStaysCheckable",
+      "title": "6c. Does a partial quote stay re-checkable?",
+      "status": "warn",
+      "detail": "Counterexample found — scope: for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..8 steps. A v1 partially quotes B v1 while v1 is live; B is then withdrawn (or republished) without v1 ever being pinned. From then on no reader can re-check the quote. The spec says this in so many words (\"while the origin serves that version\"), so it is not a contradiction — but a quote's verifiability is in the hands of the quoted author, not the quoter. [non-vacuity run Vac_PartialQuote (for 3 but 2 Origin, 2 Item, 3 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..6 steps): instance found] Solve time 8.5s.",
+      "spec_refs": [
+        "§10.2",
+        "§10.4"
+      ],
+      "decisions": [
+        "#49",
+        "#9"
+      ],
+      "clauses": [
+        "C-10.2-03"
+      ],
+      "model": "models/blygger.als",
+      "command": "QuoteStaysCheckable",
+      "scope": "for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..8 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.blygger.StubVersionAgreement",
+      "title": "8a. Stub version agreement (#27)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 2 Origin, 3 Item, 5 Version, 3 Directive, 3 Bake, 2 Passage, 5 Int, 1..7 steps. Holds, including with two directives naming the target (both resolve to the same local snapshot) and with partial quotes. Near-definitional: the rule is encoded as a fact, so this mainly shows the rule is consistent with resolution. [non-vacuity run Vac_StubQuotingTarget (for 3 but 2 Origin, 2 Item, 3 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..6 steps): instance found] Solve time 64.0s.",
+      "spec_refs": [
+        "§10.6",
+        "§10.3"
+      ],
+      "decisions": [
+        "#27"
+      ],
+      "clauses": [
+        "C-10.6-03",
+        "C-10.6-01",
+        "C-10.6-02"
+      ],
+      "model": "models/blygger.als",
+      "command": "StubVersionAgreement",
+      "scope": "for 3 but 2 Origin, 3 Item, 5 Version, 3 Directive, 3 Bake, 2 Passage, 5 Int, 1..7 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.blygger.StubCiteNeverRegresses",
+      "title": "8b. A stub's stub_of.version never moves backwards across the stub's versions",
+      "status": "warn",
+      "detail": "Counterexample found — scope: for 3 but 1 Origin, 2 Item, 5 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..7 steps. One origin. A v1, then A v2. The author started stub B while A v1 was current (creation value: v1), and publishes B v1 quoting A — agreement sets stub_of to the baked A v2. B is republished as v2 with the quote removed: read literally, r3 says stub_of \"keeps the value set when the stub was created\", so it falls back to A v1 — below a version the stub itself baked, and a staleness check now reports more staleness than is true. [non-vacuity run Vac_StubQuotingTarget (for 3 but 2 Origin, 2 Item, 3 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..6 steps): instance found] Solve time 12.2s.",
+      "spec_refs": [
+        "§10.6"
+      ],
+      "decisions": [
+        "#27"
+      ],
+      "clauses": [
+        "C-10.6-03"
+      ],
+      "model": "models/blygger.als",
+      "command": "StubCiteNeverRegresses",
+      "scope": "for 3 but 1 Origin, 2 Item, 5 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..7 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.blygger.StubCitesRealVersion",
+      "title": "8c. A stub names a version its target's origin really published",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 2 Origin, 3 Item, 5 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..7 steps. Holds: every stub_of names a version that was published at its origin (it came from the stubber's own reading). [non-vacuity run Vac_StubQuotingTarget (for 3 but 2 Origin, 2 Item, 3 Version, 2 Directive, 2 Bake, 2 Passage, 5 Int, 1..6 steps): instance found] Solve time 28.8s.",
+      "spec_refs": [
+        "§5.9",
+        "§10.6"
+      ],
+      "decisions": [
+        "#27"
+      ],
+      "clauses": [
+        "C-10.6-03"
+      ],
+      "model": "models/blygger.als",
+      "command": "StubCitesRealVersion",
+      "scope": "for 3 but 2 Origin, 3 Item, 5 Version, 2 Directive, 3 Bake, 1 Passage, 5 Int, 1..7 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.blygger.VersionsContiguous",
+      "title": "Versions increment by exactly 1 per publish event (#19)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 3 but 2 Origin, 3 Item, 5 Version, 2 Directive, 2 Bake, 1 Passage, 5 Int, 1..8 steps  -- Non-vacuity runs: each shows that the situation a passing check talks -- about actually occurs in the model.. Across publish, republish, withdrawal endcaps and returns, each item's published versions are exactly 1..n. [non-vacuity run Vac_Republish (for 3 but 2 Origin, 2 Item, 4 Version, 2 Directive, 2 Bake, 1 Passage, 5 Int, 1..6 steps): instance found] Solve time 65.4s.",
+      "spec_refs": [
+        "§5.2",
+        "§9"
+      ],
+      "decisions": [
+        "#19"
+      ],
+      "clauses": [
+        "C-5.1-02"
+      ],
+      "model": "models/blygger.als",
+      "command": "VersionsContiguous",
+      "scope": "for 3 but 2 Origin, 3 Item, 5 Version, 2 Directive, 2 Bake, 1 Passage, 5 Int, 1..8 steps  -- Non-vacuity runs: each shows that the situation a passing check talks -- about actually occurs in the model.",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.watermark.WatermarkMonotone",
+      "title": "4. Watermark is monotone except by user reset (#18b)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 6 Doc, 4 Int, 1..10 steps. With the watermark kept across roll-up-to-null, it never decreases except by a user-confirmed reset — under any poll order, dropped feed entries, stale cached bodies, stealth edits and history rewrites. [non-vacuity run Vac_RewriteCaught (for 6 Doc, 4 Int, 1..8 steps): instance found] Solve time 81.6s.",
+      "spec_refs": [
+        "§13.3"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-13.3-01",
+        "C-13.3-02",
+        "C-13.1-02",
+        "C-13.2-02"
+      ],
+      "model": "models/watermark.als",
+      "command": "WatermarkMonotone",
+      "scope": "for 6 Doc, 4 Int, 1..10 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.watermark.NoSilentRegression",
+      "title": "4b. No silent regression of presented content (keep-watermark reading)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 6 Doc, 4 Int, 1..10 steps. The reader never presents content older than the newest version it adopted unless the user reset. [non-vacuity run Vac_StaleThenFresh (for 6 Doc, 4 Int, 1..8 steps): instance found] Solve time 96.9s.",
+      "spec_refs": [
+        "§13.3"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-13.3-01"
+      ],
+      "model": "models/watermark.als",
+      "command": "NoSilentRegression",
+      "scope": "for 6 Doc, 4 Int, 1..10 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.watermark.NoSilentRegression_Forget",
+      "title": "4c. …but if the watermark is deleted with the stored copy on withdrawal",
+      "status": "warn",
+      "detail": "Counterexample found — scope: for 6 Doc, 4 Int, 1..10 steps. The origin publishes v1, then withdraws (v2 endcap). The reader fetches the endcap and — following \"SHOULD delete its stored copy\" / \"drop it from the local archive\" — forgets the item, watermark included. A stale cache then replays the v1 body (an origin rolling back would do the same). With no watermark the reader has no record and adopts v1 as the item returning: withdrawn content comes back silently. No rewrite by the origin was even needed. The spec never says the watermark outlives the stored copy. Solve time 1.6s.",
+      "spec_refs": [
+        "§9",
+        "§13.3",
+        "§13.4"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-13.4-01",
+        "C-13.3-01",
+        "C-13.1-03"
+      ],
+      "model": "models/watermark.als",
+      "command": "NoSilentRegression_Forget",
+      "scope": "for 6 Doc, 4 Int, 1..10 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.watermark.WatermarkMonotone_Forget",
+      "title": "4d. Watermark monotone under the forget-on-delete reading",
+      "status": "info",
+      "detail": "Counterexample found — scope: for 6 Doc, 4 Int, 1..10 steps. By construction of the reading: deleting the record on an endcap drops the watermark to zero. See 4c for why it matters. Solve time 1.4s.",
+      "spec_refs": [
+        "§13.4"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-13.4-01"
+      ],
+      "model": "models/watermark.als",
+      "command": "WatermarkMonotone_Forget",
+      "scope": "for 6 Doc, 4 Int, 1..10 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.watermark.RewriteIsLoud",
+      "title": "4e. A fetched history rewrite always raises a discrepancy",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 6 Doc, 4 Int, 1..10 steps. Whenever the reader fetches a rewritten body below its watermark, it surfaces it. [non-vacuity run Vac_ResetUsed (for 6 Doc, 4 Int, 1..8 steps): instance found] Solve time 1.3s.",
+      "spec_refs": [
+        "§13.3"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-13.3-01"
+      ],
+      "model": "models/watermark.als",
+      "command": "RewriteIsLoud",
+      "scope": "for 6 Doc, 4 Int, 1..10 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.watermark.AlarmMeansRewrite",
+      "title": "4f. Does a lower-version alarm prove the origin rewrote history?",
+      "status": "info",
+      "detail": "Counterexample found — scope: for 6 Doc, 4 Int, 1..10 steps. No. The origin publishes v1 and withdraws it (v2 endcap); the reader adopts the endcap; a stale edge cache then returns the v1 body. The reader raises the history-rewrite alarm though the origin never rewrote anything. §13.3 does call a lower version the origin's violation (it served an old body), so this is a calibration note, not a bug: surfaced discrepancies will include cache artefacts. Solve time 1.0s.",
+      "spec_refs": [
+        "§13.3",
+        "§12.3"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-13.3-01"
+      ],
+      "model": "models/watermark.als",
+      "command": "AlarmMeansRewrite",
+      "scope": "for 6 Doc, 4 Int, 1..10 steps",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.watermark.EndcapRollsUpToNull",
+      "title": "4g. A fetched endcap rolls the item up to null",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 6 Doc, 4 Int, 1..10 steps. Holds. [non-vacuity run Vac_StaleThenFresh (for 6 Doc, 4 Int, 1..8 steps): instance found] Solve time 1.3s.",
+      "spec_refs": [
+        "§13.1",
+        "§13.4"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-13.1-03",
+        "C-13.4-01"
+      ],
+      "model": "models/watermark.als",
+      "command": "EndcapRollsUpToNull",
+      "scope": "for 6 Doc, 4 Int, 1..10 steps",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.mentions.ImpostorFails",
+      "title": "7. ImpostorFails: verification attributes a mention to the origin that served it",
+      "status": "fail",
+      "detail": "Counterexample found — scope: for 4 but 2 Host, 3 Item. Two blygs share a host, path-mounted: example.com/alice/ and example.com/bob/ (#14 allows it; #36 recommends exactly this \"N origins under one host\" shape for groups). Bob serves, inside his own mount, an item document whose \"origin\" is example.com/alice/ and whose stub_of names a target at a third blyg, then sends that blyg a Webmention with his URL as source. Step 2 compares scheme, host and port only — they match — so the mention verifies and is recorded as Alice's stub. Bob can speak in Alice's name to any receiver. [non-vacuity run Vac_VerifiedStub (for 4): instance found] Solve time 0.9s.",
+      "spec_refs": [
+        "§15.4",
+        "§12.2",
+        "§4"
+      ],
+      "decisions": [
+        "#14",
+        "#17",
+        "#28",
+        "#36"
+      ],
+      "clauses": [
+        "C-15.4-03",
+        "C-15.4-02",
+        "C-13.1-07",
+        "C-4-01"
+      ],
+      "model": "models/mentions.als",
+      "command": "ImpostorFails",
+      "scope": "for 4 but 2 Host, 3 Item",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.mentions.ImpostorFails_OneOriginPerHost",
+      "title": "7b. ImpostorFails when every host has one blyg (today's deployments)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 4 but 3 Item. A mirror on another host that copies a real blyg's documents byte-for-byte cannot get a mention verified in that blyg's name. (Premise: one origin per host, and the host has one operator.) [non-vacuity run Vac_VerifiedStub (for 4): instance found] Solve time 0.6s.",
+      "spec_refs": [
+        "§15.4"
+      ],
+      "decisions": [
+        "#17",
+        "#28"
+      ],
+      "clauses": [
+        "C-15.4-03"
+      ],
+      "model": "models/mentions.als",
+      "command": "ImpostorFails_OneOriginPerHost",
+      "scope": "for 4 but 3 Item",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.mentions.ImpostorFails_PathAware",
+      "title": "7c. ImpostorFails with a path-aware step 2 (proposed fix)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 5 but 3 Item. With a full-origin prefix match the impostor in 7 no longer verifies, even with co-hosted origins. [non-vacuity run Vac_PathAwareVerified (for 4): instance found] Solve time 0.6s.",
+      "spec_refs": [
+        "§15.4"
+      ],
+      "decisions": [
+        "#14",
+        "#28"
+      ],
+      "clauses": [
+        "C-15.4-03"
+      ],
+      "model": "models/mentions.als",
+      "command": "ImpostorFails_PathAware",
+      "scope": "for 5 but 3 Item",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.mentions.WithdrawnStubStopsVerifying",
+      "title": "7d. A withdrawn stub stops verifying as a stub",
+      "status": "warn",
+      "detail": "Counterexample found — scope: for 4 but 3 Item. A stub is pinned at v1, then withdrawn. Anyone sends the target a Webmention whose source is the pin file items/{id}/v1.json (or a pinned page that links it). It is JSON with a blyg key, its origin matches, its kind is thread and it carries stub_of: it verifies as a stub, although the item is withdrawn. [non-vacuity run Vac_ViaLiveVerified (for 4): instance found] Solve time 0.6s.",
+      "spec_refs": [
+        "§9",
+        "§15.4",
+        "§8"
+      ],
+      "decisions": [
+        "#8",
+        "#27",
+        "#28"
+      ],
+      "clauses": [
+        "C-9-01",
+        "C-15.4-02",
+        "C-15.4-04"
+      ],
+      "model": "models/mentions.als",
+      "command": "WithdrawnStubStopsVerifying",
+      "scope": "for 4 but 3 Item",
+      "counterexample": true,
+      "expected": "counterexample"
+    },
+    {
+      "id": "alloy.mentions.WithdrawnStubStopsVerifying_ViaLive",
+      "title": "7e. …it does if verification re-reads the live item document (proposed fix)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 5 but 3 Item. Holds. [non-vacuity run Vac_ViaLiveVerified (for 4): instance found] Solve time 0.6s.",
+      "spec_refs": [
+        "§15.4"
+      ],
+      "decisions": [
+        "#28"
+      ],
+      "clauses": [
+        "C-9-01"
+      ],
+      "model": "models/mentions.als",
+      "command": "WithdrawnStubStopsVerifying_ViaLive",
+      "scope": "for 5 but 3 Item",
+      "counterexample": false,
+      "expected": "none"
+    },
+    {
+      "id": "alloy.mentions.MirrorCannotTakeIdentity",
+      "title": "7f. A mirror cannot become the subscription identity of what it copies (#17)",
+      "status": "pass",
+      "detail": "No counterexample — scope: for 5. Identity is always where the manifest bytes came from (after redirects); a self-asserted site never becomes identity. [non-vacuity run Vac_MirrorSubscription (for 4): instance found] Solve time 0.6s.",
+      "spec_refs": [
+        "§12.2"
+      ],
+      "decisions": [
+        "#17"
+      ],
+      "clauses": [
+        "C-12.2-01",
+        "C-12.2-02"
+      ],
+      "model": "models/mentions.als",
+      "command": "MirrorCannotTakeIdentity",
+      "scope": "for 5",
+      "counterexample": false,
+      "expected": "none"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:blyg="https://blygger.org/ns/0.1" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Fake Source Blyg</title><link>https://source.example/</link><description>fake</description><lastBuildDate>Thu, 03 Sep 2026 10:00:00 GMT</lastBuildDate><blyg:level>2</blyg:level><blyg:manifest>https://source.example/blyg.json</blyg:manifest>
+<item><guid isPermaLink="false">blyg:4zss0yg5f5zbh48e22s4f87003:v1</guid><link>https://source.example/t/4zss0yg5f5zbh48e22s4f87003/</link><title>item</title><description><![CDATA[<p>Opening line of a remote thread.</p>
+<blockquote class="blyg-transclusion blyg-partial" data-blyg-id="7c9wk2mhq0v3xj8tn5rzfd41bg" data-blyg-version="2">
+<p>Stigmergy is what a protocol looks like from inside</p>
+</blockquote>
+<p>Closing line with a link to <a href="https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/">“धर्म और कर्म”</a>.</p>
+]]></description><pubDate>Thu, 03 Sep 2026 10:00:00 GMT</pubDate><dc:creator>Source Author</dc:creator><blyg:id>4zss0yg5f5zbh48e22s4f87003</blyg:id><blyg:kind>thread</blyg:kind><blyg:version>1</blyg:version><blyg:created>2026-09-03T10:00:00Z</blyg:created><blyg:item>https://source.example/items/4zss0yg5f5zbh48e22s4f87003.json</blyg:item></item>
+<item><guid isPermaLink="false">blyg:7c9wk2mhq0v3xj8tn5rzfd41bg:v2</guid><link>https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/</link><title>second paragraph</title><description><![CDATA[<p>Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.</p>
+<p>A second paragraph about <em>emphasis</em> and traces left in the environment.</p>
+]]></description><pubDate>Wed, 02 Sep 2026 10:00:00 GMT</pubDate><dc:creator>Source Author</dc:creator><blyg:id>7c9wk2mhq0v3xj8tn5rzfd41bg</blyg:id><blyg:kind>fragment</blyg:kind><blyg:version>2</blyg:version><blyg:created>2026-09-01T10:00:00Z</blyg:created><blyg:item>https://source.example/items/7c9wk2mhq0v3xj8tn5rzfd41bg.json</blyg:item></item>
+<item><guid isPermaLink="false">blyg:7c9wk2mhq0v3xj8tn5rzfd41bg:v1</guid><link>https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/</link><title>item</title><description><![CDATA[<p>Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.</p>
+<p>A second paragraph about <em>emphasis</em> and traces left in the environment.</p>
+]]></description><pubDate>Tue, 01 Sep 2026 10:00:00 GMT</pubDate><dc:creator>Source Author</dc:creator><blyg:id>7c9wk2mhq0v3xj8tn5rzfd41bg</blyg:id><blyg:kind>fragment</blyg:kind><blyg:version>1</blyg:version><blyg:created>2026-09-01T10:00:00Z</blyg:created><blyg:item>https://source.example/items/7c9wk2mhq0v3xj8tn5rzfd41bg.json</blyg:item></item>
+<item><guid isPermaLink="false">blyg:1vgtgz0gq5b2c9k7d3m8r4n6xy:v1</guid><link>https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/</link><title>item</title><description><![CDATA[<p>धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.</p>
+]]></description><pubDate>Tue, 01 Sep 2026 10:00:00 GMT</pubDate><dc:creator>Source Author</dc:creator><blyg:id>1vgtgz0gq5b2c9k7d3m8r4n6xy</blyg:id><blyg:kind>fragment</blyg:kind><blyg:version>1</blyg:version><blyg:created>2026-09-01T10:00:00Z</blyg:created><blyg:item>https://source.example/items/1vgtgz0gq5b2c9k7d3m8r4n6xy.json</blyg:item></item>
+</channel></rss>

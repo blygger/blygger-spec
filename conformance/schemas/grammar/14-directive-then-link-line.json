@@ -1,0 +1,26 @@
+{
+  "id": "directive-then-link-line",
+  "title": "A directive followed by a [[id]] line: whole transclusion + link",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#32",
+    "#49"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n[[1vgtgz0gq5b2c9k7d3m8r4n6xy]]",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+        "partial": false
+      }
+    ],
+    "links": [
+      "1vgtgz0gq5b2c9k7d3m8r4n6xy"
+    ],
+    "tk_sources": [],
+    "literal": []
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "tk-output-own-line-directive",
+  "title": "An own-line directive left in hand-written TK output: provisionally a real transclusion at publish",
+  "spec_refs": [
+    "§5.7",
+    "§10.1"
+  ],
+  "decisions": [
+    "#20"
+  ],
+  "content_md": "Intro.\n\n[TK]write it[=]Mine.\n\n![[{{L}}]][/TK]\n\nOutro.",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "{{L}}",
+        "partial": false
+      }
+    ],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  },
+  "generate": false,
+  "ambiguous": "Decision #20 says that inside a TK scope every ![[id]] is a source reference, never a blockquote, and blygger-studio 0.17.0 (studio#5) made this line inert. Venkat's provisional ruling, shipped in blygger-studio 0.20.1 (DEVLOG session 33, item 8, taking the v0.4-plan §9.2 reading), makes an own-line directive left in TK output a real transclusion at publish, pending a Fable ruling that reconciles it with #20. The expectation encodes the provisional ruling. The output is hand-written (generate: false), so no harness regenerates it."
+}

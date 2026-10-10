@@ -1,0 +1,28 @@
+{
+  "id": "tk-scope-beside-transclusion",
+  "title": "A TK scope and a real transclusion in one thread: one quote, one source",
+  "spec_refs": [
+    "§5.7",
+    "§10.3"
+  ],
+  "decisions": [
+    "#20"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n\n[TK]Summarise ![[{{L}}]][=]Some output.[/TK]",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+        "partial": false
+      }
+    ],
+    "links": [],
+    "tk_sources": [
+      [
+        "{{L}}"
+      ]
+    ],
+    "literal": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "id": "multiple-directives",
+  "title": "Several directives, consecutive and separated, in order",
+  "spec_refs": [
+    "§10.1",
+    "§10.3"
+  ],
+  "decisions": [
+    "#26"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]\n\n![[4zss0yg5f5zbh48e22s4f87003]]",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+        "partial": false
+      },
+      {
+        "id": "1vgtgz0gq5b2c9k7d3m8r4n6xy",
+        "partial": false
+      },
+      {
+        "id": "4zss0yg5f5zbh48e22s4f87003",
+        "partial": false
+      }
+    ],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  }
+}

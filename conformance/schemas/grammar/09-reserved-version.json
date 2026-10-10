@@ -1,0 +1,18 @@
+{
+  "id": "reserved-version",
+  "title": "![[id@vN]] is reserved: 0.3 publishers MUST reject it",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#9"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg@v1]]",
+  "expect": {
+    "error": true,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  }
+}

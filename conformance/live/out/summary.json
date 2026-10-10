@@ -1,0 +1,597 @@
+{
+  "area": "live",
+  "title": "Live network crawl — cross-origin invariants",
+  "generated_at": "2026-10-04T23:45:52.455Z",
+  "crawled_at": "2026-10-04T03:47:45.539Z",
+  "origins": 19,
+  "checks": [
+    {
+      "id": "live.resolve",
+      "title": "Every listed / discovered URL resolves per §12.1",
+      "status": "fail",
+      "detail": "51 instance(s): 48 pass, 1 warn, 2 fail · failing at blyg.thoughtfolio.xyz/, www.robinsloan.com/feed.xml/",
+      "spec_refs": [
+        "§12.1"
+      ],
+      "decisions": [
+        "#17"
+      ],
+      "clauses": [
+        "C-4-02",
+        "C-4-03"
+      ],
+      "counts": {
+        "pass": 48,
+        "warn": 1,
+        "fail": 2,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.census",
+      "title": "Client, version key and level census per origin",
+      "status": "info",
+      "detail": "19 live blygs · protocol keys 0.3×16, 0.2×3 · 16 distinct generators",
+      "spec_refs": [
+        "§3.1",
+        "§3.2",
+        "§6.1"
+      ],
+      "decisions": [
+        "#18",
+        "#34"
+      ],
+      "clauses": [
+        "C-3.2-02",
+        "C-6.1-03"
+      ],
+      "counts": {
+        "pass": 0,
+        "warn": 0,
+        "fail": 0,
+        "info": 19
+      }
+    },
+    {
+      "id": "live.identity",
+      "title": "Item documents speak for the origin they are served from; manifest `site` agrees",
+      "status": "fail",
+      "detail": "21 instance(s): 17 pass, 1 warn, 3 fail · failing at blyg.jdbb.net/",
+      "spec_refs": [
+        "§12.2",
+        "§15.4"
+      ],
+      "decisions": [
+        "#17",
+        "#28"
+      ],
+      "clauses": [
+        "C-15.4-03",
+        "C-12.2-01"
+      ],
+      "counts": {
+        "pass": 17,
+        "warn": 1,
+        "fail": 3,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.content-hash",
+      "title": "`content_hash` = sha256(content_md) on item and pinned documents",
+      "status": "pass",
+      "detail": "18 instance(s): 18 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§5.1"
+      ],
+      "decisions": [
+        "#2"
+      ],
+      "clauses": [
+        "C-5.1-03"
+      ],
+      "counts": {
+        "pass": 18,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.index-agree",
+      "title": "Archive index agrees with item documents (versions, kinds, order)",
+      "status": "pass",
+      "detail": "19 instance(s): 19 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§6.2"
+      ],
+      "decisions": [
+        "#18"
+      ],
+      "clauses": [
+        "C-4-03",
+        "C-4-09"
+      ],
+      "counts": {
+        "pass": 19,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.feed",
+      "title": "Feed GUIDs are `blyg:{id}:v{n}` and agree with `blyg:id`/`blyg:version`; `<blyg:manifest>` present; withdrawn = one entry",
+      "status": "pass",
+      "detail": "19 instance(s): 19 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§7"
+      ],
+      "decisions": [
+        "#8"
+      ],
+      "clauses": [
+        "C-7-03",
+        "C-7-05",
+        "C-7-09"
+      ],
+      "counts": {
+        "pass": 19,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.reference-target",
+      "title": "Every reference names a reachable blyg identity origin and an existing item/version",
+      "status": "fail",
+      "detail": "185 instance(s): 184 pass, 0 warn, 1 fail · failing at blyg.aneeshsathe.com/",
+      "spec_refs": [
+        "§5.9",
+        "§10.2",
+        "§10.6"
+      ],
+      "decisions": [
+        "#26",
+        "#27"
+      ],
+      "clauses": [
+        "C-5.1-01",
+        "C-5.9-01",
+        "C-10.2-01"
+      ],
+      "counts": {
+        "pass": 184,
+        "warn": 0,
+        "fail": 1,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.fork-pinned",
+      "title": "Every `forked_from` targets a version pinned at its origin",
+      "status": "pass",
+      "detail": "6 instance(s): 6 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§5.6",
+        "§8"
+      ],
+      "decisions": [
+        "#8",
+        "#24"
+      ],
+      "clauses": [
+        "C-5.6-02",
+        "C-5.6-03"
+      ],
+      "counts": {
+        "pass": 6,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.selector-substring",
+      "title": "Partial transclusion: `selector.exact` is a substring of the target version's text content",
+      "status": "warn",
+      "detail": "13 instance(s): 11 pass, 2 warn, 0 fail",
+      "spec_refs": [
+        "§10.2",
+        "§10.3"
+      ],
+      "decisions": [
+        "#49"
+      ],
+      "clauses": [
+        "C-10.2-02",
+        "C-10.2-03",
+        "C-10.3-01"
+      ],
+      "counts": {
+        "pass": 11,
+        "warn": 2,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.transclusion-correspondence",
+      "title": "`transclusions[]` ⇔ directives in `content_md` ⇔ baked `blockquote.blyg-transclusion`",
+      "status": "fail",
+      "detail": "124 instance(s): 117 pass, 1 warn, 6 fail · failing at ammdi.hyperphor.com/blyg/, bradydale.com/blyg/",
+      "spec_refs": [
+        "§10.1",
+        "§10.2",
+        "§10.3"
+      ],
+      "decisions": [
+        "#9",
+        "#26",
+        "#49"
+      ],
+      "clauses": [
+        "C-10.2-02",
+        "C-10.3-01"
+      ],
+      "counts": {
+        "pass": 117,
+        "warn": 1,
+        "fail": 6,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.reserved-directive",
+      "title": "No published `![[id@vN]]` (reserved; publishers MUST reject)",
+      "status": "info",
+      "detail": "0 instance(s): 0 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§10.1"
+      ],
+      "decisions": [
+        "#9"
+      ],
+      "clauses": [
+        "C-10.1-01"
+      ],
+      "counts": {
+        "pass": 0,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.stub",
+      "title": "`stub_of` ⇒ kind thread, origin present, version agrees with the baked target",
+      "status": "fail",
+      "detail": "91 instance(s): 90 pass, 0 warn, 1 fail · failing at blyg.aneeshsathe.com/",
+      "spec_refs": [
+        "§10.6"
+      ],
+      "decisions": [
+        "#27"
+      ],
+      "clauses": [
+        "C-10.6-01",
+        "C-10.6-02",
+        "C-10.6-03",
+        "C-5.9-01"
+      ],
+      "counts": {
+        "pass": 90,
+        "warn": 0,
+        "fail": 1,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.html-absolute",
+      "title": "`content_html` contains no relative URLs",
+      "status": "fail",
+      "detail": "1114 instance(s): 1010 pass, 85 warn, 19 fail · failing at artlu.xyz/, thinking.drwip.com/blyg/",
+      "spec_refs": [
+        "§5.2",
+        "§7"
+      ],
+      "decisions": [
+        "#53"
+      ],
+      "clauses": [
+        "C-5.2-03",
+        "C-7-07"
+      ],
+      "counts": {
+        "pass": 1010,
+        "warn": 85,
+        "fail": 19,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.page",
+      "title": "`page` resolves (200)",
+      "status": "fail",
+      "detail": "1114 instance(s): 1086 pass, 25 warn, 3 fail · failing at artlu.xyz/, bradydale.com/blyg/",
+      "spec_refs": [
+        "§5.8"
+      ],
+      "decisions": [
+        "#29",
+        "#56"
+      ],
+      "clauses": [
+        "C-5.8-01",
+        "C-5.8-04"
+      ],
+      "counts": {
+        "pass": 1086,
+        "warn": 25,
+        "fail": 3,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.page-alt-json",
+      "title": "Permalink page carries `rel=alternate type=application/json` to its item document",
+      "status": "warn",
+      "detail": "1095 instance(s): 980 pass, 115 warn, 0 fail",
+      "spec_refs": [
+        "§5.8",
+        "§15.4"
+      ],
+      "decisions": [
+        "#29"
+      ],
+      "clauses": [
+        "C-5.8-03"
+      ],
+      "counts": {
+        "pass": 980,
+        "warn": 115,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.withdrawn-endcap",
+      "title": "Withdrawn items have the endcap shape",
+      "status": "pass",
+      "detail": "12 instance(s): 12 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§9"
+      ],
+      "decisions": [
+        "#8"
+      ],
+      "clauses": [
+        "C-4-09",
+        "C-8-03"
+      ],
+      "counts": {
+        "pass": 12,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.pins-served",
+      "title": "Every changelog `pinned: true` version is served at `items/{id}/v{n}.json` (incl. after withdrawal)",
+      "status": "pass",
+      "detail": "41 instance(s): 41 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§8",
+        "§9"
+      ],
+      "decisions": [
+        "#8"
+      ],
+      "clauses": [
+        "C-4-10",
+        "C-8-01"
+      ],
+      "counts": {
+        "pass": 41,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.pin-pages",
+      "title": "Pinned-version HTML pages `{page}v{n}/` (MAY)",
+      "status": "info",
+      "detail": "7 instance(s): 0 pass, 0 warn, 0 fail, 7 info",
+      "spec_refs": [
+        "§8.4"
+      ],
+      "decisions": [
+        "#24"
+      ],
+      "clauses": [
+        "C-8.4-04"
+      ],
+      "counts": {
+        "pass": 0,
+        "warn": 0,
+        "fail": 0,
+        "info": 7
+      }
+    },
+    {
+      "id": "live.unpinned-404",
+      "title": "Unpinned historical versions are not served (404)",
+      "status": "pass",
+      "detail": "18 instance(s): 18 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§4",
+        "§8.4"
+      ],
+      "decisions": [
+        "#24",
+        "#25"
+      ],
+      "clauses": [
+        "C-4-10",
+        "C-8.4-01"
+      ],
+      "counts": {
+        "pass": 18,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.cors",
+      "title": "Public JSON/XML served with `Access-Control-Allow-Origin: *`",
+      "status": "warn",
+      "detail": "19 instance(s): 18 pass, 1 warn, 0 fail",
+      "spec_refs": [
+        "§4"
+      ],
+      "decisions": [],
+      "clauses": [
+        "C-4-11"
+      ],
+      "counts": {
+        "pass": 18,
+        "warn": 1,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.webmention-advertised",
+      "title": "Which origins advertise a Webmention endpoint (manifest key / rel=webmention)",
+      "status": "info",
+      "detail": "19 instance(s): 0 pass, 0 warn, 0 fail, 19 info",
+      "spec_refs": [
+        "§15.1"
+      ],
+      "decisions": [
+        "#28"
+      ],
+      "clauses": [
+        "C-6.1-02",
+        "C-15.1-01"
+      ],
+      "counts": {
+        "pass": 0,
+        "warn": 0,
+        "fail": 0,
+        "info": 19
+      }
+    },
+    {
+      "id": "live.webmention-reachability",
+      "title": "Cross-origin references whose sender would find an endpoint at the target",
+      "status": "info",
+      "detail": "185 cross-origin references; 55 land on an origin with no endpoint, of which 27 are stubs that can never notify their target; 7 {url} stubs not probed",
+      "spec_refs": [
+        "§15.1",
+        "§15.2"
+      ],
+      "decisions": [
+        "#28"
+      ],
+      "clauses": [
+        "C-6.1-02",
+        "C-15.1-01",
+        "C-15.2-01"
+      ],
+      "counts": {
+        "pass": 0,
+        "warn": 0,
+        "fail": 0,
+        "info": 186
+      }
+    },
+    {
+      "id": "live.generated-sources",
+      "title": "`generated[].sources[]` stay own-origin at 0.3",
+      "status": "pass",
+      "detail": "3 instance(s): 3 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§5.7",
+        "§16.3"
+      ],
+      "decisions": [
+        "#20",
+        "#44"
+      ],
+      "clauses": [
+        "C-5.7-02"
+      ],
+      "counts": {
+        "pass": 3,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.updated-changelog",
+      "title": "`updated` equals the latest changelog entry's `at`",
+      "status": "pass",
+      "detail": "1114 instance(s): 1114 pass, 0 warn, 0 fail",
+      "spec_refs": [
+        "§5.2"
+      ],
+      "decisions": [],
+      "clauses": [
+        "C-5.2-02"
+      ],
+      "counts": {
+        "pass": 1114,
+        "warn": 0,
+        "fail": 0,
+        "info": 0
+      }
+    },
+    {
+      "id": "live.fork-reresolution",
+      "title": "Fork content vs. source pin: directives, selectors, baked versions, origins",
+      "status": "warn",
+      "detail": "6 instance(s): 0 pass, 1 warn, 0 fail, 5 info",
+      "spec_refs": [
+        "§5.6",
+        "§10.2"
+      ],
+      "decisions": [
+        "#26",
+        "#49"
+      ],
+      "clauses": [
+        "C-10.2-01",
+        "C-5.6-08"
+      ],
+      "counts": {
+        "pass": 0,
+        "warn": 1,
+        "fail": 0,
+        "info": 5
+      }
+    },
+    {
+      "id": "live.fork-lineage-visible",
+      "title": "A fork's public page links its source (origin / pinned version)",
+      "status": "warn",
+      "detail": "6 instance(s): 5 pass, 1 warn, 0 fail",
+      "spec_refs": [
+        "§5.6"
+      ],
+      "decisions": [],
+      "clauses": [],
+      "counts": {
+        "pass": 5,
+        "warn": 1,
+        "fail": 0,
+        "info": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  // Blygger multi-root workspace: settings, tasks and extension
+  // recommendations for working on the spec and the conformance toolkit.
+  // Nothing here applies to a plain clone of blygger-spec; it only takes effect
+  // when you open this file:
+  //   code --profile Blygger conformance/editor/blygger.code-workspace
+  //
+  // Sibling checkouts are expected next to blygger-spec (../<repo>). A folder
+  // that is not cloned shows as missing in the Explorer and is otherwise
+  // harmless; setup-profile.sh offers to clone the missing ones.
+  "folders": [
+    { "name": "blygger-spec", "path": "../.." },
+    { "name": "blygger-studio", "path": "../../../blygger-studio" },
+    { "name": "blygger-org", "path": "../../../blygger-org" },
+    { "name": "blygger-com", "path": "../../../blygger-com" }
+  ],
+
+  "settings": {
+    "files.associations": {
+      "*.als": "alloy",
+      "*.dot": "dot",
+      "*.gv": "dot",
+      "*.code-profile": "json"
+    },
+
+    // ---- JSON Schemas (conformance/schemas/schemas/*.schema.json, 2020-12) ----
+    // Relative URLs resolve against this file's folder.
+    "json.schemas": [
+      {
+        "url": "../schemas/schemas/manifest.schema.json",
+        "fileMatch": ["**/blyg.json"]
+      },
+      {
+        "url": "../schemas/schemas/index.schema.json",
+        "fileMatch": ["**/items/index.json"]
+      },
+      {
+        "url": "../schemas/schemas/pinned.schema.json",
+        "fileMatch": ["**/conformance/**/items/*/v*.json"]
+      },
+      {
+        "url": "../schemas/schemas/item.schema.json",
+        "fileMatch": ["**/conformance/**/items/*.json", "!**/items/index.json"]
+      }
+    ],
+
+    // ---- Live Preview: "Start Server" opens the dashboard ----
+    "livePreview.defaultPreviewPath": "/conformance/index.html",
+
+    // ---- Long markdown (docs/protocol-v0.3.md is ~2,000 lines) ----
+    "[markdown]": {
+      "editor.wordWrap": "on",
+      "editor.quickSuggestions": { "comments": "off", "strings": "off", "other": "off" },
+      "editor.formatOnSave": false,
+      "editor.stickyScroll.enabled": true,
+      "editor.rulers": []
+    },
+    "markdown.preview.scrollPreviewWithEditor": true,
+    "markdown.preview.scrollEditorWithPreview": true,
+    "markdown.preview.markEditorSelection": true,
+    "markdown.preview.typographer": false,
+    "markdown.validate.enabled": true,
+    "markdown.validate.fragmentLinks.enabled": "warning",
+    "markdown.validate.fileLinks.enabled": "warning",
+    "outline.showStrings": false,
+    // Markdown All in One: never rewrite normative text behind the author's back.
+    "markdown.extension.toc.updateOnSave": false,
+    "markdown.extension.orderedList.autoRenumber": false,
+    "markdown.extension.list.toggleCompletion": false,
+    "markdown.extension.toc.levels": "2..4",
+    "markdown.extension.tableFormatter.enabled": false,
+
+    // markdownlint: keep the signal, drop the house-style noise.
+    "markdownlint.config": {
+      "MD013": false,
+      "MD033": false,
+      "MD024": { "siblings_only": true },
+      "MD036": false,
+      "MD041": false,
+      "MD060": false
+    },
+
+    // ---- Spell check: protocol vocabulary ----
+    "cSpell.language": "en,en-GB",
+    "cSpell.enabledFileTypes": { "markdown": true, "json": false, "jsonc": false },
+    "cSpell.words": [
+      "blyg", "blygs", "blygger", "blyggers", "transclusion", "transclusions",
+      "transclude", "transcluded", "transcludes", "transcluding", "Webmention", "Webmentions",
+      "blogroll", "blogrolls", "hopper", "hoppers", "stubbing", "restub", "restubs",
+      "unpinned", "repin", "endcap", "Fable", "Venkat", "venkateshrao", "ribbonfarm",
+      "Yggdrasil", "ygg", "impyrt", "OPML", "Alloy", "Quint", "wrangler", "Hono",
+      "Cloudflare", "authorspace", "Micropub", "IndieAuth", "fast-check", "cytoscape"
+    ],
+
+    // ---- Generated / dependency trees ----
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.wrangler": true,
+      "**/.DS_Store": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/target": true,
+      "**/cache": true,
+      "**/vendor": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.wrangler": true,
+      "**/package-lock.json": true,
+      "conformance/**/out": true
+    },
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/target/**": true,
+      "**/.wrangler/**": true,
+      "**/cache/**": true,
+      "**/vendor/**": true
+    },
+
+    "explorer.compactFolders": false,
+    "breadcrumbs.enabled": true,
+    "workbench.editor.enablePreview": false,
+    "git.openRepositoryInParentFolders": "never",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    // Vitest explorer: discover configs per folder; never inside dependencies.
+    "vitest.configSearchPatternExclude": "{**/node_modules/**,**/.*/**,**/*.d.ts}",
+    "errorLens.enabledDiagnosticLevels": ["error", "warning"],
+    "gitlens.codeLens.enabled": false
+  },
+
+  // Run with Terminal > Run Task... Every tool task goes through
+  // bin/run-tool.sh, which holds the actual commands in one place.
+  "tasks": {
+    "version": "2.0.0",
+    "options": { "cwd": "${workspaceFolder:blygger-spec}" },
+    "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+    "tasks": [
+      {
+        "label": "Conformance: run all tools",
+        "detail": "Regenerate every tool's report, then the dashboard (live crawl needs network)",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/run-tool.sh all",
+        "group": { "kind": "build", "isDefault": true },
+        "problemMatcher": []
+      },
+      {
+        "label": "Conformance: open dashboard",
+        "detail": "Open conformance/index.html in your browser",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/open-dashboard.sh",
+        "presentation": { "reveal": "silent" },
+        "problemMatcher": []
+      },
+      {
+        "label": "Conformance: preview dashboard in VS Code",
+        "detail": "Live Preview of conformance/index.html inside VS Code (auto-refreshes)",
+        "type": "shell",
+        "command": "echo 'Live Preview started for conformance/index.html ${command:livePreview.start}'",
+        "presentation": { "reveal": "silent" },
+        "problemMatcher": []
+      },
+      {
+        "label": "Conformance: rebuild dashboard",
+        "detail": "python3 conformance/build_dashboard.py (joins existing summaries to intents.json)",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/run-tool.sh dashboard",
+        "problemMatcher": []
+      },
+      {
+        "label": "Conformance: rebuild and open dashboard",
+        "dependsOrder": "sequence",
+        "dependsOn": ["Conformance: rebuild dashboard", "Conformance: open dashboard"],
+        "problemMatcher": []
+      },
+      {
+        "label": "Conformance: clause register",
+        "detail": "python3 conformance/clauses/build.py",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/run-tool.sh clauses",
+        "problemMatcher": []
+      },
+      {
+        "label": "Conformance: schemas & grammar fixtures",
+        "detail": "npm --prefix conformance/schemas run all",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/run-tool.sh schemas",
+        "problemMatcher": []
+      },
+      {
+        "label": "Conformance: live network crawl",
+        "detail": "node conformance/live/run.mjs; read-only, needs network",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/run-tool.sh live",
+        "problemMatcher": []
+      },
+      {
+        "label": "Conformance: Alloy model",
+        "detail": "python3 conformance/alloy/run.py; needs Java 17+ and graphviz (~25 min)",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/run-tool.sh alloy",
+        "problemMatcher": []
+      },
+      {
+        "label": "Conformance: property tests (fast-check)",
+        "detail": "npm --prefix conformance/model run report (needs ../blygger-studio for the studio half)",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/run-tool.sh model",
+        "problemMatcher": []
+      },
+      {
+        "label": "Setup: check toolchain (python, node, java, dot)",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/toolchain.sh --check",
+        "problemMatcher": []
+      },
+      {
+        "label": "Graphviz: render current .dot to SVG",
+        "detail": "Writes <file>.svg next to the open .dot file",
+        "type": "shell",
+        "command": "bash conformance/editor/bin/toolchain.sh dot -Tsvg \"${file}\" -o \"${fileDirname}/${fileBasenameNoExtension}.svg\"",
+        "problemMatcher": []
+      }
+    ]
+  },
+
+  // setup-profile.sh installs exactly this list into the Blygger profile.
+  "extensions": {
+    "recommendations": [
+      "anthropic.claude-code",
+      "ms-vscode.live-server",
+      "arashsahebolamri.alloy",
+      "tintinweb.graphviz-interactive-preview",
+      "yzhang.markdown-all-in-one",
+      "bierner.markdown-mermaid",
+      "bierner.markdown-preview-github-styles",
+      "davidanson.vscode-markdownlint",
+      "redhat.vscode-yaml",
+      "vitest.explorer",
+      "ms-playwright.playwright",
+      "ms-python.python",
+      "streetsidesoftware.code-spell-checker",
+      "eamodio.gitlens",
+      "usernamehw.errorlens",
+      "informal.quint-vscode"
+    ]
+  }
+}

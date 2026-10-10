@@ -5,3 +5,20 @@
 node_modules/
 .wrangler/
 .dev.vars
+
+# conformance toolkit
+conformance/**/cache/
+conformance/**/vendor/
+conformance/**/target/
+.claude/worktrees/
+
+# Generated output stays local: only each tool's summary.json (read by the
+# dashboard) and report.html are committed. Raw dumps (the live crawl, result
+# and analysis JSON, SVGs) are regenerated on every run, and the crawl and live
+# snapshots hold other people's published words, which a withdrawal at the
+# origin could never reach once they were in git history (spec §13.4).
+conformance/*/out/*
+!conformance/*/out/summary.json
+!conformance/*/out/report.html
+conformance/schemas/samples/live-*/
+conformance/live/out/report-local.html

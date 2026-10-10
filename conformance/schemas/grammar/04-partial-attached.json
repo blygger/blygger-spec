@@ -1,0 +1,26 @@
+{
+  "id": "partial-attached",
+  "title": "Directive immediately followed by a blockquote is a partial transclusion",
+  "spec_refs": [
+    "§10.1",
+    "§10.2",
+    "§10.3"
+  ],
+  "decisions": [
+    "#49"
+  ],
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n\nCommentary.",
+  "expect": {
+    "error": false,
+    "transclusions": [
+      {
+        "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+        "partial": true,
+        "exact": "Stigmergy is what a protocol looks like from inside"
+      }
+    ],
+    "links": [],
+    "tk_sources": [],
+    "literal": []
+  }
+}

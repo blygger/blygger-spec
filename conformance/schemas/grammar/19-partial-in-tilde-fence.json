@@ -1,0 +1,21 @@
+{
+  "id": "partial-in-tilde-fence",
+  "title": "Directive + quote inside a tilde fence is inert",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#54",
+    "#49"
+  ],
+  "content_md": "~~~md\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n~~~",
+  "expect": {
+    "error": false,
+    "transclusions": [],
+    "links": [],
+    "tk_sources": [],
+    "literal": [
+      "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]"
+    ]
+  }
+}

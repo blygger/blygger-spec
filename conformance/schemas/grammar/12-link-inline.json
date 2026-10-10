@@ -1,0 +1,20 @@
+{
+  "id": "link-inline",
+  "title": "[[id]] inline outside code is a plain internal link",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "decisions": [
+    "#32"
+  ],
+  "content_md": "See [[7c9wk2mhq0v3xj8tn5rzfd41bg]] here.",
+  "expect": {
+    "error": false,
+    "transclusions": [],
+    "links": [
+      "7c9wk2mhq0v3xj8tn5rzfd41bg"
+    ],
+    "tk_sources": [],
+    "literal": []
+  }
+}
