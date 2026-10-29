@@ -90,6 +90,11 @@
       "id": "4cgay6a77zfyzdbqjbktsbqpq8",
       "version": 1,
       "source_sha256": "4aa6bebcad628f7c6d0708be4c7a4133ce2e75b52573e856c32964243a78bb8c"
+    },
+    "0.49.0": {
+      "id": "7b5283nva94y1b2x76ckh9cg9p",
+      "version": 1,
+      "source_sha256": "076d11bdb56c4df9dcb0d04841343351050cffcd9439da67529ed2822867a157"
     }
   }
 }
