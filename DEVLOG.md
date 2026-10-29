@@ -23,7 +23,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 **State after:** studio at 0.49.0 on `main` (pushed), tagged, and running on all three nodes. ROADMAP rows 9 (shipped), 89–93 added. blygger-org's census output (`content/ecosystem/index.md`, `ecosystem/cache.json`) committed.
 
 **Open threads:**
-- **Release `v0.49.0` is not confirmed.** `blygger-studio` Check and Release were still running at the last look and no GitHub Release existed yet, while the release thread already links to it. Check they went green (`gh run list`), per the six-tags-failed-silently history. A lone `7403` on the first PI migration apply cleared on an immediate retry, as before.
+- **Release `v0.49.0` confirmed** after wrap-up: Check and Release both green, the GitHub Release is live with five assets (OpenAPI, SDK tarball, Worker archive, `release.json`, `SHA256SUMS`), so the release thread's link resolves. A lone `7403` on the first PI migration apply cleared on an immediate retry, as before.
 - The AI-budget prototype on `proto/ai-integrations` carries migration `0023`; it must now be renumbered to **0034** or later.
 - Decisions left with Venkat: whether the V-line should show only for posts updated since read (one condition in `ChangeLead`); a setting to turn off page-probing (`classifyLinks` makes outbound fetches for links in opened entries, cached a week; accepted for now).
 - Not built: the `stub_of` header for *held* entries in the full view (peek shows it; held entries rely on their layers), a V-line for own posts, a `rel="webmention"` header question from session 52 untouched.
