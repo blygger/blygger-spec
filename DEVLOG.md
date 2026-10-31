@@ -7,6 +7,27 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 54 — 2026-10-30/31 — Studio 0.49.1: Kyle's #85 and #86 reviewed and merged, three e2e flakes traced, released and deployed
+**Model:** Sonnet 5.5 · **Time:** ~15:15 PT (10-30) – 11:45 PT (10-31) · **Committed:** yes (studio, spec) · **Deployed:** blygger-studio 0.49.1 to venkateshrao, protocol-institute and blyg.blygger.org (no migration)
+
+**What & why:** Session start check of open PRs (S5): five open in studio, one in spec. Venkat expected two minor ones from Kyle; they were #86 (title links to `/reading`, +7/−3) and #85 (+607/−518, native TanStack polling and completed preloads). Venkat asked why #85 would need Fable; it does not. It touches no wire, schema or spec file, and the polling-cache design docs it edits only restate the mechanism (15 s, visibility-aware) rather than reverse a ruling. I had wrongly suggested a Fable round from the file list alone, before reading the diff. Reviewed by diff instead: poll errors still reach the layout banner through the query-cache subscription, mutation handlers await an explicit refetch (the RC1 contract), and #85 merges cleanly with #86.
+- **`main` was red before either PR**: `reader-browse.spec.ts:29` failed on `main` at `e6ca2ae` (a docs-only commit). The test does `goto('/studio/reading')` then immediately `goto` the leaf and expects `via: 'start'`; the walk ends in `useEndTrail`'s mount effect, and `page.goto` returns at `load`, so a fast second navigation reloaded with the old stack restored from `sessionStorage` and the visit logged `link`. Fix `2b725d8`: wait for `sessionStorage['studio.browse']` to hold an empty stack. Not reproduced without the fix (it is fast locally); confirmed only by CI going green.
+- **Second red, different cause**: `generated-highlight.spec.ts` imported `test` from `@playwright/test`, so it missed the per-test `CF-Connecting-IP` that `e2e/fixture.ts` gives every other spec; its six logins shared one IP and hit the 5 per 60 s owner-login budget (`src/oauth.ts:81`), giving "Too many requests" on the second project. Fix `8849245`: import `./fixture`, and move the `highlight_generated_default` reset into `afterEach` so a mid-test failure no longer leaves the default on for the retry. A one-button failure at line 27 in CI, which started the cascade, is still unexplained; it did not recur.
+- **#85 renamed `CLAUDE.md` to `AGENTS.md`** without saying so. I asked Kyle to keep the name; he replied Claude Code now supports `AGENTS.md` and added the rename to the PR body. Venkat ruled to keep both: #85 merged, and `CLAUDE.md` is a symlink to `AGENTS.md` (`6b04d8f`), so the five `studio/CLAUDE.md` references in this repo stay valid. I did not verify Kyle's claim.
+- **Merges:** both squash-merged (Kyle keeps authorship): #86 `e928f84`, #85 `7cbcf3a`. #86's own e2e was red only from the inherited `reader-browse` failure.
+- **Release:** 0.49.1, no migration, no API or data change (`2582d73`, tag `v0.49.1`). Check and Release green, five assets. Deployed with the three recorded `deploy:*` spellings, one account each, no API token set.
+
+**Verification:** `Check` green on `2582d73` (e2e, four mutation suites, oauth-interop, sdk-generation). Live: `blyg.json` generator is `blygger-studio/0.49.1` on all three nodes and each `/studio/login` returns 200. No click-through on a node this session.
+
+**State after:** studio 0.49.1 on `main` (pushed), tagged, released and live on all three nodes. ROADMAP rows 94 and 95 added. `main` is green.
+
+**Open threads:**
+- Open PRs left: studio #88 (shannonbux, "component primitives", opened 10-28, not reviewed), #84 (aneeshsathe, hopper feeds, held for the ⚠️ FABLE ruling on blygger-spec#18), #59 (extension registry; Kyle's comments there on 10-26 and 10-27 argue against it, not reviewed this session), and blygger-spec#18 itself (FABLE).
+- #85 puts DB and React DB on 1.0.0-rc.1, a prerelease, in a production dependency; revisit when the stable releases.
+- The CI one-button failure at `generated-highlight.spec.ts:27` is unexplained.
+- The first session in `blygger-studio` should confirm the project instructions load through the `CLAUDE.md` symlink.
+- Not done: a thank-you or release note to Kyle on #85 and #86; a real click-through on a node; blygger.org's roadmap page publishes only on the next `blygger-org/deploy.sh`.
+
 ## Session 53 — 2026-10-29 — Studio 0.49.0: browse the thicket from the reader, browsing history, Background lens, changelog lead
 **Model:** Sonnet 5.5 · **Time:** ~10:26–12:45 PT · **Committed:** yes (studio, spec, org) · **Deployed:** blygger-studio 0.49.0 to all three nodes (venkateshrao first, PI and blyg.blygger.org later in the day), migration 0033 applied to each D1 first. Tagged and pushed v0.49.0 (Check and Release were still running at the last look). Published on **blyg.blygger.org**: the 0.49.0 release thread `7b5283nva94y1b2x76ckh9cg9p` via `publish_releases.py --model claude-sonnet-5-5 0.49.0` (map `docs/blyg-releases.json`). **Mistake, corrected:** it was first posted on the PI blyg (`6prgb645xe72qqe6ppbzepadkb`) because the request said "PI blyg"; Venkat then corrected it to the official blyg, and the PI post was withdrawn (an endcap, so one withdrawn item remains on PI).
 
