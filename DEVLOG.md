@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 56 — 2026-11-01 — Fable round: hopper feeds (#86), the fixed name at every identity (#87), origin succession (#88)
-**Model:** Fable 5.1 · **Time:** ~12:55–13:40 PT · **Committed:** yes (spec `ab550ed`, blygger-org `aac077b`) · **Deployed:** blygger.org (seventh 0.4 revision, roadmap rows 96–98; verified live, footer at `ab550ed`)
+**Model:** Fable 5.1 · **Time:** ~12:55–13:25 PT · **Committed:** yes (spec `ab550ed`, blygger-org `aac077b`) · **Deployed:** blygger.org (seventh 0.4 revision, roadmap rows 96–98; verified live, footer at `ab550ed`)
 
 **What & why:** A Fable-only session on the three field items session 55 (Sonnet, running in
 parallel today; no DEVLOG entry of its own yet) queued in `fable-brief.md`. Rulings and
