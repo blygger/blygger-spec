@@ -7,6 +7,33 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 55 — 2026-11-01 — Kyle's API stack merged, host-root `/api` alias restored, studio 0.49.12; Florian's move fixed by hand and folded in the directory
+**Model:** Sonnet 5.5, then Opus 5.5 (Venkat's `/model` switch after the Florian fix) · **Time:** ~12:31–15:00 PT · **Committed:** yes (studio, spec, blygger-com, blygger-org) · **Deployed:** blygger-studio 0.49.12 to venkateshrao (migrations 0034–0036, date repair); blygger.com (migration 0010); blyg.blygger.org and protocol-institute pending approval at time of writing
+
+Ran in parallel with session 56 (Fable), which started from the brief this session wrote.
+
+**What & why:**
+- **Fable brief.** Wrote the "Session 55 additions" section of `fable-brief.md` for a Fable round Venkat started in another session: spec#18 (hopper feeds), spec#21 (relocated manifest), studio#102 (Florian's origin move), the RFC close on 11-04, and which new items were Opus-tier (spec#19, #20, blygger-org#4). Session 56 ruled the first three as #86–#88.
+- **Kyle's API-cleanup stack merged** (studio #90, #91, #93–#101, plus #89 and #94; tracker studio#92). By the four-question test it is Opus-tier: private API only, no wire change. Reviewed by diff on the public surface and the migrations only, not line by line. The public HTTP changes are listed in the brief: CORS `*` on wire reads, `no-cache` plus validators on JSON/XML, digest media URLs, 405 on `GET /webmention`. **Merge mechanics, for next time:** the ten branches were a linear stack, and squash-merging the first (#90) left every later branch conflicting. The fix was merging the head (#101) with `-X theirs` in a scratch worktree, checking that the tree equalled #101's apart from #89's one line, and pushing the merge commit (`f630359`), which marked all ten merged. Merge a stack with merge commits, or merge only its head.
+- **Host-root `/api` alias restored (0.49.12, `2cf060d`).** #97 was a hard cutover to `{mount}/api` with no alias, against ROADMAP row 64's plan ("alias for two releases"). Venkat: add it back, because **`/blyg` is one of the two recommended mounting conventions**. On a mounted node `/api/…` is rewritten to `{mount}/api/…` inside `makeApp`, with `Deprecation: true` and a `successor-version` Link. `verifyBearer` accepts the legacy `{origin}/api` audience, and the OAuth provider lists it as a resource so stored grants still refresh. Discovery names only the mounted address. Full Worker suite green (2,045), then Check green and Release published.
+- **Florian's move, fixed by hand for Venkat's node** (studio#102). Venkat's subscription row was updated in place by D1 (origin, feed URL, cleared ETag and index sync), then resynced. Nothing was re-keyed and nothing lost. **Hoppers do not break when an origin moves**: they are keyed by local `subscription_id`. Only the unsubscribe/resubscribe workaround loses them (`deleteSubscription`). Venkat's thread `7et3x8eykq9b3z0ffr0jwhmf8p` was republished to fix its references. v2 re-baked `transclusions[]` but kept `stub_of` on the old origin, because the studio stores `stub_of` at creation and never re-derives its origin. A D1 update of `items.stub_of` and v3 fixed it; the mention to `blyg.florianlohse.com/webmention` was recorded as sent. Doing the `stub_of` update first would have cost one version, not two. Recipe in memory. **Consequence for #88's gate:** Fable named this stub as the gate's test case, but the live document now names the new origin, so the gate needs a deliberate exercise item naming the old identity.
+- **blygger.com folds moved blygs (#88, `9e663c0`, migration 0010 `moved_to`).** Venkat: the directory is this project's, so build it rather than file an issue. The hourly re-check reads the old manifest without following redirects. A 301/308 there is the old origin's own statement; then:
+  - new origin already listed → `moved_to`, off the page, OPML and Atom feed;
+  - new origin not listed but naming the old one in `moved_from` → follow in place;
+  - otherwise → a note for the admin.
+
+  A non-permanent redirect unfolds it again. This stays within "cron reports, humans remove": both ends are the operator's own statements. Live: Florian's old row folded at 22:17 UTC, and one Florian entry is left in `blygs.opml`.
+- **studio#84 (hopper feeds):** asked Aneesh to rebase onto the new `main` and to check his work against Kyle's API plan (`docs/api-cleanup-plan.md`, #92). Anything that collides with planned work should be split and sequenced later.
+
+**State after:** studio 0.49.12 released and live on venkateshrao (verified: generator string, `/blyg/api` and the `/api` alias both 200 with an owner session, alias headers present, public pages 200). blyg.blygger.org and protocol-institute were still on 0.49.1 at time of writing; deploying them needs per-command approval. blygger.com is live with the fold.
+
+**Open threads:**
+- Finish the two remaining deploys, each as migrations → `normalize-import-dates` → deploy, then verify.
+- The AI-budget prototype's migration collides at 0034; renumber it to 0037.
+- Kyle's tracker studio#92 still shows every part unchecked though all eight merged.
+- Drop the `/api` alias two releases after 0.49.12, deliberately.
+- #102 build (Opus brief item y) and #84 review (item w) are queued.
+
 ## Session 56 — 2026-11-01 — Fable round: hopper feeds (#86), the fixed name at every identity (#87), origin succession (#88)
 **Model:** Fable 5.1 · **Time:** ~12:55–13:25 PT · **Committed:** yes (spec `ab550ed`, blygger-org `aac077b`) · **Deployed:** blygger.org (seventh 0.4 revision, roadmap rows 96–98; verified live, footer at `ab550ed`)
 
