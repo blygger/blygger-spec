@@ -193,10 +193,6 @@ paths; the one fixed filename is the manifest's own. Neither changes what a
   imported item; monotonic (§13.3).
 - **Blogroll** — an optional published OPML list of the subscriptions a
   publisher chose to show (§11).
-- **Hopper** — a publisher's curated list of items, its own or imported; a
-  client construct. A **public hopper** is one the publisher displays under
-  §13.5 and lists in the manifest's `hoppers` key; it MAY have a **hopper
-  feed** (§13.5a), which readers can subscribe to (§12.1). New in 0.4.
 - **L0 wrapper** — reader-side grandfathering of a plain RSS feed as summary
   items (§13.6).
 - **Remote reference** — a reference (§5.9) whose `origin` is not the
@@ -300,7 +296,9 @@ particular path component, and readers MUST NOT infer anything from the mount
 path. One file name within the surface is protocol-fixed: the manifest,
 `blyg.json`, at the origin — a known manifest filename at an arbitrary origin
 is what keeps free mounting discoverable (a reader handed any base URL fetches
-`blyg.json` relative to it). Every other path below is the **default**, and
+`blyg.json` relative to it). **That holds at every identity origin, relocated
+surface or not: `{origin}blyg.json` MUST serve the manifest** (§12.1 step 4;
+revision of 2026-11-01, decision #87). Every other path below is the **default**, and
 the manifest MAY relocate it (§6.1; new in 0.4, promoted from the 0.3 text's
 §16.6e): `feed` and `items` name the feed and the archive index, and the
 `item` and `pin` templates say where item documents and pinned-version
@@ -333,7 +331,6 @@ Publishers MAY additionally serve:
 | Default path (relative to origin) | Content | Spec |
 |---|---|---|
 | `blogroll.opml` | Curated blogroll (OPTIONAL) | §11 |
-| *(the paths named by the manifest's `hoppers` key)* | Public hopper pages and hopper feeds (OPTIONAL) | §13.5a |
 | *(the URL named by the manifest's `webmention` key)* | Webmention endpoint (OPTIONAL; the protocol's only dynamic surface) | §15 |
 
 Publishers SHOULD additionally serve human-readable HTML (a feed page, item
@@ -905,26 +902,7 @@ to assert. A registry MAY require a client source as a condition of
 live manifests, which conform): REQUIRED `blyg`, `title`, `updated`;
 RECOMMENDED `level`, `generator`, `generator_url`, `site`, `author`;
 OPTIONAL `feed`, `items`, `item`, `pin` (defaults below), `blogroll`,
-`webmention`, `hoppers`. Unknown members are ignored (§13.1).
-
-The `hoppers` key (new in 0.4) is OPTIONAL: an array listing the
-publisher's **public** hoppers, present only when there is at least one.
-Each entry is an object with `title` (REQUIRED, a string), `page`
-(REQUIRED, the hopper's human-readable page) and `feed` (OPTIONAL, its
-hopper feed, §13.5a), both origin-relative or absolute URLs:
-
-```json
-"hoppers": [
-  { "title": "AI insights", "page": "h/ai-insights/",
-    "feed": "h/ai-insights/feed.xml" }
-]
-```
-
-The paths are presentation, like `page` (§5.8); the reference client's
-`h/{slug}/` is a convention. A hopper that is not public MUST NOT be
-listed. The list is the publisher's authority for which feeds under its
-origin are hopper feeds: resolution (§12.1) believes a hopper feed only
-because the manifest names it.
+`webmention`. Unknown members are ignored (§13.1).
 
 **The manifest locates the surface** (new in 0.4; promoted from the 0.3
 text's §16.6e, adopted in a reshaped form from a public proposal,
@@ -941,7 +919,9 @@ four values MAY carry a query string, because they are expanded or fetched,
 never resolved against. A blyg that omits them is unchanged, and the
 reference client emits none: absent means default, and emitting defaults
 would only make every manifest longer. A manifest that relocates its
-surface looks like this — the one fixed name is still its own (§12.1):
+surface looks like this — the one fixed name is still its own, and
+`{origin}blyg.json` answers at its identity origin (§12.1 step 4, decision
+#87):
 
 ```json
 {
@@ -1727,10 +1707,8 @@ entry, an address bar — into a subscription target. It is **deterministic,
 ordered, and bounded** (at most 6 fetches), so that any two conforming
 readers handed the same URL arrive at the same subscription identity.
 Readers that subscribe MUST implement the following procedure in this
-order. Output: a blyg subscription `{ origin, manifest }`, a hopper
-subscription `{ origin, manifest, hopper_feed }` (new in 0.4, step 7), a
-legacy feed subscription `{ feed_url }` (L0), or failure with the list of
-URLs tried.
+order. Output: a blyg subscription `{ origin, manifest }`, a legacy feed
+subscription `{ feed_url }` (L0), or failure with the list of URLs tried.
 
 ### 12.1 The algorithm
 
@@ -1755,7 +1733,18 @@ URLs tried.
    and fetch it. **If the body parses as a manifest, that *is* the manifest**
    (new in 0.4; promoted from the 0.3 text's §16.6e): a publisher whose
    manifest cannot live at `blyg.json` under its origin names it here
-   directly. Otherwise the href is an **origin base URL**, and readers
+   directly. **The same manifest MUST also be served at `{identity}blyg.json`**
+   (§4), as the manifest itself or by a redirect whose final URL has the
+   same identity (§12.2) — revision of 2026-11-01, decision #87, on
+   [blygger-spec#21](https://github.com/blygger/blygger-spec/issues/21):
+   references carry only the identity, so every party that did not resolve
+   the origin through this page — a receiver verifying under templates
+   (§15.4), a sender building a target (§15.2), a forker checking a pin
+   (§5.6 rule 2) — finds the manifest there, and the 0.4 text until this
+   revision let two clients disagree about one live origin. The hosts that
+   intercept `.json` paths serve static files, and a CMS plugin can write
+   one; the directory holding it is then the identity origin and the
+   templates relocate everything else (§6.1). Otherwise the href is an **origin base URL**, and readers
    append `blyg.json` and probe as in step 2, as at 0.3. No new `rel`, no
    new media type; the feed's `<blyg:manifest>` (§7) already names the
    manifest by absolute URL. **One hop only**: a rel target's own HTML is
@@ -1773,30 +1762,14 @@ URLs tried.
    (`rel="alternate" type="application/rss+xml"` or the Atom equivalent),
    resolves the URL as a **legacy L0 feed** (§13.6). Otherwise resolution
    fails, and the reader SHOULD report the trail of URLs tried.
-7. **Hopper match** (new in 0.4). Whenever steps 2–5 resolve a manifest
-   that carries `hoppers` (§6.1), and before returning it, compare the
-   input URL, with query and fragment stripped and *before* step 1's
-   trailing slash, against each entry's `feed` and `page`, resolved against
-   the identity origin (§12.2); a `page` matches with or without its
-   trailing slash. On a match with an entry that has a `feed`, the URL is
-   **resolved as a hopper**: `{ origin, manifest, hopper_feed }`, the
-   feed's resolved URL. A match with a `page` alone resolves as the blyg.
-   No extra fetch is needed; the manifest is already in hand. A reader that
-   offers both SHOULD let the user choose the whole blyg instead.
-   Without this step, every URL under a blyg's mount resolves to the whole
-   blyg, through step 2 or step 5, before the hopper feed is found in step 6.
-   A hopper feed under a mount that steps 2–5 do not find (no `rel="blyg"`
-   on the hopper page, no conventional mount) resolves at step 6 as a plain
-   L0 feed. That is a correct degradation, not a hopper subscription.
-   Publishers SHOULD therefore put `<link rel="blyg">` (step 4) on hopper
-   pages.
 
 ### 12.2 Subscription identity
 
 - **Subscription identity is the final fetch origin**: the URL the manifest
   was actually fetched from, minus its last path segment — `blyg.json` at
   the default location — after following redirects. A publisher whose
-  manifest lives at `/wp-json/blyg/v1/manifest` has the identity origin
+  manifest is named at `/wp-json/blyg/v1/manifest` (and served at
+  `/wp-json/blyg/v1/blyg.json` too, §12.1 step 4) has the identity origin
   `/wp-json/blyg/v1/`; every reference to it names that string (§5.9), and
   so it must be as stable as any origin (new in 0.4: the 0.3 rule, stated
   without the filename). The manifest's self-asserted `site` is
@@ -1808,20 +1781,14 @@ URLs tried.
   protocol-authenticated entity is the origin. **The same rule is applied
   inbound by Webmention verification** (§15.4): a document is believed to
   speak for an origin only if it was fetched from that origin.
-- **A hopper subscription's identity** is the pair (identity origin, the
-  hopper feed's URL as the manifest names it). It is a subscription to a
-  list *at* an origin, not a second origin. When a later manifest no longer
-  lists the feed (the hopper was taken private or removed), the reader
-  stops polling it and handles its entries as withdrawn (§13.5a). The
-  reader MUST NOT silently turn the subscription into one to the whole
-  blyg; it SHOULD tell the user and MAY offer that.
 - **Redirects:** follow a bounded number (RECOMMENDED: 5); the *final* URL
   wins as origin. Cross-host redirects are allowed — sites move; identity is
   where the bytes actually came from.
 - **Re-resolution:** readers MAY re-run resolution when a subscription's
   surfaces 404 persistently (the blyg may have moved and left a rel link).
   Adopting a new origin is an **identity change** and MUST be user-confirmed,
-  never automatic.
+  never automatic. (A permanent redirect of the manifest and the successor's
+  acknowledgement are the two statements of a move — a ruled shape, §16.13.)
 - The identity origin is the value a publisher writes into every reference
   it emits (§5.9). Two readers that resolved the same blyg therefore write
   the same `origin` string, which is what lets a receiver compare a mention's
@@ -1968,10 +1935,9 @@ separate:
   item with provenance — §10.)
 - A client MAY **display** imported content publicly as curation — a shown
   list, with source attribution and links to the origin — without any
-  protocol surface beyond the `hoppers` list (§6.1) and a hopper feed
-  (§13.5a): no other manifest vocabulary, no events on the publisher's
-  feed, no new item documents. Publicity is a property of the displayed
-  *list*, never of an imported item. Displayed copies follow §13.4's retention rule when their
+  protocol surface: no manifest vocabulary, no feed events, no new item
+  documents. Publicity is a property of the displayed *list*, never of an
+  imported item. Displayed copies follow §13.4's retention rule when their
   source is withdrawn. Verified inbound mentions (§15.5) are displayed, if
   at all, under exactly this rule.
 - **This is also the aggregator pattern.** A site that wants to present a
@@ -1981,57 +1947,9 @@ separate:
   import, and MAY serve a plain RSS digest *outside* the blyg surface —
   excerpts and links to origin permalinks, no `blyg:` namespace — for legacy
   readers that want one feed. It never re-emits, and it never stubs on the
-  members' behalf (§10.6).
-
-### 13.5a Hopper feeds (new in 0.4)
-
-A public hopper's list MAY also be served as an RSS 2.0 feed, so other
-readers can subscribe to the list rather than to the whole blyg. A hopper
-feed is a curation display in feed form, not speech: every rule of §13.5
-holds, and it is never the publisher's `feed.xml`.
-
-Publishers:
-
-1. MUST serve a hopper feed only for a public hopper, and MUST name it in
-   the manifest's `hoppers` entry for that hopper (§6.1). A hopper taken
-   private leaves the list, and its feed SHOULD answer 404 or 410.
-2. MUST NOT use the `blyg:` namespace anywhere in a hopper feed: no
-   `<blyg:manifest>` on the channel and no `blyg:id` or `blyg:version` on
-   any entry, the publisher's own items included. A hopper feed carrying
-   `blyg:` elements would be a second blyg feed for the origin, and
-   readers would collide on `blyg:id` rollup (§13.5). The publisher's own
-   items already reach blyg-aware readers through `feed.xml`.
-3. MUST carry **every current member**: the feed is the list, not a window.
-   An item leaving the hopper, or rolled to null under §13.4, leaves the
-   feed at the next regeneration.
-4. Each entry is one membership:
-   - `<guid isPermaLink="false">` stable for the life of the membership,
-     derived from the hopper and the member's `origin` and `id`;
-   - `<link>`: the member's `page` when held; else its item document at its
-     origin (`{origin}items/{id}.json` through its `item` template, §6.1),
-     never a constructed permalink (§15.2, decision #85); for an L0-wrapped
-     member, the entry's own URL;
-   - `<source url="…">`, the member origin's feed and its title (RSS 2.0
-     §`source`), for every member not the publisher's own;
-   - `<author>` or `dc:creator` from the member's `author` (§5.5) when it
-     has one;
-   - `<description>`: an **excerpt** with a link to the origin, never the
-     full held snapshot. A note the curator wrote for the membership MAY
-     lead it;
-   - `<pubDate>`: when the item joined the hopper, not when it was
-     published. Entries are ordered newest-joined first.
-
-Readers that subscribe to a hopper feed (§12.1 step 7):
-
-5. import its entries as L0 wrapper rows (§13.6): summaries and links,
-   never a transclusion source, synthetic ids scoped to the hopper
-   subscription, never attributed to the hopper's origin as their author;
-6. MUST drop an entry that no longer appears in the feed, as rule 3 makes
-   absence meaningful. This is where a hopper subscription differs from a
-   plain L0 feed, whose entries scroll out of a window and are retained;
-7. MAY follow an entry's `<link>` through §12 to reach the member's origin
-   and item. That is a separate act with its own subscription identity, and
-   the hopper subscription confers none.
+  members' behalf (§10.6). (A per-hopper feed, named in the manifest, is
+  such a digest for one curated list — a ruled shape awaiting its build,
+  §16.12.)
 
 ### 13.6 L0 grandfathering — the legacy RSS wrapper
 
@@ -2311,7 +2229,8 @@ protection, not a nicety (§14).
    `item` template (§6.1) may place its documents away from the default
    path. A receiver checks the final URL against the default first; when it
    differs, the receiver fetches the asserted origin's own manifest at
-   `{origin}blyg.json` — one more fetch, within the bound raised to 3 —
+   `{origin}blyg.json` (which every identity origin serves, §12.1 step 4) —
+   one more fetch, within the bound raised to 3 —
    expands its `item` template with the document's `id`, and accepts an
    exact match. It fails the claim when the manifest is missing or the URL
    matches neither the default nor the template. Publishers who want their
@@ -2732,6 +2651,179 @@ with a comment period before any client blesses a shape (the received
 pattern is a registered `web+` protocol handler, with a Mastodon-style
 remote-interaction dialog as the fallback). No wire change in either half.
 
+### 16.12 Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)
+
+Decision #86, on
+[blygger-spec#18](https://github.com/blygger/blygger-spec/pull/18) (Aneesh
+Sathe, for the World Machines bridge, which wants to subscribe to members'
+public hoppers rather than to their whole blygs; write-up in
+`docs/proposals/hopper-feeds-proposal.md`, reference build
+blygger-studio#84). A **hopper** is a publisher's curated list of items, its
+own or imported — a client construct, and the concept spec's own word; a
+**public hopper** is one the publisher displays under §13.5. The shape below
+is ruled and is promoted into §2, §4, §6.1, §12.1, §12.2 and §13.5 when the
+gate at the end has run.
+
+**Why this is not re-emission.** #12's line sits at the state plane —
+`feed.xml`, `items/index.json`, the item documents — and at the `blyg:`
+namespace, whose rollup a second emission would collide with. It does not
+sit at the manifest: the blogroll is already a manifest key naming a curated
+list (§11), and §13.5's "no manifest vocabulary" was written when the only
+question was whether an imported item becomes a protocol object. It still
+does not; publicity stays a property of the list. At promotion §13.5's
+second bullet reads "no protocol surface beyond the `hoppers` list and a
+hopper feed", and its aggregator digest names a per-hopper feed as one such
+digest.
+
+1. **The manifest key.** OPTIONAL `hoppers`: an array of the publisher's
+   **public** hoppers, present only when there is at least one. Each entry
+   carries `title` (REQUIRED), `page` (REQUIRED, the hopper's page) and
+   `feed` (OPTIONAL, its hopper feed), origin-relative or absolute. The
+   paths are presentation, as `page` is (§5.8); `h/{slug}/` is the reference
+   client's convention. A hopper that is not public MUST NOT be listed. The
+   list is the publisher's authority for which feeds under its origin are
+   hopper feeds: resolution believes a hopper feed only because the manifest
+   names it.
+
+    ```json
+    "hoppers": [
+      { "title": "AI insights", "page": "h/ai-insights/",
+        "feed": "h/ai-insights/feed.xml" }
+    ]
+    ```
+
+2. **No item document ever names a hopper.** Membership belongs to the
+   list, never to the item. This is what keeps hoppers a client taxonomy
+   rather than tags on the wire (#12).
+3. **The hopper feed** is RSS 2.0, a curation display in feed form: every
+   rule of §13.5 holds, and it is never the publisher's `feed.xml`.
+   Publishers:
+    - (a) MUST serve one only for a public hopper and MUST name it in that
+      hopper's manifest entry; a hopper taken private leaves the list and
+      its feed SHOULD answer 404 or 410;
+    - (b) MUST NOT use the `blyg:` namespace anywhere in it — no
+      `<blyg:manifest>` on the channel, no `blyg:id` or `blyg:version` on
+      any entry — **the publisher's own items included**: a hopper feed with
+      `blyg:id` on own items is a filtered second blyg feed for the origin,
+      which §13.5 refuses, and own items already reach blyg-aware readers
+      through `feed.xml`;
+    - (c) MUST carry every current member: the feed is the list, not a
+      window; an item leaving the hopper, or rolled to null under §13.4,
+      leaves the feed at the next regeneration;
+    - (d) each entry is one membership: `<guid isPermaLink="false">`, stable
+      for the life of the membership and derived from the hopper and the
+      member's `origin` and `id`; `<link>`, the member's `page` when held,
+      else its item document through its `item` template (§6.1; never a
+      constructed permalink, §15.2 and decision #85), or for an L0-wrapped
+      member the entry's own URL; `<source url="…">`, naming the member
+      origin's feed and its title — RSS 2.0's own element for this — for
+      every member not the publisher's own; `<author>` or `dc:creator` from
+      the member's `author` (§5.5) when it has one; `<description>`, an
+      **excerpt** with a link to the origin, never the held snapshot, which
+      a curator's note MAY lead; `<pubDate>`, when the item joined the
+      hopper, newest-joined first.
+    - The hopper page SHOULD carry `<link rel="alternate"
+      type="application/rss+xml">` to the feed and SHOULD carry
+      `<link rel="blyg">` (§12.1 step 4), so that resolution finds the
+      manifest from the page on any mount.
+4. **Resolution — §12.1 step 7, hopper match.** Whenever steps 2–5 resolve
+   a manifest that carries `hoppers`, and before returning it, compare the
+   input URL — query and fragment stripped, *before* step 1's trailing
+   slash — against each entry's `feed` and `page` resolved against the
+   identity origin; a `page` matches with or without its trailing slash. A
+   match on an entry that has a `feed` resolves the URL **as a hopper**:
+   `{ origin, manifest, hopper_feed }`, the feed's resolved absolute URL. A
+   match on a `page` alone resolves as the blyg. No extra fetch; the bound
+   stays six. A reader SHOULD let the user choose the whole blyg instead.
+   Without this step every URL under a mount resolves to the whole blyg
+   through step 2 or step 5 before step 6 can see the feed — the finding
+   that made the key and the feed one proposal. A hopper feed on a mount
+   that steps 2–5 do not find resolves at step 6 as a plain L0 feed, a
+   correct degradation. §12's output set gains the hopper subscription.
+5. **Identity — §12.2.** A hopper subscription's identity is the pair
+   (identity origin, the hopper feed's resolved absolute URL): a
+   subscription to a list *at* an origin, not a second origin. When a later
+   manifest no longer lists the feed, the reader stops polling it and
+   treats its entries as gone; it MUST NOT silently convert the
+   subscription into one to the whole blyg, SHOULD tell the user, and MAY
+   offer that.
+6. **Readers** import the entries as L0 wrapper rows (§13.6) — summaries
+   and links, never a transclusion source, synthetic ids scoped to the
+   hopper subscription, never attributed to the hopper's origin as their
+   author; MUST drop an entry that no longer appears, because rule 3(c)
+   makes absence meaningful — the one place a hopper subscription differs
+   from a plain L0 feed, whose entries scroll out of a window and are
+   retained; MAY follow an entry's `<link>` through §12 to the member's
+   origin and item, a separate act with its own subscription identity, of
+   which the hopper subscription confers none; and MAY show an entry once
+   when its link names an item the reader already holds.
+
+Not taken: a `<blyg:hopper>` channel marker, a new wire element any feed
+could carry until checked against the manifest anyway; and reordering
+§12.1 so that a feed found in step 3 stops step 5, which changes identity
+for every legacy input. Readers that ignore `hoppers` resolve a hopper URL
+to the whole blyg, as today, so a 0.3 reader is unaffected; step 7 is a
+reader change, which is why this is 0.4 text (#43). **Gate:** the reference
+client emits a hopper feed on one node; a second node subscribes to it by
+URL through resolution; an entry leaves when a member is removed; and a
+whole-blyg subscription to the same origin is unaffected.
+
+### 16.13 Origin succession — `moved_from` (ruled 2026-11-01; awaiting a build)
+
+Decision #88, on
+[blygger-studio#102](https://github.com/blygger/blygger-studio/issues/102)
+(Florian Lohse, who moved `https://florianlohse.com/blyg/` to
+`https://blyg.florianlohse.com/` on 2026-10-25 and found that a pre-move
+reader's stub of a post-move item named the old identity and could never
+verify). A move has two wire statements, and a reader acts only on both.
+
+1. **The old origin's permanent redirect of its manifest** — 301 or 308
+   from `{old}blyg.json` to the successor's manifest — is the statement of
+   succession. Only the old origin's controller can issue it, which is
+   invariant 4's trust basis unchanged, and HTTP already has the word for
+   it, so there is no `moved_to` key. A publisher that moves SHOULD redirect
+   its manifest permanently, SHOULD redirect the rest of its surface (feed,
+   index, pages), and SHOULD keep serving at the old origin the item
+   documents it published there: a pinned document's bytes carry the old
+   `origin`, and §8 promised those bytes. Surface redirected, `items/**`
+   left in place, is the recommended shape.
+2. **The successor's acknowledgement:** OPTIONAL manifest member
+   `moved_from`, an array of former identity origins (§12.2 strings). The
+   received pattern is Mastodon's `movedTo` with `alsoKnownAs`, and DID
+   Core's `alsoKnownAs`; the narrower name is deliberate, because "also
+   known as" includes concurrent aliases, and a concurrent alias is exactly
+   the mirror §12.2 forbids. Alone it proves nothing and gains an impostor
+   nothing: senders discover endpoints from the identity they hold, and a
+   receiver that widens what it accepts as aimed at itself harms only
+   itself.
+3. **Readers.** A permanent redirect of a subscription's manifest to a URL
+   with a different identity is a *move candidate*. When the manifest
+   fetched there lists the old identity in `moved_from`, the reader SHOULD
+   tell the user and offer to follow; a redirect without the
+   acknowledgement is reported as a discrepancy, as §12.2's `site` rule
+   already asks. Adopting the new identity remains user-confirmed and never
+   automatic (§12.2). Following re-keys the subscription to the new
+   identity; what travels with it — hopper memberships, signals, read
+   state — is the client's. A fresh resolution of the old URL already lands
+   on the new identity, because step 2 follows the redirect; this is a
+   polling rule, not a resolution rule.
+4. **Receivers.** An origin listed in the receiver's own `moved_from` is
+   read as naming the receiver: under §15.3 step 1 that is membership by
+   its own published data (decision #84), and the target is matched after
+   substituting the receiver's identity for the former one — which works
+   where the publisher kept its origin-relative paths, as it SHOULD. §15.4
+   step 4's relation check accepts a reference whose `origin` is a former
+   identity. A receiver that ignores the key fails such mentions, as every
+   receiver does today.
+5. **Senders** change nothing. Published references stay as made; a
+   republish re-resolves against the reader's current record (§10.2) and
+   names the new identity, and MAY re-send its mentions.
+
+A new manifest key, additive; 0.4 text by #43. **Gate:** the mover's node
+declares `moved_from`; a pre-move reader's mention of a post-move item
+verifies; and one reader is offered the follow. Promotion into §6.1, §12.2,
+§15.3 and §15.4.
+
 ## 17. Revision history (non-normative)
 
 One line per published change to this document, newest first. Snapshots are
@@ -2739,14 +2831,21 @@ cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
 
-- **PROPOSED, not in force — pending a Fable ruling** (Aneesh Sathe, from
-  the World Machines bridge; write-up in
-  `docs/proposals/hopper-feeds-proposal.md`) — **a public hopper's feed can
-  be subscribed to**: the `hoppers` manifest key (§6.1, unparking Fable
-  queue item 14), hopper feeds (§13.5a), a hopper subscription in
-  resolution (§12.1 step 7, §12.2), the §13.5 exception, *hopper* in §2.
-  Additive on the wire: readers that ignore `hoppers` resolve every hopper
-  URL to the whole blyg, as today. The one reader change is step 7.
+- **2026-11-01, seventh revision** (Fable 5.1, session 56) — **the fixed
+  name holds at every identity origin**: `{origin}blyg.json` MUST serve the
+  manifest, as the manifest itself or by a redirect whose final URL has the
+  same identity (§4, §6.1, §12.1 step 4, §12.2, §15.4; decision #87, on
+  chrisbodhi's [blygger-spec#21](https://github.com/blygger/blygger-spec/issues/21)).
+  Decision #51 let a manifest be named elsewhere and then costed
+  reference-following at one fetch of the target's manifest, which assumed
+  the fixed name answers; the three parties that hold only an identity — a
+  receiver verifying under templates, a sender building a target, a forker
+  checking a pin — all probe it, and two clients disagreed about one live
+  origin. Publisher-side; readers already probe the fixed name. The same
+  revision adds two ruled shapes: §16.12, hopper feeds and the `hoppers`
+  manifest key (decision #86, blygger-spec#18), and §16.13, origin
+  succession and `moved_from` (decision #88, blygger-studio#102), each
+  with its gate. Not snapshotted.
 
 - **2026-10-20, sixth revision** (Fable 5.1, session 52, the same
   afternoon; on Robert Peake's follow-up to blygger-spec#17) — §15.2's

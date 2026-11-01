@@ -49,6 +49,52 @@ verb, no refresh-only scope; MCP = same operations and scopes, provenance record
 when it passes; flag to Venkat if it wants something outside them. `tn-4` is yours to
 draft from his build once gate G3 opens.
 
+## New from session 56 (2026-11-01) — three rulings, do these before the queue below
+
+Decisions #86–#88 (`CLAUDE.md`), reasoning `v0.4-plan.md` §16, text in the spec's seventh
+0.4 revision (§16.12, §16.13 ruled shapes; §4/§6.1/§12.1/§12.2/§15.4 for #87). Each has
+a build gate; when the gate has run, promote under #58 (move the text, fix cross-references,
+add the §17 line, record the build's calls) and Fable reviews in batch.
+
+- **w. Hopper feeds (#86, ROADMAP row 96).** Review Aneesh's draft
+  [studio#84](https://github.com/blygger/blygger-studio/pull/84) against 0.4 **§16.12**, not
+  against the proposal: the differences are identity = (origin, the feed's *resolved absolute
+  URL*); no item document ever names a hopper (check nothing writes membership into an item
+  document or its `author`); a reader MAY show an entry once when it already holds the
+  linked item; everything else is as he proposed. Ship behind the `hopper_feeds` setting,
+  off by default. **Gate:** one node emits a hopper feed, a second node subscribes to it by
+  pasting the hopper page URL (step 7 through the studio's resolver), an entry disappears
+  when a member is removed, and a whole-blyg subscription to the same origin is unaffected.
+  Then promote §16.12 into §2, §4, §6.1, §12.1 step 7, §12.2 and §13.5 (the "no manifest
+  vocabulary" sentence becomes "no protocol surface beyond the `hoppers` list and a hopper
+  feed"). Reply on spec#18 and studio#84 when shipped; tell the World Machines bridge.
+- **x. The fixed name at every identity (#87, row 97).** No studio change (it serves
+  `blyg.json`). Conformance toolkit: the fixed-name probe at the identity origin is a MUST
+  clause at the next clause build (item f). blygger-com's vendored resolver already probes
+  it. The reply on spec#21 is Fable's; close it once blygger.org has redeployed.
+- **y. Origin succession (#88, row 98).** Three parts, in this order. (1) **Receiver:** a
+  `moved_from` array in the manifest (settings: "this blyg moved from…", origin strings,
+  validated as §12.2 identities); `targetItemId` and `relationTo` in `src/mentions/` accept
+  a target or reference origin that is one of the node's own former identities, matching the
+  target after substituting the node's identity for the former prefix. (2) **Reader:** on
+  each manifest poll, when the final fetch URL's identity differs from the subscription's
+  and the response was a 301/308 chain, record a move candidate; if the manifest fetched
+  there lists the subscription's identity in `moved_from`, show "X now lives at Y — follow?"
+  on the subscription in Sources (Florian's shape); *follow* re-keys the subscription to the
+  new identity and carries hopper memberships, signals, read state and browsing history for
+  every item the new origin serves (`deleteSubscription` today deletes `hopper_items` and
+  `signals`, which is what session 55's manual D1 fix for Venkat's thread worked around);
+  items only the old origin served stay with the old identity under a closed subscription
+  or go — your call, record it. Without the acknowledgement, show the discrepancy only.
+  Never adopt silently. (3) **Sender:** nothing required; MAY re-send a thread's mentions
+  after a follow. **Gate:** Florian's node declares `moved_from`, Venkat's stub of
+  `2dnhvp468rf1j2szn3968vtdgn` verifies at `blyg.florianlohse.com` (it currently fails
+  400), and one reader is offered the follow. Then promote §16.13 into §6.1, §12.2, §15.3
+  and §15.4. Reply on studio#102 when shipped. **blygger.com:** the directory lists
+  Florian's old and new origins as two blygs (both in `blygs.opml` on 2026-11-01); the
+  same two signals — the old manifest's permanent redirect plus `moved_from` on the new —
+  should fold them into one listing under the new origin; file it on blygger-com.
+
 ## New from session 52 (2026-10-20) — one small item, do it with the next studio release
 
 Decision #84 on [blygger-spec#17](https://github.com/blygger/blygger-spec/issues/17)

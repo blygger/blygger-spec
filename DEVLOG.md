@@ -7,6 +7,67 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 56 — 2026-11-01 — Fable round: hopper feeds (#86), the fixed name at every identity (#87), origin succession (#88)
+**Model:** Fable 5.1 · **Time:** ~12:55–13:30 PT · **Committed:** yes (spec) · **Deployed:** — (blygger.org redeploy asked for at wrap-up)
+
+**What & why:** A Fable-only session on the three field items session 55 (Sonnet, running in
+parallel today; no DEVLOG entry of its own yet) queued in `fable-brief.md`. Rulings and
+reasoning in `v0.4-plan.md` §16; decisions #86–#88 in `CLAUDE.md`; spec at its seventh 0.4
+revision, not snapshotted.
+- **#86, blygger-spec#18 (Aneesh, World Machines bridge):** hopper feeds and the `hoppers`
+  manifest key are accepted with the proposal's recommended answer to all four questions.
+  The load-bearing reading: #12's re-emission line sits at the state plane and the `blyg:`
+  namespace, not at the manifest (the blogroll is already a manifest key naming a curated
+  list). Added: no `blyg:` in the feed even on own items (a filtered blyg feed is the refused
+  sibling); **no item document ever names a hopper** (membership is the list's, which keeps
+  "hoppers are the taxonomy, not tags" true on the wire); identity = (origin, resolved feed
+  URL). Step 7 is a reader change, so 0.4 text; under #42 the PR's inline PROPOSED text was
+  moved into **§16.12 as a ruled shape**. Aneesh's branch was merged (`--no-ff`, his
+  authorship) and reshaped in the same commit; studio#84 is reviewed against §16.12.
+- **#87, blygger-spec#21 (chrisbodhi):** accepted as proposed — `{identity}blyg.json` MUST
+  serve the manifest (copy or same-identity redirect). #51 had costed reference-following at
+  one fetch of the target's manifest while allowing a manifest with no address at the fixed
+  name; receivers under templates, senders (#85) and forkers all probe it, and two clients
+  disagreed on a live origin. The MUST is meetable: hosts that intercept `.json` serve static
+  files, a plugin writes one, and that directory is the identity — Soapbox's live shape
+  exactly (`robertpeake.com/blyg/blyg.json`, everything else under `/wp-json/`). Normative
+  text in §4, §6.1, §12.1 step 4, §12.2, §15.4; #51 amended inline.
+- **#88, blygger-studio#102 (Florian):** a move has two wire statements, both already
+  shaped — the old origin's permanent redirect of its manifest (only its controller can
+  issue it; HTTP has the word, #71, so no `moved_to`), and the successor's OPTIONAL
+  `moved_from` (after Mastodon/DID `alsoKnownAs`, named narrower because concurrent aliases
+  are the mirror §12.2 forbids). Readers offer to follow on both, adopt only on
+  confirmation; receivers read a declared former identity as their own (#84's membership
+  principle), which recovers Venkat's stub of Florian's post-move fragment without a
+  republish. Publishers that move SHOULD keep serving old item documents (pinned bytes carry
+  the old `origin`). §16.13 as a ruled shape; gate is Florian's live case. Verified live
+  before ruling: the old manifest 301s to the new host; the post-move item exists only at
+  the new origin; Venkat's thread names it under the old identity in `stub_of` and
+  `transclusions[]`.
+- **Item 5 (RFC close) deferred:** the period closes 2026-11-04; both issues have zero
+  comments and neither thread page shows a response. Items 4 and 6 not taken (Venkat's
+  word needed). Opus-tier items (#19, #20, studio#88, the API-stack deploy) left alone.
+- **Render check:** blygger.org built locally; §16.12's fenced JSON inside list item 1
+  splits the `<ol>` (it resumes at `start="2"`), which reads correctly; nested bullets
+  needed 4-space indent (memory: Python-Markdown lists). Not deployed from this session.
+
+**State after:** spec `main` carries the merge of #18 plus the recording commit; 0.4 at its
+seventh revision. ROADMAP rows 96–98 added (96 in review, 97 shipped, 98 next). Queue holds
+item 22 only; `fable-brief.md` rewritten; `opus-brief.md` gained items w–y. blygger-org's
+`content/spec/*` and `dist/` regenerated locally (footers restamped) — commit with the
+deploy or restore. The two blygger-org census files from session 55 are still uncommitted.
+
+**Open threads:**
+- Outward actions pending Venkat's yes: push spec `main` (which marks #18 merged), reply on
+  #18, #21 and studio#102, deploy blygger.org (then close #21).
+- Opus: review studio#84 against §16.12 and run its gate; build `moved_from` and the
+  follow-the-move offer (brief item y); fold blygger.com's two Florian listings; the
+  conformance toolkit's fixed-name MUST clause.
+- The RFC-1/RFC-2 close on 11-04: check the blyg.blygger.org studio signals, not only the
+  public pages, before ruling the drafts stand.
+- Session 55 has not written its DEVLOG entry; it merged Kyle's API stack (not deployed) and
+  did the manual D1 origin fix for Venkat's thread (memory note).
+
 ## Session 54 — 2026-10-30/31 — Studio 0.49.1: Kyle's #85 and #86 reviewed and merged, three e2e flakes traced, released and deployed
 **Model:** Sonnet 5.5 · **Time:** ~15:15 PT (10-30) – 11:45 PT (10-31) · **Committed:** yes (studio, spec) · **Deployed:** blygger-studio 0.49.1 to venkateshrao, protocol-institute and blyg.blygger.org (no migration)
 

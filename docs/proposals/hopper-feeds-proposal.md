@@ -1,7 +1,11 @@
 # Per-hopper feeds for public hoppers, with public hoppers in `blyg.json`
 
-**Status:** DRAFT, ⚠️ FABLE — pending ruling. Not a plan of record; nothing here is
-normative until a Fable round rules it and the text lands in `protocol-v0.4.md`.
+**Status:** RULED 2026-11-01 (session 56, Fable 5.1, decision #86) — accepted with the
+recommended answer to all four questions, plus: identity is (origin, the feed's *resolved*
+absolute URL); no item document ever names a hopper; a reader MAY show an entry once when it
+already holds the linked item. The text lives in `protocol-v0.4.md` **§16.12 as a ruled
+shape** (not inline, per #42) and is promoted when the gate there runs. Reasoning:
+`v0.4-plan.md` §16.1. The rest of this file is the proposal as submitted.
 **Raised:** 2026-10-22, by Aneesh Sathe (written up by Opus 5.5). It unparks
 `fable-round-queue.md` item 14 (public hoppers in the manifest, parked session 43) and
 adds per-hopper feeds next to it.
