@@ -79,7 +79,7 @@ document should mention language models at all given the §0 criterion above);
 [blygger-spec#20](https://github.com/blygger/blygger-spec/issues/20) (publish the
 conformance schemas at their `$id` URLs; depends on blygger-org#4); studio#88 (shannonbux,
 component primitives, unreviewed); the API-cleanup stack merged 2026-11-01 and not yet
-deployed (session 55's note: owner API moves to `{mount}/api` with no alias, three
+deployed (session 55's note: owner API moves to `{mount}/api`; the host-root `/api` alias was restored in studio 0.49.12 for two releases, since `/blyg` is one of the two recommended mounts (Venkat, session 55); three
 migrations, a repair that must run before deploy); blygger.com's two listings for Florian's
 blyg (opus-brief item y).
 
