@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 55 — 2026-11-01 — Kyle's API stack merged, host-root `/api` alias restored, studio 0.49.12; Florian's move fixed by hand and folded in the directory
-**Model:** Sonnet 5.5, then Opus 5.5 (Venkat's `/model` switch after the Florian fix) · **Time:** ~12:31–15:00 PT · **Committed:** yes (studio, spec, blygger-com, blygger-org) · **Deployed:** blygger-studio 0.49.12 to all three nodes (migrations 0034–0036 and the date repair on each: venkateshrao 10/2,387 repaired, blyg.blygger.org 0/853, protocol-institute 1/755); blygger.com (migration 0010); blygger.org (roadmap, census)
+**Model:** Sonnet 5.5, then Opus 5.5 (Venkat's `/model` switch after the Florian fix) · **Time:** ~12:31–14:50 PT · **Committed:** yes (studio, spec, blygger-com, blygger-org) · **Deployed:** blygger-studio 0.49.12 to all three nodes (migrations 0034–0036 and the date repair on each: venkateshrao 10/2,387 repaired, blyg.blygger.org 0/853, protocol-institute 1/755); blygger.com (migration 0010); blygger.org (roadmap, census)
 
 Ran in parallel with session 56 (Fable), which started from the brief this session wrote.
 
