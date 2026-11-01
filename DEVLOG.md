@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 55 — 2026-11-01 — Kyle's API stack merged, host-root `/api` alias restored, studio 0.49.12; Florian's move fixed by hand and folded in the directory
-**Model:** Sonnet 5.5, then Opus 5.5 (Venkat's `/model` switch after the Florian fix) · **Time:** ~12:31–15:00 PT · **Committed:** yes (studio, spec, blygger-com, blygger-org) · **Deployed:** blygger-studio 0.49.12 to venkateshrao (migrations 0034–0036, date repair); blygger.com (migration 0010); blyg.blygger.org and protocol-institute pending approval at time of writing
+**Model:** Sonnet 5.5, then Opus 5.5 (Venkat's `/model` switch after the Florian fix) · **Time:** ~12:31–15:00 PT · **Committed:** yes (studio, spec, blygger-com, blygger-org) · **Deployed:** blygger-studio 0.49.12 to all three nodes (migrations 0034–0036 and the date repair on each: venkateshrao 10/2,387 repaired, blyg.blygger.org 0/853, protocol-institute 1/755); blygger.com (migration 0010); blygger.org (roadmap, census)
 
 Ran in parallel with session 56 (Fable), which started from the brief this session wrote.
 
@@ -25,10 +25,9 @@ Ran in parallel with session 56 (Fable), which started from the brief this sessi
   A non-permanent redirect unfolds it again. This stays within "cron reports, humans remove": both ends are the operator's own statements. Live: Florian's old row folded at 22:17 UTC, and one Florian entry is left in `blygs.opml`.
 - **studio#84 (hopper feeds):** asked Aneesh to rebase onto the new `main` and to check his work against Kyle's API plan (`docs/api-cleanup-plan.md`, #92). Anything that collides with planned work should be split and sequenced later.
 
-**State after:** studio 0.49.12 released and live on venkateshrao (verified: generator string, `/blyg/api` and the `/api` alias both 200 with an owner session, alias headers present, public pages 200). blyg.blygger.org and protocol-institute were still on 0.49.1 at time of writing; deploying them needs per-command approval. blygger.com is live with the fold.
+**State after:** studio 0.49.12 released and live on venkateshrao (verified: generator string, `/blyg/api` and the `/api` alias both 200 with an owner session, alias headers present, public pages 200). blyg.blygger.org and protocol-institute deployed after per-command approvals and verified (generator 0.49.12; `/api` 401 unauthenticated; login, home and feed 200). blygger.com is live with the fold.
 
 **Open threads:**
-- Finish the two remaining deploys, each as migrations → `normalize-import-dates` → deploy, then verify.
 - The AI-budget prototype's migration collides at 0034; renumber it to 0037.
 - Kyle's tracker studio#92 still shows every part unchecked though all eight merged.
 - Drop the `/api` alias two releases after 0.49.12, deliberately.
