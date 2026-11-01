@@ -15,6 +15,7 @@ document opened (#72). Items 18, 20 and 22 deliberately left for the next round.
 **Pruned again:** session 49, second round (2026-10-17), Fable 5.1 — items 6–8, 10–11, 13,
 15–16, 18 and 20 ruled (decisions #73–#77, reasoning `v0.4-plan.md` §12, text in the 0.4
 second revision). **Only item 22 remains**, and Venkat is thinking about it before it is taken.
+**Added to:** 2026-10-22 — item 14 unparked with per-hopper feeds (Aneesh Sathe; proposal PR).
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -42,7 +43,20 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
 11. *Ruled session 49 (#76): LF or CRLF; CommonMark blockquote extent; one entry per directive; monotonic `stub_of.version`; local ids never fall through; no `stub_of` on an L0 wrapper id.*
 12. *Declined session 38.*
 13. *Ruled session 49 (#77): no wire member — a same-hash republish is maintenance (§13.2); `ignyr` is the studio's queue name; agent refreshes land there by construction.*
-14. *Parked session 43.*
+14. **Public hoppers: a feed per hopper, and the `hoppers` manifest key** (unparked
+    2026-10-22, Aneesh Sathe; parked session 43 with the trigger "a second client, or
+    blygger.com, asking to discover hoppers by machine"). The trigger came from a third
+    direction: the World Machines blyg runs a bridge that wants to subscribe to members'
+    public hoppers, not their whole blygs. Full write-up, with four questions and a
+    resolution finding, in [`proposals/hopper-feeds-proposal.md`](proposals/hopper-feeds-proposal.md).
+    Fable's under #58 on all three counts: a manifest key and a feed readers see (2), a
+    reading of #12 and of §13.5's "no manifest vocabulary" (3), and resolution (§12.1)
+    cannot reach a hopper feed today, because step 5 finds the blyg's own manifest first,
+    so subscribing to one is a reader change (1). A draft studio PR builds the proposed
+    shapes, off by default, so the ruling can be checked against code. The proposal PR
+    also carries proposed text in `protocol-v0.4.md` (§2, §4, §6.1, §12.1 step 7,
+    §12.2, §13.5, new §13.5a), marked PROPOSED in §17. Rule, edit or refuse before
+    merging.
 15. *Ruled session 49 (#73): RFC-3 with reference constants; `pinned_at` a ruled shape in §16.9.*
 16. *Ruled session 49 (#73): a pin MAY re-send its mentions (§15.2).*
 17. *Ruled session 49 (#70).*
