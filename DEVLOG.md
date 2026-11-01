@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 56 — 2026-11-01 — Fable round: hopper feeds (#86), the fixed name at every identity (#87), origin succession (#88)
-**Model:** Fable 5.1 · **Time:** ~12:55–13:30 PT · **Committed:** yes (spec) · **Deployed:** — (blygger.org redeploy asked for at wrap-up)
+**Model:** Fable 5.1 · **Time:** ~12:55–13:40 PT · **Committed:** yes (spec `ab550ed`, blygger-org `aac077b`) · **Deployed:** blygger.org (seventh 0.4 revision, roadmap rows 96–98; verified live, footer at `ab550ed`)
 
 **What & why:** A Fable-only session on the three field items session 55 (Sonnet, running in
 parallel today; no DEVLOG entry of its own yet) queued in `fable-brief.md`. Rulings and
@@ -58,8 +58,8 @@ item 22 only; `fable-brief.md` rewritten; `opus-brief.md` gained items w–y. bl
 deploy or restore. The two blygger-org census files from session 55 are still uncommitted.
 
 **Open threads:**
-- Outward actions pending Venkat's yes: push spec `main` (which marks #18 merged), reply on
-  #18, #21 and studio#102, deploy blygger.org (then close #21).
+- Done at wrap-up on Venkat's "all": spec `main` pushed (#18 shows merged), replies posted on
+  #18, #21 and studio#102, blygger.org deployed and verified, #21 closed.
 - Opus: review studio#84 against §16.12 and run its gate; build `moved_from` and the
   follow-the-move offer (brief item y); fold blygger.com's two Florian listings; the
   conformance toolkit's fixed-name MUST clause.
