@@ -1,7 +1,7 @@
 {
   "area": "reader",
   "title": "Reader suite: content_md → content_html fixtures",
-  "generated_at": "2026-11-02T01:55:24.118Z",
+  "generated_at": "2026-11-02T05:50:14.053Z",
   "renderer": "blygger-studio 0.49.12",
   "snapshot": "spec/0.4/2026-10-18",
   "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
@@ -9,14 +9,15 @@
   "counts": {
     "pass": 72,
     "warn": 0,
-    "fail": 28
+    "fail": 28,
+    "unreported": 0
   },
   "checks": [
     {
       "id": "reader.blygger-studio.census",
       "title": "blygger-studio 0.49.12: 100 fixtures against spec/0.4/2026-10-18",
       "status": "info",
-      "detail": "72 pass, 0 warn (ambiguous text or fragment-only URLs), 28 fail",
+      "detail": "72 pass, 0 warn (ambiguous text or fragment-only URLs), 28 fail, 0 unreported (passed what was checked, but left out an array the fixture expects)",
       "spec_refs": [
         "§10.1",
         "§10.2",

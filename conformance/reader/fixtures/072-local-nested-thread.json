@@ -36,6 +36,17 @@
           "version": 1
         }
       ]
+    },
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/01j9zq3k4m5n6p7q8r9s0t1v2w/",
+      "content_md": "Small tools, used daily, beat big tools used rarely.",
+      "content_html": "<p>Small tools, used daily, beat big tools used rarely.</p>\n"
     }
   ],
   "expect": {
