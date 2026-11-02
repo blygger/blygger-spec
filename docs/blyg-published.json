@@ -58,7 +58,10 @@
       "notes": {
         "first": "Heads-up: tangling and the Background lens are coming to Blygger Studio.",
         "revision": "Tangling heads-up revised; see the source history."
-      }
+      },
+      "id": "2c494ntcyfgt5f2agqmb7vmsye",
+      "version": 1,
+      "source_sha256": "5e5bd091496c32dd35c0c8f3871e0b422426cf80bc568789189409c3d7a3f834"
     }
   ]
 }
