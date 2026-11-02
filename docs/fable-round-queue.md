@@ -16,6 +16,7 @@ document opened (#72). Items 18, 20 and 22 deliberately left for the next round.
 15–16, 18 and 20 ruled (decisions #73–#77, reasoning `v0.4-plan.md` §12, text in the 0.4
 second revision). **Only item 22 remains**, and Venkat is thinking about it before it is taken.
 **Added to:** 2026-10-22 — item 14 unparked with per-hopper feeds (Aneesh Sathe; proposal PR). **Pruned:** session 56 (2026-11-01), Fable 5.1 — item 14 ruled (#86). Only item 22 remains.
+**Added to:** session 57 (2026-11-01), Opus 5.5, at Venkat's request: item 24 (the reader suite's nine open choices, blygger-spec#22) and a section-C entry (studio#106's directive-ends-quote reading).
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -64,11 +65,43 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
     browser-only as a hard rule; and whether blygger.org hosts it. Session 49 told Aneesh
     to expect a ruling in a round or two, after 0.4 opens; 0.4 opened later that
     day, so this is the **next round's** first item.
+24. **Nine choices the 0.4 text leaves open, found by the reader suite** (session 57,
+    2026-11-01; [blygger-spec#22](https://github.com/blygger/blygger-spec/pull/22),
+    Aneesh Sathe, merged as `74f15b1`; the full list is in the PR description, and each is
+    a fixture marked `ambiguous` under `conformance/reader/fixtures/`). Each fixture picks a
+    reading, which the studio happens to share; a renderer that reads it the other way gets
+    a warning, not a failure, until this is ruled. (1) `![[id]]` in a fragment: publish
+    error or inert text (§10, §10.3)? (2) Does "MUST reject `![[id@vN]]`" cover the
+    sequence inline in prose, or only the own-line directive? (3) A tab-indented directive
+    line: "surrounding whitespace allowed" against "inert in code blocks" (fixture: code
+    wins). (4) Markup in a link label, `[[id | *x*]]`: emphasis or literal (fixture:
+    literal; §10.2 says a directive's label is escaped, nothing says it of a link's)?
+    (5) The href of a link to an item with no `page`: §10.1's page URL, §5.8's convention
+    fallback, or #85's item document? (6) What an author's relative URL resolves against:
+    origin, item page or mount (§5.2 requires only absoluteness)? (7) A relative URL inside
+    a non-conformant source's held HTML: §10.2 bakes it verbatim, §5.2 MAY resolve on
+    import, MUST be absolute in `content_html` (fixture follows the MUST; a sentence in
+    §10.2?). (8) The version a pin-retained bake carries: the retained version or the
+    endcap's? (9) Where an own-line quote in generated output sits relative to
+    `div.blyg-tk-gen`: inside it, as written, or outside it, since a quote is not generated
+    words? (9) also carries the #60 studio bug, filed as studio#105. Fable's because each
+    answer is a sentence in the 0.4 text that another client would read. The clause
+    register's three For-Fable findings and the F13 sole-statement list from the same PR
+    are in [blygger-spec#23](https://github.com/blygger/blygger-spec/issues/23); take
+    them in the same round.
 
 
 ## C. Review after the fact (#58 batch)
 
-Nothing pending. Session 49 reviewed and confirmed #65 (§5.6 rules 7–8), the G11
+- **An unprefixed directive line ends a partial quote's lazy continuation** (session 57,
+  2026-11-01, Opus under #58). studio#106 (Aneesh, fixing studio#104) measures a partial
+  transclusion's quote with CommonMark's extent, lazy lines included, per #76, with one
+  departure: an unprefixed `![[id]]` or `![[id@vN]]` line ends the quote, where plain
+  CommonMark would read it as lazy paragraph text. Opus agreed in the PR review because the
+  directive grammar is line-based (§10.1), and the alternative lets a quote swallow a
+  directive. Confirm, or rule the other way, and say whether §10.1 should state it.
+
+Before session 57: nothing pending. Session 49 reviewed and confirmed #65 (§5.6 rules 7–8), the G11
 promotion (§5.6 rule 6) and #69 (static front page; citation corrected to §8.4 rule 3,
 sentence added to the 0.4 text) — `v0.4-plan.md` §11.1. Session 34's four studio calls
 stand as noted in session 38.
