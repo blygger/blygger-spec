@@ -2824,6 +2824,26 @@ declares `moved_from`; a pre-move reader's mention of a post-move item
 verifies; and one reader is offered the follow. Promotion into §6.1, §12.2,
 §15.3 and §15.4.
 
+### 16.14 Placeholder links folded with the item that names them (PROPOSED, not in force)
+
+Proposed 2026-11-01 (Aneesh Sathe; `docs/proposals/speculative-authoring-proposal.md`,
+`fable-round-queue.md` item 24). **Not in force; Fable may edit or refuse it.** No wire
+construct. A placeholder is an ordinary fragment, published in the same act as the item
+that links it (§7, decision #78: one event per item, no quiet publish). The proposed text
+is one addition to §13.7, after the paragraph on items published together:
+
+> The same holds for items an origin published together with an item that names them in
+> its `links[]` (§10.3a): a reader MAY fold them under that item and defer them to the
+> low-priority queue of §13.2. A reader that deferred an item's first version this way
+> MAY present the first later version whose `content_hash` differs as a new arrival
+> rather than as an update; that is the reader's record of what it deferred, never a
+> signal from the publisher. Folding is display, never omission (§13.1).
+
+Readers that ignore it show each placeholder as its own arrival: noisier, never wrong
+(#43, revision-grade). **Gate, proposed:** one node publishes an item with three
+placeholders; a second node shows one arrival with the three deferred, and shows a filled
+one as new; plain RSS readers see four ordinary entries.
+
 ## 17. Revision history (non-normative)
 
 One line per published change to this document, newest first. Snapshots are

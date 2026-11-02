@@ -16,6 +16,7 @@ document opened (#72). Items 18, 20 and 22 deliberately left for the next round.
 15–16, 18 and 20 ruled (decisions #73–#77, reasoning `v0.4-plan.md` §12, text in the 0.4
 second revision). **Only item 22 remains**, and Venkat is thinking about it before it is taken.
 **Added to:** 2026-10-22 — item 14 unparked with per-hopper feeds (Aneesh Sathe; proposal PR). **Pruned:** session 56 (2026-11-01), Fable 5.1 — item 14 ruled (#86). Only item 22 remains.
+**Added to:** 2026-11-01 — item 24, speculative authoring (Aneesh Sathe; proposal PR).
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -93,3 +94,14 @@ stand as noted in session 38.
 23. *Reassigned to Opus by Venkat, session 50 (2026-10-19): Opus drafts RFC-4, responding
     from anywhere (#82), from spec §16.11 and plan §14.4; Fable edits and rules it before
     it publishes, as RFC-3. Fable's part is the gate in `fable-brief.md`.*
+
+24. **Speculative authoring: placeholder links kept in the background** (2026-11-01,
+    Aneesh Sathe; [`proposals/speculative-authoring-proposal.md`](proposals/speculative-authoring-proposal.md),
+    proposed text in `protocol-v0.4.md` §16.14, draft studio build
+    [studio#108](https://github.com/blygger/blygger-studio/pull/108) behind `speculative_links`). The author types `[[text]]`; the studio mints a fragment and
+    rewrites to `[[id | text]]` (#70); the placeholder is published with the item that
+    links it (#78), and readers fold it under that item. No wire member: a marker was
+    considered and set aside on #77/#80/#83, and feed omission on #78. Fable's because
+    it adds a reader rule to §13.7 and answers #70's advice against spelling tangling
+    `[[text]]`. To rule: the §13.7 extension to `links[]`; "fill as new" as a
+    reader-local MAY against #83; whether #70's advice stands; the gate.
