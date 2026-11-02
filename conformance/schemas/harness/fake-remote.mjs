@@ -67,7 +67,7 @@ export async function outboundService(request) {
   outbound.log.push(`${request.method} ${request.url}`);
   if (url.hostname === "api.anthropic.com") {
     const body = await request.json().catch(() => ({}));
-    return json({ id: "msg_fake", type: "message", role: "assistant", model: body.model || "fake-model", stop_reason: "end_turn", content: [{ type: "text", text: "Generated summary sentence from the fake provider." }] });
+    return json({ id: "msg_fake", type: "message", role: "assistant", model: body.model || "fake-model", stop_reason: "end_turn", content: [{ type: "text", text: "Generated summary sentence from the fake provider." }], usage: { input_tokens: 1, output_tokens: 1 } });
   }
   if (url.origin + "/" !== REMOTE) return new Response("not found", { status: 404 });
   const p = url.pathname;
