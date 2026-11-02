@@ -13,8 +13,8 @@
     "site": { "type": "string", "format": "uri", "description": "§6.1: self-asserted, display-advisory; never establishes identity (§12.2, decision #17)." },
     "title": { "type": "string", "description": "§6.1: the blyg's title." },
     "author": { "type": "object", "description": "§6.1: the publication identity (imprint); opaque like §5.5." },
-    "feed": { "type": "string", "minLength": 1, "description": "§6.1/§4: path of the feed; protocol-fixed `feed.xml` at 0.3 (authoritative from 0.4, decision #51)." },
-    "items": { "type": "string", "minLength": 1, "description": "§6.1/§4: path of the archive index; protocol-fixed `items/index.json` at 0.3." },
+    "feed": { "type": "string", "minLength": 1, "description": "§6.1/§4: path of the feed; `feed.xml` by default, and from 0.4 authoritative: the manifest MAY relocate it (C-4-14, decision #51)." },
+    "items": { "type": "string", "minLength": 1, "description": "§6.1/§4: path of the archive index; `items/index.json` by default, relocatable from 0.4 (C-4-14, decision #51)." },
     "blogroll": { "type": "string", "description": "§6.1/§11: OPTIONAL origin-relative path, present only when a non-empty blogroll is served (decision #13)." },
     "webmention": { "type": "string", "description": "§6.1/§15.1 (decision #28): OPTIONAL endpoint URL, origin-relative allowed; omitted by static exports." },
     "updated": { "$ref": "defs.schema.json#/$defs/utc", "description": "§6.1: last update, UTC." }

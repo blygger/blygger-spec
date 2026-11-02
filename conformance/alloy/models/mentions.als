@@ -54,7 +54,9 @@ fact urls {
 -- §15.4 as written. step 1: source is JSON with a blyg key → it is the item
 -- document (we model the source as serving it directly) [C-15.4-02];
 -- step 2: "The document's origin MUST equal the final source URL's origin
--- (scheme, host, port ...)" [C-15.4-03]; step 3: withdrawn → gone;
+-- (scheme, host, port ...)" [C-15.4-03, the 0.3 text; retired in 0.4, where
+-- #61's exact-URL rule C-15.4-06 replaces it: see verifiesPathAware];
+-- step 3: withdrawn → gone;
 -- step 4: stub_of naming the target.
 pred verifiesAsWritten[src: Url, t: Item] {
   some d: src.serves {

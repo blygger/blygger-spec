@@ -65,8 +65,8 @@
       "description": "§3.2: generator SHOULD be emitted as name/version; §6.1: generator_url SHOULD be emitted (decision #34).",
       "properties": {
         "generator": { "type": "string", "pattern": "^[^/\\s]+/[^/\\s]+$", "description": "§3.2: SHOULD take the form name/version." },
-        "feed": { "const": "feed.xml", "description": "§4: file names within the surface are protocol-fixed at 0.3." },
-        "items": { "const": "items/index.json", "description": "§4: protocol-fixed at 0.3." }
+        "feed": { "type": "string", "description": "§4 (0.4, C-4-14): `feed.xml` is the default; the manifest MAY relocate it, so another value is not advised against. (At 0.3 the file names were protocol-fixed, C-4-02, retired.)" },
+        "items": { "type": "string", "description": "§4 (0.4, C-4-14): `items/index.json` is the default; the manifest MAY relocate it." }
       }
     }
   }

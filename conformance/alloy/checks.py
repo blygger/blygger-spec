@@ -361,14 +361,17 @@ CHECKS = [
     # ------------------------------------------------------------------ 7 mentions
     dict(
         model="mentions", cmd="ImpostorFails",
-        title="7. ImpostorFails: verification attributes a mention to the origin that served it",
-        expect="fail", cex_status="fail", vacuity="Vac_VerifiedStub",
+        title="7. ImpostorFails under the 0.3 step 2 (host-only origin comparison, retired C-15.4-03)",
+        expect="fail", cex_status="info", vacuity="Vac_VerifiedStub",
         spec=["The document's origin MUST equal the final source URL's origin (scheme, host, port; trailing slash normalized) … it is what stops a mirror or an impostor from speaking in a real blyg's name.",
               "a blyg's origin is any absolute base URL — domain root, any path, any subdomain"],
         spec_refs=["§15.4", "§12.2", "§4"], decisions=["#14", "#17", "#28", "#36"],
-        clauses=["C-15.4-03", "C-15.4-02", "C-13.1-07", "C-4-01"],
+        # C-15.4-03 (the sentence quoted above) is retired; its successor C-15.4-06
+        # (#61) is the exact-URL rule that 7c models, and closes this counterexample.
+        clauses=["C-15.4-06", "C-15.4-02", "C-13.1-07", "C-4-01"],
         pass_text="No counterexample in scope.",
-        cex_text=("Two blygs share a host, path-mounted: example.com/alice/ and example.com/bob/ (#14 allows it; #36 recommends exactly this "
+        cex_text=("Historical: the 0.3 text's step 2, modelled here, allowed this; decision #61 replaced it with the exact-URL rule "
+                  "(C-15.4-06), which check 7c models and which holds. The story under the old text: Two blygs share a host, path-mounted: example.com/alice/ and example.com/bob/ (#14 allows it; #36 recommends exactly this "
                   "\"N origins under one host\" shape for groups). Bob serves, inside his own mount, an item document whose \"origin\" is "
                   "example.com/alice/ and whose stub_of names a target at a third blyg, then sends that blyg a Webmention with his URL as source. "
                   "Step 2 compares scheme, host and port only — they match — so the mention verifies and is recorded as Alice's stub. "
@@ -385,17 +388,18 @@ CHECKS = [
         title="7b. ImpostorFails when every host has one blyg (today's deployments)",
         expect="pass", cex_status="fail", vacuity="Vac_VerifiedStub",
         spec=["A page on one host pointing at a document claiming another origin does not verify."],
-        spec_refs=["§15.4"], decisions=["#17", "#28"], clauses=["C-15.4-03"],
+        spec_refs=["§15.4"], decisions=["#17", "#28"], clauses=["C-15.4-06"],
         pass_text=("A mirror on another host that copies a real blyg's documents byte-for-byte cannot get a mention verified in that blyg's "
                    "name. (Premise: one origin per host, and the host has one operator.)"),
         cex_text="Unexpected.",
     ),
     dict(
         model="mentions", cmd="ImpostorFails_PathAware",
-        title="7c. ImpostorFails with a path-aware step 2 (proposed fix)",
+        title="7c. ImpostorFails with a path-aware step 2 (the 0.4 text, C-15.4-06)",
         expect="pass", cex_status="fail", vacuity="Vac_PathAwareVerified",
-        spec=["(proposed) the source URL must lie inside the document's claimed origin"],
-        spec_refs=["§15.4"], decisions=["#14", "#28"], clauses=["C-15.4-03"],
+        spec=["The item document's final URL MUST be exactly {origin}items/{id}.json for the document's own origin and id (decision #61). "
+              "Modelled as its consequence: the source URL must lie inside the document's claimed origin."],
+        spec_refs=["§15.4"], decisions=["#14", "#28", "#61"], clauses=["C-15.4-06"],
         pass_text="With a full-origin prefix match the impostor in 7 no longer verifies, even with co-hosted origins.",
         cex_text="Unexpected.",
     ),
