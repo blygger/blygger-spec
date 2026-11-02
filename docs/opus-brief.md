@@ -56,7 +56,7 @@ Decisions #86–#88 (`CLAUDE.md`), reasoning `v0.4-plan.md` §16, text in the sp
 a build gate; when the gate has run, promote under #58 (move the text, fix cross-references,
 add the §17 line, record the build's calls) and Fable reviews in batch.
 
-- **w. Hopper feeds (#86, ROADMAP row 96).** Review Aneesh's draft
+- **w. Hopper feeds (#86, ROADMAP row 96).** *Done session 57: studio#84 merged and released as 0.50.0, gate run venkateshrao → protocol-institute, §16.12 promoted (eighth revision). Left: tell the World Machines bridge.* Review Aneesh's draft
   [studio#84](https://github.com/blygger/blygger-studio/pull/84) against 0.4 **§16.12**, not
   against the proposal: the differences are identity = (origin, the feed's *resolved absolute
   URL*); no item document ever names a hopper (check nothing writes membership into an item

@@ -110,6 +110,16 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
   as the studio's Background lens will. Opus drafts both into the living 0.4 text when the
   build starts; confirm or rule otherwise.
 
+- **§16.12 promotion, eighth revision** (session 57, Opus under #58, after the gate ran
+  venkateshrao → protocol-institute on studio 0.50.0). Review it against the points
+  `fable-brief.md` already lists: §13.5's amended sentence says "no protocol surface beyond
+  the `hoppers` list and a hopper feed" and nothing wider; step 7 stays a post-condition on
+  steps 2–5 with the bound at six. Placement calls made in promoting: rule 6 (readers,
+  drop-on-absence) went to §13.6 beside L0, and the publisher rules (a)–(d) to §13.5. One
+  build finding: the studio uses a single `hopper_feeds` setting for both serving hopper
+  feeds and step 7, so a node must publish its own hoppers' feeds to subscribe to someone
+  else's. That is studio-side and not a spec question, noted for the studio.
+
 Before session 57: nothing pending. Session 49 reviewed and confirmed #65 (§5.6 rules 7–8), the G11
 promotion (§5.6 rule 6) and #69 (static front page; citation corrected to §8.4 rule 3,
 sentence added to the 0.4 text) — `v0.4-plan.md` §11.1. Session 34's four studio calls
