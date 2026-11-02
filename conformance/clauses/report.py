@@ -48,7 +48,8 @@ def main() -> int:
         "tests": ana["tests"],
     }
     blob = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
-    page = TEMPLATE.replace("__DATA__", blob).replace("__SPEC__", html.escape(reg["source"]))
+    page = (TEMPLATE.replace("__DATA__", blob).replace("__SPEC__", html.escape(reg["source"]))
+            .replace("__NDEC__", str(len(decs))))
     (OUT / "report.html").write_text(page, encoding="utf-8")
     print(f"wrote {OUT / 'report.html'} ({len(page) // 1024} KB)")
     return 0
@@ -115,7 +116,7 @@ a{color:var(--accent)}
 <body>
 <main>
 <h1>Clause register &amp; traceability</h1>
-<p class="sub">Every RFC 2119 sentence in <code>__SPEC__</code>, the 56 locked decisions, the four §1 invariants, and how they connect. Generated <span id="gen"></span>.</p>
+<p class="sub">Every RFC 2119 sentence in <code>__SPEC__</code>, the __NDEC__ locked decisions, the four §1 invariants, and how they connect. Generated <span id="gen"></span>.</p>
 
 <div class="tiles" id="tiles"></div>
 
@@ -287,7 +288,7 @@ function buildGraph(){
       {selector:'edge[type="cites"],edge[type="cites-nearby"]', style:{'line-color':css('--accent'), width:1.5}},
       {selector:'edge[type="names"]', style:{'line-color':css('--accent'), opacity:.45}},
       {selector:'edge[type="shares-token"]', style:{'line-style':'dotted', 'line-color':css('--accent'), opacity:.35}},
-      {selector:'edge[type="amends"],edge[type="supersedes"],edge[type="corrects"],edge[type="refines"],edge[type="resolves"],edge[type="extends"]',
+      {selector:'edge[type="amends"],edge[type="supersedes"],edge[type="corrects"],edge[type="refines"],edge[type="resolves"],edge[type="extends"],edge[type="reverses"]',
         style:{'line-color':css('--fail'), width:2, 'target-arrow-shape':'triangle', 'target-arrow-color':css('--fail'), label:'data(type)', 'font-size':7, color:css('--fail')}},
       {selector:'edge[type="states"]', style:{'line-color':css('--ink'), width:2}},
       {selector:'edge[type^="tests"]', style:{'line-color':css('--test')}},

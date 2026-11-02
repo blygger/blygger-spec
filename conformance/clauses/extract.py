@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Extract the clause register from the living Blygger spec.
 
-Reads  docs/protocol-v0.3.md  (or --spec PATH) and writes
+Reads  docs/protocol-v0.4.md  (or --spec PATH, e.g. docs/protocol-v0.3.md) and writes
   conformance/clauses/clauses.json   — one entry per normative sentence
                                         (RFC 2119 keyword), plus §16 pending
                                         shapes and the section/invariant index.
@@ -43,7 +43,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
-DEFAULT_SPEC = REPO / "docs" / "protocol-v0.3.md"
+DEFAULT_SPEC = REPO / "docs" / "protocol-v0.4.md"
 
 # --- RFC 2119 keywords, grouped into the three levels of decision #48 -------
 # MUST family fails, SHOULD family warns, MAY family is shape-checked.
@@ -66,6 +66,7 @@ SECREF_RE = re.compile(r"(?:(\b0\.[0-9])\s+)?§(§?)\s?(\d+(?:\.\d+)*[a-z]?)(?:\
 DECISION_RE = re.compile(r"(?<![\w-])#(\d{1,2})\b")
 CODESPAN_RE = re.compile(r"`[^`\n]*`")
 BOLD_LEAD_RE = re.compile(r"^\*\*([^*]{1,80}?[.:])\*\*\s*")
+LOCK_TEXT = 160  # characters of clause text kept in ids.lock.json
 ABBREV = {"e.g", "i.e", "etc", "cf", "vs", "approx", "viz", "al", "fig", "no"}
 
 # Actor words used by the side heuristic. The *last* actor named before the
@@ -346,7 +347,9 @@ def assign_ids(clauses: list[dict], lock: dict) -> dict:
         for k, v in vanished.items():
             if v["section"] != c["section"] or k in claimed:
                 continue
-            r = difflib.SequenceMatcher(None, norm(v["text"]), norm(c["text"])).ratio()
+            # The lock keeps only the first LOCK_TEXT characters, so compare like with like:
+            # a long sentence edited near its end must still match its own truncated record.
+            r = difflib.SequenceMatcher(None, norm(v["text"]), norm(c["text"][:LOCK_TEXT])).ratio()
             if r >= score:
                 best, score = k, r
         if best:
@@ -370,7 +373,7 @@ def assign_ids(clauses: list[dict], lock: dict) -> dict:
         if k not in claimed:
             new_entries[k] = {**v, "retired": True}
     for c in clauses:
-        new_entries[c["id"]] = {"fp": c["fp"], "section": c["section"], "text": c["text"][:160]}
+        new_entries[c["id"]] = {"fp": c["fp"], "section": c["section"], "text": c["text"][:LOCK_TEXT]}
     return {"note": "Clause id lock — do not hand-edit except to retire ids. See README.",
             "ids": dict(sorted(new_entries.items(), key=lambda kv: id_sort_key(kv[0])))}
 
@@ -378,35 +381,60 @@ def assign_ids(clauses: list[dict], lock: dict) -> dict:
 def id_sort_key(cid: str):
     _, sec, n = cid.split("-")
     parts = re.findall(r"\d+|[a-z]+", sec)
-    return (cid[0], [int(p) if p.isdigit() else p for p in parts], int(n))
+    return (cid[0], [(0, int(p)) if p.isdigit() else (1, p) for p in parts], int(n))
 
 
 # ----------------------------------------------------------------------------
 # §16 pending shapes, §2 terminology, §1 invariants
 # ----------------------------------------------------------------------------
 
-def pending_shapes(sections: list[dict], lines: list[str]) -> list[dict]:
+def spec_version(path: Path) -> str | None:
+    """'0.4' from docs/protocol-v0.4.md; None if the name says nothing."""
+    m = re.search(r"protocol-v(\d+\.\d+)", path.name)
+    return m.group(1) if m else None
+
+
+def pending_shapes(sections: list[dict], lines: list[str], overrides: dict | None = None) -> list[dict]:
+    """Classify each §16 subsection from its heading's parenthetical.
+
+    promoted  — moved into normative text (the heading names where)
+    never     — will never be protocol
+    closed    — resolved with no wire construct ("no such thing", "no construct")
+    reserved  — §16.7
+    ruled-0.N — ruled, explicitly a construct for a later version 0.N
+    ruled     — ruled, awaiting a build (the default)
+    overrides.json 'pending_shapes' {section: {status, why}} wins over all of these.
+    """
+    forced = {k: v for k, v in (overrides or {}).get("pending_shapes", {}).items() if not k.startswith("_")}
     out = []
     subs = [s for s in sections if s["id"].startswith("16.")]
     for s in subs:
         h = s["heading"].lower()
         paren = re.search(r"\(([^)]*)\)\s*$", s["heading"])
         status = "ruled"
+        later = re.search(r"\b(\d+\.\d+) construct", h)
         if "promoted" in h:
             status = "promoted"
         elif "never" in h:
             status = "never"
-        elif "closed" in h or "resolved" in h or "no such thing" in h:
+        elif "closed" in h or "resolved" in h or "no such thing" in h or "no construct" in h:
             status = "closed"
         elif "reserved" in h:
             status = "reserved"
-        elif "0.4 construct" in h:
-            status = "ruled-0.4"
-        target = re.search(r"promoted (?:in)?to §([\d.a-z–§]+)", s["heading"])
-        out.append({"section": s["id"], "heading": s["heading"], "status": status,
-                    "note": paren.group(1) if paren else "",
-                    "promoted_to": [t.strip("§") for t in re.split(r"[–]", target.group(1))] if target else [],
-                    "line": s["line"]})
+        elif later:
+            status = f"ruled-{later.group(1)}"
+        promoted_to: list[str] = []
+        pm = re.search(r"promoted (?:in)?to ([^)]*)", s["heading"])
+        if pm:
+            promoted_to, _ = section_refs(pm.group(1))
+        rec = {"section": s["id"], "heading": s["heading"], "status": status,
+               "note": paren.group(1) if paren else "",
+               "promoted_to": promoted_to, "line": s["line"]}
+        if s["id"] in forced:
+            rec["status_parsed"] = status
+            rec["status"] = forced[s["id"]]["status"]
+            rec["status_why"] = forced[s["id"]].get("why", "")
+        out.append(rec)
     return out
 
 
@@ -469,11 +497,12 @@ def main(argv=None) -> int:
 
     out = {
         "source": str(args.spec.relative_to(REPO)) if args.spec.is_relative_to(REPO) else str(args.spec),
+        "spec_version": spec_version(args.spec),
         "spec_lines": data["lines"],
         "invariants": invariants(section_text(lines, sections, "1")),
         "terminology": terminology(sections, section_text(lines, sections, "2")),
         "sections": sections,
-        "pending_shapes": pending_shapes(sections, lines),
+        "pending_shapes": pending_shapes(sections, lines, overrides),
         "clauses": sorted(data["clauses"], key=lambda c: (c["line"], id_sort_key(c["id"]))),
     }
     args.out.write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")

@@ -30,6 +30,7 @@ DEC_RE = re.compile(r"(?<![\w-])#(\d{1,2})\b")
 # ("#16 amends #14" -> 16 amends 14); `backward` flips it ("amended by #16"
 # written inside #14 -> 16 amends 14).
 RELATIONS = [
+    (r"reversed by", "reverses", "backward"),
     (r"amended by", "amends", "backward"),
     (r"superseded by", "supersedes", "backward"),
     (r"amends?|amending|amendment to|amendment of", "amends", "forward"),
@@ -39,22 +40,54 @@ RELATIONS = [
     (r"extends", "extends", "forward"),
     (r"confirms|reaffirm\w*", "confirms", "forward"),
     (r"gives|refines", "refines", "forward"),
+    (r"reverses|reversing", "reverses", "forward"),
 ]
 REL_RE = re.compile(r"\b(" + "|".join(f"(?P<r{i}>{p})" for i, (p, _, _) in enumerate(RELATIONS)) + r")\b"
                     r"(?P<mid>(?:[^.;:#]|\.\d){0,50}?)(?P<nums>(?:#\d{1,2}(?:['’]s)?(?:\s*(?:/|,|and|&)\s*)?)+)", re.I)
 
-# Context words that say which document a § reference points into.
-DOC_HINTS = [
-    (r"[\w./-]+\.md\b", "other"),   # any named file; the spec-specific patterns below win ties
-    (r"protocol-v0\.3|\bspec(?:'s)?\b|\b0\.3 (?:text|§)|living (?:doc|spec)", "spec"),
-    (r"protocol-v0\.2|\b0\.2 §|0\.2's", "spec-0.2"),   # 0.2 section numbers are preserved in 0.3 (#23)
-    (r"protocol-v0\.1|\b0\.1 §", "spec-0.1"),
-    (r"plan|brief|proposal|notes?/|tn-\d|self-host|tk-core|roadmap|README|backlog|CLAUDE", "other"),
-]
+# Context words that say which document a § reference points into. The
+# living version is the one being analysed (0.4 by default). Since #23 each
+# version is a standalone superset that preserves the previous version's
+# section numbers, so a § written against 0.2 or 0.3 still names the same
+# section of 0.4: those are kept as spec refs, labelled with their version
+# ("spec-0.3"). 0.1 numbering was not preserved (0.2 renumbered), so 0.1 refs
+# go to other_refs.
+FIRST_PRESERVED = (0, 2)   # the first version whose numbers later versions keep
+SPEC_VERSION = "0.4"
+
+
+def doc_hints(living: str) -> list[tuple[str, str]]:
+    major, minor = (int(x) for x in living.split("."))
+    esc = re.escape(living)
+    hints = [
+        (r"[\w./-]+\.md\b", "other"),   # any named file; the spec-specific patterns below win ties
+        (rf"protocol-v{esc}|\bspec(?:'s)?\b|\b{esc} (?:text|§|document)|living (?:doc|spec)", "spec"),
+    ]
+    for m in range(minor - 1, -1, -1):
+        v = f"{major}.{m}"
+        ev = re.escape(v)
+        hints.append((rf"protocol-v{ev}|\b{ev} §|{ev}'s", f"spec-{v}"))
+    hints.append((r"plan|brief|proposal|notes?/|tn-\d|self-host|tk-core|roadmap|README|backlog|CLAUDE", "other"))
+    return hints
+
+
+def counts_as_spec(kind: str) -> bool:
+    """Does a classified ref name a section of the living document?"""
+    if kind in ("spec", "spec?"):
+        return True
+    m = re.fullmatch(r"spec-(\d+)\.(\d+)", kind)
+    return bool(m) and (int(m.group(1)), int(m.group(2))) >= FIRST_PRESERVED
+
+
+DOC_HINTS = doc_hints(SPEC_VERSION)
 
 
 def classify_ref(text: str, pos: int, session: int | None) -> str:
     """Look back from a § at `pos` within its clause for the nearest doc hint."""
+    # A version named right after the ref wins: "spec §11.4 at 0.1; §13.1 since 0.2".
+    after = re.match(r"§[\d.]+[a-z]?\s+(?:at|in|of)\s+(\d+\.\d+)\b", text[pos:pos + 30])
+    if after:
+        return f"spec-{after.group(1)}"
     window_start = max(text.rfind(";", 0, pos), text.rfind(". ", 0, pos), text.rfind("(", 0, pos - 1), pos - 80)
     window = text[max(0, window_start):pos]
     best, best_at = None, -1
@@ -103,7 +136,7 @@ def parse(claude_md: Path) -> list[dict]:
         for m in SEC_RE.finditer(raw):
             kind = classify_ref(raw, m.start(), session)
             rec = {"section": m.group(1), "via": kind}
-            (spec if kind.startswith("spec") and kind != "spec-0.1" else other).append(rec)
+            (spec if counts_as_spec(kind) else other).append(rec)
 
         rels = []
         for m in REL_RE.finditer(raw):
@@ -146,9 +179,20 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--claude-md", type=Path, default=REPO / "CLAUDE.md")
     ap.add_argument("--out", type=Path, default=HERE / "decisions.json")
+    ap.add_argument("--spec-version", default=None,
+                    help="living spec version for classifying § refs (default: clauses.json's, else 0.4)")
     args = ap.parse_args(argv)
+    global DOC_HINTS
+    ver = args.spec_version
+    if not ver:
+        try:
+            ver = json.loads((HERE / "clauses.json").read_text()).get("spec_version")
+        except (OSError, json.JSONDecodeError):
+            ver = None
+    ver = ver or SPEC_VERSION
+    DOC_HINTS = doc_hints(ver)
     ds = parse(args.claude_md)
-    args.out.write_text(json.dumps({"source": "CLAUDE.md", "decisions": ds}, indent=1, ensure_ascii=False) + "\n")
+    args.out.write_text(json.dumps({"source": "CLAUDE.md", "spec_version": ver, "decisions": ds}, indent=1, ensure_ascii=False) + "\n")
     nrel = sum(len(d["relations"]) for d in ds)
     print(f"decisions: {len(ds)} (#{ds[0]['number']}–#{ds[-1]['number']}), {nrel} amend/supersede-type edges")
     return 0
