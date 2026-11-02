@@ -161,8 +161,17 @@ rule("page.origin-relative", "page is origin-relative (no scheme, no leading /)"
   if (d.page.startsWith("/")) return [`page "${d.page}" is host-rooted; it would break a path-mounted origin (#14)`];
   return [];
 });
-rule("page.not-absolute-at-0.3", "absolute page is a 0.4 construct", ["§5.8", "§16.6e"], ["#51"], "warn", (d) =>
-  d.page && isAbsolute(d.page) ? [`page is absolute (${d.page}); 0.3 says origin-relative, #51 permits absolute at 0.4`] : []);
+// 0.4 §5.8 (C-5.8-01, promoted from the 0.3 text's §16.6e, #51): `page` MAY be
+// absolute, taken as given by readers. The MAY is shape-checked (#48): an
+// absolute value must be an http(s) URL, since it is "the URL of the item's
+// human-readable permalink". (Until the 0.4 text this rule warned on every
+// absolute value as a 0.4 construct, `page.not-absolute-at-0.3`.)
+rule("page.absolute-is-url", "an absolute page is an http(s) URL", ["§5.8"], ["#29", "#51"], "fail", (d) => {
+  if (!d.page || !isAbsolute(d.page)) return [];
+  let u;
+  try { u = new URL(d.page); } catch { return [`page "${d.page}" is neither origin-relative nor a valid absolute URL`]; }
+  return u.protocol === "https:" || u.protocol === "http:" ? [] : [`page "${d.page}" is absolute but not an http(s) URL`];
+});
 
 rule("generated.wrappers", "generated spans are wrapped in blyg-tk-gen", ["§5.7"], ["#20", "#25"], "fail", (d) => {
   if (!d.generated) return [];
