@@ -50,6 +50,15 @@
       "id": "2mzqh4jt3ye14xm6sr5gf32cah",
       "version": 1,
       "source_sha256": "45b38db6a37ec933899b0f1a1dee37ae7c4d5c621ca7780ed3a05cd9909503ee"
+    },
+    {
+      "file": "docs/posts/2026-11-01-tangling-heads-up.md",
+      "model": "claude-opus-5-5",
+      "pin": false,
+      "notes": {
+        "first": "Heads-up: tangling and the Background lens are coming to Blygger Studio.",
+        "revision": "Tangling heads-up revised; see the source history."
+      }
     }
   ]
 }
