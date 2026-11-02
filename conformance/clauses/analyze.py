@@ -36,7 +36,9 @@ def load(name: str) -> dict:
 
 
 def sec_key(s: str):
-    return [int(p) if p.isdigit() else p for p in re.findall(r"\d+|[a-z]+", s)]
+    # (0, n) for numbers, (1, s) for letter suffixes, so "10.3a" sorts after "10.3"
+    # and before "10.4" without comparing an int to a str
+    return [(0, int(p)) if p.isdigit() else (1, p) for p in re.findall(r"\d+|[a-z]+", s)]
 
 
 def parent_of(sec: str) -> str | None:
@@ -112,6 +114,18 @@ def main() -> int:
     # --- test coverage join ---------------------------------------------------
     for c in clauses:
         c["tests"], c["section_tests"] = [], []
+    # A test citing a retired id counts for that id's successor(s), and is reported.
+    successors = {k: v for k, v in ov.get("clause_successors", {}).items() if not k.startswith("_")}
+    stale_cites = defaultdict(set)
+    for t in tests:
+        mapped = []
+        for cid in t["clauses"]:
+            if cid not in by_id and cid in successors:
+                stale_cites[cid].add(t["id"])
+                mapped += successors[cid]
+            elif cid not in by_id:
+                stale_cites[cid].add(t["id"])
+        t["clauses"] = sorted(set(t["clauses"]) | set(mapped))
     for t in tests:
         for cid in t["clauses"]:
             if cid in by_id:
@@ -128,6 +142,7 @@ def main() -> int:
     specific = {t for t, n in tok_count.items() if n <= 10 and len(t) > 2 and not t.startswith("http")}
 
     # --- decision grounding -------------------------------------------------
+    promoted = {p["section"]: p["promoted_to"] for p in reg["pending_shapes"] if p["status"] == "promoted"}
     for k, secs in ov.get("decision_sections", {}).items():
         if k.isdigit() and int(k) in decisions:
             have = {r["section"] for r in decisions[int(k)]["spec_sections"]}
@@ -138,8 +153,14 @@ def main() -> int:
         named, missing = [], []
         for r in d["spec_sections"]:
             (named if r["section"] in sections else missing).append(r)
+        # A §16 pointer whose shape was promoted grounds where the text went:
+        # a decision written as "spec §16.6e" now lives in §4, §5.8, …
+        followed = [{"section": t, "via": f"promoted from §{r['section']}"}
+                    for r in named for t in promoted.get(r["section"], [])
+                    if t in sections and t not in {x["section"] for x in named}]
+        named = named + list({f["section"]: f for f in followed}.values())
         via_sec = sorted({c["id"] for r in named for s in descendants(r["section"], sec_ids)
-                          for c in clauses if c["section"] == s}, key=lambda i: sec_key(i))
+                          for c in clauses if c["section"] == s}, key=X.id_sort_key)
         via_tok = sorted({c["id"] for c in clauses for t in c["tokens"] if t in specific and t in d["tokens"]})
         norm_hits = [i for i in set(direct + nearby + via_sec) if by_id[i]["status"] == "normative"]
         pend_hits = [i for i in set(direct + nearby + via_sec) if by_id[i]["status"] == "pending"]
@@ -154,6 +175,7 @@ def main() -> int:
             g = "none"
         d.update({"direct_clauses": direct, "nearby_clauses": nearby, "section_clauses": via_sec,
                   "token_clauses": via_tok, "grounding": g, "missing_sections": missing,
+                  "promoted_sections": [f["section"] for f in followed],
                   "cited_in_spec": bool(direct or nearby),
                   "class": ov.get("decision_classes", {}).get(str(n))})
 
@@ -204,6 +226,17 @@ def main() -> int:
                f"{len(untested)}/{len(cs)} MUST clauses untested at clause level: {', '.join(untested)}"
                + (f" (section-level coverage only: {', '.join(only_sec)})" if only_sec else ""))
         check(f"coverage.must.{s}", f"§{s} {sections[s]['heading'][:60]} — MUST coverage", st, det, [s])
+
+    # tests that cite clause ids the register no longer has
+    if stale_cites:
+        check("tests.retired-ids", "Tests citing clause ids that are retired or unknown", "warn",
+              "; ".join(f"{cid} → {', '.join(successors[cid]) if cid in successors else 'no successor recorded'}"
+                        f" (cited by {len(ts)}: {', '.join(sorted(ts)[:4])}{'…' if len(ts) > 4 else ''})"
+                        for cid, ts in sorted(stale_cites.items(), key=lambda kv: X.id_sort_key(kv[0])))
+              + ". Mapped ids count toward their successors' coverage; update the citing areas to the new ids.")
+    else:
+        check("tests.retired-ids", "Tests citing clause ids that are retired or unknown", "pass",
+              "Every clause id cited by another area's checks is live.")
 
     # dangling references in clauses
     dangling = [(c, r) for c in clauses for r in c["refs"] if r not in sections]
@@ -262,11 +295,11 @@ def main() -> int:
               why + "." + tok + (f" Record names spec §{', §'.join(r['section'] for r in d['spec_sections'])}." if d["spec_sections"] else ""),
               [r["section"] for r in d["spec_sections"] if r["section"] in sections], [n])
 
-    # decisions naming spec sections that don't exist in 0.3
+    # decisions naming spec sections that do not exist in the living version
     for n, d in sorted(decisions.items()):
-        sure = [r for r in d["missing_sections"] if r["via"] in ("spec", "spec-0.2")]
+        sure = [r for r in d["missing_sections"] if r["via"] == "spec" or r["via"].startswith("spec-")]
         if sure:
-            check(f"decisions.stale-ref.{n}", f"#{n} names spec §{', §'.join(r['section'] for r in sure)}, absent from 0.3",
+            check(f"decisions.stale-ref.{n}", f"#{n} names spec §{', §'.join(r['section'] for r in sure)}, absent from {reg.get('spec_version') or reg['source']}",
                   "warn", f"Decision #{n} (session {d['session']}) points at "
                   + ", ".join(f"§{r['section']} ({r['via']})" for r in sure)
                   + ". The section number may come from an earlier spec version; the record is now a dangling pointer.",
@@ -283,7 +316,7 @@ def main() -> int:
           f"{len(rels)} edges ({sum(r['source'] == 'parsed' for r in rels)} parsed from the records, "
           f"{sum(r['source'] == 'curated' for r in rels)} curated). " + "; ".join(lines_), decs=sorted(chains))
     for r in rels:
-        if r["type"] not in ("amends", "supersedes", "corrects"):
+        if r["type"] not in ("amends", "supersedes", "corrects", "reverses"):
             continue
         target = decisions.get(r["to"])
         if target and r["from"] not in target["mentions"]:

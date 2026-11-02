@@ -1,0 +1,45 @@
+{
+  "id": "tk-block",
+  "title": "A block generated span is wrapped in div.blyg-tk-gen",
+  "group": "generation",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§5.7"
+  ],
+  "clauses": [
+    "C-5.7-07"
+  ],
+  "decisions": [
+    "#20"
+  ],
+  "kind": "fragment",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "Intro paragraph.\n\n[TK]write two short paragraphs[=]First generated paragraph.\n\nSecond generated paragraph.[/TK]\n\nOutro.",
+  "items": [],
+  "expect": {
+    "error": false,
+    "content_html": "<p>Intro paragraph.</p>\n<div class=\"blyg-tk-gen\"><p>First generated paragraph.</p>\n<p>Second generated paragraph.</p>\n</div>\n<p>Outro.</p>\n",
+    "normative": [
+      {
+        "wrapper": "div",
+        "classes": [
+          "blyg-tk-gen"
+        ],
+        "data": {},
+        "text": "First generated paragraph. Second generated paragraph."
+      }
+    ],
+    "generated": [
+      {
+        "sources": []
+      }
+    ]
+  },
+  "notation": "reference-tk",
+  "seeded_from": "tk_block_generated"
+}

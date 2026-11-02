@@ -1,0 +1,69 @@
+{
+  "id": "baked-remote-markup",
+  "title": "A baked quote carries the source's own HTML verbatim, its links included, with no link added",
+  "group": "urls",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.2",
+    "§5.2"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#26",
+    "#53"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "![[2h2h2h2h2h2h2h2h2h2h2h2h2h]]",
+  "items": [
+    {
+      "id": "2h2h2h2h2h2h2h2h2h2h2h2h2h",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/2h2h2h2h2h2h2h2h2h2h2h2h2h/",
+      "content_md": "Thinking with a [pencil](https://pencils.example/) is *slow*.",
+      "content_html": "<p>Thinking with a <a href=\"https://pencils.example/\">pencil</a> is <em>slow</em>.</p>\n",
+      "content_hash": "sha256:209e3d0d467e2e95bf3f3b6634b7b43cac59699b414767c0351e4814c3641754"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<blockquote class=\"blyg-transclusion\" data-blyg-id=\"2h2h2h2h2h2h2h2h2h2h2h2h2h\" data-blyg-version=\"1\" data-blyg-origin=\"https://remote.example/\">\n<p>Thinking with a <a href=\"https://pencils.example/\">pencil</a> is <em>slow</em>.</p>\n</blockquote>\n",
+    "normative": [
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "2h2h2h2h2h2h2h2h2h2h2h2h2h",
+          "data-blyg-version": "1",
+          "data-blyg-origin": "https://remote.example/"
+        },
+        "text": "Thinking with a pencil is slow.",
+        "children": [
+          {
+            "a": "https://pencils.example/",
+            "text": "pencil"
+          }
+        ]
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "2h2h2h2h2h2h2h2h2h2h2h2h2h",
+        "version": 1,
+        "origin": "https://remote.example/"
+      }
+    ],
+    "links": []
+  }
+}

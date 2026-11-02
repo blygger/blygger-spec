@@ -1,0 +1,46 @@
+{
+  "id": "directive-tab-indented",
+  "title": "A tab-indented directive line at the start of a document",
+  "group": "grammar",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#9",
+    "#54"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "\t![[01j9zq3k4m5n6p7q8r9s0t1v2w]]",
+  "items": [
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/01j9zq3k4m5n6p7q8r9s0t1v2w/",
+      "content_md": "Small tools, used daily, beat big tools used rarely.",
+      "content_html": "<p>Small tools, used daily, beat big tools used rarely.</p>\n"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<pre><code>![[01j9zq3k4m5n6p7q8r9s0t1v2w]]\n</code></pre>\n",
+    "normative": [],
+    "literals": [
+      "![[01j9zq3k4m5n6p7q8r9s0t1v2w]]"
+    ],
+    "transclusions": []
+  },
+  "ambiguous": "§10.1 allows surrounding whitespace on the directive line, and also says the directive is inert inside code blocks. In CommonMark a line indented by a tab (four columns) is an indented code block. The expectation lets the code rule win, as it does for four spaces after a blank line.",
+  "seeded_from": "tr_tabs"
+}

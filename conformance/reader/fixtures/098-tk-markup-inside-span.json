@@ -1,0 +1,42 @@
+{
+  "id": "tk-markup-inside-span",
+  "title": "Markdown inside an inline generated span renders inside the wrapper",
+  "group": "generation",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§5.7"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#20"
+  ],
+  "kind": "fragment",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "Price [TK]p[=]*five* dollars[/TK] end.",
+  "items": [],
+  "expect": {
+    "error": false,
+    "content_html": "<p>Price <span class=\"blyg-tk-gen\"><em>five</em> dollars</span> end.</p>\n",
+    "normative": [
+      {
+        "wrapper": "span",
+        "classes": [
+          "blyg-tk-gen"
+        ],
+        "data": {},
+        "text": "five dollars"
+      }
+    ],
+    "generated": [
+      {
+        "sources": []
+      }
+    ]
+  },
+  "notation": "reference-tk"
+}

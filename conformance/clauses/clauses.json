@@ -1,6 +1,7 @@
 {
- "source": "docs/protocol-v0.3.md",
- "spec_lines": 2182,
+ "source": "docs/protocol-v0.4.md",
+ "spec_version": "0.4",
+ "spec_lines": 2927,
  "invariants": [
   {
    "id": "I1",
@@ -89,7 +90,7 @@
   },
   {
    "term": "Reference",
-   "definition": "the citation shape `{ origin, id, version }` that names one published version of one item at one origin (§5.9). Used by `stub_of`, `forked_from`, and `transclusions[]`.",
+   "definition": "the citation shape `{ origin, id, version }` that names one published version of one item at one origin (§5.9). Used by `stub_of`, `forked_from`, `transclusions[]` and, from 0.4, `generated[].sources[]`.",
    "refs": [
     "5.9"
    ]
@@ -165,6 +166,89 @@
    ]
   },
   {
+   "term": "Remote reference",
+   "definition": "a reference (§5.9) whose `origin` is not the publisher's own: a cross-origin `stub_of`, `transclusions[]` entry, `forked_from` or, from 0.4, `generated[].sources[]` entry — and, from the fourth revision, a `links[]` entry carrying an `origin` (§10.3a). Each SHOULD send a mention (§15.2).",
+   "refs": [
+    "5.9",
+    "10.3a",
+    "15.2"
+   ]
+  },
+  {
+   "term": "Surface template",
+   "definition": "a manifest's `item` or `pin` value (§6.1): where an origin serves its item documents and pinned-version documents when not at the default paths. New in 0.4.",
+   "refs": [
+    "6.1"
+   ]
+  },
+  {
+   "term": "Maintenance republish",
+   "definition": "a version whose `content_hash` equals the version before it: a snapshot refresh or re-bake, no new words (§13.2). From the fourth revision, also a version that differs from its predecessor by less than a reader-local threshold.",
+   "refs": [
+    "13.2"
+   ]
+  },
+  {
+   "term": "Notice",
+   "definition": "a verified mention that is not a response: relation `link`, or a repost (§15.4, §15.5). Held apart from responses. New in 0.4.",
+   "refs": [
+    "15.4",
+    "15.5"
+   ]
+  },
+  {
+   "term": "Repost",
+   "definition": "a stub or transclusion whose source document has no words of its own; classified by the receiver, never declared (§15.4). New in 0.4.",
+   "refs": [
+    "15.4"
+   ]
+  },
+  {
+   "term": "Label",
+   "definition": "the optional `| text` after the id inside `[[…]]` or `![[…]]` (§10.1): the author's label for the target, ignored by resolution; anchor text on a link, `data-blyg-label` on a baked transclusion (§10.2). New in 0.4.",
+   "refs": [
+    "10.1",
+    "10.2"
+   ]
+  },
+  {
+   "term": "Text content",
+   "definition": "an item's `content_html` with tags stripped, whitespace collapsed within a block and block boundaries kept as line breaks; what a partial transclusion's selection is checked against (§10.2).",
+   "refs": [
+    "10.2"
+   ]
+  },
+  {
+   "term": "Identity change",
+   "definition": "a reader adopting a new origin for an existing subscription, which MUST be user-confirmed (§12.2).",
+   "refs": [
+    "12.2"
+   ]
+  },
+  {
+   "term": "Per-item curation",
+   "definition": "a publisher's public display of the verified mentions of one of its items, under the curation rules of §13.5 (§15.5).",
+   "refs": [
+    "13.5",
+    "15.5"
+   ]
+  },
+  {
+   "term": "Provenance shadow",
+   "definition": "what generation leaves on the wire: the `generated` array and the `blyg-tk-gen` class, never the instruction (§5.7).",
+   "refs": [
+    "5.7"
+   ]
+  },
+  {
+   "term": "Static discovery plane",
+   "definition": "the blogroll (§11): the outbound, curated half of the public graph, as against verified mentions, its dynamic inbound half (§15).",
+   "refs": [
+    "11",
+    "15"
+   ]
+  },
+  {
    "term": "Conformance level",
    "definition": "L0–L3, strict supersets (§3).",
    "refs": [
@@ -179,41 +263,41 @@
    "depth": 1,
    "line": 1,
    "mode": "skip",
-   "end_line": 80,
-   "n_lines": 80,
+   "end_line": 93,
+   "n_lines": 93,
    "counts": {
     "MUST": 0,
     "SHOULD": 0,
     "MAY": 0
    },
-   "lowercase_modals": 2
+   "lowercase_modals": 3
   },
   {
    "id": "1",
    "heading": "Introduction (non-normative)",
    "depth": 2,
-   "line": 81,
+   "line": 94,
    "mode": "skip",
-   "end_line": 131,
-   "n_lines": 51,
+   "end_line": 154,
+   "n_lines": 61,
    "counts": {
     "MUST": 0,
     "SHOULD": 0,
     "MAY": 0
    },
-   "lowercase_modals": 0
+   "lowercase_modals": 1
   },
   {
    "id": "2",
    "heading": "Terminology",
    "depth": 2,
-   "line": 132,
+   "line": 155,
    "mode": "normative",
-   "end_line": 176,
-   "n_lines": 45,
+   "end_line": 232,
+   "n_lines": 78,
    "counts": {
-    "MUST": 0,
-    "SHOULD": 0,
+    "MUST": 1,
+    "SHOULD": 1,
     "MAY": 0
    },
    "lowercase_modals": 0
@@ -222,10 +306,10 @@
    "id": "3",
    "heading": "Conformance levels",
    "depth": 2,
-   "line": 177,
+   "line": 233,
    "mode": "normative",
-   "end_line": 201,
-   "n_lines": 25,
+   "end_line": 258,
+   "n_lines": 26,
    "counts": {
     "MUST": 1,
     "SHOULD": 0,
@@ -237,9 +321,9 @@
    "id": "3.1",
    "heading": "The protocol version key",
    "depth": 3,
-   "line": 202,
+   "line": 259,
    "mode": "normative",
-   "end_line": 211,
+   "end_line": 268,
    "n_lines": 10,
    "counts": {
     "MUST": 1,
@@ -252,9 +336,9 @@
    "id": "3.2",
    "heading": "The `level`, `generator` and `generator_url` keys are informative",
    "depth": 3,
-   "line": 212,
+   "line": 269,
    "mode": "normative",
-   "end_line": 231,
+   "end_line": 288,
    "n_lines": 20,
    "counts": {
     "MUST": 2,
@@ -267,14 +351,14 @@
    "id": "4",
    "heading": "The publication surface",
    "depth": 2,
-   "line": 232,
+   "line": 289,
    "mode": "normative",
-   "end_line": 289,
-   "n_lines": 58,
+   "end_line": 365,
+   "n_lines": 77,
    "counts": {
     "MUST": 7,
     "SHOULD": 2,
-    "MAY": 3
+    "MAY": 4
    },
    "lowercase_modals": 0
   },
@@ -282,14 +366,14 @@
    "id": "5",
    "heading": "The item document — `items/{id}.json`",
    "depth": 2,
-   "line": 290,
+   "line": 366,
    "mode": "normative",
-   "end_line": 321,
-   "n_lines": 32,
+   "end_line": 415,
+   "n_lines": 50,
    "counts": {
-    "MUST": 0,
-    "SHOULD": 0,
-    "MAY": 2
+    "MUST": 4,
+    "SHOULD": 1,
+    "MAY": 5
    },
    "lowercase_modals": 0
   },
@@ -297,9 +381,9 @@
    "id": "5.1",
    "heading": "Identity",
    "depth": 3,
-   "line": 322,
+   "line": 416,
    "mode": "normative",
-   "end_line": 338,
+   "end_line": 432,
    "n_lines": 17,
    "counts": {
     "MUST": 3,
@@ -312,14 +396,14 @@
    "id": "5.2",
    "heading": "Versioning and rollup presentation",
    "depth": 3,
-   "line": 339,
+   "line": 433,
    "mode": "normative",
-   "end_line": 372,
-   "n_lines": 34,
+   "end_line": 487,
+   "n_lines": 55,
    "counts": {
-    "MUST": 4,
+    "MUST": 6,
     "SHOULD": 0,
-    "MAY": 0
+    "MAY": 1
    },
    "lowercase_modals": 0
   },
@@ -327,9 +411,9 @@
    "id": "5.3",
    "heading": "Kinds",
    "depth": 3,
-   "line": 373,
+   "line": 488,
    "mode": "normative",
-   "end_line": 388,
+   "end_line": 503,
    "n_lines": 16,
    "counts": {
     "MUST": 3,
@@ -342,9 +426,9 @@
    "id": "5.4",
    "heading": "Media",
    "depth": 3,
-   "line": 389,
+   "line": 504,
    "mode": "normative",
-   "end_line": 395,
+   "end_line": 510,
    "n_lines": 7,
    "counts": {
     "MUST": 1,
@@ -357,9 +441,9 @@
    "id": "5.5",
    "heading": "The `author` field",
    "depth": 3,
-   "line": 396,
+   "line": 511,
    "mode": "normative",
-   "end_line": 427,
+   "end_line": 542,
    "n_lines": 32,
    "counts": {
     "MUST": 3,
@@ -372,13 +456,13 @@
    "id": "5.6",
    "heading": "Lineage — `forked_from`",
    "depth": 3,
-   "line": 428,
+   "line": 543,
    "mode": "normative",
-   "end_line": 468,
-   "n_lines": 41,
+   "end_line": 639,
+   "n_lines": 97,
    "counts": {
-    "MUST": 4,
-    "SHOULD": 3,
+    "MUST": 6,
+    "SHOULD": 5,
     "MAY": 1
    },
    "lowercase_modals": 0
@@ -387,29 +471,29 @@
    "id": "5.7",
    "heading": "Generation provenance — the `generated` array",
    "depth": 3,
-   "line": 469,
+   "line": 640,
    "mode": "normative",
-   "end_line": 542,
-   "n_lines": 74,
+   "end_line": 741,
+   "n_lines": 102,
    "counts": {
     "MUST": 2,
-    "SHOULD": 3,
-    "MAY": 2
+    "SHOULD": 5,
+    "MAY": 4
    },
-   "lowercase_modals": 1
+   "lowercase_modals": 0
   },
   {
    "id": "5.8",
    "heading": "The `page` field",
    "depth": 3,
-   "line": 543,
+   "line": 742,
    "mode": "normative",
-   "end_line": 572,
-   "n_lines": 30,
+   "end_line": 776,
+   "n_lines": 35,
    "counts": {
     "MUST": 0,
     "SHOULD": 4,
-    "MAY": 2
+    "MAY": 3
    },
    "lowercase_modals": 1
   },
@@ -417,10 +501,10 @@
    "id": "5.9",
    "heading": "The reference shape",
    "depth": 3,
-   "line": 573,
+   "line": 777,
    "mode": "normative",
-   "end_line": 646,
-   "n_lines": 74,
+   "end_line": 852,
+   "n_lines": 76,
    "counts": {
     "MUST": 4,
     "SHOULD": 1,
@@ -432,9 +516,9 @@
    "id": "6",
    "heading": "Manifest and archive index",
    "depth": 2,
-   "line": 647,
+   "line": 853,
    "mode": "normative",
-   "end_line": 648,
+   "end_line": 854,
    "n_lines": 2,
    "counts": {
     "MUST": 0,
@@ -447,14 +531,14 @@
    "id": "6.1",
    "heading": "Manifest — `blyg.json`",
    "depth": 3,
-   "line": 649,
+   "line": 855,
    "mode": "normative",
-   "end_line": 694,
-   "n_lines": 46,
+   "end_line": 945,
+   "n_lines": 91,
    "counts": {
-    "MUST": 1,
+    "MUST": 3,
     "SHOULD": 0,
-    "MAY": 4
+    "MAY": 6
    },
    "lowercase_modals": 1
   },
@@ -462,9 +546,9 @@
    "id": "6.2",
    "heading": "Archive index — `items/index.json`",
    "depth": 3,
-   "line": 695,
+   "line": 946,
    "mode": "normative",
-   "end_line": 713,
+   "end_line": 964,
    "n_lines": 19,
    "counts": {
     "MUST": 0,
@@ -477,24 +561,24 @@
    "id": "7",
    "heading": "The feed — `feed.xml`",
    "depth": 2,
-   "line": 714,
+   "line": 965,
    "mode": "normative",
-   "end_line": 804,
-   "n_lines": 91,
+   "end_line": 1061,
+   "n_lines": 97,
    "counts": {
     "MUST": 5,
-    "SHOULD": 3,
+    "SHOULD": 4,
     "MAY": 1
    },
-   "lowercase_modals": 1
+   "lowercase_modals": 0
   },
   {
    "id": "8",
    "heading": "Pins — `items/{id}/v{n}.json`",
    "depth": 2,
-   "line": 805,
+   "line": 1062,
    "mode": "normative",
-   "end_line": 862,
+   "end_line": 1119,
    "n_lines": 58,
    "counts": {
     "MUST": 3,
@@ -507,10 +591,10 @@
    "id": "8.4",
    "heading": "Historical versions: pinned-only, JSON promised, HTML optional",
    "depth": 3,
-   "line": 863,
+   "line": 1120,
    "mode": "normative",
-   "end_line": 908,
-   "n_lines": 46,
+   "end_line": 1170,
+   "n_lines": 51,
    "counts": {
     "MUST": 4,
     "SHOULD": 1,
@@ -522,9 +606,9 @@
    "id": "9",
    "heading": "Withdrawal",
    "depth": 2,
-   "line": 909,
+   "line": 1171,
    "mode": "normative",
-   "end_line": 938,
+   "end_line": 1200,
    "n_lines": 30,
    "counts": {
     "MUST": 0,
@@ -537,9 +621,9 @@
    "id": "10",
    "heading": "Threads and transclusion",
    "depth": 2,
-   "line": 939,
+   "line": 1201,
    "mode": "normative",
-   "end_line": 949,
+   "end_line": 1211,
    "n_lines": 11,
    "counts": {
     "MUST": 0,
@@ -552,14 +636,14 @@
    "id": "10.1",
    "heading": "Grammar (permanent protocol surface)",
    "depth": 3,
-   "line": 950,
+   "line": 1212,
    "mode": "normative",
-   "end_line": 993,
-   "n_lines": 44,
+   "end_line": 1307,
+   "n_lines": 96,
    "counts": {
-    "MUST": 1,
-    "SHOULD": 0,
-    "MAY": 0
+    "MUST": 5,
+    "SHOULD": 1,
+    "MAY": 3
    },
    "lowercase_modals": 0
   },
@@ -567,12 +651,12 @@
    "id": "10.2",
    "heading": "Publish-time resolution",
    "depth": 3,
-   "line": 994,
+   "line": 1308,
    "mode": "normative",
-   "end_line": 1109,
-   "n_lines": 116,
+   "end_line": 1445,
+   "n_lines": 138,
    "counts": {
-    "MUST": 3,
+    "MUST": 5,
     "SHOULD": 1,
     "MAY": 1
    },
@@ -582,10 +666,25 @@
    "id": "10.3",
    "heading": "Provenance",
    "depth": 3,
-   "line": 1110,
+   "line": 1446,
    "mode": "normative",
-   "end_line": 1156,
-   "n_lines": 47,
+   "end_line": 1495,
+   "n_lines": 50,
+   "counts": {
+    "MUST": 2,
+    "SHOULD": 1,
+    "MAY": 0
+   },
+   "lowercase_modals": 0
+  },
+  {
+   "id": "10.3a",
+   "heading": "Links — `links[]`",
+   "depth": 3,
+   "line": 1496,
+   "mode": "normative",
+   "end_line": 1528,
+   "n_lines": 33,
    "counts": {
     "MUST": 2,
     "SHOULD": 1,
@@ -597,9 +696,9 @@
    "id": "10.4",
    "heading": "Snapshot independence",
    "depth": 3,
-   "line": 1157,
+   "line": 1529,
    "mode": "normative",
-   "end_line": 1178,
+   "end_line": 1550,
    "n_lines": 22,
    "counts": {
     "MUST": 0,
@@ -612,9 +711,9 @@
    "id": "10.5",
    "heading": "Feed and presentation",
    "depth": 3,
-   "line": 1179,
+   "line": 1551,
    "mode": "normative",
-   "end_line": 1184,
+   "end_line": 1556,
    "n_lines": 6,
    "counts": {
     "MUST": 0,
@@ -627,12 +726,12 @@
    "id": "10.6",
    "heading": "Stubs — `stub_of`",
    "depth": 3,
-   "line": 1185,
+   "line": 1557,
    "mode": "normative",
-   "end_line": 1253,
-   "n_lines": 69,
+   "end_line": 1653,
+   "n_lines": 97,
    "counts": {
-    "MUST": 2,
+    "MUST": 4,
     "SHOULD": 2,
     "MAY": 1
    },
@@ -642,9 +741,9 @@
    "id": "11",
    "heading": "The blogroll — `blogroll.opml`",
    "depth": 2,
-   "line": 1254,
+   "line": 1654,
    "mode": "normative",
-   "end_line": 1302,
+   "end_line": 1702,
    "n_lines": 49,
    "counts": {
     "MUST": 1,
@@ -657,9 +756,9 @@
    "id": "12",
    "heading": "Resolution — from URL to subscription",
    "depth": 2,
-   "line": 1303,
+   "line": 1703,
    "mode": "normative",
-   "end_line": 1312,
+   "end_line": 1712,
    "n_lines": 10,
    "counts": {
     "MUST": 1,
@@ -672,12 +771,12 @@
    "id": "12.1",
    "heading": "The algorithm",
    "depth": 3,
-   "line": 1313,
+   "line": 1713,
    "mode": "normative",
-   "end_line": 1345,
-   "n_lines": 33,
+   "end_line": 1765,
+   "n_lines": 53,
    "counts": {
-    "MUST": 2,
+    "MUST": 3,
     "SHOULD": 3,
     "MAY": 0
    },
@@ -687,24 +786,24 @@
    "id": "12.2",
    "heading": "Subscription identity",
    "depth": 3,
-   "line": 1346,
+   "line": 1766,
    "mode": "normative",
-   "end_line": 1369,
-   "n_lines": 24,
+   "end_line": 1796,
+   "n_lines": 31,
    "counts": {
     "MUST": 2,
     "SHOULD": 1,
     "MAY": 1
    },
-   "lowercase_modals": 0
+   "lowercase_modals": 1
   },
   {
    "id": "12.3",
    "heading": "Polling etiquette",
    "depth": 3,
-   "line": 1370,
+   "line": 1797,
    "mode": "normative",
-   "end_line": 1380,
+   "end_line": 1807,
    "n_lines": 11,
    "counts": {
     "MUST": 1,
@@ -717,9 +816,9 @@
    "id": "13",
    "heading": "Reader conformance — the import side",
    "depth": 2,
-   "line": 1381,
+   "line": 1808,
    "mode": "normative",
-   "end_line": 1385,
+   "end_line": 1812,
    "n_lines": 5,
    "counts": {
     "MUST": 0,
@@ -732,9 +831,9 @@
    "id": "13.1",
    "heading": "Ground rules",
    "depth": 3,
-   "line": 1386,
+   "line": 1813,
    "mode": "normative",
-   "end_line": 1405,
+   "end_line": 1832,
    "n_lines": 20,
    "counts": {
     "MUST": 7,
@@ -747,14 +846,14 @@
    "id": "13.2",
    "heading": "The reconciliation model",
    "depth": 3,
-   "line": 1406,
+   "line": 1833,
    "mode": "normative",
-   "end_line": 1433,
-   "n_lines": 28,
+   "end_line": 1879,
+   "n_lines": 47,
    "counts": {
     "MUST": 1,
-    "SHOULD": 2,
-    "MAY": 0
+    "SHOULD": 3,
+    "MAY": 1
    },
    "lowercase_modals": 0
   },
@@ -762,9 +861,9 @@
    "id": "13.3",
    "heading": "The watermark, history rewrites, and stealth edits",
    "depth": 3,
-   "line": 1434,
+   "line": 1880,
    "mode": "normative",
-   "end_line": 1454,
+   "end_line": 1900,
    "n_lines": 21,
    "counts": {
     "MUST": 1,
@@ -777,10 +876,10 @@
    "id": "13.4",
    "heading": "Withdrawal and retention",
    "depth": 3,
-   "line": 1455,
+   "line": 1901,
    "mode": "normative",
-   "end_line": 1471,
-   "n_lines": 17,
+   "end_line": 1923,
+   "n_lines": 23,
    "counts": {
     "MUST": 1,
     "SHOULD": 0,
@@ -792,10 +891,10 @@
    "id": "13.5",
    "heading": "Curation display and re-emission",
    "depth": 3,
-   "line": 1472,
+   "line": 1924,
    "mode": "normative",
-   "end_line": 1499,
-   "n_lines": 28,
+   "end_line": 1953,
+   "n_lines": 30,
    "counts": {
     "MUST": 2,
     "SHOULD": 0,
@@ -807,9 +906,9 @@
    "id": "13.6",
    "heading": "L0 grandfathering — the legacy RSS wrapper",
    "depth": 3,
-   "line": 1500,
+   "line": 1954,
    "mode": "normative",
-   "end_line": 1518,
+   "end_line": 1972,
    "n_lines": 19,
    "counts": {
     "MUST": 1,
@@ -822,14 +921,14 @@
    "id": "13.7",
    "heading": "Ordering across origins",
    "depth": 3,
-   "line": 1519,
+   "line": 1973,
    "mode": "normative",
-   "end_line": 1527,
-   "n_lines": 9,
+   "end_line": 1995,
+   "n_lines": 23,
    "counts": {
-    "MUST": 0,
+    "MUST": 1,
     "SHOULD": 1,
-    "MAY": 0
+    "MAY": 1
    },
    "lowercase_modals": 0
   },
@@ -837,25 +936,25 @@
    "id": "14",
    "heading": "Security and privacy considerations",
    "depth": 2,
-   "line": 1528,
+   "line": 1996,
    "mode": "normative",
-   "end_line": 1599,
-   "n_lines": 72,
+   "end_line": 2072,
+   "n_lines": 77,
    "counts": {
     "MUST": 1,
-    "SHOULD": 2,
+    "SHOULD": 3,
     "MAY": 0
    },
-   "lowercase_modals": 3
+   "lowercase_modals": 0
   },
   {
    "id": "15",
    "heading": "Webmention — response notification with structural verification",
    "depth": 2,
-   "line": 1600,
+   "line": 2073,
    "mode": "normative",
-   "end_line": 1614,
-   "n_lines": 15,
+   "end_line": 2088,
+   "n_lines": 16,
    "counts": {
     "MUST": 0,
     "SHOULD": 0,
@@ -867,9 +966,9 @@
    "id": "15.1",
    "heading": "Advertising an endpoint",
    "depth": 3,
-   "line": 1615,
+   "line": 2089,
    "mode": "normative",
-   "end_line": 1626,
+   "end_line": 2100,
    "n_lines": 12,
    "counts": {
     "MUST": 0,
@@ -882,14 +981,14 @@
    "id": "15.2",
    "heading": "Sending",
    "depth": 3,
-   "line": 1627,
+   "line": 2101,
    "mode": "normative",
-   "end_line": 1662,
-   "n_lines": 36,
+   "end_line": 2157,
+   "n_lines": 57,
    "counts": {
-    "MUST": 1,
+    "MUST": 2,
     "SHOULD": 3,
-    "MAY": 0
+    "MAY": 2
    },
    "lowercase_modals": 0
   },
@@ -897,42 +996,42 @@
    "id": "15.3",
    "heading": "Receiving",
    "depth": 3,
-   "line": 1663,
+   "line": 2158,
    "mode": "normative",
-   "end_line": 1689,
-   "n_lines": 27,
+   "end_line": 2199,
+   "n_lines": 42,
    "counts": {
     "MUST": 1,
     "SHOULD": 2,
     "MAY": 0
    },
-   "lowercase_modals": 0
+   "lowercase_modals": 1
   },
   {
    "id": "15.4",
    "heading": "Structural verification",
    "depth": 3,
-   "line": 1690,
+   "line": 2200,
    "mode": "normative",
-   "end_line": 1733,
-   "n_lines": 44,
+   "end_line": 2290,
+   "n_lines": 91,
    "counts": {
     "MUST": 2,
-    "SHOULD": 2,
+    "SHOULD": 4,
     "MAY": 0
    },
-   "lowercase_modals": 0
+   "lowercase_modals": 1
   },
   {
    "id": "15.5",
    "heading": "What a verified mention is, and is not",
    "depth": 3,
-   "line": 1734,
+   "line": 2291,
    "mode": "normative",
-   "end_line": 1744,
-   "n_lines": 11,
+   "end_line": 2312,
+   "n_lines": 22,
    "counts": {
-    "MUST": 0,
+    "MUST": 1,
     "SHOULD": 0,
     "MAY": 1
    },
@@ -942,9 +1041,9 @@
    "id": "15.6",
    "heading": "Plain mentions",
    "depth": 3,
-   "line": 1745,
+   "line": 2313,
    "mode": "normative",
-   "end_line": 1753,
+   "end_line": 2321,
    "n_lines": 9,
    "counts": {
     "MUST": 1,
@@ -957,24 +1056,24 @@
    "id": "15.7",
    "heading": "Withdrawal and static deployments",
    "depth": 3,
-   "line": 1754,
+   "line": 2322,
    "mode": "normative",
-   "end_line": 1766,
+   "end_line": 2334,
    "n_lines": 13,
    "counts": {
     "MUST": 0,
     "SHOULD": 0,
-    "MAY": 0
+    "MAY": 1
    },
-   "lowercase_modals": 1
+   "lowercase_modals": 0
   },
   {
    "id": "16",
    "heading": "Ruled, deferred, and reserved constructs (non-normative)",
    "depth": 2,
-   "line": 1767,
+   "line": 2335,
    "mode": "pending",
-   "end_line": 1777,
+   "end_line": 2345,
    "n_lines": 11,
    "counts": {
     "MUST": 0,
@@ -987,9 +1086,9 @@
    "id": "16.1",
    "heading": "The human half of a citation — `cited` (promoted to §5.9, 2026-09-28)",
    "depth": 3,
-   "line": 1778,
+   "line": 2346,
    "mode": "pending",
-   "end_line": 1786,
+   "end_line": 2354,
    "n_lines": 9,
    "counts": {
     "MUST": 0,
@@ -1000,14 +1099,14 @@
   },
   {
    "id": "16.1a",
-   "heading": "`cited` on a plain-web stub (ruled 2026-10-03; next revision)",
+   "heading": "`cited` on a plain-web stub (promoted to §10.6, 2026-10-06)",
    "depth": 3,
-   "line": 1787,
+   "line": 2355,
    "mode": "pending",
-   "end_line": 1805,
-   "n_lines": 19,
+   "end_line": 2366,
+   "n_lines": 12,
    "counts": {
-    "MUST": 2,
+    "MUST": 0,
     "SHOULD": 0,
     "MAY": 0
    },
@@ -1017,10 +1116,10 @@
    "id": "16.2",
    "heading": "Plain internal links — `[[id]]` (promoted to §10.1, 2026-09-28)",
    "depth": 3,
-   "line": 1806,
+   "line": 2367,
    "mode": "pending",
-   "end_line": 1813,
-   "n_lines": 8,
+   "end_line": 2376,
+   "n_lines": 10,
    "counts": {
     "MUST": 0,
     "SHOULD": 0,
@@ -1030,26 +1129,26 @@
   },
   {
    "id": "16.3",
-   "heading": "Remote generation sources (ruled 2026-09-28; a 0.4 construct)",
+   "heading": "Remote generation sources (promoted to §5.7 and §15.4, 2026-10-17)",
    "depth": 3,
-   "line": 1814,
+   "line": 2377,
    "mode": "pending",
-   "end_line": 1855,
-   "n_lines": 42,
+   "end_line": 2393,
+   "n_lines": 17,
    "counts": {
     "MUST": 0,
-    "SHOULD": 1,
-    "MAY": 2
+    "SHOULD": 0,
+    "MAY": 0
    },
-   "lowercase_modals": 1
+   "lowercase_modals": 0
   },
   {
    "id": "16.4",
    "heading": "Partial quotation (promoted to §10.1–§10.3, 2026-10-03) and titles (closed)",
    "depth": 3,
-   "line": 1856,
+   "line": 2394,
    "mode": "pending",
-   "end_line": 1881,
+   "end_line": 2419,
    "n_lines": 26,
    "counts": {
     "MUST": 1,
@@ -1062,9 +1161,9 @@
    "id": "16.5",
    "heading": "Transitive staleness (resolved 2026-09-28: there is no such thing)",
    "depth": 3,
-   "line": 1882,
+   "line": 2420,
    "mode": "pending",
-   "end_line": 1897,
+   "end_line": 2435,
    "n_lines": 16,
    "counts": {
     "MUST": 0,
@@ -1077,9 +1176,9 @@
    "id": "16.6",
    "heading": "The write surface (never normative; companion note planned)",
    "depth": 3,
-   "line": 1898,
+   "line": 2436,
    "mode": "pending",
-   "end_line": 1926,
+   "end_line": 2464,
    "n_lines": 29,
    "counts": {
     "MUST": 0,
@@ -1092,9 +1191,9 @@
    "id": "16.6a",
    "heading": "Client source discovery — `generator_url` (promoted to §6.1, 2026-09-28)",
    "depth": 3,
-   "line": 1927,
+   "line": 2465,
    "mode": "pending",
-   "end_line": 1933,
+   "end_line": 2471,
    "n_lines": 7,
    "counts": {
     "MUST": 0,
@@ -1107,9 +1206,9 @@
    "id": "16.6b",
    "heading": "Identity, groups, and agents (ruled; technical notes, never protocol)",
    "depth": 3,
-   "line": 1934,
+   "line": 2472,
    "mode": "pending",
-   "end_line": 1955,
+   "end_line": 2493,
    "n_lines": 22,
    "counts": {
     "MUST": 0,
@@ -1120,26 +1219,26 @@
   },
   {
    "id": "16.6c",
-   "heading": "Generated changelog notes (ruled; next revision)",
+   "heading": "Generated changelog notes (promoted to §5.2, 2026-10-06)",
    "depth": 3,
-   "line": 1956,
+   "line": 2494,
    "mode": "pending",
-   "end_line": 1981,
-   "n_lines": 26,
+   "end_line": 2512,
+   "n_lines": 19,
    "counts": {
-    "MUST": 1,
+    "MUST": 0,
     "SHOULD": 0,
-    "MAY": 1
+    "MAY": 0
    },
-   "lowercase_modals": 1
+   "lowercase_modals": 0
   },
   {
    "id": "16.6d",
    "heading": "Discovery through references (ruled; no construct; one 0.4 candidate)",
    "depth": 3,
-   "line": 1982,
+   "line": 2513,
    "mode": "pending",
-   "end_line": 2002,
+   "end_line": 2533,
    "n_lines": 21,
    "counts": {
     "MUST": 1,
@@ -1150,41 +1249,41 @@
   },
   {
    "id": "16.6e",
-   "heading": "The manifest locates the surface (ruled 2026-09-28; a 0.4 construct)",
+   "heading": "The manifest locates the surface (promoted to §4, §5.8, §6.1, §12 and §15, 2026-10-17)",
    "depth": 3,
-   "line": 2003,
+   "line": 2534,
    "mode": "pending",
-   "end_line": 2049,
-   "n_lines": 47,
+   "end_line": 2551,
+   "n_lines": 18,
    "counts": {
-    "MUST": 1,
-    "SHOULD": 0,
-    "MAY": 2
-   },
-   "lowercase_modals": 2
-  },
-  {
-   "id": "16.6f",
-   "heading": "A fork of a thread descends from the pinned document (ruled 2026-10-03; next revision)",
-   "depth": 3,
-   "line": 2050,
-   "mode": "pending",
-   "end_line": 2101,
-   "n_lines": 52,
-   "counts": {
-    "MUST": 1,
+    "MUST": 0,
     "SHOULD": 0,
     "MAY": 0
    },
-   "lowercase_modals": 1
+   "lowercase_modals": 0
+  },
+  {
+   "id": "16.6f",
+   "heading": "A fork of a thread descends from the pinned document (promoted to §5.6 rule 6, 2026-10-06)",
+   "depth": 3,
+   "line": 2552,
+   "mode": "pending",
+   "end_line": 2567,
+   "n_lines": 16,
+   "counts": {
+    "MUST": 0,
+    "SHOULD": 0,
+    "MAY": 0
+   },
+   "lowercase_modals": 0
   },
   {
    "id": "16.7",
    "heading": "Reserved",
    "depth": 3,
-   "line": 2102,
+   "line": 2568,
    "mode": "pending",
-   "end_line": 2112,
+   "end_line": 2578,
    "n_lines": 11,
    "counts": {
     "MUST": 0,
@@ -1197,9 +1296,9 @@
    "id": "16.8",
    "heading": "What will never appear",
    "depth": 3,
-   "line": 2113,
+   "line": 2579,
    "mode": "pending",
-   "end_line": 2121,
+   "end_line": 2587,
    "n_lines": 9,
    "counts": {
     "MUST": 0,
@@ -1209,19 +1308,94 @@
    "lowercase_modals": 0
   },
   {
-   "id": "17",
-   "heading": "Revision history (non-normative)",
-   "depth": 2,
-   "line": 2122,
-   "mode": "skip",
-   "end_line": 2182,
-   "n_lines": 61,
+   "id": "16.9",
+   "heading": "Pinned-entry members — `pinned_at` and `cid` (ruled 2026-10-17; awaiting a build)",
+   "depth": 3,
+   "line": 2588,
+   "mode": "pending",
+   "end_line": 2619,
+   "n_lines": 32,
+   "counts": {
+    "MUST": 1,
+    "SHOULD": 0,
+    "MAY": 2
+   },
+   "lowercase_modals": 0
+  },
+  {
+   "id": "16.10",
+   "heading": "Author-sized images (ruled 2026-10-17; awaiting a build)",
+   "depth": 3,
+   "line": 2620,
+   "mode": "pending",
+   "end_line": 2634,
+   "n_lines": 15,
    "counts": {
     "MUST": 0,
     "SHOULD": 0,
     "MAY": 0
    },
    "lowercase_modals": 0
+  },
+  {
+   "id": "16.11",
+   "heading": "Responding from anywhere (ruled 2026-10-19; studio work and an RFC, no construct)",
+   "depth": 3,
+   "line": 2635,
+   "mode": "pending",
+   "end_line": 2653,
+   "n_lines": 19,
+   "counts": {
+    "MUST": 0,
+    "SHOULD": 0,
+    "MAY": 1
+   },
+   "lowercase_modals": 1
+  },
+  {
+   "id": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "depth": 3,
+   "line": 2654,
+   "mode": "pending",
+   "end_line": 2770,
+   "n_lines": 117,
+   "counts": {
+    "MUST": 7,
+    "SHOULD": 2,
+    "MAY": 2
+   },
+   "lowercase_modals": 0
+  },
+  {
+   "id": "16.13",
+   "heading": "Origin succession — `moved_from` (ruled 2026-11-01; awaiting a build)",
+   "depth": 3,
+   "line": 2771,
+   "mode": "pending",
+   "end_line": 2826,
+   "n_lines": 56,
+   "counts": {
+    "MUST": 0,
+    "SHOULD": 3,
+    "MAY": 2
+   },
+   "lowercase_modals": 0
+  },
+  {
+   "id": "17",
+   "heading": "Revision history (non-normative)",
+   "depth": 2,
+   "line": 2827,
+   "mode": "skip",
+   "end_line": 2927,
+   "n_lines": 101,
+   "counts": {
+    "MUST": 0,
+    "SHOULD": 0,
+    "MAY": 0
+   },
+   "lowercase_modals": 1
   }
  ],
  "pending_shapes": [
@@ -1233,15 +1407,17 @@
    "promoted_to": [
     "5.9"
    ],
-   "line": 1778
+   "line": 2346
   },
   {
    "section": "16.1a",
-   "heading": "`cited` on a plain-web stub (ruled 2026-10-03; next revision)",
-   "status": "ruled",
-   "note": "ruled 2026-10-03; next revision",
-   "promoted_to": [],
-   "line": 1787
+   "heading": "`cited` on a plain-web stub (promoted to §10.6, 2026-10-06)",
+   "status": "promoted",
+   "note": "promoted to §10.6, 2026-10-06",
+   "promoted_to": [
+    "10.6"
+   ],
+   "line": 2355
   },
   {
    "section": "16.2",
@@ -1251,15 +1427,18 @@
    "promoted_to": [
     "10.1"
    ],
-   "line": 1806
+   "line": 2367
   },
   {
    "section": "16.3",
-   "heading": "Remote generation sources (ruled 2026-09-28; a 0.4 construct)",
-   "status": "ruled-0.4",
-   "note": "ruled 2026-09-28; a 0.4 construct",
-   "promoted_to": [],
-   "line": 1814
+   "heading": "Remote generation sources (promoted to §5.7 and §15.4, 2026-10-17)",
+   "status": "promoted",
+   "note": "promoted to §5.7 and §15.4, 2026-10-17",
+   "promoted_to": [
+    "5.7",
+    "15.4"
+   ],
+   "line": 2377
   },
   {
    "section": "16.4",
@@ -1270,7 +1449,7 @@
     "10.1",
     "10.3"
    ],
-   "line": 1856
+   "line": 2394
   },
   {
    "section": "16.5",
@@ -1278,7 +1457,7 @@
    "status": "closed",
    "note": "resolved 2026-09-28: there is no such thing",
    "promoted_to": [],
-   "line": 1882
+   "line": 2420
   },
   {
    "section": "16.6",
@@ -1286,7 +1465,7 @@
    "status": "never",
    "note": "never normative; companion note planned",
    "promoted_to": [],
-   "line": 1898
+   "line": 2436
   },
   {
    "section": "16.6a",
@@ -1296,7 +1475,7 @@
    "promoted_to": [
     "6.1"
    ],
-   "line": 1927
+   "line": 2465
   },
   {
    "section": "16.6b",
@@ -1304,39 +1483,49 @@
    "status": "never",
    "note": "ruled; technical notes, never protocol",
    "promoted_to": [],
-   "line": 1934
+   "line": 2472
   },
   {
    "section": "16.6c",
-   "heading": "Generated changelog notes (ruled; next revision)",
-   "status": "ruled",
-   "note": "ruled; next revision",
-   "promoted_to": [],
-   "line": 1956
+   "heading": "Generated changelog notes (promoted to §5.2, 2026-10-06)",
+   "status": "promoted",
+   "note": "promoted to §5.2, 2026-10-06",
+   "promoted_to": [
+    "5.2"
+   ],
+   "line": 2494
   },
   {
    "section": "16.6d",
    "heading": "Discovery through references (ruled; no construct; one 0.4 candidate)",
-   "status": "ruled",
+   "status": "closed",
    "note": "ruled; no construct; one 0.4 candidate",
    "promoted_to": [],
-   "line": 1982
+   "line": 2513
   },
   {
    "section": "16.6e",
-   "heading": "The manifest locates the surface (ruled 2026-09-28; a 0.4 construct)",
-   "status": "ruled-0.4",
-   "note": "ruled 2026-09-28; a 0.4 construct",
-   "promoted_to": [],
-   "line": 2003
+   "heading": "The manifest locates the surface (promoted to §4, §5.8, §6.1, §12 and §15, 2026-10-17)",
+   "status": "promoted",
+   "note": "promoted to §4, §5.8, §6.1, §12 and §15, 2026-10-17",
+   "promoted_to": [
+    "4",
+    "5.8",
+    "6.1",
+    "12",
+    "15"
+   ],
+   "line": 2534
   },
   {
    "section": "16.6f",
-   "heading": "A fork of a thread descends from the pinned document (ruled 2026-10-03; next revision)",
-   "status": "ruled",
-   "note": "ruled 2026-10-03; next revision",
-   "promoted_to": [],
-   "line": 2050
+   "heading": "A fork of a thread descends from the pinned document (promoted to §5.6 rule 6, 2026-10-06)",
+   "status": "promoted",
+   "note": "promoted to §5.6 rule 6, 2026-10-06",
+   "promoted_to": [
+    "5.6"
+   ],
+   "line": 2552
   },
   {
    "section": "16.7",
@@ -1344,7 +1533,7 @@
    "status": "reserved",
    "note": "",
    "promoted_to": [],
-   "line": 2102
+   "line": 2568
   },
   {
    "section": "16.8",
@@ -1352,10 +1541,98 @@
    "status": "never",
    "note": "",
    "promoted_to": [],
-   "line": 2113
+   "line": 2579
+  },
+  {
+   "section": "16.9",
+   "heading": "Pinned-entry members — `pinned_at` and `cid` (ruled 2026-10-17; awaiting a build)",
+   "status": "ruled",
+   "note": "ruled 2026-10-17; awaiting a build",
+   "promoted_to": [],
+   "line": 2588
+  },
+  {
+   "section": "16.10",
+   "heading": "Author-sized images (ruled 2026-10-17; awaiting a build)",
+   "status": "ruled",
+   "note": "ruled 2026-10-17; awaiting a build",
+   "promoted_to": [],
+   "line": 2620
+  },
+  {
+   "section": "16.11",
+   "heading": "Responding from anywhere (ruled 2026-10-19; studio work and an RFC, no construct)",
+   "status": "closed",
+   "note": "ruled 2026-10-19; studio work and an RFC, no construct",
+   "promoted_to": [],
+   "line": 2635
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "ruled",
+   "note": "ruled 2026-11-01; awaiting a build",
+   "promoted_to": [],
+   "line": 2654
+  },
+  {
+   "section": "16.13",
+   "heading": "Origin succession — `moved_from` (ruled 2026-11-01; awaiting a build)",
+   "status": "ruled",
+   "note": "ruled 2026-11-01; awaiting a build",
+   "promoted_to": [],
+   "line": 2771
   }
  ],
  "clauses": [
+  {
+   "section": "2",
+   "heading": "Terminology",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "Each SHOULD send a mention (§15.2).",
+   "label": null,
+   "line": 198,
+   "block_kind": "list",
+   "side": "sender",
+   "side_basis": "override",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "15.2"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "5c8bfe6e5220",
+   "id": "C-2-01"
+  },
+  {
+   "section": "2",
+   "heading": "Terminology",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST"
+   ],
+   "text": "**Identity change** — a reader adopting a new origin for an existing subscription, which MUST be user-confirmed (§12.2).",
+   "label": null,
+   "line": 221,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'reader'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "12.2"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "ea834b07b950",
+   "id": "C-2-02"
+  },
   {
    "section": "3",
    "heading": "Conformance levels",
@@ -1366,7 +1643,7 @@
    ],
    "text": "A conforming reader at any level MUST ignore constructs it does not understand rather than reject the document containing them (this is what lets levels and versions advance without breaking anyone).",
    "label": null,
-   "line": 186,
+   "line": 242,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'reader'",
@@ -1388,7 +1665,7 @@
    ],
    "text": "The key is **informative, not a negotiation**: readers MUST accept any `0.x` value and apply the standing ignore-unknown rules (§13.1) to whatever they find.",
    "label": null,
-   "line": 204,
+   "line": 261,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -1414,7 +1691,7 @@
    ],
    "text": "**Readers MUST NOT gate any behaviour on any of them** — not parsing, not feature selection, not trust.",
    "label": null,
-   "line": 214,
+   "line": 271,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -1436,7 +1713,7 @@
    ],
    "text": "`generator` nonetheless carries real weight, which is why publishers SHOULD emit it in the form `name/version` (e.g. `blygger-studio/0.4.0`): the manifest is a file the protocol requires to be public, so `generator` is the only census of the ecosystem that exists without anyone registering anything.",
    "label": null,
-   "line": 224,
+   "line": 281,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'publishers'",
@@ -1462,7 +1739,7 @@
    ],
    "text": "It is the client's name, never the protocol's: a client rename is not a protocol change and MUST NOT be read as one.",
    "label": null,
-   "line": 224,
+   "line": 281,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "override",
@@ -1484,12 +1761,14 @@
    ],
    "text": "The surface is strictly origin-relative: no protocol construct may assume any particular path component, and readers MUST NOT infer anything from the mount path.",
    "label": null,
-   "line": 234,
+   "line": 291,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'readers'",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    87
+   ],
    "refs": [],
    "ext_refs": [],
    "tokens": [],
@@ -1502,25 +1781,59 @@
    "status": "normative",
    "level": "MUST",
    "keywords": [
-    "MUST NOT"
+    "MUST"
    ],
-   "text": "The file names *within* the surface (`blyg.json`, `feed.xml`, `items/…`) are protocol-fixed and MUST NOT vary per deployment — a known manifest filename at an arbitrary origin is what keeps free mounting discoverable (a reader handed any base URL fetches `blyg.json` relative to it).",
+   "text": "**That holds at every identity origin, relocated surface or not: `{origin}blyg.json` MUST serve the manifest** (§12.1 step 4; revision of 2026-11-01, decision #87).",
    "label": null,
-   "line": 234,
+   "line": 291,
    "block_kind": "para",
    "side": "publisher",
-   "side_basis": "subject 'file'",
-   "decisions": [],
+   "side_basis": "section §4 default",
+   "decisions": [
+    87
+   ],
    "decisions_nearby": [],
-   "refs": [],
+   "refs": [
+    "12.1"
+   ],
    "ext_refs": [],
    "tokens": [
-    "blyg.json",
-    "feed.xml",
-    "items/…"
+    "{origin}blyg.json"
    ],
-   "fp": "62c7309f3359",
-   "id": "C-4-02"
+   "fp": "b84f11f6f4e4",
+   "id": "C-4-13"
+  },
+  {
+   "section": "4",
+   "heading": "The publication surface",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "Every other path below is the **default**, and the manifest MAY relocate it (§6.1; new in 0.4, promoted from the 0.3 text's §16.6e): `feed` and `items` name the feed and the archive index, and the `item` and `pin` templates say where item documents and pinned-version documents live.",
+   "label": null,
+   "line": 291,
+   "block_kind": "para",
+   "side": "publisher",
+   "side_basis": "subject 'manifest'",
+   "decisions": [],
+   "decisions_nearby": [
+    87
+   ],
+   "refs": [
+    "6.1",
+    "16.6e"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "feed",
+    "item",
+    "items",
+    "pin"
+   ],
+   "fp": "e9ce2289bcbb",
+   "id": "C-4-14"
   },
   {
    "section": "4",
@@ -1532,7 +1845,7 @@
    ],
    "text": "Publishers MUST serve:",
    "label": null,
-   "line": 246,
+   "line": 318,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'Publishers'",
@@ -1554,7 +1867,7 @@
    ],
    "text": "Publishers MAY additionally serve:",
    "label": null,
-   "line": 257,
+   "line": 329,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'Publishers'",
@@ -1576,7 +1889,7 @@
    ],
    "text": "`blogroll.opml`  ;  Curated blogroll (OPTIONAL)  ;  §11",
    "label": null,
-   "line": 261,
+   "line": 333,
    "block_kind": "table",
    "side": "publisher",
    "side_basis": "section §4 default",
@@ -1602,7 +1915,7 @@
    ],
    "text": "*(the URL named by the manifest's `webmention` key)*  ;  Webmention endpoint (OPTIONAL; the protocol's only dynamic surface)  ;  §15",
    "label": null,
-   "line": 262,
+   "line": 334,
    "block_kind": "table",
    "side": "receiver",
    "side_basis": "subject 'endpoint'",
@@ -1628,7 +1941,7 @@
    ],
    "text": "Publishers SHOULD additionally serve human-readable HTML (a feed page, item permalink pages); their form is presentation, not protocol, except where noted (§5.8, §8.4, §10.5, §15.1).",
    "label": null,
-   "line": 264,
+   "line": 336,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'Publishers'",
@@ -1655,7 +1968,7 @@
    ],
    "text": "The entire surface MUST be servable as plain static files.",
    "label": null,
-   "line": 273,
+   "line": 345,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §4 default",
@@ -1677,7 +1990,7 @@
    ],
    "text": "`items/{id}.json` MUST return 404 for unknown ids and never-published drafts, and MUST return 200 permanently once the item has ever been published — including after withdrawal.",
    "label": null,
-   "line": 277,
+   "line": 353,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §4 default",
@@ -1701,7 +2014,7 @@
    ],
    "text": "`items/{id}/v{n}.json` MUST return 404 unless version n of item id is pinned, and MUST return 200 permanently once it is (§8).",
    "label": null,
-   "line": 280,
+   "line": 356,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §4 default",
@@ -1727,7 +2040,7 @@
    ],
    "text": "Public JSON and XML responses SHOULD be served with permissive CORS (`Access-Control-Allow-Origin: *`); cross-origin reading by other clients depends on it.",
    "label": null,
-   "line": 282,
+   "line": 358,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §4 default",
@@ -1751,7 +2064,7 @@
    ],
    "text": "A publisher MUST NOT write local time into any protocol surface; time-zone display is a presentation concern of each client.",
    "label": null,
-   "line": 285,
+   "line": 361,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'publisher'",
@@ -1773,7 +2086,7 @@
    ],
    "text": "Threads additionally carry `transclusions` (§10.3) and MAY carry `stub_of` (§10.6).",
    "label": null,
-   "line": 319,
+   "line": 395,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §5 default",
@@ -1799,9 +2112,9 @@
    "keywords": [
     "MAY"
    ],
-   "text": "Any item MAY carry `forked_from` (§5.6) and `generated` (§5.7).",
+   "text": "Any item MAY carry `forked_from` (§5.6), `generated` (§5.7) and `links` (§10.3a).",
    "label": null,
-   "line": 319,
+   "line": 395,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §5 default",
@@ -1809,15 +2122,242 @@
    "decisions_nearby": [],
    "refs": [
     "5.6",
+    "5.7",
+    "10.3a"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "forked_from",
+    "generated",
+    "links"
+   ],
+   "fp": "0024ea787072",
+   "id": "C-5-02"
+  },
+  {
+   "section": "5",
+   "heading": "The item document — `items/{id}.json`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "REQUIRED"
+   ],
+   "text": "`blyg`, `id`, `kind`, `origin`, `version`, `created`, `updated`, `content_md`, `content_html`, `content_hash`, `changelog`  ;  REQUIRED  ;  §3.1, §5.1, §5.2, §5.3",
+   "label": null,
+   "line": 405,
+   "block_kind": "table",
+   "side": "publisher",
+   "side_basis": "section §5 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "3.1",
+    "5.1",
+    "5.2",
+    "5.3"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "blyg",
+    "changelog",
+    "content_hash",
+    "content_html",
+    "content_md",
+    "created",
+    "id",
+    "kind",
+    "origin",
+    "updated",
+    "version"
+   ],
+   "fp": "3d3b4b9ec527",
+   "id": "C-5-03"
+  },
+  {
+   "section": "5",
+   "heading": "The item document — `items/{id}.json`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "REQUIRED",
+    "MAY"
+   ],
+   "text": "`media`  ;  REQUIRED; an array, MAY be empty  ;  §5.4",
+   "label": null,
+   "line": 406,
+   "block_kind": "table",
+   "side": "publisher",
+   "side_basis": "section §5 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "5.4"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "media"
+   ],
+   "fp": "3e8a73a355b7",
+   "id": "C-5-04"
+  },
+  {
+   "section": "5",
+   "heading": "The item document — `items/{id}.json`",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "RECOMMENDED"
+   ],
+   "text": "`page`  ;  RECOMMENDED  ;  §5.8",
+   "label": null,
+   "line": 407,
+   "block_kind": "table",
+   "side": "publisher",
+   "side_basis": "section §5 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "5.8"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "page"
+   ],
+   "fp": "a0053e6f39fd",
+   "id": "C-5-05"
+  },
+  {
+   "section": "5",
+   "heading": "The item document — `items/{id}.json`",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "OPTIONAL"
+   ],
+   "text": "`author`  ;  OPTIONAL; absent means no assertion  ;  §5.5",
+   "label": null,
+   "line": 408,
+   "block_kind": "table",
+   "side": "publisher",
+   "side_basis": "section §5 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "5.5"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "author"
+   ],
+   "fp": "7cc738291bcf",
+   "id": "C-5-06"
+  },
+  {
+   "section": "5",
+   "heading": "The item document — `items/{id}.json`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "REQUIRED"
+   ],
+   "text": "`transclusions`  ;  REQUIRED for threads, absent for fragments  ;  §10.3",
+   "label": null,
+   "line": 409,
+   "block_kind": "table",
+   "side": "publisher",
+   "side_basis": "section §5 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "10.3"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "transclusions"
+   ],
+   "fp": "c314e11bc594",
+   "id": "C-5-07"
+  },
+  {
+   "section": "5",
+   "heading": "The item document — `items/{id}.json`",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "OPTIONAL"
+   ],
+   "text": "`stub_of`, `forked_from`, `generated`  ;  OPTIONAL, present when the construct is  ;  §10.6, §5.6, §5.7",
+   "label": null,
+   "line": 410,
+   "block_kind": "table",
+   "side": "publisher",
+   "side_basis": "section §5 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "10.6",
+    "5.6",
     "5.7"
    ],
    "ext_refs": [],
    "tokens": [
     "forked_from",
-    "generated"
+    "generated",
+    "stub_of"
    ],
-   "fp": "ef23543d620b",
-   "id": "C-5-02"
+   "fp": "e1b66556815c",
+   "id": "C-5-08"
+  },
+  {
+   "section": "5",
+   "heading": "The item document — `items/{id}.json`",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "OPTIONAL"
+   ],
+   "text": "`links`  ;  OPTIONAL; present when the version resolved at least one `[[id]]` (fourth revision)  ;  §10.3a",
+   "label": null,
+   "line": 411,
+   "block_kind": "table",
+   "side": "publisher",
+   "side_basis": "section §5 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "10.3a"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "[[id]]",
+    "links"
+   ],
+   "fp": "c468c16cf96d",
+   "id": "C-5-09"
+  },
+  {
+   "section": "5",
+   "heading": "The item document — `items/{id}.json`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "REQUIRED"
+   ],
+   "text": "A withdrawal endcap (§9) keeps the REQUIRED members with empty content.",
+   "label": null,
+   "line": 413,
+   "block_kind": "para",
+   "side": "publisher",
+   "side_basis": "section §5 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "9"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "b581b9c69541",
+   "id": "C-5-10"
   },
   {
    "section": "5.1",
@@ -1829,7 +2369,7 @@
    ],
    "text": "`id` MUST be 128 random bits encoded as 26 characters of lowercase Crockford base32 (alphabet `0123456789abcdefghjkmnpqrstvwxyz`, no padding), generated from a cryptographically strong source.",
    "label": null,
-   "line": 324,
+   "line": 418,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.1 default",
@@ -1854,7 +2394,7 @@
    ],
    "text": "Ids are permanent identity: they MUST NOT change across versions, withdrawal, or return.",
    "label": null,
-   "line": 327,
+   "line": 421,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.1 default",
@@ -1876,7 +2416,7 @@
    ],
    "text": "`content_hash` MUST be `\"sha256:\" + hex(SHA-256(content_md as UTF-8))`, computed per published version.",
    "label": null,
-   "line": 330,
+   "line": 424,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.1 default",
@@ -1900,12 +2440,14 @@
    ],
    "text": "A note that quotes the prior version's text is a diff by another name and leaks exactly what withholding protects, so where the prior version is unpinned a note MUST NOT reproduce it.",
    "label": null,
-   "line": 348,
+   "line": 442,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.2 default",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    83
+   ],
    "refs": [],
    "ext_refs": [],
    "tokens": [],
@@ -1918,11 +2460,85 @@
    "status": "normative",
    "level": "MUST",
    "keywords": [
+    "MUST NOT"
+   ],
+   "text": "**No word in a note has wire meaning** (revision of 2026-10-19, decision #83): a note is prose, and clients MUST NOT treat any token in it — a conventional word, a bracketed tag — as a marker of the version's significance in either direction.",
+   "label": null,
+   "line": 442,
+   "block_kind": "list",
+   "side": "client",
+   "side_basis": "subject 'clients'",
+   "decisions": [
+    83
+   ],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "dd782c0672c3",
+   "id": "C-5.2-05"
+  },
+  {
+   "section": "5.2",
+   "heading": "Versioning and rollup presentation",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "**A changelog entry MAY carry `\"generated\": true`** (revision of 2026-10-06, decision #40), meaning the publisher's client wrote the note, typically from the local diff between versions, rather than the author.",
+   "label": null,
+   "line": 460,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'entry'",
+   "decisions": [
+    40
+   ],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [
+    "\"generated\": true"
+   ],
+   "fp": "e6b3c8577a95",
+   "id": "C-5.2-06"
+  },
+  {
+   "section": "5.2",
+   "heading": "Versioning and rollup presentation",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT"
+   ],
+   "text": "Readers MUST NOT gate on it, and a reader that ignores it stays conformant.",
+   "label": null,
+   "line": 460,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'Readers'",
+   "decisions": [],
+   "decisions_nearby": [
+    40
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "89ea5c7157dc",
+   "id": "C-5.2-07"
+  },
+  {
+   "section": "5.2",
+   "heading": "Versioning and rollup presentation",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
     "MUST"
    ],
    "text": "`updated` MUST equal the latest changelog entry's `at`.",
    "label": null,
-   "line": 360,
+   "line": 475,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.2 default",
@@ -1947,7 +2563,7 @@
    ],
    "text": "**`content_html` is self-contained** (revision of 2026-10-03, decision #53): every URL in it — media, links, the anchors `[[id]]` renders to, anything an `href` or `src` can carry — MUST be absolute.",
    "label": null,
-   "line": 363,
+   "line": 478,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.2 default",
@@ -1977,7 +2593,7 @@
    ],
    "text": "Readers MAY resolve a relative URL against the document's origin on import as a defensive measure and MUST NOT depend on one being present.",
    "label": null,
-   "line": 363,
+   "line": 478,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'document'",
@@ -2001,7 +2617,7 @@
    ],
    "text": "Readers MUST treat unknown kinds as unknown constructs: ignore the item, don't reject the feed or archive containing it.",
    "label": null,
-   "line": 375,
+   "line": 490,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -2024,7 +2640,7 @@
    ],
    "text": "Fragments: publishers SHOULD cap `content_md` at 2,000 characters (RECOMMENDED studio-enforced cap: 1,000).",
    "label": null,
-   "line": 378,
+   "line": 493,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'publishers'",
@@ -2048,7 +2664,7 @@
    ],
    "text": "Enforcement is publisher-side only — readers MUST NOT reject long fragments.",
    "label": null,
-   "line": 378,
+   "line": 493,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -2070,7 +2686,7 @@
    ],
    "text": "The feed's `<title>` element is derived (§7); a leading markdown heading in `content_md` is content, not a title, and readers MUST NOT extract one.",
    "label": "Items are titleless",
-   "line": 382,
+   "line": 497,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -2097,7 +2713,7 @@
    ],
    "text": "`media` entries carry `url` (relative to the origin or absolute), `mime`, and SHOULD carry `alt`.",
    "label": null,
-   "line": 391,
+   "line": 506,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'entries'",
@@ -2124,7 +2740,7 @@
    ],
    "text": "Media objects are immutable once published: a media URL MUST always serve the same bytes.",
    "label": null,
-   "line": 391,
+   "line": 506,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.4 default",
@@ -2146,7 +2762,7 @@
    ],
    "text": "`author` is OPTIONAL, per-item, **client-asserted, and opaque**:",
    "label": null,
-   "line": 398,
+   "line": 513,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §5.5 default",
@@ -2171,7 +2787,7 @@
    ],
    "text": "`name` (display string) is RECOMMENDED, `url` OPTIONAL; **any additional members are permitted and unspecified** — they are the client's private authorspace grammar (local ids, OAuth subjects, wallet signatures, …).",
    "label": null,
-   "line": 400,
+   "line": 515,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.5 default",
@@ -2197,7 +2813,7 @@
    ],
    "text": "Readers MUST accept any object here and MUST NOT reject an item over its `author` contents.",
    "label": null,
-   "line": 400,
+   "line": 515,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -2221,7 +2837,7 @@
    ],
    "text": "It is scoped to `(origin, value)`: equal values from different origins MUST NOT be treated as the same entity.",
    "label": null,
-   "line": 405,
+   "line": 520,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.5 default",
@@ -2245,7 +2861,7 @@
    ],
    "text": "Clients that store or re-emit item JSON MUST carry `author` verbatim, never synthesized or rewritten.",
    "label": null,
-   "line": 412,
+   "line": 527,
    "block_kind": "list",
    "side": "client",
    "side_basis": "subject 'Clients'",
@@ -2269,7 +2885,7 @@
    ],
    "text": "*(Reserved at 0.1 and 0.2; defined at 0.3.)* An item MAY carry a top-level `forked_from`: a reference (§5.9) to the **pinned** version of another item from which this item's first draft was copied.",
    "label": null,
-   "line": 430,
+   "line": 545,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §5.6 default",
@@ -2295,7 +2911,7 @@
    ],
    "text": "`origin` is REQUIRED, even when it is the publisher's own — a citation is absolute.",
    "label": null,
-   "line": 441,
+   "line": 556,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.6 default",
@@ -2319,7 +2935,7 @@
    ],
    "text": "The referenced version MUST be pinned at its origin, i.e. fetchable as `{origin}items/{id}/v{n}.json`.",
    "label": null,
-   "line": 444,
+   "line": 559,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.6 default",
@@ -2343,7 +2959,7 @@
    ],
    "text": "Publishers SHOULD check this at publish time with one conditional fetch, and SHOULD refuse to publish on **evidence** that the promise is not kept — a 4xx, or a 200 that is not that pinned version.",
    "label": null,
-   "line": 444,
+   "line": 559,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'Publishers'",
@@ -2365,7 +2981,7 @@
    ],
    "text": "A network failure, timeout, or 5xx is evidence of nothing; refusing to publish an author's own words because a stranger's host is down would hand third parties a veto, so publishers SHOULD proceed with a warning instead.",
    "label": null,
-   "line": 444,
+   "line": 559,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'publishers'",
@@ -2387,7 +3003,7 @@
    ],
    "text": "Lineage is fixed when the item is created and is **immutable**: it never changes across versions, and a client MUST NOT offer a way to add, retarget, or clear it after the fact.",
    "label": null,
-   "line": 453,
+   "line": 568,
    "block_kind": "list",
    "side": "client",
    "side_basis": "subject 'client'",
@@ -2409,7 +3025,7 @@
    ],
    "text": "Lineage across origins is a remote reference and SHOULD send a mention (§15.2), whose relation is `fork`.",
    "label": null,
-   "line": 460,
+   "line": 575,
    "block_kind": "list",
    "side": "sender",
    "side_basis": "override",
@@ -2435,7 +3051,7 @@
    ],
    "text": "Readers MUST NOT infer that a fork still resembles its source.",
    "label": null,
-   "line": 462,
+   "line": 577,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -2450,6 +3066,105 @@
    "id": "C-5.6-08"
   },
   {
+   "section": "5.6",
+   "heading": "Lineage — `forked_from`",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "(Forking a quoted fragment directly, naming the fragment's own pin, remains the way to take one passage with its own lineage.) A forking client SHOULD build the new `content_md` as follows:",
+   "label": null,
+   "line": 577,
+   "block_kind": "list",
+   "side": "client",
+   "side_basis": "subject 'client'",
+   "decisions": [],
+   "decisions_nearby": [
+    57
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [
+    "content_md"
+   ],
+   "fp": "6273c98c1de5",
+   "id": "C-5.6-09"
+  },
+  {
+   "section": "5.6",
+   "heading": "Lineage — `forked_from`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MAY",
+    "MUST NOT"
+   ],
+   "text": "A client MAY note that state beside the quote when it holds it, and MUST NOT need the network at publish to decide.",
+   "label": null,
+   "line": 603,
+   "block_kind": "list",
+   "side": "client",
+   "side_basis": "subject 'client'",
+   "decisions": [],
+   "decisions_nearby": [
+    62
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "df63d73cde99",
+   "id": "C-5.6-10"
+  },
+  {
+   "section": "5.6",
+   "heading": "Lineage — `forked_from`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT"
+   ],
+   "text": "The `blyg-transclusion` class MUST NOT survive into the fork: the forking publisher baked nothing and verified nothing.",
+   "label": null,
+   "line": 614,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "section §5.6 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [
+    "blyg-transclusion"
+   ],
+   "fp": "7ea1c453dd34",
+   "id": "C-5.6-11"
+  },
+  {
+   "section": "5.6",
+   "heading": "Lineage — `forked_from`",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "**A fork's page SHOULD show its lineage** (revision of 2026-10-06, decision #65): a publisher that renders an HTML page for a fork SHOULD show on it that the item was forked, linking the pinned version it names (its page where the origin serves one, else its pinned file).",
+   "label": null,
+   "line": 626,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'page'",
+   "decisions": [
+    65
+   ],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "b3fd4bc88ed1",
+   "id": "C-5.6-12"
+  },
+  {
    "section": "5.7",
    "heading": "Generation provenance — the `generated` array",
    "status": "normative",
@@ -2460,7 +3175,7 @@
    ],
    "text": "What the wire gains is generation's **provenance shadow**: a publisher whose version contains machine-generated prose SHOULD disclose it via an OPTIONAL top-level `\"generated\"` array, parallel to `transclusions`, one entry per generated span in document order:",
    "label": null,
-   "line": 471,
+   "line": 642,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'publisher'",
@@ -2483,9 +3198,9 @@
    "keywords": [
     "MAY"
    ],
-   "text": "It MAY be empty, meaning **no sources declared**: pure instructed generation, or generation whose sources the publisher cannot name.",
+   "text": "The array MAY be empty, meaning **no sources declared**: pure instructed generation, or generation whose sources the publisher cannot name.",
    "label": null,
-   "line": 490,
+   "line": 665,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.7 default",
@@ -2494,7 +3209,7 @@
    "refs": [],
    "ext_refs": [],
    "tokens": [],
-   "fp": "9c1c73872bdc",
+   "fp": "d507c1681013",
    "id": "C-5.7-02"
   },
   {
@@ -2507,7 +3222,7 @@
    ],
    "text": "`model` and `at` are RECOMMENDED.",
    "label": null,
-   "line": 490,
+   "line": 665,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.7 default",
@@ -2532,7 +3247,7 @@
    ],
    "text": "A span MAY be the whole body.",
    "label": null,
-   "line": 490,
+   "line": 665,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.7 default",
@@ -2548,13 +3263,42 @@
    "section": "5.7",
    "heading": "Generation provenance — the `generated` array",
    "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "Each entry is a reference (§5.9): `origin` omitted for the publisher's own items and present for another origin's (new in 0.4; promoted from the 0.3 text's §16.3, where a source was own-origin by construction), exactly as `transclusions[]` does, and it MAY carry `cited`.",
+   "label": null,
+   "line": 665,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'publisher'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "5.9",
+    "16.3"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "cited",
+    "origin",
+    "transclusions[]"
+   ],
+   "fp": "154f99ce66a3",
+   "id": "C-5.7-08"
+  },
+  {
+   "section": "5.7",
+   "heading": "Generation provenance — the `generated` array",
+   "status": "normative",
    "level": "MUST",
    "keywords": [
     "MUST NOT"
    ],
    "text": "The array MUST NOT carry instruction text or any other pre-generation authoring state — instructions are studio-private, permanently.",
    "label": null,
-   "line": 502,
+   "line": 676,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.7 default",
@@ -2576,7 +3320,7 @@
    ],
    "text": "A publisher that knows a span is machine-generated SHOULD disclose it regardless of who ran the model; the construct exists so that disclosure is always possible.",
    "label": "Where the generation ran is not part of the claim",
-   "line": 518,
+   "line": 692,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'publisher'",
@@ -2592,18 +3336,49 @@
    "section": "5.7",
    "heading": "Generation provenance — the `generated` array",
    "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "A `sources[]` entry carrying an `origin` is a remote reference and SHOULD send a mention (§15.2) whose relation is `source` (§15.4).",
+   "label": null,
+   "line": 712,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'entry'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "15.2",
+    "15.4"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "origin",
+    "source",
+    "sources[]"
+   ],
+   "fp": "dc1536d8f2fe",
+   "id": "C-5.7-09"
+  },
+  {
+   "section": "5.7",
+   "heading": "Generation provenance — the `generated` array",
+   "status": "normative",
    "level": "MUST",
    "keywords": [
     "MUST"
    ],
    "text": "Publishers additionally disclose generated spans in the rendered HTML: the renderer MUST wrap each generated span in `content_html` as `<span class=\"blyg-tk-gen\">…</span>` (inline output) or `<div class=\"blyg-tk-gen\">…</div>` (block output).",
    "label": null,
-   "line": 529,
+   "line": 725,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'Publishers'",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    59
+   ],
    "refs": [],
    "ext_refs": [],
    "tokens": [
@@ -2615,6 +3390,55 @@
    "id": "C-5.7-07"
   },
   {
+   "section": "5.7",
+   "heading": "Generation provenance — the `generated` array",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "REQUIRED"
+   ],
+   "text": "No data attributes are REQUIRED: span-level source mapping is deliberately not promised (the JSON provenance is version-level and robust; span-level claims would be brittle across the author's post-generation edits).",
+   "label": null,
+   "line": 725,
+   "block_kind": "para",
+   "side": "publisher",
+   "side_basis": "section §5.7 default",
+   "decisions": [],
+   "decisions_nearby": [
+    59
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "6d844ca7494a",
+   "level_basis": "override: negated keyword (not REQUIRED = optional)",
+   "id": "C-5.7-10"
+  },
+  {
+   "section": "5.7",
+   "heading": "Generation provenance — the `generated` array",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "A client that makes generated spans visible SHOULD say, wherever it explains the mark, that the disclosure is the publisher's own and unverified (rule 6); a tint that reads as a verified authorship badge makes a claim the protocol refuses to make (revision of 2026-10-06, decision #59; until then this paragraph said the reference client left the class unstyled for that reason — it has styled it, off by default and with that disclaimer, since blygger-studio 0.27.0).",
+   "label": null,
+   "line": 725,
+   "block_kind": "para",
+   "side": "client",
+   "side_basis": "subject 'client'",
+   "decisions": [
+    59
+   ],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "411759439c90",
+   "id": "C-5.7-11"
+  },
+  {
    "section": "5.8",
    "heading": "The `page` field",
    "status": "normative",
@@ -2622,9 +3446,9 @@
    "keywords": [
     "MAY"
    ],
-   "text": "*(New in 0.3.)* An item document MAY carry `\"page\"`: the **origin-relative URL of the item's human-readable permalink**, resolved against the origin (`\"page\": \"t/7c9wk2mhq0v3xj8tn5rzfd41bg/\"`).",
+   "text": "*(New in 0.3.)* An item document MAY carry `\"page\"`: the **URL of the item's human-readable permalink**, origin-relative and resolved against the origin (`\"page\": \"t/7c9wk2mhq0v3xj8tn5rzfd41bg/\"`) or, from 0.4, absolute.",
    "label": null,
-   "line": 545,
+   "line": 744,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'item document'",
@@ -2636,7 +3460,7 @@
     "\"page\"",
     "\"page\": \"t/7c9wk2mhq0v3xj8tn5rzfd41bg/\""
    ],
-   "fp": "910a2eb1121e",
+   "fp": "5c5c4886cc69",
    "id": "C-5.8-01"
   },
   {
@@ -2650,7 +3474,7 @@
    ],
    "text": "Readers SHOULD use `page` when present, and MAY fall back to the reference convention (`f/{id}/` for fragments, `t/{id}/` for threads) when it is absent.",
    "label": null,
-   "line": 549,
+   "line": 748,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -2670,13 +3494,39 @@
    "section": "5.8",
    "heading": "The `page` field",
    "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "**`page` MAY be absolute** (new in 0.4; promoted from the 0.3 text's §16.6e).",
+   "label": null,
+   "line": 757,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "section §5.8 default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "16.6e"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "page"
+   ],
+   "fp": "f580c8a666d6",
+   "id": "C-5.8-07"
+  },
+  {
+   "section": "5.8",
+   "heading": "The `page` field",
+   "status": "normative",
    "level": "SHOULD",
    "keywords": [
     "SHOULD"
    ],
    "text": "A permalink page SHOULD carry `<link rel=\"alternate\" type=\"application/json\" href=\"{origin}items/{id}.json\">`.",
    "label": null,
-   "line": 558,
+   "line": 762,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'page'",
@@ -2698,7 +3548,7 @@
    ],
    "text": "**`page` SHOULD be stable for the life of the item** (revision of 2026-10-03, decision #56).",
    "label": null,
-   "line": 562,
+   "line": 766,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.8 default",
@@ -2724,7 +3574,7 @@
    ],
    "text": "A publisher that must move a page SHOULD serve a redirect from the old path.",
    "label": null,
-   "line": 562,
+   "line": 766,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'page'",
@@ -2748,7 +3598,7 @@
    ],
    "text": "Readers MAY refresh `page` from the item document on any fetch (the staleness check fetches it anyway), and a frozen `cited.url` naming the old path remains correct: it names what was seen.",
    "label": null,
-   "line": 562,
+   "line": 766,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -2774,9 +3624,9 @@
     "REQUIRED",
     "OPTIONAL"
    ],
-   "text": "It is REQUIRED in `forked_from` and `stub_of` (a citation is absolute) and OPTIONAL in `transclusions[]`, where omission means own-origin, so that every 0.2 thread document stays valid unchanged.",
+   "text": "It is REQUIRED in `forked_from` and `stub_of` (a citation is absolute) and OPTIONAL in `transclusions[]` and `generated[].sources[]`, where omission means own-origin, so that every 0.2 thread document and every 0.3 generated span stays valid unchanged.",
    "label": null,
-   "line": 585,
+   "line": 789,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.9 default",
@@ -2786,10 +3636,11 @@
    "ext_refs": [],
    "tokens": [
     "forked_from",
+    "generated[].sources[]",
     "stub_of",
     "transclusions[]"
    ],
-   "fp": "71d5ff389d65",
+   "fp": "62cdbf4ceb52",
    "id": "C-5.9-01"
   },
   {
@@ -2802,7 +3653,7 @@
    ],
    "text": "A reference MAY additionally carry the human half of a citation, `cited`, defined next — and nothing else.",
    "label": null,
-   "line": 597,
+   "line": 802,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.9 default",
@@ -2827,7 +3678,7 @@
    ],
    "text": "A reference MAY therefore carry an OPTIONAL `cited` object: the label the citing publisher saw when it made the reference.",
    "label": "The human half of a citation — `cited` (new in 0.3)",
-   "line": 602,
+   "line": 807,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §5.9 default",
@@ -2851,7 +3702,7 @@
    ],
    "text": "`retrieved` is REQUIRED whenever `cited` is present — a citation without a date is not a citation.",
    "label": null,
-   "line": 618,
+   "line": 823,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §5.9 default",
@@ -2877,7 +3728,7 @@
    ],
    "text": "`source` (the target blyg's title as seen), `author` (the target's own `author.name`, passed through under §5.5), `excerpt` (a short caption; publishers SHOULD cap it near 200 characters) and `url` (the target's page as it stood) are OPTIONAL.",
    "label": null,
-   "line": 618,
+   "line": 823,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'publishers'",
@@ -2907,7 +3758,7 @@
    ],
    "text": "Mention verification (§15.4) reads the three identity members alone and MUST NOT consult `cited`.",
    "label": "Verification ignores it",
-   "line": 628,
+   "line": 833,
    "block_kind": "list",
    "side": "receiver",
    "side_basis": "override",
@@ -2933,7 +3784,7 @@
    ],
    "text": "Readers MUST NOT present it as verified or as the target's current state, MUST NOT bake it into `content_html`, and a reader that ignores it entirely remains conformant.",
    "label": "Verification ignores it",
-   "line": 628,
+   "line": 833,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -2957,7 +3808,7 @@
    ],
    "text": "The `blogroll` key is OPTIONAL: an origin-relative path, canonically `\"blogroll.opml\"`, present only when the publisher serves a non-empty blogroll (§11).",
    "label": null,
-   "line": 674,
+   "line": 880,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §6.1 default",
@@ -2984,7 +3835,7 @@
    ],
    "text": "The `webmention` key (new in 0.3) is OPTIONAL: the URL of the publisher's Webmention endpoint, origin-relative allowed, present only when the publisher receives mentions (§15.1); a static export omits it.",
    "label": null,
-   "line": 674,
+   "line": 880,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §6.1 default",
@@ -3010,7 +3861,7 @@
    ],
    "text": "`level` and `generator` are informative (§3.2), and so is **`generator_url`** (new in 0.3): OPTIONAL, one absolute URL to the client software's canonical source repository or home page, baked in by the client's author beside `generator` (the precedent is Atom's generator `uri`).",
    "label": null,
-   "line": 674,
+   "line": 880,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §6.1 default",
@@ -3040,7 +3891,7 @@
    ],
    "text": "Publishers SHOULD emit it; readers MUST NOT gate on it; its absence means only that nothing was stated.",
    "label": null,
-   "line": 674,
+   "line": 880,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -3063,7 +3914,7 @@
    ],
    "text": "It is a SHOULD and will never be a MUST — a required field that readers may not act on would be a conformance rule serving a directory's convenience, and most existing clients would fail it for a reason unrelated to publishing.",
    "label": null,
-   "line": 674,
+   "line": 880,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §6.1 default",
@@ -3086,7 +3937,7 @@
    ],
    "text": "A registry MAY require a client source as a condition of *listing*; that is its business, not conformance.",
    "label": null,
-   "line": 674,
+   "line": 880,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §6.1 default",
@@ -3099,6 +3950,130 @@
    "id": "C-6.1-06"
   },
   {
+   "section": "6.1",
+   "heading": "Manifest — `blyg.json`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "REQUIRED",
+    "RECOMMENDED",
+    "OPTIONAL"
+   ],
+   "text": "**Members** (revision of 2026-10-17, decision #76; checked against all 22 live manifests, which conform): REQUIRED `blyg`, `title`, `updated`; RECOMMENDED `level`, `generator`, `generator_url`, `site`, `author`; OPTIONAL `feed`, `items`, `item`, `pin` (defaults below), `blogroll`, `webmention`.",
+   "label": null,
+   "line": 901,
+   "block_kind": "para",
+   "side": "publisher",
+   "side_basis": "subject 'manifests'",
+   "decisions": [
+    76
+   ],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [
+    "author",
+    "blogroll",
+    "blyg",
+    "feed",
+    "generator",
+    "generator_url",
+    "item",
+    "items",
+    "level",
+    "pin",
+    "site",
+    "title",
+    "updated",
+    "webmention"
+   ],
+   "fp": "f2fd2ed36c6a",
+   "id": "C-6.1-07"
+  },
+  {
+   "section": "6.1",
+   "heading": "Manifest — `blyg.json`",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "OPTIONAL"
+   ],
+   "text": "Two further OPTIONAL keys, in [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570) level-1 form, say where documents live: **`item`**, with the variable `id` (default `items/{id}.json`), and **`pin`**, with the variables `id` and `n` (default `items/{id}/v{n}.json`).",
+   "label": null,
+   "line": 907,
+   "block_kind": "para",
+   "side": "publisher",
+   "side_basis": "section §6.1 default",
+   "decisions": [],
+   "decisions_nearby": [
+    87
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [
+    " (default ",
+    "id",
+    "item",
+    "items/{id}.json",
+    "pin"
+   ],
+   "fp": "b9d958e5ce53",
+   "id": "C-6.1-08"
+  },
+  {
+   "section": "6.1",
+   "heading": "Manifest — `blyg.json`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST"
+   ],
+   "text": "Readers MUST expand them wherever this document says `{origin}items/{id}.json` or `{origin}items/{id}/v{n}.json` (§4).",
+   "label": null,
+   "line": 907,
+   "block_kind": "para",
+   "side": "reader",
+   "side_basis": "subject 'Readers'",
+   "decisions": [],
+   "decisions_nearby": [
+    87
+   ],
+   "refs": [
+    "4"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "{origin}items/{id}.json",
+    "{origin}items/{id}/v{n}.json"
+   ],
+   "fp": "81243fc1769a",
+   "id": "C-6.1-09"
+  },
+  {
+   "section": "6.1",
+   "heading": "Manifest — `blyg.json`",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "All four values MAY carry a query string, because they are expanded or fetched, never resolved against.",
+   "label": null,
+   "line": 907,
+   "block_kind": "para",
+   "side": "publisher",
+   "side_basis": "section §6.1 default",
+   "decisions": [],
+   "decisions_nearby": [
+    87
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "97c003178407",
+   "id": "C-6.1-10"
+  },
+  {
    "section": "7",
    "heading": "The feed — `feed.xml`",
    "status": "normative",
@@ -3109,17 +4084,46 @@
    ],
    "text": "The window SHOULD be bounded (RECOMMENDED: 50 entries).",
    "label": null,
-   "line": 746,
+   "line": 997,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §7 default",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    78
+   ],
    "refs": [],
    "ext_refs": [],
    "tokens": [],
    "fp": "618211cdffbe",
    "id": "C-7-01"
+  },
+  {
+   "section": "7",
+   "heading": "The feed — `feed.xml`",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD",
+    "MAY"
+   ],
+   "text": "A publisher SHOULD publish the thread last, so that it is the newest entry, and readers MAY fold the burst (§13.7; revision of 2026-10-17, decision #78).",
+   "label": null,
+   "line": 997,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'publisher'",
+   "decisions": [
+    78
+   ],
+   "decisions_nearby": [],
+   "refs": [
+    "13.7"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "9f1f4d13ed51",
+   "id": "C-7-10"
   },
   {
    "section": "7",
@@ -3131,7 +4135,7 @@
    ],
    "text": "A feed entry for an older publish event keeps its own `blyg:version` and note, but its `<description>` MUST carry the *latest* version's HTML.",
    "label": "Entries render the item's latest content",
-   "line": 754,
+   "line": 1011,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'entry'",
@@ -3157,7 +4161,7 @@
    ],
    "text": "RSS requires the element, so publishers MUST emit one, and it MUST NOT be read back as an item field.",
    "label": "`<title>` is derived, because items are titleless (§5.3)",
-   "line": 758,
+   "line": 1015,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "override",
@@ -3179,7 +4183,7 @@
    ],
    "text": "The RECOMMENDED derivation, which the reference client uses, is the publish event's changelog note followed by an em-dash and a short excerpt of the content (`note — excerpt`), or the excerpt alone when there is no note; a withdrawal entry's title is the literal `withdrawn`.",
    "label": "`<title>` is derived, because items are titleless (§5.3)",
-   "line": 758,
+   "line": 1015,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §7 default",
@@ -3204,7 +4208,7 @@
    ],
    "text": "Its earlier publish events MUST be dropped from the window (with content withheld they would render as empty noise under the previous rule).",
    "label": null,
-   "line": 769,
+   "line": 1026,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §7 default",
@@ -3226,7 +4230,7 @@
    ],
    "text": "A publisher MAY prepend a rendered citation or lineage line to `<description>` so that plain RSS readers see what the item answers or descends from; that line is presentation, exactly like the injected transclusion-provenance line, and is not part of `content_html`.",
    "label": "Stubs and lineage add no feed vocabulary",
-   "line": 775,
+   "line": 1032,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'publisher'",
@@ -3251,7 +4255,7 @@
    ],
    "text": "`<description>` HTML MUST be self-contained — which `content_html` already is (§5.2: every URL absolute) — with no dependence on the origin's stylesheets or scripts.",
    "label": null,
-   "line": 782,
+   "line": 1039,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §7 default",
@@ -3278,7 +4282,7 @@
    ],
    "text": "When an item's `author.name` is present, the publisher SHOULD emit `<dc:creator>` (`xmlns:dc=\"http://purl.org/dc/elements/1.1/\"`) with the display name — the standard RSS byline.",
    "label": null,
-   "line": 787,
+   "line": 1044,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'publisher'",
@@ -3303,7 +4307,7 @@
    ],
    "text": "Publishers MUST emit it.",
    "label": null,
-   "line": 794,
+   "line": 1051,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'Publishers'",
@@ -3325,7 +4329,7 @@
    ],
    "text": "Once pinned, the file MUST return 200 forever — including after the item is withdrawn.",
    "label": "Irrevocable",
-   "line": 834,
+   "line": 1091,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'file'",
@@ -3347,7 +4351,7 @@
    ],
    "text": "Any published version with content MAY be pinned, including retroactively (exposing withheld history is the publisher's right).",
    "label": null,
-   "line": 836,
+   "line": 1093,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §8 default",
@@ -3369,7 +4373,7 @@
    ],
    "text": "Withdrawal endcaps (§9) MUST NOT be pinned — there is nothing to cite.",
    "label": null,
-   "line": 836,
+   "line": 1093,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §8 default",
@@ -3393,7 +4397,7 @@
    ],
    "text": "**Media referenced by any pinned version MUST be retained forever.**",
    "label": "Media referenced by any pinned version MUST be retained forever",
-   "line": 841,
+   "line": 1098,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §8 default",
@@ -3415,7 +4419,7 @@
    ],
    "text": "A pinned file SHOULD carry the assertion as published with that version, but both serve-time and publish-time assertion strategies are conformant.",
    "label": "`author` rides outside the pin promise",
-   "line": 852,
+   "line": 1109,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'pinned file'",
@@ -3437,7 +4441,7 @@
    ],
    "text": "The same rule bounds what a public page's version display may offer: every version it exposes — as a link, or presented in place — MUST be one the origin already promises forever, i.e. the live version and pinned versions, nothing else.",
    "label": null,
-   "line": 865,
+   "line": 1122,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'page'",
@@ -3459,7 +4463,7 @@
    ],
    "text": "A version display MUST NOT offer, imply, or hint at access to unpinned history.",
    "label": null,
-   "line": 865,
+   "line": 1122,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §8.4 default",
@@ -3481,7 +4485,7 @@
    ],
    "text": "The floor is discrete pin citations (e.g. \"v6 · pinned: v2, v4\"); a page MAY additionally present the pinned artifacts themselves in place (the reference client pages among them with each shown version visibly marked frozen).",
    "label": null,
-   "line": 872,
+   "line": 1129,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'page'",
@@ -3503,7 +4507,7 @@
    ],
    "text": "Additionally, a publisher **MAY** serve a rendered page for each pinned version at the item's permalink path plus a version segment:",
    "label": null,
-   "line": 882,
+   "line": 1139,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'publisher'",
@@ -3525,12 +4529,14 @@
    ],
    "text": "The page SHOULD carry `rel=\"canonical\"` pointing at the live permalink, SHOULD be visibly marked as a frozen snapshot, and SHOULD link its `v{n}.json` twin — the page is the human citation, the JSON the machine citation.",
    "label": null,
-   "line": 899,
+   "line": 1156,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'page'",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    69
+   ],
    "refs": [],
    "ext_refs": [],
    "tokens": [
@@ -3550,7 +4556,7 @@
    ],
    "text": "Pinned pages are **not** publish events: they MUST NOT appear in `feed.xml`, the archive index, or `items/index.json`, and they add no manifest vocabulary.",
    "label": null,
-   "line": 903,
+   "line": 1165,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'pages'",
@@ -3575,7 +4581,7 @@
    ],
    "text": "Readers MUST NOT require these pages — the subscribe side works entirely from the JSON surfaces.",
    "label": null,
-   "line": 906,
+   "line": 1168,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -3597,7 +4603,7 @@
    ],
    "text": "A withdrawn stub stops *verifying* as a stub, because its endcap omits `stub_of`, and SHOULD re-send its mention once so the target learns this (§15.2).",
    "label": "Withdrawal does not cascade, in either direction",
-   "line": 932,
+   "line": 1194,
    "block_kind": "list",
    "side": "sender",
    "side_basis": "override",
@@ -3621,9 +4627,9 @@
    "keywords": [
     "MUST"
    ],
-   "text": "`![[id@vN]]` (explicit version) is **reserved**: 0.3 publishers MUST reject it at publish time; readers MUST tolerate it as an unknown construct.",
+   "text": "`![[id@vN]]` (explicit version) is **reserved**: publishers at this version MUST reject it at publish time; readers MUST tolerate it as an unknown construct.",
    "label": null,
-   "line": 972,
+   "line": 1238,
    "block_kind": "list",
    "side": "client",
    "side_basis": "override",
@@ -3634,8 +4640,239 @@
    "tokens": [
     "![[id@vN]]"
    ],
-   "fp": "0e0b5184a554",
+   "fp": "60392156e7a2",
    "id": "C-10.1-01"
+  },
+  {
+   "section": "10.1",
+   "heading": "Grammar (permanent protocol surface)",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "It is **disclosed on the wire** (revision of 2026-10-19, decision #79, which reverses #32): each resolved link produces one `links[]` entry (§10.3a) and, when the target is remote, SHOULD send a mention (§15.2) whose relation is `link` — a **notice**, the lowest class of verified mention, never a response (§15.5).",
+   "label": null,
+   "line": 1245,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'entry'",
+   "decisions": [
+    32,
+    79
+   ],
+   "decisions_nearby": [
+    54
+   ],
+   "refs": [
+    "10.3a",
+    "15.2",
+    "15.5"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "link",
+    "links[]"
+   ],
+   "fp": "c45b2ad13eeb",
+   "id": "C-10.1-02"
+  },
+  {
+   "section": "10.1",
+   "heading": "Grammar (permanent protocol surface)",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST"
+   ],
+   "text": "An unresolvable link MUST be a publish error, like an unresolvable directive.",
+   "label": null,
+   "line": 1245,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "section §10.1 default",
+   "decisions": [],
+   "decisions_nearby": [
+    32,
+    54,
+    79
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "a4df667ca84c",
+   "id": "C-10.1-03"
+  },
+  {
+   "section": "10.1",
+   "heading": "Grammar (permanent protocol surface)",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "In either form the id MAY be followed by `|` and text: `[[7c9wk2mhq0v3xj8tn5rzfd41bg | the opening fragment]]`, `![[7c9wk2mhq0v3xj8tn5rzfd41bg | the opening fragment]]`.",
+   "label": null,
+   "line": 1267,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "section §10.1 default",
+   "decisions": [],
+   "decisions_nearby": [
+    46,
+    70,
+    71,
+    81
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [
+    " and text: ",
+    ", "
+   ],
+   "fp": "d62f1106c116",
+   "id": "C-10.1-04"
+  },
+  {
+   "section": "10.1",
+   "heading": "Grammar (permanent protocol surface)",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "On a **directive** it is the author's name for the quoted item (revision of 2026-10-19, decision #81; until then a comment that reached nothing): the publisher bakes it as the `data-blyg-label` attribute of the transclusion's blockquote (§10.2), so that any renderer — the publisher's own page, a subscriber, a fork flattener — MAY use it as the anchor text of its attribution line.",
+   "label": null,
+   "line": 1267,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'subscriber'",
+   "decisions": [
+    81
+   ],
+   "decisions_nearby": [
+    46,
+    70,
+    71
+   ],
+   "refs": [
+    "10.2"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "data-blyg-label"
+   ],
+   "fp": "68b0e5b73f80",
+   "id": "C-10.1-05"
+  },
+  {
+   "section": "10.1",
+   "heading": "Grammar (permanent protocol surface)",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT"
+   ],
+   "text": "A reader MUST NOT present it as the target item's title, or as anything but the quoter's words (§5.3, decision #46).",
+   "label": null,
+   "line": 1267,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'reader'",
+   "decisions": [
+    46
+   ],
+   "decisions_nearby": [
+    70,
+    71,
+    81
+   ],
+   "refs": [
+    "5.3"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "c95cceca4053",
+   "id": "C-10.1-06"
+  },
+  {
+   "section": "10.1",
+   "heading": "Grammar (permanent protocol surface)",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "A client MAY tell the author when a label no longer resembles its target, as a courtesy; the protocol checks nothing, because a label is the author's words, not a claim about the target (compare `cited`, §5.9, frozen at the moment of reference for the same reason).",
+   "label": null,
+   "line": 1267,
+   "block_kind": "list",
+   "side": "client",
+   "side_basis": "subject 'client'",
+   "decisions": [],
+   "decisions_nearby": [
+    46,
+    70,
+    71,
+    81
+   ],
+   "refs": [
+    "5.9"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "cited"
+   ],
+   "fp": "fd2277186a57",
+   "id": "C-10.1-07"
+  },
+  {
+   "section": "10.1",
+   "heading": "Grammar (permanent protocol surface)",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT"
+   ],
+   "text": "The two forms above, with or without a label, are the whole of the bracket grammar: brackets whose first 26 characters are not an id — alone, or before a pipe — enclose ordinary text, and clients MUST NOT give it a meaning on the wire.",
+   "label": "Any other bracketed text is literal",
+   "line": 1298,
+   "block_kind": "list",
+   "side": "client",
+   "side_basis": "subject 'clients'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "a18933650afc",
+   "id": "C-10.1-08"
+  },
+  {
+   "section": "10.1",
+   "heading": "Grammar (permanent protocol surface)",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST"
+   ],
+   "text": "A client-private authoring form inside brackets — a span to be minted as its own fragment, an alias to be resolved to an id — MUST be rewritten before publish so that it never reaches `content_md`, by the same principle that keeps generation instructions off the wire (§5.7): no authoring grammar of any kind reaches readers.",
+   "label": "Any other bracketed text is literal",
+   "line": 1298,
+   "block_kind": "list",
+   "side": "client",
+   "side_basis": "subject 'client'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "5.7"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "content_md"
+   ],
+   "fp": "c233958bf2a1",
+   "id": "C-10.1-09"
   },
   {
    "section": "10.2",
@@ -3647,7 +4884,7 @@
    ],
    "text": "Each directive MUST resolve, in this order, to:",
    "label": "Resolution order",
-   "line": 999,
+   "line": 1313,
    "block_kind": "para",
    "side": "client",
    "side_basis": "override",
@@ -3667,15 +4904,69 @@
    "keywords": [
     "MUST"
    ],
+   "text": "**More than one imported match MUST be a publish error**, never a guess — the directive names an identity, and the publisher does not pick an origin on the author's behalf.",
+   "label": null,
+   "line": 1325,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "section §10.2 default",
+   "decisions": [],
+   "decisions_nearby": [
+    76
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "84ff333216da",
+   "id": "C-10.2-06"
+  },
+  {
+   "section": "10.2",
+   "heading": "Publish-time resolution",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MAY",
+    "MUST NOT"
+   ],
+   "text": "A directive that carries a label (§10.1) additionally bakes `data-blyg-label=\"{label}\"`, the label verbatim and HTML-escaped (revision of 2026-10-19, decision #81); a renderer MAY use it in its attribution line and MUST NOT give it any other meaning.",
+   "label": null,
+   "line": 1353,
+   "block_kind": "para",
+   "side": "publisher",
+   "side_basis": "subject 'directive'",
+   "decisions": [
+    81
+   ],
+   "decisions_nearby": [],
+   "refs": [
+    "10.1"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "data-blyg-label=\"{label}\""
+   ],
+   "fp": "5d18c6c97f56",
+   "id": "C-10.2-07"
+  },
+  {
+   "section": "10.2",
+   "heading": "Publish-time resolution",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST"
+   ],
    "text": "A directive with an attached blockquote (§10.1) resolves exactly as a whole directive — same order, same snapshot rule — and adds one check: at publish, the selection MUST be a substring of the target snapshot's **text content** — its `content_html` with tags stripped, whitespace collapsed within a block, block boundaries kept as line breaks — at the version being baked; otherwise a publish error, as for an unresolvable directive.",
    "label": null,
-   "line": 1040,
+   "line": 1364,
    "block_kind": "para",
    "side": "client",
    "side_basis": "override",
    "decisions": [],
    "decisions_nearby": [
-    49
+    49,
+    76
    ],
    "refs": [
     "10.1"
@@ -3697,13 +4988,14 @@
    ],
    "text": "Any reader MAY re-check by the same test while the origin serves that version, live or pinned.",
    "label": null,
-   "line": 1040,
+   "line": 1364,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'reader'",
    "decisions": [],
    "decisions_nearby": [
-    49
+    49,
+    76
    ],
    "refs": [],
    "ext_refs": [],
@@ -3719,20 +5011,20 @@
    "keywords": [
     "MUST NOT"
    ],
-   "text": "A thread MUST NOT transclude a local thread whose transitive *local* transclusion closure (walked via stored `transclusions[]`) contains the publishing thread's own id.",
+   "text": "A thread MUST NOT transclude a local thread whose transitive *local* transclusion closure contains the publishing thread's own id.",
    "label": "One local closure check",
-   "line": 1085,
+   "line": 1416,
    "block_kind": "list",
    "side": "client",
    "side_basis": "override",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    76
+   ],
    "refs": [],
    "ext_refs": [],
-   "tokens": [
-    "transclusions[]"
-   ],
-   "fp": "7d991cfe5381",
+   "tokens": [],
+   "fp": "23340310127e",
    "id": "C-10.2-04"
   },
   {
@@ -3745,7 +5037,7 @@
    ],
    "text": "A studio SHOULD say at publish when a directive resolves to an unpinned remote item.",
    "label": null,
-   "line": 1093,
+   "line": 1429,
    "block_kind": "para",
    "side": "client",
    "side_basis": "subject 'studio'",
@@ -3768,7 +5060,7 @@
    ],
    "text": "A partial transclusion's entry (§10.1, §10.2) additionally carries an OPTIONAL `selector` (revision of 2026-10-03, decision #49): `exact` REQUIRED — the selection, normalized by §10.2's text-content rule — `prefix` and `suffix` OPTIONAL and short; the W3C Web Annotation text-quote shape.",
    "label": null,
-   "line": 1128,
+   "line": 1466,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'entry'",
@@ -3800,7 +5092,7 @@
    ],
    "text": "A remote entry is a **remote reference** and SHOULD send a mention to its origin (§15.2), whose relation is `transclusion`.",
    "label": null,
-   "line": 1150,
+   "line": 1489,
    "block_kind": "list",
    "side": "sender",
    "side_basis": "override",
@@ -3826,7 +5118,7 @@
    ],
    "text": "Readers at L2 MUST scope a transclusion's `id` to its `origin` when present, and to the document's own origin when absent, before doing anything with it — the same origin-scoping rule as everywhere else (§13.1).",
    "label": null,
-   "line": 1152,
+   "line": 1491,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -3844,6 +5136,86 @@
    "id": "C-10.3-03"
   },
   {
+   "section": "10.3a",
+   "heading": "Links — `links[]`",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "A remote entry is a **remote reference** for §15.2 and SHOULD send a mention, whose relation is `link` (§15.4): a notice, never a response (§15.5).",
+   "label": null,
+   "line": 1517,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'entry'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "15.2",
+    "15.4",
+    "15.5"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "link"
+   ],
+   "fp": "26ea2f12fd42",
+   "id": "C-10.3a-01"
+  },
+  {
+   "section": "10.3a",
+   "heading": "Links — `links[]`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT"
+   ],
+   "text": "A markdown link to a blyg page is not an entry (§10.1): the array records the bracket grammar and nothing else, and a publisher MUST NOT populate it by inspecting HTML.",
+   "label": null,
+   "line": 1520,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'publisher'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "10.1"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "1b19b0409f9b",
+   "id": "C-10.3a-02"
+  },
+  {
+   "section": "10.3a",
+   "heading": "Links — `links[]`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST",
+    "MAY"
+   ],
+   "text": "Readers MUST scope `id` to `origin` as §13.1 requires, and MAY ignore the array entirely; a 0.3 reader does.",
+   "label": null,
+   "line": 1523,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'Readers'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "13.1"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "id",
+    "origin"
+   ],
+   "fp": "91cf2ad8625e",
+   "id": "C-10.3a-03"
+  },
+  {
    "section": "10.6",
    "heading": "Stubs — `stub_of`",
    "status": "normative",
@@ -3853,7 +5225,7 @@
    ],
    "text": "A thread document MAY carry a top-level `\"stub_of\"`, in one of two shapes:",
    "label": null,
-   "line": 1193,
+   "line": 1565,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'document'",
@@ -3877,7 +5249,7 @@
    ],
    "text": "for a blyg target — a reference (§5.9), `origin` REQUIRED even when it is the publisher's own, because a citation is absolute — or",
    "label": null,
-   "line": 1200,
+   "line": 1572,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §10.6 default",
@@ -3899,16 +5271,79 @@
    "status": "normative",
    "level": "MUST",
    "keywords": [
+    "MUST NOT"
+   ],
+   "text": "An L0 wrapper's id (§13.6) is a reader-local name for someone's RSS entry, not an item at an origin, and the blyg-target shape MUST NOT name one; a response to an L0 entry is a `{url}` stub naming the entry's link (decision #76).",
+   "label": null,
+   "line": 1579,
+   "block_kind": "para",
+   "side": "publisher",
+   "side_basis": "subject 'entry'",
+   "decisions": [
+    76
+   ],
+   "decisions_nearby": [],
+   "refs": [
+    "13.6"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "{url}"
+   ],
+   "fp": "abae40907db6",
+   "id": "C-10.6-06"
+  },
+  {
+   "section": "10.6",
+   "heading": "Stubs — `stub_of`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MAY",
+    "REQUIRED"
+   ],
+   "text": "Either shape MAY carry the `cited` object of §5.9 — the blyg-target shape since §5.9 named `stub_of` as a site, the `{url}` shape by the revision of 2026-10-06 (decision #55) — under that section's rules unchanged: `retrieved` REQUIRED, self-asserted, frozen when the stub was created, ignored by verification, never baked, ignorable by any reader, and `excerpt` a caption capped near 200 characters.",
+   "label": null,
+   "line": 1585,
+   "block_kind": "para",
+   "side": "publisher",
+   "side_basis": "section §10.6 default",
+   "decisions": [
+    55
+   ],
+   "decisions_nearby": [],
+   "refs": [
+    "5.9"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "cited",
+    "excerpt",
+    "retrieved",
+    "stub_of",
+    "{url}"
+   ],
+   "fp": "ca470d686f2a",
+   "id": "C-10.6-07"
+  },
+  {
+   "section": "10.6",
+   "heading": "Stubs — `stub_of`",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
     "MUST"
    ],
-   "text": "At publish, if the body transcludes the stub's target, `stub_of.version` MUST equal the version actually baked (§10.3); otherwise it keeps the value set when the stub was created — what the author saw.",
+   "text": "At publish, if the body transcludes the stub's target, `stub_of.version` MUST equal the version actually baked (§10.3); otherwise it keeps the value it last had — at creation, what the author saw; after a version that quoted the target, the version baked then.",
    "label": "Version agreement",
-   "line": 1222,
+   "line": 1619,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "section §10.6 default",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    76
+   ],
    "refs": [
     "10.3"
    ],
@@ -3916,7 +5351,7 @@
    "tokens": [
     "stub_of.version"
    ],
-   "fp": "366ca638b113",
+   "fp": "8b24a28e4d59",
    "id": "C-10.6-03"
   },
   {
@@ -3929,7 +5364,7 @@
    ],
    "text": "A blyg-target stub is a **remote reference** when its origin is not the publisher's own, and SHOULD send a mention (§15.2), whose relation is `stub`.",
    "label": null,
-   "line": 1230,
+   "line": 1630,
    "block_kind": "list",
    "side": "sender",
    "side_basis": "override",
@@ -3955,7 +5390,7 @@
    ],
    "text": "A `{url}` stub SHOULD send an ordinary W3C Webmention to that URL if the target advertises an endpoint; most will not.",
    "label": null,
-   "line": 1230,
+   "line": 1630,
    "block_kind": "list",
    "side": "sender",
    "side_basis": "override",
@@ -3979,7 +5414,7 @@
    ],
    "text": "*(OPTIONAL at every level.)* The blogroll is the protocol's **static discovery plane**: a curated, published list of subscriptions the publisher chose to show.",
    "label": null,
-   "line": 1256,
+   "line": 1656,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "section §11 default",
@@ -4001,7 +5436,7 @@
    ],
    "text": "The manifest advertises the file via the OPTIONAL `blogroll` key (§6.1).",
    "label": null,
-   "line": 1288,
+   "line": 1688,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'file'",
@@ -4027,7 +5462,7 @@
    ],
    "text": "Publishers SHOULD also emit `<link rel=\"blogroll\" href=\"…\">` on the HTML feed page.",
    "label": null,
-   "line": 1288,
+   "line": 1688,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'Publishers'",
@@ -4051,7 +5486,7 @@
    ],
    "text": "It is whatever subset of their reading the publisher chose to publish; readers and crawlers MUST NOT treat it as a statement of everything the publisher follows.",
    "label": "The blogroll is curated, and claims no completeness — ever",
-   "line": 1291,
+   "line": 1691,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -4073,7 +5508,7 @@
    ],
    "text": "Clients SHOULD treat inclusion as opt-in per subscription, defaulting to excluded — publishing a reading choice is a deliberate act.",
    "label": "The blogroll is curated, and claims no completeness — ever",
-   "line": 1291,
+   "line": 1691,
    "block_kind": "list",
    "side": "client",
    "side_basis": "subject 'Clients'",
@@ -4095,7 +5530,7 @@
    ],
    "text": "Readers that subscribe MUST implement the following procedure in this order.",
    "label": null,
-   "line": 1305,
+   "line": 1705,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -4118,12 +5553,14 @@
    ],
    "text": "HTTPS is expected; readers MAY permit `http:` (local development) but SHOULD warn.",
    "label": "Normalize",
-   "line": 1315,
+   "line": 1715,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'readers'",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    64
+   ],
    "refs": [],
    "ext_refs": [],
    "tokens": [
@@ -4143,12 +5580,14 @@
    ],
    "text": "Readers MUST support the HTML `<link>` element here; supporting an equivalent HTTP `Link` header is OPTIONAL.",
    "label": "rel probe",
-   "line": 1326,
+   "line": 1731,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    87
+   ],
    "refs": [],
    "ext_refs": [],
    "tokens": [
@@ -4168,12 +5607,14 @@
    ],
    "text": "(Publishers whose blyg mounts away from their front page SHOULD emit this link on pages they expect to be shared.)",
    "label": "rel probe",
-   "line": 1326,
+   "line": 1731,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'page'",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    87
+   ],
    "refs": [],
    "ext_refs": [],
    "tokens": [],
@@ -4186,11 +5627,43 @@
    "status": "normative",
    "level": "MUST",
    "keywords": [
+    "MUST"
+   ],
+   "text": "**The same manifest MUST also be served at `{identity}blyg.json`** (§4), as the manifest itself or by a redirect whose final URL has the same identity (§12.2) — revision of 2026-11-01, decision #87, on [blygger-spec#21](https://github.com/blygger/blygger-spec/issues/21): references carry only the identity, so every party that did not resolve the origin through this page — a receiver verifying under templates (§15.4), a sender building a target (§15.2), a forker checking a pin (§5.6 rule 2) — finds the manifest there, and the 0.4 text until this revision let two clients disagree about one live origin.",
+   "label": "rel probe",
+   "line": 1731,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'manifest'",
+   "decisions": [
+    87
+   ],
+   "decisions_nearby": [],
+   "refs": [
+    "4",
+    "12.2",
+    "15.4",
+    "15.2",
+    "5.6"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "{identity}blyg.json"
+   ],
+   "fp": "924b6a5d2f6d",
+   "id": "C-12.1-06"
+  },
+  {
+   "section": "12.1",
+   "heading": "The algorithm",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
     "MUST NOT"
    ],
    "text": "This is a courtesy fallback only — publishers MUST NOT rely on it.",
    "label": "Conventional-mount probes",
-   "line": 1335,
+   "line": 1755,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'publishers'",
@@ -4212,7 +5685,7 @@
    ],
    "text": "Otherwise resolution fails, and the reader SHOULD report the trail of URLs tried.",
    "label": "RSS fallback",
-   "line": 1340,
+   "line": 1760,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'reader'",
@@ -4235,7 +5708,7 @@
    ],
    "text": "If `site` disagrees with the fetch origin, the reader SHOULD surface the discrepancy and MUST NOT adopt the asserted value as identity — otherwise a mirror could inherit another origin's identity, violating origin scoping (§13.1).",
    "label": null,
-   "line": 1348,
+   "line": 1768,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'reader'",
@@ -4261,7 +5734,7 @@
    ],
    "text": "**Redirects:** follow a bounded number (RECOMMENDED: 5); the *final* URL wins as origin.",
    "label": "Redirects",
-   "line": 1358,
+   "line": 1784,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §12.2 default",
@@ -4283,7 +5756,7 @@
    ],
    "text": "**Re-resolution:** readers MAY re-run resolution when a subscription's surfaces 404 persistently (the blyg may have moved and left a rel link).",
    "label": "Re-resolution",
-   "line": 1361,
+   "line": 1787,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -4305,7 +5778,7 @@
    ],
    "text": "Adopting a new origin is an **identity change** and MUST be user-confirmed, never automatic.",
    "label": "Re-resolution",
-   "line": 1361,
+   "line": 1787,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "override",
@@ -4327,7 +5800,7 @@
    ],
    "text": "Readers SHOULD poll with conditional requests (`If-None-Match` / `If-Modified-Since`) and honor `304`.",
    "label": null,
-   "line": 1372,
+   "line": 1799,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -4354,7 +5827,7 @@
    ],
    "text": "Readers SHOULD back off exponentially on repeated failure, SHOULD honor `Retry-After` on 429/503, and MUST NOT tighten their polling interval in response to failure.",
    "label": null,
-   "line": 1374,
+   "line": 1801,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -4378,7 +5851,7 @@
    ],
    "text": "Readers SHOULD send an identifying `User-Agent`, and the reference client derives its user agent from its `generator` string.",
    "label": null,
-   "line": 1378,
+   "line": 1805,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -4403,7 +5876,7 @@
    ],
    "text": "MUST treat item documents as ground truth and the feed as a lossy signal.",
    "label": null,
-   "line": 1388,
+   "line": 1815,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.1 default",
@@ -4425,7 +5898,7 @@
    ],
    "text": "MUST roll up by `blyg:id`: highest `version` wins; ties are broken by `updated`.",
    "label": null,
-   "line": 1389,
+   "line": 1816,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.1 default",
@@ -4451,7 +5924,7 @@
    ],
    "text": "MUST treat a withdrawal endcap as roll-up-to-null (§13.4).",
    "label": null,
-   "line": 1392,
+   "line": 1819,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.1 default",
@@ -4475,7 +5948,7 @@
    ],
    "text": "MUST ignore unknown kinds, unknown JSON members, unknown `blyg:*` XML elements, and reserved constructs, without rejecting the containing document.",
    "label": null,
-   "line": 1394,
+   "line": 1821,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.1 default",
@@ -4499,7 +5972,7 @@
    ],
    "text": "MUST NOT reject an item over its `author` contents, and MUST NOT treat equal `author` values from different origins as the same entity (§5.5).",
    "label": null,
-   "line": 1397,
+   "line": 1824,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.1 default",
@@ -4525,7 +5998,7 @@
    ],
    "text": "SHOULD backfill from `items/index.json` when the feed window has been missed; a reader offline for any duration recovers losslessly.",
    "label": null,
-   "line": 1399,
+   "line": 1826,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.1 default",
@@ -4549,7 +6022,7 @@
    ],
    "text": "MUST scope everything it learns to the origin: ids, authors, and trust do not transfer across origins.",
    "label": null,
-   "line": 1401,
+   "line": 1828,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.1 default",
@@ -4571,7 +6044,7 @@
    ],
    "text": "MUST NOT gate any behaviour on `generator` or `level` (§3.2).",
    "label": null,
-   "line": 1404,
+   "line": 1831,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.1 default",
@@ -4598,7 +6071,7 @@
    ],
    "text": "Readers SHOULD also reconcile against the index periodically regardless of suspicion (it is one file).",
    "label": "Feed-window gaps are not an error path",
-   "line": 1414,
+   "line": 1841,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -4620,7 +6093,7 @@
    ],
    "text": "Poll failures of any kind MUST NOT alter stored item state.",
    "label": "Malformed input degrades; it never corrupts",
-   "line": 1421,
+   "line": 1848,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.2 default",
@@ -4638,11 +6111,60 @@
    "status": "normative",
    "level": "SHOULD",
    "keywords": [
+    "MAY",
+    "SHOULD NOT"
+   ],
+   "text": "Readers MAY queue such versions at low priority and SHOULD NOT resurface them as new (the reference client's *ignyr* queue); the version advances state as any version does.",
+   "label": null,
+   "line": 1856,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'Readers'",
+   "decisions": [],
+   "decisions_nearby": [
+    77
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "8e06c9aa61d4",
+   "id": "C-13.2-04"
+  },
+  {
+   "section": "13.2",
+   "heading": "The reconciliation model",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "A version whose text differs from its predecessor by less than a **reader-local** threshold MAY be treated under the clause above — queued low, not resurfaced as new, state advanced as for any version.",
+   "label": null,
+   "line": 1864,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'reader'",
+   "decisions": [],
+   "decisions_nearby": [
+    83
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "728fa50612b3",
+   "id": "C-13.2-05"
+  },
+  {
+   "section": "13.2",
+   "heading": "The reconciliation model",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
     "SHOULD"
    ],
    "text": "A 404 on `items/index.json` from an otherwise-live blyg is a nonconforming publisher: readers SHOULD fall back to feed-window-only operation and surface the subscription as lossy.",
    "label": null,
-   "line": 1430,
+   "line": 1876,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -4668,7 +6190,7 @@
    ],
    "text": "The reader MUST NOT silently adopt it, SHOULD surface the discrepancy, and MAY offer a **user-confirmed** reset to origin state.",
    "label": null,
-   "line": 1439,
+   "line": 1885,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'reader'",
@@ -4690,7 +6212,7 @@
    ],
    "text": "Content ground truth wins: the reader SHOULD adopt the fetched content, but SHOULD record and surface the discrepancy.",
    "label": null,
-   "line": 1445,
+   "line": 1891,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'reader'",
@@ -4712,7 +6234,7 @@
    ],
    "text": "Readers SHOULD verify `content_hash` against `content_md` on import.",
    "label": null,
-   "line": 1450,
+   "line": 1896,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -4738,7 +6260,7 @@
    ],
    "text": "On a withdrawal endcap, a conforming reader rolls the item up to null: it MUST stop presenting the withdrawn content as live and SHOULD delete its stored copy — with one principled exception.",
    "label": null,
-   "line": 1457,
+   "line": 1903,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'reader'",
@@ -4758,22 +6280,22 @@
    "keywords": [
     "MAY"
    ],
-   "text": "**Retention follows the origin's own serving surface**: content corresponding to a version the origin has **pinned** (a fetchable `items/{id}/v{n}.json`) MAY be retained and continue to be displayed, with attribution linking the pin — the origin itself still serves those exact bytes forever (§8.1), so local retention never exceeds the origin's own promise.",
+   "text": "**Retention follows the origin's own serving surface**: content corresponding to a version the origin has **pinned** (a fetchable `items/{id}/v{n}.json`) MAY be retained and continue to be displayed, with attribution linking the pin — the origin itself still serves those exact bytes forever (§8 rule 1), so local retention never exceeds the origin's own promise.",
    "label": null,
-   "line": 1457,
+   "line": 1903,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "override",
    "decisions": [],
    "decisions_nearby": [],
    "refs": [
-    "8.1"
+    "8"
    ],
    "ext_refs": [],
    "tokens": [
     "items/{id}/v{n}.json"
    ],
-   "fp": "d7fbd43abd77",
+   "fp": "cc60047424c5",
    "id": "C-13.4-02"
   },
   {
@@ -4786,7 +6308,7 @@
    ],
    "text": "A client that both subscribes and publishes MUST keep the two planes separate:",
    "label": null,
-   "line": 1474,
+   "line": 1926,
    "block_kind": "para",
    "side": "client",
    "side_basis": "subject 'client'",
@@ -4808,7 +6330,7 @@
    ],
    "text": "They MUST NOT appear in the publisher's `feed.xml`, `items/index.json`, or as `items/{id}.json` documents, in any form — re-emission would collide with `blyg:id` rollup and break the single-publisher invariant (§5.5).",
    "label": "Imported items are never re-emitted",
-   "line": 1477,
+   "line": 1929,
    "block_kind": "list",
    "side": "client",
    "side_basis": "override",
@@ -4837,7 +6359,7 @@
    ],
    "text": "A client MAY **display** imported content publicly as curation — a shown list, with source attribution and links to the origin — without any protocol surface: no manifest vocabulary, no feed events, no new item documents.",
    "label": null,
-   "line": 1484,
+   "line": 1936,
    "block_kind": "list",
    "side": "client",
    "side_basis": "subject 'client'",
@@ -4859,7 +6381,7 @@
    ],
    "text": "A site that wants to present a group of blygs in one place is a reader with a public face: it displays curated imported content under this rule, publishes a blogroll of the members (§11) so any blyg-aware reader can subscribe to all of them in one import, and MAY serve a plain RSS digest *outside* the blyg surface — excerpts and links to origin permalinks, no `blyg:` namespace — for legacy readers that want one feed.",
    "label": "This is also the aggregator pattern",
-   "line": 1491,
+   "line": 1943,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'reader'",
@@ -4885,7 +6407,7 @@
    ],
    "text": "Synthetic ids are never valid blyg ids and MUST NOT be exported or re-emitted in any protocol surface.",
    "label": null,
-   "line": 1505,
+   "line": 1959,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "section §13.6 default",
@@ -4907,7 +6429,7 @@
    ],
    "text": "Clients SHOULD mark L0 items visibly as wrapped legacy content.",
    "label": null,
-   "line": 1510,
+   "line": 1964,
    "block_kind": "list",
    "side": "client",
    "side_basis": "subject 'Clients'",
@@ -4929,7 +6451,7 @@
    ],
    "text": "Readers SHOULD ensure a skewed or future-dated origin cannot permanently dominate the display order.",
    "label": null,
-   "line": 1521,
+   "line": 1975,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'Readers'",
@@ -4942,6 +6464,82 @@
    "id": "C-13.7-01"
   },
   {
+   "section": "13.7",
+   "heading": "Ordering across origins",
+   "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "**Items published together MAY be shown together** (revision of 2026-10-17, decision #78).",
+   "label": null,
+   "line": 1982,
+   "block_kind": "para",
+   "side": "reader",
+   "side_basis": "section §13.7 default",
+   "decisions": [
+    78
+   ],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "ac05e0ae70f7",
+   "id": "C-13.7-02"
+  },
+  {
+   "section": "13.7",
+   "heading": "Ordering across origins",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MAY",
+    "MUST"
+   ],
+   "text": "A reader MAY present such a burst as one publication — the thread as its entry, its fragments beneath it or deferred to the low-priority queue of §13.2 — and MUST still import every item (§13.1), since folding is display, never omission.",
+   "label": null,
+   "line": 1982,
+   "block_kind": "para",
+   "side": "reader",
+   "side_basis": "override",
+   "decisions": [],
+   "decisions_nearby": [
+    78
+   ],
+   "refs": [
+    "13.2",
+    "13.1"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "de426443e725",
+   "id": "C-13.7-03"
+  },
+  {
+   "section": "14",
+   "heading": "Security and privacy considerations",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "Ordering across origins is each reader's own observation-time policy, which §13.7 says SHOULD keep a skewed origin from dominating.",
+   "label": "Timestamps are self-asserted",
+   "line": 2006,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'reader'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "13.7"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "705955024838",
+   "id": "C-14-04"
+  },
+  {
    "section": "14",
    "heading": "Security and privacy considerations",
    "status": "normative",
@@ -4951,7 +6549,7 @@
    ],
    "text": "This is the same standing as every other self-asserted claim above, and readers SHOULD present remote quotes as *the publisher's snapshot of* the source, not as the source.",
    "label": "A baked snapshot is the quoter's assertion about the quoted",
-   "line": 1549,
+   "line": 2022,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -4974,7 +6572,7 @@
    ],
    "text": "The reference implementation renders markdown with raw HTML escaped and sanitizes imported HTML before baking it, but readers MUST sanitize or sandbox fetched `content_html` before rendering it in their own UI, as with any syndicated HTML, and MUST NOT assume a nested snapshot was sanitized by anyone.",
    "label": "HTML safety",
-   "line": 1557,
+   "line": 2030,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -4998,7 +6596,7 @@
    ],
    "text": "Server-side readers SHOULD apply standard fetch hygiene: bounded redirects (§12.2), response size and time limits, and refusal to fetch private-network addresses where the deployment could be used to probe them.",
    "label": "Resolution fetches attacker-suppliable URLs",
-   "line": 1565,
+   "line": 2038,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -5022,7 +6620,7 @@
    ],
    "text": "*(New in 0.3. OPTIONAL at every level.)* The blogroll (§11) is the static half of discovery: who a publisher chose to show they read.",
    "label": null,
-   "line": 1602,
+   "line": 2075,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "override",
@@ -5046,7 +6644,7 @@
    ],
    "text": "Permalink pages and the feed page SHOULD carry `<link rel=\"webmention\" href=\"…\">` and SHOULD announce the endpoint in an HTTP `Link` header, per W3C discovery, so that non-blyg senders find it.",
    "label": null,
-   "line": 1620,
+   "line": 2094,
    "block_kind": "list",
    "side": "publisher",
    "side_basis": "subject 'page'",
@@ -5069,27 +6667,33 @@
    "keywords": [
     "SHOULD"
    ],
-   "text": "A publisher SHOULD send a mention for each **remote reference** in a newly published version: every blyg-target `stub_of` whose origin is not its own (§10.6), every `transclusions[]` entry carrying an `origin` (§10.3), and a `forked_from` naming another origin (§5.6).",
+   "text": "A publisher SHOULD send a mention for each **remote reference** in a newly published version: every blyg-target `stub_of` whose origin is not its own (§10.6), every `transclusions[]` entry carrying an `origin` (§10.3), a `forked_from` naming another origin (§5.6), every `generated[].sources[]` entry carrying an `origin` (§5.7; new in 0.4), and every `links[]` entry carrying an `origin` (§10.3a; revision of 2026-10-19, decision #79).",
    "label": null,
-   "line": 1629,
+   "line": 2103,
    "block_kind": "para",
    "side": "sender",
    "side_basis": "override",
-   "decisions": [],
+   "decisions": [
+    79
+   ],
    "decisions_nearby": [],
    "refs": [
     "10.6",
     "10.3",
-    "5.6"
+    "5.6",
+    "5.7",
+    "10.3a"
    ],
    "ext_refs": [],
    "tokens": [
     "forked_from",
+    "generated[].sources[]",
+    "links[]",
     "origin",
     "stub_of",
     "transclusions[]"
    ],
-   "fp": "d1684dd91704",
+   "fp": "d34aee7e26d7",
    "id": "C-15.2-01"
   },
   {
@@ -5102,12 +6706,14 @@
    ],
    "text": "A `{url}` stub SHOULD send an ordinary Webmention to that URL.",
    "label": null,
-   "line": 1629,
+   "line": 2103,
    "block_kind": "para",
    "side": "sender",
    "side_basis": "section §15.2 default",
    "decisions": [],
-   "decisions_nearby": [],
+   "decisions_nearby": [
+    79
+   ],
    "refs": [],
    "ext_refs": [],
    "tokens": [
@@ -5120,13 +6726,69 @@
    "section": "15.2",
    "heading": "Sending",
    "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "A version that both quotes and draws on one target MAY send a single mention for it; the receiver determines the relation (§15.4 step 4).",
+   "label": null,
+   "line": 2103,
+   "block_kind": "para",
+   "side": "sender",
+   "side_basis": "section §15.2 default",
+   "decisions": [],
+   "decisions_nearby": [
+    79
+   ],
+   "refs": [
+    "15.4"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "6a9025f8cf96",
+   "id": "C-15.2-05"
+  },
+  {
+   "section": "15.2",
+   "heading": "Sending",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT"
+   ],
+   "text": "A sender MUST NOT construct a target from the reference permalink convention (`f/{id}/`, `t/{id}/`): §4 calls those paths presentation, a receiver that does not serve them refuses the guess correctly, and a blyg with no HTML pages at all (§5.8) has no page to guess — its item document is its only mentionable address.",
+   "label": null,
+   "line": 2115,
+   "block_kind": "list",
+   "side": "sender",
+   "side_basis": "subject 'sender'",
+   "decisions": [],
+   "decisions_nearby": [
+    85
+   ],
+   "refs": [
+    "4",
+    "5.8"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "f/{id}/",
+    "t/{id}/"
+   ],
+   "fp": "3bf3f143b8fc",
+   "id": "C-15.2-06"
+  },
+  {
+   "section": "15.2",
+   "heading": "Sending",
+   "status": "normative",
    "level": "SHOULD",
    "keywords": [
     "RECOMMENDED"
    ],
    "text": "A network failure or 5xx is retried with backoff — RECOMMENDED 15 minutes, 1 hour, 4 hours, 12 hours, 24 hours — then abandoned. 4xx is terminal, except 429, which retries.",
    "label": "Retry",
-   "line": 1648,
+   "line": 2138,
    "block_kind": "list",
    "side": "sender",
    "side_basis": "section §15.2 default",
@@ -5142,13 +6804,37 @@
    "section": "15.2",
    "heading": "Sending",
    "status": "normative",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "**A pin MAY re-send** the pinned version's remote mentions (decision #73), so that a quoted origin can learn its words were frozen; the receiver re-verifies as for any re-send and MAY record, from the changelog of the document it fetched, that the source version is pinned.",
+   "label": null,
+   "line": 2146,
+   "block_kind": "list",
+   "side": "sender",
+   "side_basis": "section §15.2 default",
+   "decisions": [
+    73
+   ],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "51245e50448e",
+   "id": "C-15.2-07"
+  },
+  {
+   "section": "15.2",
+   "heading": "Sending",
+   "status": "normative",
    "level": "MUST",
    "keywords": [
     "MUST NOT"
    ],
    "text": "Delivery is **fire-and-forget from the author's point of view**: publish MUST NOT block on it, and outbound status is information, never a publish outcome.",
    "label": null,
-   "line": 1659,
+   "line": 2154,
    "block_kind": "list",
    "side": "sender",
    "side_basis": "section §15.2 default",
@@ -5168,25 +6854,33 @@
    "keywords": [
     "MUST"
    ],
-   "text": "Both MUST be absolute `http(s)` URLs; `source` MUST differ from `target`; `target`'s origin (scheme, host, port) MUST be this blyg's own, and its path MUST name a published item — by `page`, or as `items/{id}.json`.",
+   "text": "Both MUST be absolute `http(s)` URLs; `source` MUST differ from `target`; `target` MUST resolve, by the receiver's own published data, to one of this blyg's items (revision of 2026-10-20, decision #84, on [blygger-spec#17](https://github.com/blygger/blygger-spec/issues/17)): an address the receiver itself serves for that item — its `page` (§5.8), its item document (the receiver's own `item` template or the default `items/{id}.json`, §6.1), or a pinned version's document or page (§8; the `pin` template or the default).",
    "label": "Syntactic checks → 400",
-   "line": 1668,
+   "line": 2163,
    "block_kind": "list",
    "side": "receiver",
    "side_basis": "section §15.3 default",
-   "decisions": [],
+   "decisions": [
+    84
+   ],
    "decisions_nearby": [],
-   "refs": [],
+   "refs": [
+    "5.8",
+    "6.1",
+    "8"
+   ],
    "ext_refs": [],
    "tokens": [
     "http(s)",
+    "item",
     "items/{id}.json",
     "page",
+    "pin",
     "source",
     "target"
    ],
-   "fp": "c64d86956e4d",
-   "id": "C-15.3-01"
+   "fp": "dfc8a0c1f1d6",
+   "id": "C-15.3-04"
   },
   {
    "section": "15.3",
@@ -5198,7 +6892,7 @@
    ],
    "text": "RECOMMENDED: more than 60 mentions from one source host in an hour.",
    "label": "Rate limit → 429",
-   "line": 1674,
+   "line": 2184,
    "block_kind": "list",
    "side": "receiver",
    "side_basis": "section §15.3 default",
@@ -5220,7 +6914,7 @@
    ],
    "text": "Receivers SHOULD therefore also cap by a coarser grouping of the source (the reference client groups by registrable domain, at a looser limit than the per-host one, because the grouping is a heuristic that can over-collect) and cap total accepted claims per hour regardless of source.",
    "label": "Rate limit → 429",
-   "line": 1674,
+   "line": 2184,
    "block_kind": "list",
    "side": "receiver",
    "side_basis": "subject 'Receivers'",
@@ -5240,9 +6934,9 @@
    "keywords": [
     "RECOMMENDED"
    ],
-   "text": "Verification is bounded — RECOMMENDED: at most 2 fetches, at most 3 redirects, 5 seconds per fetch, 1 MB per body — and these bounds are the receiver's protection, not a nicety (§14).",
+   "text": "Verification is bounded — RECOMMENDED: at most 2 fetches, or 3 when the source origin's manifest must be read (step 2), at most 3 redirects, 5 seconds per fetch, 1 MB per body — and these bounds are the receiver's protection, not a nicety (§14).",
    "label": null,
-   "line": 1692,
+   "line": 2202,
    "block_kind": "para",
    "side": "receiver",
    "side_basis": "section §15.4 default",
@@ -5253,8 +6947,8 @@
    ],
    "ext_refs": [],
    "tokens": [],
-   "fp": "593e9d9644b6",
-   "id": "C-15.4-01"
+   "fp": "1545b052765c",
+   "id": "C-15.4-05"
   },
   {
    "section": "15.4",
@@ -5266,7 +6960,7 @@
    ],
    "text": "If it is HTML, find `<link rel=\"alternate\" type=\"application/json\">` (§5.8) and fetch that; it MUST be a blyg item document.",
    "label": null,
-   "line": 1696,
+   "line": 2207,
    "block_kind": "list",
    "side": "receiver",
    "side_basis": "section §15.4 default",
@@ -5288,21 +6982,25 @@
    "keywords": [
     "MUST"
    ],
-   "text": "**The document's `origin` MUST equal the final source URL's origin** (scheme, host, port; trailing slash normalized).",
+   "text": "**The item document's final URL MUST be exactly `{origin}items/{id}.json` for the document's own `origin` and `id`** (revision of 2026-10-06, decision #61; scheme and host compared case-insensitively, default port dropped, trailing slash of `origin` normalized).",
    "label": null,
-   "line": 1700,
+   "line": 2211,
    "block_kind": "list",
    "side": "receiver",
    "side_basis": "override",
-   "decisions": [],
+   "decisions": [
+    61
+   ],
    "decisions_nearby": [],
    "refs": [],
    "ext_refs": [],
    "tokens": [
-    "origin"
+    "id",
+    "origin",
+    "{origin}items/{id}.json"
    ],
-   "fp": "a12cd124abe3",
-   "id": "C-15.4-03"
+   "fp": "bb9a2a7cceac",
+   "id": "C-15.4-06"
   },
   {
    "section": "15.4",
@@ -5314,7 +7012,7 @@
    ],
    "text": "A mention that verified before and fails now becomes **gone**; the receiver SHOULD keep the record with that status rather than deleting it, so that a stubber who withdraws and later republishes is recognized rather than treated as new.",
    "label": null,
-   "line": 1721,
+   "line": 2257,
    "block_kind": "list",
    "side": "receiver",
    "side_basis": "subject 'receiver'",
@@ -5327,6 +7025,62 @@
    "id": "C-15.4-04"
   },
   {
+   "section": "15.4",
+   "heading": "Structural verification",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "A 0.3 receiver reports such a mention as **failed**, which is correct for it, and a sender SHOULD read that failure as the receiver's version, not as an error of its own.",
+   "label": null,
+   "line": 2263,
+   "block_kind": "para",
+   "side": "sender",
+   "side_basis": "subject 'sender'",
+   "decisions": [],
+   "decisions_nearby": [
+    32,
+    79
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "98f4c82b7ebc",
+   "id": "C-15.4-07"
+  },
+  {
+   "section": "15.4",
+   "heading": "Structural verification",
+   "status": "normative",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "After the relation is found, a receiver SHOULD classify a `stub` or `transclusion` mention whose source document carries **no words of its own** as a **repost**: strip from its `content_md` every transclusion directive line, each attached partial-selection blockquote (§10.1), labels and whitespace; if nothing remains, it is a repost.",
+   "label": null,
+   "line": 2274,
+   "block_kind": "para",
+   "side": "receiver",
+   "side_basis": "subject 'receiver'",
+   "decisions": [],
+   "decisions_nearby": [
+    19,
+    80
+   ],
+   "refs": [
+    "10.1"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "content_md",
+    "stub",
+    "transclusion"
+   ],
+   "fp": "e9cd2b23471d",
+   "id": "C-15.4-08"
+  },
+  {
    "section": "15.5",
    "heading": "What a verified mention is, and is not",
    "status": "normative",
@@ -5336,7 +7090,7 @@
    ],
    "text": "A publisher MAY display verified mentions of an item publicly — a \"responses\" list on a permalink page — and if it does, that is **per-item curation** under §13.5: a shown list with attribution and links to the origin, publicity being a property of the list, never of the mention.",
    "label": null,
-   "line": 1736,
+   "line": 2293,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'publisher'",
@@ -5351,6 +7105,36 @@
    "id": "C-15.5-01"
   },
   {
+   "section": "15.5",
+   "heading": "What a verified mention is, and is not",
+   "status": "normative",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT",
+    "MAY",
+    "SHOULD"
+   ],
+   "text": "Notices are held apart: they MUST NOT appear in a responses list, MAY be shown as \"linked from\" or \"reposted by\" with attribution under §13.5 like any display, and SHOULD go to a low-priority queue rather than the response signal (the reference client's *ignyr*, §13.2).",
+   "label": null,
+   "line": 2302,
+   "block_kind": "para",
+   "side": "receiver",
+   "side_basis": "section §15.5 default",
+   "decisions": [],
+   "decisions_nearby": [
+    79,
+    80
+   ],
+   "refs": [
+    "13.5",
+    "13.2"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "72e672833a37",
+   "id": "C-15.5-02"
+  },
+  {
    "section": "15.6",
    "heading": "Plain mentions",
    "status": "normative",
@@ -5361,7 +7145,7 @@
    ],
    "text": "A receiver MAY accept mentions whose source is not a blyg item document, verified the W3C way (the source page contains the target URL), and if it does MUST hold them **apart** from structurally verified mentions as a lower class — never in the same signal, never displayed as a response — because link verification is exactly the check that trackback spam defeated.",
    "label": null,
-   "line": 1747,
+   "line": 2315,
    "block_kind": "para",
    "side": "publisher",
    "side_basis": "subject 'page'",
@@ -5374,146 +7158,27 @@
    "id": "C-15.6-01"
   },
   {
-   "section": "16.1a",
-   "heading": "`cited` on a plain-web stub (ruled 2026-10-03; next revision)",
-   "status": "pending",
-   "level": "MUST",
+   "section": "15.7",
+   "heading": "Withdrawal and static deployments",
+   "status": "normative",
+   "level": "MAY",
    "keywords": [
-    "MAY",
     "REQUIRED"
    ],
-   "text": "**Ruled: a `{url}` stub (§10.6) MAY carry the same `cited` object**, under §5.9's rules unchanged — `retrieved` REQUIRED, self-asserted, frozen when the stub was created, ignored by verification, never baked, ignorable by any reader, `excerpt` a caption capped near 200 characters — entering §10.6 once a client emits it and an import across nodes retains it (decision #55, on [blygger-spec#7](https://github.com/blygger/blygger-spec/issues/7)). §10.2's \"plain-web targets get nothing\" is about *verification*: a selector promises a faithfulness test that cannot run against a page with no versioned document.",
+   "text": "It may still *send* — a static export is produced by some dynamic studio, which can send at export time — but is not REQUIRED to.",
    "label": null,
-   "line": 1789,
+   "line": 2330,
    "block_kind": "para",
-   "side": "unknown",
-   "side_basis": "no actor, no section default",
-   "decisions": [
-    55
-   ],
-   "decisions_nearby": [],
-   "refs": [
-    "10.6",
-    "5.9",
-    "10.2"
-   ],
-   "ext_refs": [],
-   "tokens": [
-    "cited",
-    "excerpt",
-    "retrieved",
-    "{url}"
-   ],
-   "fp": "e602ab72682d",
-   "id": "P-16.1a-01"
-  },
-  {
-   "section": "16.1a",
-   "heading": "`cited` on a plain-web stub (ruled 2026-10-03; next revision)",
-   "status": "pending",
-   "level": "MUST",
-   "keywords": [
-    "MUST"
-   ],
-   "text": "`cited` promises no test — §15.4 MUST ignore it and a reader that drops it stays conformant — and §5.9's own argument is *stronger* for a target that cannot be re-fetched at any version: the citing publisher's frozen label is the only record of what was read.",
-   "label": null,
-   "line": 1789,
-   "block_kind": "para",
-   "side": "unknown",
-   "side_basis": "no actor, no section default",
-   "decisions": [],
-   "decisions_nearby": [
-    55
-   ],
-   "refs": [
-    "15.4",
-    "5.9"
-   ],
-   "ext_refs": [],
-   "tokens": [
-    "cited"
-   ],
-   "fp": "6fb761a492b0",
-   "id": "P-16.1a-02"
-  },
-  {
-   "section": "16.3",
-   "heading": "Remote generation sources (ruled 2026-09-28; a 0.4 construct)",
-   "status": "pending",
-   "level": "MAY",
-   "keywords": [
-    "MAY"
-   ],
-   "text": "**Ruled 2026-09-28: a generator MAY be fed another origin's words, and that is a *source*, not a quotation, disclosed as a reference — and it notifies.** §5.7 rule 3's line between the two authorial acts, verbatim-and-visible versus drawn-upon-and-woven, does not move when the words come from another origin; a blockquote around non-verbatim prose would be false.",
-   "label": null,
-   "line": 1816,
-   "block_kind": "para",
-   "side": "unknown",
-   "side_basis": "no actor, no section default",
+   "side": "client",
+   "side_basis": "subject 'studio'",
    "decisions": [],
    "decisions_nearby": [],
-   "refs": [
-    "5.7"
-   ],
+   "refs": [],
    "ext_refs": [],
    "tokens": [],
-   "fp": "1373580a8043",
-   "id": "P-16.3-01"
-  },
-  {
-   "section": "16.3",
-   "heading": "Remote generation sources (ruled 2026-09-28; a 0.4 construct)",
-   "status": "pending",
-   "level": "MAY",
-   "keywords": [
-    "MAY"
-   ],
-   "text": "`sources[]` takes the reference shape of §5.9 — `origin` omitted for own-origin, present for remote — and MAY carry `cited`.",
-   "label": null,
-   "line": 1827,
-   "block_kind": "list",
-   "side": "unknown",
-   "side_basis": "no actor, no section default",
-   "decisions": [],
-   "decisions_nearby": [],
-   "refs": [
-    "5.9"
-   ],
-   "ext_refs": [],
-   "tokens": [
-    "cited",
-    "origin",
-    "sources[]"
-   ],
-   "fp": "605c7ac058da",
-   "id": "P-16.3-02"
-  },
-  {
-   "section": "16.3",
-   "heading": "Remote generation sources (ruled 2026-09-28; a 0.4 construct)",
-   "status": "pending",
-   "level": "SHOULD",
-   "keywords": [
-    "SHOULD"
-   ],
-   "text": "A remote source is a **remote reference** and SHOULD send a mention (§15.2) whose relation is **`source`** — a fourth relation, added to §15.4's set when this construct enters normative text.",
-   "label": null,
-   "line": 1839,
-   "block_kind": "list",
-   "side": "unknown",
-   "side_basis": "no actor, no section default",
-   "decisions": [],
-   "decisions_nearby": [],
-   "refs": [
-    "15.2",
-    "15.4"
-   ],
-   "ext_refs": [],
-   "tokens": [
-    "source"
-   ],
-   "fp": "718b8f3e85ad",
-   "id": "P-16.3-03"
+   "fp": "f6d0bb8f09dc",
+   "level_basis": "override: negated keyword (not REQUIRED = optional)",
+   "id": "C-15.7-01"
   },
   {
    "section": "16.4",
@@ -5526,7 +7191,7 @@
    ],
    "text": "The wish behind the question — a leading heading shown as the item's linked title — needs nothing from the wire: the RECOMMENDED derivation's excerpt half already begins with the heading when there is one, and how a client renders its own pages is presentation. §5.3's reader rule stands: readers MUST NOT extract a title from content, because a reader inventing structure the publisher did not assert is the failure that rule exists to prevent.",
    "label": "Titles — closed 2026-09-28: no title field, at any version",
-   "line": 1873,
+   "line": 2411,
    "block_kind": "list",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -5550,7 +7215,7 @@
    ],
    "text": "A client MAY show, as presentation, that an item it quotes has itself gone stale on something — the nested `data-blyg-*` attributes (§10.2) plus one fetch per layer are enough — but that is a reading aid, not staleness of the quoting document.",
    "label": null,
-   "line": 1884,
+   "line": 2422,
    "block_kind": "para",
    "side": "client",
    "side_basis": "subject 'client'",
@@ -5577,7 +7242,7 @@
    ],
    "text": "The normative text — SHOULD emit, MUST NOT gate, no maintenance declaration ever — is there.",
    "label": null,
-   "line": 1929,
+   "line": 2467,
    "block_kind": "para",
    "side": "unknown",
    "side_basis": "no actor, no section default",
@@ -5600,7 +7265,7 @@
    ],
    "text": "An agent's byline SHOULD name an operator; that convention lives in the identity note.",
    "label": "Agents",
-   "line": 1949,
+   "line": 2487,
    "block_kind": "list",
    "side": "unknown",
    "side_basis": "no actor, no section default",
@@ -5613,56 +7278,6 @@
    "id": "P-16.6b-01"
   },
   {
-   "section": "16.6c",
-   "heading": "Generated changelog notes (ruled; next revision)",
-   "status": "pending",
-   "level": "MAY",
-   "keywords": [
-    "MAY"
-   ],
-   "text": "**Ruled 2026-09-28: a changelog entry MAY carry `\"generated\": true`**, meaning the publisher's studio wrote the note (from the local diff between versions) rather than the author.",
-   "label": null,
-   "line": 1958,
-   "block_kind": "para",
-   "side": "publisher",
-   "side_basis": "subject 'entry'",
-   "decisions": [],
-   "decisions_nearby": [],
-   "refs": [],
-   "ext_refs": [],
-   "tokens": [
-    "\"generated\": true"
-   ],
-   "fp": "804525051de9",
-   "id": "P-16.6c-01"
-  },
-  {
-   "section": "16.6c",
-   "heading": "Generated changelog notes (ruled; next revision)",
-   "status": "pending",
-   "level": "MUST",
-   "keywords": [
-    "MUST NOT"
-   ],
-   "text": "Self-asserted and unverifiable like `generated[]` (§5.7 rule 6); absent means only \"not stated\"; readers MUST NOT gate on it.",
-   "label": null,
-   "line": 1958,
-   "block_kind": "para",
-   "side": "reader",
-   "side_basis": "subject 'readers'",
-   "decisions": [],
-   "decisions_nearby": [],
-   "refs": [
-    "5.7"
-   ],
-   "ext_refs": [],
-   "tokens": [
-    "generated[]"
-   ],
-   "fp": "f93cfb35f4a4",
-   "id": "P-16.6c-02"
-  },
-  {
    "section": "16.6d",
    "heading": "Discovery through references (ruled; no construct; one 0.4 candidate)",
    "status": "pending",
@@ -5672,7 +7287,7 @@
    ],
    "text": "A reader MAY walk these — the chain in a snapshot, the `stub_of` chain to its root, its own verified mentions, its subscriptions' blogrolls — and MAY order what it finds by any local heuristic, provided nothing derived is published (the no-metrics rule).",
    "label": null,
-   "line": 1984,
+   "line": 2515,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'reader'",
@@ -5696,7 +7311,7 @@
    ],
    "text": "*Forward* discovery — who has responded to an item you did not publish — is deliberately not on the wire: verified mentions are studio signals (§15.5), and a publisher's public responses list is presentation that readers MUST NOT parse as protocol.",
    "label": null,
-   "line": 1992,
+   "line": 2523,
    "block_kind": "para",
    "side": "reader",
    "side_basis": "subject 'readers'",
@@ -5720,7 +7335,7 @@
    ],
    "text": "**Considered for 0.4 and kept closed (2026-09-28):** an OPTIONAL per-item curated responses surface in the blogroll's shape — opt-in per item, structurally verified sources only, no completeness claim, never re-emitting content.",
    "label": null,
-   "line": 1992,
+   "line": 2523,
    "block_kind": "para",
    "side": "unknown",
    "side_basis": "no actor, no section default",
@@ -5733,110 +7348,6 @@
    "id": "P-16.6d-03"
   },
   {
-   "section": "16.6e",
-   "heading": "The manifest locates the surface (ruled 2026-09-28; a 0.4 construct)",
-   "status": "pending",
-   "level": "MAY",
-   "keywords": [
-    "OPTIONAL"
-   ],
-   "text": "**Two OPTIONAL template keys**, in [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570) level-1 form: `item` (variable `id`, default `items/{id}.json`) and `pin` (variables `id` and `n`, default `items/{id}/v{n}.json`).",
-   "label": null,
-   "line": 2018,
-   "block_kind": "list",
-   "side": "unknown",
-   "side_basis": "no actor, no section default",
-   "decisions": [],
-   "decisions_nearby": [],
-   "refs": [],
-   "ext_refs": [],
-   "tokens": [
-    ", default ",
-    "id",
-    "item",
-    "items/{id}.json",
-    "pin"
-   ],
-   "fp": "69d4e018ab8c",
-   "id": "P-16.6e-01"
-  },
-  {
-   "section": "16.6e",
-   "heading": "The manifest locates the surface (ruled 2026-09-28; a 0.4 construct)",
-   "status": "pending",
-   "level": "MUST",
-   "keywords": [
-    "MUST"
-   ],
-   "text": "Readers MUST expand them wherever this document says `{origin}items/{id}.json` or `{origin}items/{id}/v{n}.json`.",
-   "label": null,
-   "line": 2018,
-   "block_kind": "list",
-   "side": "reader",
-   "side_basis": "subject 'Readers'",
-   "decisions": [],
-   "decisions_nearby": [],
-   "refs": [],
-   "ext_refs": [],
-   "tokens": [
-    "{origin}items/{id}.json",
-    "{origin}items/{id}/v{n}.json"
-   ],
-   "fp": "97cc3ef3cdbb",
-   "id": "P-16.6e-02"
-  },
-  {
-   "section": "16.6e",
-   "heading": "The manifest locates the surface (ruled 2026-09-28; a 0.4 construct)",
-   "status": "pending",
-   "level": "MAY",
-   "keywords": [
-    "MAY"
-   ],
-   "text": "**`page` MAY be absolute** (§5.8), since a CMS permalink lives outside the surface's mount; media URLs already may be (§5.4).",
-   "label": null,
-   "line": 2035,
-   "block_kind": "list",
-   "side": "unknown",
-   "side_basis": "no actor, no section default",
-   "decisions": [],
-   "decisions_nearby": [],
-   "refs": [
-    "5.8",
-    "5.4"
-   ],
-   "ext_refs": [],
-   "tokens": [
-    "page"
-   ],
-   "fp": "b180a895e5a8",
-   "id": "P-16.6e-03"
-  },
-  {
-   "section": "16.6f",
-   "heading": "A fork of a thread descends from the pinned document (ruled 2026-10-03; next revision)",
-   "status": "pending",
-   "level": "MUST",
-   "keywords": [
-    "MUST NOT"
-   ],
-   "text": "The `blyg-transclusion` class MUST NOT survive into the fork: the forking publisher baked nothing and verified nothing.",
-   "label": null,
-   "line": 2081,
-   "block_kind": "list",
-   "side": "unknown",
-   "side_basis": "no actor, no section default",
-   "decisions": [],
-   "decisions_nearby": [],
-   "refs": [],
-   "ext_refs": [],
-   "tokens": [
-    "blyg-transclusion"
-   ],
-   "fp": "7ea1c453dd34",
-   "id": "P-16.6f-01"
-  },
-  {
    "section": "16.7",
    "heading": "Reserved",
    "status": "pending",
@@ -5846,7 +7357,7 @@
    ],
    "text": "Plain (non-structural) mentions — MAY, held apart (§15.6).",
    "label": null,
-   "line": 2106,
+   "line": 2572,
    "block_kind": "list",
    "side": "unknown",
    "side_basis": "no actor, no section default",
@@ -5860,6 +7371,531 @@
    "fp": "560c6fe11354",
    "excluded": "pointer to §15.6, not a rule",
    "id": "P-16.7-01"
+  },
+  {
+   "section": "16.9",
+   "heading": "Pinned-entry members — `pinned_at` and `cid` (ruled 2026-10-17; awaiting a build)",
+   "status": "pending",
+   "level": "MAY",
+   "keywords": [
+    "OPTIONAL"
+   ],
+   "text": "Two OPTIONAL members on a changelog entry that carries `\"pinned\": true`, ruled on the pace-layered feed (blygger-studio 0.42.0; RFC-3) and on [blygger-spec#13](https://github.com/blygger/blygger-spec/issues/13).",
+   "label": null,
+   "line": 2590,
+   "block_kind": "para",
+   "side": "unknown",
+   "side_basis": "no actor, no section default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [
+    "\"pinned\": true"
+   ],
+   "fp": "da523e9da1bb",
+   "id": "P-16.9-01"
+  },
+  {
+   "section": "16.9",
+   "heading": "Pinned-entry members — `pinned_at` and `cid` (ruled 2026-10-17; awaiting a build)",
+   "status": "pending",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "A reader MAY fetch the pinned document from IPFS when the origin does not serve it, and treats what it fetches as the origin's own pinned file.",
+   "label": null,
+   "line": 2600,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'reader'",
+   "decisions": [],
+   "decisions_nearby": [
+    74
+   ],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "167c569626f7",
+   "id": "P-16.9-02"
+  },
+  {
+   "section": "16.9",
+   "heading": "Pinned-entry members — `pinned_at` and `cid` (ruled 2026-10-17; awaiting a build)",
+   "status": "pending",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT"
+   ],
+   "text": "A third party that mirrors pinned bytes is within §13.4 — the origin serves them forever, so the mirror never exceeds the origin's promise — and MUST NOT mirror unpinned versions.",
+   "label": null,
+   "line": 2600,
+   "block_kind": "list",
+   "side": "unknown",
+   "side_basis": "no actor, no section default",
+   "decisions": [],
+   "decisions_nearby": [
+    74
+   ],
+   "refs": [
+    "13.4"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "fc09a74782d8",
+   "id": "P-16.9-03"
+  },
+  {
+   "section": "16.11",
+   "heading": "Responding from anywhere (ruled 2026-10-19; studio work and an RFC, no construct)",
+   "status": "pending",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "A client MAY therefore take a URL from anywhere — a bookmarklet, a share sheet, a browser extension — resolve it (§12 for the origin, the page's JSON alternate for the item, §5.8), hold the item as a one-off snapshot with no subscription, and open a stub with the quote.",
+   "label": null,
+   "line": 2637,
+   "block_kind": "para",
+   "side": "client",
+   "side_basis": "subject 'client'",
+   "decisions": [],
+   "decisions_nearby": [
+    82
+   ],
+   "refs": [
+    "12",
+    "5.8"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "69db565d3cb6",
+   "id": "P-16.11-01"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MAY",
+   "keywords": [
+    "OPTIONAL"
+   ],
+   "text": "OPTIONAL `hoppers`: an array of the publisher's **public** hoppers, present only when there is at least one.",
+   "label": "The manifest key",
+   "line": 2678,
+   "block_kind": "list",
+   "side": "unknown",
+   "side_basis": "no actor, no section default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [
+    "hoppers"
+   ],
+   "fp": "401f49b5ce32",
+   "id": "P-16.12-01"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MUST",
+   "keywords": [
+    "REQUIRED",
+    "OPTIONAL"
+   ],
+   "text": "Each entry carries `title` (REQUIRED), `page` (REQUIRED, the hopper's page) and `feed` (OPTIONAL, its hopper feed), origin-relative or absolute.",
+   "label": "The manifest key",
+   "line": 2678,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'entry'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [
+    "feed",
+    "page",
+    "title"
+   ],
+   "fp": "60ea9f04e532",
+   "id": "P-16.12-02"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT"
+   ],
+   "text": "A hopper that is not public MUST NOT be listed.",
+   "label": "The manifest key",
+   "line": 2678,
+   "block_kind": "list",
+   "side": "unknown",
+   "side_basis": "no actor, no section default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "974e4821d806",
+   "id": "P-16.12-03"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MUST",
+   "keywords": [
+    "MUST",
+    "SHOULD"
+   ],
+   "text": "(a) MUST serve one only for a public hopper and MUST name it in that hopper's manifest entry; a hopper taken private leaves the list and its feed SHOULD answer 404 or 410;",
+   "label": null,
+   "line": 2701,
+   "block_kind": "list",
+   "side": "unknown",
+   "side_basis": "no actor, no section default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "7218acc7eaeb",
+   "id": "P-16.12-04"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT"
+   ],
+   "text": "(b) MUST NOT use the `blyg:` namespace anywhere in it — no `<blyg:manifest>` on the channel, no `blyg:id` or `blyg:version` on any entry — **the publisher's own items included**: a hopper feed with `blyg:id` on own items is a filtered second blyg feed for the origin, which §13.5 refuses, and own items already reach blyg-aware readers through `feed.xml`;",
+   "label": null,
+   "line": 2704,
+   "block_kind": "list",
+   "side": "unknown",
+   "side_basis": "no actor, no section default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "13.5"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "<blyg:manifest>",
+    "blyg:",
+    "blyg:id",
+    "blyg:version",
+    "feed.xml"
+   ],
+   "fp": "219127e13a3a",
+   "id": "P-16.12-05"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MUST",
+   "keywords": [
+    "MUST"
+   ],
+   "text": "(c) MUST carry every current member: the feed is the list, not a window; an item leaving the hopper, or rolled to null under §13.4, leaves the feed at the next regeneration;",
+   "label": null,
+   "line": 2710,
+   "block_kind": "list",
+   "side": "unknown",
+   "side_basis": "no actor, no section default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "13.4"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "e1f7cae250a6",
+   "id": "P-16.12-06"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "(d) each entry is one membership: `<guid isPermaLink=\"false\">`, stable for the life of the membership and derived from the hopper and the member's `origin` and `id`; `<link>`, the member's `page` when held, else its item document through its `item` template (§6.1; never a constructed permalink, §15.2 and decision #85), or for an L0-wrapped member the entry's own URL; `<source url=\"…\">`, naming the member origin's feed and its title — RSS 2.0's own element for this — for every member not the publisher's own; `<author>` or `dc:creator` from the member's `author` (§5.5) when it has one; `<description>`, an **excerpt** with a link to the origin, never the held snapshot, which a curator's note MAY lead; `<pubDate>`, when the item joined the hopper, newest-joined first.",
+   "label": null,
+   "line": 2713,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'publisher'",
+   "decisions": [
+    85
+   ],
+   "decisions_nearby": [],
+   "refs": [
+    "6.1",
+    "15.2",
+    "5.5"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "<author>",
+    "<description>",
+    "<guid isPermaLink=\"false\">",
+    "<link>",
+    "<pubDate>",
+    "<source url=\"…\">",
+    "author",
+    "dc:creator",
+    "id",
+    "item",
+    "origin",
+    "page"
+   ],
+   "fp": "4d52add8e9b1",
+   "id": "P-16.12-07"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "The hopper page SHOULD carry `<link rel=\"alternate\" type=\"application/rss+xml\">` to the feed and SHOULD carry `<link rel=\"blyg\">` (§12.1 step 4), so that resolution finds the manifest from the page on any mount.",
+   "label": null,
+   "line": 2725,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'page'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "12.1"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    " to the feed and SHOULD carry "
+   ],
+   "fp": "fe5a45c843e3",
+   "id": "P-16.12-08"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "A reader SHOULD let the user choose the whole blyg instead.",
+   "label": "Resolution — §12.1 step 7, hopper match",
+   "line": 2729,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'reader'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "c02df8bb0ebd",
+   "id": "P-16.12-09"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MUST",
+   "keywords": [
+    "MUST NOT",
+    "SHOULD",
+    "MAY"
+   ],
+   "text": "When a later manifest no longer lists the feed, the reader stops polling it and treats its entries as gone; it MUST NOT silently convert the subscription into one to the whole blyg, SHOULD tell the user, and MAY offer that.",
+   "label": "Identity — §12.2",
+   "line": 2743,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "override",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "e50ab8982fcc",
+   "id": "P-16.12-10"
+  },
+  {
+   "section": "16.12",
+   "heading": "Hopper feeds and the `hoppers` manifest key (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MUST",
+   "keywords": [
+    "MUST",
+    "MAY"
+   ],
+   "text": "**Readers** import the entries as L0 wrapper rows (§13.6) — summaries and links, never a transclusion source, synthetic ids scoped to the hopper subscription, never attributed to the hopper's origin as their author; MUST drop an entry that no longer appears, because rule 3(c) makes absence meaningful — the one place a hopper subscription differs from a plain L0 feed, whose entries scroll out of a window and are retained; MAY follow an entry's `<link>` through §12 to the member's origin and item, a separate act with its own subscription identity, of which the hopper subscription confers none; and MAY show an entry once when its link names an item the reader already holds.",
+   "label": null,
+   "line": 2750,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "override",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "13.6",
+    "12"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "<link>"
+   ],
+   "fp": "21862e34afc7",
+   "id": "P-16.12-11"
+  },
+  {
+   "section": "16.13",
+   "heading": "Origin succession — `moved_from` (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "A publisher that moves SHOULD redirect its manifest permanently, SHOULD redirect the rest of its surface (feed, index, pages), and SHOULD keep serving at the old origin the item documents it published there: a pinned document's bytes carry the old `origin`, and §8 promised those bytes.",
+   "label": null,
+   "line": 2780,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'publisher'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "8"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "origin"
+   ],
+   "fp": "9af099a1f52f",
+   "id": "P-16.13-01"
+  },
+  {
+   "section": "16.13",
+   "heading": "Origin succession — `moved_from` (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MAY",
+   "keywords": [
+    "OPTIONAL"
+   ],
+   "text": "**The successor's acknowledgement:** OPTIONAL manifest member `moved_from`, an array of former identity origins (§12.2 strings).",
+   "label": "The successor's acknowledgement",
+   "line": 2790,
+   "block_kind": "list",
+   "side": "unknown",
+   "side_basis": "no actor, no section default",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "12.2"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "moved_from"
+   ],
+   "fp": "882c4ba9e21e",
+   "id": "P-16.13-02"
+  },
+  {
+   "section": "16.13",
+   "heading": "Origin succession — `moved_from` (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "When the manifest fetched there lists the old identity in `moved_from`, the reader SHOULD tell the user and offer to follow; a redirect without the acknowledgement is reported as a discrepancy, as §12.2's `site` rule already asks.",
+   "label": "Readers",
+   "line": 2799,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'reader'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "12.2"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "moved_from",
+    "site"
+   ],
+   "fp": "6d42f11b52db",
+   "id": "P-16.13-03"
+  },
+  {
+   "section": "16.13",
+   "heading": "Origin succession — `moved_from` (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "SHOULD",
+   "keywords": [
+    "SHOULD"
+   ],
+   "text": "An origin listed in the receiver's own `moved_from` is read as naming the receiver: under §15.3 step 1 that is membership by its own published data (decision #84), and the target is matched after substituting the receiver's identity for the former one — which works where the publisher kept its origin-relative paths, as it SHOULD. §15.4 step 4's relation check accepts a reference whose `origin` is a former identity.",
+   "label": "Receivers",
+   "line": 2810,
+   "block_kind": "list",
+   "side": "publisher",
+   "side_basis": "subject 'publisher'",
+   "decisions": [
+    84
+   ],
+   "decisions_nearby": [],
+   "refs": [
+    "15.3",
+    "15.4"
+   ],
+   "ext_refs": [],
+   "tokens": [
+    "moved_from",
+    "origin"
+   ],
+   "fp": "07d9c3c81ed6",
+   "id": "P-16.13-04"
+  },
+  {
+   "section": "16.13",
+   "heading": "Origin succession — `moved_from` (ruled 2026-11-01; awaiting a build)",
+   "status": "pending",
+   "level": "MAY",
+   "keywords": [
+    "MAY"
+   ],
+   "text": "Published references stay as made; a republish re-resolves against the reader's current record (§10.2) and names the new identity, and MAY re-send its mentions.",
+   "label": null,
+   "line": 2818,
+   "block_kind": "list",
+   "side": "reader",
+   "side_basis": "subject 'reader'",
+   "decisions": [],
+   "decisions_nearby": [],
+   "refs": [
+    "10.2"
+   ],
+   "ext_refs": [],
+   "tokens": [],
+   "fp": "ab3f94f298c0",
+   "id": "P-16.13-05"
   }
  ]
 }

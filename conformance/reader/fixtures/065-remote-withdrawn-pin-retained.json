@@ -1,0 +1,79 @@
+{
+  "id": "remote-withdrawn-pin-retained",
+  "title": "An imported item withdrawn at its origin but pin-retained resolves to the retained snapshot",
+  "group": "resolution",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.2",
+    "§13.4"
+  ],
+  "clauses": [
+    "C-10.2-01"
+  ],
+  "decisions": [
+    "#8",
+    "#26"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "![[8w8w8w8w8w8w8w8w8w8w8w8w8w]]",
+  "items": [
+    {
+      "id": "8w8w8w8w8w8w8w8w8w8w8w8w8w",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "withdrawn",
+      "version": 2,
+      "state": "withdrawn-retained",
+      "page": "f/8w8w8w8w8w8w8w8w8w8w8w8w8w/",
+      "content_md": "",
+      "content_html": "",
+      "retained": 1,
+      "pins": {
+        "1": {
+          "content_md": "Pinned words that outlive withdrawal.",
+          "content_html": "<p>Pinned words that outlive withdrawal.</p>\n"
+        }
+      },
+      "history": [
+        {
+          "version": 1,
+          "content_md": "Pinned words that outlive withdrawal.",
+          "content_html": "<p>Pinned words that outlive withdrawal.</p>\n",
+          "pinned": true
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<blockquote class=\"blyg-transclusion\" data-blyg-id=\"8w8w8w8w8w8w8w8w8w8w8w8w8w\" data-blyg-version=\"1\" data-blyg-origin=\"https://remote.example/\">\n<p>Pinned words that outlive withdrawal.</p>\n</blockquote>\n",
+    "normative": [
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "8w8w8w8w8w8w8w8w8w8w8w8w8w",
+          "data-blyg-version": "1",
+          "data-blyg-origin": "https://remote.example/"
+        },
+        "text": "Pinned words that outlive withdrawal."
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "8w8w8w8w8w8w8w8w8w8w8w8w8w",
+        "version": 1,
+        "origin": "https://remote.example/"
+      }
+    ]
+  },
+  "ambiguous": "Retention is a MAY (§13.4: a pinned version MAY be retained), so a reader that kept no copy of the pin after the withdrawal is conformant and publish-errors here; the fixture states that this renderer holds the retained snapshot. Separately, §10.2 does not say which version number a bake of a retained snapshot carries: the expectation bakes the retained version (1), whose bytes are quoted, not the withdrawal endcap (2)."
+}

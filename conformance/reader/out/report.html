@@ -1,0 +1,1721 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Blygger Reader Suite</title>
+<style>
+:root{--bg:#f6f4ef;--paper:#fff;--ink:#1d1d1b;--soft:#5b5a55;--rule:#dedad0;--accent:#2b5bab;--pass:#2f7a45;--warn:#a46a00;--fail:#a23b3b;--code:#f1efe9}
+@media (prefers-color-scheme:dark){:root{--bg:#161614;--paper:#1f1f1c;--ink:#ecebe6;--soft:#a3a197;--rule:#3a3933;--accent:#8fb1ec;--pass:#6cc48a;--warn:#e0a83c;--fail:#ec7d7d;--code:#2a2a26}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1180px;margin:0 auto;padding:24px 16px 64px}h1{font-size:24px;margin:0 0 4px}h2{font-size:18px;margin:32px 0 10px;border-bottom:1px solid var(--rule);padding-bottom:4px}
+code,pre{font:12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);border-radius:4px}code{padding:1px 4px}pre{padding:8px;margin:2px 0 8px;white-space:pre-wrap;word-break:break-word}
+.sub{color:var(--soft);font-size:12.5px}.b{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.b.pass{color:var(--pass)}.b.warn{color:var(--warn)}.b.fail{color:var(--fail)}.b.skip,.b.info{color:var(--soft)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--paper)}td{border-bottom:1px solid var(--rule);padding:8px;vertical-align:top}td:first-child{width:56px}
+.tiles{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.tile{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:10px 14px;min-width:120px}.tile b{display:block;font-size:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:6px}.probs{margin:6px 0;padding-left:18px}.amb{color:var(--warn);font-size:13px;margin-top:4px}
+summary{cursor:pointer;color:var(--accent);font-size:13px;margin-top:4px}
+</style></head><body><main>
+<h1>Reader suite: blygger-studio 0.49.12</h1>
+<div class="sub">100 fixtures written from <b>spec/0.4/2026-10-18</b> (docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)). Generated 2026-11-02T01:55:24.118Z. Only the normative parts of <code>content_html</code> are compared: wire wrappers and their <code>data-blyg-*</code> attributes, anchors and hrefs, and absolute URLs (lib/html.mjs). A failing case whose text is ambiguous is a warning.</div>
+<div class="tiles"><div class="tile"><b class="y">72</b>pass</div><div class="tile"><b>0</b>warn</div><div class="tile"><b>28</b>fail</div></div>
+<h2>Grammar (§10.1) <span class="sub">14 pass · 0 warn · 2 fail</span></h2><table><tr id="directive-local-whole"><td><span class="b pass">pass</span></td><td><b>An own-line directive naming a local fragment is a whole transclusion</b><div class="sub"><code>directive-local-whole</code> · §10.1, §10.2, §10.3 · #9 · C-10.2-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Intro.
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+Outro.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Outro.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;p&gt;Outro.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="directive-remote-whole"><td><span class="b pass">pass</span></td><td><b>An own-line directive naming an imported item bakes it with data-blyg-origin</b><div class="sub"><code>directive-remote-whole</code> · §10.1, §10.2, §10.3 · #26 · C-10.2-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:22Z&quot;}}]</pre>
+
+</details></td></tr><tr id="directive-surrounding-whitespace"><td><span class="b pass">pass</span></td><td><b>Spaces and tabs around the directive are allowed</b><div class="sub"><code>directive-surrounding-whitespace</code> · §10.1 · #9</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>   ![[7c9wk2mhq0v3xj8tn5rzfd41bg]] 	</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:22Z&quot;}}]</pre>
+
+</details></td></tr><tr id="directive-between-prose-lines"><td><span class="b pass">pass</span></td><td><b>The grammar is line-based: a directive line between two prose lines with no blank line still transcludes</b><div class="sub"><code>directive-between-prose-lines</code> · §10.1 · #9</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Line before
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+Line after</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Line before&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Line after&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Line before&lt;/p&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;p&gt;Line after&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="directive-inline-inert"><td><span class="b pass">pass</span></td><td><b>A directive that is not alone on its line is inert text, and not a link</b><div class="sub"><code>directive-inline-inert</code> · §10.1 · #9</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Text ![[7c9wk2mhq0v3xj8tn5rzfd41bg]] inline.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Text ![[7c9wk2mhq0v3xj8tn5rzfd41bg]] inline.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Text ![[7c9wk2mhq0v3xj8tn5rzfd41bg]] inline.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="directive-inline-beside-link"><td><span class="b fail">fail</span></td><td><b>On one line, ![[a]] is inert and [[b]] is a link</b><div class="sub"><code>directive-inline-beside-link</code> · §10.1, §10.3a · #9, #79</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]] and [[1vgtgz0gq5b2c9k7d3m8r4n6xy]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;![[7c9wk2mhq0v3xj8tn5rzfd41bg]] and &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;![[7c9wk2mhq0v3xj8tn5rzfd41bg]] and &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;“धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the mess…”&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="directive-in-blockquote-line"><td><span class="b pass">pass</span></td><td><b>A directive behind a blockquote marker is not alone on its line: inert</b><div class="sub"><code>directive-in-blockquote-line</code> · §10.1 · #9</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>&gt; ![[01j9zq3k4m5n6p7q8r9s0t1v2w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote&gt;
+&lt;p&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote&gt;
+&lt;p&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="directive-reserved-version"><td><span class="b pass">pass</span></td><td><b>![[id@vN]] is reserved: a publisher MUST reject it</b><div class="sub"><code>directive-reserved-version</code> · §10.1 · #9 · C-10.1-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg@v1]]</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[7c9wk2mhq0v3xj8tn5rzfd41bg@v1]]&quot;,&quot;reason&quot;:&quot;explicit-version references (@vN) are reserved, not supported in v0.1&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="directive-reserved-version-inline"><td><span class="b pass">pass</span></td><td><b>The reserved form inline in prose</b><div class="sub"><code>directive-reserved-version-inline</code> · §10.1 · #9</div>
+
+<div class="amb"><b>Ambiguous text.</b> §10.1 says publishers MUST reject `![[id@vN]]`, and also that a directive sequence anywhere but alone on its line is inert text. The expectation reads the reservation as applying to the directive (an own-line construct), so the inline sequence is inert and publishes. Rejecting it would also be a defensible reading.</div>
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>See ![[7c9wk2mhq0v3xj8tn5rzfd41bg@v1]] here.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See ![[7c9wk2mhq0v3xj8tn5rzfd41bg@v1]] here.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;See ![[7c9wk2mhq0v3xj8tn5rzfd41bg@v1]] here.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="directives-in-order"><td><span class="b pass">pass</span></td><td><b>Several directives, adjacent and separated, bake in directive order</b><div class="sub"><code>directives-in-order</code> · §10.1, §10.3 · #26, #76</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+
+![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:22Z&quot;}},{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;,&quot;url&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:22Z&quot;}}]</pre>
+
+</details></td></tr><tr id="same-target-twice"><td><span class="b pass">pass</span></td><td><b>A target quoted twice has two transclusions[] entries</b><div class="sub"><code>same-target-twice</code> · §10.3 · #76</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+Between.
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Between.&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;p&gt;Between.&lt;/p&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="crlf-line-endings"><td><span class="b fail">fail</span></td><td><b>A line ends at LF or CRLF alike: partial transclusion and link with CRLF</b><div class="sub"><code>crlf-line-endings</code> · §10.1 · #76, #49</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Intro.
+
+![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+&gt; Stigmergy is what a protocol looks like from inside
+
+See [[1vgtgz0gq5b2c9k7d3m8r4n6xy]].
+</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;See &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;See &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;“धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the mess…”&lt;/a&gt;.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;p&quot;:[&quot;Stigmergy is what a protocol looks like from inside&quot;]},{&quot;a&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;suffix&quot;:&quot;, and the reason it looks like n&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:22Z&quot;}}]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="uppercase-id-literal"><td><span class="b pass">pass</span></td><td><b>An id is lowercase (§5.1): uppercase brackets are literal text</b><div class="sub"><code>uppercase-id-literal</code> · §10.1, §5.1 · #70</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01J9ZQ3K4M5N6P7Q8R9S0T1V2W]]
+
+See [[01J9ZQ3K4M5N6P7Q8R9S0T1V2W]].</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;![[01J9ZQ3K4M5N6P7Q8R9S0T1V2W]]&lt;/p&gt;
+&lt;p&gt;See [[01J9ZQ3K4M5N6P7Q8R9S0T1V2W]].&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;![[01J9ZQ3K4M5N6P7Q8R9S0T1V2W]]&lt;/p&gt;
+&lt;p&gt;See [[01J9ZQ3K4M5N6P7Q8R9S0T1V2W]].&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="bracketed-non-ids-literal"><td><span class="b pass">pass</span></td><td><b>Brackets whose first 26 characters are not an id, or an id not followed by ]] or |, are literal</b><div class="sub"><code>bracketed-non-ids-literal</code> · §10.1 · #70</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>[[just words]] [[short]] [[ 01j9zq3k4m5n6p7q8r9s0t1v2w]] [[01j9zq3k4m5n6p7q8r9s0t1v2wx]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;[[just words]] [[short]] [[ 01j9zq3k4m5n6p7q8r9s0t1v2w]] [[01j9zq3k4m5n6p7q8r9s0t1v2wx]]&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;[[just words]] [[short]] [[ 01j9zq3k4m5n6p7q8r9s0t1v2w]] [[01j9zq3k4m5n6p7q8r9s0t1v2wx]]&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="directive-in-fragment"><td><span class="b pass">pass</span></td><td><b>A directive in a fragment does not produce a baked transclusion</b><div class="sub"><code>directive-in-fragment</code> · §10, §10.3, §5.3 · #9</div>
+
+<div class="amb"><b>Ambiguous text.</b> §10 defines transclusion for threads and §10.3 says fragments omit `transclusions` entirely, so a fragment can carry no baked quote with provenance. The text does not say whether a directive in a fragment is a publish error or inert text. The expectation accepts either, and fails only a bake.</div>
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>Opening.
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+Closing.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Opening.&lt;/p&gt;
+&lt;p&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/p&gt;
+&lt;p&gt;Closing.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Opening.&lt;/p&gt;
+&lt;p&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/p&gt;
+&lt;p&gt;Closing.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+
+
+</details></td></tr><tr id="directive-tab-indented"><td><span class="b pass">pass</span></td><td><b>A tab-indented directive line at the start of a document</b><div class="sub"><code>directive-tab-indented</code> · §10.1 · #9, #54</div>
+
+<div class="amb"><b>Ambiguous text.</b> §10.1 allows surrounding whitespace on the directive line, and also says the directive is inert inside code blocks. In CommonMark a line indented by a tab (four columns) is an indented code block. The expectation lets the code rule win, as it does for four spaces after a blank line.</div>
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>	![[01j9zq3k4m5n6p7q8r9s0t1v2w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr></table>
+<h2>Inert in code (§10.1, #54) <span class="sub">11 pass · 0 warn · 1 fail</span></h2><table><tr id="directive-in-code-span"><td><span class="b pass">pass</span></td><td><b>An own-line directive wrapped in a code span is inert</b><div class="sub"><code>directive-in-code-span</code> · §10.1 · #54</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>`![[01j9zq3k4m5n6p7q8r9s0t1v2w]]`</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/code&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/code&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="directive-in-backtick-fence"><td><span class="b pass">pass</span></td><td><b>An own-line directive inside a backtick fence is inert</b><div class="sub"><code>directive-in-backtick-fence</code> · §10.1 · #54</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>```
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+```</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="partial-in-tilde-fence"><td><span class="b pass">pass</span></td><td><b>A directive and its blockquote inside a tilde fence are inert</b><div class="sub"><code>partial-in-tilde-fence</code> · §10.1 · #54, #49</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>~~~md
+![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+&gt; Stigmergy is what a protocol looks like from inside
+~~~</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;pre&gt;&lt;code&gt;![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+&amp;gt; Stigmergy is what a protocol looks like from inside
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code class=&quot;language-md&quot;&gt;![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+&amp;gt; Stigmergy is what a protocol looks like from inside
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="directive-in-indented-code"><td><span class="b pass">pass</span></td><td><b>An own-line directive in an indented code block is inert</b><div class="sub"><code>directive-in-indented-code</code> · §10.1 · #54</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Para.
+
+    ![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+After.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Para.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Para.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="link-in-code-span"><td><span class="b pass">pass</span></td><td><b>[[id]] inside a code span is inert and not disclosed</b><div class="sub"><code>link-in-code-span</code> · §10.1, §10.3a · #54, #79</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>Code `[[01j9zq3k4m5n6p7q8r9s0t1v2w]]` here.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Code &lt;code&gt;[[01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/code&gt; here.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Code &lt;code&gt;[[01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/code&gt; here.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-in-fence"><td><span class="b pass">pass</span></td><td><b>[[id]] inside a fenced block is inert and not disclosed</b><div class="sub"><code>link-in-fence</code> · §10.1, §10.3a · #54, #79</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>```
+see [[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+```</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;pre&gt;&lt;code&gt;see [[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code&gt;see [[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-in-indented-code"><td><span class="b pass">pass</span></td><td><b>[[id]] inside an indented code block is inert</b><div class="sub"><code>link-in-indented-code</code> · §10.1 · #54</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>Para.
+
+    see [[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+After.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Para.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;see [[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Para.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;see [[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="fence-then-real-directive"><td><span class="b pass">pass</span></td><td><b>A fenced example followed by the real directive: one quote</b><div class="sub"><code>fence-then-real-directive</code> · §10.1 · #54</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>~~~md
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+~~~
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code class=&quot;language-md&quot;&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="unclosed-fence-to-end"><td><span class="b pass">pass</span></td><td><b>An unclosed fence runs to the end of the document: nothing after it resolves, and the reserved form inside is not rejected</b><div class="sub"><code>unclosed-fence-to-end</code> · §10.1 · #54, #9</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Intro.
+
+```
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w@v2]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w@v2]]
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w@v2]]&lt;/code&gt;&lt;/pre&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="fence-in-blockquote"><td><span class="b pass">pass</span></td><td><b>A fence inside a blockquote is code: the directive in it is inert</b><div class="sub"><code>fence-in-blockquote</code> · §10.1 · #54</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>&gt; ```
+&gt; ![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&gt; ```
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="fence-in-list-item"><td><span class="b pass">pass</span></td><td><b>A fence inside a list item is code: the directive in it is inert</b><div class="sub"><code>fence-in-list-item</code> · §10.1 · #54</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>1. step
+   ```
+   ![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+   ```
+2. next
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;ol&gt;
+&lt;li&gt;step
+&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;next&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;ol&gt;
+&lt;li&gt;step&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;next&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="unknown-ids-in-code-publish"><td><span class="b fail">fail</span></td><td><b>Unknown ids inside code are not resolved, so they are not publish errors</b><div class="sub"><code>unknown-ids-in-code-publish</code> · §10.1, §10.2 · #54</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>```
+[[0zzzzzzzzzzzzzzzzzzzzzzzzz]]
+![[0zzzzzzzzzzzzzzzzzzzzzzzzz]]
+```
+
+[[01j9zq3k4m5n6p7q8r9s0t1v2w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;pre&gt;&lt;code&gt;[[0zzzzzzzzzzzzzzzzzzzzzzzzz]]
+![[0zzzzzzzzzzzzzzzzzzzzzzzzz]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code&gt;[[0zzzzzzzzzzzzzzzzzzzzzzzzz]]
+![[0zzzzzzzzzzzzzzzzzzzzzzzzz]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr></table>
+<h2>Labels (§10.1, §10.2, #70, #81) <span class="sub">7 pass · 0 warn · 14 fail</span></h2><table><tr id="link-label"><td><span class="b fail">fail</span></td><td><b>A labelled link renders the label as its anchor text</b><div class="sub"><code>link-label</code> · §10.1, §10.3a · #70, #79</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v2w | the opening fragment]].</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;the opening fragment&lt;/a&gt;.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;the opening fragment&lt;/a&gt;.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;,&quot;text&quot;:&quot;the opening fragment&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-label-tight"><td><span class="b fail">fail</span></td><td><b>No whitespace around the pipe</b><div class="sub"><code>link-label-tight</code> · §10.1 · #70</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[01j9zq3k4m5n6p7q8r9s0t1v2w|tight]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;tight&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;tight&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;,&quot;text&quot;:&quot;tight&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-label-trimmed"><td><span class="b fail">fail</span></td><td><b>Whitespace around the pipe and the label is trimmed</b><div class="sub"><code>link-label-trimmed</code> · §10.1 · #70</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[01j9zq3k4m5n6p7q8r9s0t1v2w   |   padded label   ]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;padded label&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;padded label&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;,&quot;text&quot;:&quot;padded label&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-label-with-pipe"><td><span class="b fail">fail</span></td><td><b>The label is everything after the first pipe, so it may contain a pipe</b><div class="sub"><code>link-label-with-pipe</code> · §10.1 · #70</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[01j9zq3k4m5n6p7q8r9s0t1v2w | a | b]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;a | b&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;a | b&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;,&quot;text&quot;:&quot;a | b&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-label-empty"><td><span class="b fail">fail</span></td><td><b>An empty label is no label: the anchor text is the publisher's choice</b><div class="sub"><code>link-label-empty</code> · §10.1 · #70</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 2 entries, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v2w | ]] and [[01j9zq3k4m5n6p7q8r9s0t1v2w |   ]].</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt; and &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt; and &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt;.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;},{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-label-remote"><td><span class="b fail">fail</span></td><td><b>A labelled link to an imported item</b><div class="sub"><code>link-label-remote</code> · §10.1, §10.3a · #70, #79</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 2 entries, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[7c9wk2mhq0v3xj8tn5rzfd41bg | their post]] and [[1vgtgz0gq5b2c9k7d3m8r4n6xy|a line]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;their post&lt;/a&gt; and &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;a line&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;their post&lt;/a&gt; and &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;a line&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;text&quot;:&quot;their post&quot;},{&quot;a&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;,&quot;text&quot;:&quot;a line&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-label-text-escaped"><td><span class="b fail">fail</span></td><td><b>A label with &amp; and quotes is text in the anchor</b><div class="sub"><code>link-label-text-escaped</code> · §10.1 · #70</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[01j9zq3k4m5n6p7q8r9s0t1v2w | Tom &amp; &quot;Jerry&quot;]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;Tom &amp;amp; &amp;quot;Jerry&amp;quot;&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;Tom &amp;amp; &amp;quot;Jerry&amp;quot;&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;,&quot;text&quot;:&quot;Tom &amp; \&quot;Jerry\&quot;&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-label-markup"><td><span class="b fail">fail</span></td><td><b>Markdown and HTML in a link label</b><div class="sub"><code>link-label-markup</code> · §10.1 · #70</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 2 entries, got 0</li></ul>
+<div class="amb"><b>Ambiguous text.</b> §10.1 says the label is 'everything after that pipe up to ]]' and is the anchor text, and §10.2 bakes a directive's label 'verbatim and HTML-escaped'. It does not say whether markdown or HTML inside a link label is rendered. The expectation takes the label as literal text (the author's words, escaped), which matches the directive rule.</div>
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[01j9zq3k4m5n6p7q8r9s0t1v2w | *not emphasis*]] and [[01j9zq3k4m5n6p7q8r9s0t1v2w | a &lt;b&gt;bold&lt;/b&gt; word]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;*not emphasis*&lt;/a&gt; and &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;a &amp;lt;b&amp;gt;bold&amp;lt;/b&amp;gt; word&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;*not emphasis*&lt;/a&gt; and &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;a &amp;lt;b&amp;gt;bold&amp;lt;/b&amp;gt; word&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;,&quot;text&quot;:&quot;*not emphasis*&quot;},{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;,&quot;text&quot;:&quot;a &lt;b&gt;bold&lt;/b&gt; word&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-label-ends-at-first-close"><td><span class="b fail">fail</span></td><td><b>A label ends at the first ]]: the rest of the line is literal</b><div class="sub"><code>link-label-ends-at-first-close</code> · §10.1 · #70</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[01j9zq3k4m5n6p7q8r9s0t1v2w | cut]] here]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;cut&lt;/a&gt; here]]&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;cut&lt;/a&gt; here]]&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;,&quot;text&quot;:&quot;cut&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="directive-label-ends-at-first-close"><td><span class="b pass">pass</span></td><td><b>A directive whose label would contain ]] is not alone on its line: inert</b><div class="sub"><code>directive-label-ends-at-first-close</code> · §10.1 · #70</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w | a]] b]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w | a]] b]]&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w | a]] b]]&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="label-first-literal"><td><span class="b pass">pass</span></td><td><b>The label before the id is not the grammar: literal text</b><div class="sub"><code>label-first-literal</code> · §10.1 · #70, #71</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[a label | 01j9zq3k4m5n6p7q8r9s0t1v2w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;[[a label | 01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;[[a label | 01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="label-in-code"><td><span class="b pass">pass</span></td><td><b>A labelled link inside a code span is inert</b><div class="sub"><code>label-in-code</code> · §10.1 · #70, #54</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>Write `[[01j9zq3k4m5n6p7q8r9s0t1v2w | a label]]` to label a link.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Write &lt;code&gt;[[01j9zq3k4m5n6p7q8r9s0t1v2w | a label]]&lt;/code&gt; to label a link.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Write &lt;code&gt;[[01j9zq3k4m5n6p7q8r9s0t1v2w | a label]]&lt;/code&gt; to label a link.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-label-unresolvable"><td><span class="b pass">pass</span></td><td><b>A labelled link to an unknown id is a publish error, as an unlabelled one is</b><div class="sub"><code>link-label-unresolvable</code> · §10.1 · #70</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>bad [[0zzzzzzzzzzzzzzzzzzzzzzzzz | a label]]</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[0zzzzzzzzzzzzzzzzzzzzzzzzz | a label]]&quot;,&quot;reason&quot;:&quot;unknown item&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="directive-label"><td><span class="b fail">fail</span></td><td><b>A labelled directive bakes data-blyg-label; the label reaches nothing else</b><div class="sub"><code>directive-label</code> · §10.1, §10.2, §10.3 · #70, #81</div>
+<ul class="probs"><li><b>normative</b> <span class="b fail">fail</span> /1: data-blyg-label missing (expected &quot;note to self&quot;)</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Intro.
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w | note to self]]
+
+Outro.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot; data-blyg-label=&quot;note to self&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Outro.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;p&gt;Outro.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-label&quot;:&quot;note to self&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="directive-label-remote"><td><span class="b fail">fail</span></td><td><b>A labelled directive naming an imported item</b><div class="sub"><code>directive-label-remote</code> · §10.1, §10.2 · #70, #81</div>
+<ul class="probs"><li><b>normative</b> <span class="b fail">fail</span> /1: data-blyg-label missing (expected &quot;a friend's line&quot;)</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>From a friend:
+![[7c9wk2mhq0v3xj8tn5rzfd41bg | a friend's line]]
+That is all.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;From a friend:&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot; data-blyg-label=&quot;a friend's line&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;That is all.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;From a friend:&lt;/p&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;p&gt;That is all.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;,&quot;data-blyg-label&quot;:&quot;a friend's line&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="directive-label-escaped"><td><span class="b fail">fail</span></td><td><b>data-blyg-label is the label verbatim and HTML-escaped</b><div class="sub"><code>directive-label-escaped</code> · §10.2 · #81</div>
+<ul class="probs"><li><b>normative</b> <span class="b fail">fail</span> /1: data-blyg-label missing (expected &quot;Tom &amp; &quot;Jerry&quot; &lt;b&gt;x&lt;/b&gt;&quot;)</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w | Tom &amp; &quot;Jerry&quot; &lt;b&gt;x&lt;/b&gt;]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot; data-blyg-label=&quot;Tom &amp;amp; &amp;quot;Jerry&amp;quot; &amp;lt;b&amp;gt;x&amp;lt;/b&amp;gt;&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-label&quot;:&quot;Tom &amp; \&quot;Jerry\&quot; &lt;b&gt;x&lt;/b&gt;&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="directive-label-empty"><td><span class="b pass">pass</span></td><td><b>An empty label on a directive is no label: no data-blyg-label</b><div class="sub"><code>directive-label-empty</code> · §10.1, §10.2 · #70, #81</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w |]]
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w   |   ]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="directive-label-pipe"><td><span class="b fail">fail</span></td><td><b>A directive label may contain a pipe</b><div class="sub"><code>directive-label-pipe</code> · §10.1 · #70</div>
+<ul class="probs"><li><b>normative</b> <span class="b fail">fail</span> /1: data-blyg-label missing (expected &quot;a | b&quot;)</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w | a | b]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot; data-blyg-label=&quot;a | b&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-label&quot;:&quot;a | b&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="directive-label-partial"><td><span class="b fail">fail</span></td><td><b>A labelled partial transclusion</b><div class="sub"><code>directive-label-partial</code> · §10.1, §10.2, §10.3 · #70, #81, #49</div>
+<ul class="probs"><li><b>normative</b> <span class="b fail">fail</span> /1: data-blyg-label missing (expected &quot;the tools line&quot;)</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w | the tools line]]
+&gt; Small tools, used daily
+
+My reply.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot; data-blyg-label=&quot;the tools line&quot;&gt;
+&lt;p&gt;Small tools, used daily&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;My reply.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;My reply.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-label&quot;:&quot;the tools line&quot;},&quot;text&quot;:&quot;Small tools, used daily&quot;,&quot;p&quot;:[&quot;Small tools, used daily&quot;]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools, used daily&quot;,&quot;suffix&quot;:&quot;, beat big tools used rarely.&quot;}}]</pre>
+
+</details></td></tr><tr id="directive-label-inline-inert"><td><span class="b pass">pass</span></td><td><b>A labelled directive not alone on its line is inert</b><div class="sub"><code>directive-label-inline-inert</code> · §10.1 · #70</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>text ![[01j9zq3k4m5n6p7q8r9s0t1v2w | inline]] text</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;text ![[01j9zq3k4m5n6p7q8r9s0t1v2w | inline]] text&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;text ![[01j9zq3k4m5n6p7q8r9s0t1v2w | inline]] text&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="directive-label-unresolvable"><td><span class="b pass">pass</span></td><td><b>A labelled directive naming an unknown id is a publish error</b><div class="sub"><code>directive-label-unresolvable</code> · §10.2 · #70</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[0zzzzzzzzzzzzzzzzzzzzzzzzz | missing]]</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[0zzzzzzzzzzzzzzzzzzzzzzzzz | missing]]&quot;,&quot;reason&quot;:&quot;unknown item&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr></table>
+<h2>Partial transclusion (§10.1–§10.3, #49) <span class="sub">10 pass · 0 warn · 1 fail</span></h2><table><tr id="partial-local"><td><span class="b pass">pass</span></td><td><b>A directive with an attached blockquote is a partial transclusion</b><div class="sub"><code>partial-local</code> · §10.1, §10.2, §10.3 · #49 · C-10.2-02, C-10.3-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Intro.
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&gt; used daily, beat big tools
+
+Mine.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;used daily, beat big tools&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Mine.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;used daily, beat big tools&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Mine.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;used daily, beat big tools&quot;,&quot;p&quot;:[&quot;used daily, beat big tools&quot;]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;used daily, beat big tools&quot;,&quot;prefix&quot;:&quot;Small tools, &quot;,&quot;suffix&quot;:&quot; used rarely.&quot;}}]</pre>
+
+</details></td></tr><tr id="partial-remote"><td><span class="b pass">pass</span></td><td><b>A partial transclusion of an imported item carries data-blyg-origin and a selector</b><div class="sub"><code>partial-remote</code> · §10.2, §10.3 · #49 · C-10.2-02, C-10.3-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+&gt; Stigmergy is what a protocol looks like from inside
+
+Commentary.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Commentary.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Commentary.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;p&quot;:[&quot;Stigmergy is what a protocol looks like from inside&quot;]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;suffix&quot;:&quot;, and the reason it looks like n&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="partial-emphasis-dropped"><td><span class="b pass">pass</span></td><td><b>The selection is plain text: emphasis in the quote does not survive into the bake</b><div class="sub"><code>partial-emphasis-dropped</code> · §10.2 · #49</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+&gt; A second paragraph about *emphasis* and traces</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;A second paragraph about emphasis and traces&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;A second paragraph about emphasis and traces&lt;/p&gt;
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;A second paragraph about emphasis and traces&quot;,&quot;p&quot;:[&quot;A second paragraph about emphasis and traces&quot;]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;A second paragraph about emphasis and traces&quot;,&quot;prefix&quot;:&quot;ke nothing at all is the point.\n&quot;,&quot;suffix&quot;:&quot; left in the environment.&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="partial-two-paragraphs"><td><span class="b pass">pass</span></td><td><b>A selection spanning two paragraphs: one &lt;p&gt; per line, the block boundary kept as a line break</b><div class="sub"><code>partial-two-paragraphs</code> · §10.2, §10.3, §2 · #49</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+&gt; Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.
+&gt;
+&gt; A second paragraph about *emphasis* and traces</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about emphasis and traces&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about emphasis and traces&lt;/p&gt;
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces&quot;,&quot;p&quot;:[&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&quot;,&quot;A second paragraph about emphasis and traces&quot;]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\nA second paragraph about emphasis and traces&quot;,&quot;suffix&quot;:&quot; left in the environment.&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="partial-detached"><td><span class="b pass">pass</span></td><td><b>A blank line detaches the blockquote: a whole transclusion, then the author's own quotation</b><div class="sub"><code>partial-detached</code> · §10.1 · #49</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+
+&gt; My own quotation, not theirs.
+
+Commentary.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;My own quotation, not theirs.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Commentary.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;My own quotation, not theirs.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Commentary.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="partial-not-in-target"><td><span class="b pass">pass</span></td><td><b>A selection that is not a substring of the target's text content is a publish error</b><div class="sub"><code>partial-not-in-target</code> · §10.2 · #49 · C-10.2-02</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&gt; big tools used daily
+
+After.</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&quot;,&quot;reason&quot;:&quot;quoted passage not found in the target's version 1&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="partial-lazy-continuation"><td><span class="b fail">fail</span></td><td><b>The blockquote's extent is CommonMark's: a lazy continuation line belongs to the selection</b><div class="sub"><code>partial-lazy-continuation</code> · §10.1, §10.2 · #76, #49</div>
+<ul class="probs"><li><b>normative</b> <span class="b fail">fail</span> /1: wrapper text expected &quot;Stigmergy is what a protocol looks like from inside&quot;, got &quot;Stigmergy is what a protocol&quot;; /1: partial bake expected &lt;p&gt; lines [&quot;Stigmergy is what a protocol looks like from inside&quot;], got [&quot;Stigmergy is what a protocol&quot;]</li><li><b>transclusions</b> <span class="b fail">fail</span> [0].selector.exact expected &quot;Stigmergy is what a protocol looks like from inside&quot;, got &quot;Stigmergy is what a protocol&quot;</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+&gt; Stigmergy is what a protocol
+looks like from inside
+
+Commentary.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Commentary.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;looks like from inside&lt;/p&gt;
+&lt;p&gt;Commentary.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;p&quot;:[&quot;Stigmergy is what a protocol looks like from inside&quot;]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol&quot;,&quot;suffix&quot;:&quot; looks like from inside, and the&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="partial-escaped"><td><span class="b pass">pass</span></td><td><b>The selection is escaped plain text in the bake</b><div class="sub"><code>partial-escaped</code> · §10.2 · #49</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v6a]]
+&gt; Notebooks &amp; pencils</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v6a&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Notebooks &amp;amp; pencils&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v6a&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Notebooks &amp;amp; pencils&lt;/p&gt;
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v6a&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Notebooks &amp; pencils&quot;,&quot;p&quot;:[&quot;Notebooks &amp; pencils&quot;]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v6a&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Notebooks &amp; pencils&quot;,&quot;suffix&quot;:&quot; are slow thinking.&quot;}}]</pre>
+
+</details></td></tr><tr id="partial-devanagari"><td><span class="b pass">pass</span></td><td><b>A Unicode (Devanagari) selection</b><div class="sub"><code>partial-devanagari</code> · §10.2 · #49</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]
+&gt; धर्म और कर्म — यह माध्यम ही संदेश है।</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;धर्म और कर्म — यह माध्यम ही संदेश है।&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;धर्म और कर्म — यह माध्यम ही संदेश है।&lt;/p&gt;
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है।&quot;,&quot;p&quot;:[&quot;धर्म और कर्म — यह माध्यम ही संदेश है।&quot;]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है।&quot;,&quot;suffix&quot;:&quot; The medium is the message.&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;,&quot;url&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="partial-then-whole"><td><span class="b pass">pass</span></td><td><b>A partial transclusion followed by a whole one</b><div class="sub"><code>partial-then-whole</code> · §10.2, §10.3 · #49</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&gt; Small tools
+
+![[7c9wk2mhq0v3xj8tn5rzfd41bg]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools&quot;,&quot;p&quot;:[&quot;Small tools&quot;]},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools&quot;,&quot;suffix&quot;:&quot;, used daily, beat big tools use&quot;}},{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="partial-of-thread-reaches-its-quote"><td><span class="b pass">pass</span></td><td><b>A thread's text content includes the words it baked, so a selection may come from them</b><div class="sub"><code>partial-of-thread-reaches-its-quote</code> · §10.2, §2 · #49</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v3x]]
+&gt; Small tools, used daily</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily&lt;/p&gt;
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily&quot;,&quot;p&quot;:[&quot;Small tools, used daily&quot;]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools, used daily&quot;,&quot;prefix&quot;:&quot;A thread about notebooks.\n&quot;,&quot;suffix&quot;:&quot;, beat big tools used rarely.\nCl&quot;}}]</pre>
+
+</details></td></tr></table>
+<h2>Resolution and errors (§10.2) <span class="sub">13 pass · 0 warn · 0 fail</span></h2><table><tr id="unknown-id"><td><span class="b pass">pass</span></td><td><b>An unresolvable directive is a publish error</b><div class="sub"><code>unknown-id</code> · §10.2 · #26 · C-10.2-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Before.
+
+![[0zzzzzzzzzzzzzzzzzzzzzzzzz]]
+
+After.</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[0zzzzzzzzzzzzzzzzzzzzzzzzz]]&quot;,&quot;reason&quot;:&quot;unknown item&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="draft-target"><td><span class="b pass">pass</span></td><td><b>A draft is a publish error</b><div class="sub"><code>draft-target</code> · §10.2 · #26 · C-10.2-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v4y]]</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v4y]]&quot;,&quot;reason&quot;:&quot;item is a draft, not published&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="local-withdrawn-target"><td><span class="b pass">pass</span></td><td><b>A withdrawn local item with nothing retained is a publish error</b><div class="sub"><code>local-withdrawn-target</code> · §10.2 · #8 · C-10.2-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v5z]]</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v5z]]&quot;,&quot;reason&quot;:&quot;item is withdrawn&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="remote-withdrawn-unretained"><td><span class="b pass">pass</span></td><td><b>An imported item withdrawn at its origin, with no pin, is a publish error</b><div class="sub"><code>remote-withdrawn-unretained</code> · §10.2, §13.4 · #8, #26 · C-10.2-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[9x9x9x9x9x9x9x9x9x9x9x9x9x]]</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[9x9x9x9x9x9x9x9x9x9x9x9x9x]]&quot;,&quot;reason&quot;:&quot;source withdrawn by origin&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="remote-withdrawn-pin-retained"><td><span class="b pass">pass</span></td><td><b>An imported item withdrawn at its origin but pin-retained resolves to the retained snapshot</b><div class="sub"><code>remote-withdrawn-pin-retained</code> · §10.2, §13.4 · #8, #26 · C-10.2-01</div>
+
+<div class="amb"><b>Ambiguous text.</b> Retention is a MAY (§13.4: a pinned version MAY be retained), so a reader that kept no copy of the pin after the withdrawal is conformant and publish-errors here; the fixture states that this renderer holds the retained snapshot. Separately, §10.2 does not say which version number a bake of a retained snapshot carries: the expectation bakes the retained version (1), whose bytes are quoted, not the withdrawal endcap (2).</div>
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[8w8w8w8w8w8w8w8w8w8w8w8w8w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;8w8w8w8w8w8w8w8w8w8w8w8w8w&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Pinned words that outlive withdrawal.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;8w8w8w8w8w8w8w8w8w8w8w8w8w&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Pinned words that outlive withdrawal.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;8w8w8w8w8w8w8w8w8w8w8w8w8w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Pinned words that outlive withdrawal.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;8w8w8w8w8w8w8w8w8w8w8w8w8w&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Pinned words that outlive withdrawal.&quot;,&quot;url&quot;:&quot;https://remote.example/f/8w8w8w8w8w8w8w8w8w8w8w8w8w/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="ambiguous-imported-id"><td><span class="b pass">pass</span></td><td><b>The same id imported from two origins is a publish error, never a guess</b><div class="sub"><code>ambiguous-imported-id</code> · §10.2, §5.1 · #17, #26 · C-10.2-01</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[3m3m3m3m3m3m3m3m3m3m3m3m3m]]</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[3m3m3m3m3m3m3m3m3m3m3m3m3m]]&quot;,&quot;reason&quot;:&quot;ambiguous id: imported from more than one origin&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="closure-contains-self"><td><span class="b pass">pass</span></td><td><b>A thread may not transclude a local thread whose local closure contains the publishing thread</b><div class="sub"><code>closure-contains-self</code> · §10.2 · #26, #76 · C-10.2-04</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Quoting the loop:
+
+![[01j9zq3k4m5n6p7q8r9s0t1v7b]]</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v7b]]&quot;,&quot;reason&quot;:&quot;circular transclusion: that thread already quotes this one&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="link-unknown"><td><span class="b pass">pass</span></td><td><b>An unresolvable [[id]] link is a publish error</b><div class="sub"><code>link-unknown</code> · §10.1 · #79</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[0zzzzzzzzzzzzzzzzzzzzzzzzz]].</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[0zzzzzzzzzzzzzzzzzzzzzzzzz]]&quot;,&quot;reason&quot;:&quot;unknown item&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="link-draft"><td><span class="b pass">pass</span></td><td><b>A link to a draft is a publish error</b><div class="sub"><code>link-draft</code> · §10.1, §10.2 · #79</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v4y]].</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[01j9zq3k4m5n6p7q8r9s0t1v4y]]&quot;,&quot;reason&quot;:&quot;item is a draft, not published&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="link-local-withdrawn"><td><span class="b pass">pass</span></td><td><b>A link to a withdrawn local item with nothing retained is a publish error</b><div class="sub"><code>link-local-withdrawn</code> · §10.1, §10.2 · #79</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v5z]].</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[01j9zq3k4m5n6p7q8r9s0t1v5z]]&quot;,&quot;reason&quot;:&quot;item is withdrawn&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="link-ambiguous"><td><span class="b pass">pass</span></td><td><b>A link to an id held from two origins is a publish error</b><div class="sub"><code>link-ambiguous</code> · §10.1, §10.2 · #79</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[3m3m3m3m3m3m3m3m3m3m3m3m3m]].</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[3m3m3m3m3m3m3m3m3m3m3m3m3m]]&quot;,&quot;reason&quot;:&quot;ambiguous id: imported from more than one origin&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr><tr id="local-nested-thread"><td><span class="b pass">pass</span></td><td><b>Transcluding a local thread nests its baked quote; provenance is direct only</b><div class="sub"><code>local-nested-thread</code> · §10.2, §10.3 · #26</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v3x]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;A thread about notebooks.&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Closing thought.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;A thread about notebooks.&lt;/p&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;p&gt;Closing thought.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;A thread about notebooks. Small tools, used daily, beat big tools used rarely. Closing thought.&quot;,&quot;children&quot;:[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="remote-nested-thread"><td><span class="b pass">pass</span></td><td><b>Transcluding an imported thread nests its baked partial quote verbatim; its link is not this item's link</b><div class="sub"><code>remote-nested-thread</code> · §10.2, §10.3, §10.3a · #26, #79</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[4zss0yg5f5zbh48e22s4f87003]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;4zss0yg5f5zbh48e22s4f87003&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Opening line of a remote thread.&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Closing line with a link to &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;the medium&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;4zss0yg5f5zbh48e22s4f87003&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Opening line of a remote thread.&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Closing line with a link to &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;the medium&lt;/a&gt;.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;4zss0yg5f5zbh48e22s4f87003&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Opening line of a remote thread. Stigmergy is what a protocol looks like from inside Closing line with a link to the medium.&quot;,&quot;children&quot;:[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;p&quot;:[&quot;Stigmergy is what a protocol looks like from inside&quot;]},{&quot;a&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;,&quot;text&quot;:&quot;the medium&quot;}]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;4zss0yg5f5zbh48e22s4f87003&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Opening line of a remote thread. Stigmergy is what a protocol looks like from in…&quot;,&quot;url&quot;:&quot;https://remote.example/t/4zss0yg5f5zbh48e22s4f87003/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr></table>
+<h2>Absolute URLs and pages (§5.2, §5.8) <span class="sub">4 pass · 0 warn · 5 fail</span></h2><table><tr id="link-local-page"><td><span class="b fail">fail</span></td><td><b>[[id]] renders as an anchor to the absolute URL of the target's page</b><div class="sub"><code>link-local-page</code> · §10.1, §5.2, §5.8 · #53, #79 · C-5.2-03</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v2w]] for context.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt; for context.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt; for context.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-local-thread-page"><td><span class="b fail">fail</span></td><td><b>A link to a local thread uses the thread's page</b><div class="sub"><code>link-local-thread-page</code> · §10.1, §5.8 · #53 · C-5.2-03</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v3x]].</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/t/01j9zq3k4m5n6p7q8r9s0t1v3x/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/t/01j9zq3k4m5n6p7q8r9s0t1v3x/&quot;&gt;“A thread about notebooks. Small tools, used daily, beat big…”&lt;/a&gt;.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/t/01j9zq3k4m5n6p7q8r9s0t1v3x/&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-remote-page"><td><span class="b fail">fail</span></td><td><b>A link to an imported item resolves its relative page against the item's origin</b><div class="sub"><code>link-remote-page</code> · §10.1, §5.8 · #53, #79 · C-5.2-03</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[7c9wk2mhq0v3xj8tn5rzfd41bg]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;“Stigmergy is what a protocol looks like from inside, and the…”&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-remote-absolute-page"><td><span class="b fail">fail</span></td><td><b>A link to an imported item whose page is absolute uses it as given</b><div class="sub"><code>link-remote-absolute-page</code> · §10.1, §5.8 · #53 · C-5.2-03</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[5d6e7f8g9h0j1k2m3n4p5q6r7s]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://www.remote.example/2026/pencils/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://www.remote.example/2026/pencils/&quot;&gt;“Pencils, again.”&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://www.remote.example/2026/pencils/&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="link-remote-no-page"><td><span class="b fail">fail</span></td><td><b>A link to an imported item whose document names no page</b><div class="sub"><code>link-remote-no-page</code> · §10.1, §5.8 · #53, #85 · C-5.8-02</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+<div class="amb"><b>Ambiguous text.</b> §10.1 says the anchor's href is the absolute URL of the target's page (§5.8), and §5.8 lets readers fall back to the reference convention when `page` is absent. Decision #85 says a mention sender in the same position names the item document instead. The expectation accepts either the convention page or the item document.</div>
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[6a7b8c9d0e1f2g3h4j5k6m7n8p]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/6a7b8c9d0e1f2g3h4j5k6m7n8p/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/6a7b8c9d0e1f2g3h4j5k6m7n8p/&quot;&gt;“A fragment whose document names no page.”&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:[&quot;https://remote.example/f/6a7b8c9d0e1f2g3h4j5k6m7n8p/&quot;,&quot;https://remote.example/items/6a7b8c9d0e1f2g3h4j5k6m7n8p.json&quot;]}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="markdown-relative-links"><td><span class="b pass">pass</span></td><td><b>Relative markdown links are made absolute in content_html</b><div class="sub"><code>markdown-relative-links</code> · §5.2 · #53 · C-5.2-03</div>
+
+<div class="amb"><b>Ambiguous text.</b> §5.2 requires every URL in content_html to be absolute but does not say what a relative URL the author wrote resolves against (the origin, the item's page, the mount). Only absoluteness is checked.</div>
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[the archive](/archive/) and [notes](notes/x)</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/archive/&quot;&gt;the archive&lt;/a&gt; and &lt;a href=&quot;https://home.example/notes/x&quot;&gt;notes&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://home.example/archive/&quot;&gt;the archive&lt;/a&gt; and &lt;a href=&quot;https://home.example/notes/x&quot;&gt;notes&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;(absolute)&quot;,&quot;text&quot;:&quot;the archive&quot;},{&quot;a&quot;:&quot;(absolute)&quot;,&quot;text&quot;:&quot;notes&quot;}]</pre>
+
+
+</details></td></tr><tr id="markdown-relative-image"><td><span class="b pass">pass</span></td><td><b>A relative image source is made absolute in content_html</b><div class="sub"><code>markdown-relative-image</code> · §5.2, §5.4 · #53 · C-5.2-03</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>![a diagram](media/x7f2.png)</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;img src=&quot;https://home.example/media/x7f2.png&quot; alt=&quot;a diagram&quot;&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;img src=&quot;https://home.example/media/x7f2.png&quot; alt=&quot;a diagram&quot;&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+
+
+</details></td></tr><tr id="baked-remote-markup"><td><span class="b pass">pass</span></td><td><b>A baked quote carries the source's own HTML verbatim, its links included, with no link added</b><div class="sub"><code>baked-remote-markup</code> · §10.2, §5.2 · #26, #53</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[2h2h2h2h2h2h2h2h2h2h2h2h2h]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;2h2h2h2h2h2h2h2h2h2h2h2h2h&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Thinking with a &lt;a href=&quot;https://pencils.example/&quot;&gt;pencil&lt;/a&gt; is &lt;em&gt;slow&lt;/em&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;2h2h2h2h2h2h2h2h2h2h2h2h2h&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Thinking with a &lt;a href=&quot;https://pencils.example/&quot;&gt;pencil&lt;/a&gt; is &lt;em&gt;slow&lt;/em&gt;.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;2h2h2h2h2h2h2h2h2h2h2h2h2h&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Thinking with a pencil is slow.&quot;,&quot;children&quot;:[{&quot;a&quot;:&quot;https://pencils.example/&quot;,&quot;text&quot;:&quot;pencil&quot;}]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;2h2h2h2h2h2h2h2h2h2h2h2h2h&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Thinking with a pencil is slow.&quot;,&quot;url&quot;:&quot;https://remote.example/f/2h2h2h2h2h2h2h2h2h2h2h2h2h/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="baked-remote-relative-url"><td><span class="b pass">pass</span></td><td><b>A relative URL in an imported item's HTML must not reach this item's content_html relative</b><div class="sub"><code>baked-remote-relative-url</code> · §5.2, §10.2 · #53 · C-5.2-03, C-5.2-04</div>
+
+<div class="amb"><b>Ambiguous text.</b> The source is non-conformant (§5.2 requires its own content_html to be absolute). §10.2 bakes the held HTML, §5.2 says readers MAY resolve relative URLs on import, and §5.2 also says this item's content_html MUST be absolute. The expectation follows the MUST: whoever resolves it, the URL that reaches the bake is absolute.</div>
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[2r2r2r2r2r2r2r2r2r2r2r2r2r]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;2r2r2r2r2r2r2r2r2r2r2r2r2r&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;See &lt;a href=&quot;https://remote.example/notes/&quot;&gt;the notes&lt;/a&gt; for more.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;2r2r2r2r2r2r2r2r2r2r2r2r2r&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;See &lt;a href=&quot;https://remote.example/notes/&quot;&gt;the notes&lt;/a&gt; for more.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;2r2r2r2r2r2r2r2r2r2r2r2r2r&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;See the notes for more.&quot;,&quot;children&quot;:[{&quot;a&quot;:&quot;(absolute)&quot;,&quot;text&quot;:&quot;the notes&quot;}]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;2r2r2r2r2r2r2r2r2r2r2r2r2r&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;See the notes for more.&quot;,&quot;url&quot;:&quot;https://remote.example/f/2r2r2r2r2r2r2r2r2r2r2r2r2r/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr></table>
+<h2>Disclosure (§10.3, §10.3a) <span class="sub">3 pass · 0 warn · 3 fail</span></h2><table><tr id="transclusions-order-and-origin"><td><span class="b pass">pass</span></td><td><b>transclusions[] is in directive order; origin is omitted for own-origin sources and present for remote ones</b><div class="sub"><code>transclusions-order-and-origin</code> · §10.3 · #26, #76 · C-10.3-03</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+&gt; plain quote
+
+![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;plain quote&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;plain quote&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}},{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;,&quot;url&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="thread-without-directives"><td><span class="b pass">pass</span></td><td><b>A thread with no directives still carries transclusions: []</b><div class="sub"><code>thread-without-directives</code> · §10.3 · #26</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>A thread with *no* quotes.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;A thread with &lt;em&gt;no&lt;/em&gt; quotes.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;A thread with &lt;em&gt;no&lt;/em&gt; quotes.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="links-in-fragment"><td><span class="b fail">fail</span></td><td><b>A fragment's [[id]] links are disclosed in links[], in document order, origin only for remote targets</b><div class="sub"><code>links-in-fragment</code> · §10.3a · #79</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 2 entries, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v2w]] and [[7c9wk2mhq0v3xj8tn5rzfd41bg]].</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt; and &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt; and &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;“Stigmergy is what a protocol looks like from inside, and the…”&lt;/a&gt;.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;},{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="links-one-per-link"><td><span class="b fail">fail</span></td><td><b>One links[] entry per link: a target linked twice appears twice</b><div class="sub"><code>links-one-per-link</code> · §10.3a · #79</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 3 entries, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[7c9wk2mhq0v3xj8tn5rzfd41bg]], then [[01j9zq3k4m5n6p7q8r9s0t1v2w]], then [[7c9wk2mhq0v3xj8tn5rzfd41bg]] again.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt;, then &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;, then &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt; again.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;“Stigmergy is what a protocol looks like from inside, and the…”&lt;/a&gt;, then &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt;, then &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;“Stigmergy is what a protocol looks like from inside, and the…”&lt;/a&gt; again.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;},{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;},{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="markdown-link-is-silent"><td><span class="b pass">pass</span></td><td><b>A markdown link to a blyg page renders the same anchor and is not disclosed</b><div class="sub"><code>markdown-link-is-silent</code> · §10.1, §10.3a · #79</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[their post](https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/)</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;their post&lt;/a&gt;&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;their post&lt;/a&gt;&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;text&quot;:&quot;their post&quot;}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="quote-and-link-same-target"><td><span class="b fail">fail</span></td><td><b>Quoting and linking one target: one transclusions[] entry and one links[] entry</b><div class="sub"><code>quote-and-link-same-target</code> · §10.3, §10.3a · #79</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+
+See also [[01j9zq3k4m5n6p7q8r9s0t1v2w]].</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;See also &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;p&gt;See also &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt;.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr></table>
+<h2>Generation wrappers (§5.7) <span class="sub">10 pass · 0 warn · 2 fail</span></h2><table><tr id="tk-inline"><td><span class="b pass">pass</span></td><td><b>An inline generated span is wrapped in span.blyg-tk-gen</b><div class="sub"><code>tk-inline</code> · §5.7 · #20 · C-5.7-07</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>The weather was [TK]describe the weather[=]grey and still[/TK] that morning.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;The weather was &lt;span class=&quot;blyg-tk-gen&quot;&gt;grey and still&lt;/span&gt; that morning.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;The weather was &lt;span class=&quot;blyg-tk-gen&quot;&gt;grey and still&lt;/span&gt; that morning.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;span&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;grey and still&quot;}]</pre>
+
+
+</details></td></tr><tr id="tk-block"><td><span class="b pass">pass</span></td><td><b>A block generated span is wrapped in div.blyg-tk-gen</b><div class="sub"><code>tk-block</code> · §5.7 · #20 · C-5.7-07</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>Intro paragraph.
+
+[TK]write two short paragraphs[=]First generated paragraph.
+
+Second generated paragraph.[/TK]
+
+Outro.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Intro paragraph.&lt;/p&gt;
+&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;First generated paragraph.&lt;/p&gt;
+&lt;p&gt;Second generated paragraph.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Outro.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Intro paragraph.&lt;/p&gt;
+&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;First generated paragraph.&lt;/p&gt;
+&lt;p&gt;Second generated paragraph.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Outro.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;div&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;First generated paragraph. Second generated paragraph.&quot;}]</pre>
+
+
+</details></td></tr><tr id="tk-local-source"><td><span class="b pass">pass</span></td><td><b>A generation source is disclosed in generated[].sources and never produces a transclusion</b><div class="sub"><code>tk-local-source</code> · §5.7, §10.3 · #20</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>[TK]Summarise ![[01j9zq3k4m5n6p7q8r9s0t1v2w]][=]Tools that are used daily win.[/TK]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;Tools that are used daily win.&lt;/p&gt;
+&lt;/div&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;Tools that are used daily win.&lt;/p&gt;
+&lt;/div&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;div&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;Tools that are used daily win.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="tk-remote-source"><td><span class="b pass">pass</span></td><td><b>A remote generation source carries its origin (new in 0.4)</b><div class="sub"><code>tk-remote-source</code> · §5.7 · #44</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>[TK]Summarise ![[7c9wk2mhq0v3xj8tn5rzfd41bg]][=]Protocols look like nothing from inside.[/TK]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;Protocols look like nothing from inside.&lt;/p&gt;
+&lt;/div&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;Protocols look like nothing from inside.&lt;/p&gt;
+&lt;/div&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;div&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;Protocols look like nothing from inside.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="tk-labelled-source"><td><span class="b pass">pass</span></td><td><b>A label on a source directive reaches nothing on the wire</b><div class="sub"><code>tk-labelled-source</code> · §5.7, §10.1 · #20, #70</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>[TK]Summarise ![[01j9zq3k4m5n6p7q8r9s0t1v2w | their post]] briefly[=]Done.[/TK]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;Done.&lt;/p&gt;
+&lt;/div&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;Done.&lt;/p&gt;
+&lt;/div&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;div&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;Done.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="tk-beside-transclusion"><td><span class="b pass">pass</span></td><td><b>A transclusion and a generated span in one thread: one quote, one source</b><div class="sub"><code>tk-beside-transclusion</code> · §5.7, §10.3 · #20</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+
+[TK]Summarise ![[01j9zq3k4m5n6p7q8r9s0t1v2w]][=]A bridge.[/TK]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;A bridge.&lt;/p&gt;
+&lt;/div&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
+&lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
+&lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
+&lt;/blockquote&gt;
+&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;A bridge.&lt;/p&gt;
+&lt;/div&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;},{&quot;wrapper&quot;:&quot;div&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;A bridge.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-02T01:55:23Z&quot;}}]</pre>
+
+</details></td></tr><tr id="tk-in-code-not-a-scope"><td><span class="b pass">pass</span></td><td><b>[TK] inside code is an example of the notation, not a scope</b><div class="sub"><code>tk-in-code-not-a-scope</code> · §5.7, §10.1 · #20, #54</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>`[TK]x[=]y[/TK]`
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]]</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;code&gt;[TK]x[=]y[/TK]&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;code&gt;[TK]x[=]y[/TK]&lt;/code&gt;&lt;/p&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
+&lt;/blockquote&gt;</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
+
+</details></td></tr><tr id="tk-link-inside-span"><td><span class="b fail">fail</span></td><td><b>A [[id]] link inside generated text is an anchor inside the wrapper, and is disclosed</b><div class="sub"><code>tk-link-inside-span</code> · §5.7, §10.1, §10.3a · #20, #79</div>
+<ul class="probs"><li><b>links</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>a [TK]x[=]see [[01j9zq3k4m5n6p7q8r9s0t1v2w | the fragment]][/TK] b</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;a &lt;span class=&quot;blyg-tk-gen&quot;&gt;see &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;the fragment&lt;/a&gt;&lt;/span&gt; b&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;a &lt;span class=&quot;blyg-tk-gen&quot;&gt;see &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;the fragment&lt;/a&gt;&lt;/span&gt; b&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;span&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;see the fragment&quot;,&quot;children&quot;:[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;,&quot;text&quot;:&quot;the fragment&quot;}]}]</pre>
+
+<div class="sub">links[] got</div><pre class="wide">[]</pre>
+</details></td></tr><tr id="tk-several-spans"><td><span class="b pass">pass</span></td><td><b>Each generated span is wrapped, and generated[] has one entry per span in order</b><div class="sub"><code>tk-several-spans</code> · §5.7 · #20</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>One [TK]a[=]alpha[/TK], two [TK]c[=]gamma[/TK].</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;One &lt;span class=&quot;blyg-tk-gen&quot;&gt;alpha&lt;/span&gt;, two &lt;span class=&quot;blyg-tk-gen&quot;&gt;gamma&lt;/span&gt;.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;One &lt;span class=&quot;blyg-tk-gen&quot;&gt;alpha&lt;/span&gt;, two &lt;span class=&quot;blyg-tk-gen&quot;&gt;gamma&lt;/span&gt;.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;span&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;alpha&quot;},{&quot;wrapper&quot;:&quot;span&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;gamma&quot;}]</pre>
+
+
+</details></td></tr><tr id="tk-markup-inside-span"><td><span class="b pass">pass</span></td><td><b>Markdown inside an inline generated span renders inside the wrapper</b><div class="sub"><code>tk-markup-inside-span</code> · §5.7 · #20</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>Price [TK]p[=]*five* dollars[/TK] end.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Price &lt;span class=&quot;blyg-tk-gen&quot;&gt;&lt;em&gt;five&lt;/em&gt; dollars&lt;/span&gt; end.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Price &lt;span class=&quot;blyg-tk-gen&quot;&gt;&lt;em&gt;five&lt;/em&gt; dollars&lt;/span&gt; end.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;span&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;five dollars&quot;}]</pre>
+
+
+</details></td></tr><tr id="tk-output-own-line-directive"><td><span class="b fail">fail</span></td><td><b>An own-line directive in generated output transcludes at publish (#60)</b><div class="sub"><code>tk-output-own-line-directive</code> · §5.7, §10.1 · #60, #20</div>
+<ul class="probs"><li><b>normative</b> <span class="b fail">fail</span> /1: wrapper text expected &quot;Mine. Small tools, used daily, beat big tools used rarely.&quot;, got &quot;Mine. ![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&quot;; /1/1: missing &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;</li><li><b>transclusions</b> <span class="b fail">fail</span> expected 1 entry, got 0</li></ul>
+<div class="amb"><b>Ambiguous text.</b> Decision #60 makes the directive a real transclusion, so the quote and its transclusions[] entry are normative. Where the quote sits relative to the div.blyg-tk-gen is not stated; the expectation nests it inside the generated block, where the author's output put it, though a quote is not generated words.</div>
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (thread)</div><pre>Intro.
+
+[TK]write it[=]Mine.
+
+![[01j9zq3k4m5n6p7q8r9s0t1v2w]][/TK]
+
+Outro.</pre></div>
+<div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;Mine.&lt;/p&gt;
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
+&lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;p&gt;Outro.&lt;/p&gt;
+</pre></div>
+<div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+&lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;Mine.&lt;/p&gt;
+&lt;p&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Outro.&lt;/p&gt;
+</pre></div></div>
+<div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;div&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;Mine. Small tools, used daily, beat big tools used rarely.&quot;,&quot;children&quot;:[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
+
+</details></td></tr><tr id="tk-ungenerated-scope"><td><span class="b pass">pass</span></td><td><b>A scope with no output is a publish error</b><div class="sub"><code>tk-ungenerated-scope</code> · §5.7 · #20</div>
+
+
+<details><summary>input and output</summary>
+<div class="grid"><div><div class="sub">content_md (fragment)</div><pre>Before [TK]summarise the argument[/TK] after.</pre></div>
+<div><div class="sub">expected </div><pre>publish error</pre></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more TK scopes are not publish-ready&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;at&quot;:7,&quot;reason&quot;:&quot;scope has no output (never generated)&quot;}]}}</pre></div></div>
+
+
+
+</details></td></tr></table>
+</main></body></html>

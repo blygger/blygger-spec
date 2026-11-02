@@ -1,0 +1,52 @@
+{
+  "id": "directive-inline-inert",
+  "title": "A directive that is not alone on its line is inert text, and not a link",
+  "group": "grammar",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.1"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#9"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "Text ![[7c9wk2mhq0v3xj8tn5rzfd41bg]] inline.",
+  "items": [
+    {
+      "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 2,
+      "state": "published",
+      "page": "f/7c9wk2mhq0v3xj8tn5rzfd41bg/",
+      "content_md": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\n\nA second paragraph about *emphasis* and traces left in the environment.",
+      "content_html": "<p>Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.</p>\n<p>A second paragraph about <em>emphasis</em> and traces left in the environment.</p>\n",
+      "pins": {
+        "1": {
+          "content_md": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.",
+          "content_html": "<p>Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.</p>\n"
+        }
+      },
+      "content_hash": "sha256:84e660f173fcacd57794c3ebd072cac0103042bf014cd9057def823007831816"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<p>Text ![[7c9wk2mhq0v3xj8tn5rzfd41bg]] inline.</p>\n",
+    "normative": [],
+    "literals": [
+      "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]"
+    ],
+    "transclusions": [],
+    "links": []
+  },
+  "seeded_from": "tr_inline_literal"
+}

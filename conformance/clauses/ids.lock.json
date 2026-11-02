@@ -1,6 +1,16 @@
 {
  "note": "Clause id lock — do not hand-edit except to retire ids. See README.",
  "ids": {
+  "C-2-01": {
+   "fp": "5c8bfe6e5220",
+   "section": "2",
+   "text": "Each SHOULD send a mention (§15.2)."
+  },
+  "C-2-02": {
+   "fp": "ea834b07b950",
+   "section": "2",
+   "text": "**Identity change** — a reader adopting a new origin for an existing subscription, which MUST be user-confirmed (§12.2)."
+  },
   "C-3-01": {
    "fp": "13a5b9d6bce1",
    "section": "3",
@@ -34,7 +44,8 @@
   "C-4-02": {
    "fp": "62c7309f3359",
    "section": "4",
-   "text": "The file names *within* the surface (`blyg.json`, `feed.xml`, `items/…`) are protocol-fixed and MUST NOT vary per deployment — a known manifest filename at an a"
+   "text": "The file names *within* the surface (`blyg.json`, `feed.xml`, `items/…`) are protocol-fixed and MUST NOT vary per deployment — a known manifest filename at an a",
+   "retired": true
   },
   "C-4-03": {
    "fp": "b472c7b20634",
@@ -86,15 +97,65 @@
    "section": "4",
    "text": "A publisher MUST NOT write local time into any protocol surface; time-zone display is a presentation concern of each client."
   },
+  "C-4-13": {
+   "fp": "b84f11f6f4e4",
+   "section": "4",
+   "text": "**That holds at every identity origin, relocated surface or not: `{origin}blyg.json` MUST serve the manifest** (§12.1 step 4; revision of 2026-11-01, decision #"
+  },
+  "C-4-14": {
+   "fp": "e9ce2289bcbb",
+   "section": "4",
+   "text": "Every other path below is the **default**, and the manifest MAY relocate it (§6.1; new in 0.4, promoted from the 0.3 text's §16.6e): `feed` and `items` name the"
+  },
   "C-5-01": {
    "fp": "51f27aae643f",
    "section": "5",
    "text": "Threads additionally carry `transclusions` (§10.3) and MAY carry `stub_of` (§10.6)."
   },
   "C-5-02": {
-   "fp": "ef23543d620b",
+   "fp": "0024ea787072",
    "section": "5",
-   "text": "Any item MAY carry `forked_from` (§5.6) and `generated` (§5.7)."
+   "text": "Any item MAY carry `forked_from` (§5.6), `generated` (§5.7) and `links` (§10.3a)."
+  },
+  "C-5-03": {
+   "fp": "3d3b4b9ec527",
+   "section": "5",
+   "text": "`blyg`, `id`, `kind`, `origin`, `version`, `created`, `updated`, `content_md`, `content_html`, `content_hash`, `changelog`  ;  REQUIRED  ;  §3.1, §5.1, §5.2, §5"
+  },
+  "C-5-04": {
+   "fp": "3e8a73a355b7",
+   "section": "5",
+   "text": "`media`  ;  REQUIRED; an array, MAY be empty  ;  §5.4"
+  },
+  "C-5-05": {
+   "fp": "a0053e6f39fd",
+   "section": "5",
+   "text": "`page`  ;  RECOMMENDED  ;  §5.8"
+  },
+  "C-5-06": {
+   "fp": "7cc738291bcf",
+   "section": "5",
+   "text": "`author`  ;  OPTIONAL; absent means no assertion  ;  §5.5"
+  },
+  "C-5-07": {
+   "fp": "c314e11bc594",
+   "section": "5",
+   "text": "`transclusions`  ;  REQUIRED for threads, absent for fragments  ;  §10.3"
+  },
+  "C-5-08": {
+   "fp": "e1b66556815c",
+   "section": "5",
+   "text": "`stub_of`, `forked_from`, `generated`  ;  OPTIONAL, present when the construct is  ;  §10.6, §5.6, §5.7"
+  },
+  "C-5-09": {
+   "fp": "c468c16cf96d",
+   "section": "5",
+   "text": "`links`  ;  OPTIONAL; present when the version resolved at least one `[[id]]` (fourth revision)  ;  §10.3a"
+  },
+  "C-5-10": {
+   "fp": "b581b9c69541",
+   "section": "5",
+   "text": "A withdrawal endcap (§9) keeps the REQUIRED members with empty content."
   },
   "C-5.1-01": {
    "fp": "05d0a5fe46a6",
@@ -130,6 +191,21 @@
    "fp": "7d98c3d49ef0",
    "section": "5.2",
    "text": "Readers MAY resolve a relative URL against the document's origin on import as a defensive measure and MUST NOT depend on one being present."
+  },
+  "C-5.2-05": {
+   "fp": "dd782c0672c3",
+   "section": "5.2",
+   "text": "**No word in a note has wire meaning** (revision of 2026-10-19, decision #83): a note is prose, and clients MUST NOT treat any token in it — a conventional word"
+  },
+  "C-5.2-06": {
+   "fp": "e6b3c8577a95",
+   "section": "5.2",
+   "text": "**A changelog entry MAY carry `\"generated\": true`** (revision of 2026-10-06, decision #40), meaning the publisher's client wrote the note, typically from the lo"
+  },
+  "C-5.2-07": {
+   "fp": "89ea5c7157dc",
+   "section": "5.2",
+   "text": "Readers MUST NOT gate on it, and a reader that ignores it stays conformant."
   },
   "C-5.3-01": {
    "fp": "411db5784d82",
@@ -226,15 +302,35 @@
    "section": "5.6",
    "text": "Readers MUST NOT infer that a fork still resembles its source."
   },
+  "C-5.6-09": {
+   "fp": "6273c98c1de5",
+   "section": "5.6",
+   "text": "(Forking a quoted fragment directly, naming the fragment's own pin, remains the way to take one passage with its own lineage.) A forking client SHOULD build the"
+  },
+  "C-5.6-10": {
+   "fp": "df63d73cde99",
+   "section": "5.6",
+   "text": "A client MAY note that state beside the quote when it holds it, and MUST NOT need the network at publish to decide."
+  },
+  "C-5.6-11": {
+   "fp": "7ea1c453dd34",
+   "section": "5.6",
+   "text": "The `blyg-transclusion` class MUST NOT survive into the fork: the forking publisher baked nothing and verified nothing."
+  },
+  "C-5.6-12": {
+   "fp": "b3fd4bc88ed1",
+   "section": "5.6",
+   "text": "**A fork's page SHOULD show its lineage** (revision of 2026-10-06, decision #65): a publisher that renders an HTML page for a fork SHOULD show on it that the it"
+  },
   "C-5.7-01": {
    "fp": "9cc91ec15450",
    "section": "5.7",
    "text": "What the wire gains is generation's **provenance shadow**: a publisher whose version contains machine-generated prose SHOULD disclose it via an OPTIONAL top-lev"
   },
   "C-5.7-02": {
-   "fp": "9c1c73872bdc",
+   "fp": "d507c1681013",
    "section": "5.7",
-   "text": "It MAY be empty, meaning **no sources declared**: pure instructed generation, or generation whose sources the publisher cannot name."
+   "text": "The array MAY be empty, meaning **no sources declared**: pure instructed generation, or generation whose sources the publisher cannot name."
   },
   "C-5.7-03": {
    "fp": "3baeef897b71",
@@ -261,10 +357,30 @@
    "section": "5.7",
    "text": "Publishers additionally disclose generated spans in the rendered HTML: the renderer MUST wrap each generated span in `content_html` as `<span class=\"blyg-tk-gen"
   },
+  "C-5.7-08": {
+   "fp": "154f99ce66a3",
+   "section": "5.7",
+   "text": "Each entry is a reference (§5.9): `origin` omitted for the publisher's own items and present for another origin's (new in 0.4; promoted from the 0.3 text's §16."
+  },
+  "C-5.7-09": {
+   "fp": "dc1536d8f2fe",
+   "section": "5.7",
+   "text": "A `sources[]` entry carrying an `origin` is a remote reference and SHOULD send a mention (§15.2) whose relation is `source` (§15.4)."
+  },
+  "C-5.7-10": {
+   "fp": "6d844ca7494a",
+   "section": "5.7",
+   "text": "No data attributes are REQUIRED: span-level source mapping is deliberately not promised (the JSON provenance is version-level and robust; span-level claims woul"
+  },
+  "C-5.7-11": {
+   "fp": "411759439c90",
+   "section": "5.7",
+   "text": "A client that makes generated spans visible SHOULD say, wherever it explains the mark, that the disclosure is the publisher's own and unverified (rule 6); a tin"
+  },
   "C-5.8-01": {
-   "fp": "910a2eb1121e",
+   "fp": "5c5c4886cc69",
    "section": "5.8",
-   "text": "*(New in 0.3.)* An item document MAY carry `\"page\"`: the **origin-relative URL of the item's human-readable permalink**, resolved against the origin (`\"page\": \""
+   "text": "*(New in 0.3.)* An item document MAY carry `\"page\"`: the **URL of the item's human-readable permalink**, origin-relative and resolved against the origin (`\"page"
   },
   "C-5.8-02": {
    "fp": "ca3df50aedbf",
@@ -291,10 +407,15 @@
    "section": "5.8",
    "text": "Readers MAY refresh `page` from the item document on any fetch (the staleness check fetches it anyway), and a frozen `cited.url` naming the old path remains cor"
   },
+  "C-5.8-07": {
+   "fp": "f580c8a666d6",
+   "section": "5.8",
+   "text": "**`page` MAY be absolute** (new in 0.4; promoted from the 0.3 text's §16.6e)."
+  },
   "C-5.9-01": {
-   "fp": "71d5ff389d65",
+   "fp": "62cdbf4ceb52",
    "section": "5.9",
-   "text": "It is REQUIRED in `forked_from` and `stub_of` (a citation is absolute) and OPTIONAL in `transclusions[]`, where omission means own-origin, so that every 0.2 thr"
+   "text": "It is REQUIRED in `forked_from` and `stub_of` (a citation is absolute) and OPTIONAL in `transclusions[]` and `generated[].sources[]`, where omission means own-o"
   },
   "C-5.9-02": {
    "fp": "571ef61fcc7a",
@@ -356,6 +477,26 @@
    "section": "6.1",
    "text": "A registry MAY require a client source as a condition of *listing*; that is its business, not conformance."
   },
+  "C-6.1-07": {
+   "fp": "f2fd2ed36c6a",
+   "section": "6.1",
+   "text": "**Members** (revision of 2026-10-17, decision #76; checked against all 22 live manifests, which conform): REQUIRED `blyg`, `title`, `updated`; RECOMMENDED `leve"
+  },
+  "C-6.1-08": {
+   "fp": "b9d958e5ce53",
+   "section": "6.1",
+   "text": "Two further OPTIONAL keys, in [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570) level-1 form, say where documents live: **`item`**, with the variable `id` (def"
+  },
+  "C-6.1-09": {
+   "fp": "81243fc1769a",
+   "section": "6.1",
+   "text": "Readers MUST expand them wherever this document says `{origin}items/{id}.json` or `{origin}items/{id}/v{n}.json` (§4)."
+  },
+  "C-6.1-10": {
+   "fp": "97c003178407",
+   "section": "6.1",
+   "text": "All four values MAY carry a query string, because they are expanded or fetched, never resolved against."
+  },
   "C-7-01": {
    "fp": "618211cdffbe",
    "section": "7",
@@ -400,6 +541,11 @@
    "fp": "c929fc310d31",
    "section": "7",
    "text": "Publishers MUST emit it."
+  },
+  "C-7-10": {
+   "fp": "9f1f4d13ed51",
+   "section": "7",
+   "text": "A publisher SHOULD publish the thread last, so that it is the newest entry, and readers MAY fold the burst (§13.7; revision of 2026-10-17, decision #78)."
   },
   "C-8-01": {
    "fp": "39d561a56d01",
@@ -467,9 +613,49 @@
    "text": "A withdrawn stub stops *verifying* as a stub, because its endcap omits `stub_of`, and SHOULD re-send its mention once so the target learns this (§15.2)."
   },
   "C-10.1-01": {
-   "fp": "0e0b5184a554",
+   "fp": "60392156e7a2",
    "section": "10.1",
-   "text": "`![[id@vN]]` (explicit version) is **reserved**: 0.3 publishers MUST reject it at publish time; readers MUST tolerate it as an unknown construct."
+   "text": "`![[id@vN]]` (explicit version) is **reserved**: publishers at this version MUST reject it at publish time; readers MUST tolerate it as an unknown construct."
+  },
+  "C-10.1-02": {
+   "fp": "c45b2ad13eeb",
+   "section": "10.1",
+   "text": "It is **disclosed on the wire** (revision of 2026-10-19, decision #79, which reverses #32): each resolved link produces one `links[]` entry (§10.3a) and, when t"
+  },
+  "C-10.1-03": {
+   "fp": "a4df667ca84c",
+   "section": "10.1",
+   "text": "An unresolvable link MUST be a publish error, like an unresolvable directive."
+  },
+  "C-10.1-04": {
+   "fp": "d62f1106c116",
+   "section": "10.1",
+   "text": "In either form the id MAY be followed by `|` and text: `[[7c9wk2mhq0v3xj8tn5rzfd41bg | the opening fragment]]`, `![[7c9wk2mhq0v3xj8tn5rzfd41bg | the opening fra"
+  },
+  "C-10.1-05": {
+   "fp": "68b0e5b73f80",
+   "section": "10.1",
+   "text": "On a **directive** it is the author's name for the quoted item (revision of 2026-10-19, decision #81; until then a comment that reached nothing): the publisher "
+  },
+  "C-10.1-06": {
+   "fp": "c95cceca4053",
+   "section": "10.1",
+   "text": "A reader MUST NOT present it as the target item's title, or as anything but the quoter's words (§5.3, decision #46)."
+  },
+  "C-10.1-07": {
+   "fp": "fd2277186a57",
+   "section": "10.1",
+   "text": "A client MAY tell the author when a label no longer resembles its target, as a courtesy; the protocol checks nothing, because a label is the author's words, not"
+  },
+  "C-10.1-08": {
+   "fp": "a18933650afc",
+   "section": "10.1",
+   "text": "The two forms above, with or without a label, are the whole of the bracket grammar: brackets whose first 26 characters are not an id — alone, or before a pipe —"
+  },
+  "C-10.1-09": {
+   "fp": "c233958bf2a1",
+   "section": "10.1",
+   "text": "A client-private authoring form inside brackets — a span to be minted as its own fragment, an alias to be resolved to an id — MUST be rewritten before publish s"
   },
   "C-10.2-01": {
    "fp": "015a0570279a",
@@ -487,14 +673,24 @@
    "text": "Any reader MAY re-check by the same test while the origin serves that version, live or pinned."
   },
   "C-10.2-04": {
-   "fp": "7d991cfe5381",
+   "fp": "23340310127e",
    "section": "10.2",
-   "text": "A thread MUST NOT transclude a local thread whose transitive *local* transclusion closure (walked via stored `transclusions[]`) contains the publishing thread's"
+   "text": "A thread MUST NOT transclude a local thread whose transitive *local* transclusion closure contains the publishing thread's own id."
   },
   "C-10.2-05": {
    "fp": "cc20110cf118",
    "section": "10.2",
    "text": "A studio SHOULD say at publish when a directive resolves to an unpinned remote item."
+  },
+  "C-10.2-06": {
+   "fp": "84ff333216da",
+   "section": "10.2",
+   "text": "**More than one imported match MUST be a publish error**, never a guess — the directive names an identity, and the publisher does not pick an origin on the auth"
+  },
+  "C-10.2-07": {
+   "fp": "5d18c6c97f56",
+   "section": "10.2",
+   "text": "A directive that carries a label (§10.1) additionally bakes `data-blyg-label=\"{label}\"`, the label verbatim and HTML-escaped (revision of 2026-10-19, decision #"
   },
   "C-10.3-01": {
    "fp": "b0200e77c50d",
@@ -511,6 +707,21 @@
    "section": "10.3",
    "text": "Readers at L2 MUST scope a transclusion's `id` to its `origin` when present, and to the document's own origin when absent, before doing anything with it — the s"
   },
+  "C-10.3a-01": {
+   "fp": "26ea2f12fd42",
+   "section": "10.3a",
+   "text": "A remote entry is a **remote reference** for §15.2 and SHOULD send a mention, whose relation is `link` (§15.4): a notice, never a response (§15.5)."
+  },
+  "C-10.3a-02": {
+   "fp": "1b19b0409f9b",
+   "section": "10.3a",
+   "text": "A markdown link to a blyg page is not an entry (§10.1): the array records the bracket grammar and nothing else, and a publisher MUST NOT populate it by inspecti"
+  },
+  "C-10.3a-03": {
+   "fp": "91cf2ad8625e",
+   "section": "10.3a",
+   "text": "Readers MUST scope `id` to `origin` as §13.1 requires, and MAY ignore the array entirely; a 0.3 reader does."
+  },
   "C-10.6-01": {
    "fp": "0b89687e151a",
    "section": "10.6",
@@ -522,9 +733,9 @@
    "text": "for a blyg target — a reference (§5.9), `origin` REQUIRED even when it is the publisher's own, because a citation is absolute — or"
   },
   "C-10.6-03": {
-   "fp": "366ca638b113",
+   "fp": "8b24a28e4d59",
    "section": "10.6",
-   "text": "At publish, if the body transcludes the stub's target, `stub_of.version` MUST equal the version actually baked (§10.3); otherwise it keeps the value set when th"
+   "text": "At publish, if the body transcludes the stub's target, `stub_of.version` MUST equal the version actually baked (§10.3); otherwise it keeps the value it last had"
   },
   "C-10.6-04": {
    "fp": "4f8ef32c9bd4",
@@ -535,6 +746,16 @@
    "fp": "627285797830",
    "section": "10.6",
    "text": "A `{url}` stub SHOULD send an ordinary W3C Webmention to that URL if the target advertises an endpoint; most will not."
+  },
+  "C-10.6-06": {
+   "fp": "abae40907db6",
+   "section": "10.6",
+   "text": "An L0 wrapper's id (§13.6) is a reader-local name for someone's RSS entry, not an item at an origin, and the blyg-target shape MUST NOT name one; a response to "
+  },
+  "C-10.6-07": {
+   "fp": "ca470d686f2a",
+   "section": "10.6",
+   "text": "Either shape MAY carry the `cited` object of §5.9 — the blyg-target shape since §5.9 named `stub_of` as a site, the `{url}` shape by the revision of 2026-10-06 "
   },
   "C-11-01": {
    "fp": "23f702dcc52f",
@@ -590,6 +811,11 @@
    "fp": "23a6998eb6c2",
    "section": "12.1",
    "text": "Otherwise resolution fails, and the reader SHOULD report the trail of URLs tried."
+  },
+  "C-12.1-06": {
+   "fp": "924b6a5d2f6d",
+   "section": "12.1",
+   "text": "**The same manifest MUST also be served at `{identity}blyg.json`** (§4), as the manifest itself or by a redirect whose final URL has the same identity (§12.2) —"
   },
   "C-12.2-01": {
    "fp": "64c07f1f9e74",
@@ -681,6 +907,16 @@
    "section": "13.2",
    "text": "A 404 on `items/index.json` from an otherwise-live blyg is a nonconforming publisher: readers SHOULD fall back to feed-window-only operation and surface the sub"
   },
+  "C-13.2-04": {
+   "fp": "8e06c9aa61d4",
+   "section": "13.2",
+   "text": "Readers MAY queue such versions at low priority and SHOULD NOT resurface them as new (the reference client's *ignyr* queue); the version advances state as any v"
+  },
+  "C-13.2-05": {
+   "fp": "728fa50612b3",
+   "section": "13.2",
+   "text": "A version whose text differs from its predecessor by less than a **reader-local** threshold MAY be treated under the clause above — queued low, not resurfaced a"
+  },
   "C-13.3-01": {
    "fp": "2a10bf13f7a4",
    "section": "13.3",
@@ -702,7 +938,7 @@
    "text": "On a withdrawal endcap, a conforming reader rolls the item up to null: it MUST stop presenting the withdrawn content as live and SHOULD delete its stored copy —"
   },
   "C-13.4-02": {
-   "fp": "d7fbd43abd77",
+   "fp": "cc60047424c5",
    "section": "13.4",
    "text": "**Retention follows the origin's own serving surface**: content corresponding to a version the origin has **pinned** (a fetchable `items/{id}/v{n}.json`) MAY be"
   },
@@ -741,6 +977,16 @@
    "section": "13.7",
    "text": "Readers SHOULD ensure a skewed or future-dated origin cannot permanently dominate the display order."
   },
+  "C-13.7-02": {
+   "fp": "ac05e0ae70f7",
+   "section": "13.7",
+   "text": "**Items published together MAY be shown together** (revision of 2026-10-17, decision #78)."
+  },
+  "C-13.7-03": {
+   "fp": "de426443e725",
+   "section": "13.7",
+   "text": "A reader MAY present such a burst as one publication — the thread as its entry, its fragments beneath it or deferred to the low-priority queue of §13.2 — and MU"
+  },
   "C-14-01": {
    "fp": "3d998d84d6b8",
    "section": "14",
@@ -756,6 +1002,11 @@
    "section": "14",
    "text": "Server-side readers SHOULD apply standard fetch hygiene: bounded redirects (§12.2), response size and time limits, and refusal to fetch private-network addresse"
   },
+  "C-14-04": {
+   "fp": "705955024838",
+   "section": "14",
+   "text": "Ordering across origins is each reader's own observation-time policy, which §13.7 says SHOULD keep a skewed origin from dominating."
+  },
   "C-15-01": {
    "fp": "0caf66de33b8",
    "section": "15",
@@ -767,7 +1018,7 @@
    "text": "Permalink pages and the feed page SHOULD carry `<link rel=\"webmention\" href=\"…\">` and SHOULD announce the endpoint in an HTTP `Link` header, per W3C discovery, "
   },
   "C-15.2-01": {
-   "fp": "d1684dd91704",
+   "fp": "d34aee7e26d7",
    "section": "15.2",
    "text": "A publisher SHOULD send a mention for each **remote reference** in a newly published version: every blyg-target `stub_of` whose origin is not its own (§10.6), e"
   },
@@ -786,10 +1037,26 @@
    "section": "15.2",
    "text": "Delivery is **fire-and-forget from the author's point of view**: publish MUST NOT block on it, and outbound status is information, never a publish outcome."
   },
+  "C-15.2-05": {
+   "fp": "6a9025f8cf96",
+   "section": "15.2",
+   "text": "A version that both quotes and draws on one target MAY send a single mention for it; the receiver determines the relation (§15.4 step 4)."
+  },
+  "C-15.2-06": {
+   "fp": "3bf3f143b8fc",
+   "section": "15.2",
+   "text": "A sender MUST NOT construct a target from the reference permalink convention (`f/{id}/`, `t/{id}/`): §4 calls those paths presentation, a receiver that does not"
+  },
+  "C-15.2-07": {
+   "fp": "51245e50448e",
+   "section": "15.2",
+   "text": "**A pin MAY re-send** the pinned version's remote mentions (decision #73), so that a quoted origin can learn its words were frozen; the receiver re-verifies as "
+  },
   "C-15.3-01": {
    "fp": "c64d86956e4d",
    "section": "15.3",
-   "text": "Both MUST be absolute `http(s)` URLs; `source` MUST differ from `target`; `target`'s origin (scheme, host, port) MUST be this blyg's own, and its path MUST name"
+   "text": "Both MUST be absolute `http(s)` URLs; `source` MUST differ from `target`; `target`'s origin (scheme, host, port) MUST be this blyg's own, and its path MUST name",
+   "retired": true
   },
   "C-15.3-02": {
    "fp": "ca9ef6ee2b29",
@@ -801,10 +1068,16 @@
    "section": "15.3",
    "text": "Receivers SHOULD therefore also cap by a coarser grouping of the source (the reference client groups by registrable domain, at a looser limit than the per-host "
   },
+  "C-15.3-04": {
+   "fp": "dfc8a0c1f1d6",
+   "section": "15.3",
+   "text": "Both MUST be absolute `http(s)` URLs; `source` MUST differ from `target`; `target` MUST resolve, by the receiver's own published data, to one of this blyg's ite"
+  },
   "C-15.4-01": {
    "fp": "593e9d9644b6",
    "section": "15.4",
-   "text": "Verification is bounded — RECOMMENDED: at most 2 fetches, at most 3 redirects, 5 seconds per fetch, 1 MB per body — and these bounds are the receiver's protecti"
+   "text": "Verification is bounded — RECOMMENDED: at most 2 fetches, at most 3 redirects, 5 seconds per fetch, 1 MB per body — and these bounds are the receiver's protecti",
+   "retired": true
   },
   "C-15.4-02": {
    "fp": "03b151a2a47f",
@@ -814,47 +1087,83 @@
   "C-15.4-03": {
    "fp": "a12cd124abe3",
    "section": "15.4",
-   "text": "**The document's `origin` MUST equal the final source URL's origin** (scheme, host, port; trailing slash normalized)."
+   "text": "**The document's `origin` MUST equal the final source URL's origin** (scheme, host, port; trailing slash normalized).",
+   "retired": true
   },
   "C-15.4-04": {
    "fp": "6c199c0f1171",
    "section": "15.4",
    "text": "A mention that verified before and fails now becomes **gone**; the receiver SHOULD keep the record with that status rather than deleting it, so that a stubber w"
   },
+  "C-15.4-05": {
+   "fp": "1545b052765c",
+   "section": "15.4",
+   "text": "Verification is bounded — RECOMMENDED: at most 2 fetches, or 3 when the source origin's manifest must be read (step 2), at most 3 redirects, 5 seconds per fetch"
+  },
+  "C-15.4-06": {
+   "fp": "bb9a2a7cceac",
+   "section": "15.4",
+   "text": "**The item document's final URL MUST be exactly `{origin}items/{id}.json` for the document's own `origin` and `id`** (revision of 2026-10-06, decision #61; sche"
+  },
+  "C-15.4-07": {
+   "fp": "98f4c82b7ebc",
+   "section": "15.4",
+   "text": "A 0.3 receiver reports such a mention as **failed**, which is correct for it, and a sender SHOULD read that failure as the receiver's version, not as an error o"
+  },
+  "C-15.4-08": {
+   "fp": "e9cd2b23471d",
+   "section": "15.4",
+   "text": "After the relation is found, a receiver SHOULD classify a `stub` or `transclusion` mention whose source document carries **no words of its own** as a **repost**"
+  },
   "C-15.5-01": {
    "fp": "5a5e321463f2",
    "section": "15.5",
    "text": "A publisher MAY display verified mentions of an item publicly — a \"responses\" list on a permalink page — and if it does, that is **per-item curation** under §13"
+  },
+  "C-15.5-02": {
+   "fp": "72e672833a37",
+   "section": "15.5",
+   "text": "Notices are held apart: they MUST NOT appear in a responses list, MAY be shown as \"linked from\" or \"reposted by\" with attribution under §13.5 like any display, "
   },
   "C-15.6-01": {
    "fp": "51ee8e8e51ca",
    "section": "15.6",
    "text": "A receiver MAY accept mentions whose source is not a blyg item document, verified the W3C way (the source page contains the target URL), and if it does MUST hol"
   },
+  "C-15.7-01": {
+   "fp": "f6d0bb8f09dc",
+   "section": "15.7",
+   "text": "It may still *send* — a static export is produced by some dynamic studio, which can send at export time — but is not REQUIRED to."
+  },
   "P-16.1a-01": {
    "fp": "e602ab72682d",
    "section": "16.1a",
-   "text": "**Ruled: a `{url}` stub (§10.6) MAY carry the same `cited` object**, under §5.9's rules unchanged — `retrieved` REQUIRED, self-asserted, frozen when the stub wa"
+   "text": "**Ruled: a `{url}` stub (§10.6) MAY carry the same `cited` object**, under §5.9's rules unchanged — `retrieved` REQUIRED, self-asserted, frozen when the stub wa",
+   "retired": true
   },
   "P-16.1a-02": {
    "fp": "6fb761a492b0",
    "section": "16.1a",
-   "text": "`cited` promises no test — §15.4 MUST ignore it and a reader that drops it stays conformant — and §5.9's own argument is *stronger* for a target that cannot be "
+   "text": "`cited` promises no test — §15.4 MUST ignore it and a reader that drops it stays conformant — and §5.9's own argument is *stronger* for a target that cannot be ",
+   "retired": true
   },
   "P-16.3-01": {
    "fp": "1373580a8043",
    "section": "16.3",
-   "text": "**Ruled 2026-09-28: a generator MAY be fed another origin's words, and that is a *source*, not a quotation, disclosed as a reference — and it notifies.** §5.7 r"
+   "text": "**Ruled 2026-09-28: a generator MAY be fed another origin's words, and that is a *source*, not a quotation, disclosed as a reference — and it notifies.** §5.7 r",
+   "retired": true
   },
   "P-16.3-02": {
    "fp": "605c7ac058da",
    "section": "16.3",
-   "text": "`sources[]` takes the reference shape of §5.9 — `origin` omitted for own-origin, present for remote — and MAY carry `cited`."
+   "text": "`sources[]` takes the reference shape of §5.9 — `origin` omitted for own-origin, present for remote — and MAY carry `cited`.",
+   "retired": true
   },
   "P-16.3-03": {
    "fp": "718b8f3e85ad",
    "section": "16.3",
-   "text": "A remote source is a **remote reference** and SHOULD send a mention (§15.2) whose relation is **`source`** — a fourth relation, added to §15.4's set when this c"
+   "text": "A remote source is a **remote reference** and SHOULD send a mention (§15.2) whose relation is **`source`** — a fourth relation, added to §15.4's set when this c",
+   "retired": true
   },
   "P-16.4-01": {
    "fp": "be31aa4a68ab",
@@ -879,12 +1188,14 @@
   "P-16.6c-01": {
    "fp": "804525051de9",
    "section": "16.6c",
-   "text": "**Ruled 2026-09-28: a changelog entry MAY carry `\"generated\": true`**, meaning the publisher's studio wrote the note (from the local diff between versions) rath"
+   "text": "**Ruled 2026-09-28: a changelog entry MAY carry `\"generated\": true`**, meaning the publisher's studio wrote the note (from the local diff between versions) rath",
+   "retired": true
   },
   "P-16.6c-02": {
    "fp": "f93cfb35f4a4",
    "section": "16.6c",
-   "text": "Self-asserted and unverifiable like `generated[]` (§5.7 rule 6); absent means only \"not stated\"; readers MUST NOT gate on it."
+   "text": "Self-asserted and unverifiable like `generated[]` (§5.7 rule 6); absent means only \"not stated\"; readers MUST NOT gate on it.",
+   "retired": true
   },
   "P-16.6d-01": {
    "fp": "dbd205d13194",
@@ -904,27 +1215,131 @@
   "P-16.6e-01": {
    "fp": "69d4e018ab8c",
    "section": "16.6e",
-   "text": "**Two OPTIONAL template keys**, in [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570) level-1 form: `item` (variable `id`, default `items/{id}.json`) and `pin` "
+   "text": "**Two OPTIONAL template keys**, in [RFC 6570](https://www.rfc-editor.org/rfc/rfc6570) level-1 form: `item` (variable `id`, default `items/{id}.json`) and `pin` ",
+   "retired": true
   },
   "P-16.6e-02": {
    "fp": "97cc3ef3cdbb",
    "section": "16.6e",
-   "text": "Readers MUST expand them wherever this document says `{origin}items/{id}.json` or `{origin}items/{id}/v{n}.json`."
+   "text": "Readers MUST expand them wherever this document says `{origin}items/{id}.json` or `{origin}items/{id}/v{n}.json`.",
+   "retired": true
   },
   "P-16.6e-03": {
    "fp": "b180a895e5a8",
    "section": "16.6e",
-   "text": "**`page` MAY be absolute** (§5.8), since a CMS permalink lives outside the surface's mount; media URLs already may be (§5.4)."
+   "text": "**`page` MAY be absolute** (§5.8), since a CMS permalink lives outside the surface's mount; media URLs already may be (§5.4).",
+   "retired": true
   },
   "P-16.6f-01": {
    "fp": "7ea1c453dd34",
    "section": "16.6f",
-   "text": "The `blyg-transclusion` class MUST NOT survive into the fork: the forking publisher baked nothing and verified nothing."
+   "text": "The `blyg-transclusion` class MUST NOT survive into the fork: the forking publisher baked nothing and verified nothing.",
+   "retired": true
   },
   "P-16.7-01": {
    "fp": "560c6fe11354",
    "section": "16.7",
    "text": "Plain (non-structural) mentions — MAY, held apart (§15.6)."
+  },
+  "P-16.9-01": {
+   "fp": "da523e9da1bb",
+   "section": "16.9",
+   "text": "Two OPTIONAL members on a changelog entry that carries `\"pinned\": true`, ruled on the pace-layered feed (blygger-studio 0.42.0; RFC-3) and on [blygger-spec#13]("
+  },
+  "P-16.9-02": {
+   "fp": "167c569626f7",
+   "section": "16.9",
+   "text": "A reader MAY fetch the pinned document from IPFS when the origin does not serve it, and treats what it fetches as the origin's own pinned file."
+  },
+  "P-16.9-03": {
+   "fp": "fc09a74782d8",
+   "section": "16.9",
+   "text": "A third party that mirrors pinned bytes is within §13.4 — the origin serves them forever, so the mirror never exceeds the origin's promise — and MUST NOT mirror"
+  },
+  "P-16.11-01": {
+   "fp": "69db565d3cb6",
+   "section": "16.11",
+   "text": "A client MAY therefore take a URL from anywhere — a bookmarklet, a share sheet, a browser extension — resolve it (§12 for the origin, the page's JSON alternate "
+  },
+  "P-16.12-01": {
+   "fp": "401f49b5ce32",
+   "section": "16.12",
+   "text": "OPTIONAL `hoppers`: an array of the publisher's **public** hoppers, present only when there is at least one."
+  },
+  "P-16.12-02": {
+   "fp": "60ea9f04e532",
+   "section": "16.12",
+   "text": "Each entry carries `title` (REQUIRED), `page` (REQUIRED, the hopper's page) and `feed` (OPTIONAL, its hopper feed), origin-relative or absolute."
+  },
+  "P-16.12-03": {
+   "fp": "974e4821d806",
+   "section": "16.12",
+   "text": "A hopper that is not public MUST NOT be listed."
+  },
+  "P-16.12-04": {
+   "fp": "7218acc7eaeb",
+   "section": "16.12",
+   "text": "(a) MUST serve one only for a public hopper and MUST name it in that hopper's manifest entry; a hopper taken private leaves the list and its feed SHOULD answer "
+  },
+  "P-16.12-05": {
+   "fp": "219127e13a3a",
+   "section": "16.12",
+   "text": "(b) MUST NOT use the `blyg:` namespace anywhere in it — no `<blyg:manifest>` on the channel, no `blyg:id` or `blyg:version` on any entry — **the publisher's own"
+  },
+  "P-16.12-06": {
+   "fp": "e1f7cae250a6",
+   "section": "16.12",
+   "text": "(c) MUST carry every current member: the feed is the list, not a window; an item leaving the hopper, or rolled to null under §13.4, leaves the feed at the next "
+  },
+  "P-16.12-07": {
+   "fp": "4d52add8e9b1",
+   "section": "16.12",
+   "text": "(d) each entry is one membership: `<guid isPermaLink=\"false\">`, stable for the life of the membership and derived from the hopper and the member's `origin` and "
+  },
+  "P-16.12-08": {
+   "fp": "fe5a45c843e3",
+   "section": "16.12",
+   "text": "The hopper page SHOULD carry `<link rel=\"alternate\" type=\"application/rss+xml\">` to the feed and SHOULD carry `<link rel=\"blyg\">` (§12.1 step 4), so that resolu"
+  },
+  "P-16.12-09": {
+   "fp": "c02df8bb0ebd",
+   "section": "16.12",
+   "text": "A reader SHOULD let the user choose the whole blyg instead."
+  },
+  "P-16.12-10": {
+   "fp": "e50ab8982fcc",
+   "section": "16.12",
+   "text": "When a later manifest no longer lists the feed, the reader stops polling it and treats its entries as gone; it MUST NOT silently convert the subscription into o"
+  },
+  "P-16.12-11": {
+   "fp": "21862e34afc7",
+   "section": "16.12",
+   "text": "**Readers** import the entries as L0 wrapper rows (§13.6) — summaries and links, never a transclusion source, synthetic ids scoped to the hopper subscription, n"
+  },
+  "P-16.13-01": {
+   "fp": "9af099a1f52f",
+   "section": "16.13",
+   "text": "A publisher that moves SHOULD redirect its manifest permanently, SHOULD redirect the rest of its surface (feed, index, pages), and SHOULD keep serving at the ol"
+  },
+  "P-16.13-02": {
+   "fp": "882c4ba9e21e",
+   "section": "16.13",
+   "text": "**The successor's acknowledgement:** OPTIONAL manifest member `moved_from`, an array of former identity origins (§12.2 strings)."
+  },
+  "P-16.13-03": {
+   "fp": "6d42f11b52db",
+   "section": "16.13",
+   "text": "When the manifest fetched there lists the old identity in `moved_from`, the reader SHOULD tell the user and offer to follow; a redirect without the acknowledgem"
+  },
+  "P-16.13-04": {
+   "fp": "07d9c3c81ed6",
+   "section": "16.13",
+   "text": "An origin listed in the receiver's own `moved_from` is read as naming the receiver: under §15.3 step 1 that is membership by its own published data (decision #8"
+  },
+  "P-16.13-05": {
+   "fp": "ab3f94f298c0",
+   "section": "16.13",
+   "text": "Published references stay as made; a republish re-resolves against the reader's current record (§10.2) and names the new identity, and MAY re-send its mentions."
   }
  }
 }

@@ -1,8 +1,8 @@
 # Clause register & traceability graph
 
 This directory pulls every RFC 2119 sentence out of the living spec
-(`docs/protocol-v0.3.md`), gives each one a stable id, and links it to the
-56 locked decisions in `CLAUDE.md`, the four design invariants in §1, the
+(`docs/protocol-v0.4.md`), gives each one a stable id, and links it to the
+88 locked decisions in `CLAUDE.md`, the four design invariants in §1, the
 sections it cites, and, once other toolkit areas publish results, the tests
 that exercise it. It is a reading aid for the spec author, not a normative
 document. Nothing here edits `docs/`.
@@ -13,12 +13,17 @@ document. Nothing here edits `docs/`.
 python3 conformance/clauses/build.py
 ```
 
-You need Python 3.10 or later, standard library only. The command regenerates:
+You need Python 3.10 or later, standard library only. The last run
+(2026-11-01, against 0.4) found 221 normative clauses (MUST 107, SHOULD 65,
+MAY 49) in 46 sections, 26 pending §16 sentences, and 88 decisions; the
+0.3 run of 2026-10-03 had 165 (82 / 52 / 31) and 58. The write-up, with the
+section map and the keyword-less sentences, is
+`conformance/reports/2026-11-01-clauses-0.4.md`. The command regenerates:
 
 | File | What |
 |---|---|
 | `clauses.json` | The register: a list of clauses, plus sections, §2 terminology, §1 invariants and the §16 pending shapes |
-| `decisions.json` | Decisions #1–#56 parsed from `CLAUDE.md`: title, session, spec sections named, relations, tokens |
+| `decisions.json` | Decisions #1–#88 parsed from `CLAUDE.md`: title, session, spec sections named, relations, tokens |
 | `ids.lock.json` | The fingerprint → id lock (commit it) |
 | `out/graph.json` | Nodes and edges: invariants, decisions, sections, clauses, tests |
 | `out/analysis.json` | The coverage matrix, the timeline, the prose lints and the term tables |
@@ -26,7 +31,18 @@ You need Python 3.10 or later, standard library only. The command regenerates:
 | `out/report.html` | The page to open (self-contained apart from cytoscape.js from cdnjs) |
 
 You can also run each step on its own: `extract.py` (takes `--spec`, `--lock` and `--out`),
-then `decisions.py`, then `analyze.py`, then `report.py`.
+then `decisions.py` (takes `--spec-version`, default: the version `clauses.json`
+was extracted from), then `analyze.py`, then `report.py`.
+
+To analyse an older version, for example 0.3, point every output away from
+the committed files so the lock is not rewritten:
+
+```sh
+python3 conformance/clauses/extract.py --spec docs/protocol-v0.3.md \
+  --lock /tmp/lock.json --out /tmp/clauses-0.3.json
+```
+
+(copy `ids.lock.json` to `/tmp/lock.json` first to keep the ids).
 
 ## A clause entry
 
@@ -47,13 +63,18 @@ then `decisions.py`, then `analyze.py`, then `report.py`.
 - **status**: `normative`, or `pending` for keyword sentences in §16. A
   pending sentence is a ruled shape that is not yet normative, and its id
   starts with `P-` instead of `C-`. Each §16 subsection is also listed under
-  `pending_shapes`, with one of these statuses: promoted, ruled, ruled-0.4,
-  closed, reserved or never.
+  `pending_shapes`, with one of these statuses, read from the heading's
+  parenthetical: promoted (with `promoted_to`, every § the heading names),
+  ruled (awaiting a build), ruled-0.N (a construct for a later version),
+  closed (resolved with no wire construct), reserved or never.
+  `overrides.json` → `pending_shapes` can force a status.
 - **side** is a heuristic. It takes the last actor named before the strongest
   keyword (publisher, reader, receiver, sender or client/studio; document
   nouns such as *manifest* or *file* count as publisher). If no actor is
   named, it falls back to a default for the section. `side_basis` says which
   rule fired.
+- **level** can be overridden for a negated keyword ("is not REQUIRED to"
+  reads as MAY); `level_basis` then says so.
 - **decisions** lists the `#N` numbers cited in the sentence. `decisions_nearby`
   lists those cited elsewhere in the same paragraph. **refs** lists the §
   sections the sentence cites. References into other versions, such as
@@ -70,7 +91,9 @@ follows document order within the section. After that, ids are append-only:
    `ids.lock.json` keeps its id.
 2. A clause whose text was edited is matched by similarity (≥ 0.80) to a
    clause that vanished from the same section, and inherits that clause's
-   id (`id_basis: "near-match …"`).
+   id (`id_basis: "near-match …"`). The lock keeps the first 160
+   characters of each clause, so the new text is cut to the same length
+   before comparing.
 3. A new clause gets the next number never used in its section. So a
    sentence inserted in the middle of §4 becomes `C-4-13`, not `C-4-05`.
 4. An id whose clause disappears is marked `retired` in the lock and is
@@ -79,6 +102,12 @@ follows document order within the section. After that, ids are append-only:
 Test ids, issues and devlog entries can therefore cite `C-10.2-04` and keep
 pointing at it. If you delete `ids.lock.json`, every clause is renumbered,
 which breaks those external references.
+
+A sentence rewritten too far for the near-match, or a §16 shape promoted
+into the normative text, gets a new id and its old one retires. Record the
+pair under `clause_successors` in `overrides.json`: a test that still cites
+the retired id then counts for the successor, and the `tests.retired-ids`
+check names the test so its area can update.
 
 ## Hand curation: `overrides.json`
 
@@ -93,7 +122,10 @@ which breaks those external references.
   note, studio, refusal, vocabulary, deferred and foundational. A classified
   decision reports `info`, and an unclassified decision with no clause
   reports `warn`.
-- `decision_relations`: amend/refine/resolve edges that the regex cannot see.
+- `clause_successors`: retired id → the live id(s) that now carry its rule
+  (see "How ids stay stable").
+- `pending_shapes`: `{section: {status, why}}` to force a §16 status.
+- `decision_relations`: amend/refine/resolve/reverse edges that the regex cannot see.
   The timeline draws these dashed.
 - `invariant_decisions`: links each §1 invariant to the decisions that state it.
 
@@ -150,5 +182,10 @@ If no other area has published results yet, every MUST shows as untested.
 - Bold-term and token analyses are heuristics meant to point you at text to
   read, not verdicts.
 - Decision → section parsing classifies each `§` by the nearest document hint
-  (spec, plan, a `.md` file). A bare `§` in a decision from session 20 or
-  later is assumed to mean the spec (`via: "spec?"`).
+  (spec, plan, a `.md` file). A version named right after the ref wins
+  ("§11.4 at 0.1"). References into 0.2 and 0.3 count as spec references
+  (`via: "spec-0.3"`), because each version keeps the previous one's section
+  numbers (#23); 0.1 references do not. A bare `§` in a decision from session
+  20 or later is assumed to mean the spec (`via: "spec?"`). A decision that
+  names a promoted §16 subsection is grounded in the sections it was
+  promoted to.
