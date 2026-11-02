@@ -101,6 +101,15 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
   directive grammar is line-based (§10.1), and the alternative lets a quote swallow a
   directive. Confirm, or rule the other way, and say whether §10.1 should state it.
 
+- **Two wording fixes from the tangling plan** (session 57, Opus under #58;
+  [`tangling-plan.md`](tangling-plan.md) §5). (1) §13.7 folds a burst under "a thread
+  created with them", but `created` is when the thread was first drafted, so a thread
+  drafted earlier and tangled later never matches; proposed "published with them", tested
+  by the thread version's `updated`. (2) The wordless test (§15.4, #80) is written for
+  mentions; one sentence in §13.2 would let readers queue a wordless imported version low,
+  as the studio's Background lens will. Opus drafts both into the living 0.4 text when the
+  build starts; confirm or rule otherwise.
+
 Before session 57: nothing pending. Session 49 reviewed and confirmed #65 (§5.6 rules 7–8), the G11
 promotion (§5.6 rule 6) and #69 (static front page; citation corrected to §8.4 rule 3,
 sentence added to the 0.4 text) — `v0.4-plan.md` §11.1. Session 34's four studio calls
