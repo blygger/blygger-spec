@@ -1,0 +1,75 @@
+{
+  "id": "baked-remote-relative-url",
+  "title": "A relative URL in an imported item's HTML must not reach this item's content_html relative",
+  "group": "urls",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§5.2",
+    "§10.2"
+  ],
+  "clauses": [
+    "C-5.2-03",
+    "C-5.2-04"
+  ],
+  "decisions": [
+    "#53"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "![[2r2r2r2r2r2r2r2r2r2r2r2r2r]]",
+  "items": [
+    {
+      "id": "2r2r2r2r2r2r2r2r2r2r2r2r2r",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/2r2r2r2r2r2r2r2r2r2r2r2r2r/",
+      "content_md": "See [the notes](notes/) for more.",
+      "content_html": "<p>See <a href=\"notes/\">the notes</a> for more.</p>\n",
+      "content_hash": "sha256:1b601b1bd72db6e15ddb4c3327904df97e98372ef88968acf16e1795edd8902b"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<blockquote class=\"blyg-transclusion\" data-blyg-id=\"2r2r2r2r2r2r2r2r2r2r2r2r2r\" data-blyg-version=\"1\" data-blyg-origin=\"https://remote.example/\">\n<p>See <a href=\"https://remote.example/notes/\">the notes</a> for more.</p>\n</blockquote>\n",
+    "normative": [
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "2r2r2r2r2r2r2r2r2r2r2r2r2r",
+          "data-blyg-version": "1",
+          "data-blyg-origin": "https://remote.example/"
+        },
+        "text": "See the notes for more.",
+        "children": [
+          {
+            "a": "(absolute)",
+            "text": "the notes"
+          }
+        ]
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "2r2r2r2r2r2r2r2r2r2r2r2r2r",
+        "version": 1,
+        "origin": "https://remote.example/"
+      }
+    ]
+  },
+  "ambiguous": "The source is non-conformant (§5.2 requires its own content_html to be absolute). §10.2 bakes the held HTML, §5.2 says readers MAY resolve relative URLs on import, and §5.2 also says this item's content_html MUST be absolute. The expectation follows the MUST: whoever resolves it, the URL that reaches the bake is absolute.",
+  "ambiguous_checks": [
+    "normative",
+    "absolute-urls"
+  ]
+}

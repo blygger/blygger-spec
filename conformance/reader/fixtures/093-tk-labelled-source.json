@@ -1,0 +1,63 @@
+{
+  "id": "tk-labelled-source",
+  "title": "A label on a source directive reaches nothing on the wire",
+  "group": "generation",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§5.7",
+    "§10.1"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#20",
+    "#70"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "[TK]Summarise ![[01j9zq3k4m5n6p7q8r9s0t1v2w | their post]] briefly[=]Done.[/TK]",
+  "items": [
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/01j9zq3k4m5n6p7q8r9s0t1v2w/",
+      "content_md": "Small tools, used daily, beat big tools used rarely.",
+      "content_html": "<p>Small tools, used daily, beat big tools used rarely.</p>\n"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<div class=\"blyg-tk-gen\"><p>Done.</p>\n</div>\n",
+    "normative": [
+      {
+        "wrapper": "div",
+        "classes": [
+          "blyg-tk-gen"
+        ],
+        "data": {},
+        "text": "Done."
+      }
+    ],
+    "transclusions": [],
+    "generated": [
+      {
+        "sources": [
+          {
+            "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+            "version": 1
+          }
+        ]
+      }
+    ]
+  },
+  "notation": "reference-tk",
+  "seeded_from": "label_tk_source"
+}

@@ -1,0 +1,80 @@
+{
+  "id": "tk-output-own-line-directive",
+  "title": "An own-line directive in generated output transcludes at publish (#60)",
+  "group": "generation",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§5.7",
+    "§10.1"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#60",
+    "#20"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "Intro.\n\n[TK]write it[=]Mine.\n\n![[01j9zq3k4m5n6p7q8r9s0t1v2w]][/TK]\n\nOutro.",
+  "items": [
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/01j9zq3k4m5n6p7q8r9s0t1v2w/",
+      "content_md": "Small tools, used daily, beat big tools used rarely.",
+      "content_html": "<p>Small tools, used daily, beat big tools used rarely.</p>\n"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<p>Intro.</p>\n<div class=\"blyg-tk-gen\"><p>Mine.</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"01j9zq3k4m5n6p7q8r9s0t1v2w\" data-blyg-version=\"1\">\n<p>Small tools, used daily, beat big tools used rarely.</p>\n</blockquote>\n</div>\n<p>Outro.</p>\n",
+    "normative": [
+      {
+        "wrapper": "div",
+        "classes": [
+          "blyg-tk-gen"
+        ],
+        "data": {},
+        "text": "Mine. Small tools, used daily, beat big tools used rarely.",
+        "children": [
+          {
+            "wrapper": "blockquote",
+            "classes": [
+              "blyg-transclusion"
+            ],
+            "data": {
+              "data-blyg-id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+              "data-blyg-version": "1"
+            },
+            "text": "Small tools, used daily, beat big tools used rarely."
+          }
+        ]
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+        "version": 1
+      }
+    ],
+    "generated": [
+      {
+        "sources": []
+      }
+    ]
+  },
+  "notation": "reference-tk",
+  "ambiguous": "Decision #60 makes the directive a real transclusion, so the quote and its transclusions[] entry are normative. Where the quote sits relative to the div.blyg-tk-gen is not stated; the expectation nests it inside the generated block, where the author's output put it, though a quote is not generated words.",
+  "ambiguous_checks": [
+    "normative"
+  ],
+  "seeded_from": "tr_block_tk_directive_split"
+}

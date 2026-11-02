@@ -1,0 +1,75 @@
+{
+  "id": "directive-label-empty",
+  "title": "An empty label on a directive is no label: no data-blyg-label",
+  "group": "label",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.1",
+    "§10.2"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#70",
+    "#81"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "![[01j9zq3k4m5n6p7q8r9s0t1v2w |]]\n\n![[01j9zq3k4m5n6p7q8r9s0t1v2w   |   ]]",
+  "items": [
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/01j9zq3k4m5n6p7q8r9s0t1v2w/",
+      "content_md": "Small tools, used daily, beat big tools used rarely.",
+      "content_html": "<p>Small tools, used daily, beat big tools used rarely.</p>\n"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<blockquote class=\"blyg-transclusion\" data-blyg-id=\"01j9zq3k4m5n6p7q8r9s0t1v2w\" data-blyg-version=\"1\">\n<p>Small tools, used daily, beat big tools used rarely.</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"01j9zq3k4m5n6p7q8r9s0t1v2w\" data-blyg-version=\"1\">\n<p>Small tools, used daily, beat big tools used rarely.</p>\n</blockquote>\n",
+    "normative": [
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+          "data-blyg-version": "1"
+        },
+        "text": "Small tools, used daily, beat big tools used rarely."
+      },
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+          "data-blyg-version": "1"
+        },
+        "text": "Small tools, used daily, beat big tools used rarely."
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+        "version": 1
+      },
+      {
+        "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+        "version": 1
+      }
+    ]
+  },
+  "seeded_from": "label_directive_forms"
+}

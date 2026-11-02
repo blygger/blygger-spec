@@ -1,0 +1,72 @@
+{
+  "id": "partial-of-thread-reaches-its-quote",
+  "title": "A thread's text content includes the words it baked, so a selection may come from them",
+  "group": "partial",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.2",
+    "§2"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#49"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "![[01j9zq3k4m5n6p7q8r9s0t1v3x]]\n> Small tools, used daily",
+  "items": [
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v3x",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "thread",
+      "version": 1,
+      "state": "published",
+      "page": "t/01j9zq3k4m5n6p7q8r9s0t1v3x/",
+      "content_md": "A thread about notebooks.\n\n![[01j9zq3k4m5n6p7q8r9s0t1v2w]]\n\nClosing thought.",
+      "content_html": "<p>A thread about notebooks.</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"01j9zq3k4m5n6p7q8r9s0t1v2w\" data-blyg-version=\"1\">\n<p>Small tools, used daily, beat big tools used rarely.</p>\n</blockquote>\n<p>Closing thought.</p>\n",
+      "transclusions": [
+        {
+          "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+          "version": 1
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"01j9zq3k4m5n6p7q8r9s0t1v3x\" data-blyg-version=\"1\">\n<p>Small tools, used daily</p>\n</blockquote>\n",
+    "normative": [
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion",
+          "blyg-partial"
+        ],
+        "data": {
+          "data-blyg-id": "01j9zq3k4m5n6p7q8r9s0t1v3x",
+          "data-blyg-version": "1"
+        },
+        "text": "Small tools, used daily",
+        "p": [
+          "Small tools, used daily"
+        ]
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "01j9zq3k4m5n6p7q8r9s0t1v3x",
+        "version": 1,
+        "selector": {
+          "exact": "Small tools, used daily"
+        }
+      }
+    ]
+  },
+  "seeded_from": "tr_partial_nested_text"
+}
