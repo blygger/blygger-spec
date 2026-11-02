@@ -1,0 +1,125 @@
+{
+  "id": "transclusions-order-and-origin",
+  "title": "transclusions[] is in directive order; origin is omitted for own-origin sources and present for remote ones",
+  "group": "disclosure",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.3"
+  ],
+  "clauses": [
+    "C-10.3-03"
+  ],
+  "decisions": [
+    "#26",
+    "#76"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n\n![[01j9zq3k4m5n6p7q8r9s0t1v2w]]\n\n> plain quote\n\n![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]",
+  "items": [
+    {
+      "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 2,
+      "state": "published",
+      "page": "f/7c9wk2mhq0v3xj8tn5rzfd41bg/",
+      "content_md": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\n\nA second paragraph about *emphasis* and traces left in the environment.",
+      "content_html": "<p>Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.</p>\n<p>A second paragraph about <em>emphasis</em> and traces left in the environment.</p>\n",
+      "pins": {
+        "1": {
+          "content_md": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.",
+          "content_html": "<p>Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.</p>\n"
+        }
+      },
+      "content_hash": "sha256:84e660f173fcacd57794c3ebd072cac0103042bf014cd9057def823007831816"
+    },
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/01j9zq3k4m5n6p7q8r9s0t1v2w/",
+      "content_md": "Small tools, used daily, beat big tools used rarely.",
+      "content_html": "<p>Small tools, used daily, beat big tools used rarely.</p>\n"
+    },
+    {
+      "id": "1vgtgz0gq5b2c9k7d3m8r4n6xy",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/1vgtgz0gq5b2c9k7d3m8r4n6xy/",
+      "content_md": "धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.",
+      "content_html": "<p>धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.</p>\n",
+      "content_hash": "sha256:191c5d5c79c4f1674fc7172fee845891ffde31928d804a985a34594bba9a7f8d"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<blockquote class=\"blyg-transclusion\" data-blyg-id=\"7c9wk2mhq0v3xj8tn5rzfd41bg\" data-blyg-version=\"2\" data-blyg-origin=\"https://remote.example/\">\n<p>Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.</p>\n<p>A second paragraph about <em>emphasis</em> and traces left in the environment.</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"01j9zq3k4m5n6p7q8r9s0t1v2w\" data-blyg-version=\"1\">\n<p>Small tools, used daily, beat big tools used rarely.</p>\n</blockquote>\n<blockquote>\n<p>plain quote</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"1vgtgz0gq5b2c9k7d3m8r4n6xy\" data-blyg-version=\"1\" data-blyg-origin=\"https://remote.example/\">\n<p>धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.</p>\n</blockquote>\n",
+    "normative": [
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+          "data-blyg-version": "2",
+          "data-blyg-origin": "https://remote.example/"
+        },
+        "text": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment."
+      },
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+          "data-blyg-version": "1"
+        },
+        "text": "Small tools, used daily, beat big tools used rarely."
+      },
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "1vgtgz0gq5b2c9k7d3m8r4n6xy",
+          "data-blyg-version": "1",
+          "data-blyg-origin": "https://remote.example/"
+        },
+        "text": "धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message."
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "7c9wk2mhq0v3xj8tn5rzfd41bg",
+        "version": 2,
+        "origin": "https://remote.example/"
+      },
+      {
+        "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+        "version": 1
+      },
+      {
+        "id": "1vgtgz0gq5b2c9k7d3m8r4n6xy",
+        "version": 1,
+        "origin": "https://remote.example/"
+      }
+    ]
+  },
+  "seeded_from": "tr_provenance_order"
+}

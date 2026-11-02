@@ -1,0 +1,61 @@
+{
+  "id": "link-remote-no-page",
+  "title": "A link to an imported item whose document names no page",
+  "group": "urls",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.1",
+    "§5.8"
+  ],
+  "clauses": [
+    "C-5.8-02"
+  ],
+  "decisions": [
+    "#53",
+    "#85"
+  ],
+  "kind": "fragment",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "[[6a7b8c9d0e1f2g3h4j5k6m7n8p]]",
+  "items": [
+    {
+      "id": "6a7b8c9d0e1f2g3h4j5k6m7n8p",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": null,
+      "content_md": "A fragment whose document names no page.",
+      "content_html": "<p>A fragment whose document names no page.</p>\n",
+      "content_hash": "sha256:41c5a15f580003da59d38ce515269de9b9c27bb3a92eb7505e26f1c23885cb39"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<p><a href=\"https://remote.example/f/6a7b8c9d0e1f2g3h4j5k6m7n8p/\">…</a></p>\n",
+    "normative": [
+      {
+        "a": [
+          "https://remote.example/f/6a7b8c9d0e1f2g3h4j5k6m7n8p/",
+          "https://remote.example/items/6a7b8c9d0e1f2g3h4j5k6m7n8p.json"
+        ]
+      }
+    ],
+    "links": [
+      {
+        "id": "6a7b8c9d0e1f2g3h4j5k6m7n8p",
+        "origin": "https://remote.example/"
+      }
+    ]
+  },
+  "ambiguous": "§10.1 says the anchor's href is the absolute URL of the target's page (§5.8), and §5.8 lets readers fall back to the reference convention when `page` is absent. Decision #85 says a mention sender in the same position names the item document instead. The expectation accepts either the convention page or the item document.",
+  "ambiguous_checks": [
+    "normative"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "link-ambiguous",
+  "title": "A link to an id held from two origins is a publish error",
+  "group": "resolution",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.1",
+    "§10.2"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#79"
+  ],
+  "kind": "fragment",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "See [[3m3m3m3m3m3m3m3m3m3m3m3m3m]].",
+  "items": [
+    {
+      "id": "3m3m3m3m3m3m3m3m3m3m3m3m3m",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/3m3m3m3m3m3m3m3m3m3m3m3m3m/",
+      "content_md": "One of two.",
+      "content_html": "<p>One of two.</p>\n",
+      "content_hash": "sha256:d4704606265bcc7d2e3363b770b0b4e2682a10cea32100b8e61bed382ea40ffe"
+    },
+    {
+      "id": "3m3m3m3m3m3m3m3m3m3m3m3m3m",
+      "origin": "https://other.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/3m3m3m3m3m3m3m3m3m3m3m3m3m/",
+      "content_md": "The other of two.",
+      "content_html": "<p>The other of two.</p>\n",
+      "content_hash": "sha256:9255b427e2871ff1400534233f571a6127e67781fd17d9b5829cdc45c3550f9d"
+    }
+  ],
+  "expect": {
+    "error": true
+  },
+  "seeded_from": "link_unresolved_fragment"
+}
