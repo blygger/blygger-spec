@@ -20,6 +20,7 @@ AREAS = [
     ("live", "Live network", "A read-only crawl of every known blyg, checking invariants that span origins."),
     ("alloy", "Alloy model", "A formal model of the protocol's rules; the solver searches for counterexamples."),
     ("model", "Property tests", "Random action sequences run through a spec-derived model and the real blygger-studio importer."),
+    ("reader", "Reader fixtures", "content_md to content_html fixtures written from the spec text; any renderer runs them through an adapter command (blygger-spec#5)."),
 ]
 RANK = {"fail": 4, "warn": 3, "pass": 2, "info": 1}
 
@@ -132,14 +133,14 @@ button{margin-top:8px;width:100%;padding:9px;border:0;border-radius:8px;backgrou
 <body>
 <main>
 <h1>Blygger conformance dashboard</h1>
-<p class="sub">Does the spec do what it is meant to do? Each intention below is linked to the spec sections and decisions meant to deliver it, and to the evidence from five independent tools. <b>A clause can pass while its intention fails</b>, and those are the cases this page is built to surface. Start with the <a href="reports/2026-10-03-first-round.html">first-round report</a>.</p>
+<p class="sub">Does the spec do what it is meant to do? Each intention below is linked to the spec sections and decisions meant to deliver it, and to the evidence from six independent tools. <b>A clause can pass while its intention fails</b>, and those are the cases this page is built to surface. Start with the <a href="reports/2026-10-03-first-round.html">first-round report</a>.</p>
 <div id="stats" class="stats"></div>
 
 <h2>Intent ledger</h2>
 <p class="sub">Intentions are quoted from your posts, the decisions and the spec. An intention's status is the worst status among the checks that bear on it. Under each one, write whether it's what you meant and where the reading is wrong. The button at the bottom right copies every note you've written so you can paste them as a reply.</p>
 <div id="intents"></div>
 
-<h2>The five tools</h2>
+<h2>The six tools</h2>
 <div id="areas" class="areas"></div>
 
 <h2>All checks</h2>
@@ -169,7 +170,7 @@ const bar = list => { const n = list.length || 1; return `<div class="bar">${["f
 
 document.getElementById("stats").innerHTML = [
   ["Intentions", D.intents.length, D.intents.filter(i => i.status === "fail").length + " with failing evidence"],
-  ["Checks", all.length, D.areas.filter(a => a.present).length + " of 5 tools reporting"],
+  ["Checks", all.length, D.areas.filter(a => a.present).length + " of 6 tools reporting"],
   ["Failing", cnt("fail"), "MUST-level or counterexample"],
   ["Warnings", cnt("warn"), "SHOULD-level or untested"],
   ["Passing", cnt("pass"), "within the stated scope"],
