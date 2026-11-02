@@ -70,7 +70,10 @@
       "notes": {
         "first": "Update for 1 November 2026: hopper feeds ship in 0.50.0, the 0.49 API, rulings #86\u2013#88, the reader suite.",
         "revision": "1 November update revised; see the source history."
-      }
+      },
+      "id": "7r19m93xew3gwrbr2rspp19t5n",
+      "version": 1,
+      "source_sha256": "254e7d5ca5b14e61f63838bf0cc660023032ccfbda5cab23c01d0a5098266678"
     }
   ]
 }
