@@ -6,7 +6,8 @@
   ],
   "decisions": [
     "#49",
-    "#32"
+    "#32",
+    "#76"
   ],
   "content_md": "Intro.\r\n\r\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\r\n> Stigmergy is what a protocol looks like from inside\r\n\r\nSee [[1vgtgz0gq5b2c9k7d3m8r4n6xy]].\r\n",
   "expect": {
@@ -23,6 +24,5 @@
     ],
     "tk_sources": [],
     "literal": []
-  },
-  "ambiguous": "The spec does not say how line endings are treated; 'surrounding whitespace allowed' covers a trailing \\r on the directive line only."
+  }
 }

@@ -342,8 +342,11 @@ export async function crawl(opts = {}) {
         }
       }
       t = origins[tOrigin];
-      if (t && t.alias_of) t = origins[t.alias_of];
     }
+    // An origin already met as an alias (a reference URL that is not an
+    // identity origin) stands for its identity origin, on every later
+    // reference too, not only the first.
+    if (t && t.alias_of) t = origins[t.alias_of];
     if (!t || t.unreachable) continue;
     const item = await fetchItem(t, ref.id);
     if (typeof ref.version === "number") {

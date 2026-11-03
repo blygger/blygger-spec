@@ -7,7 +7,8 @@
 // prints { renderer, results: [...] } on stdout. Progress goes to stderr.
 //
 // How it renders a case, using only the studio's public surfaces:
-//   1. boot the studio in process (boot.mjs) at the fixtures' own origin,
+//   1. boot the studio in process (conformance/lib/studio-boot.mjs, shared
+//      with the schemas/ harness) at the fixtures' own origin,
 //      https://home.example/, with fake remote blygs behind it (remote.mjs);
 //   2. publish every local item the corpus names, in dependency order,
 //      through the owner REST contract, and subscribe to every remote origin
@@ -25,7 +26,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { bootStudio } from "./boot.mjs";
+import { bootStudio } from "../../../lib/studio-boot.mjs";
 import { fakeRemotes } from "./remote.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -58,12 +59,9 @@ async function create(kind, contentMd) {
   if (r.status >= 300) throw new Error(`createItem ${r.status}: ${errText(r)}`);
   return r.json;
 }
-const revision = async (id) => (await s.api("GET", `/items/${id}`)).json.revision;
-async function publish(id) {
-  return s.api("POST", `/items/${id}/publish`, { expectedRevision: await revision(id) });
-}
+const publish = (id) => s.mutate("POST", `/items/${id}/publish`, id);
 async function edit(id, contentMd) {
-  const r = await s.api("PATCH", `/items/${id}`, { contentMd, expectedRevision: await revision(id) });
+  const r = await s.mutate("PATCH", `/items/${id}`, id, { contentMd });
   if (r.status >= 300) throw new Error(`updateItem ${r.status}: ${errText(r)}`);
 }
 
@@ -82,7 +80,7 @@ while (pending.length) {
   const p = await publish(made.id);
   if (p.status >= 300) throw new Error(`publishing local ${it.id}: ${p.status} ${errText(p)}`);
   if (it.state === "withdrawn") {
-    const w = await s.api("POST", `/items/${made.id}/withdraw`, { expectedRevision: await revision(made.id) });
+    const w = await s.mutate("POST", `/items/${made.id}/withdraw`, made.id);
     if (w.status >= 300) throw new Error(`withdrawing local ${it.id}: ${w.status} ${errText(w)}`);
   }
 }
@@ -167,7 +165,7 @@ for (const c of cases) {
       for (const scope of pv.json.scopes || []) {
         if (scope.output === null || scope.imported) continue;
         remote.state.gen.push(scope.output);
-        const g = await s.api("POST", `/items/${id}/generate`, { scope: scope.index, expectedRevision: await revision(id) });
+        const g = await s.mutate("POST", `/items/${id}/generate`, id, { scope: scope.index });
         if (g.status >= 300) { remote.state.gen.length = 0; throw new Error(`generate scope ${scope.index}: ${g.status} ${errText(g)}`); }
       }
       // The studio tidies model text as it installs it (0.49.12 folds

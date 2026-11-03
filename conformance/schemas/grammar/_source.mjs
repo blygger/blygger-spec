@@ -25,8 +25,12 @@ const cases = [
     `![[${RA}]]\n> Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\n>\n> A second paragraph about *emphasis* and traces`,
     { transclusions: [P(RA, "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\nA second paragraph about emphasis and traces")] }],
   ["partial-not-in-target", "A selection that is not a substring of the target's text content is a publish error", ["§10.2"], ["#49"], `![[${RA}]]\n> words that are nowhere in the target`, { error: true }],
-  ["partial-lazy-continuation", "A non-'>' line right after the quote run: CommonMark lazy continuation would extend the blockquote; the reference client ends the selection", ["§10.1"], ["#49"],
-    `![[${RA}]]\n> ${SEL}\nlazy continuation line`, { transclusions: [P(RA, SEL)], ambiguous: "The spec says 'the blockquote's text is the selection'. In CommonMark the third line is a lazy continuation inside the blockquote; blygger-studio ends the run at the first line not starting with '>'. Expectation encodes that reading." }],
+  // §10.1 as revised by #76: the blockquote's extent is CommonMark's, lazy
+  // continuation included. Same case as the reader suite's
+  // 056-partial-lazy-continuation. blygger-studio 0.49.12 ends the run at the
+  // first line without `>` (blygger-studio#104), so it fails here.
+  ["partial-lazy-continuation", "The blockquote's extent is CommonMark's: a lazy continuation line belongs to the selection", ["§10.1", "§10.2"], ["#49", "#76"],
+    `![[${RA}]]\n> Stigmergy is what a protocol\nlooks like from inside\n\nCommentary.`, { transclusions: [P(RA, SEL)] }],
   ["reserved-version", "![[id@vN]] is reserved: 0.3 publishers MUST reject it", ["§10.1"], ["#9"], `![[${RA}@v1]]`, { error: true }],
   ["unknown-id", "An unresolvable directive is a publish error", ["§10.2"], ["#26"], `![[zzzzzzzzzzzzzzzzzzzzzzzzzz]]`, { error: true }],
   ["inline-directive-inert", "A directive sequence that is not alone on its line is inert text (and not a link)", ["§10.1"], ["#9", "#32"], `Text ![[${RA}]] inline.`, { literal: [`![[${RA}]]`] }],
@@ -40,8 +44,8 @@ const cases = [
   ["partial-in-tilde-fence", "Directive + quote inside a tilde fence is inert", ["§10.1"], ["#54", "#49"], "~~~md\n![[" + RA + "]]\n> " + SEL + "\n~~~", { literal: [`![[${RA}]]`] }],
   ["directive-in-indented-code", "An own-line directive in an indented code block is inert", ["§10.1"], ["#54"], `Para.\n\n    ![[${RA}]]\n\nAfter.`, { literal: [`![[${RA}]]`] }],
   ["link-in-fenced-code", "[[id]] inside a fenced block is inert", ["§10.1"], ["#54"], "```\nsee [[" + RA + "]]\n```", { literal: [`[[${RA}]]`] }],
-  ["crlf-partial-and-link", "CRLF line endings: partial transclusion and link still recognized", ["§10.1"], ["#49", "#32"], `Intro.\r\n\r\n![[${RA}]]\r\n> ${SEL}\r\n\r\nSee [[${RB}]].\r\n`,
-    { transclusions: [P(RA, SEL)], links: [RB], ambiguous: "The spec does not say how line endings are treated; 'surrounding whitespace allowed' covers a trailing \\r on the directive line only." }],
+  ["crlf-partial-and-link", "CRLF line endings: partial transclusion and link still recognized", ["§10.1"], ["#49", "#32", "#76"], `Intro.\r\n\r\n![[${RA}]]\r\n> ${SEL}\r\n\r\nSee [[${RB}]].\r\n`,
+    { transclusions: [P(RA, SEL)], links: [RB] }], // a line ends at LF or CRLF alike (§10.1, #76)
   ["devanagari-partial", "Unicode (Devanagari) selection and surrounding prose", ["§10.1", "§10.2"], ["#49"], `![[${RB}]]\n> धर्म और कर्म — यह माध्यम ही संदेश है।\n\nटिप्पणी: [[${RA}]]।`, { transclusions: [P(RB, "धर्म और कर्म — यह माध्यम ही संदेश है।")], links: [RA] }],
   ["tk-source-not-quote", "Inside a TK scope, ![[id]] is a generation source, never a transclusion", ["§5.7", "§10.1"], ["#20"], `[TK]Summarise ![[{{L}}]][=]Some output.[/TK]`, { tk_sources: [["{{L}}"]] }],
   ["tk-source-own-line", "An own-line directive inside a TK scope is still a source", ["§5.7"], ["#20"], `[TK]Draw on this\n![[{{L}}]]\n[=]Some output.[/TK]`, { tk_sources: [["{{L}}"]] }],

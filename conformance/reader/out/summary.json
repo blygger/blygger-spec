@@ -1,7 +1,7 @@
 {
   "area": "reader",
   "title": "Reader suite: content_md → content_html fixtures",
-  "generated_at": "2026-11-02T05:50:14.053Z",
+  "generated_at": "2026-11-02T05:50:56.764Z",
   "renderer": "blygger-studio 0.49.12",
   "snapshot": "spec/0.4/2026-10-18",
   "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",

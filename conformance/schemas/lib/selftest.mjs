@@ -38,6 +38,7 @@ export function selftest(docs) {
   m("fragment-transclusions", "a fragment carrying transclusions", [], docs.fragment, (d) => (d.transclusions = []));
   m("changelog-gap", "changelog skips a version", [], docs.fragment, (d) => { d.changelog.push({ version: d.version + 2, at: d.updated }); d.version += 2; });
   m("page-host-rooted", "page host-rooted (/f/…)", ["C-5.8-01"], docs.fragment, (d) => (d.page = "/" + d.page));
+  m("page-absolute-not-url", "an absolute page that is not an http(s) URL", ["C-5.8-01"], docs.fragment, (d) => (d.page = "urn:blyg:" + d.id));
   m("pinned-endcap", "a pinned file for a withdrawal endcap", ["C-8-03"], docs.pinned, (d) => (d.kind = "withdrawn"), "pinned");
   m("reserved-directive", "![[id@vN]] published", ["C-10.1-01"], docs.thread, (d) => (d.content_md += `\n\n![[${d.id}@v1]]`));
   return M;

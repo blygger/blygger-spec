@@ -158,9 +158,10 @@ git clone --branch v0.49.12 https://github.com/blygger/blygger-studio.git /tmp/s
 STUDIO_DIR=/tmp/studio node run.mjs --adapter studio
 ```
 
-It boots the studio's Worker in process (bundled with the checkout's own
-esbuild, run in the checkout's own Miniflare, migrated with the checkout's
-own migrations) at the fixtures' origin, `https://home.example/`, with fake
+It boots the studio's Worker in process with `conformance/lib/studio-boot.mjs`,
+the toolkit's one way to start the studio, shared with `schemas/` and
+`model/` (bundled with the checkout's own esbuild, run in the checkout's own
+Miniflare, migrated with the checkout's own migrations) at the fixtures' origin, `https://home.example/`, with fake
 remote blygs behind it. It then works the way an author would, through
 public surfaces only: it publishes the local items through the owner REST
 contract (`src/contract/routes.ts`), subscribes to the remote origins so

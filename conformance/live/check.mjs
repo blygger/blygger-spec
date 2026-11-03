@@ -19,9 +19,9 @@ const ID_RE = /^[0-9abcdefghjkmnpqrstvwxyz]{26}$/;
 // Check catalogue: id → metadata. `kind` = "invariant" (pass/warn/fail per
 // instance) or "info" (census-style, never fails).
 export const CHECKS = {
-  "live.resolve": { title: "Every listed / discovered URL resolves per §12.1", spec_refs: ["§12.1"], decisions: ["#17"], clauses: ["C-4-02","C-4-03"], kind: "invariant" },
+  "live.resolve": { title: "Every listed / discovered URL resolves per §12.1", spec_refs: ["§12.1"], decisions: ["#17"], clauses: ["C-4-13","C-4-03"], kind: "invariant" },
   "live.census": { title: "Client, version key and level census per origin", spec_refs: ["§3.1", "§3.2", "§6.1"], decisions: ["#18", "#34"], clauses: ["C-3.2-02","C-6.1-03"], kind: "info" },
-  "live.identity": { title: "Item documents speak for the origin they are served from; manifest `site` agrees", spec_refs: ["§12.2", "§15.4"], decisions: ["#17", "#28"], clauses: ["C-15.4-03","C-12.2-01"], kind: "invariant" },
+  "live.identity": { title: "Item documents speak for the origin they are served from; manifest `site` agrees", spec_refs: ["§12.2", "§15.4"], decisions: ["#17", "#28"], clauses: ["C-15.4-06","C-12.2-01"], kind: "invariant" },
   "live.content-hash": { title: "`content_hash` = sha256(content_md) on item and pinned documents", spec_refs: ["§5.1"], decisions: ["#2"], clauses: ["C-5.1-03"], kind: "invariant" },
   "live.index-agree": { title: "Archive index agrees with item documents (versions, kinds, order)", spec_refs: ["§6.2"], decisions: ["#18"], clauses: ["C-4-03","C-4-09"], kind: "invariant" },
   "live.feed": { title: "Feed GUIDs are `blyg:{id}:v{n}` and agree with `blyg:id`/`blyg:version`; `<blyg:manifest>` present; withdrawn = one entry", spec_refs: ["§7"], decisions: ["#8"], clauses: ["C-7-03","C-7-05","C-7-09"], kind: "invariant" },
@@ -41,7 +41,7 @@ export const CHECKS = {
   "live.cors": { title: "Public JSON/XML served with `Access-Control-Allow-Origin: *`", spec_refs: ["§4"], decisions: [], clauses: ["C-4-11"], kind: "invariant" },
   "live.webmention-advertised": { title: "Which origins advertise a Webmention endpoint (manifest key / rel=webmention)", spec_refs: ["§15.1"], decisions: ["#28"], clauses: ["C-6.1-02","C-15.1-01"], kind: "info" },
   "live.webmention-reachability": { title: "Cross-origin references whose sender would find an endpoint at the target", spec_refs: ["§15.1", "§15.2"], decisions: ["#28"], clauses: ["C-6.1-02","C-15.1-01","C-15.2-01"], kind: "info" },
-  "live.generated-sources": { title: "`generated[].sources[]` stay own-origin at 0.3", spec_refs: ["§5.7", "§16.3"], decisions: ["#20", "#44"], clauses: ["C-5.7-02"], kind: "invariant" },
+  "live.generated-sources": { title: "`generated[].sources[]`: own sources omit `origin`, remote sources carry it (0.4)", spec_refs: ["§5.7", "§5.9"], decisions: ["#20", "#44"], clauses: ["C-5.7-08", "C-5.9-01"], kind: "invariant" },
   "live.updated-changelog": { title: "`updated` equals the latest changelog entry's `at`", spec_refs: ["§5.2"], decisions: [], clauses: ["C-5.2-02"], kind: "invariant" },
   "live.fork-reresolution": { title: "Fork content vs. source pin: directives, selectors, baked versions, origins", spec_refs: ["§5.6", "§10.2"], decisions: ["#26", "#49"], clauses: ["C-10.2-01","C-5.6-08"], kind: "info" },
   "live.fork-lineage-visible": { title: "A fork's public page links its source (origin / pinned version)", spec_refs: ["§5.6"], decisions: [], clauses: [], kind: "info" },
@@ -269,8 +269,10 @@ export async function check(crawlPath = join(HERE, "out", "crawl.json")) {
 
       // generated sources
       for (const g of d.generated || []) for (const s of g.sources || []) {
-        if (s.origin && !sameOrigin(s.origin, o.identity)) add("live.generated-sources", "warn", `remote generation source ${s.origin} ${s.id} — a 0.4 construct (§16.3), not expressible at 0.3`, at);
-        else if (s.origin) add("live.generated-sources", "warn", "own-origin source carries `origin` (0.3: no origin member)", at);
+        // 0.4 §5.7 (C-5.7-08, #44): a remote source is a reference carrying its
+        // origin. Until the 0.4 text this warned as a 0.4 construct (§16.3).
+        if (s.origin && !sameOrigin(s.origin, o.identity)) add("live.generated-sources", "pass", `remote generation source ${s.origin} ${s.id} (0.4 §5.7)`, at);
+        else if (s.origin) add("live.generated-sources", "warn", "own-origin source carries `origin` (§5.7: omitted for the publisher's own items)", at);
         else add("live.generated-sources", "pass", "own-origin source", at);
       }
 

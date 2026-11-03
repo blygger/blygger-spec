@@ -125,7 +125,7 @@ const RULE_CLAUSES = {
   "html.absolute-urls": ["C-5.2-03", "C-7-07"], "md.no-tk-grammar": [], "md.no-reserved-directive": ["C-10.1-01"],
   "transclusions.match-directives": ["C-10.2-01"], "transclusions.baked-wrappers": ["C-10.2-02", "C-10.3-01"], "selector.matches-bake": ["C-10.2-02"],
   "transclusions.own-origin-omitted": ["C-5.9-01"], "stub_of.version-agreement": ["C-10.6-03"], "forked_from.cited-url-is-page": ["C-5.9-05"],
-  "fork.carries-directives": [], "page.origin-relative": ["C-5.8-01"], "page.not-absolute-at-0.3": ["C-5.8-01"], "generated.wrappers": ["C-5.7-07"],
+  "fork.carries-directives": [], "page.origin-relative": ["C-5.8-01"], "page.absolute-is-url": ["C-5.8-01"], "generated.wrappers": ["C-5.7-07"],
   "generated.disjoint-from-transclusions": [], "links.rendered-absolute": ["C-5.2-03"], "code.inert": [], "media.referenced": [], "withdrawn.keeps-page": [],
   "id.matches-url": ["C-5.1-02"], "origin.matches-fetch": [], "pins.served": ["C-4-10", "C-8-01"], "pinned.hash": ["C-5.1-03"], "pinned.at-matches-changelog": [],
   "pinned.forked_from-immutable": ["C-5.6-06"], "index.order": [], "index.agrees-with-docs": [],
@@ -136,9 +136,9 @@ const clausesFor = (rule) => RULE_CLAUSES[rule] ?? RULE_CLAUSES[rule.replace(/^p
 const SCHEMA_CLAUSES = {
   item: ["C-5.1-01", "C-4-12", "C-5.5-01", "C-5.6-02", "C-5.9-01", "C-5.9-02", "C-5.9-04", "C-10.6-02", "C-10.3-01", "C-5.7-05"],
   pinned: ["C-5.1-01", "C-4-12", "C-8-03", "C-5.6-02", "C-10.6-02"],
-  manifest: ["C-6.1-03"], index: ["C-4-12"],
+  manifest: ["C-6.1-03", "C-4-14"], index: ["C-4-12"],
 };
-const ADVISORY_CLAUSES = { item: ["C-5.4-01", "C-5.3-02", "C-5.7-03", "C-5.5-02", "C-5.9-05"], pinned: ["C-8-05", "C-5.7-03"], manifest: ["C-3.2-02", "C-4-02", "C-6.1-03"] };
+const ADVISORY_CLAUSES = { item: ["C-5.4-01", "C-5.3-02", "C-5.7-03", "C-5.5-02", "C-5.9-05"], pinned: ["C-8-05", "C-5.7-03"], manifest: ["C-3.2-02", "C-6.1-03"] };
 
 // 4. checks for summary.json
 const checks = [];

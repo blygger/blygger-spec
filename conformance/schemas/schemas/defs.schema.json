@@ -115,15 +115,15 @@
       "properties": {
         "sources": {
           "type": "array",
-          "description": "§5.7 rule 1: exact published versions of this origin's items drawn on; MAY be empty (no sources declared). At 0.3 a source is own-origin and carries no origin member (remote sources are 0.4, §16.3, decision #44).",
+          "description": "§5.7 rule 1: exact published versions of the items drawn on; MAY be empty (no sources declared). An own-origin source carries no origin member; a remote source carries its origin (0.4 §5.7 rules 1, 8, 9, decision #44; until the 0.4 text this schema refused origin as a 0.4 construct).",
           "items": {
             "type": "object",
             "required": ["id", "version"],
             "properties": {
               "id": { "$ref": "#/$defs/id" },
-              "version": { "$ref": "#/$defs/version" }
-            },
-            "not": { "required": ["origin"] }
+              "version": { "$ref": "#/$defs/version" },
+              "origin": { "$ref": "#/$defs/absoluteUrl" }
+            }
           }
         },
         "model": { "type": "string", "description": "§5.7 rule 1: RECOMMENDED." },

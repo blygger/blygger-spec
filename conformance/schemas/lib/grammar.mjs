@@ -11,10 +11,13 @@
 //   - inside a TK scope `![[id]]` is a generation source, never a quote (#20)
 
 export const ID = "[0-9abcdefghjkmnpqrstvwxyz]{26}";
-const DIRECTIVE = new RegExp(`^[ \\t\\r\\f\\v\\u00a0\\ufeff]*!\\[\\[(${ID})\\]\\][ \\t\\r\\f\\v\\u00a0\\ufeff]*$`);
+// The author's label (0.4 §10.1, #70): the id MAY be followed by `|` and text
+// up to the first `]]`; resolution ignores it.
+const LABEL = `(?:[ \\t]*\\|(?:(?!\\]\\]).)*)?`;
+const DIRECTIVE = new RegExp(`^[ \\t\\r\\f\\v\\u00a0\\ufeff]*!\\[\\[(${ID})${LABEL}\\]\\][ \\t\\r\\f\\v\\u00a0\\ufeff]*$`);
 const RESERVED = new RegExp(`^\\s*!\\[\\[(${ID})@v\\d+\\]\\]\\s*$`);
-const LINK = new RegExp(`(?<!!)\\[\\[(${ID})\\]\\]`, "g");
-const SOURCE = new RegExp(`!\\[\\[(${ID})\\]\\]`, "g");
+const LINK = new RegExp(`(?<!!)\\[\\[(${ID})${LABEL}\\]\\]`, "g");
+const SOURCE = new RegExp(`!\\[\\[(${ID})${LABEL}\\]\\]`, "g");
 const QUOTE = /^\s*>/;
 
 /** Character ranges [start, end) that CommonMark would render as code. Approximate but spec-shaped. */
@@ -89,6 +92,9 @@ export function tkScopes(md, code = codeRanges(md)) {
   return scopes;
 }
 
+// Lines that interrupt a paragraph, so cannot be a lazy continuation line.
+const INTERRUPTS = /^ {0,3}(?:#{1,6}(?:\s|$)|```|~~~|(?:[-*_][ \t]*){3,}$|[-*+][ \t]|1[.)][ \t]|<)/;
+
 /** Normalize a quote run's markdown to selection text, approximately as §10.2 describes. */
 export function selectionOf(quoteLines) {
   const paras = [];
@@ -132,10 +138,18 @@ export function parse(md) {
     const m = DIRECTIVE.exec(line);
     if (!m) continue;
     directiveLines.add(i);
+    // The blockquote's extent is CommonMark's, lazy continuation included
+    // (§10.1, #76): after a `>` line whose text is paragraph content, a
+    // non-blank line without `>` continues the paragraph, unless it starts a
+    // block that interrupts a paragraph (heading, fence, thematic break, list
+    // item, HTML block). Approximate, as selectionOf is.
     const run = [];
     let j = i + 1;
-    while (j < lines.length && QUOTE.test(lines[j])) {
-      run.push(lines[j].replace(/^\s*>\s?/, "").replace(/\r$/, ""));
+    while (j < lines.length) {
+      const l = lines[j].replace(/\r$/, "");
+      if (QUOTE.test(l)) run.push(l.replace(/^\s*>\s?/, ""));
+      else if (run.length && run[run.length - 1].trim() !== "" && l.trim() !== "" && !INTERRUPTS.test(l)) run.push(l);
+      else break;
       directiveLines.add(j);
       j++;
     }

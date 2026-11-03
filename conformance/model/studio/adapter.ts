@@ -2,12 +2,19 @@
 // "@studio" alias (vitest.config.mts → $STUDIO_DIR/src); nothing in that repo is
 // modified. Publishing, forking and importing go through the studio's own
 // functions against a miniflare D1; pinning and withdrawal go through its owner
-// API (so the API's preconditions apply); the public surface is read through
-// SELF.fetch, exactly as a subscriber would.
+// REST contract (so the contract's preconditions apply, expectedRevision
+// included); the public surface is read through the Worker's fetch handler,
+// exactly as a subscriber would.
+//
+// This is the one harness in the toolkit that depends on studio internals,
+// because it drives the importer with a model network and compares database
+// state. Every internal it touches is listed in ../README.md, "Coupling to
+// studio internals"; a studio refactor that moves one breaks this file only.
 import { createExecutionContext, env, waitOnExecutionContext } from "cloudflare:test";
 import worker from "@studio/index.ts";
 import { CLIENT } from "@studio/client.ts";
-import { createDraft, createFork, getItem, publish, saveWorkingCopy } from "@studio/model.ts";
+import { authoredKind, createDraft, createFork, getItem, publish, saveWorkingCopy } from "@studio/model.ts";
+import { itemUrl, storedSurface } from "@studio/surface.ts";
 import { resolveForkSource } from "@studio/fork.ts";
 import { flattenFork } from "@studio/fork-flatten.ts";
 import { blygItemUrl } from "@studio/importer/util.ts";
@@ -45,17 +52,17 @@ function stripRef(t: any): TRef {
   return { id: t.id, version: t.version, ...(t.origin ? { origin: t.origin } : {}), ...(t.selector ? { selector: { exact: t.selector.exact } } : {}) };
 }
 
-/** Copy of api.ts's (unexported) quotedLink, 0.20.0: ours, an import's own `page`, else its item document. */
+/** Copy of api.ts's (unexported) quotedLink, 0.49.12: ours, an import's own `page`, else its item document (#85). */
 async function quotedLink(quoteOrigin: string, id: string): Promise<string> {
   if (quoteOrigin === S_ORIGIN) {
-    const own = await db().prepare("SELECT kind FROM items WHERE id = ?").bind(id).first<{ kind: string }>();
-    if (own) return blygItemUrl(S_ORIGIN, own.kind === "thread" ? "thread" : "fragment", id, null);
+    const own = await getItem(db(), id);
+    if (own) return blygItemUrl(S_ORIGIN, await authoredKind(db(), own), id, null);
   }
   const row = await db()
     .prepare("SELECT ii.kind AS kind, ii.page AS page FROM imported_items ii JOIN subscriptions s ON s.id = ii.subscription_id WHERE ii.remote_id = ? AND s.origin = ?")
     .bind(id, quoteOrigin)
     .first<{ kind: string; page: string | null }>();
-  return row ? blygItemUrl(quoteOrigin, row.kind, id, row.page) : `${quoteOrigin}items/${id}.json`;
+  return row ? blygItemUrl(quoteOrigin, row.kind, id, row.page) : itemUrl(quoteOrigin, await storedSurface(db(), quoteOrigin), id);
 }
 
 export class Studio implements StudioAdapter {
@@ -68,14 +75,37 @@ export class Studio implements StudioAdapter {
 
   private async login() {
     if (this.cookie) return this.cookie;
-    const res = await call(`${BASE}/blyg/studio/login`, { method: "POST", body: new URLSearchParams({ password: "test-password" }), redirect: "manual" });
+    const res = await call(`${BASE}/blyg/studio/login`, { method: "POST", headers: { origin: BASE }, body: new URLSearchParams({ password: "test-password" }), redirect: "manual" });
     this.cookie = res.headers.get("set-cookie")!.split(";")[0];
     return this.cookie;
   }
 
+  /** Every table's rows as the migrations left them, captured at the first reset. */
+  private baseline?: Map<string, Record<string, unknown>[]>;
+
+  /**
+   * Back to the freshly migrated database. Since 0.49.x some migrations seed
+   * singleton rows that triggers depend on (change_state, 0024: every write to
+   * a tracked table fails with "missing change state" without it; oauth_state,
+   * 0021), so a reset restores the migrated rows rather than emptying every
+   * table. Tables the migrations left empty are emptied first, twice, in case
+   * a delete trigger writes into one already emptied.
+   */
   async reset() {
-    const tables = await db().prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'd1_%' AND name NOT LIKE '_cf_%'").all<{ name: string }>();
-    for (const t of tables.results) await db().prepare(`DELETE FROM "${t.name}"`).run();
+    const tables = (await db().prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'd1_%' AND name NOT LIKE '_cf_%'").all<{ name: string }>()).results.map((t) => t.name);
+    if (!this.baseline) {
+      this.baseline = new Map();
+      for (const t of tables) this.baseline.set(t, (await db().prepare(`SELECT * FROM "${t}"`).all<Record<string, unknown>>()).results);
+    }
+    const seeded = tables.filter((t) => this.baseline!.get(t)?.length);
+    for (let pass = 0; pass < 2; pass++) for (const t of tables) if (!seeded.includes(t)) await db().prepare(`DELETE FROM "${t}"`).run();
+    for (const t of seeded) {
+      await db().prepare(`DELETE FROM "${t}"`).run();
+      for (const row of this.baseline.get(t)!) {
+        const cols = Object.keys(row);
+        await db().prepare(`INSERT INTO "${t}" (${cols.map((c) => `"${c}"`).join(", ")}) VALUES (${cols.map(() => "?").join(", ")})`).bind(...cols.map((c) => row[c])).run();
+      }
+    }
     this.subs.clear();
     for (const [origin, kind] of [[A_ORIGIN, "blyg"], [B_ORIGIN, "blyg"], [L_ORIGIN, "rss"]] as const) {
       const s = await createSubscription(db(), { kind, origin, feedUrl: `${origin}feed.xml`, title: origin });
@@ -102,13 +132,21 @@ export class Studio implements StudioAdapter {
     }
   }
 
+  /** An owner contract call. Item mutations are conditional since contract 5.0.0: expectedRevision is read first. */
+  private async mutate(method: string, path: string, id: string) {
+    const headers = { cookie: await this.login(), origin: BASE, accept: "application/json" };
+    const got = await call(`${BASE}/api/items/${id}`, { headers });
+    const revision = got.status === 200 ? ((await got.json()) as any).revision : undefined;
+    return call(`${BASE}/api${path}`, { method, headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify(revision === undefined ? {} : { expectedRevision: revision }) });
+  }
+
   async withdraw(id: string) {
-    const res = await call(`${BASE}/api/items/${id}/withdraw`, { method: "POST", headers: { cookie: await this.login(), "content-type": "application/json" }, body: "{}" });
+    const res = await this.mutate("POST", `/items/${id}/withdraw`, id);
     return res.status === 200 ? ((await res.json()) as any).version : null;
   }
 
   async pin(id: string, n: number) {
-    const res = await call(`${BASE}/api/items/${id}/versions/${n}/pin`, { method: "PUT", headers: { cookie: await this.login() } });
+    const res = await this.mutate("PUT", `/items/${id}/versions/${n}/pin`, id);
     return res.status === 200;
   }
 
@@ -132,8 +170,8 @@ export class Studio implements StudioAdapter {
   async fork(ref: BlygRef, newId: string, fetch: ModelFetch) {
     const src = await resolveForkSource(db(), ref, S_ORIGIN, "S", toFetchLike(fetch), new Date().toISOString());
     if (!src.ok) return { ok: false as const, refused: src.reason };
-    // The same two steps as the studio's fork route (api.ts createForkResponse,
-    // 0.20.0): resolveForkSource, then #57's flattenFork, then createFork. The
+    // The same three steps as the studio's fork route (api.ts createForkResponse,
+    // 0.49.12): resolveForkSource, then #57's flattenFork, then createFork. The
     // route itself fetches with the platform fetch, which cannot reach the model
     // origins; this is the one place the adapter re-composes studio code.
     const flat = await flattenFork(src.source, { origin: ref.origin, link: (o, id) => quotedLink(o, id) });
