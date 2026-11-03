@@ -130,6 +130,10 @@ export function compareCase(fx, result) {
   const failing = checks.filter((c) => c.status === "fail");
   const covered = fx.ambiguous && failing.every((c) => !fx.ambiguous_checks || fx.ambiguous_checks.includes(c.name));
   for (const c of failing) if (covered) c.status = "warn";
-  const status = failing.length && !covered ? "fail" : checks.some((c) => c.status === "warn") ? "warn" : "pass";
+  // A case whose only gaps are arrays the renderer did not report is not a pass:
+  // it is counted apart, so a renderer that omits links[] cannot outscore one
+  // that emits a wrong one.
+  const status = failing.length && !covered ? "fail" : checks.some((c) => c.status === "warn") ? "warn"
+    : checks.some((c) => c.status === "skip") ? "unreported" : "pass";
   return { id: fx.id, status, checks };
 }

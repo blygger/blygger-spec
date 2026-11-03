@@ -307,7 +307,7 @@ c("partial", "partial-devanagari", "A Unicode (Devanagari) selection", {
 c("partial", "partial-then-whole", "A partial transclusion followed by a whole one", {
   md: `![[${LF}]]\n> Small tools\n\n![[${RA}]]`, items: [LF, RA], html: QP(LF, ["Small tools"]) + Q(RA), tr: [TR(LF, { exact: "Small tools" }), TR(RA)], spec: ["§10.2", "§10.3"], decisions: ["#49"], seed: "tr_partial_then_whole" });
 c("partial", "partial-of-thread-reaches-its-quote", "A thread's text content includes the words it baked, so a selection may come from them", {
-  md: `![[${LT}]]\n> Small tools, used daily`, items: [LT], html: QP(LT, ["Small tools, used daily"]), tr: [TR(LT, { exact: "Small tools, used daily" })], spec: ["§10.2", "§2"], decisions: ["#49"], seed: "tr_partial_nested_text" });
+  md: `![[${LT}]]\n> Small tools, used daily`, items: [LT, LF], html: QP(LT, ["Small tools, used daily"]), tr: [TR(LT, { exact: "Small tools, used daily" })], spec: ["§10.2", "§2"], decisions: ["#49"], seed: "tr_partial_nested_text" });
 
 // resolution — §10.2 order and errors
 c("resolution", "unknown-id", "An unresolvable directive is a publish error", {
@@ -334,7 +334,7 @@ c("resolution", "link-local-withdrawn", "A link to a withdrawn local item with n
 c("resolution", "link-ambiguous", "A link to an id held from two origins is a publish error", {
   kind: "fragment", md: `See [[${RM}]].`, items: [RM + "@1", RM + "@2"], error: true, spec: ["§10.1", "§10.2"], decisions: ["#79"], seed: "link_unresolved_fragment" });
 c("resolution", "local-nested-thread", "Transcluding a local thread nests its baked quote; provenance is direct only", {
-  md: `![[${LT}]]`, items: [LT], html: Q(LT), tr: [TR(LT)], spec: ["§10.2", "§10.3"], decisions: ["#26"], seed: "tr_found_local_thread" });
+  md: `![[${LT}]]`, items: [LT, LF], html: Q(LT), tr: [TR(LT)], spec: ["§10.2", "§10.3"], decisions: ["#26"], seed: "tr_found_local_thread" });
 c("resolution", "remote-nested-thread", "Transcluding an imported thread nests its baked partial quote verbatim; its link is not this item's link", {
   md: `![[${RC}]]`, items: [RC], html: Q(RC), tr: [TR(RC)], links: [], spec: ["§10.2", "§10.3", "§10.3a"], decisions: ["#26", "#79"] });
 

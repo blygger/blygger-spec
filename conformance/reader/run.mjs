@@ -111,7 +111,7 @@ const outcomes = fixtures.map((fx) => {
   if (!r) return { id: fx.id, status: "fail", checks: [{ name: "outcome", status: "fail", detail: "no result from the renderer" }] };
   return compareCase(fx, r);
 });
-const counts = { pass: 0, warn: 0, fail: 0 };
+const counts = { pass: 0, warn: 0, fail: 0, unreported: 0 };
 for (const o of outcomes) counts[o.status]++;
 
 const outDir = resolve(opt("--out", join(here, "out")));
@@ -132,15 +132,15 @@ const summary = {
   checks: [
     {
       id: `reader.${slug}.census`, title: `${label}: ${fixtures.length} fixtures against ${snapshot.snapshot || "the living text"}`,
-      status: "info", detail: `${counts.pass} pass, ${counts.warn} warn (ambiguous text or fragment-only URLs), ${counts.fail} fail`,
+      status: "info", detail: `${counts.pass} pass, ${counts.warn} warn (ambiguous text or fragment-only URLs), ${counts.fail} fail, ${counts.unreported} unreported (passed what was checked, but left out an array the fixture expects)`,
       spec_refs: ["§10.1", "§10.2", "§10.3", "§10.3a", "§5.2", "§5.7"], decisions: ["#48"],
-      counts: { pass: counts.pass, warn: counts.warn, fail: counts.fail, info: 0 },
+      counts: { pass: counts.pass, warn: counts.warn, fail: counts.fail, info: counts.unreported },
     },
     ...outcomes.map((o) => {
       const fx = byId[o.id];
-      const bad = o.checks.filter((c) => c.status === "fail" || c.status === "warn");
+      const bad = o.checks.filter((c) => c.status === "fail" || c.status === "warn" || c.status === "skip");
       return {
-        id: `reader.${slug}.${o.id}`, title: `${label}: ${fx.title}`, status: o.status,
+        id: `reader.${slug}.${o.id}`, title: `${label}: ${fx.title}`, status: o.status === "unreported" ? "info" : o.status,
         detail: bad.length ? bad.map((c) => `${c.name}: ${c.detail}`).join(" · ") : o.checks.map((c) => `${c.name}: ${c.detail}`).join(" · "),
         spec_refs: fx.spec_refs, decisions: fx.decisions, clauses: fx.clauses, group: fx.group,
         ...(fx.ambiguous ? { ambiguous: true } : {}),
@@ -151,6 +151,6 @@ const summary = {
 writeFileSync(join(outDir, "summary.json"), JSON.stringify(summary, null, 2) + "\n");
 writeFileSync(join(outDir, "results.json"), JSON.stringify({ renderer, results }, null, 2) + "\n");
 if (!flag("--no-report")) writeFileSync(join(outDir, "report.html"), renderReport({ summary, fixtures, outcomes, results }));
-console.log(`${label}: ${counts.pass} pass, ${counts.warn} warn, ${counts.fail} fail of ${fixtures.length} → ${outDir}`);
+console.log(`${label}: ${counts.pass} pass, ${counts.warn} warn, ${counts.fail} fail, ${counts.unreported} unreported of ${fixtures.length} → ${outDir}`);
 for (const o of outcomes) if (o.status !== "pass") console.log(`  ${o.status.padEnd(4)} ${o.id}: ${o.checks.filter((c) => c.status === "fail" || c.status === "warn").map((c) => `${c.name}: ${c.detail}`).join(" · ").slice(0, 300)}`);
 process.exitCode = counts.fail ? 1 : 0;

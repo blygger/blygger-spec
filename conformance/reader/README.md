@@ -84,8 +84,11 @@ JSON:
 ```
 
 A non-zero exit, or `{ "error": … }`, is a publish error. Arrays left out are
-reported as *not reported* and skipped, so a renderer that only produces
-HTML can still run the suite. In `--batch` mode stdin is
+skipped, so a renderer that only produces HTML can still run the suite. A
+case that passes everything checked but leaves out an array the fixture
+expects counts as *unreported*, not as a pass (dashboard status `info`), so
+totals stay comparable between a renderer that omits `links[]` and one that
+emits a wrong one. In `--batch` mode stdin is
 `{ "cases": [ … ] }` and stdout is
 `{ "renderer": { "name", "version" }, "results": [ { "id", … } ] }`.
 
