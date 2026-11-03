@@ -65,6 +65,69 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
     browser-only as a hard rule; and whether blygger.org hosts it. Session 49 told Aneesh
     to expect a ruling in a round or two, after 0.4 opens; 0.4 opened later that
     day, so this is the **next round's** first item.
+
+    **Set up for ruling, session 58 (2026-11-03, Venkat: "set up that decision for Fable").**
+    The question has widened from "a registry?" to **what mechanism the program gives mods
+    of the studio**, and the registry is one answer. Read in this order:
+
+    - *The positions on studio#59.* Kyle (10-26, 10-27): plugins for self-deployed web apps
+      are a trap; people can fork for their own tweaks and share maintained forks;
+      innovation happens in forks and is pulled in once it proves itself; UI is not where
+      Blygger finds out what it is. Venkat (10-27): stop at **enabling useful hooks**, not a
+      plugin marketplace or a fully programmable surface; but forking alone may be too
+      limiting; a middle ground could be **published soft design principles for safe,
+      non-obnoxious mods**. Memory note "Studio should be boring" (#35 tabled) points the
+      same way: radical UI goes to other clients or extensions.
+    - *What exists.* `blygger-studio/docs/extensions.md`: first-party extensions compiled in,
+      fixed slots, read-only server routes, no runtime loading; an operator's own via the
+      gitignored `extensions.local.json`. Two ship (`reading-time`, `inspect`, 0.38.0).
+    - *The new evidence: blykker* (`blygger-protocol/blykker/`, repo `blygger/blykker`,
+      created 2026-11-02, Venkat). A **configuration-first mod of the studio for book-like
+      blygs, not a client and never a fork** — "the first test case for a studio mods
+      model". Phase 1 adds no studio code: `book.json` plus `tools/blykker.py`, which edits
+      threads and settings through the owner API as an editor would (seed, sync of
+      Contents → navigation, menus, notes, references, index, cover). Pilot: the New Nature
+      book, newnature.venkateshrao.com, stock studio. When a mod needs code it is an
+      extension compiled in by the operator; when the studio has no surface, the hook is
+      proposed upstream as a studio PR. Its `PLAN.md` § *Upstream hooks* lists five, all at
+      *idea*: (1) public-page presentation for chosen threads (CSS or an extension slot —
+      phase 2 book layout); (2) a custom label for a thread in the links section;
+      (3) hiding feed apparatus (version line, changelog note, dates) per thread;
+      (4) a feed filter that leaves out fragments carrying a marker (an extension feed order
+      can reorder, not filter — notes and references currently show in Posts); (5) a
+      write-capable extension action or a server hook on publish (rebuild navigation when
+      Contents change, without an outside watcher). Also wanted (`Publishing/newnature/
+      blykker-notes.md`): manuscript statistics and a private composition start page, both
+      as an extension page. Friction found: no custom CSS for public pages; HTML comments
+      render as text, so markers are link reference definitions.
+    - *How blykker is governed* (Venkat, session 58): not managed from this org-level folder.
+      It is **co-managed by the New Nature book project and this program initially**
+      (sessions run from `Publishing/newnature/`, per `blykker/CLAUDE.md`), and starts to
+      evolve **semi-independently once the right mechanism for such mods has been ruled**.
+      So this ruling is also what releases blykker to run on its own.
+
+    **To rule** (the original four, plus what blykker adds):
+    (a) does a registry belong to the program, to a third party, or nowhere for now;
+    (b) if any listing exists, who reviews an entry and what a listing promises;
+    (c) browser-only as a hard rule for third-party code;
+    (d) whether blygger.org hosts any index;
+    (e) **the mods mechanism itself**: hooks-on-demand (a mod proposes a general hook as a
+        studio PR, merged when it is general) as the program's stance, and the bar a hook
+        must clear; which of blykker's five hooks are in-principle acceptable — note (5) is
+        a *write* surface for extension code in the owner session, the sharpest of them, and
+        (4) touches what a public feed shows, so check it against §7 (every published item is
+        an event) before treating it as presentation;
+    (f) whether to publish **mod design principles** (Venkat's middle ground) and where —
+        a technical note, an RFC on blyg.blygger.org (#66), or studio docs;
+    (g) the condition under which a mod like blykker is "on its own" — what it keeps from
+        the studio (generator string stays `blygger-studio/x.y.z`, per `blykker/CLAUDE.md`)
+        and what it may own.
+
+    Likely shape, for Fable to accept or reject, not a recommendation of record: hooks on
+    demand plus published principles; no program-hosted registry now; Aneesh's tooling
+    (pinning, tree hash, import-boundary and browser-only checks) welcome as a third-party
+    repo or folded into the operator path for `extensions.local.json`. Reply owed to Aneesh
+    on studio#59 when ruled (told 2026-10-17 "a round or two").
 24. **Nine choices the 0.4 text leaves open, found by the reader suite** (session 57,
     2026-11-01; [blygger-spec#22](https://github.com/blygger/blygger-spec/pull/22),
     Aneesh Sathe, merged as `74f15b1`; the full list is in the PR description, and each is

@@ -66,10 +66,13 @@ Venkat has decided to.
    whose §4 blocked genres are the protocol-relevant part and whose publication on
    blygger.org as a fourth genre is an open question. File what survives in `backlog.md`.
 1. **Item 22 — Aneesh's extension registry** ([studio#59](https://github.com/blygger/blygger-studio/pull/59)),
-   **only when Venkat says so**. Kyle Mathews commented against it on 2026-10-26 and 10-27;
-   read those with Aneesh's `docs/extension-registry.md` on the branch. To rule: whether a
-   registry belongs to the program or a third party; who reviews an entry and what review
-   promises; browser-only as a hard rule; whether blygger.org hosts the index.
+   **Set up for ruling session 58 (2026-11-03, Venkat).** Widened: the question is now the
+   **mods mechanism** for the studio, with blykker (a configuration-first book mod, five
+   proposed upstream hooks) as the first test case and the registry as one answer. Kyle
+   Mathews commented against a registry on 2026-10-26 and 10-27; Venkat favours hooks plus
+   published mod principles. The full setup — positions, blykker's hooks, governance, and
+   questions (a)–(g) — is in `fable-round-queue.md` item 22. This ruling also releases
+   blykker to evolve semi-independently.
 2. **RFC-3 and RFC-4**, when drafted.
 
 **Opus-tier, not Fable's — listed so a Fable session does not take them by habit.**
