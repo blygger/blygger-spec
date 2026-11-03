@@ -4,19 +4,20 @@
 take the dated item below when its date has come; take the queued items in
 [`fable-round-queue.md`](fable-round-queue.md) if chosen on purpose; otherwise nothing.
 **Since #58, promotions are Opus's**; Fable reviews them after the fact.
-**Written:** session 38 (2026-10-06), by Fable 5.1. **Rewritten:** session 56
-(2026-11-01), by Fable 5.1, after one round that ruled the three field items session 55
-had queued: hopper feeds (#86, blygger-spec#18), the fixed name at every identity origin
-(#87, blygger-spec#21), origin succession and `moved_from` (#88, blygger-studio#102).
+**Written:** session 38 (2026-10-06), by Fable 5.1. **Rewritten:** session 58
+(2026-11-03), by Fable 5.1, after a short round in the middle of an Opus session that
+ruled the studio mods mechanism (#89, queue item 22, studio#59 and blykker's hooks) and
+confirmed session 57's three batch entries as the ninth revision. Session 56's round (#86–#88)
+is summarised below so it is not reopened.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
-> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#86–#88**
-> (session 56; #84–#85 session 52; #79–#83 session 50; #70–#78 session 49) →
-> [`v0.4-plan.md`](v0.4-plan.md) **§16** (the reasoning) →
-> [`protocol-v0.4.md`](protocol-v0.4.md) **§16.12–§16.13** (the two new ruled shapes and
-> their gates), §16.9–§16.10 (older ruled shapes still awaiting builds) →
-> [`fable-round-queue.md`](fable-round-queue.md) (**item 22 only**) →
-> [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 56.
+> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#86–#89**
+> (sessions 56 and 58; #84–#85 session 52; #79–#83 session 50; #70–#78 session 49) →
+> [`v0.4-plan.md`](v0.4-plan.md) **§16–§17** (the reasoning) →
+> [`protocol-v0.4.md`](protocol-v0.4.md) **§17** (ninth revision), §16.13 (`moved_from`,
+> awaiting its gate), §16.9–§16.10 (older ruled shapes still awaiting builds) →
+> [`fable-round-queue.md`](fable-round-queue.md) (**item 24 only**) →
+> [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 58.
 
 ## The dated item — RFC-1 and RFC-2 close 2026-11-04
 
@@ -32,17 +33,16 @@ comment late.
 
 ## Review first — decisions Opus ruled (#58)
 
-**Pending now: nothing.** The last Opus-ruled decisions (#65, #69) were reviewed in session
-49. Promotions Opus performs under #58 when their gates run, for Fable to review after:
+**Pending now: nothing.** Session 58 reviewed session 57's batch (the §16.12 promotion,
+studio#106's reading, the tangling plan's two wording fixes) — all confirmed, `v0.4-plan.md`
+§17.2. Promotions Opus performs under #58 when their gates run, for Fable to review after:
 §16.9 `pinned_at` → §5.2 and §8 once the studio emits it and a second client reads it;
 §16.9 `cid` → the same once any client emits it and a mirror reads it; §16.10 image size
-→ §10.1 once emitted and imported across two nodes; **§16.12 hopper feeds** → §2, §4,
-§6.1, §12.1 step 7, §12.2, §13.5 once the gate in §16.12 has run (studio#84 is the build);
-**§16.13 `moved_from`** → §6.1, §12.2, §15.3, §15.4 once Florian's live case has run the
-gate. When reviewing those two promotions, the things to look at: that §13.5's amended
-sentence says "no protocol surface beyond the `hoppers` list and a hopper feed" and nothing
-wider; that step 7 stayed a post-condition on steps 2–5 with the bound at six; that the
-receiver's former-identity substitution is confined to origins the receiver itself declares.
+→ §10.1 once emitted and imported across two nodes; **§16.13 `moved_from`** → §6.1, §12.2,
+§15.3, §15.4 once Florian's live case has run the gate. When reviewing that promotion, the
+thing to look at: that the receiver's former-identity substitution is confined to origins
+the receiver itself declares. The tangling build (Opus, `tangling-plan.md`) may add
+further sentences under #58; they go in section C of the queue.
 
 ## The gates
 
@@ -54,7 +54,7 @@ receiver's former-identity substitution is confined to origins the receiver itse
 | **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t) | Edit and rule it; publish with a comment period as RFC-1 and RFC-2 had. |
 
 If nothing is pending review, the dated item is not due and no gate is true when a Fable
-session opens, **say so in one line and stop** — or take item 22 or the `plans/` review if
+session opens, **say so in one line and stop** — or take item 24 or the `plans/` review if
 Venkat has decided to.
 
 ## Next round, on Venkat's word
@@ -65,14 +65,14 @@ Venkat has decided to.
    `pour-over-links-proposal.md`; `rich-editor-proposal.md`; `publishing-patterns.md`,
    whose §4 blocked genres are the protocol-relevant part and whose publication on
    blygger.org as a fourth genre is an open question. File what survives in `backlog.md`.
-1. **Item 22 — Aneesh's extension registry** ([studio#59](https://github.com/blygger/blygger-studio/pull/59)),
-   **Set up for ruling session 58 (2026-11-03, Venkat).** Widened: the question is now the
-   **mods mechanism** for the studio, with blykker (a configuration-first book mod, five
-   proposed upstream hooks) as the first test case and the registry as one answer. Kyle
-   Mathews commented against a registry on 2026-10-26 and 10-27; Venkat favours hooks plus
-   published mod principles. The full setup — positions, blykker's hooks, governance, and
-   questions (a)–(g) — is in `fable-round-queue.md` item 22. This ruling also releases
-   blykker to evolve semi-independently.
+1. **Item 24 — the nine choices the 0.4 text leaves open**, found by Aneesh's reader
+   suite ([blygger-spec#22](https://github.com/blygger/blygger-spec/pull/22), merged), with
+   the clause register's For-Fable findings in
+   [blygger-spec#23](https://github.com/blygger/blygger-spec/issues/23). Each answer is a
+   sentence in the living text that another client reads, so this is a round of its own,
+   not a quick ruling; measure each choice against the live clients before ruling, as
+   session 49's second round did with the member tables. The reader suite's studio run
+   (72/28) is Opus's to reproduce first, so the round starts from a current report.
 2. **RFC-3 and RFC-4**, when drafted.
 
 **Opus-tier, not Fable's — listed so a Fable session does not take them by habit.**
@@ -81,12 +81,20 @@ one SHOULD in §14; Opus may rule under #58, the one question being whether a co
 document should mention language models at all given the §0 criterion above);
 [blygger-spec#20](https://github.com/blygger/blygger-spec/issues/20) (publish the
 conformance schemas at their `$id` URLs; depends on blygger-org#4); studio#88 (shannonbux,
-component primitives, unreviewed); the API-cleanup stack merged 2026-11-01 and not yet
-deployed (session 55's note: owner API moves to `{mount}/api`; the host-root `/api` alias was restored in studio 0.49.12 for two releases, since `/blyg` is one of the two recommended mounts (Venkat, session 55); three
-migrations, a repair that must run before deploy); blygger.com's two listings for Florian's
-blyg (opus-brief item y).
+component primitives, unreviewed); the re-scope of studio#59 and `docs/mods.md` under #89
+(opus-brief § session 58); blykker's hooks in their general forms; blygger.com's two
+listings for Florian's blyg (opus-brief item y).
 
-## What session 56 settled, so it is not reopened
+## What sessions 56 and 58 settled, so it is not reopened
+
+**#89** (session 58): the studio has three mod surfaces — owner-API configuration,
+compiled-in extensions, hooks upstream — and a hook must be general, wire-silent and
+reads-only on the server; no program-hosted extension registry now (the extension API is
+unversioned, a listing under the org reads as endorsement, demand is unmeasured, #47);
+Aneesh's operator tooling survives as a registry of one; the feed filter and the server
+write hook blykker proposed are refused, the other three accepted as settings or
+presentation; principles in `blygger-studio/docs/mods.md`, not an RFC; blykker is on its own.
+The day a second mod with browser code exists is the day to count demand again.
 
 **#86**: a hopper feed is not re-emission — #12's line is the state plane and the `blyg:`
 namespace, not the manifest; no `blyg:` in a hopper feed, own items included; no item
@@ -142,8 +150,14 @@ in each live client. Nothing here is pre-decided.
 - **Label-first brackets, an escape for `]]`, a wire meaning for `[[text]]`** — #70, #71.
 - **A bundle CID, or any media addressing on the wire** — #74 named the document only.
 - **Image attributes beyond `width` and `height`** — #75.
-- **A filtered blyg feed** (per-hopper `feed.xml` with `blyg:id`) — #86 named it as the
-  refused sibling of the hopper feed.
+- **A filtered blyg feed** (per-hopper `feed.xml` with `blyg:id`, or a publisher-side
+  filter that drops marked items) — #86 named it as the refused sibling of the hopper
+  feed; #89 refused it again for blykker.
+- **A program-hosted extension registry, or any extension listing under the `blygger`
+  org that reads as endorsement** — #89; the trigger to count again is a second mod with
+  browser code.
+- **A server-side write hook in the studio** — #89; writes go through `client` in the
+  browser or a scoped token outside.
 - **A `moved_to` key, or any succession claim a reader acts on without the old origin's
   redirect** — #88.
 - **A `manifest` locator inside references** — #87.
@@ -151,6 +165,6 @@ in each live client. Nothing here is pre-decided.
 ## Hand back
 
 Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
-locked decisions from **#88**, record reasoning in `v0.4-plan.md` §16 (or a new section),
+locked decisions from **#89**, record reasoning in `v0.4-plan.md` §17 (or a new section),
 append the DEVLOG entry, file any new ideas in `backlog.md`, prune `fable-round-queue.md`,
 and rewrite this brief.

@@ -1246,8 +1246,12 @@ fetch.
   what is checked and what is baked. The blockquote's extent is
   CommonMark's, lazy continuation included: a line that follows a `>` line
   with no blank line between belongs to the selection even without its own
-  `>` (decision #76). A blank line detaches the blockquote, so a whole
-  transclusion followed by the author's own quotation stays writable:
+  `>` (decision #76). A line that is itself a directive, or the reserved
+  `![[id@vN]]` form, is never a continuation line: the grammar reads it as a
+  directive before markdown sees it, so it ends the selection (revision of
+  2026-11-03, confirming studio#106's reading). A blank line detaches the
+  blockquote, so a whole transclusion followed by the author's own
+  quotation stays writable:
 
   ```
   ![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
@@ -1918,6 +1922,12 @@ most failure modes structurally:
   publish worth an event (draft saves are invisible, §5.2). Keep it small:
   one word can negate a sentence, which is also why nothing is ever omitted,
   only queued.
+- **A version with no words of its own is maintenance of the same kind**
+  (revision of 2026-11-03). A fetched document that §15.4's repost test
+  reduces to nothing — directive lines, attached selections, labels and
+  whitespace stripped — carries other people's writing and none of the
+  author's; readers MAY queue it under the same clause. One test, defined
+  once in §15.4, serves both the receiver and the importer.
 
 A 404 on `items/index.json` from an otherwise-live blyg is a nonconforming
 publisher: readers SHOULD fall back to feed-window-only operation and surface
@@ -2074,8 +2084,10 @@ week of other origins under one act. Nothing on the wire marks the burst,
 by design (§5.2: the counter stays bare, and §13.2's same-hash rule shows
 the pattern: the signal is derived, never declared). What a reader can see
 is enough: items from one origin whose `created` times fall within one
-publish, and, when a thread created with them names them in its
-`transclusions[]`, the thread that is their whole. A reader MAY present
+publish, and, when a thread published with them names them in its
+`transclusions[]` — the thread version that first names them falling
+within the same publish, whenever the thread itself was first drafted
+(revision of 2026-11-03) — the thread that is their whole. A reader MAY present
 such a burst as one publication — the thread as its entry, its fragments
 beneath it or deferred to the low-priority queue of §13.2 — and MUST still
 import every item (§13.1), since folding is display, never omission.
@@ -2834,6 +2846,18 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-03, ninth revision** (Fable 5.1, session 58; the #58 batch
+  review of session 57's work) — three sentences, no new construct: §10.1
+  says a directive line is never a lazy continuation line, so it ends a
+  partial selection (studio#106's reading, a consequence of the line-based
+  grammar); §13.7 folds a burst under a thread *published* with its
+  fragments, not *created* with them, so a thread drafted earlier and
+  tangled later still folds; §13.2 lets readers queue a version with no
+  words of its own as maintenance, by §15.4's repost test, so wordless is
+  defined once. The eighth revision's promotion of §16.12 is confirmed as
+  made. Decision #89 (the studio mods mechanism) changed no spec text. Not
+  snapshotted.
 
 - **2026-11-01, eighth revision** (Opus 5.5, session 57, under #58; for
   Fable's batch review) — **hopper feeds promoted** from §16.12 now that

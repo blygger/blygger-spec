@@ -3,7 +3,8 @@
 **Written:** session 31 (2026-10-03), by Fable 5.1, replacing the session-28 brief after
 Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped. **Session 33** (same
 day, Fable) inserted item 5, fork flattening (#57); items 1–4 shipped in session 32.
-**Session 40** (2026-10-07, Fable) added the official-blyg section below (#66–#68). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
+**Session 40** (2026-10-07, Fable) added the official-blyg section below (#66–#68).
+**Session 58** (2026-11-03, Fable) added the mods-mechanism section (#89). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
 session starts (`CLAUDE.md` → At Session Start, step 4).
 
 > **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#57** (sessions 31, 33) and
@@ -196,6 +197,39 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
   RFC-2 are written, with reference constants where there are any. Hand to Fable to edit
   and rule before it publishes on blyg.blygger.org with a comment period; do not add the
   affordance to any page before then.
+
+## New from session 58 (2026-11-03, Fable 5.1) — the mods mechanism (#89); do these before the lists below
+
+Decision #89 in `CLAUDE.md`, reasoning `v0.4-plan.md` §17.1. No spec text changed for it;
+the ninth revision (§10.1, §13.7, §13.2) came from the batch review, §17.2, and needs no
+build — studio#106 already implements the §10.1 sentence. In order:
+
+- **a. `blygger-studio/docs/mods.md`** — the published principles. Contents, from §17.1:
+  the three surfaces in cost order (owner-API configuration on a scoped token; compiled-in
+  extensions per `docs/extensions.md`; hooks proposed upstream); the bar a hook must clear
+  (general — named for what it does; wire-silent — nothing in the bake, `feed.xml`, item
+  documents or manifest, presentation of the publisher's own pages open; reads-only on the
+  server — writes through `client` in the browser or a scoped token polling
+  `/api/changes`); "a mod keeps the studio's generator string"; "the no-fork promise is the
+  mod's own, not the program's". Link it from `docs/extensions.md` and the README's
+  extensions line; one short paragraph on blygger.org's ecosystem page may say the studio
+  takes mods and point at it (observation, not endorsement).
+- **b. Re-scope studio#59 with Aneesh.** Venkat's reply is drafted in session 58's DEVLOG
+  entry; once posted, the ask is: keep `ext:add`/`update`/`remove` taking a repository URL
+  at a pinned commit, the tree hash, the import-boundary and browser-only checks, the
+  review prompt and the build's refuse-if-edited; drop `registry/index.json`,
+  `registry:check`, `registry:site` and the hosting question. The vendored path stays
+  browser-only as a hard rule (`openapi.json` is a function of the repository). Review
+  the re-scoped PR against `docs/extensions.md` as any PR; merge when it holds.
+- **c. blykker's accepted hooks, in their general forms**, when blykker asks for them
+  (its PLAN.md § Upstream hooks; it runs from `Publishing/newnature/` sessions): an owner
+  stylesheet or page-template setting for public pages; a label on a links-section entry
+  as a setting; per-thread hiding of feed apparatus as presentation. Each is a settings
+  change or a slot named for what it does; none touches the bake or the feed. The two
+  refused hooks (a `feed.xml` filter; a server hook on publish) need no reply beyond
+  pointing blykker at the feed-order slot and `/api/changes`.
+- **d. Carry-over line in `CLAUDE.md`** drops item 22 when the queue file is pruned (done
+  session 58); item 24 is the one Fable item left, and it is a round of its own.
 
 ## New from the session-49 Fable round (2026-10-17) — do these before the queue below
 

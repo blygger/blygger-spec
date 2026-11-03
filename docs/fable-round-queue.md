@@ -17,6 +17,7 @@ document opened (#72). Items 18, 20 and 22 deliberately left for the next round.
 second revision). **Only item 22 remains**, and Venkat is thinking about it before it is taken.
 **Added to:** 2026-10-22 — item 14 unparked with per-hopper feeds (Aneesh Sathe; proposal PR). **Pruned:** session 56 (2026-11-01), Fable 5.1 — item 14 ruled (#86). Only item 22 remains.
 **Added to:** session 57 (2026-11-01), Opus 5.5, at Venkat's request: item 24 (the reader suite's nine open choices, blygger-spec#22) and a section-C entry (studio#106's directive-ends-quote reading).
+**Pruned:** session 58 (2026-11-03), Fable 5.1 — item 22 ruled (#89, the studio mods mechanism; reasoning `v0.4-plan.md` §17.1), section C's three entries confirmed and written as the ninth revision. **Only item 24 remains.**
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -52,82 +53,7 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
 19. *Ruled session 49 with 17 (#70).*
 20. *Ruled session 49 (#74): `cid` names the pinned document's bytes; §16.9.*
 21. *Confirmed session 49.*
-22. **An extension registry** (session 49, [studio#59](https://github.com/blygger/blygger-studio/pull/59),
-    Aneesh Sathe, draft PR with a working implementation; `docs/extension-registry.md` on
-    the branch lists its own open questions). A central `registry/index.json` that authors
-    PR into and operators pull from with `npm run ext:add <name>`: each entry pins an https
-    repo, a full commit and a sha256 tree hash, a supported studio range and
-    `"server": false`; the pull runs on the operator's machine, and a studio never fetches
-    from the registry at runtime (the `docs/extensions.md` rule holds). Fable's twice over:
-    it compiles third-party code into the owner's session, and it proposes that
-    blygger.org eventually host the index. To rule: whether a registry belongs to the
-    program at all or to a third party; who reviews an entry, and what review promises;
-    browser-only as a hard rule; and whether blygger.org hosts it. Session 49 told Aneesh
-    to expect a ruling in a round or two, after 0.4 opens; 0.4 opened later that
-    day, so this is the **next round's** first item.
-
-    **Set up for ruling, session 58 (2026-11-03, Venkat: "set up that decision for Fable").**
-    The question has widened from "a registry?" to **what mechanism the program gives mods
-    of the studio**, and the registry is one answer. Read in this order:
-
-    - *The positions on studio#59.* Kyle (10-26, 10-27): plugins for self-deployed web apps
-      are a trap; people can fork for their own tweaks and share maintained forks;
-      innovation happens in forks and is pulled in once it proves itself; UI is not where
-      Blygger finds out what it is. Venkat (10-27): stop at **enabling useful hooks**, not a
-      plugin marketplace or a fully programmable surface; but forking alone may be too
-      limiting; a middle ground could be **published soft design principles for safe,
-      non-obnoxious mods**. Memory note "Studio should be boring" (#35 tabled) points the
-      same way: radical UI goes to other clients or extensions.
-    - *What exists.* `blygger-studio/docs/extensions.md`: first-party extensions compiled in,
-      fixed slots, read-only server routes, no runtime loading; an operator's own via the
-      gitignored `extensions.local.json`. Two ship (`reading-time`, `inspect`, 0.38.0).
-    - *The new evidence: blykker* (`blygger-protocol/blykker/`, repo `blygger/blykker`,
-      created 2026-11-02, Venkat). A **configuration-first mod of the studio for book-like
-      blygs, not a client and never a fork** — "the first test case for a studio mods
-      model". Phase 1 adds no studio code: `book.json` plus `tools/blykker.py`, which edits
-      threads and settings through the owner API as an editor would (seed, sync of
-      Contents → navigation, menus, notes, references, index, cover). Pilot: the New Nature
-      book, newnature.venkateshrao.com, stock studio. When a mod needs code it is an
-      extension compiled in by the operator; when the studio has no surface, the hook is
-      proposed upstream as a studio PR. Its `PLAN.md` § *Upstream hooks* lists five, all at
-      *idea*: (1) public-page presentation for chosen threads (CSS or an extension slot —
-      phase 2 book layout); (2) a custom label for a thread in the links section;
-      (3) hiding feed apparatus (version line, changelog note, dates) per thread;
-      (4) a feed filter that leaves out fragments carrying a marker (an extension feed order
-      can reorder, not filter — notes and references currently show in Posts); (5) a
-      write-capable extension action or a server hook on publish (rebuild navigation when
-      Contents change, without an outside watcher). Also wanted (`Publishing/newnature/
-      blykker-notes.md`): manuscript statistics and a private composition start page, both
-      as an extension page. Friction found: no custom CSS for public pages; HTML comments
-      render as text, so markers are link reference definitions.
-    - *How blykker is governed* (Venkat, session 58): not managed from this org-level folder.
-      It is **co-managed by the New Nature book project and this program initially**
-      (sessions run from `Publishing/newnature/`, per `blykker/CLAUDE.md`), and starts to
-      evolve **semi-independently once the right mechanism for such mods has been ruled**.
-      So this ruling is also what releases blykker to run on its own.
-
-    **To rule** (the original four, plus what blykker adds):
-    (a) does a registry belong to the program, to a third party, or nowhere for now;
-    (b) if any listing exists, who reviews an entry and what a listing promises;
-    (c) browser-only as a hard rule for third-party code;
-    (d) whether blygger.org hosts any index;
-    (e) **the mods mechanism itself**: hooks-on-demand (a mod proposes a general hook as a
-        studio PR, merged when it is general) as the program's stance, and the bar a hook
-        must clear; which of blykker's five hooks are in-principle acceptable — note (5) is
-        a *write* surface for extension code in the owner session, the sharpest of them, and
-        (4) touches what a public feed shows, so check it against §7 (every published item is
-        an event) before treating it as presentation;
-    (f) whether to publish **mod design principles** (Venkat's middle ground) and where —
-        a technical note, an RFC on blyg.blygger.org (#66), or studio docs;
-    (g) the condition under which a mod like blykker is "on its own" — what it keeps from
-        the studio (generator string stays `blygger-studio/x.y.z`, per `blykker/CLAUDE.md`)
-        and what it may own.
-
-    Likely shape, for Fable to accept or reject, not a recommendation of record: hooks on
-    demand plus published principles; no program-hosted registry now; Aneesh's tooling
-    (pinning, tree hash, import-boundary and browser-only checks) welcome as a third-party
-    repo or folded into the operator path for `extensions.local.json`. Reply owed to Aneesh
-    on studio#59 when ruled (told 2026-10-17 "a round or two").
+22. *Ruled session 58 (#89): the studio mods mechanism — three surfaces, a hook bar, no program-hosted registry now, principles in `blygger-studio/docs/mods.md`; blykker released. Plan `v0.4-plan.md` §17.1.*
 24. **Nine choices the 0.4 text leaves open, found by the reader suite** (session 57,
     2026-11-01; [blygger-spec#22](https://github.com/blygger/blygger-spec/pull/22),
     Aneesh Sathe, merged as `74f15b1`; the full list is in the PR description, and each is
@@ -156,32 +82,7 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
 
 ## C. Review after the fact (#58 batch)
 
-- **An unprefixed directive line ends a partial quote's lazy continuation** (session 57,
-  2026-11-01, Opus under #58). studio#106 (Aneesh, fixing studio#104) measures a partial
-  transclusion's quote with CommonMark's extent, lazy lines included, per #76, with one
-  departure: an unprefixed `![[id]]` or `![[id@vN]]` line ends the quote, where plain
-  CommonMark would read it as lazy paragraph text. Opus agreed in the PR review because the
-  directive grammar is line-based (§10.1), and the alternative lets a quote swallow a
-  directive. Confirm, or rule the other way, and say whether §10.1 should state it.
-
-- **Two wording fixes from the tangling plan** (session 57, Opus under #58;
-  [`tangling-plan.md`](tangling-plan.md) §5). (1) §13.7 folds a burst under "a thread
-  created with them", but `created` is when the thread was first drafted, so a thread
-  drafted earlier and tangled later never matches; proposed "published with them", tested
-  by the thread version's `updated`. (2) The wordless test (§15.4, #80) is written for
-  mentions; one sentence in §13.2 would let readers queue a wordless imported version low,
-  as the studio's Background lens will. Opus drafts both into the living 0.4 text when the
-  build starts; confirm or rule otherwise.
-
-- **§16.12 promotion, eighth revision** (session 57, Opus under #58, after the gate ran
-  venkateshrao → protocol-institute on studio 0.50.0). Review it against the points
-  `fable-brief.md` already lists: §13.5's amended sentence says "no protocol surface beyond
-  the `hoppers` list and a hopper feed" and nothing wider; step 7 stays a post-condition on
-  steps 2–5 with the bound at six. Placement calls made in promoting: rule 6 (readers,
-  drop-on-absence) went to §13.6 beside L0, and the publisher rules (a)–(d) to §13.5. One
-  build finding: the studio uses a single `hopper_feeds` setting for both serving hopper
-  feeds and step 7, so a node must publish its own hoppers' feeds to subscribe to someone
-  else's. That is studio-side and not a spec question, noted for the studio.
+Session 58 (2026-11-03, Fable 5.1) reviewed and confirmed the three entries session 57 queued — studio#106's reading, the tangling plan's two wording fixes, the §16.12 promotion — and wrote them as the ninth revision (§10.1, §13.7, §13.2); `v0.4-plan.md` §17.2. Nothing pending.
 
 Before session 57: nothing pending. Session 49 reviewed and confirmed #65 (§5.6 rules 7–8), the G11
 promotion (§5.6 rule 6) and #69 (static front page; citation corrected to §8.4 rule 3,
