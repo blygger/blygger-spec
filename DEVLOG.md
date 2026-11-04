@@ -32,10 +32,9 @@ Per-session development log. Non-skippable: every coding session appends an entr
   - **`docs/rfcs/rfc-5-enterprise-deployment.md`** (a subagent's draft, made client-neutral at Venkat's direction, since an enterprise product is expected to be its own client). The answer: no fundamental protocol blocker. Audience is per origin; the boundary is the publisher's job at publish time, because a quote bakes the bytes; retention law runs against "200 forever" and irrevocable pins.
 - **Branding.** `blygger-org/marketing/` holds branding assets: a square wordmark for the hackathon, and an HTML source plus `render.mjs` (the installed Chrome via the studio's Playwright).
 
-**State after:** studio 0.53.0 live on all four nodes, with contract 5.4.0, migrations through 0041 everywhere, and every node reporting `blygger-studio/0.53.0`. Spec 0.4 at its ninth revision, live on blygger.org. Five release posts are up. The 0.53.0 announcement and this session's summary post (`blygger-org/drafts/blyg-posts/2026-11-04-releases-and-planning.md`) are staged to publish on blyg.blygger.org the moment the v0.53.0 release page exists. Private items and RFC-5 are exploration and draft: nothing ruled, nothing published for comment.
+**State after:** studio 0.53.0 live on all four nodes, with contract 5.4.0, migrations through 0041 everywhere, and every node reporting `blygger-studio/0.53.0`. Spec 0.4 at its ninth revision, live on blygger.org. Five release posts are up. The 0.53.0 announcement ([t/4s3dq678jkt319vd8jfr8hesnq](https://blyg.blygger.org/t/4s3dq678jkt319vd8jfr8hesnq/)) and this session's summary post ([t/60czrxc7x27zpzm42fdz41eesn](https://blyg.blygger.org/t/60czrxc7x27zpzm42fdz41eesn/), from `blygger-org/drafts/blyg-posts/2026-11-04-releases-and-planning.md`) went live once the v0.53.0 release page existed. Private items and RFC-5 are exploration and draft: nothing ruled, nothing published for comment.
 
 **Open threads:**
-- Confirm the staged 0.53.0 announcement and summary post went live (they wait on the v0.53.0 Release run).
 - Fix the doubled `theme-color` tag on the login page (TODO, Housekeeping).
 - Check the live studio tab, icon and both searches once the Chrome tab is logged in.
 - Fable: the RFC-1/RFC-2 close (due today, carry-over); queue items 25 (`private-items-proposal.md` §8.2) and 26 (RFC-5 F1–F5), added at wrap-up.

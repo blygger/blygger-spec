@@ -120,6 +120,11 @@
       "id": "207jy0th7pn5e8r5pbjdccrzn0",
       "version": 1,
       "source_sha256": "c341f90bf5d04741fc8a571562b415be89d5847427b02df5f2e9b514331cfba6"
+    },
+    "0.53.0": {
+      "id": "4s3dq678jkt319vd8jfr8hesnq",
+      "version": 1,
+      "source_sha256": "311e89ebe27053b69c386ca6b2983c000e31b9f13d97a43571e6d94bd894ba36"
     }
   }
 }
