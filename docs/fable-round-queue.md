@@ -80,6 +80,23 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
     them in the same round.
 
 
+25. **A private item's first public version number** (session 59, 2026-11-04;
+    [`plans/private-items-proposal.md`](../plans/private-items-proposal.md) §8.2). Venkat
+    made visibility (private / group / public) orthogonal to drafts, so a private item can
+    reach v3 before going public. Is a private publish a "publish event" under #19? Opus
+    recommends (a), public numbering starting at 1, with private versions kept as studio
+    history: nothing on the wire changes and no private changelog note leaks. One sentence
+    confirming (a) or ruling otherwise. Group visibility (§8.3) is not in this item; it
+    waits for the L3 round below.
+26. **RFC-5, Blygger inside an organisation** (session 59; draft at
+    [`docs/rfcs/rfc-5-enterprise-deployment.md`](rfcs/rfc-5-enterprise-deployment.md),
+    client-neutral at Venkat's direction). Five items, each with its four-question test in
+    the RFC's §6: **F1**, audience is a property of the origin (#1, #3, #7, #14, #17);
+    **F2**, verification across a network boundary (#13, #28, #61, #84); **F3**, references
+    that cross a boundary (#9, #12, #26, #53); **F4**, group visibility is L3 and enterprise
+    its likely trigger (#1, #7, #11, #35, #43); **F5**, compelled removal and compliance
+    retention (#8). Then edit the RFC for the #66 route.
+
 ## C. Review after the fact (#58 batch)
 
 Session 58 (2026-11-03, Fable 5.1) reviewed and confirmed the three entries session 57 queued — studio#106's reading, the tangling plan's two wording fixes, the §16.12 promotion — and wrote them as the ninth revision (§10.1, §13.7, §13.2); `v0.4-plan.md` §17.2. Nothing pending.
