@@ -7,6 +7,44 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 59 — 2026-11-04 — Studio 0.52.0 and 0.53.0 on all four nodes (batched reads, indexes, search, themed login, tab identity); five release posts; private items and an enterprise RFC planned
+**Model:** Opus 5.5 · **Time:** 11:52–~15:10 PT · **Committed:** yes (spec, studio, blygger-org) · **Deployed:** blygger.org (ninth revision); blygger-studio 0.52.0 then 0.53.0 to venkateshrao, protocol-institute, blyg.blygger.org and newnature (migrations 0040 and 0041 applied to all four D1s before 0.52.0; 0.53.0 has none); five release announcements on blyg.blygger.org
+
+**What & why:**
+- **blygger.org first**, on Venkat's ask, so the newnature and blykker sessions see the mods ruling. The ninth revision, roadmap rows 101–102 and the census went live (`fac6f91`). The ecosystem page's extensions paragraph now links `docs/mods.md` ("Modding the Studio") as the one observation-not-endorsement line #89 allowed.
+- **studio 0.52.0.**
+  - **Aneesh's #112** merged: §12.1 step 7 is always on, and `hopper_feeds` governs only publishing your own hopper feeds (ROADMAP row 100).
+  - **Kyle's #114** (batched reads, smaller Mentions) was sent back once. Its e2e failure was real: DataLoader's default scheduler falls back to `setTimeout` in the browser, so a paused test clock, or a throttled background tab, held every batch. Kyle switched to `queueMicrotask`, removed both clock workarounds and added a timer-holding unit test (`d450907`). Then merged.
+  - **#113** (patwater: free-plan D1 exhausted by reader reads). The ordering index it asked for already shipped in 0.49.12 (`0036`), and the reporter was on 0.49.0. `EXPLAIN QUERY PLAN` against main found two scans that were still there: the `remote_id`-only lookup in `resolveTarget` and the per-row hoppers subquery. Migration `0041` (#115) fixes both, with a plan test that fails without it. The reply on #113 says so.
+  - **Release.** Check failed on the tagged commit because of two intermittent e2e tests. Re-run, then Release succeeded.
+- **Flaky tests: studio#118 to Kyle, then corrected the same session.** The Mentions continuation test is from #111 and predates #114 (it failed on `06a316f` too). The `hopper-own` stale-list failure is the one that is new since #114, and possibly user-visible.
+- **Release announcements.** `publish_releases.py` had silently skipped every release since 0.49.7, whose changelog headings carry a title instead of a date. It now reads both forms and dates a titled release from its tag. It also folds untagged versions into the release that first ships them: 0.49.12's own section said "Migrations: none" while shipping 0034–0036 (`83fb496`). 0.49.1, 0.49.12, 0.50.0, 0.51.0 and 0.52.0 are posted.
+- **studio 0.53.0.**
+  - **Search on the reading and compose pages** (#120, `docs/search.md`). The picker's search, on two more surfaces. `src/ui/search.tsx` is the paged hook moved out of the picker unchanged, plus a page box (`?q=`) and results. Reading narrows to the selected source. Compose defaults to *this blyg only* and finds drafts through a new opt-in `include=drafts`. The picker never sends it, so the picker still offers exactly what a quote or link can name; that invariant is the reason there is one route.
+  - **The login page wears the install's theme** (#119). The pure token functions moved to `src/studio-theme.ts` so the Worker can paint them without DOM types.
+  - **The tab names the blyg and its ❝ icon takes the theme accent** (#121), so open studios can be told apart. `studioIconSvg` reproduces the old default byte-for-byte, so the install PNGs stand.
+  - **Kyle's #116**: a malformed-Unicode path fails only its own read-batch child.
+  - Contract 5.4.0, SDK 0.10.0.
+- **Answered without a change.** A logged-out studio was the 30-day session cookie expiring, not the release: nothing in auth changed, and secrets survive deploys.
+- **studio#59 reply posted** to Aneesh, with the "shortly" line now linking `docs/mods.md`.
+- **Planning, nothing built:**
+  - **`plans/private-items-proposal.md`** (a subagent's research, then Venkat's answers in its §8). Visibility runs user / group / public (Unix-style), orthogonal to draft. Private items have versions, with no pins below public. The build must start by turning every public-surface check into an allow-list (`servedPublicly`), because a private item with versions slips past every `status === 'draft'` refusal. Group is L3, and enterprise is what will open it. Tokens must grow scopes to match.
+  - **`docs/rfcs/rfc-5-enterprise-deployment.md`** (a subagent's draft, made client-neutral at Venkat's direction, since an enterprise product is expected to be its own client). The answer: no fundamental protocol blocker. Audience is per origin; the boundary is the publisher's job at publish time, because a quote bakes the bytes; retention law runs against "200 forever" and irrevocable pins.
+- **Branding.** `blygger-org/marketing/` holds branding assets: a square wordmark for the hackathon, and an HTML source plus `render.mjs` (the installed Chrome via the studio's Playwright).
+
+**State after:** studio 0.53.0 live on all four nodes, with contract 5.4.0, migrations through 0041 everywhere, and every node reporting `blygger-studio/0.53.0`. Spec 0.4 at its ninth revision, live on blygger.org. Five release posts are up; the 0.53.0 announcement waits on its Release run. Private items and RFC-5 are exploration and draft: nothing ruled, nothing published for comment.
+
+**Open threads:**
+- Post the 0.53.0 announcement once its release page exists.
+- Fix the doubled `theme-color` tag on the login page (TODO, Housekeeping).
+- Check the live studio tab, icon and both searches once the Chrome tab is logged in.
+- Add to the Fable queue: the RFC-1/RFC-2 close (due today); `private-items-proposal.md` §8.2, the public version number after private versions under #19; RFC-5 F1–F5.
+- Fable item 24 is unchanged.
+- Kyle on #118.
+- Replies on studio#20, #109 and #110.
+- Census triage of notionparallax/blog, EricLortie/liminal-blyg and vgururao/newnature.
+- blykker's PLAN.md (the two refused hooks).
+
 ## Session 58 — 2026-11-03 — Three PRs merged; studio 0.51.0 on all four nodes; Fable item 22 set up and ruled (#89); `docs/mods.md`
 **Model:** Opus 5.5, then Fable 5.1 for the ruling (entry below), then Opus 5.5 · **Time:** 12:59 PT 2026-11-03 to 11:50 PT 2026-11-04, mostly idle overnight · **Committed:** yes (spec, studio, blykker) · **Deployed:** blygger-studio 0.51.0 to venkateshrao, protocol-institute, blyg.blygger.org and newnature (migration 0039 applied to all four D1s first)
 
