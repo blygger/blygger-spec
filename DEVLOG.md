@@ -7,6 +7,22 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 58 — 2026-11-03 — Three PRs merged; studio 0.51.0 on all four nodes; Fable item 22 set up and ruled (#89); `docs/mods.md`
+**Model:** Opus 5.5, then Fable 5.1 for the ruling (entry below), then Opus 5.5 · **Time:** 12:59 PT 2026-11-03 to 11:50 PT 2026-11-04, mostly idle overnight · **Committed:** yes (spec, studio, blykker) · **Deployed:** blygger-studio 0.51.0 to venkateshrao, protocol-institute, blyg.blygger.org and newnature (migration 0039 applied to all four D1s first)
+
+**What & why:**
+- **Merged three PRs** on Venkat's "merge everything", leaving studio#88 and studio#59 open at his word. Kyle Mathews' studio#111 was squash-merged as `5fb85a2`: optimistic writes, view-scoped collections and paged Mentions, from Venkat's 2026-11-02 lag report. Aneesh's spec#25 (`16d9f6a`) and spec#26 (`6e73775`) were stacked, so both went in as merge commits.
+- **studio 0.51.0** was released as `c4a91a6`, with tag v0.51.0. The PR left the private contract at 5.1.0 despite three additive routes, so the release bumped it to 5.2.0 and the SDK to 0.8.0. The first tag was cut before `release:check`, which then refused it as already released; the tag was deleted, the check re-run and the tag re-pushed. Check and Release both ran green and the release page exists.
+- **Deployed in Venkat's order**, venkateshrao first for quick testing, then the other three. Each node got 0039 first, an index only. The generator string and surfaces were checked on each. The paged Mentions page was opened in Chrome on venkateshrao and showed 120 inbound and 111 outbound with no console errors. The note to Kyle was posted on studio#111.
+- **Fable queue item 22 set up** (`626581d`): Venkat widened it from Aneesh's registry to the studio mods mechanism. blykker's five proposed hooks are the evidence and Kyle's objections are on record. The ruling also releases blykker. Venkat's governance line went into `blykker/CLAUDE.md` (`3b0535a`): blykker is not a management point of this folder, and is co-managed with the New Nature project until the mechanism is ruled.
+- **Fable segment**, in the entry below: #89 ruled and the batch review written as the ninth revision.
+- **`blygger-studio/docs/mods.md`** (`515616c`, pushed) is Opus brief item a from session 58. It covers the three surfaces, the hook bar, a table of blykker's five hooks, the two promises a mod keeps and why there is no registry. It is linked from `docs/extensions.md` and the README. The public pages take a custom palette but no owner stylesheet yet, so the doc names the stylesheet as the likely general form and does not say it exists. A duplicated 0.51.0 status line in the studio's AGENTS.md was removed.
+- **ROADMAP:** row 101 is new and shipped (0.51.0, studio#111). Row 102 is new and waiting (studio mods, studio#59 re-scope). Row 45 notes that the wording flags are ruled. Row 99 notes that spec#25 and spec#26 merged.
+
+**State after:** studio 0.51.0 live on all four nodes. Spec 0.4 is at its ninth revision in the repo; blygger.org still shows the eighth until the next spec sync and deploy. Decision #89 and `docs/mods.md` are public. blygger-spec, blygger-studio and blykker are in sync with origin. blygger-org has the census output from this session's startup uncommitted.
+
+**Open threads:** post the studio#59 reply drafted in the Fable entry, with its "shortly" line changed to link `docs/mods.md`; RFC-1/RFC-2 closed today, 2026-11-04, and the Fable check is due; Fable item 24, with the reader-suite studio run reproduced first; blygger.org sync and deploy for the ninth revision and the roadmap rows; the census files in blygger-org; 0.50.0 and 0.51.0 release announcements via `publish_releases.py`; replies on studio#20, #109 and #110; census triage of notionparallax/blog, EricLortie/liminal-blyg and vgururao/newnature; blykker's PLAN.md should drop the two refused hooks, in a New Nature session.
+
 ## Session 58 (Fable segment) — 2026-11-03 — The studio mods mechanism ruled (#89); session 57's batch confirmed as the ninth revision
 **Model:** Fable 5.1 (Venkat switched with `/model` mid-session; the Opus segments of session 58 are logged in the Opus entry) · **Time:** ~14:10–15:00 PT · **Committed:** yes (spec; blykker one line) · **Deployed:** nothing
 
