@@ -95,6 +95,26 @@
       "id": "7b5283nva94y1b2x76ckh9cg9p",
       "version": 1,
       "source_sha256": "076d11bdb56c4df9dcb0d04841343351050cffcd9439da67529ed2822867a157"
+    },
+    "0.49.1": {
+      "id": "4gdg6j7e7rf9s84dkhacv0tz10",
+      "version": 1,
+      "source_sha256": "bdd357c8608afefda87e278b8be703f18ed154dc91774bf1d03e27d87aa33c98"
+    },
+    "0.49.12": {
+      "id": "3jmh7g307mmtwjd45td5qgy0e1",
+      "version": 1,
+      "source_sha256": "c97b60caf1ca101aaf15c85cc6e5b5fd77a505d7191d5169a43d4ea42941399e"
+    },
+    "0.50.0": {
+      "id": "7das31pae489xasvrhq45nseja",
+      "version": 1,
+      "source_sha256": "c4dfefccd07691faa6baa84e15713a0cb03a9b9926affabc940ebd5c1ff7b4d2"
+    },
+    "0.51.0": {
+      "id": "2fdk6zw9zc2qrw8b2r2wq0hw68",
+      "version": 1,
+      "source_sha256": "9e7b1f04e9019ed27ee96cf07d4173aa28c1340e22709a064c59c1824af54a9d"
     }
   }
 }
