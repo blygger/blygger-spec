@@ -115,6 +115,11 @@
       "id": "2fdk6zw9zc2qrw8b2r2wq0hw68",
       "version": 1,
       "source_sha256": "9e7b1f04e9019ed27ee96cf07d4173aa28c1340e22709a064c59c1824af54a9d"
+    },
+    "0.52.0": {
+      "id": "207jy0th7pn5e8r5pbjdccrzn0",
+      "version": 1,
+      "source_sha256": "c341f90bf5d04741fc8a571562b415be89d5847427b02df5f2e9b514331cfba6"
     }
   }
 }
