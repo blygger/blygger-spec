@@ -17,7 +17,9 @@ document opened (#72). Items 18, 20 and 22 deliberately left for the next round.
 second revision). **Only item 22 remains**, and Venkat is thinking about it before it is taken.
 **Added to:** 2026-10-22 — item 14 unparked with per-hopper feeds (Aneesh Sathe; proposal PR). **Pruned:** session 56 (2026-11-01), Fable 5.1 — item 14 ruled (#86). Only item 22 remains.
 **Added to:** session 57 (2026-11-01), Opus 5.5, at Venkat's request: item 24 (the reader suite's nine open choices, blygger-spec#22) and a section-C entry (studio#106's directive-ends-quote reading).
-**Pruned:** session 58 (2026-11-03), Fable 5.1 — item 22 ruled (#89, the studio mods mechanism; reasoning `v0.4-plan.md` §17.1), section C's three entries confirmed and written as the ninth revision. **Only item 24 remains.**
+**Pruned:** session 58 (2026-11-03), Fable 5.1 — item 22 ruled (#89, the studio mods mechanism; reasoning `v0.4-plan.md` §17.1), section C's three entries confirmed and written as the ninth revision.
+**Added to:** session 59 (2026-11-04), Opus 5.5: items 25 (private items' numbering) and 26 (RFC-5).
+**Pruned:** session 60 (2026-11-05), Fable 5.1 — items 25 and 26 ruled (#94, #93; reasoning `v0.4-plan.md` §18). **Only item 24 remains.**
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -80,22 +82,8 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
     them in the same round.
 
 
-25. **A private item's first public version number** (session 59, 2026-11-04;
-    [`plans/private-items-proposal.md`](../plans/private-items-proposal.md) §8.2). Venkat
-    made visibility (private / group / public) orthogonal to drafts, so a private item can
-    reach v3 before going public. Is a private publish a "publish event" under #19? Opus
-    recommends (a), public numbering starting at 1, with private versions kept as studio
-    history: nothing on the wire changes and no private changelog note leaks. One sentence
-    confirming (a) or ruling otherwise. Group visibility (§8.3) is not in this item; it
-    waits for the L3 round below.
-26. **RFC-5, Blygger inside an organisation** (session 59; draft at
-    [`docs/rfcs/rfc-5-enterprise-deployment.md`](rfcs/rfc-5-enterprise-deployment.md),
-    client-neutral at Venkat's direction). Five items, each with its four-question test in
-    the RFC's §6: **F1**, audience is a property of the origin (#1, #3, #7, #14, #17);
-    **F2**, verification across a network boundary (#13, #28, #61, #84); **F3**, references
-    that cross a boundary (#9, #12, #26, #53); **F4**, group visibility is L3 and enterprise
-    its likely trigger (#1, #7, #11, #35, #43); **F5**, compelled removal and compliance
-    retention (#8). Then edit the RFC for the #66 route.
+25. *Ruled session 60 (#94): a private item's first public version is v1; private history is studio history, the two counters never meet. Plan `v0.4-plan.md` §18.5.*
+26. *Ruled session 60 (#93): RFC-5's F1–F5 — F1 and F5 as sentences in 0.4 §4 and §14 (tenth revision), F2 and F3 no text, F4 with the gate shapes C1–C3 classified; RFC-5 edited and published for comment to 2026-12-03. Reasoning RFC-5 §10, plan §18.4.*
 
 ## C. Review after the fact (#58 batch)
 

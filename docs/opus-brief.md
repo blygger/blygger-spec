@@ -4,7 +4,8 @@
 Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped. **Session 33** (same
 day, Fable) inserted item 5, fork flattening (#57); items 1–4 shipped in session 32.
 **Session 40** (2026-10-07, Fable) added the official-blyg section below (#66–#68).
-**Session 58** (2026-11-03, Fable) added the mods-mechanism section (#89). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
+**Session 58** (2026-11-03, Fable) added the mods-mechanism section (#89). **Session 60**
+(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
 session starts (`CLAUDE.md` → At Session Start, step 4).
 
 > **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#57** (sessions 31, 33) and
@@ -196,7 +197,31 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
   web-actions effort did and why web actions failed. Write it in `docs/rfcs/` as RFC-1 and
   RFC-2 are written, with reference constants where there are any. Hand to Fable to edit
   and rule before it publishes on blyg.blygger.org with a comment period; do not add the
-  affordance to any page before then.
+  affordance to any page before then. **Add the case ksurya raised on blygger-spec#15
+  (2026-11-02, forwarded by #92 C5):** accepting webmentions from places that are not
+  blygs, such as replies to a post on Twitter — §15.6's trackback class is the constraint
+  the RFC has to answer.
+
+## New from session 60 (2026-11-05, Fable 5.1) — the RFC close, RFC-5, private items (#90–#94); do these before the lists below
+
+Decisions #90–#94 in `CLAUDE.md`, reasoning `v0.4-plan.md` §18, text in the spec's tenth
+0.4 revision (§4, §14, §16.8). RFC-1 and RFC-2 are now `docs/notes/tn-6-…` and `tn-7-…`,
+published as v2 of their blyg items. Item e of the session-40 section is unblocked. In order:
+
+- **a. The found-mentions list** (#91 B4; studio, off the Mentions surface). A reading
+  client MAY list for its owner the mentions found in items it already holds: h-cards in
+  imported `content_html` matched against the owner's own member record (`url`, `ids`),
+  **quotes excluded** (a baked quote's h-cards are the quoted author's speech), labelled
+  as a reading-side find and kept apart from verified mentions, **no count**. Nothing is
+  sent. Feeds the owner does not read are refused — do not crawl, do not query anyone.
+  Tell Aneesh on his RFC-1 stub when it ships.
+- **b. RFC-5's comment period** runs to **2026-12-03** (published session 60 on
+  blyg.blygger.org, anchor issue in the RFC header). Nothing to build; at close, scan the
+  stubs and the issue the way session 60's scan did for RFC-1/RFC-2 (`fable-brief.md`) and
+  hand the scan to Fable, who promotes it as `tn-8` under #90.
+- **c. Private items** (`plans/private-items-proposal.md`): #94 rules the public counter
+  starts at v1 and private history is studio history; when built, do not dress private
+  versions in public "vN" chrome. Group visibility (§8.3) stays closed until the L3 round.
 
 ## New from session 58 (2026-11-03, Fable 5.1) — the mods mechanism (#89); do these before the lists below
 
@@ -310,7 +335,8 @@ this list: whatever Opus can do more cheaply than a Fable round is Opus's. In or
   under #58 and Fable reviews.
 - **i. Draft RFC-3, the pace-layered order** (#73), from
   `blygger-studio/docs/pace-layered-feed.md` and `test/fixtures/feeds/*.json`, in the
-  shape of `docs/rfcs/rfc-1-*.md` and `rfc-2-*.md`: model, wire inputs, reference
+  shape of RFC-1 and RFC-2 (now `docs/notes/tn-6-*.md` and `tn-7-*.md`, promoted session
+  60, #90): model, wire inputs, reference
   constants (reference values, not normative), the fixtures as a conformance check,
   `pinned_at` as the one wire fact it wants. Hand to Fable to edit before it publishes.
 - **j. Author-sized images** (#75; §16.10): markdown-it-attrs or a small post-processor —
@@ -397,7 +423,12 @@ Decisions #66 (official blyg, with its Fable review inline), #67 (RFC-1) and #68
   `Release` workflow could post it, or a sync from `CHANGELOG.md`. Then check
   `roadmap-tracks.md` 3.1: the generic `/updates.xml` is likely redundant with the blyg's
   feed (the per-node "you are behind" notice is not) — tick or strike.
-- **e. Studio work from RFC-1 is gated on its comment period closing** (#67 ruling 1c). Record
+- **e. Unblocked session 60 (#91 B5):** RFC-1's comment period closed 2026-11-04 and it is
+  now `tn-6`; the studio work may begin. Its spec is tn-6 with #91's changes: **B2** —
+  `@handle` is resolved by the publishing server on every write path (editor, API, tools),
+  published `content_md` never carries one, unresolved `@word`s come back as warnings to
+  every client and stay literal prose, never a rejection; **B4** — the found-mentions list
+  (session 60 item a below). Was: **Studio work from RFC-1 is gated on its comment period closing** (#67 ruling 1c). Record
   it now in `blygger-studio/CLAUDE.md`'s backlog as gated, build later: sanitizer keeps
   `<data value>`; member roster with per-token bylines; address book with `@handle`
   consumed at publish; agent members per RFC-1 §5.6 (`operator`/`model` on the roster,

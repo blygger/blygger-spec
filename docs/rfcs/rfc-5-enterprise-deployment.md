@@ -1,35 +1,19 @@
 # RFC-5 — Blygger inside an organisation: one audience per origin, a boundary the publisher enforces
 
-**DRAFT · not yet edited by Fable · not yet published for comment · session 59,
-2026-11-04.** Drafted by Opus 5.5 at Venkat Rao's request as research only: no code, no
-client change, no spec change. When it is ready it takes the #66 route: Fable edits it,
-the version under comment is pinned on [blyg.blygger.org](https://blyg.blygger.org/),
-comments are stubs, and a `blygger-spec` issue serves people without a blyg. After the
-comment period it becomes a technical note, for people building enterprise products on
-Blygger. Like a technical note, an RFC constrains nothing. Written against protocol 0.4
-as of 2026-11-04; no pre-1.0 version promises anything (#21). It is about the protocol and
-about what any client serving enterprise use has to handle. An enterprise product is
-expected to be a client of its own, so it describes no particular client.
+**Request for comments · non-normative · OPEN FOR COMMENT until 2026-12-03 on
+[blyg.blygger.org](https://blyg.blygger.org/t/3t4kfb63bsyqajphwz14ngz52t/) (#66); without a blyg, comment on [blygger-spec#27](https://github.com/blygger/blygger-spec/issues/27) ·
+session 59–60, 2026-11-04/05.** Drafted by Opus 5.5 (session 59) at Venkat Rao's request
+as research only: no code, no client change. Edited and ruled by Fable 5.1 (session 60),
+whose rulings are section 10. Like a technical note, an RFC constrains nothing. When the
+comment period closes it becomes a technical note, for people building enterprise
+products on Blygger (decision #90: the close is the promotion, and the first build is a
+revision trigger). It is about the protocol and about what any client serving enterprise
+use has to handle. An enterprise product is expected to be a client of its own, so it
+describes no particular client. Written against protocol 0.4 at its tenth revision, which
+carries the sentences F1 and F5 add; no pre-1.0 version promises anything (#21).
 
-**Parts tagged ⚠️ FABLE** (section 6 has the four-question test for each):
-
-- **F1. Audience is a property of the origin.** Read "public" in #1 and §4 as "every
-  reader who can reach the origin", so a network-gated origin is conformant at L1 and L2.
-  Per-item audiences inside one origin stay L3. Touches #1, #3, #7, #17; §3, §3.2, §4,
-  §12.2, §16.7.
-- **F2. Verification across a network boundary.** Confirm that §14's private-network
-  refusal is met by a deployment-scoped allowlist, and that a mention whose source is
-  unreachable from the receiver is simply *failed*. Touches #13, #28, #61, #84; §14,
-  §15.2, §15.4.
-- **F3. References that cross a boundary.** Should the spec say anything about a
-  wider-audience origin referencing or quoting a narrower one, or is it client policy?
-  Touches #9, #12, #53, #26; §5.6, §5.7, §5.9 (`cited`), §10.2, §10.3a, §14; it
-  generalises the publish block in `plans/private-items-proposal.md` §3.4.
-- **F4. Group visibility is L3, and is enterprise its trigger?** Touches #1, #7, #11,
-  #35, #43; §3, §4, §16.7; `private-items-proposal.md` §5 (C1–C3) and §8.3.
-- **F5. Compelled removal and compliance retention.** These run against 200-forever,
-  irrevocable pins and §13.4's "hoarding is nonconforming". Touches #8; §4, §8, §9,
-  §13.4, §14.
+Five questions in this RFC needed Fable under the four-question test (F1–F5). Section 6
+states each item, with the test as it was applied, and section 10 rules it.
 
 ## Summary
 
@@ -109,7 +93,7 @@ Each claim below is checked against the 0.4 text, not assumed.
 | Verification (§15.4) | the receiver fetches the source from its asserted origin | **Fine** when the receiver can reach the source. Otherwise *failed*, which is honest (F2). |
 | Webmention endpoint (§15.1) | optional at every level | **Fine.** A static internal blyg omits it (§15.7). |
 | CORS (§4) | `Access-Control-Allow-Origin: *` is a SHOULD | **Fine.** A gated origin answers credentialed CORS instead; the SHOULD bends for a stated reason. |
-| Census (§3.2) | "the manifest is a file the protocol requires to be public" | **Wording only.** The census simply never sees internal blygs. F1 asks Fable to read "public" here as "served to its audience". |
+| Census (§3.2) | "the manifest is a file the protocol requires to be public" | **Wording only.** The census simply never sees internal blygs. "Public" here means the same bytes to every reader who can reach the origin (F1, ruled in section 10; §4 now says so). |
 
 **One hazard to rule out: split-horizon DNS for a blyg origin.** If one name resolves
 to an internal server inside the network and a different server outside, then "the item
@@ -159,7 +143,9 @@ The rule a boundary-aware client applies:
 The audiences are client configuration: a list of origin prefixes per audience. Both
 halves are within what the spec already permits. Refusing to quote is a publish error
 the client chooses. Not sending a mention is a SHOULD the client declines for a stated
-reason. F3 asks whether the spec should say so.
+reason. The spec says nothing more (F3, ruled in section 10): §14 already carries the
+sentence that matters, "anything published can be quoted into a thread whose snapshot its
+publisher cannot recall", and the rule above is client guidance in this note.
 
 ### 3.3 "Readable only by members": static, L1/L2, or L3?
 
@@ -169,13 +155,16 @@ The distinction that settles this is **where the audience boundary falls**.
   pins, media, pages) sits behind one gate: a private network, a VPN, an identity-aware
   proxy, Cloudflare Access. Everything inside the gate is plain static files, every
   reader who passes the gate sees the same bytes, and §4's 404/200 rules hold for every
-  such reader. The gate is transport, like TLS. Under F1's reading this is conformant at
-  L1 and L2 and needs nothing new.
+  such reader. The gate is transport, like TLS. This is conformant at L1 and L2 and
+  needs nothing new (F1, confirmed in section 10). §4 now says it in one sentence: "What
+  an origin serves does not depend on who asks: every reader who can reach it gets the
+  same bytes, and reachability is the deployment's."
 - **Per-item or per-reader audience in one origin.** Two readers asking for the same
   `items/{id}.json` get different answers (200 versus 401/404, or full versus redacted
-  content). That is the gate `private-items-proposal.md` §5 analyses as C1–C3, and it
-  rules out C2 as "not static". It is L3 by #7 and needs a Fable crypto or gating round.
-  The proposal's "not an option", a gated page over an open JSON, applies here too.
+  content). That is the gate `private-items-proposal.md` §5 analyses as C1–C3. Section
+  10 classifies them: C2 is refused, C3 is where an L3 round starts, and C1 is client
+  territory under one invariant. The proposal's "not an option", a gated page over an
+  open JSON, applies here too.
 
 So an enterprise gets members-only reading **today** by running one origin per audience
 behind a gate. A company-wide blyg, a team blyg and a public blyg are three origins, on
@@ -184,8 +173,8 @@ archives, N sets of pins.
 
 **What this does not give** is an item that is team-only today and company-wide
 tomorrow: the publish-anew path (section 2). That is where L3, or a studio-side
-cross-origin "promote" with honest lineage, would earn its cost. It is the trigger
-question in F4.
+cross-origin "promote" with honest lineage, would earn its cost. Section 10 rules it the
+trigger for L3 (F4), measured when a deployment hits that cost with a named case.
 
 ### 3.4 Reader side
 
@@ -199,8 +188,12 @@ question in F4.
   withdrawal (§13.4).
 - **Sanitize-at-render is unchanged** (§14). The internal-content risk is egress, not
   rendering.
-- **Retention follows the origin** (§13.4). A reader that keeps withdrawn content for a
-  compliance archive conflicts with the text as written (F5).
+- **Retention follows the origin** (§13.4). A records system that keeps withdrawn
+  content because the law requires it acts outside the protocol, and keeps the archive
+  off every surface the spec governs (F5, ruled in section 10). §14 now says: "Law may
+  compel a publisher to remove what it promised to serve, or a reader to retain what an
+  origin withdrew. Both are acts outside the protocol: a compelled removal is a 404 with
+  no marker, and a compelled retention never reaches any surface this document governs."
 
 ### 3.5 Identity and SSO
 
@@ -231,11 +224,11 @@ they are, so SSO is entirely the client's:
 | Item | Kind | Where |
 |---|---|---|
 | Public DNS or internet assumed anywhere | **none found** | 3.1 |
-| Whole-origin gating (SSO proxy, private network) | interpretation | **F1** |
-| Verification when the source is unreachable | interpretation, small | **F2** |
-| Cross-boundary quoting and reference leakage | client rule; possibly spec text | **F3** |
-| Per-item audiences in one origin | **missing capability (L3)** | **F4** |
-| Compelled deletion; compliance archives of others' content | tension with locked promises | **F5** |
+| Whole-origin gating (SSO proxy, private network) | interpretation; one §4 sentence | **F1**, ruled, §10 |
+| Verification when the source is unreachable | interpretation, small | **F2**, ruled, §10 |
+| Cross-boundary quoting and reference leakage | client rule, no spec text | **F3**, ruled, §10 |
+| Per-item audiences in one origin | **missing capability (L3)** | **F4**, ruled, §10 |
+| Compelled deletion; compliance archives of others' content | out of protocol; one §14 sentence | **F5**, ruled, §10 |
 | SSO, roles, audit, residency, egress, AI controls, DLP | client and product work | 4 |
 
 ## 4. Concerns for clients serving enterprise use
@@ -293,10 +286,13 @@ clients can make compatible choices where they touch.
   (drafts, private items, media), which a hold must turn from deletes into soft deletes.
 - **Retention schedules and compelled deletion** run the other way. A records policy, a
   court order or an erasure request can require removing a published item that §4
-  promised would answer 200 forever and a pin promised to keep (§8). F5 asks what, if
-  anything, the spec says about that.
-- **Archives of external content.** Keeping other origins' withdrawn content for
-  compliance conflicts with §13.4 as written (F5).
+  promised would answer 200 forever and a pin promised to keep (§8). The removal is an
+  act outside the protocol: the document answers 404, with no status code, marker or
+  reason (F5, ruled in section 10; the §14 sentence is quoted in section 3.4).
+- **Archives of external content.** Keeping other origins' withdrawn content because the
+  law requires it is outside the protocol too. A client that is both reader and archive
+  keeps the archive off every surface the spec governs: no presentation, no re-serving,
+  no quote from it (§13.4, F5).
 
 ### 4.5 Hosting and data residency
 
@@ -319,7 +315,10 @@ AI is never in the protocol (#5). An enterprise client needs:
 
 ### 4.7 The publish-time boundary (DLP)
 
-This is the client half of F3, and the most important enterprise control.
+This is F3, and the most important enterprise control. Section 10 rules that it is
+client policy with no spec text: declining a SHOULD for a stated reason is what SHOULD
+means, and §14 already warns that anything published can be quoted out of its
+publisher's reach. Revisit only if two boundary-building clients disagree.
 
 - **Audiences are configuration:** named sets of origin prefixes.
 - **Publish block.** A version may carry no reference (transclusions, `stub_of`,
@@ -342,19 +341,21 @@ Isolation of data, egress policy, audit and IdP per tenant is the vendor's desig
 
 ## 5. Wire impact
 
-**None, if F1–F3 rule as this draft proposes.** Shapes A–D use only existing
-constructs. The boundary rule is a client publish error and a declined SHOULD. Shape E
-(F4) and any compelled-removal status (F5) would be wire changes, and both are deferred.
+**None.** F1 and F5 are each one sentence in the living 0.4 text that readers already
+handle; F2 and F3 add nothing; F4's shape E stays L3. Shapes A–D use only existing
+constructs, and the boundary rule is a client publish error and a declined SHOULD.
 
-## 6. The ⚠️ FABLE items
+## 6. The five items and their tests
 
 The four questions are those in `CLAUDE.md` → *Model routing*: (1) readers must change;
 (2) reader-visible addition; (3) narrows, widens or reinterprets a locked decision;
-(4) a locked decision already settles it.
+(4) a locked decision already settles it. The items are kept as the record of the test
+as the draft applied it; each *Proposal* now opens with the ruling.
 
 **F1. Audience is a property of the origin.**
 
-- *Proposal:* the spec governs the bytes an origin serves to whoever can reach it.
+- *Proposal:* Ruled, section 10: confirmed, with one sentence in §4. The draft: the
+  spec governs the bytes an origin serves to whoever can reach it.
   Reachability, including an identity-aware gate across the *whole* surface, is
   deployment. A gated origin conforms at L1 and L2, provided that every reader who
   passes the gate gets the same bytes. Per-reader difference within an origin stays L3.
@@ -368,7 +369,8 @@ The four questions are those in `CLAUDE.md` → *Model routing*: (1) readers mus
 
 **F2. Verification across a network boundary.**
 
-- *Proposal:* a mention whose source the receiver cannot fetch is *failed*, with no new
+- *Proposal:* Ruled, section 10: confirmed, no text. The draft: a mention whose source
+  the receiver cannot fetch is *failed*, with no new
   state. §14's "refusal to fetch private-network addresses where the deployment could be
   used to probe them" is met by a deployment-scoped allowlist, because internal fetches
   that the deployment intends are not probes.
@@ -378,7 +380,8 @@ The four questions are those in `CLAUDE.md` → *Model routing*: (1) readers mus
 
 **F3. References that cross a boundary.**
 
-- *Proposal:* client policy in this RFC (section 3.2's rule), with **no** spec text yet.
+- *Proposal:* Ruled, section 10: confirmed as client policy, no text. The draft: client
+  policy in this RFC (section 3.2's rule), with **no** spec text yet.
   Revisit only if a second client builds a boundary and the two disagree.
 - *Test:* Q1 no and Q2 no while it stays client policy. Q3 *maybe*: declining §15.2's
   SHOULD wholesale for a class of receivers, and a publish error the spec does not list
@@ -389,7 +392,8 @@ The four questions are those in `CLAUDE.md` → *Model routing*: (1) readers mus
 
 **F4. Group visibility is L3, and is enterprise its trigger?**
 
-- *Proposal:* enterprise does not need L3 to start (section 3.3). Shape E is the trigger,
+- *Proposal:* Ruled, section 10: confirmed, with C1–C3 classified. The draft: enterprise
+  does not need L3 to start (section 3.3). Shape E is the trigger,
   measured when a deployment hits the publish-anew cost in practice. Until then, group
   tokens wait, as `private-items-proposal.md` §8.3 says.
 - *Test:* any form of shape E is **Q1, Q2 and Q3 yes** (C2), or Q3 yes (C1).
@@ -398,7 +402,8 @@ The four questions are those in `CLAUDE.md` → *Model routing*: (1) readers mus
 
 **F5. Compelled removal and compliance retention.**
 
-- *Proposal:* say in §14 that a legally compelled removal is an out-of-protocol act. The
+- *Proposal:* Ruled, section 10: a sentence in §14, no marker. The draft: say in §14
+  that a legally compelled removal is an out-of-protocol act. The
   origin breaks a promise and readers see a 404, which §12.3 already tolerates. Add no
   status code or marker. For the reader side, ask whether a non-presenting compliance
   archive is "hoarding" under §13.4.
@@ -408,7 +413,9 @@ The four questions are those in `CLAUDE.md` → *Model routing*: (1) readers mus
 
 ## 7. Open questions for comment
 
-For implementers building enterprise products on Blygger:
+For implementers building enterprise products on Blygger. F1–F5 are ruled (section 10);
+these questions are about what implementers need, and where an answer bears on a ruling
+it says which.
 
 1. **Is one origin per audience enough?** Name the case where publishing anew across
    audiences fails you. That case is what opens L3 (F4).
@@ -421,15 +428,16 @@ For implementers building enterprise products on Blygger:
    name its internal ancestor (leaking the origin), carry a public lineage note, or
    carry nothing?
 5. **Retention.** Which do you need: compelled deletion of published items, legal hold
-   over drafts, a compliance archive of external content, or all three? Would a §14
-   sentence (F5) be enough, or does a reader need a signal?
+   over drafts, a compliance archive of external content, or all three? Does the §14
+   sentence (F5) cover what you need to build, and if not, what else do you need — legal
+   hold on drafts, archives, something the sentence does not reach?
 6. **Hosting.** Where must the authoring side run, and what residency do your buyers
    need?
 7. **Audit.** Which events, which format, which sink?
 8. **Teams.** For your users, is a team blyg shape A (members' own origins) or shape B
    (one masthead)? Who withdraws?
-9. **Where should the boundary rule live?** In this note as client guidance, or as spec
-   text (F3)?
+9. **Should the boundary rule (section 3.2) ever become spec text?** It is client policy
+   today (F3); name the disagreement between two clients that would change that.
 
 ## 8. Rejected designs
 
@@ -447,6 +455,9 @@ Recorded because each will be proposed.
 5. **An enterprise "audience" member in the manifest or item documents.** Readers cannot
    act on it without identity, which is #11's line. Audience is the client's
    configuration plus the gate.
+6. **A removal marker (a 410 with a reason, a tombstone).** A removal marker is the
+   tombstone #8 refused, and a delete signal invites delete requests. A compelled removal
+   is a 404 with no marker, which readers already tolerate (§12.3; F5, section 10).
 
 ## 9. Relation to other documents
 
@@ -455,4 +466,69 @@ Recorded because each will be proposed.
   framing for its §8.3.
 - `docs/notes/tn-3-groups-and-aggregation.md`: shapes A and B are the enterprise team
   shapes.
-- RFC-1: bylines, `ids` and agent members under SSO (section 3.5).
+- `docs/notes/tn-6-mentions-and-identifier-schemes.md` (formerly RFC-1): bylines, `ids`
+  and agent members under SSO (section 3.5).
+- `docs/notes/tn-7-comments-sections.md` (formerly RFC-2): hosted commenters, which
+  inside an organisation are SSO users commenting through the house's comments origin.
+
+## 10. Rulings (Fable 5.1, session 60, 2026-11-05)
+
+The draft closed with five items for Fable. The rulings follow, each with the principle
+it rests on. All five confirm the draft's direction; F4 adds a classification the draft
+did not make, and F5 settles the reader side the draft left as a question.
+
+**F1. Audience is a property of the origin — confirmed, with spec text.** Decision #1
+makes the protocol a static file contract, and #14 makes an origin any absolute URL;
+nothing in the text requires that an origin be publicly reachable. "Public" in #7 and in
+§3.2 means the same bytes to every reader who can reach the origin. Reachability is
+deployment, like TLS. Per-reader difference within one origin is L3 (#7), and a
+split-horizon origin is that difference by the back door, because it breaks §12.2's
+determinism. The tenth revision of 0.4 adds the sentence to §4: "What an origin serves
+does not depend on who asks: every reader who can reach it gets the same bytes, and
+reachability is the deployment's."
+
+**F2. Verification across a network boundary — confirmed, no text.** §14's clause is
+already conditional: it asks for refusal "where the deployment could be used to probe
+them". A fetch the deployment intends, under an allowlist, is not a probe. A source the
+receiver cannot reach is *failed* (§15.4), which is honest: the receiver could not verify
+it.
+
+**F3. References that cross a boundary — confirmed as client policy, no text.** §14
+already says the sentence the draft wanted: "anything published can be quoted into a
+thread whose snapshot its publisher cannot recall". The boundary rule (section 3.2: no
+reference of any kind, `cited` included, to a narrower origin; no mention to a receiver
+outside the origin's audience) lives in this note as client guidance. Declining a SHOULD
+for a stated reason is what SHOULD means, so a client that withholds §15.2's mentions
+across the boundary conforms. Revisit only if two boundary-building clients disagree.
+
+**F4. Group visibility is L3 — confirmed, and the three shapes classified.** Enterprise
+does not need L3 to start. Shape E is the trigger, measured when a deployment has hit the
+publish-anew cost with a named case. Of the private-items proposal's three gate shapes:
+
+- **C2** (a 401 or 403 on chosen documents, under any gate descriptor) is refused. It is
+  not static, and it is L3 by the back door.
+- **C3** (encrypted static content) is the shape the L3 round starts from when the
+  trigger fires.
+- **C1** (a redacted wire, with a fuller rendition served off the mount to signed-in
+  readers) is **client territory under #3, not L3**, under one invariant: nothing on the
+  protocol surface may name, link to or depend on the fuller rendition, and the public
+  document is complete in itself. The redaction is the author's own visible edit (#78).
+  That is a paywalled newsletter beside a blyg, which the protocol has never forbidden.
+
+**F5. Compelled removal and compliance retention — a sentence in §14, no marker.** "200
+forever" and the irrevocable pin are the publisher's promises. Law may force the
+publisher to break them, and the protocol does not legislate the law. Readers already
+tolerate a 404 (§12.3). There is no status code and no reason: a removal marker is the
+tombstone #8 refused, and a delete signal invites delete requests (section 8, item 6).
+On the reader side, §13.4 governs what a conformant reader presents and re-serves. A
+records system that retains under law is outside the protocol in the same way, and a
+client that is both reader and archive keeps the archive off every surface the spec
+governs. The tenth revision of 0.4 adds to §14: "Law may compel a publisher to remove
+what it promised to serve, or a reader to retain what an origin withdrew. Both are acts
+outside the protocol: a compelled removal is a 404 with no marker, and a compelled
+retention never reaches any surface this document governs."
+
+**What happens next.** Published for comment under #66 on 2026-11-05; the period closes
+on 2026-12-03 (four weeks). Decision #93 records the five rulings, with this section as
+their reasoning (`v0.4-plan.md` §18). Comments are stubs on the item, and
+counter-proposals are forks of the pin.

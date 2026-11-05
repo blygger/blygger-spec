@@ -1,18 +1,27 @@
-# RFC-1 — Mentions across identifier schemes: petnames in the studio, full identifiers on the wire
+# TN-6 — Mentions across identifier schemes: petnames in the studio, full identifiers on the wire
 
-**Request for comments · non-normative · OPEN FOR COMMENT until 2026-11-04 on
-[blyg.blygger.org](https://blyg.blygger.org/t/7eeh3bfzfcnhh90d5pkvkc2r1n/) (#66); without a blyg,
-comment on [blygger-spec#14](https://github.com/blygger/blygger-spec/issues/14) · session 40, 2026-10-07.** Drafted by Opus 5.5 at Venkat Rao's request; edited the same session by
-Fable 5.1, whose rulings on the five open questions are section 10. An RFC is a
-recommendation put up for comment *before* any client builds it, because the
-reference client shipping a convention reads as a blessing. Like a technical note,
-an RFC constrains nothing. After its comment period and the gate in section 10,
-ruling 1, it becomes a technical note. It builds on locked decisions #11 (the opaque
+**Technical note · non-normative · promoted from RFC-1 on 2026-11-05 (session
+60) after its comment period closed on 2026-11-04.** Comments arrived as stubs
+of the blyg item
+[blyg.blygger.org/t/7eeh3bfzfcnhh90d5pkvkc2r1n/](https://blyg.blygger.org/t/7eeh3bfzfcnhh90d5pkvkc2r1n/)
+(version 1, pinned) and on
+[blygger-spec#14](https://github.com/blygger/blygger-spec/issues/14); this note
+is version 2 of the same item, and section 11 says what the comments changed.
+**Status: unbuilt.** No client emits mention h-cards yet, and the first build
+revises this note: by decision #90 an RFC becomes a note when its comment
+period closes, and the first build is a revision trigger, not the promotion
+gate. Drafted by Opus 5.5 at Venkat Rao's request (session 40, 2026-10-07);
+edited the same session by Fable 5.1, whose rulings on the five open questions
+are section 10; revised by Fable 5.1 at promotion (session 60). Technical notes
+record design reasoning alongside the normative spec; like the RFC it was, this
+note constrains nothing. It builds on locked decisions #11 (the opaque
 `author`), #35 (identity practice, proposed in
 `docs/proposals/identity-practice-proposal.md`, which becomes `tn-2`), #36 (groups,
-`tn-3`), #20 (studio grammar versus wire grammar) and #32 (`[[id]]` is silent).
-Written against protocol 0.3 as published on 2026-10-07; no pre-1.0 version promises
-anything (#21).
+`tn-3`), #20 (studio grammar versus wire grammar) and #79 (the markdown link is
+the silent citation; it reversed #32, on which the draft relied). Written
+against protocol 0.3 as published on 2026-10-07 and promoted against 0.4,
+whose #79 forced the one change in sections 5.3, 9 and 10; no pre-1.0 version
+promises anything (#21).
 
 ## 1. The question
 
@@ -32,13 +41,16 @@ elsewhere. The request (Venkat Rao, session 40) was for three things:
 
 The third request is the design. Sections 2–4 clear the ground, section 5 is the
 convention, and sections 6–9 cover reading, scheme details, the reference
-client's default and what is rejected. Section 10 records the rulings.
+client's default and what is rejected. Section 10 records the rulings, and section 11 the comments received at promotion.
 
 The constraints are fixed. Authors are never addressable (§5.5, §16.8). The
-protocol has no reply primitive and no fourth mention relation (§16.8). The
+protocol has no reply primitive (§16.8), and no mention relation can name a
+person: every relation in §15.4 targets an item. (The draft said "no fourth
+mention relation"; 0.4 has five, with `source` and #79's `link`, and none of
+them reaches a person.) The
 protocol has no normative write surface (#31), so nothing here comes from
 Micropub, in keeping with that decision while staying close to the IndieWeb in
-spirit. Whatever this RFC recommends has to be HTML and studio practice, not
+spirit. Whatever this note recommends has to be HTML and studio practice, not
 protocol.
 
 ## 2. Correcting a premise: the single `author` does not block multi-author blygs
@@ -236,6 +248,21 @@ in `content_md`:
   is common in prose, in code and in email addresses. Text in code spans and code
   blocks is never touched, which is the same rule as #54.
 
+**The resolver is the publishing server's, on every write path** (session 60).
+The `@handle` resolver runs in the publish step of the publishing client, not
+in its editor, and it runs on every write path: the editor, the API, and any
+tool on a scoped token. Submitted markdown may carry `@handle`; published
+`content_md` never does. Every `@word` the resolver could not match is
+returned as a warning in the publish response, to every client that
+publishes, not only to agents (section 5.6, item 3, relies on this). The
+editor's autocomplete is a convenience over the same resolver. The principle
+that forces this is #63, below: forkers re-parse `content_md`, so a resolver
+that ran only in the editor would make the API path a leak, carrying
+petnames to the wire whenever a tool published. One correction to the draft's
+reading: an unmatched `@alice` reaches the wire as literal prose, not as a
+rejection. Section 9, item 2, rejected a *design*, leaving petnames in the
+text for readers to resolve, not the characters.
+
 **Why it must be consumed rather than left in `content_md`:** forkers re-parse
 `content_md` (#63). If `@kyle` stayed in the text, it would travel to a forker
 whose address book has no `kyle`, or a different one. That would make one
@@ -286,9 +313,16 @@ The markup follows these rules:
   identifiers per contact, but the studio should not do it unasked.
 - **Order carries no meaning.** The anchor's `href` is the primary identifier;
   everything else is unordered.
-- **Mentions are silent on the wire**, in exactly the sense in which `[[id]]` is
-  silent (§10.1, #32). They add no `transclusions[]` entry, no relation (§15.4)
-  and no new field, and they send nothing (section 10, ruling 2).
+- **Mentions are silent on the wire**, for two reasons. First, a mention's
+  wire form in `content_md` *is* the markdown link, `[text](URL)`, which is
+  the form #79 deliberately kept as the one silent citation when it made the
+  bracket form disclose (§10.1). Second, its target is a person's page, never
+  an item, so no relation in §15 and no `links[]` entry (§10.3a) can name it:
+  authors are never addressable (§5.5, §16.8). Mentions add no
+  `transclusions[]` entry, no `links[]` entry, no relation (§15.4) and no new
+  field, and they send nothing (section 10, ruling 2). The draft grounded
+  this on `[[id]]` being silent (#32); #79 reversed #32 after this text was
+  published, and the conclusion stands on the grounds above.
 
 Why this is not a spec construct: the markup is ordinary HTML using a published
 W3C-community vocabulary, inside a field that already accepts any editorial
@@ -350,7 +384,8 @@ client-side accommodations remain, none of them on the wire.
    member's record carries `operator`, the URL of the human or organisation
    that answers for it (`tn-2` section 7), and a declared `model`. Both flow
    into what the studio stamps on the agent's items.
-2. **The token scope decides the byline.** #52 already requires publishing to be
+2. **The token scope decides the byline.** This item is about whose name goes
+   on the item. #52 already requires publishing to be
    a distinct verb from drafting, and that distinction is #38's
    response-versus-pipe line made mechanical. A draft-only token means a human
    approves and publishes: the human's byline, and one `generated[]` span
@@ -359,12 +394,15 @@ client-side accommodations remain, none of them on the wire.
    `generated[]` span. The byline says who, the provenance says how, and the
    operator says who answers; none of the three is collapsed into another.
 3. **Provenance in the address book is set by the resolver, never by the
-   caller.** No API path may assert `self` or `bound`. Anything an agent adds
+   caller.** This item is about what the address book may believe; it has
+   nothing to do with the byline. No API path may assert `self` or `bound`.
+   Anything an agent adds
    to the book is `entered` and stays off the wire until the studio resolves
    it. Without this rule an agent holding a contacts scope becomes the identity
-   broker that rejected design 5 guards against. The publish API also returns
-   unresolved `@word` warnings in machine-readable form, since an agent never
-   sees the editor's soft warning.
+   broker that rejected design 5 guards against. Unresolved `@word` warnings
+   come back in the publish response in machine-readable form, as section 5.2
+   says for every client; an agent depends on them because it never sees the
+   editor's soft warning.
 4. **No pin or withdraw scopes for agent tokens by default.** A pin is an
    irrevocable hosting promise and withdrawal is the only exit; `tn-3`'s test
    says the house answers for both. Scope names are the build's (#52), and the
@@ -426,6 +464,26 @@ Three rules protect readers. They mirror #35's reader rules:
    metric by another name (#12, #13). A client may list mentions of a contact
    for its own owner. It never publishes them as a number.
 
+**A found-mentions list** (session 60). A reading client MAY list, for its
+owner, mentions of the owner found in items it has already imported, under
+four conditions:
+
+- **(a)** the match is against the owner's own member record in the book, its
+  `url` and `ids` (section 10, ruling 5), never against a new field;
+- **(b)** h-cards inside a baked `blyg-transclusion` are excluded: they are the
+  quoted author's speech (below), and they are found when that author's own
+  item is read;
+- **(c)** the list is kept apart from verified mentions and labelled as a find
+  on the reading side, because nothing has been verified and nothing was
+  received;
+- **(d)** no count, by rule 3.
+
+Nothing is sent, so ruling 2 is untouched: this is the reader reading its own
+shelf. The wider ask, finding mentions in feeds the owner does not read, is
+refused: such a mention can reach the owner only if someone tells them, which
+is the notification ruling 2 refuses, or if a crawler finds it, which is a
+search engine's job and outside any client.
+
 **Quotations carry other people's mentions.** A baked transclusion copies the
 source's `content_html`, h-cards included (§10.2, verbatim). Those mentions are
 the *quoted* author's speech. The quoting client MUST NOT treat them as its own,
@@ -478,9 +536,10 @@ clients or in extensions.
    gap. A member's `author.url` is their own URL when they have one, otherwise a
    house member page. Tie this in with #31 tokens so each member's scoped token
    publishes under that member's byline.
-2. **An address book with `@handle` autocomplete**, consumed at publish into a
-   markdown link in `content_md` and an h-card in `content_html`, as in
-   section 5.
+2. **An address book with `@handle` autocomplete**, consumed at publish, by
+   the server, on every write path, into a markdown link in `content_md` and
+   an h-card in `content_html`, as in section 5 (section 5.2 on where the
+   resolver runs).
 3. **Schemes it resolves when a contact is added:** `https` (h-card and `rel="me"`),
    fediverse handles (WebFinger) and ATProto handles (DNS or well-known, giving
    the DID), plus `did:web`. These all reduce to a URL or a DNS check, and none of
@@ -490,8 +549,9 @@ clients or in extensions.
    lists them. ENS lookups, wallet sign-in and signature checking belong in an
    extension, not the base client.
 5. **Its sanitizer keeps `<data value>`**, so it reads the markup it writes.
-6. **No notification.** A mention is silent like `[[id]]`; the reference client
-   sends no Webmention for one, and offers no switch to (section 10, ruling 2).
+6. **No notification.** A mention is a markdown link to a person's page, so
+   it is silent (section 5.3); the reference client sends no Webmention for
+   one, and offers no switch to (section 10, ruling 2).
 7. **Byline verification on a shared origin** follows section 5.5 when the
    reader side of #35 is built: one rule, two fetches, two display states.
 8. **Agent members per section 5.6:** `operator` and `model` on the roster
@@ -503,6 +563,10 @@ clients or in extensions.
    roster's `url` becomes verified from the member's side without a second
    fetch. It fits #52 (an OAuth-style minting flow) and is the one IndieWeb spec
    besides Webmention and microformats that the studio has a use for.
+10. **A found-mentions list** under section 6's four conditions (session 60):
+    matched against the owner's own record, quotes excluded, labelled as a
+    find on the reading side, no count. It is kept off the Mentions surface,
+    which shows verified Webmentions.
 
 **Of the five schemes, the reference client should emit h-card markup and
 recognise the web, ActivityPub, ATProto and `did:web` natively, and treat
@@ -543,9 +607,11 @@ Recorded because each will be re-proposed.
    people's responses onto a target's page. §15.5 forbids that: nothing lets a
    stubber put words on the target's page.
 9. **A Webmention for every mention, or an opt-in switch for one in the
-   reference client.** A mention is a link, and a link notifies nobody (#32).
-   The reasoning is section 10, ruling 2; what a client that does send must
-   respect is there too.
+   reference client.** A mention is a markdown link, the silent citation
+   #79 kept, and its target is a person, whom no relation can name (section
+   5.3). The draft cited #32 here; #79 reversed #32 for the bracket form
+   only, and the rejection stands. The reasoning is section 10, ruling 2;
+   what a client that does send must respect is there too.
 10. **An "acknowledged" display class between verified and claim**, for a
     member's link to a shared origin. Rejected because any link from Alice's
     page to the house proves only that Alice linked to something there, and a
@@ -574,7 +640,9 @@ built in the reference client until the period closes. (d) After that, the RFC
 becomes a technical note of its own by the gate #35 uses for `tn-2`: one client
 emits mention h-cards and a second resolves them. It does **not** fold into
 `tn-2`. That note's subject is one person's URL and the two proofs of it; this
-one's is a client convention for naming *other* people, and folding them would
+one's is a client convention for naming *other* people (decision #90 later
+moved the promotion to the close of the comment period and made this gate the
+first revision trigger instead; see the header), and folding them would
 make the identity note carry a studio design. Two rulings here are about
 `author` rather than about mentions, and `tn-2` absorbs them when it is
 written: the shared-origin proof (ruling 3) and `ids` (ruling 5). The git file
@@ -582,21 +650,27 @@ stays the single source throughout; the blyg publishes versions of it, never
 hand-edited copies (#66).
 
 **2. A mention does not notify.** Mentions are silent, and the reference
-client sends nothing for one and offers no switch to. This is #32's principle
-carried over, not a new one: a link asserts nothing on the target's behalf, so
-a receiver has nothing to verify, and a notification with no verifiable claim
-behind it is the trackback class §15.6 holds down. The `@` form is a link with
-a better name, and it inherits the link's silence; "@ notifies" is an
+client sends nothing for one and offers no switch to. As written in session 40
+this was #32's principle carried over: a link asserts nothing on the target's
+behalf, so a receiver has nothing to verify, and a notification with no
+verifiable claim behind it is the trackback class §15.6 holds down. #79
+reversed #32 after this text was published, making the bracket form `[[id]]`
+disclose through `links[]` and notify as a notice. **The ruling stands
+unchanged, on two grounds that #79 does not touch.** First, a mention's wire
+form in `content_md` is the markdown link, which is exactly the form #79 kept
+as the one silent citation; the `@` form is a markdown link with a better
+name, and it inherits that link's silence. Second, a mention's target is a
+person's page and never an item, so no relation in §15 and no `links[]` entry
+can name it: authors are never addressable (§5.5, §16.8). "@ notifies" is an
 expectation from media with reply primitives, which this one refuses (§16.8).
-Two further facts settle the edges. §16.8's bar on a fourth relation is not in
-play either way, because a mention's target is a person's page and never an
-item; §15 governs mentions between blyg items, and this was never a §15
-question. And where a person's URL happens to be a blyg page, a plain
+Two further facts settle the edges. §16.8's bar on new relations is not in
+play either way, for that second reason; §15 governs mentions between blyg
+items, and this was never a §15 question. And where a person's URL happens to be a blyg page, a plain
 Webmention to it is refused outright (§15.3 step 1: the target must name a
 published item) or marked *failed* (§15.4 step 4), so it could only ever cost
 the receiver fetches. What remains is the open web: any client may send a W3C
 Webmention to a non-blyg page for a link it publishes, as IndieWeb sites do,
-and this RFC neither blesses nor forbids that. A client that does so should
+and this note neither blesses nor forbids that. A client that does so should
 observe three things: never to a target inside a blyg origin; never for an
 h-card inside a baked quote (§10.2 verbatim, the quoted author's speech);
 never by default, only per mention at the author's choice. This differs from
@@ -642,7 +716,42 @@ hold: a reader matching `ids` against its book is making a display decision,
 never a merge. The draft's reason stands as the practical one: a reader should
 not need a fetch to match a byline against its address book.
 
-**What happens next.** Published for comment under ruling 1 on 2026-10-07; the
-period closes 2026-11-04 (four weeks, as recommended). Revisions during the
-period are made in this file and republished as new versions of the same item. The decision list carries one entry for the five rulings (#67), with
-this section as its reasoning.
+**What happened.** Published for comment under ruling 1 on 2026-10-07. The
+period closed on 2026-11-04 with comments (section 11). The RFC was promoted on
+2026-11-05 as this note, `tn-6` (decision #91, reasoning in `v0.4-plan.md`
+§18). The decision list carries one entry for the five rulings (#67), with
+this section as its reasoning. The reference client's RFC-1 work is unblocked,
+since ruling 1(c)'s condition is met, and it is built as revised by the
+resolver paragraph in section 5.2 and the found-mentions list in section 6.
+The first build revises this note.
+
+## 11. Comments received, and what changed
+
+Comments were read at promotion (session 60, 2026-11-05).
+
+**Mike Casey** ([caseyjr.org, 2026-11-02](https://caseyjr.org/blyg/t/5vrr4d89q57kjdybrx78hedr8v/))
+asked two things. His question on section 5.2, where the `@handle` resolver
+runs and what happens to an API publish, produced the paragraph on the
+publishing server's resolver: it runs at publish on every write path, its
+warnings go to every client, and an unmatched `@word` is literal prose. His
+reading of section 5.6, which took the byline rule and the address-book
+provenance rule as one, showed that the two items needed to say what each
+governs; each now opens with that sentence, and no rule changed.
+
+**Aneesh Sathe** ([blyg.aneeshsathe.com, 2026-11-04](https://blyg.aneeshsathe.com/t/1x1f5f6dkr1asm81y33dgcgrzc/))
+asked for a way to see where one is mentioned. The half that concerns items a
+reader already holds is now section 6's found-mentions list, with section 8
+item 10, under four conditions that keep it a reading of the owner's own
+shelf. The half that concerns feeds the owner does not read is refused,
+because only a notification, which ruling 2 refuses, or a crawler, which is a
+search engine's job, could find such a mention.
+
+**Matthew McDowell-Sweet** linked the RFC in passing
+([msweet.net, "Bronze eels"](https://www.msweet.net/notes/129-bronze-eels))
+without a request, so nothing changed for it.
+
+Independently of the comments, the 0.4 text forced one change. Decision #79
+reversed #32 after the RFC was published, so the grounds for a mention's
+silence in sections 5.3, 8, 9 and 10 were restated: the markdown link is the
+silent citation #79 kept, and a person is never addressable. Ruling 2's
+conclusion is unchanged.

@@ -1,22 +1,28 @@
-# RFC-2 — Comments sections: a curated display of responses, every comment a real item
+# TN-7 — Comments sections: a curated display of responses, every comment a real item
 
-**Request for comments · non-normative · OPEN FOR COMMENT until 2026-11-04 on
-[blyg.blygger.org](https://blyg.blygger.org/t/2mzqh4jt3ye14xm6sr5gf32cah/) (#66); without a blyg,
-comment on [blygger-spec#15](https://github.com/blygger/blygger-spec/issues/15) · session 40, 2026-10-07.** Drafted by Opus 5.5 at Venkat
-Rao's request; edited the same session by Fable 5.1, whose rulings on the seven open
-questions are section 11. This proposes a **Recommendation for clients that want a
-comments section**. Like a technical note, an RFC constrains nothing. Blygger Studio
-will not implement it; its public responses list stays a citation trail. After the
-comment period it is published as guidance for the clients that choose to build it.
-**It depends softly on RFC-1** (mentions across identifier schemes, section 9): kind 1
-and kind 3 need nothing from it, kind 2 takes its address book, provenance and
-bylines, which is why the RFCs are ordered this way. Written against protocol 0.3 as
-published on 2026-10-07; no pre-1.0 version promises anything (#21).
+**Technical note · non-normative · promoted from RFC-2 on 2026-11-05 (session 60)
+after its comment period closed on 2026-11-04.** Comments were stubs on
+[blyg.blygger.org](https://blyg.blygger.org/t/2mzqh4jt3ye14xm6sr5gf32cah/) (v1, pinned) and
+[blygger-spec#15](https://github.com/blygger/blygger-spec/issues/15); this note is v2 of the
+same item, and section 12 says what the comments changed. **Status: unbuilt.** The
+first client to host comments under this shape revises this note (decision #90:
+close is promotion, first build is the revision trigger). Drafted by Opus 5.5 at
+Venkat Rao's request; edited by Fable 5.1 in session 40 (2026-10-07), whose rulings
+on the seven open questions are section 11; revised by Fable 5.1 in session 60. This
+is a **Recommendation for clients that want a comments section**. Like every
+technical note, it constrains nothing. Blygger Studio will not implement it; its
+public responses list stays a citation trail. **It depends softly on
+[tn-6](tn-6-mentions-and-identifier-schemes.md)** (mentions across identifier schemes,
+section 9), which was RFC-1: kind 1 and kind 3 need nothing from it, kind 2 takes its
+address book, provenance and bylines, which is why the RFCs were ordered this way.
+RFC-4 (responding from anywhere, #82) is the companion for responders who have no
+blyg and no comments origin to sign in to. Written against protocol 0.3, promoted
+against 0.4; no pre-1.0 version promises anything (#21).
 
 The medium's first answer to "how do I comment" is **from your own blyg** (kind 1,
 section 5). Hosted comments (kinds 2 and 3) are an on-ramp for people who have no
 blyg yet, and the house that hosts them takes on their accountability. The comment
-period of this RFC runs that way itself: comments on it are stubs on
+period of the RFC ran that way itself: comments on it were stubs on
 `blyg.blygger.org`'s RFC item (#66).
 
 ## 1. The question
@@ -34,7 +40,7 @@ three kinds:
    vetted and then published as items under a byline such as `anon` or
    `anon 7f3k`.
 
-This RFC recommends how a client builds all three, and argues that none of them
+This note recommends how a client builds all three, and argues that none of them
 needs a wire change.
 
 ## 2. The stance: no reply primitive, a comments section is presentation
@@ -118,7 +124,9 @@ Why C:
 The cost is a second origin with its own deployment, its own archive, its own
 Webmention endpoint (replies to hosted comments arrive there) and its own
 permanence (withdrawal endcaps are served forever). A client that offers comments
-should run both origins from one install, so the owner deploys one thing. The
+SHOULD run both origins from one install, so the owner deploys one thing: a second
+deployment is a heavy price for a solo blyg, and the people most likely to want
+comments are the ones least likely to run two. The
 comments origin must also **import the main origin** as a subscription, because a
 partial transclusion in a comment resolves only against a local or imported item
 (§10.2); one install can share the store, but the resolution rule is the same.
@@ -139,6 +147,18 @@ partial transclusion in a comment resolves only against a local or imported item
   body inspection. This does not break that rule: the marker alone decides *that*
   something is a response, and length decides only *how much of it is shown*
   (section 11, Q7).
+- **Links and reposts are notices, not comments.** A `[[id]]` link to this item
+  now sends a mention with relation `link` (#79), and a wordless repost is
+  classified the same way (#80). A notice is not a response and never counts as a
+  comment; a client MAY show notices apart, as "linked from" or "reposted by".
+
+There is no typed stub on the wire and none is planned: the general `meta` bag that
+[blygger-spec#10](https://github.com/blygger/blygger-spec/issues/10) asked for stays
+refused. But how a client sorts the verified stubs it displays into sections —
+comments, resolutions in a prediction journal, anything else — is presentation, and
+it may use any signal the client itself defines, by any convention a genre agrees
+among its own clients. The marker decides *that* an item is a response; which
+section it lands in is the owner's display.
 
 ### 5.2 Showing the text, and keeping it honest
 
@@ -157,7 +177,7 @@ text is therefore displaying another origin's content. The rules for that are
   as it does to any displayed import: show a pinned version only if the origin pins
   it, otherwise show nothing.
 - **Attribution every time.** Show the stubber's byline as their origin asserts it
-  (§5.5 pass-through). Under RFC-1 it is an h-card, together with their origin and a
+  (§5.5 pass-through). Under tn-6 it is an h-card, together with their origin and a
   link to the stub's page. A comment is never shown detached from where it lives.
 - **Sanitize as an import** (the reference reader's `importer/sanitize.ts` is a
   working model).
@@ -183,7 +203,10 @@ three modes per blyg, overridable per item:
   pre-moderated for everyone else.
 
 The reference client's public responses list (studio, session 23) is the
-post-moderated mode, with links only. Hiding a comment is a display choice, never
+post-moderated mode, with links only. That list *is* kind 1, in every Blygger
+Studio: showing the text is the one step it declines, because the studio stays
+boring. Nor can the text be added as a studio extension, because extensions do not
+reach public pages (#89); a client that wants it builds it. Hiding a comment is a display choice, never
 a delete: the stub is the stubber's speech on their own soapbox (§10.6), and it stays
 there.
 
@@ -207,7 +230,7 @@ supports:
 - **Mastodon or Bluesky OAuth**, which yield an actor or a DID;
 - **GitHub or Google**, which yield a profile URL.
 
-The client records the commenter in its address book (RFC-1 section 5.1):
+The client records the commenter in its address book (tn-6 section 5.1):
 - the identifier from the login gets provenance `bound`, because the house checked it
   at sign-in;
 - the commenter's display name is theirs to set;
@@ -282,9 +305,34 @@ have one (`tn-3`'s withdrawal test applied to comments).
 ### 6.5 Portability
 
 The commenter's verified URL is what keeps their comments recognisable if they
-later start their own blyg: RFC-1's `ids` and `url` match across origins once they
+later start their own blyg: tn-6's `ids` and `url` match across origins once they
 are verified (#35 reader rule 2). As `tn-3` section 5 says, **the person is
 portable, the items are not.**
+
+### 6.6 Telling hosted commenters about replies
+
+A signed-in commenter wants to know when someone answers. The house may tell them:
+this is house behaviour, and it is accepted. The commenter signed in, the house
+holds an identity for them, and section 4 already delivers every reply to a hosted
+comment to the comments origin as a verified stub. Telling its guest is the house's
+own relationship with that guest, off the wire. It adds no count and no reply
+primitive; it is what a blog's reply email has always been. Four conditions:
+
+- **Opt-in**, per comment or per thread.
+- **Sent only when a stub has verified**, never on receipt of a mention. Otherwise
+  the Webmention endpoint becomes a relay from any spammer to the commenter's inbox.
+- **The message carries the stub's byline, origin and page link, never its text.**
+  §15.4 step 5 makes a verified mention a pointer; an email is a durable copy that
+  would outlive the stub's withdrawal.
+- **The address lives with the sign-in record**, never in any item document.
+
+Anonymous commenters (kind 3) get no such message. Section 7.3 keeps only the text,
+the browser token and a rate-limit key, and an address is the one thing that
+reverses the anonymity. Deleting the address at the moderation decision, which was
+proposed, would also make it useless, because replies arrive after the decision.
+What kind 3 gets instead: the browser token behind the `anon 7f3k` suffix
+(section 7.2) already identifies the browser, so a client MAY show that browser
+the replies to its own comments when it returns. Nothing new is held.
 
 ## 7. Kind 3 — anonymous comments, vetted
 
@@ -294,8 +342,8 @@ offers it.
 ### 7.1 Flow
 
 1. A form on the item's page takes the text and, optionally, a display name.
-   It has no URL field: a URL nobody verified is exactly the unchecked claim RFC-1
-   keeps off the wire.
+   It has no URL field: a URL nobody verified is exactly the unchecked claim tn-6
+   keeps off the wire. It has no email field either (section 6.6).
 2. The submission enters a **mandatory pre-moderation queue**. For anonymous
    speech that is not optional, because approval is what makes the house's
    publication of it an editorial act rather than a pipe (#36). Machine triage MAY
@@ -325,7 +373,7 @@ offers it.
 Store only what vetting needs. Keep the text, the browser token and a
 rate-limit key, and delete the rate-limit key once a decision is made. Never put
 submission metadata into the item document. The house publishes the words, not the
-person.
+person. No email address is kept, even for reply notices (section 6.6).
 
 ## 8. Presentation rules common to all three
 
@@ -345,7 +393,7 @@ person.
   into exactly the machine-readable responses surface #41 tells readers never to parse
   and #47 declined. The comments origin already *is* the machine-readable record:
   real items, with real `stub_of`, in a real feed and index. Individual comments
-  carry RFC-1's h-card bylines, which say who wrote something, not that it
+  carry tn-6's h-card bylines, which say who wrote something, not that it
   responds.
 - **The comments section is never part of the item.** It is not in `content_html`,
   not in the feed `<description>`, and not baked into anyone's transclusion of the
@@ -355,7 +403,7 @@ person.
 
 Nothing new appears anywhere a reader sees. The design uses only:
 - `stub_of` (§10.6);
-- `author` with RFC-1's conventional members (§5.5);
+- `author` with tn-6's conventional members (§5.5);
 - partial transclusion (§10.1);
 - withdrawal (§9);
 - verified mentions (§15);
@@ -367,11 +415,11 @@ No field, no relation, no feed element, no manifest key. A reader that knows
 nothing about comments sees a blyg (the comments origin) full of short stubs with
 different bylines, which is a correct reading of it.
 
-**The dependency on RFC-1 is real but soft.** Kind 2 works with today's `{name, url}`
-bylines. RFC-1 supplies the address book, the `bound` provenance that sign-in
+**The dependency on tn-6 is real but soft.** Kind 2 works with today's `{name, url}`
+bylines. tn-6 supplies the address book, the `bound` provenance that sign-in
 produces, `ids` for recognising commenters across origins, and the h-card byline.
-A client could ship kind 1 and kind 3 before RFC-1 is settled. Kind 2 is where
-identity matters, and that is why the RFCs are ordered this way.
+A client could ship kind 1 and kind 3 before any client builds tn-6. Kind 2 is where
+identity matters, and that is why the RFCs were ordered this way.
 
 ## 10. Rejected designs
 
@@ -415,7 +463,7 @@ header now says that the medium's first answer is to respond from your own blyg,
 that hosted comments are an on-ramp whose accountability the house takes on, and
 that the reference client's responses list stays a citation trail. Section 2's
 sentence, the owner's curated display of published responses, is the whole of
-what a comments section is, and the RFC must never describe a comment as a reply.
+what a comments section is, and this note must never describe a comment as a reply.
 
 **2. Displayed text against §15.4 step 5.** A bounded cache is fetching on display.
 The rule exists so that a receiver never becomes a store of other people's words
@@ -462,11 +510,42 @@ withdrawal link must say what withdrawal is: permanent, and visible as an endcap
 decides that an item is a response; length decides how much of it is shown, which
 is presentation. Measuring the stubber's own words by leaving out the baked
 `blyg-transclusion` of the target reads a wire token for the purpose it exists
-for, and is the same reading §5.6 rule 6 and this RFC's section 5.3 already make.
+for, and is the same reading §5.6 rule 6 and this note's section 5.3 already make.
 
-**What happens next.** Published for comment on `blyg.blygger.org` under #66 on
-2026-10-07, after RFC-1; the period closes 2026-11-04. The reference client builds
-nothing from this RFC. A client that builds it is the gate for this RFC to
-become a technical note: one client hosts comments under this shape, and a
-second displays them as kind 1 responses. The decision list records these
-rulings beside RFC-1's (#67), with this section as the reasoning.
+**What happened.** Published for comment on `blyg.blygger.org` under #66 on
+2026-10-07, after RFC-1, and recorded as decision #68 beside RFC-1's #67. The
+period closed on 2026-11-04 with comments (section 12). On 2026-11-05 the RFC was
+promoted as this note, tn-7 (decision #92, reasoning in `v0.4-plan.md` §18):
+closing the comment period is the promotion, and the build gate the draft named
+here became the trigger for a revision instead (#90). The reference client still
+builds nothing from it. The first client that hosts comments under this shape
+revises this note.
+
+## 12. Comments received, and what changed
+
+*Session 60, 2026-11-05.*
+
+[Aneesh Sathe](https://blyg.aneeshsathe.com/t/25y14phagghjzcqtjxsewd0e7x/)
+(2026-11-04) asked for three things. Reply notification for commenters became
+section 6.6: yes for signed-in commenters, as house behaviour off the wire, and no
+for anonymous ones, because an address is the one thing that reverses the
+anonymity, and deleting it at moderation would make it useless since replies come
+later; anonymous commenters get the browser-token MAY instead. Running both origins
+from one install is now a SHOULD in section 4, for the reason he gave: a second
+deployment is heavy for a solo blyg. Kind 1 in every Studio is answered in
+section 5.4: it already is, links only, and the text cannot come as a studio
+extension because extensions do not reach public pages (#89).
+
+[Mike Casey](https://caseyjr.org/blyg/t/4rwfyv2ca091qhwmc7z73f2fzn/) (2026-11-02)
+found that the stance holds in practice: responding from his own drafts blyg was
+one tap. His request for typed stubs became the paragraph in section 5.1: no type
+on the wire, but sorting verified stubs into sections is the owner's display, on
+any signal the client defines.
+
+[ksurya](https://github.com/blygger/blygger-spec/issues/15#issuecomment-6578911188)
+agreed that a dedicated reply primitive should not exist. His wish to receive
+Webmentions from places that are not blygs is the subject of RFC-4 (responding from
+anywhere, #82), and his example is forwarded there.
+
+Matthew McDowell-Sweet linked the RFC in passing in
+[Bronze eels](https://www.msweet.net/notes/129-bronze-eels), with no request.

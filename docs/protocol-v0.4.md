@@ -361,6 +361,8 @@ Requirements:
   including after withdrawal.
 - `items/{id}/v{n}.json` MUST return 404 unless version n of item id is pinned,
   and MUST return 200 permanently once it is (§8).
+- What an origin serves does not depend on who asks: every reader who can
+  reach it gets the same bytes, and reachability is the deployment's.
 - Public JSON and XML responses SHOULD be served with permissive CORS
   (`Access-Control-Allow-Origin: *`); cross-origin reading by other clients
   depends on it.
@@ -2101,7 +2103,11 @@ import every item (§13.1), since folding is display, never omission.
   (§10.4), and nothing forces non-conforming copies to do anything.
   A pin is irrevocable, and anything published can be quoted into a
   thread whose snapshot its publisher cannot recall; both are worth
-  knowing before the act, not after.
+  knowing before the act, not after. Law may compel a publisher to remove
+  what it promised to serve, or a reader to retain what an origin
+  withdrew. Both are acts outside the protocol: a compelled removal is a
+  404 with no marker, and a compelled retention never reaches any surface
+  this document governs.
 - **Timestamps are self-asserted.** Nothing prevents an origin from
   backdating. Ordering across origins is each reader's own
   observation-time policy, which §13.7 says SHOULD keep a skewed origin
@@ -2682,7 +2688,7 @@ medium); follower graphs or any protocol "follow" object; addressable
 authors; AI constructs on the wire beyond the passive provenance of §5.7;
 version-significance markup (the counter stays bare; the pin is the
 significance primitive); content-addressed identity; metrics of any kind;
-a mention relation for links; and a normative write API.
+a relation that names a person; and a normative write API.
 
 ### 16.9 Pinned-entry members — `pinned_at` and `cid` (ruled 2026-10-17; awaiting a build)
 
@@ -2846,6 +2852,21 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-05, tenth revision** (Fable 5.1, session 60; RFC-5's F1 and
+  F5, decision #93) — two sentences and one correction, no new construct:
+  §4 says what an origin serves does not depend on who asks, every reader
+  who can reach it gets the same bytes, and reachability is the
+  deployment's (F1: per-reader difference within an origin is L3, #7);
+  §14 says a legally compelled removal is a 404 with no marker and a
+  compelled retention never reaches a surface this document governs (F5:
+  a marker would be the tombstone #8 refused); §16.8's "a mention
+  relation for links" is replaced by "a relation that names a person",
+  since the fourth revision added the `link` relation (#79) and what still
+  holds is that no relation can name a person (#11, #91). Decisions #90–#92
+  (RFC-1 and RFC-2 promoted as technical notes tn-6 and tn-7) and #94 (a
+  private item's first public version is v1) changed no spec text. Not
+  snapshotted.
 
 - **2026-11-03, ninth revision** (Fable 5.1, session 58; the #58 batch
   review of session 57's work) — three sentences, no new construct: §10.1
