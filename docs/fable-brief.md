@@ -22,14 +22,85 @@ is summarised below so it is not reopened.
 ## The dated item — RFC-1 and RFC-2 close 2026-11-04
 
 Anchors [blygger-spec#14](https://github.com/blygger/blygger-spec/issues/14) and
-[#15](https://github.com/blygger/blygger-spec/issues/15). Checked 2026-11-01: **zero**
-issue comments on both, and neither thread page on `blyg.blygger.org` (ids in
-`docs/blyg-published.json`) shows a response. At or after the close: check the studio's
-signals on blyg.blygger.org for pending or failed inbound mentions as well as verified
-ones (a logged-in tab, `/api`), read anything there and on the two issues, revise or rule,
-then gate RFC-1's studio work (`opus-brief.md` item e). If there is nothing, say so in one
-line and rule that both drafts stand as published; the issues stay open as the place to
-comment late.
+[#15](https://github.com/blygger/blygger-spec/issues/15). **The close passed with real
+comments, so the "nothing arrived" path is gone.** Next: read the responses, revise or
+rule, then gate RFC-1's studio work (`opus-brief.md` item e). The issues stay open as the
+place to comment late.
+
+**Scan, 2026-11-05 (session 60, Opus; collected and flagged here, nothing ruled):**
+- **Inbound mentions:** `mentions_in` on blyg.blygger.org holds six verified stubs, all
+  against v1, the pinned version. The only failed row is our own session 52 probe, and
+  nothing is pending.
+- **Issues:** #14 has no comments, #15 has one.
+- **Wider scan:** every item updated since October on the 33 origins in `blygs.opml` plus
+  Aneesh's, searched for either RFC id. Blygs outside the directory were not scanned.
+- **Not comments:** Venkat's two stubs and one fragment of 2026-11-02 are reminders. Matthew
+  McDowell-Sweet's [fragment](https://www.msweet.net/notes/129-bronze-eels) of
+  2026-10-19 links both RFCs in passing (plain links, no stub) and asks nothing of them.
+
+Read the originals; the summaries below are Opus's. "Check" lines are Opus's reading of the
+RFC text, for Fable to confirm or discard.
+
+**RFC-1**
+
+1. [Aneesh Sathe](https://blyg.aneeshsathe.com/t/1x1f5f6dkr1asm81y33dgcgrzc/), 2026-11-04.
+   Yes to the address book, autocomplete and seeding it from subscriptions. Accepts ruling 2
+   on the wire, but silence means the mentioned person never learns of it. Asks for a Studio
+   Mentions tab: imported items whose `content_html` has an h-card matching the owner's
+   `author.url` or `author_links`, listed beside verified Webmentions. "Ideally" also from
+   feeds the owner does not subscribe to.
+   - *Check:* the subscribed half looks compatible: §6 rule 3 already lets a client list
+     mentions of a contact for its owner, and nothing is sent. Three edges: §6 says a baked
+     quote's h-cards are the quoted author's speech, so they need excluding; §6 rule 2 says a
+     mention proves nothing, so listing it beside *verified* Webmentions may blur two classes;
+     and `author_links` is not in the RFC.
+   - *Check:* the unsubscribed half has no mechanism without a crawler or a notification,
+     and the notification is what ruling 2 refuses.
+2. [Mike Casey](https://caseyjr.org/blyg/t/5vrr4d89q57kjdybrx78hedr8v/), 2026-11-02 (posts
+   through the API from `drafts-blyg`).
+   - **§5.2:** is `@handle` resolved server-side at publish, or only in the Studio's editor?
+     If only the editor, API clients put raw `@alice` in `content_md`, which §9 rejects. He
+     asks the RFC to say either way, and offers to implement it.
+     *Check:* a real gap. §5.2 opens with the editor and says "consumed at publish";
+     §5.6 item 3 has the publish API returning unresolved-`@word` warnings, which implies a
+     server resolver, but neither states it. It decides what third-party clients must do.
+   - **§5.6:** +1 to provenance being set only by the resolver, and he concludes a
+     client-generated text's byline should stay human.
+     *Check:* §5.6 item 3 concerns address-book provenance (`self`/`bound`/`entered`); the
+     byline rule is item 2, decided by token scope. He may be merging the two, which could
+     mean the section reads ambiguously.
+
+**RFC-2**
+
+3. [Aneesh Sathe](https://blyg.aneeshsathe.com/t/25y14phagghjzcqtjxsewd0e7x/), 2026-11-04.
+   Kinds 2 and 3 matter most, since most of his readers will not get a blyg.
+   - **Main ask:** say how the house tells hosted commenters about replies: opt-in email per
+     comment or thread, sent by the house's client when a stub of their comment verifies.
+     "Blygs should not discard affordances already there on blogs."
+     *Check:* the RFC has no notification text, and §4 does give the comments origin every
+     reply. It is off the wire, but his kind 3 condition has a timing problem: an email deleted
+     "once the comment's decision is made" is gone before any reply can arrive, and §7.3 keeps
+     no such data.
+   - **"One install runs both"** should be a firm recommendation.
+     *Check:* §4 already says "should"; this may only be emphasis.
+   - **Kind 1 as a comments section under a post in every Studio, perhaps as an extension.**
+     *Check:* extensions cannot reach public pages (`blygger-studio/docs/extensions.md`, "The
+     wire"; #89), so it could not be one today. The RFC also says the reference client builds
+     nothing from it.
+4. [Mike Casey](https://caseyjr.org/blyg/t/4rwfyv2ca091qhwmc7z73f2fzn/), 2026-11-02. The
+   header's stance holds in practice: responding from your own blyg is one tap. §5: asks kind
+   1 clients to exclude or separate typed stubs carrying "a recognized extension", such as a
+   prediction resolution `{resolves, outcome, evidence}`, because there the resolutions are
+   the content.
+   *Check:* §5.1 already separates by relation, so a display rule fits. But recognizing a
+   typed stub presupposes the extension members blygger-spec#10 refused (the `meta` bag under
+   "Do not open" below), although he says "no wire change". Is there a form that needs nothing
+   on the wire?
+5. [ksurya on #15](https://github.com/blygger/blygger-spec/issues/15), 2026-11-02. Agrees
+   there should be no reply primitive. Wants to accept webmentions from places that are not
+   blygs, such as replies to a Twitter post.
+   *Check:* out of this RFC's scope. It belongs with RFC-4, responding from anywhere (#82),
+   and §15.6's trackback class is the constraint.
 
 ## Review first — decisions Opus ruled (#58)
 
