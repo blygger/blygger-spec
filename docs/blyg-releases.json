@@ -125,6 +125,11 @@
       "id": "4s3dq678jkt319vd8jfr8hesnq",
       "version": 1,
       "source_sha256": "311e89ebe27053b69c386ca6b2983c000e31b9f13d97a43571e6d94bd894ba36"
+    },
+    "0.54.0": {
+      "id": "6kj4awf8267fx0wh5mfq13ck7p",
+      "version": 1,
+      "source_sha256": "29583a2fb1f934948449bd15c856af10da3fd7a31fc454a11f3a1b9ec315ef16"
     }
   }
 }
