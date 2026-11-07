@@ -128,11 +128,16 @@ export function plainLinks(md) {
 }
 
 // href / src / srcset / poster values in an HTML string.
+const URL_TAG_RE = /<[a-zA-Z](?:"[^"]*"|\'[^\']*\'|[^\'">])*>/g;
 export function urlAttrs(html) {
   const out = [];
   const re = /\s(href|src|srcset|poster|cite|action)\s*=\s*("([^"]*)"|'([^']*)'|([^\s"'>]+))/gi;
+  // Only real tags: escaped markup shown inside <code> (`&lt;a href=…`) is text, not an attribute.
+  const tags = String(html || "").match(URL_TAG_RE) || [];
+  for (const tag of tags) {
   let m;
-  while ((m = re.exec(String(html || "")))) {
+  re.lastIndex = 0;
+  while ((m = re.exec(tag))) {
     const name = m[1].toLowerCase();
     const raw = decodeEntities(m[3] ?? m[4] ?? m[5] ?? "");
     if (name === "srcset") {
@@ -141,6 +146,7 @@ export function urlAttrs(html) {
         if (u) out.push({ attr: name, value: u });
       }
     } else out.push({ attr: name, value: raw });
+  }
   }
   return out;
 }
