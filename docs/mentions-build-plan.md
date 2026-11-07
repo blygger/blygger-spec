@@ -8,20 +8,20 @@
 ## Order
 
 1. **Sanitizer keeps `<data value>`.** Done, 0.54.1.
-2. **Address book and publish-time resolver** (this branch, `feat/mentions-tn6`): the
+2. **Address book and publish-time resolver.** Done, 0.55.0: the
    `contacts` table, `/contacts` routes, `@handle` consumed at publish on every write path
    (#91 B2), unresolved handles returned to the caller, preview showing the same result.
-3. **The editor:** `@` autocomplete over the book, the soft warning with "add contact",
+3. **The editor.** Done, 0.55.0 and 0.55.1: `@` autocomplete over the book, the soft warning with "add contact",
    a book page in Settings.
-4. **Identifier resolution:** first part on this branch: adding a contact fetches its URL and
+4. **Identifier resolution.** First part done, 0.55.0: adding a contact fetches its URL and
    gathers `rel="me"` links in the three wire schemes as `self`, through the importer's guarded
    fetch; a `self` the page drops falls back to `entered`. Still to do: the page's h-card, then
    WebFinger, ATProto and `did:web` (tn-6 section 5.1), and URL-less contacts with them.
-5. **The found-mentions list** (#91 B4). Last, because it lists nothing until some client
-   publishes mention h-cards. Two things to settle first: the match needs the owner's own
-   record, which waits on step 6 or a stand-in from `author_url`; and finding h-cards by
-   scanning `imported_items.content_html` is a table scan of the kind studio#113 removed, so
-   it should be recorded at import.
+5. **The found-mentions list** (#91 B4). Done, 0.56.0, as the Mentions lens in Reading (tn-6
+   section 8 keeps it off the responses tab). It matches `author_url` plus the blyg's address
+   until step 6 gives the owner a record, and h-cards are recorded at import
+   (`imported_mentions`), with a cron backfill, so it never scans stored HTML. Also 0.55.3:
+   item pages as `h-entry` with a hidden `p-author h-card` (tn-6 section 5.4).
 6. **Member roster and per-token bylines** (tn-6 sections 5.4–5.6). Separate; it changes
    what a token means, so it gets its own plan.
 

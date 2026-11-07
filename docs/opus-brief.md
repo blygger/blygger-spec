@@ -208,7 +208,7 @@ Decisions #90–#94 in `CLAUDE.md`, reasoning `v0.4-plan.md` §18, text in the s
 0.4 revision (§4, §14, §16.8). RFC-1 and RFC-2 are now `docs/notes/tn-6-…` and `tn-7-…`,
 published as v2 of their blyg items. Item e of the session-40 section is unblocked. In order:
 
-- **a. The found-mentions list** (#91 B4; studio, off the Mentions surface). A reading
+- **a. Done 0.56.0 (studio#134), as a lens in Reading.** Aneesh has not been told yet. Was: **The found-mentions list** (#91 B4; studio, off the Mentions surface). A reading
   client MAY list for its owner the mentions found in items it already holds: h-cards in
   imported `content_html` matched against the owner's own member record (`url`, `ids`),
   **quotes excluded** (a baked quote's h-cards are the quoted author's speech), labelled
@@ -423,7 +423,7 @@ Decisions #66 (official blyg, with its Fable review inline), #67 (RFC-1) and #68
   `Release` workflow could post it, or a sync from `CHANGELOG.md`. Then check
   `roadmap-tracks.md` 3.1: the generic `/updates.xml` is likely redundant with the blyg's
   feed (the per-node "you are behind" notice is not) — tick or strike.
-- **e. Unblocked session 60 (#91 B5):** RFC-1's comment period closed 2026-11-04 and it is
+- **e. Mostly done session 60; member roster and wider schemes remain** (`docs/mentions-build-plan.md`). Unblocked session 60 (#91 B5): RFC-1's comment period closed 2026-11-04 and it is
   now `tn-6`; the studio work may begin. Its spec is tn-6 with #91's changes: **B2** —
   `@handle` is resolved by the publishing server on every write path (editor, API, tools),
   published `content_md` never carries one, unresolved `@word`s come back as warnings to

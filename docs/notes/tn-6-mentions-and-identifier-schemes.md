@@ -7,10 +7,13 @@ of the blyg item
 (version 1, pinned) and on
 [blygger-spec#14](https://github.com/blygger/blygger-spec/issues/14); this note
 is version 2 of the same item, and section 11 says what the comments changed.
-**Status: unbuilt.** No client emits mention h-cards yet, and the first build
-revises this note: by decision #90 an RFC becomes a note when its comment
-period closes, and the first build is a revision trigger, not the promotion
-gate. Drafted by Opus 5.5 at Venkat Rao's request (session 40, 2026-10-07);
+**Status: first built.** Blygger Studio has emitted mention h-cards since 0.55.0
+(2026-11-06), marks up item pages as section 5.4 describes since 0.55.3, and has
+the found-mentions list of section 6 since 0.56.0, as a lens in Reading. Member
+rosters, the wider schemes of section 5.1 and section 5.5's byline check are not
+built, and no second client resolves these mentions yet. By decision #90 an RFC
+becomes a note when its comment period closes, and the first build is a revision
+trigger, not the promotion gate. Drafted by Opus 5.5 at Venkat Rao's request (session 40, 2026-10-07);
 edited the same session by Fable 5.1, whose rulings on the five open questions
 are section 10; revised by Fable 5.1 at promotion (session 60). Technical notes
 record design reasoning alongside the normative spec; like the RFC it was, this
