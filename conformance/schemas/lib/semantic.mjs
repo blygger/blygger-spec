@@ -7,16 +7,22 @@ import { parse, hasTkGrammar, codeRanges, inRanges } from "./grammar.mjs";
 
 const sha = (s) => "sha256:" + createHash("sha256").update(s, "utf8").digest("hex");
 
+const TAG_RE = /<[a-zA-Z](?:"[^"]*"|\'[^\']*\'|[^\'">])*>/g;
 /** URL-bearing attributes in an HTML string. */
 export function htmlUrls(html) {
   const out = [];
   const re = /\s(href|src|cite|poster|action|data|srcset)\s*=\s*("([^"]*)"|'([^']*)'|([^\s>]+))/gi;
+  // Only real tags: escaped markup shown inside <code> (`&lt;a href=…`) is text, not an attribute.
+  const tags = String(html).match(TAG_RE) || [];
+  for (const tag of tags) {
   let m;
-  while ((m = re.exec(html))) {
+  re.lastIndex = 0;
+  while ((m = re.exec(tag))) {
     const attr = m[1].toLowerCase();
     const v = m[3] ?? m[4] ?? m[5] ?? "";
     if (attr === "srcset") for (const part of v.split(",")) { const u = part.trim().split(/\s+/)[0]; if (u) out.push({ attr, url: u }); }
     else out.push({ attr, url: v });
+  }
   }
   return out;
 }
