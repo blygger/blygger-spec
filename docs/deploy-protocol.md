@@ -18,6 +18,8 @@ npm run deploy:all -- --migrate         # also apply pending D1 migrations
 npm run deploy:all -- --skip-tests      # skip the tsc+vitest gate (not advised)
 ```
 
+> **New Nature is not deployed from this project** (Venkat, 2026-11-06). The `newnature` target is managed only from `Publishing/newnature/` sessions, including its migrations. `deploy:all` would include it, so roll out per node.
+
 ## Why this exists
 
 Incident [`2026-09-12-01`](../../../incidents/2026-09-12-blygger-pi-wrong-account-deploy.md): a routine deploy of the PI node silently resolved to Venkat's **personal** Cloudflare account instead of the Protocol Institute org account, auto-provisioned a stray R2 bucket there, and failed on the cross-account D1 lookup. The `wrangler.jsonc` comment warning about exactly this was advisory — it could describe the mistake but not prevent it.
