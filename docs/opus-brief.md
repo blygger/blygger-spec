@@ -5,7 +5,7 @@ Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped. **Session 33*
 day, Fable) inserted item 5, fork flattening (#57); items 1–4 shipped in session 32.
 **Session 40** (2026-10-07, Fable) added the official-blyg section below (#66–#68).
 **Session 58** (2026-11-03, Fable) added the mods-mechanism section (#89). **Session 60**
-(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
+(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Session 61** (2026-11-07, Fable) added the Shelf section (studio#137). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
 session starts (`CLAUDE.md` → At Session Start, step 4).
 
 > **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#57** (sessions 31, 33) and
@@ -201,6 +201,38 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
   (2026-11-02, forwarded by #92 C5):** accepting webmentions from places that are not
   blygs, such as replies to a post on Twitter — §15.6's trackback class is the constraint
   the RFC has to answer.
+
+## New from session 61 (2026-11-07, Fable 5.1) — the Shelf, studio#137; do these first
+
+Reasoning in `v0.4-plan.md` §18.6; no numbered decision, because the shelf is the
+client's own contract (#31). In order:
+
+- **a. Reply on #137** in Venkat's voice via `gh` (he has authorized this once drafted):
+  approved as its own resource; two changes before merge — (1) `expectedRevision` on
+  `PUT /shelf` becomes **required** (`z.number().int().nonnegative()`, no `.optional()`),
+  matching `updateItem`; a client reads the shelf first, and the 409's `details.current`
+  is the retry path; (2) one sentence in `docs/api.md` and the route's `describe()`: the
+  shelf is private and never gains a public mode; a featured list, if ever built, is a
+  separate presentation setting that may default from it. Then the typecheck failure:
+  six TS errors in `src/ui/shelf.tsx:60–75` (a two-argument call where one is expected,
+  fields read off `{}`), from drift against main — his to fix, with a rebase or a merge
+  of main. Quiet dropping, `owner:manage`/`owner:read` and the name stand; say so, so
+  he does not revisit them. Note the AGENTS.md API-surface gate is satisfied by the PR's
+  own contract bump (5.8.0, SDK 0.14.0), which the release commit may re-bump.
+- **b. Review the revised PR** against the two changes and the usual contract rules
+  (`openapi.json` regenerated, SDK drift clean, `test/rest-permissions.oracle.test.ts`
+  and the MCP oracle updated — the PR body says they are). Merge when CI is green.
+- **c. Before any deploy carrying 0044**, prove its triggers on a throwaway remote D1
+  (`d1-remote-trigger-end-splitter` lesson; the migration already uses `SELECT RAISE …
+  WHERE`, so this is a confirmation, not a fix). Then `migrate` on venkateshrao and PI
+  before the deploy, as always; New Nature is deployed only from its own project.
+- **d. Release.** If #133 and 0.57.0 are not yet out when this lands, the shelf goes in
+  **0.58.0** on its own (a migration and a contract bump want their own entry), never
+  folded into 0.57.0's "no migration" release. `CHANGELOG.md` names the required
+  `expectedRevision` as a Burrow-facing note, since Burrow is moving onto the API.
+- **e. Tell Burrow's maintainer** (a comment on #135 after merge): the API is live, the
+  revision is required, ids that no longer resolve are dropped and the response is the
+  stored list.
 
 ## New from session 60 (2026-11-05, Fable 5.1) — the RFC close, RFC-5, private items (#90–#94); do these before the lists below
 
