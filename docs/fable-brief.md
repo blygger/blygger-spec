@@ -20,6 +20,63 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 > [`fable-round-queue.md`](fable-round-queue.md) (**item 24 only**) →
 > [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 60.
 
+## Quick check, on Venkat's word — studio#137, the Shelf (staged session 61, 2026-11-07)
+
+[blygger-studio#137](https://github.com/blygger/blygger-studio/pull/137) (Aneesh Sathe,
+closes [#135](https://github.com/blygger/blygger-studio/issues/135)): an owner-ordered,
+owner-only list of the owner's own items (a /now page, a reading log), shown at the top
+of the compose list and synced across clients. Asked for by Blygger Desktop (Burrow),
+which keeps the list locally today and will move onto this API. Venkat asked for a
+quick Fable check, not a full round. It was held from 0.57.0 for this and for CI.
+
+**What it adds.** Private contract 5.8.0, SDK 0.14.0, additive:
+`GET {mount}/api/shelf` (`owner:read`) returns `{ itemIds, revision }`;
+`PUT {mount}/api/shelf` (`owner:manage`, destructive) replaces the whole list (at most
+50) and takes an **optional** `expectedRevision`: stale gives 409 `revision-conflict`
+with the current list in `details.current`, omitted is an unconditional replace. Ids that
+name no own item, or a withdrawn one, are **dropped quietly**; a repeated id keeps its
+first place. Drafts may be shelved; `GET` leaves out withdrawn items; discarding a draft
+removes its row. A new `shelf` change domain on `/changes`. **Migration 0044** (`shelf`,
+a single-row `shelf_revision`, `change_state.shelf`, triggers including two on `items`).
+Nothing reaches item documents, feeds, the manifest, public pages or the static export;
+a test checks this. Not in the interaction log.
+
+**Opus's reading:** this is the client's own contract (#31), not the protocol's, so
+nothing here touches the wire, and under #58 Opus could rule it. It is staged because
+Venkat wants Fable's eye on it, and because of these questions:
+
+1. **A new resource, or a hopper?** Hoppers are the existing owner-curated list, but they
+   are reading collections ordered by join time and logged as interactions; #135 argues
+   they don't fit. Is a second list primitive right, or should hoppers gain an owner
+   order and a private, own-items-only mode? (One construct versus two that drift.)
+2. **Optional `expectedRevision`.** Item mutations *require* it (`updateItem` extends
+   `ItemEditSchema` with a required `expectedRevision`, from Kyle's 0.49.12 conditional
+   mutations). The shelf makes it optional, so a client that omits it can silently
+   overwrite another client's reorder: the exact multi-client case the resource exists
+   for. Require it, or keep it optional as a deliberate exception?
+3. **Quiet dropping.** Elsewhere, ids that don't resolve fail the call with a stable
+   error. Here they vanish, which Burrow asked for, and the response shows what was
+   stored. Is quiet dropping acceptable for an owner-private list, given that the
+   response tells the truth?
+4. **Scope.** `owner:manage` for the write, beside settings and subscriptions. Is that
+   right, or does reordering your own items belong with the drafting verb (#52 invariant
+   3: publishing distinct from drafting)?
+5. **The name and its future.** "Shelf" avoids "pin" (version pinning). Is it ever meant
+   to go public (featured posts on the home page, beside `front_page` and the links
+   section), and if so, does that change anything now? If it stays private forever,
+   say so, so a later PR doesn't publish it by accident. Also, how does it sit with
+   private items (#94)?
+
+**Not Fable's, already known.** CI's `check` fails on typecheck: six TS errors in
+`src/ui/shelf.tsx:60–75` (a two-argument call where one is expected, fields read off
+`{}`). The tests passed locally per the PR body, so the branch probably drifted from main.
+Aneesh fixes this whatever the ruling. Before deploying, prove migration 0044's triggers on
+a throwaway remote D1 (the remote `END;` splitter has bitten trigger migrations before).
+
+**At ruling:** reply on #137 with the ruling (in Venkat's voice, via `gh`, once drafted),
+record it as a numbered decision if Fable rules anything (rather than confirming Opus's
+reading), and drop this section when the brief is next rewritten.
+
 ## The dated item — RFC-5 closes 2026-12-03
 
 [`docs/rfcs/rfc-5-enterprise-deployment.md`](rfcs/rfc-5-enterprise-deployment.md),
