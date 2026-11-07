@@ -365,7 +365,7 @@ this list: whatever Opus can do more cheaply than a Fable round is Opus's. In or
   `Migrations: none`. Once a second client reads it (the pace-layered order over
   subscriptions, ROADMAP row 69, is the natural reader), Opus promotes it into §5.2 and §8
   under #58 and Fable reviews.
-- **i. Draft RFC-3, the pace-layered order** (#73), from
+- **i. Drafted session 61 (2026-11-07):** `docs/rfcs/rfc-3-pace-layered-order.md`, waiting on Fable's edit. Was: **Draft RFC-3, the pace-layered order** (#73), from
   `blygger-studio/docs/pace-layered-feed.md` and `test/fixtures/feeds/*.json`, in the
   shape of RFC-1 and RFC-2 (now `docs/notes/tn-6-*.md` and `tn-7-*.md`, promoted session
   60, #90): model, wire inputs, reference
