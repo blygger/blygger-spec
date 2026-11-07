@@ -130,6 +130,36 @@
       "id": "6kj4awf8267fx0wh5mfq13ck7p",
       "version": 1,
       "source_sha256": "29583a2fb1f934948449bd15c856af10da3fd7a31fc454a11f3a1b9ec315ef16"
+    },
+    "0.54.1": {
+      "id": "1m3wmtsjdgeskeqtf1t1pxw9br",
+      "version": 1,
+      "source_sha256": "883f8b3e6d601194ee5a5d501138db9c7cdcf46de71afae392f6d6982d66e3ae"
+    },
+    "0.55.0": {
+      "id": "6y7k39yvw8pw5hg9dgaa4te6mx",
+      "version": 1,
+      "source_sha256": "65aca0ae6ea4643b9cbdfe091807678be75c84546e64a4d2fa60bd4b81e765ab"
+    },
+    "0.55.1": {
+      "id": "79z66g5jhbjb6465xe2hq02nww",
+      "version": 1,
+      "source_sha256": "b7cb1ae50b7e10d455161fbe4f97763534f176a1ad1b091f8804f6d0e4401f42"
+    },
+    "0.55.2": {
+      "id": "2rbzwj4knpbzykz1p0z943bxb1",
+      "version": 1,
+      "source_sha256": "c8361a7ce270deda462ca580bdbd485a5fa121857997ecdd62212307c620576c"
+    },
+    "0.55.3": {
+      "id": "58kc2ydvy1jvr2vam33034rzsn",
+      "version": 1,
+      "source_sha256": "f324d8f0ee1507f736f581be18bfbecdc3995420056943fd8ecfd06836927a34"
+    },
+    "0.56.0": {
+      "id": "649yncwqxef2dwhfjkneqc8rgs",
+      "version": 1,
+      "source_sha256": "27b8dbd80c75cf29e42e05495318f8d8a00c484e659d76541fcd2554e6ac817a"
     }
   }
 }
