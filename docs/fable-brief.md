@@ -19,6 +19,43 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 > awaiting its gate), §16.9–§16.10 (older ruled shapes still awaiting builds) →
 > [`fable-round-queue.md`](fable-round-queue.md) (**item 24 only**) →
 > [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 60.
+>
+> **Session 61 added an immediate agenda (next section).** For it, read `CLAUDE.md` **#95**,
+> `v0.4-plan.md` **§18.7–§18.8**, [`background-plan.md`](background-plan.md) and
+> [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md) §7.
+
+## Immediate agenda — staged session 61 (2026-11-07), take these first, in order
+
+Venkat asked for these to be reviewed before the work behind them continues. Rule each in
+chat with reasoning, then record on his "go" (`fable-round-cadence`).
+
+1. **Rule `v0.4-plan.md` §18.8 — may a reader's Background/Foreground decision read another
+   blyg's changelog note?** Blocks one input of `background-plan.md` phase 4 (the note);
+   nothing else waits on it. Opus recommends: the measured change, or a decision model's
+   judgement of the two texts, decides; the note may only **raise** an item to the
+   Foreground, never lower it, so words can draw attention but cannot bury a rewrite (#83's
+   attack, in prose). Alternatives: ignore the note entirely; let it count both ways (a #83
+   reversal). Reader behaviour; say whether §13.2 wants a sentence naming the note's
+   permitted role.
+2. **Review #95 — changelog display and summaries** (Opus 5.5, Fable review pending).
+   Built on blygger-studio `feat/changelog-display`, live on venkateshrao only, held from
+   the other nodes until this review. The one question: §5.2 says "a note describes a
+   change"; #95 reads it as covering a note that summarizes the changes so far (the depth
+   rule is the rule, the phrasing its example). Confirm, or write the sentence. Also look at:
+   summaries are written from notes only and labelled with the model (§18.7); a
+   400-character history note becomes the start of every feed title for that version (§7).
+3. **Glance at `background-plan.md`** (Opus-tier, no decision recorded; reader-only, nothing on
+   the wire). Two things to check, not rule: that the **superseded** rule (an older item of a
+   blyg goes to Background when the blyg publishes again within 15 minutes) is display under
+   §13.7's MAY and needs no text; and whether the project should **recommend** it, and the
+   measured "minor" rule, to other clients with a sentence beside #77 and #83 in §13.2. Also:
+   the opt-in model reads other blygs' version texts at import — confirm nothing in §14
+   (fetched text is data) or blygger-spec#19 is engaged.
+4. **Edit and rule RFC-3** (the pace-layered order; its gate opened session 61). Four items in
+   its §7: R1 the conformance claim (model, not constants); R2 maintenance versions climb
+   zero (#77, #83); R3 a burst takes one tick (§13.7, #78) — note that `background-plan.md`'s
+   burst rule is the same fold seen from the reader, so rule them together; R4 the fixtures
+   move to `blygger-spec/conformance/feeds/`. Then it publishes on blyg.blygger.org for comment.
 
 ## Ruled session 61 (2026-11-07, Fable 5.1) — studio#137, the Shelf; drop at the next rewrite
 
@@ -43,18 +80,7 @@ for late comments.
 
 ## Review first — decisions Opus ruled (#58)
 
-**Pending now: #95** (session 61, Opus 5.5): changelog display and summaries — presentation of
-the changelog already on the wire, summaries written from notes only and labelled, and a change
-note that summarizes the history to date. The one thing to look at: whether "a note describes a
-change" (§5.2) covers "a note describes the changes so far", or wants a sentence. Reasoning
-`v0.4-plan.md` §18.7; built on blygger-studio `feat/changelog-display`, live on venkateshrao
-only until this review.
-
-**And one question to rule (staged session 61): `v0.4-plan.md` §18.8** — may a reader's
-Background/Foreground decision for another blyg's new version read that blyg's note? Under
-#83 the note has no wire meaning; Opus recommends the measured change decides and the note may
-only raise an item to Foreground, never lower it. Reader behaviour only; possibly a sentence
-in §13.2. The own-items half needs no ruling and may be built meanwhile.
+**Pending now: #95** — agenda item 2 above. **And §18.8 to rule** — agenda item 1.
 
 Session 60's five decisions are Fable's own. Promotions Opus
 performs under #58 when their gates run, for Fable to review after: §16.9 `pinned_at` →
