@@ -219,11 +219,14 @@ version (`wordless` can also be backfilled, from the held `content_md`).
 
 ## 7. Build order and acceptance
 
-Each phase is a PR, releasable on its own.
+Each phase is a PR, releasable on its own. **Order (Venkat, session 61): phase 4 is split.**
+Its own-items half ships with phase 1; its imported half follows phase 2, whose near-same
+measure is what a note's claim is checked against. So: **1 + 4a → 2 → 4b → 3.**
 
-1. **Foundation.** Migration, query predicate, reasons field on entries, the Settings card
-   (toggles inert until phase 2 except withdrawn), item and blyg placement with their ⋯
-   actions and the source inspector toggle, reason chips, counts.
+1. **Foundation, with 4a.** Migration, query predicate, reasons field on entries, the Settings
+   card (toggles inert until phase 2 except withdrawn and minor), item and blyg placement with
+   their ⋯ actions and the source inspector toggle, reason chips, counts. **4a:** own items'
+   change-classifier labels (`typo`, `minor`, `refresh`) set `minor` at publish (§3.1).
    - *Accept:* moving an entry to Background removes it from All and lists it in Background
      with "you moved this"; moving it to Foreground from there returns it and survives a new
      version; a blyg moved to Background takes all its entries, and one of them pinned to
@@ -239,9 +242,10 @@ Each phase is a PR, releasable on its own.
    - *Accept:* three fragments and a thread naming them, published by hand within a minute,
      show as one entry with "+3 fragments" on node B, the fragments in Background with "part
      of a burst"; a fragment edited later leaves Background.
-4. **The changelog signal.** Own items' classifier labels; the opt-in model for imported
-   versions under the AI budget, with the budget fallback; the note only after §18.8 is
-   ruled.
+4. **The changelog signal**, split. **4a** ships with phase 1 (above). **4b**, after phase 2:
+   the opt-in model for imported versions under the AI budget, with the budget fallback; the
+   owner's routing instruction, which may read notes (#96, empty by default); the
+   disagreement chip (§3.4).
    - *Accept:* with Clef configured, an own typo fix lands in Background as "minor change";
      with `bg_model_imported` on, an imported rewrite labelled `major` stays in the main lens
      and a typo goes back; over the daily budget, the measured rule decides and the chip says

@@ -233,8 +233,9 @@ client's own contract (#31). In order:
 - **e. Tell Burrow's maintainer** (a comment on #135 after merge): the API is live, the
   revision is required, ids that no longer resolve are dropped and the response is the
   stored list.
-- **f. Background and Foreground** — [`background-plan.md`](background-plan.md), four phases,
-  paused at Venkat's word until he sequences it against the changelog signal. Merge
+- **f. Background and Foreground** — [`background-plan.md`](background-plan.md). **Sequenced
+  (Venkat, session 61): 1 + 4a → 2 → 4b → 3** — own items' classifier labels with the
+  foundation; the imported half of the changelog signal after the measured rules. Merge
   `feat/changelog-display` (#95, **confirmed by Fable**, §18.10 — roll it out to the other
   nodes) before phase 1. §18.8 is ruled as **#96**: the note may be an input only under the
   owner's own routing instruction (empty by default), with the four conditions and the
