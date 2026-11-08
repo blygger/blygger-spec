@@ -66,7 +66,7 @@ new one are in hand: the importer keeps only the latest state.
 | `maintenance` | the new version's `content_hash` equals the held one's | each version | #77, §13.2 |
 | `near-same` | changed ≤ 2 % of the text and ≤ 40 characters, on `content_md` | each version | #83, §13.2 |
 | `minor` | the change classifier calls the version `typo`, `minor` or `refresh` (§3) | each version | #83; §18.8 for the note |
-| `superseded` | the same blyg published a newer item within the **superseded window** after this item's latest activity | when a sibling arrives; cleared by a new version of this item | §13.7's spirit |
+| `superseded` | the same blyg published a newer item within the **superseded window** after this item's latest activity | when a sibling arrives; cleared by a new version of this item | §13.7 ¶1: ordering is the reader's own; no text needed, and not recommended to other clients (a 15-minute window is one client's taste, #73's logic) — Fable, session 61 |
 | `burst` | a fragment from blyg O named in the `transclusions[]` of a thread from O whose publishing version falls within the **burst window** after the fragment's `created` | when the thread arrives; cleared by a later version of the fragment | #78, §13.7 |
 | `wordless` | `content_md` with every directive line, attached `>` selection, label and whitespace stripped is empty | each version | #80, §13.2 |
 
@@ -100,22 +100,39 @@ Two halves, because the inputs differ.
    label of `typo`, `minor` or `refresh` sets `minor`. With no decision model configured,
    the label comes from the text-model path the backlog already describes ("the changelog
    AI judges the change"), drafted with the note. No ruling needed.
-2. **Imported items, measured.** Without any model: a version that is not `maintenance` or
-   `near-same` but changes ≤ 10 % of the text, and adds or removes no heading, quote or
-   paragraph, is `minor`. Reader-local constants, documented in the studio.
+2. **Imported items, measured — ruled down (Fable, session 61).** A ≤ 10 % rule is too wide
+   to be on by default: §13.2 permits a reader-local threshold but says keep it small, since
+   one word can negate a sentence. The measured rule for imported items is `near-same` (≤ 2 %,
+   ≤ 40 characters) and nothing wider; the wider "minor" judgement is the decision model's
+   job, opt-in (step 3).
 3. **Imported items, by model — opt-in (Venkat's choice).** A setting,
    `bg_model_imported` (off by default), runs the decision model on each imported new
    version that is not already `maintenance` or `near-same`, with the held text and the new
    text as input, and takes its label. Cost: one call per imported new version across every
    subscription, so it runs in the scheduled poll under the existing AI budget
    (`AI_DAILY_CALL_LIMIT`); over budget, it falls back to the measured rule for that version
-   and says so in the reason's detail. Settings show the cost plainly.
-4. **The note, not yet.** The publisher's note is in the item document the importer just
-   fetched, and it is tempting input. Whether it may count is `v0.4-plan.md` §18.8, staged
-   for Fable: Opus recommends that the measured change (or the model's judgement of the text)
-   decides, and the note may only **raise** an item to the Foreground, never lower it, so an
-   author can draw attention with words but cannot bury a rewrite under "minor typo fix".
-   Until Fable rules, the model is given the two texts and **not** the note.
+   and says so in the reason's detail. Settings show the cost plainly. **§14 applies** (Fable,
+   session 61): both texts and the note are fetched text fed to a model, so the prompt frames
+   them as data, and the model is a **decision** model with a fixed label set, never a text
+   model — an injected instruction can then at most mislabel one version, which the owner
+   moves back.
+4. **The note — ruled, decision #96 (Fable, session 61).** The client MUST NOT route on a
+   note of its own accord, in either direction; Opus's "raise only" is withdrawn, since a
+   shipped asymmetric rule is still a shipped rule. **The owner may delegate**: a free-text
+   **routing instruction** for Background, beside the model setting, **empty by default** (no
+   shipped default, template or checkbox names a note word; the placeholder may show an
+   example). The decision model receives the instruction with the two texts **and the note**
+   and returns a label and a one-line reason. Four conditions keep #83 intact: no shipped
+   rule; reading only (nothing the client publishes or sends routes on another blyg's note);
+   visible and revocable — the chip reads "by your instruction: note says minor", and the
+   owner can move the item back or edit the instruction; the wire gains nothing.
+   **Disagreement is the error-handling half** (Venkat's "flag and escalate"): when the
+   note's claim and the measured change disagree — the note says minor, 40 % of the text
+   changed — the entry stays in the Foreground with a chip saying why, and the Background
+   settings list the disagreements. That is the agent's behaviour when the instruction says
+   nothing; the owner's instruction can override it. The publish side is symmetric: the
+   owner's instructions to their own client about what a note says are honoured as written
+   and checked only against the depth rule (§5.2).
 
 Later, a system-1 classifier (Jev) can replace the measured rule in step 2 wholesale. The
 function boundary is one place — `classifyChange(held, next, opts)` returning a label and

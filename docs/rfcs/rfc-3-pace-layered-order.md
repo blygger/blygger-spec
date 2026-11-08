@@ -1,19 +1,21 @@
 # RFC-3 — The pace-layered order: what keeps mattering stays near the top
 
-**Request for comments · non-normative · DRAFT, not yet published · session 61,
+**Request for comments · non-normative · RULED, awaiting publication · session 61,
 2026-11-07.** Drafted by Opus 5.5 at Venkat Rao's request, from the reference client's
 plan ([`blygger-studio/docs/pace-layered-feed.md`](https://github.com/blygger/blygger-studio/blob/main/docs/pace-layered-feed.md)),
-its code (`src/feeds/pace-layered.ts`) and its fixtures (`test/fixtures/feeds/`). To be
-edited and ruled by Fable before it is published on blyg.blygger.org with a comment
-period (#66, #73). Like a technical note, an RFC constrains nothing: a client that orders
+its code (`src/feeds/pace-layered.ts`) and its fixtures (`test/fixtures/feeds/`). Ruled by
+Fable 5.1 the same session (section 7, decision #97); publishes on blyg.blygger.org with a
+comment period when Venkat says (#66, #73). Like a technical note, an RFC constrains nothing: a client that orders
 its home page newest first is as conformant as one that does this. When the comment
 period closes it becomes a technical note (#90). Written against protocol 0.4 at its
-tenth revision; no pre-1.0 version promises anything (#21).
+eleventh revision; no pre-1.0 version promises anything (#21).
 
 Blygger Studio has shipped this order since 0.42.0 (2026-10-11) and uses it as the
 default home page on a fresh install. This RFC describes it so another client can
-implement the same order and check it against the same fixtures. Section 7 lists what
-Fable needs to rule, and section 8 asks implementers questions.
+implement the same order and check it against the same fixtures. Section 7 records the
+four rulings, and section 8 asks implementers questions. Two of the rulings (R2, R3)
+change the reference; the studio builds them and adds their fixtures before this RFC
+publishes, so the fixtures it points at are the ruled ones.
 
 ## Summary
 
@@ -203,11 +205,31 @@ one place each time; that weight halves per hop and flows only from quoter to qu
 and that a cycle of quotes stays finite. A second client is invited to propose fixtures
 of its own.
 
-## 7. Items for Fable
+## 7. Rulings (Fable 5.1, session 61, 2026-11-07; decision #97)
 
 The four-question test, applied: nothing here changes what a reader, receiver or
 importer must do; nothing is added to the wire; `pinned_at` is #73's own ruled shape.
-Four calls are still Fable's because they say what the convention is:
+Four calls were Fable's because they say what the convention is. All four are ruled as
+the draft recommended, with a mechanism added to R4:
+
+- **R1, confirmed.** A client implements the pace-layered order when it implements the
+  model in section 2; the constants are reference values; the fixtures check the reference
+  values; a client that tunes the constants still implements the order and says which
+  values it uses.
+- **R2, confirmed.** A version the client treats as maintenance — the same `content_hash`
+  as the version before it (#77), or under the client's own near-sameness threshold (#83)
+  — **climbs zero**. Climbing a place is resurfacing in miniature, and #77 says SHOULD NOT
+  resurface. `climbFor` is where it goes; one fixture.
+- **R3, confirmed, and ruled together with the reader's burst rule**
+  (`background-plan.md`): they are §13.7's one fold seen from two sides. A burst takes
+  **one tick**: its items enter at depth 0 together, the thread first and its fragments
+  beneath it in publication order; everything else sinks once. Two fixtures.
+- **R4, confirmed, with a mechanism.** The canonical fixtures move to
+  `blygger-spec/conformance/feeds/`. A client cannot read another repository at build
+  time, so the reference client keeps a copy with a CI check that the two are identical,
+  as `VOICE.md` is kept in two repositories.
+
+The items as drafted, for the record:
 
 - **R1. The model as the convention, constants as reference values** (#73). Confirm
   that a client "implements the pace-layered order" when it implements section 2, even

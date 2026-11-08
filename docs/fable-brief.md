@@ -10,6 +10,7 @@ RFC-1 and RFC-2 and promoted them as technical notes (#90–#92), ruled RFC-5's 
 and published it for comment (#93), and ruled the private-items numbering question (#94);
 the tenth revision of 0.4 carries the text. Session 58's round (#89) and session 56's
 (#86–#88) are summarised below so they are not reopened.
+**Session 61** (2026-11-07, Fable 5.1, mid-session): #95 confirmed, #96 and #97 ruled, the eleventh revision; summarised below.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
 > **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#90–#94**
@@ -19,43 +20,25 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 > awaiting its gate), §16.9–§16.10 (older ruled shapes still awaiting builds) →
 > [`fable-round-queue.md`](fable-round-queue.md) (**item 24 only**) →
 > [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 60.
->
-> **Session 61 added an immediate agenda (next section).** For it, read `CLAUDE.md` **#95**,
-> `v0.4-plan.md` **§18.7–§18.8**, [`background-plan.md`](background-plan.md) and
-> [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md) §7.
 
-## Immediate agenda — staged session 61 (2026-11-07), take these first, in order
+## Ruled session 61 (2026-11-07, Fable 5.1) — the immediate agenda; drop at the next rewrite
 
-Venkat asked for these to be reviewed before the work behind them continues. Rule each in
-chat with reasoning, then record on his "go" (`fable-round-cadence`).
+Four items Venkat staged and asked to have ruled before the work continued, all ruled in
+chat and recorded on his "go":
 
-1. **Rule `v0.4-plan.md` §18.8 — may a reader's Background/Foreground decision read another
-   blyg's changelog note?** Blocks one input of `background-plan.md` phase 4 (the note);
-   nothing else waits on it. Opus recommends: the measured change, or a decision model's
-   judgement of the two texts, decides; the note may only **raise** an item to the
-   Foreground, never lower it, so words can draw attention but cannot bury a rewrite (#83's
-   attack, in prose). Alternatives: ignore the note entirely; let it count both ways (a #83
-   reversal). Reader behaviour; say whether §13.2 wants a sentence naming the note's
-   permitted role.
-2. **Review #95 — changelog display and summaries** (Opus 5.5, Fable review pending).
-   Built on blygger-studio `feat/changelog-display`, live on venkateshrao only, held from
-   the other nodes until this review. The one question: §5.2 says "a note describes a
-   change"; #95 reads it as covering a note that summarizes the changes so far (the depth
-   rule is the rule, the phrasing its example). Confirm, or write the sentence. Also look at:
-   summaries are written from notes only and labelled with the model (§18.7); a
-   400-character history note becomes the start of every feed title for that version (§7).
-3. **Glance at `background-plan.md`** (Opus-tier, no decision recorded; reader-only, nothing on
-   the wire). Two things to check, not rule: that the **superseded** rule (an older item of a
-   blyg goes to Background when the blyg publishes again within 15 minutes) is display under
-   §13.7's MAY and needs no text; and whether the project should **recommend** it, and the
-   measured "minor" rule, to other clients with a sentence beside #77 and #83 in §13.2. Also:
-   the opt-in model reads other blygs' version texts at import — confirm nothing in §14
-   (fetched text is data) or blygger-spec#19 is engaged.
-4. **Edit and rule RFC-3** (the pace-layered order; its gate opened session 61). Four items in
-   its §7: R1 the conformance claim (model, not constants); R2 maintenance versions climb
-   zero (#77, #83); R3 a burst takes one tick (§13.7, #78) — note that `background-plan.md`'s
-   burst rule is the same fold seen from the reader, so rule them together; R4 the fixtures
-   move to `blygger-spec/conformance/feeds/`. Then it publishes on blyg.blygger.org for comment.
+1. **#96 — the note and delegated authority** (`v0.4-plan.md` §18.9), after Venkat
+   challenged the first answer. A client MUST NOT route on a changelog note of its own
+   accord, in either direction; an owner MAY instruct their own client to, on both the
+   reading and the publishing side; the protocol polices only the depth rule. Four
+   conditions keep #83 intact (no shipped rule; reading only; visible and revocable; the
+   wire gains nothing). §5.2 and §14 say so — the **eleventh revision**.
+2. **#95 confirmed** (§18.10), with "— or, when the author chooses, the changes so far —"
+   added to §5.2. The changelog-display feature may roll out.
+3. **`background-plan.md`** noted, no decision: superseded needs no text and is not
+   recommended to other clients; measured "minor" ruled down to near-same; §14 framing for
+   the opt-in model.
+4. **#97 — RFC-3's four items** (§18.11), as drafted, with a CI-checked copy for R4. The
+   studio builds R2 and R3 with fixtures first; publication waits on Venkat.
 
 ## Ruled session 61 (2026-11-07, Fable 5.1) — studio#137, the Shelf; drop at the next rewrite
 
@@ -80,7 +63,7 @@ for late comments.
 
 ## Review first — decisions Opus ruled (#58)
 
-**Pending now: #95** — agenda item 2 above. **And §18.8 to rule** — agenda item 1.
+**Pending now: nothing.** #95 was confirmed in session 61 (§18.10).
 
 Session 60's five decisions are Fable's own. Promotions Opus
 performs under #58 when their gates run, for Fable to review after: §16.9 `pinned_at` →
@@ -99,7 +82,7 @@ section the build contradicts, and Fable reviews the revision in batch.
 |---|---|---|
 | **G3** | Kyle's token auth has shipped under #52's four invariants (it has, 0.28) and **at least one third-party tool** authenticates with a scoped token | Review **`tn-4` — the write surface** (non-normative, #31), which Opus drafts from the build. |
 | **G5** | The reference agent (2.10) has run against a live node long enough to refresh a snapshot, answer a mention, and author under its own byline | Review `tn-5` for anything that wants a construct — the refresh scope on the re-bake identity (#38, backlog §1) is the candidate. |
-| **RFC-3 draft** — **open since session 61 (2026-11-07):** [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md), with four items for you in its §7 (R1–R4) | Opus has drafted RFC-3 (pace-layered order) from `blygger-studio/docs/pace-layered-feed.md` and the fixtures (`opus-brief.md` item i) | Edit and rule it as #67/#68 were; publish on blyg.blygger.org with a comment period; at close promote it under #90. |
+| **RFC-3 close** — **ruled session 61 (#97)**, [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md) §7; publishes on blyg.blygger.org once the studio builds R2 and R3 (`opus-brief.md` item i) and Venkat says | Its comment period has closed (four weeks from publication) | Scan the stubs with Opus; revise or rule; promote it as a technical note under #90. |
 | **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t, which now carries ksurya's non-blyg webmentions, #92 C5) | Edit and rule it; publish with a comment period; at close promote it under #90. |
 
 If nothing is pending review, the dated item is not due and no gate is true when a Fable

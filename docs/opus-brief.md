@@ -235,8 +235,10 @@ client's own contract (#31). In order:
   stored list.
 - **f. Background and Foreground** — [`background-plan.md`](background-plan.md), four phases,
   paused at Venkat's word until he sequences it against the changelog signal. Merge
-  `feat/changelog-display` (#95, live on venkateshrao for testing) before phase 1. The note as a
-  classifier input waits on `v0.4-plan.md` §18.8; nothing else does.
+  `feat/changelog-display` (#95, **confirmed by Fable**, §18.10 — roll it out to the other
+  nodes) before phase 1. §18.8 is ruled as **#96**: the note may be an input only under the
+  owner's own routing instruction (empty by default), with the four conditions and the
+  disagreement chip in the plan's §3.4; the measured "minor" is ruled down to near-same.
 
 ## New from session 60 (2026-11-05, Fable 5.1) — the RFC close, RFC-5, private items (#90–#94); do these before the lists below
 
@@ -369,7 +371,7 @@ this list: whatever Opus can do more cheaply than a Fable round is Opus's. In or
   `Migrations: none`. Once a second client reads it (the pace-layered order over
   subscriptions, ROADMAP row 69, is the natural reader), Opus promotes it into §5.2 and §8
   under #58 and Fable reviews.
-- **i. Drafted session 61 (2026-11-07):** `docs/rfcs/rfc-3-pace-layered-order.md`, waiting on Fable's edit. Was: **Draft RFC-3, the pace-layered order** (#73), from
+- **i. Drafted and ruled session 61 (2026-11-07, #97):** `docs/rfcs/rfc-3-pace-layered-order.md` §7. **Before it publishes (Venkat's word), build R2 and R3 in the studio** — `climbFor` returns 0 for a same-hash or near-same version; a burst (§13.7's fold) takes one tick, thread first, fragments beneath — with their fixtures, and R4: move `test/fixtures/feeds/` to `blygger-spec/conformance/feeds/` with a CI identity check on the studio's copy. Was: **Draft RFC-3, the pace-layered order** (#73), from
   `blygger-studio/docs/pace-layered-feed.md` and `test/fixtures/feeds/*.json`, in the
   shape of RFC-1 and RFC-2 (now `docs/notes/tn-6-*.md` and `tn-7-*.md`, promoted session
   60, #90): model, wire inputs, reference
