@@ -233,6 +233,10 @@ client's own contract (#31). In order:
 - **e. Tell Burrow's maintainer** (a comment on #135 after merge): the API is live, the
   revision is required, ids that no longer resolve are dropped and the response is the
   stored list.
+- **f. Background and Foreground** — [`background-plan.md`](background-plan.md), four phases,
+  paused at Venkat's word until he sequences it against the changelog signal. Merge
+  `feat/changelog-display` (#95, live on venkateshrao for testing) before phase 1. The note as a
+  classifier input waits on `v0.4-plan.md` §18.8; nothing else does.
 
 ## New from session 60 (2026-11-05, Fable 5.1) — the RFC close, RFC-5, private items (#90–#94); do these before the lists below
 

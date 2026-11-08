@@ -140,6 +140,10 @@ prototype and 0038 by studio#84): `ALTER TABLE items ADD COLUMN tangled_from TEX
 
 ## 3. The reader side: one Background classifier
 
+> **Superseded session 61 (2026-11-07) by [`background-plan.md`](background-plan.md)**, which
+> builds these five reasons, adds the superseded rule, manual item and blyg placement, a
+> Settings section and the changelog signal. Kept for the record; build from that plan.
+
 Every imported version gets a stored **reason**, private to the studio, or none. The
 **Background** lens lists everything with a reason; every other lens leaves it out. Every
 rule is derived from what the wire already carries, by the rule that significance is never
