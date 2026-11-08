@@ -88,6 +88,27 @@
       "id": "3t4kfb63bsyqajphwz14ngz52t",
       "version": 1,
       "source_sha256": "627c9f2b0774a9122c52f9b3bd00f1ab30f2e3103c3c4734484f2670a1134d17"
+    },
+    {
+      "file": "docs/rfcs/rfc-3-pace-layered-order.md",
+      "model": "claude-opus-5-5+claude-fable-5-1",
+      "pin": true,
+      "notes": {
+        "first": "RFC-3 open for comment until 2026-12-10.",
+        "revision": "RFC-3 revised during its comment period."
+      },
+      "id": "28cm3qgpz1fa146yjvac97ba7c"
+    },
+    {
+      "file": "docs/posts/2026-11-07-changelog-rollup-and-background-routing.md",
+      "model": "claude-opus-5-5",
+      "pin": false,
+      "footer": "post",
+      "notes": {
+        "first": "An explainer for Studio 0.58.0 and the Background plan.",
+        "revision": "Changelog Rollup post revised; see the source history."
+      },
+      "id": "7rcy7n3rxn3mbh5nx6g1jdgndq"
     }
   ]
 }

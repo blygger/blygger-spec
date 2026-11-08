@@ -1,11 +1,12 @@
 # RFC-3 — The pace-layered order: what keeps mattering stays near the top
 
-**Request for comments · non-normative · RULED, awaiting publication · session 61,
-2026-11-07.** Drafted by Opus 5.5 at Venkat Rao's request, from the reference client's
+**Request for comments · non-normative · OPEN FOR COMMENT until 2026-12-10 on
+[blyg.blygger.org](https://blyg.blygger.org/t/28cm3qgpz1fa146yjvac97ba7c/) (#66); without a blyg, comment on [blygger-spec#29](https://github.com/blygger/blygger-spec/issues/29) ·
+session 61, 2026-11-07.** Drafted by Opus 5.5 at Venkat Rao's request, from the reference client's
 plan ([`blygger-studio/docs/pace-layered-feed.md`](https://github.com/blygger/blygger-studio/blob/main/docs/pace-layered-feed.md)),
 its code (`src/feeds/pace-layered.ts`) and its fixtures (`test/fixtures/feeds/`). Ruled by
 Fable 5.1 the same session (section 7, decision #97); publishes on blyg.blygger.org with a
-comment period when Venkat says (#66, #73). Like a technical note, an RFC constrains nothing: a client that orders
+comment period (#66, #73). Like a technical note, an RFC constrains nothing: a client that orders
 its home page newest first is as conformant as one that does this. When the comment
 period closes it becomes a technical note (#90). Written against protocol 0.4 at its
 eleventh revision; no pre-1.0 version promises anything (#21).
@@ -14,8 +15,8 @@ Blygger Studio has shipped this order since 0.42.0 (2026-10-11) and uses it as t
 default home page on a fresh install. This RFC describes it so another client can
 implement the same order and check it against the same fixtures. Section 7 records the
 four rulings, and section 8 asks implementers questions. Two of the rulings (R2, R3)
-change the reference; the studio builds them and adds their fixtures before this RFC
-publishes, so the fixtures it points at are the ruled ones.
+changed the reference; Blygger Studio 0.58.0 builds them, and the fixtures this RFC points
+at are the ruled ones.
 
 ## Summary
 
