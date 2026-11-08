@@ -1,0 +1,133 @@
+{
+  "description": "Three fragments and the thread naming them, published within 15 minutes, are one burst and take one tick: the thread on top, its fragments beneath it in publication order, and everything else sinks once, not four times. o has one pin (half speed), so it ends above the burst; had the burst taken four ticks, o would have sunk to 2 and the thread risen past it. RFC-3 R3, decision #97; spec \u00a713.7.",
+  "history": {
+    "items": [
+      {
+        "id": "q",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T09:00:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "o",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T09:30:00Z",
+            "note": null,
+            "pinned": true,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "p1",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T10:00:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "p2",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T10:01:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "p3",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T10:02:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "T",
+        "kind": "thread",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T10:03:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": [
+              "p1",
+              "p2",
+              "p3"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "n1",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T10:10:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "n2",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T10:11:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      }
+    ]
+  },
+  "expected": [
+    "n2",
+    "n1",
+    "o",
+    "T",
+    "p1",
+    "p2",
+    "p3",
+    "q"
+  ]
+}

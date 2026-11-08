@@ -26,10 +26,11 @@ slowly the more they have been pinned, and they climb a place each time they are
 revised. In the limit, a heavily pinned item that keeps being revised holds the top: the
 familiar "pinned post", reached by what the author did rather than declared by a flag.
 
-- **It reads only the wire.** Every input is in a blyg's public files: ids and withdrawal
-  from the index and item documents, versions and pins from each item's `changelog`, and
-  quotes from pinned version documents. A reader can order someone else's blyg exactly
-  as its author's client does.
+- **It reads the wire, plus one judgement of the client's own.** Every input but one is in
+  a blyg's public files: ids and withdrawal from the index and item documents, versions
+  and pins from each item's `changelog`, and quotes from version documents. The one other
+  input is whether a version was maintenance (R2), which the client derives, as §13.2 lets
+  every reader. A reader can order someone else's blyg as its author's client does.
 - **It is a function of the publishing history, not of the clock.** Time is counted in
   arrivals, not seconds, so the order is the same for every reader at any moment and
   changes only when the blyg publishes.
@@ -74,7 +75,17 @@ over walks and bounded in hops, a cycle of quotes adds a little and then fades.
 **Climbing.** A new version of an item already in the order moves it past the item
 directly above it, once per climb. The reference climbs one place per version: a
 revision moves an item up one place, not to the top. If the item is already at the top,
-it stays there.
+it stays there. **A maintenance version climbs zero** (R2): one the client judged to
+change nothing worth resurfacing — the same text as the version before it (#77), or
+under the client's near-sameness threshold (#83).
+
+**Bursts.** Items published together as one act are one publication (spec §13.7): a
+thread version and the own items it is the first to name whose first publication falls
+within the burst window before it. A burst takes **one tick** (R3): everything else sinks
+once, and its items enter at depth 0 together, the thread on top and its fragments
+beneath it in publication order. A thread already in the order comes back to the top with
+its burst, since the burst is a new publication and the thread is its entry. A withdrawn
+thread is no entry to fold into, so its fragments take their own ticks.
 
 **Withdrawal.** A withdrawn item leaves the order and takes no tick. Its pinned versions
 still lend weight to what they quote, because pinned versions are served forever (§8)
@@ -90,6 +101,8 @@ Replay the blyg's history in publication order, one event per version.
 
 ```
 visible  := items that are not withdrawn
+bursts   := for each visible thread version, oldest first: the own items it is the
+            first to name whose first version is within BURST_WINDOW before it
 events   := every (item, version) pair, sorted by version.at
             (equal times keep listing order: the index's order, oldest first,
              and an item's own versions in sequence)
@@ -100,6 +113,12 @@ for each event (item, version), in order:
             quoters[q] += {item}
         recompute every layer from the weights           -- layers change from here on
     if item is not visible: continue
+    if item has no depth yet and belongs to a burst: continue   -- it enters with the thread
+    if (item, version) is a thread version with a burst:          -- one tick for all of it
+        for each other item o with a depth: depth[o] += 2^-layer[o]
+        for each member m, latest-published first: depth[m] := 0; entered[m] := next tick number
+        depth[item] := 0; entered[item] := next tick number
+        continue
     if item has no depth yet:                            -- a tick
         for each other item o with a depth: depth[o] += 2^-layer[o]
         depth[item] := 0; entered[item] := next tick number
@@ -134,7 +153,8 @@ holds third place among six with nothing but two pins.
 | Sinking speed of layer *n* | `2^-n` per tick | How much each layer down slows sinking |
 | Weight passed per hop | ½ | How much a pinned quote counts toward the quoted item |
 | Hops counted | 6 | How far a pin's weight travels up the quoting tree |
-| Climb per version | 1 place | How far a revision moves an item |
+| Climb per version | 1 place; 0 for a maintenance version (R2) | How far a revision moves an item |
+| Burst window | 15 minutes | How long before a thread its fragments may be published and still enter with it (R3) |
 
 These are values, not rules. #73's reasoning: making them normative "would make the RFC
 a specification of one client's taste". A client that tunes them still implements this
@@ -150,6 +170,8 @@ say which values it uses.
 | Versions and their times | the item's `changelog[]`: `version`, `at` (§5.2) |
 | Pins | `changelog[].pinned` (§5.2, §8) |
 | Who quotes whom, per pinned version | `transclusions[]` in `items/{id}/v{n}.json`, entries with no `origin` (own items) |
+| Bursts | the same `transclusions[]`, with `created` and the thread version's `at` (spec §13.7) |
+| Maintenance (R2) | **not on the wire**: the client's own judgement, from the two texts it holds at reconciliation (same `content_hash`, #77; near-same, #83) |
 
 The endcap is not a version for this purpose. Quotes of other origins' items are
 ignored: they say nothing about this blyg's own items. Quotes in unpinned versions are
@@ -184,9 +206,10 @@ order, not the reference.
 
 ## 6. Conformance: the fixtures
 
-Six fixtures in [`blygger-studio/test/fixtures/feeds/`](https://github.com/blygger/blygger-studio/tree/main/test/fixtures/feeds),
-each a JSON object with a `description`, a `history` in the `FeedHistory` shape and the
-`expected` order, worked by hand:
+Nine fixtures in [`blygger-spec/conformance/feeds/`](../../conformance/feeds/) (canonical,
+R4; Blygger Studio keeps a CI-checked copy), each a JSON object with a `description`, a
+`history` and the `expected` order, worked by hand; the directory's README gives the
+format:
 
 | Fixture | What it checks |
 |---|---|
@@ -196,8 +219,11 @@ each a JSON object with a `description`, a `history` in the `FeedHistory` shape 
 | `04-one-climb` | One revision moves an item one place, not to the top |
 | `05-quoted-by-pinned-threads` | Two pinned threads each pass half a pin to the fragment they quote; at equal depth the later entrant is on top |
 | `06-withdrawn` | A withdrawn item takes no tick, but its pinned versions still lend weight to what they quote |
+| `07-maintenance-no-climb` | A maintenance version climbs zero (R2) |
+| `08-burst-one-tick` | A burst takes one tick: thread on top, fragments beneath in order, everything else sinks once (R3) |
+| `09-burst-window` | A fragment outside the burst window takes its own tick (R3) |
 
-A client claiming the order passes all six with the reference constants. The reference
+A client claiming the order passes all nine with the reference constants. The reference
 suite (`test/feeds.test.ts`) also checks invariants the fixtures only sample: that the
 order does not depend on listing order; that an item pinned and revised as often as
 anything is published holds the top; that an unpinned item revised as often climbs only
