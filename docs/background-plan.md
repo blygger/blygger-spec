@@ -63,12 +63,37 @@ new one are in hand: the importer keeps only the latest state.
 | Reason | Fires when | Recomputed | Ruling |
 |---|---|---|---|
 | `withdrawn` | as today; always on | — | row 92 |
-| `maintenance` | the new version's `content_hash` equals the held one's | each version | #77, §13.2 |
+| `maintenance` | the new version's `content_hash` equals the held one's, and its quotes did not move | each version | #77, §13.2 |
+| `quotes-refreshed` | the new version's `content_hash` equals the held one's and its `transclusions[]` name newer versions: the author refreshed stale quotes and wrote nothing new. Unless the owner's **material quote change** toggle is on and a refreshed quote's text changed beyond near-same (§2.1) | each version | #38, #77, §13.2 |
 | `near-same` | changed ≤ 2 % of the text and ≤ 40 characters, on `content_md` | each version | #83, §13.2 |
 | `minor` | the change classifier calls the version `typo`, `minor` or `refresh` (§3) | each version | #83; §18.8 for the note |
 | `superseded` | the same blyg published a newer item within the **superseded window** after this item's latest activity | when a sibling arrives; cleared by a new version of this item | §13.7 ¶1: ordering is the reader's own; no text needed, and not recommended to other clients (a 15-minute window is one client's taste, #73's logic) — Fable, session 61 |
 | `burst` | a fragment from blyg O named in the `transclusions[]` of a thread from O whose publishing version falls within the **burst window** after the fragment's `created` | when the thread arrives; cleared by a later version of the fragment | #78, §13.7 |
 | `wordless` | `content_md` with every directive line, attached `>` selection, label and whitespace stripped is empty | each version | #80, §13.2 |
+
+### 2.1 Quote refreshes (Venkat, session 61)
+
+A thread that only refreshes its stale quotes publishes a new version whose `content_md` is
+unchanged — a quote there is the directive `![[id]]`, with no version in it — so its
+`content_hash` is unchanged; what moves is the baked HTML and the versions in
+`transclusions[]`. That is the re-bake #38 named ("same `content_hash`, new version") and the
+first example §13.2 gives of maintenance. It gets its own reason so its chip can say so
+("quotes refreshed") and the owner can toggle it apart from other maintenance; on by
+default. The cases:
+
+- **Refresh only:** same hash, quotes moved → `quotes-refreshed`, Background.
+- **Refresh and a small edit:** the hash differs; `near-same` measures the author's own
+  `content_md`, so a typo fix rides along into Background.
+- **Refresh and a real edit:** the author's text changed beyond near-same → Foreground.
+- **A refresh that brings in a materially changed quote** — the quoted item was itself
+  rewritten — stays in Background by default: the author wrote nothing new, and a reader who
+  follows the quoted blyg gets its update directly. A toggle, **material quote change**
+  (`bg_quote_material`, **off** by default), keeps such a refresh in the Foreground when any
+  refreshed quote's text changed beyond near-same, measured on the text of the baked
+  blockquote before and after (the held `content_html` and the new one, matched by
+  `data-blyg-id`). Studio-private, like every rule here.
+
+The home-page order treats the same version as maintenance (RFC-3 R2, #97): it climbs zero.
 
 **Constants** are reader-local (#83: never on the wire, never in a public API). Two are
 settings because Venkat wants to tune them: the **superseded window** (default 15 minutes)
@@ -165,8 +190,10 @@ curation; this is not.)
 
 Under the reader settings, one card:
 
-- A toggle per rule: maintenance, near-same, minor change, superseded, burst, wordless (all on
-  by default); withdrawn shown as always on.
+- A toggle per rule: maintenance, quotes refreshed, near-same, minor change, superseded,
+  burst, wordless (all on by default); withdrawn shown as always on.
+- **Material quote change** (off): keep a quote refresh in the Foreground when a quoted
+  item's text changed beyond near-same (§2.1).
 - **Superseded window**, minutes (default 15). **Burst window**, minutes (default 15).
 - **Judge other blygs' changes with the decision model** (`bg_model_imported`, off), with the
   model named from Settings → AI → change classifier and the cost stated: one call per new
@@ -195,7 +222,7 @@ changelog summaries):
   remote D1** before any deploy.
 
 **Settings keys:** `bg_rules` (JSON: which rules count), `bg_superseded_minutes`,
-`bg_burst_minutes`, `bg_model_imported`.
+`bg_burst_minutes`, `bg_model_imported`, `bg_quote_material`.
 
 **Query.** `identitySql` gains the predicate in §1. Enabled reasons bind as one JSON array:
 `EXISTS (SELECT 1 FROM json_each(ii.bg_reasons) WHERE value IN (SELECT value FROM json_each(?)))`.
@@ -234,9 +261,11 @@ measure is what a note's claim is checked against. So: **1 + 4a → 2 → 4b →
      read; the polling cache refreshes the lenses after each action.
 2. **Measured rules.** `maintenance`, `near-same`, `wordless`, `superseded` at import and at
    publish, the superseded backfill, and the measured `minor`.
-   - *Accept:* on two local nodes, from node A: a same-hash republish, a one-character edit,
-     a wordless stub, a three-word fix and two items ten minutes apart all land as expected in
-     node B's Background with the right chips; a stub that gains a paragraph moves back; each
+   - *Accept:* on two local nodes, from node A: a same-hash republish, a quote refresh (chip
+     "quotes refreshed"), a refresh with a typo fix, a one-character edit, a wordless stub, a
+     three-word fix and two items ten minutes apart all land as expected in node B's Background
+     with the right chips; with *material quote change* on, a refresh whose quoted item was
+     rewritten stays in the main lens; a stub that gains a paragraph moves back; each
      rule's toggle moves its items at once; a future-dated item does not supersede anything.
 3. **The tangle filter.** `burst` and "+N fragments" on the thread.
    - *Accept:* three fragments and a thread naming them, published by hand within a minute,
