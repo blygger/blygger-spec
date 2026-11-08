@@ -43,7 +43,20 @@ for late comments.
 
 ## Review first — decisions Opus ruled (#58)
 
-**Pending now: nothing.** Session 60's five decisions are Fable's own. Promotions Opus
+**Pending now: #95** (session 61, Opus 5.5): changelog display and summaries — presentation of
+the changelog already on the wire, summaries written from notes only and labelled, and a change
+note that summarizes the history to date. The one thing to look at: whether "a note describes a
+change" (§5.2) covers "a note describes the changes so far", or wants a sentence. Reasoning
+`v0.4-plan.md` §18.7; built on blygger-studio `feat/changelog-display`, live on venkateshrao
+only until this review.
+
+**And one question to rule (staged session 61): `v0.4-plan.md` §18.8** — may a reader's
+Background/Foreground decision for another blyg's new version read that blyg's note? Under
+#83 the note has no wire meaning; Opus recommends the measured change decides and the note may
+only raise an item to Foreground, never lower it. Reader behaviour only; possibly a sentence
+in §13.2. The own-items half needs no ruling and may be built meanwhile.
+
+Session 60's five decisions are Fable's own. Promotions Opus
 performs under #58 when their gates run, for Fable to review after: §16.9 `pinned_at` →
 §5.2 and §8 once the studio emits it and a second client reads it; §16.9 `cid` → the same
 once any client emits it and a mirror reads it; §16.10 image size → §10.1 once emitted and
