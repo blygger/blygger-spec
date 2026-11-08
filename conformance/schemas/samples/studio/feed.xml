@@ -1,133 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- cache-generation:5b22786d6c2d313a302e35362e30222c223966666166346161383936393762383232666163333330646535346164633237222c35395d -->
+<!-- cache-generation:5b22786d6c2d313a302e35372e30222c223831306365633936353836313433346366626433633631333633623363396235222c35395d -->
 <rss version="2.0" xmlns:blyg="https://blygger.org/ns/0.1" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Studio Under Test</title>
     <link>https://studio.example/</link>
     <description>Studio Under Test</description>
     <atom:link href="https://studio.example/feed.xml" rel="self" type="application/rss+xml" />
-    <lastBuildDate>Sat, 07 Nov 2026 06:24:15 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2026 00:00:59 GMT</lastBuildDate>
     <blyg:level>2</blyg:level>
     <blyg:manifest>https://studio.example/blyg.json</blyg:manifest>
     <item>
-      <guid isPermaLink="false">blyg:42nxydqabxf8pvqcc1123nzb4b:v3</guid>
-      <link>https://studio.example/f/42nxydqabxf8pvqcc1123nzb4b/</link>
-      <title>Sharpened the claim. — A sharpened claim.</title>
-      <description><![CDATA[<p>A sharpened claim.</p>
-]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
-      <dc:creator>Tester</dc:creator>
-      <blyg:id>42nxydqabxf8pvqcc1123nzb4b</blyg:id>
-      <blyg:kind>fragment</blyg:kind>
-      <blyg:version>3</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/42nxydqabxf8pvqcc1123nzb4b.json</blyg:item>
-    </item>
-    <item>
-      <guid isPermaLink="false">blyg:4377rzrv1gzy5d3rd5pepnrcsv:v2</guid>
-      <link>https://studio.example/f/4377rzrv1gzy5d3rd5pepnrcsv/</link>
+      <guid isPermaLink="false">blyg:4yzwtvwxefrbedsvw2d1nb4by5:v2</guid>
+      <link>https://studio.example/f/4yzwtvwxefrbedsvw2d1nb4by5/</link>
       <title>withdrawn</title>
       <description></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:59 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>4377rzrv1gzy5d3rd5pepnrcsv</blyg:id>
+      <blyg:id>4yzwtvwxefrbedsvw2d1nb4by5</blyg:id>
       <blyg:kind>withdrawn</blyg:kind>
       <blyg:version>2</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/4377rzrv1gzy5d3rd5pepnrcsv.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/4yzwtvwxefrbedsvw2d1nb4by5.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:3h7mcmsxdbhph514xr5jn1vqj7:v2</guid>
-      <link>https://studio.example/t/3h7mcmsxdbhph514xr5jn1vqj7/</link>
+      <guid isPermaLink="false">blyg:2zezn05k1wc1s3f4w2p2n6wpk0:v2</guid>
+      <link>https://studio.example/t/2zezn05k1wc1s3f4w2p2n6wpk0/</link>
       <title>withdrawn</title>
       <description></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:59 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>3h7mcmsxdbhph514xr5jn1vqj7</blyg:id>
+      <blyg:id>2zezn05k1wc1s3f4w2p2n6wpk0</blyg:id>
       <blyg:kind>withdrawn</blyg:kind>
       <blyg:version>2</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/3h7mcmsxdbhph514xr5jn1vqj7.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/2zezn05k1wc1s3f4w2p2n6wpk0.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:3swktwd8fcgq0jp6s12301d9wr:v2</guid>
-      <link>https://studio.example/f/3swktwd8fcgq0jp6s12301d9wr/</link>
+      <guid isPermaLink="false">blyg:4zsvxr61q0tmab6pa639kb37xp:v2</guid>
+      <link>https://studio.example/f/4zsvxr61q0tmab6pa639kb37xp/</link>
       <title>withdrawn</title>
       <description></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:59 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>3swktwd8fcgq0jp6s12301d9wr</blyg:id>
+      <blyg:id>4zsvxr61q0tmab6pa639kb37xp</blyg:id>
       <blyg:kind>withdrawn</blyg:kind>
       <blyg:version>2</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/3swktwd8fcgq0jp6s12301d9wr.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:59Z</blyg:created>
+      <blyg:item>https://studio.example/items/4zsvxr61q0tmab6pa639kb37xp.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:42nxydqabxf8pvqcc1123nzb4b:v2</guid>
-      <link>https://studio.example/f/42nxydqabxf8pvqcc1123nzb4b/</link>
-      <title>typo — A sharpened claim.</title>
-      <description><![CDATA[<p>A sharpened claim.</p>
-]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
-      <dc:creator>Tester</dc:creator>
-      <blyg:id>42nxydqabxf8pvqcc1123nzb4b</blyg:id>
-      <blyg:kind>fragment</blyg:kind>
-      <blyg:version>2</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/42nxydqabxf8pvqcc1123nzb4b.json</blyg:item>
-    </item>
-    <item>
-      <guid isPermaLink="false">blyg:7259mcze84jvn9g7cjhtdgz90k:v2</guid>
-      <link>https://studio.example/f/7259mcze84jvn9g7cjhtdgz90k/</link>
-      <title>removed the image — Image post — the image has been deleted from the text.</title>
-      <description><![CDATA[<p>Image post — the image has been deleted from the text.</p>
-<p><img src="https://studio.example/media/fw8pdy5x/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png" alt="a single pixel"></p>]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
-      <dc:creator>Tester</dc:creator>
-      <blyg:id>7259mcze84jvn9g7cjhtdgz90k</blyg:id>
-      <blyg:kind>fragment</blyg:kind>
-      <blyg:version>2</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/7259mcze84jvn9g7cjhtdgz90k.json</blyg:item>
-    </item>
-    <item>
-      <guid isPermaLink="false">blyg:452qqdqaberrr6a8x7yw7ht9vj:v1</guid>
-      <link>https://studio.example/f/452qqdqaberrr6a8x7yw7ht9vj/</link>
+      <guid isPermaLink="false">blyg:362qgsc15ge5fbdneb3rqwg8sz:v1</guid>
+      <link>https://studio.example/f/362qgsc15ge5fbdneb3rqwg8sz/</link>
       <title>Pasted from elsewhere: Text another tool produced.</title>
       <description><![CDATA[<p>Pasted from elsewhere: <span class="blyg-tk-gen">Text another tool produced.</span></p>
 ]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:59 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>452qqdqaberrr6a8x7yw7ht9vj</blyg:id>
+      <blyg:id>362qgsc15ge5fbdneb3rqwg8sz</blyg:id>
       <blyg:kind>fragment</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/452qqdqaberrr6a8x7yw7ht9vj.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:59Z</blyg:created>
+      <blyg:item>https://studio.example/items/362qgsc15ge5fbdneb3rqwg8sz.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:3dxj1gjwxw96aema8bdjfkm2sn:v1</guid>
-      <link>https://studio.example/t/3dxj1gjwxw96aema8bdjfkm2sn/</link>
+      <guid isPermaLink="false">blyg:7qqndmw9xj0cqcx02hphrdmsvs:v3</guid>
+      <link>https://studio.example/f/7qqndmw9xj0cqcx02hphrdmsvs/</link>
+      <title>Sharpened the claim. — A sharpened claim.</title>
+      <description><![CDATA[<p>A sharpened claim.</p>
+]]></description>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
+      <dc:creator>Tester</dc:creator>
+      <blyg:id>7qqndmw9xj0cqcx02hphrdmsvs</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>3</blyg:version>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/7qqndmw9xj0cqcx02hphrdmsvs.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:7qqndmw9xj0cqcx02hphrdmsvs:v2</guid>
+      <link>https://studio.example/f/7qqndmw9xj0cqcx02hphrdmsvs/</link>
+      <title>typo — A sharpened claim.</title>
+      <description><![CDATA[<p>A sharpened claim.</p>
+]]></description>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
+      <dc:creator>Tester</dc:creator>
+      <blyg:id>7qqndmw9xj0cqcx02hphrdmsvs</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/7qqndmw9xj0cqcx02hphrdmsvs.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:2z7mjmg15fmbzxjp1tta7g5mzr:v2</guid>
+      <link>https://studio.example/f/2z7mjmg15fmbzxjp1tta7g5mzr/</link>
+      <title>removed the image — Image post — the image has been deleted from the text.</title>
+      <description><![CDATA[<p>Image post — the image has been deleted from the text.</p>
+<p><img src="https://studio.example/media/asfv5y3q/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png" alt="a single pixel"></p>]]></description>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
+      <dc:creator>Tester</dc:creator>
+      <blyg:id>2z7mjmg15fmbzxjp1tta7g5mzr</blyg:id>
+      <blyg:kind>fragment</blyg:kind>
+      <blyg:version>2</blyg:version>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/2z7mjmg15fmbzxjp1tta7g5mzr.json</blyg:item>
+    </item>
+    <item>
+      <guid isPermaLink="false">blyg:7g4ey5hvt5yzbg9pt34xasc6k2:v1</guid>
+      <link>https://studio.example/t/7g4ey5hvt5yzbg9pt34xasc6k2/</link>
       <title>Generated summary sentence from the fake provider. Afterword…</title>
       <description><![CDATA[<div class="blyg-tk-gen"><p>Generated summary sentence from the fake provider.</p>
 </div>
 <p>Afterword by the author.</p>
 ]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>3dxj1gjwxw96aema8bdjfkm2sn</blyg:id>
+      <blyg:id>7g4ey5hvt5yzbg9pt34xasc6k2</blyg:id>
       <blyg:kind>thread</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/3dxj1gjwxw96aema8bdjfkm2sn.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/7g4ey5hvt5yzbg9pt34xasc6k2.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:38ebrkpndjsmmmykdym8y71tng:v1</guid>
-      <link>https://studio.example/t/38ebrkpndjsmmmykdym8y71tng/</link>
+      <guid isPermaLink="false">blyg:3wkdv4cjwn4gph6g6095rwnrm7:v1</guid>
+      <link>https://studio.example/t/3wkdv4cjwn4gph6g6095rwnrm7/</link>
       <title>Intro to the thread. Local source fragment about gardens and…</title>
-      <description><![CDATA[<p class="stub-cite compact"><span class="label">Forked from</span> <a href="https://studio.example/t/4jv1mb89e08wncatgsjdt3wj3h/v1/"><cite>Studio Under Test</cite> ↗</a></p><p>Intro to the thread.</p>
+      <description><![CDATA[<p class="stub-cite compact"><span class="label">Forked from</span> <a href="https://studio.example/t/3599g3tqaqg4q09h8kganjntgr/v1/"><cite>Studio Under Test</cite> ↗</a></p><p>Intro to the thread.</p>
 <blockquote>
 <p>Local source fragment about gardens and paths.</p>
-<p>— quoted from <a href="https://studio.example/f/6sjz0ktw58tnad92exjy3eg0tn/">studio.example · v1</a></p>
+<p>— quoted from <a href="https://studio.example/f/5b1htdhf7bq7ge89g25r1jxnbk/">studio.example · v1</a></p>
 </blockquote>
 <blockquote>
 <p>धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.</p>
@@ -137,21 +137,21 @@
 <p>Stigmergy is what a protocol looks like from inside</p>
 <p>— quoted from <a href="https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/">source.example · v2</a></p>
 </blockquote>
-<p>See also <a href="https://source.example/t/4zss0yg5f5zbh48e22s4f87003/">“Opening line of a remote thread. Stigmergy is what a protoco…”</a> and <a href="https://studio.example/f/6sjz0ktw58tnad92exjy3eg0tn/">“Local source fragment about gardens and paths.”</a>.</p>
+<p>See also <a href="https://source.example/t/4zss0yg5f5zbh48e22s4f87003/">“Opening line of a remote thread. Stigmergy is what a protoco…”</a> and <a href="https://studio.example/f/5b1htdhf7bq7ge89g25r1jxnbk/">“Local source fragment about gardens and paths.”</a>.</p>
 <pre><code>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
 </code></pre>
 ]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>38ebrkpndjsmmmykdym8y71tng</blyg:id>
+      <blyg:id>3wkdv4cjwn4gph6g6095rwnrm7</blyg:id>
       <blyg:kind>thread</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/38ebrkpndjsmmmykdym8y71tng.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/3wkdv4cjwn4gph6g6095rwnrm7.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:03yvz81d3k16mrhc1yctbh3hgb:v1</guid>
-      <link>https://studio.example/t/03yvz81d3k16mrhc1yctbh3hgb/</link>
+      <guid isPermaLink="false">blyg:1tkg4jxt0pq1gc0gxxmk2nc4cy:v1</guid>
+      <link>https://studio.example/t/1tkg4jxt0pq1gc0gxxmk2nc4cy/</link>
       <title>Opening line of a remote thread. Stigmergy is what a protoco…</title>
       <description><![CDATA[<p class="stub-cite compact"><span class="label">Forked from</span> <a href="https://source.example/items/4zss0yg5f5zbh48e22s4f87003/v1.json"><cite>Fake Source Blyg</cite> ↗</a></p><p>Opening line of a remote thread.</p>
 <blockquote>
@@ -160,56 +160,56 @@
 </blockquote>
 <p>Closing line with a link to <a href="https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/">“धर्म और कर्म”</a>.</p>
 ]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>03yvz81d3k16mrhc1yctbh3hgb</blyg:id>
+      <blyg:id>1tkg4jxt0pq1gc0gxxmk2nc4cy</blyg:id>
       <blyg:kind>thread</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/03yvz81d3k16mrhc1yctbh3hgb.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/1tkg4jxt0pq1gc0gxxmk2nc4cy.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:27zgmxh8q9m34hsnet4yqhk79j:v1</guid>
-      <link>https://studio.example/t/27zgmxh8q9m34hsnet4yqhk79j/</link>
+      <guid isPermaLink="false">blyg:6ykgdbt7xx1s2e769mzffr8m81:v1</guid>
+      <link>https://studio.example/t/6ykgdbt7xx1s2e769mzffr8m81/</link>
       <title>A response to a plain web page: the post.</title>
       <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://plain.example/post"><cite>plain.example</cite> ↗</a></p><p>A response to a plain web page: <a href="https://plain.example/post">the post</a>.</p>
 ]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>27zgmxh8q9m34hsnet4yqhk79j</blyg:id>
+      <blyg:id>6ykgdbt7xx1s2e769mzffr8m81</blyg:id>
       <blyg:kind>thread</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/27zgmxh8q9m34hsnet4yqhk79j.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/6ykgdbt7xx1s2e769mzffr8m81.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:5p6e3q5yf4ftw1htm6whawxnm9:v1</guid>
-      <link>https://studio.example/t/5p6e3q5yf4ftw1htm6whawxnm9/</link>
+      <guid isPermaLink="false">blyg:7e4h21s37xvy902j9s8s3djg02:v1</guid>
+      <link>https://studio.example/t/7e4h21s37xvy902j9s8s3djg02/</link>
       <title>In response to Fake Source Blyg</title>
       <description><![CDATA[<p class="stub-cite compact"><span class="label">In response to</span> <a href="https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/"><cite>Fake Source Blyg</cite> ↗</a></p><blockquote class="blyg-transclusion blyg-partial" data-blyg-id="7c9wk2mhq0v3xj8tn5rzfd41bg" data-blyg-version="2" data-blyg-origin="https://source.example/">
 <p>Stigmergy is what a protocol looks like from inside</p>
 
 <p class="provenance"><a href="https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/">from <em>Fake Source Blyg</em> ↗</a> · excerpt of v2</p></blockquote>
 ]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>5p6e3q5yf4ftw1htm6whawxnm9</blyg:id>
+      <blyg:id>7e4h21s37xvy902j9s8s3djg02</blyg:id>
       <blyg:kind>thread</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/5p6e3q5yf4ftw1htm6whawxnm9.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/7e4h21s37xvy902j9s8s3djg02.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:4jv1mb89e08wncatgsjdt3wj3h:v1</guid>
-      <link>https://studio.example/t/4jv1mb89e08wncatgsjdt3wj3h/</link>
+      <guid isPermaLink="false">blyg:3599g3tqaqg4q09h8kganjntgr:v1</guid>
+      <link>https://studio.example/t/3599g3tqaqg4q09h8kganjntgr/</link>
       <title>Intro to the thread. See also “Opening line of a remote thre…</title>
       <description><![CDATA[<p>Intro to the thread.</p>
 
-<blockquote class="blyg-transclusion" data-blyg-id="6sjz0ktw58tnad92exjy3eg0tn" data-blyg-version="1">
+<blockquote class="blyg-transclusion" data-blyg-id="5b1htdhf7bq7ge89g25r1jxnbk" data-blyg-version="1">
 <p>Local source fragment about gardens and paths.</p>
 
 
-<p class="provenance"><a href="https://studio.example/f/6sjz0ktw58tnad92exjy3eg0tn/">fragment ↗</a> · snapshot of v1</p></blockquote>
+<p class="provenance"><a href="https://studio.example/f/5b1htdhf7bq7ge89g25r1jxnbk/">fragment ↗</a> · snapshot of v1</p></blockquote>
 
 <blockquote class="blyg-transclusion" data-blyg-id="1vgtgz0gq5b2c9k7d3m8r4n6xy" data-blyg-version="1" data-blyg-origin="https://source.example/">
 <p>धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.</p>
@@ -221,59 +221,59 @@
 <p>Stigmergy is what a protocol looks like from inside</p>
 
 <p class="provenance"><a href="https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/">from <em>Fake Source Blyg</em> ↗</a> · excerpt of v2</p></blockquote>
-<p>See also <a href="https://source.example/t/4zss0yg5f5zbh48e22s4f87003/">“Opening line of a remote thread. Stigmergy is what a protoco…”</a> and <a href="https://studio.example/f/6sjz0ktw58tnad92exjy3eg0tn/">“Local source fragment about gardens and paths.”</a>.</p>
+<p>See also <a href="https://source.example/t/4zss0yg5f5zbh48e22s4f87003/">“Opening line of a remote thread. Stigmergy is what a protoco…”</a> and <a href="https://studio.example/f/5b1htdhf7bq7ge89g25r1jxnbk/">“Local source fragment about gardens and paths.”</a>.</p>
 <pre><code>![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
 </code></pre>
 ]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>4jv1mb89e08wncatgsjdt3wj3h</blyg:id>
+      <blyg:id>3599g3tqaqg4q09h8kganjntgr</blyg:id>
       <blyg:kind>thread</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/4jv1mb89e08wncatgsjdt3wj3h.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/3599g3tqaqg4q09h8kganjntgr.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:42nxydqabxf8pvqcc1123nzb4b:v1</guid>
-      <link>https://studio.example/f/42nxydqabxf8pvqcc1123nzb4b/</link>
+      <guid isPermaLink="false">blyg:7qqndmw9xj0cqcx02hphrdmsvs:v1</guid>
+      <link>https://studio.example/f/7qqndmw9xj0cqcx02hphrdmsvs/</link>
       <title>A sharpened claim.</title>
       <description><![CDATA[<p>A sharpened claim.</p>
 ]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>42nxydqabxf8pvqcc1123nzb4b</blyg:id>
+      <blyg:id>7qqndmw9xj0cqcx02hphrdmsvs</blyg:id>
       <blyg:kind>fragment</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/42nxydqabxf8pvqcc1123nzb4b.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/7qqndmw9xj0cqcx02hphrdmsvs.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:7259mcze84jvn9g7cjhtdgz90k:v1</guid>
-      <link>https://studio.example/f/7259mcze84jvn9g7cjhtdgz90k/</link>
+      <guid isPermaLink="false">blyg:2z7mjmg15fmbzxjp1tta7g5mzr:v1</guid>
+      <link>https://studio.example/f/2z7mjmg15fmbzxjp1tta7g5mzr/</link>
       <title>Image post — the image has been deleted from the text.</title>
       <description><![CDATA[<p>Image post — the image has been deleted from the text.</p>
-<p><img src="https://studio.example/media/fw8pdy5x/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png" alt="a single pixel"></p>]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+<p><img src="https://studio.example/media/asfv5y3q/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png" alt="a single pixel"></p>]]></description>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>7259mcze84jvn9g7cjhtdgz90k</blyg:id>
+      <blyg:id>2z7mjmg15fmbzxjp1tta7g5mzr</blyg:id>
       <blyg:kind>fragment</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/7259mcze84jvn9g7cjhtdgz90k.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/2z7mjmg15fmbzxjp1tta7g5mzr.json</blyg:item>
     </item>
     <item>
-      <guid isPermaLink="false">blyg:6sjz0ktw58tnad92exjy3eg0tn:v1</guid>
-      <link>https://studio.example/f/6sjz0ktw58tnad92exjy3eg0tn/</link>
+      <guid isPermaLink="false">blyg:5b1htdhf7bq7ge89g25r1jxnbk:v1</guid>
+      <link>https://studio.example/f/5b1htdhf7bq7ge89g25r1jxnbk/</link>
       <title>Local source fragment about gardens and paths.</title>
       <description><![CDATA[<p>Local source fragment about gardens and paths.</p>
 ]]></description>
-      <pubDate>Sat, 07 Nov 2026 06:24:15 GMT</pubDate>
+      <pubDate>Sun, 08 Nov 2026 00:00:58 GMT</pubDate>
       <dc:creator>Tester</dc:creator>
-      <blyg:id>6sjz0ktw58tnad92exjy3eg0tn</blyg:id>
+      <blyg:id>5b1htdhf7bq7ge89g25r1jxnbk</blyg:id>
       <blyg:kind>fragment</blyg:kind>
       <blyg:version>1</blyg:version>
-      <blyg:created>2026-11-07T06:24:15Z</blyg:created>
-      <blyg:item>https://studio.example/items/6sjz0ktw58tnad92exjy3eg0tn.json</blyg:item>
+      <blyg:created>2026-11-08T00:00:58Z</blyg:created>
+      <blyg:item>https://studio.example/items/5b1htdhf7bq7ge89g25r1jxnbk.json</blyg:item>
     </item>
   </channel>
 </rss>

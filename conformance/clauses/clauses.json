@@ -4030,8 +4030,7 @@
     "webmention"
    ],
    "fp": "19cf80aa99e1",
-   "id": "C-6.1-07",
-   "id_basis": "near-match 1.00"
+   "id": "C-6.1-07"
   },
   {
    "section": "6.1",
@@ -6571,8 +6570,7 @@
     "hoppers"
    ],
    "fp": "59ca0ee75b91",
-   "id": "C-13.5-03",
-   "id_basis": "near-match 0.96"
+   "id": "C-13.5-03"
   },
   {
    "section": "13.5",

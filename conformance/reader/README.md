@@ -153,7 +153,7 @@ group with `--only` on the others.
 `adapters/studio/` drives the reference client.
 
 ```sh
-git clone --branch v0.49.12 https://github.com/blygger/blygger-studio.git /tmp/studio
+git clone --branch v0.57.0 https://github.com/blygger/blygger-studio.git /tmp/studio
 (cd /tmp/studio && npm ci && npm run build)
 STUDIO_DIR=/tmp/studio node run.mjs --adapter studio
 ```
@@ -193,22 +193,22 @@ items are retained past withdrawal only when curated into a hopper (a MAY in
 answer from Miniflare rather than DNS, and Miniflare 5 needs its options
 converted.
 
-## Results at blygger-studio 0.49.12
+## Results at blygger-studio 0.57.0
 
-72 pass, 28 fail, against 100 fixtures. The failures are four
-disagreements:
+79 pass, 21 fail, against 100 fixtures. Every failure is one disagreement:
 
 | Finding | Cases | Spec |
 |---|---|---|
-| `links[]` is never emitted | 21 | §10.3a, #79 (studio queue item o) |
-| `data-blyg-label` is never baked | 5 | §10.1, §10.2, #81 (studio queue item q) |
-| A partial quote's blockquote ends at the first line without `>`; CommonMark lazy continuation is not part of the selection | 1 | §10.1, #76 |
-| An own-line `![[id]]` in a *generated* block (one with provenance) stays literal text inside the `div.blyg-tk-gen`, though the publish warning says it was quoted | 1 | #60, §5.7 |
+| `links[]` is never emitted | 21 | §10.3a, #79 (ROADMAP row 77, studio queue item o) |
+
+The run at 0.49.12 passed 72. 0.50.0 fixed the lazy-continuation partial
+quote (blygger-studio#104, §10.1, #76) and the own-line `![[id]]` in a
+generated block (#105, #60, §5.7); 0.57.0 bakes `data-blyg-label`
+(blygger-studio#136, §10.1, §10.2, #81), which cleared five more.
 
 On the nine ambiguous cases the studio's readings match the fixtures' chosen
-ones: none of them warns. Two still fail on checks the ambiguity does not
-cover (`link-label-markup` on `links[]`, `tk-output-own-line-directive` on
-the missing quote).
+ones: none of them warns. One still fails on a check the ambiguity does not
+cover (`link-label-markup` on `links[]`).
 
 ## Provenance
 

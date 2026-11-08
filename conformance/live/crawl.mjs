@@ -58,7 +58,9 @@ export async function crawl(opts = {}) {
   const dir = await http.get(cfg.directory);
   directory.status = dir.status;
   if (dir.status === 200) {
-    const re = /<li><span class="mark( blyg)?"[^>]*>([^<]*)<\/span><a class="name" href="([^"]+)"[^>]*>([^<]*)<\/a>/g;
+    // Each listing may open with an activity dot (`span.act`, blygger.com since
+    // November 2026) before its mark.
+    const re = /<li>(?:<span class="act[^"]*"[^>]*>[^<]*<\/span>)?<span class="mark( blyg)?"[^>]*>([^<]*)<\/span><a class="name" href="([^"]+)"[^>]*>([^<]*)<\/a>/g;
     let m;
     while ((m = re.exec(dir.body))) {
       directory.listings.push({ url: m[3], mark: m[2].trim(), name: m[4] });
