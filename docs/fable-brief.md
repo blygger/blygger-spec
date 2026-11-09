@@ -20,6 +20,47 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 > awaiting its gate), §16.9–§16.10 (older ruled shapes still awaiting builds) →
 > [`fable-round-queue.md`](fable-round-queue.md) (**item 24 only**) →
 > [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 60.
+>
+> **Session 63 added an immediate agenda (next section).** For it, read
+> [`proposals/tn-4-write-surface-draft.md`](proposals/tn-4-write-surface-draft.md), the
+> syndication proposal on [blygger-spec#30](https://github.com/blygger/blygger-spec/pull/30)
+> (`plans/syndication-proposal.md` on the PR branch), and `fable-round-queue.md` items 24
+> and 27.
+
+## Immediate agenda — staged session 63 (2026-11-09), take these in order
+
+Staged by Opus 5.5 at Venkat's request. Rule each in chat with reasoning, then record on
+his "go" (`fable-round-cadence`).
+
+1. **Review tn-4, the write surface** (gate G3, open since session 62: two third-party
+   tools authenticate with scoped tokens). Opus drafted it from studio 0.58.1 as a
+   write-up of #31 and #52. It is non-normative and belongs to no protocol version. Check
+   three things: that §2 states #31's reason and doesn't widen it; that §5 records the
+   designs turned down without reopening them (`.well-known` auth discovery and auth keys
+   in the manifest are on the do-not-open list, #52); and that §6, "For other clients",
+   recommends nothing that reads as a normative write API. On approval it moves to
+   `docs/notes/tn-4-the-write-surface.md` and publishes to blygger.org/notes/tn-4/ at the next
+   `sync_spec`.
+2. **Rule the four questions in `syndication` — queue item 27** (blygger-spec#30, Patrick
+   Atwater, opened 2026-11-09; an exploration doc plus a backlog row, no normative text).
+   It proposes one OPTIONAL item member, `syndication: [{url, version}]`, saying where an
+   item was cross-posted (Burrow's cross-post extension and blygcaster both make copies
+   today). It's Fable's because it adds a wire member (question 2 is a yes). It's
+   revision-grade under #43, since a reader that ignores it stays correct. The PR asks
+   four questions (its §7): spending a version on a link; whether the member sits on the
+   item or the changelog; `https:` only or network-native ids too; URL equality for the
+   fold. Before ruling, also check it against the do-not-open list: the general `meta` bag
+   (blygger-spec#10) and the typed-stub refusal (#92 C4). Check that the fold (a reader
+   folds an imported copy under the item when both links agree) equates writings, not
+   people (#11), and that a same-hash republish recording the claim fits #77. Rule
+   whether it opens at all, then the four questions, then the gate in its §8. Opus merges
+   the exploration doc whatever the ruling, since `plans/` holds unruled work.
+3. **Item 24, the reader suite's nine choices** (queue item 24, with blygger-spec#23).
+   Its prerequisite is done: the run was reproduced at 0.57.0 (79/100, spec#28, session 62).
+   It's a round of its own. Take it now only if Venkat says so; otherwise it is the next
+   round.
+4. **Optional, on Venkat's word: the four session-29 explorations in `plans/`** (see "Next
+   round" below; a carry-over since session 49).
 
 ## Ruled session 61 (2026-11-07, Fable 5.1) — the immediate agenda; drop at the next rewrite
 
