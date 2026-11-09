@@ -11,6 +11,7 @@ and published it for comment (#93), and ruled the private-items numbering questi
 the tenth revision of 0.4 carries the text. Session 58's round (#89) and session 56's
 (#86–#88) are summarised below so they are not reopened.
 **Session 61** (2026-11-07, Fable 5.1, mid-session): #95 confirmed, #96 and #97 ruled, the eleventh revision; summarised below.
+**Session 64** (2026-11-09, Fable 5.2): tn-4 reviewed (G3 closed), #98 ruled (`syndication`), the twelfth revision; summarised below.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
 > **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#90–#94**
@@ -21,75 +22,27 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 > [`fable-round-queue.md`](fable-round-queue.md) (**item 24 only**) →
 > [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 60.
 >
-> **Session 63 added an immediate agenda (next section).** For it, read
-> [`proposals/tn-4-write-surface-draft.md`](proposals/tn-4-write-surface-draft.md), the
-> syndication proposal on [blygger-spec#30](https://github.com/blygger/blygger-spec/pull/30)
-> (`plans/syndication-proposal.md` on the PR branch), and `fable-round-queue.md` items 24
-> and 27.
+> **Session 64 took session 63's immediate agenda** (next section): read `CLAUDE.md`
+> **#98** and `v0.4-plan.md` **§19** with the above. The queue now holds item 24 only.
 
-## Immediate agenda — staged session 63 (2026-11-09), take these in order
+## Ruled session 64 (2026-11-09, Fable 5.2) — drop at the next rewrite
 
-Staged by Opus 5.5 at Venkat's request. Rule each in chat with reasoning, then record on
-his "go" (`fable-round-cadence`).
+Session 63 staged an immediate agenda; its first two items were taken.
 
-1. **Review tn-4, the write surface** (gate G3, open since session 62: two third-party
-   tools authenticate with scoped tokens). Opus drafted it from studio 0.58.1 as a
-   write-up of #31 and #52. It is non-normative and belongs to no protocol version. Check
-   three things: that §2 states #31's reason and doesn't widen it; that §5 records the
-   designs turned down without reopening them (`.well-known` auth discovery and auth keys
-   in the manifest are on the do-not-open list, #52); and that §6, "For other clients",
-   recommends nothing that reads as a normative write API. On approval it moves to
-   `docs/notes/tn-4-the-write-surface.md` and publishes to blygger.org/notes/tn-4/ at the next
-   `sync_spec`.
-2. **Rule the four questions in `syndication` — queue item 27** (blygger-spec#30, Patrick
-   Atwater, opened 2026-11-09; an exploration doc plus a backlog row, no normative text).
-   It proposes one OPTIONAL item member, `syndication: [{url, version}]`, saying where an
-   item was cross-posted (Burrow's cross-post extension and blygcaster both make copies
-   today). It's Fable's because it adds a wire member (question 2 is a yes). It's
-   revision-grade under #43, since a reader that ignores it stays correct. The PR asks
-   four questions (its §7): spending a version on a link; whether the member sits on the
-   item or the changelog; `https:` only or network-native ids too; URL equality for the
-   fold. Before ruling, also check it against the do-not-open list: the general `meta` bag
-   (blygger-spec#10) and the typed-stub refusal (#92 C4). Check that the fold (a reader
-   folds an imported copy under the item when both links agree) equates writings, not
-   people (#11), and that a same-hash republish recording the claim fits #77. Rule
-   whether it opens at all, then the four questions, then the gate in its §8. Opus merges
-   the exploration doc whatever the ruling, since `plans/` holds unruled work.
-3. **Item 24, the reader suite's nine choices** (queue item 24, with blygger-spec#23).
-   Its prerequisite is done: the run was reproduced at 0.57.0 (79/100, spec#28, session 62).
-   It's a round of its own. Take it now only if Venkat says so; otherwise it is the next
-   round.
-4. **Optional, on Venkat's word: the four session-29 explorations in `plans/`** (see "Next
-   round" below; a carry-over since session 49).
+1. **tn-4 reviewed, gate G3 closed** (`v0.4-plan.md` §19.1). Approved with five edits
+   (the Micropub sentence in §2 was backwards; a paragraph on the Webmention receiver;
+   #3 beside #1; RFC 8414 beside RFC 9728; a dated-record line). It is at
+   `docs/notes/tn-4-the-write-surface.md` and publishes at the next `sync_spec`. No
+   decision.
+2. **#98 — `syndication`** (§19.2; spec §16.14, twelfth revision). It opens as an
+   OPTIONAL item member `[{url, version}]`. Two changes to the proposal: the entry is
+   written in place like the pin flag and is never worth a version; and the protocol
+   specifies no fold, keeping two MUST NOTs (no hiding another party's post on an entry,
+   no identity inferred from one). `https:` only; endcaps and pinned files omit it; no
+   counts in an entry. Venkat struck the reader-side rule about showing counts: nothing
+   is on the wire. Awaiting its gate.
 
-## Ruled session 61 (2026-11-07, Fable 5.1) — the immediate agenda; drop at the next rewrite
-
-Four items Venkat staged and asked to have ruled before the work continued, all ruled in
-chat and recorded on his "go":
-
-1. **#96 — the note and delegated authority** (`v0.4-plan.md` §18.9), after Venkat
-   challenged the first answer. A client MUST NOT route on a changelog note of its own
-   accord, in either direction; an owner MAY instruct their own client to, on both the
-   reading and the publishing side; the protocol polices only the depth rule. Four
-   conditions keep #83 intact (no shipped rule; reading only; visible and revocable; the
-   wire gains nothing). §5.2 and §14 say so — the **eleventh revision**.
-2. **#95 confirmed** (§18.10), with "— or, when the author chooses, the changes so far —"
-   added to §5.2. The changelog-display feature may roll out.
-3. **`background-plan.md`** noted, no decision: superseded needs no text and is not
-   recommended to other clients; measured "minor" ruled down to near-same; §14 framing for
-   the opt-in model.
-4. **#97 — RFC-3's four items** (§18.11), as drafted, with a CI-checked copy for R4. The
-   studio builds R2 and R3 with fixtures first; publication waits on Venkat.
-
-## Ruled session 61 (2026-11-07, Fable 5.1) — studio#137, the Shelf; drop at the next rewrite
-
-A quick check at Venkat's request, not a round. Client contract (#31), nothing on the
-wire, so no numbered decision; reasoning in [`v0.4-plan.md`](v0.4-plan.md) **§18.6**.
-Approved with one change: `expectedRevision` on `PUT /shelf` becomes **required** (the
-item precedent, 0.49.12); and one doc sentence: the shelf is **private forever**, a
-featured list being a separate presentation setting that may default from it. Its own
-resource, not a hopper mode; quiet dropping and `owner:manage` stand. Opus carries it
-out (`opus-brief.md` § session 61). Nothing for Fable to review here.
+**Not taken:** item 24 and the four `plans/` explorations. Both are under "Next round".
 
 ## The dated item — RFC-5 closes 2026-12-03
 
@@ -111,7 +64,9 @@ performs under #58 when their gates run, for Fable to review after: §16.9 `pinn
 §5.2 and §8 once the studio emits it and a second client reads it; §16.9 `cid` → the same
 once any client emits it and a mirror reads it; §16.10 image size → §10.1 once emitted and
 imported across two nodes; **§16.13 `moved_from`** → §6.1, §12.2, §15.3, §15.4 once
-Florian's live case has run the gate. When reviewing that promotion, the thing to look at:
+Florian's live case has run the gate; **§16.14 `syndication`** → §5's member table and a
+new §5.10 once one client emits an entry without spending a version and a second shows
+it from an import (#98). When reviewing the `moved_from` promotion, the thing to look at:
 that the receiver's former-identity substitution is confined to origins the receiver
 itself declares. **First builds of tn-6 or tn-7** (the studio's RFC-1 work, opus-brief
 item e) are revision triggers under #90: Opus revises the note's status line and any
@@ -121,7 +76,6 @@ section the build contradicts, and Fable reviews the revision in batch.
 
 | Gate | What must be true | Then Fable does |
 |---|---|---|
-| **G3** | Kyle's token auth has shipped under #52's four invariants (it has, 0.28) and **at least one third-party tool** authenticates with a scoped token | Review **`tn-4` — the write surface** (non-normative, #31), which Opus drafts from the build. |
 | **G5** | The reference agent (2.10) has run against a live node long enough to refresh a snapshot, answer a mention, and author under its own byline | Review `tn-5` for anything that wants a construct — the refresh scope on the re-bake identity (#38, backlog §1) is the candidate. |
 | **RFC-3 close** — **ruled session 61 (#97)**, [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md) §7; publishes on blyg.blygger.org once the studio builds R2 and R3 (`opus-brief.md` item i) and Venkat says | Its comment period has closed (four weeks from publication) | Scan the stubs with Opus; revise or rule; promote it as a technical note under #90. |
 | **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t, which now carries ksurya's non-blyg webmentions, #92 C5) | Edit and rule it; publish with a comment period; at close promote it under #90. |
@@ -207,7 +161,8 @@ in each live client. Nothing here is pre-decided.
 ## Sequencing notes
 
 - **`tn-2` identity** can be written now (#61, #64, #67 ruled); it keeps #35's gate (#90
-  did not touch it). **`tn-3`** is revised. **tn-6 and tn-7** are published, unbuilt.
+  did not touch it). **`tn-3`** is revised. **tn-4** is reviewed (session 64) and publishes
+  at the next `sync_spec`. **tn-6 and tn-7** are published, unbuilt.
 - **A technical note on IPFS** (CID profile, pin log) waits on a client emitting `cid`.
 - **blygger-spec#12 (Glass Bead Game)** is declined (session 38); parked in `backlog.md`.
 - **Kyle's PRs are not gates.** Opus reviews them against #52's four invariants.
@@ -237,6 +192,12 @@ in each live client. Nothing here is pre-decided.
 - **`.well-known` discovery for auth, or any auth key in the manifest** (#52).
 - **A general `meta` extension bag on the item document** (blygger-spec#10), **or a typed
   stub on the wire** — #92 C4; display sections are presentation.
+- **A specified fold for `syndication`, a version spent to record an entry, a
+  network-native identifier or a network name in an entry, counts in an entry, or any
+  rule about what a reader fetches or shows from the other network** — #98. The first
+  reopens only with a test that a stranger's post cannot pass; the identifier reopens if
+  a second reader shows URL parsing failing. **In-place change is the pin flag's class,
+  not a general channel**: a proposal citing #98 for a member readers act on is refused.
 - **A removal marker** (a 410 with a reason, a tombstone, any delete signal) — #93 F5; a
   compelled removal is a 404 with no marker.
 - **Reader-side mention notification beyond what the reader holds** — #91 B4; telling is
@@ -261,6 +222,6 @@ in each live client. Nothing here is pre-decided.
 ## Hand back
 
 Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
-locked decisions from **#94**, record reasoning in `v0.4-plan.md` §18 (or a new section),
+locked decisions from **#98**, record reasoning in `v0.4-plan.md` §19 (or a new section),
 append the DEVLOG entry, file any new ideas in `backlog.md`, prune `fable-round-queue.md`,
 and rewrite this brief.

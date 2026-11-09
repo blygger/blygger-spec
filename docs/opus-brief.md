@@ -5,7 +5,7 @@ Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped. **Session 33*
 day, Fable) inserted item 5, fork flattening (#57); items 1–4 shipped in session 32.
 **Session 40** (2026-10-07, Fable) added the official-blyg section below (#66–#68).
 **Session 58** (2026-11-03, Fable) added the mods-mechanism section (#89). **Session 60**
-(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Session 61** (2026-11-07, Fable) added the Shelf section (studio#137). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
+(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Session 61** (2026-11-07, Fable) added the Shelf section (studio#137). **Session 64** (2026-11-09, Fable 5.2) added the tn-4 and `syndication` section (#98). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
 session starts (`CLAUDE.md` → At Session Start, step 4).
 
 > **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#57** (sessions 31, 33) and
@@ -201,6 +201,29 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
   (2026-11-02, forwarded by #92 C5):** accepting webmentions from places that are not
   blygs, such as replies to a post on Twitter — §15.6's trackback class is the constraint
   the RFC has to answer.
+
+## New from session 64 (2026-11-09, Fable 5.2) — tn-4 and `syndication` (#98)
+
+Reasoning in `v0.4-plan.md` §19. None of it blocks 0.59.0.
+
+- **a. Publish tn-4.** The note is at `docs/notes/tn-4-the-write-surface.md`, reviewed.
+  It reaches blygger.org/notes/tn-4/ on the next `blygger-org/sync_spec.py` and deploy,
+  which also carries the twelfth spec revision and ROADMAP rows 36 and 118. Build and look
+  at the page before deploying (`spec-nested-list-render`). Whether it also goes on
+  blyg.blygger.org is Venkat's call (`publish_blyg.py` publishes every changed entry:
+  `--dry-run` first).
+- **b. `syndication` in the studio is a reader task only, and waits for an emitter.** The
+  studio does not cross-post and need not emit. When a live blyg emits the member
+  (blygcaster is expected first), the importer keeps `syndication` from the fetched item
+  document and the reader shows each entry as a plain link marked as the publisher's
+  claim, `https:` only, with no fetch of the copy. That run is the second half of #98's
+  gate. Do not build a fold, a count, or a network icon keyed on the host (spec §16.14
+  rule 5). After the gate, promotion into §5's member table and a new §5.10 is yours
+  under #58.
+- **c. If a studio fork or extension asks to emit it:** the entry is written into the
+  item document in place, with no version bump and no feed entry, the way a pin updates
+  `changelog[].pinned`. A PR that republishes to record an entry does not meet §16.14
+  rule 3.
 
 ## New from session 61 (2026-11-07, Fable 5.1) — the Shelf, studio#137; do these first
 

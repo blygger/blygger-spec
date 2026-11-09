@@ -1,12 +1,16 @@
 # TN-4 — The write surface: one client's owner API, and why the protocol has none
 
-**Draft for Fable's review (gate G3) · session 62, 2026-11-09 (Opus 5.5, writing up
-decisions #31 and #52 from blygger-studio 0.58.1).** Not yet a technical note: it moves
-to `docs/notes/tn-4-the-write-surface.md`, and so to `blygger.org/notes/tn-4/`, once Fable
-has reviewed it. Technical notes record design reasoning, especially rejected designs,
-alongside the normative spec; they constrain nothing and are citable rationale, not
-protocol. This one belongs to no protocol version (#31). It describes what one client
-built; every detail of that client's contract may change without a protocol revision.
+**Technical note · non-normative · session 62, 2026-11-09 (Opus 5.5, writing up
+decisions #31 and #52 from blygger-studio 0.58.1); reviewed and edited by Fable,
+session 64, the same day (gate G3).** Technical notes record design reasoning,
+especially rejected designs, alongside the normative spec; they constrain nothing and
+are citable rationale, not protocol. This one belongs to no protocol version (#31). It
+describes what one client built; every detail of that client's contract may change
+without a protocol revision.
+
+**A dated record.** Section 3 describes Blygger Studio 0.58.1 and is not revised with
+each release. The client's current contract is its own OpenAPI document and the docs in
+[`blygger/blygger-studio`](https://github.com/blygger/blygger-studio).
 
 ## 1. The question
 
@@ -23,7 +27,7 @@ down on the way.
 ## 2. Why the protocol has no write surface
 
 The protocol governs the public artifact: the files a blyg serves, under its mount, that
-any reader can fetch (#1, the studio/page split). How those files come to exist is the
+any reader can fetch (#1, the static file contract; #3, the studio/page split). How those files come to exist is the
 publishing client's business. A blyg can be a static site generated from a folder of
 markdown and uploaded by hand; it can be a Worker with a database; it can be a
 WordPress plugin. All three publish the same artifact.
@@ -33,11 +37,16 @@ write, so it would be non-conformant for a reason that has nothing to do with wh
 publishes, and the second independent implementation the 1.0 bar asks for is likely to
 be exactly such a client. The cost would fall on the simplest publishers, for a benefit
 (tool portability) that the tools themselves can get another way: by speaking each
-client's contract, as Micropub tools speak to many sites without the sites sharing one
-storage model.
+client's contract, as a publishing tool today speaks one API to WordPress and another
+to Ghost.
 
 So the line is drawn at the artifact. **Reading is protocol; writing is client.** Nothing
 about writing reaches `blyg.json`, the item documents or the feed (#52, invariant 2).
+
+The protocol does have one surface that accepts a request: the optional Webmention
+receiver (#13, spec §15). It is not a write surface. It takes a notification that
+another item names one of this blyg's, verifies it by fetching the source, and stores
+no content.
 
 ## 3. What the reference client built
 
@@ -91,8 +100,8 @@ and `rel="oauth-metadata"` links, and the OAuth metadata lives at
 `{mount}/studio/auth/.well-known/openid-configuration`. Nothing is published at the host
 root, because a blyg may be mounted at a path (`venkateshrao.com/blyg/` is one) and the
 host's root is not the blyg's to claim (#14). The cost is stated in the client's own
-docs: this mount-only profile does not meet RFC 9728's host-root publication rule, so
-some OAuth clients may not discover it unaided.
+docs: this mount-only profile meets neither RFC 8414's host-before-path convention nor
+RFC 9728's publication rule, so some OAuth clients may not discover it unaided.
 
 **Writes are conditional.** Every item has a private `revision`, separate from its public
 `version`. Each command names the revision it was made against; a stale one gets 409
@@ -138,7 +147,7 @@ and the tools moved to it once it existed.
   Studio page (#31, #52).
 - **`/.well-known/` at the host root.** It is host-rooted, and a blyg need not own its
   host. A path-mounted blyg cannot publish there, and two blygs on one host would
-  collide. The client keeps all of it under the mount and accepts the RFC 9728 cost (§3).
+  collide. The client keeps all of it under the mount and accepts the discovery cost (§3).
 - **One owner token.** The extended-server workaround: a single unscoped secret. It is
   the root credential under another name, and revoking it cuts off every tool at once.
 - **A refresh-only scope.** Rejected with #38: a scope should name what a tool may do,

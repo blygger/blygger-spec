@@ -2549,7 +2549,7 @@ it quotes has itself gone stale on something — the nested `data-blyg-*`
 attributes (§10.2) plus one fetch per layer are enough — but that is a
 reading aid, not staleness of the quoting document.
 
-### 16.6 The write surface (never normative; companion note planned)
+### 16.6 The write surface (never normative; the companion note is TN-4)
 
 Multiple authoring tools already write into blygs, and each does so through
 whatever interface its client happens to expose. **Ruled 2026-09-28: the
@@ -2577,6 +2577,10 @@ link on the studio page, and whatever metadata it points at lives under the
 mount. An MCP server over the same operations and scopes is a transport for
 the client's contract, not a second contract; text an agent writes through
 it is disclosed through `generated[]` like any other generated text (§5.7).
+
+**The note was written 2026-11-09**, once two third-party tools held scoped
+tokens: [TN-4](https://blygger.org/notes/tn-4/), `blygger-spec`
+`docs/notes/tn-4-the-write-surface.md`. It belongs to no protocol version.
 
 ### 16.6a Client source discovery — `generator_url` (promoted to §6.1, 2026-09-28)
 
@@ -2857,12 +2861,77 @@ declares `moved_from`; a pre-move reader's mention of a post-move item
 verifies; and one reader is offered the follow. Promotion into §6.1, §12.2,
 §15.3 and §15.4.
 
+### 16.14 Syndication — `syndication` (ruled 2026-11-09; awaiting a build)
+
+Decision #98, on
+[blygger-spec#30](https://github.com/blygger/blygger-spec/pull/30) (Patrick
+Atwater, from two clients that cross-post items to other networks: Blygger
+Desktop's cross-post extension and blygcaster). The exploration is
+`plans/syndication-proposal.md`; where it and this section differ, this
+section is the ruling.
+
+An item document MAY carry `syndication`, an array naming copies of the item
+that its publisher made on other networks:
+
+```json
+"syndication": [
+  { "url": "https://bsky.app/profile/did:plc:abcdexample234/post/3lzexample22", "version": 3 }
+]
+```
+
+1. **An entry is a URL and a version.** `url` is REQUIRED and MUST be an
+   absolute `https:` URL at which the copy can be read; it SHOULD be the
+   most stable URL the network offers. `version` is REQUIRED: the version
+   of this item the copy was made from. A publisher MUST NOT put counts,
+   replies or account data in an entry (§16.8); there is no network name.
+2. **It is the publisher's claim.** Self-asserted like `cited`, never in
+   `content_html`, outside `content_hash`, and not a reference (§5.9): it
+   sends no mention and §15.4 never reads it. Nothing is added to the feed.
+3. **It changes without a publish event.** The member describes versions
+   already published and changes nothing the item says or shows, so the
+   publisher rewrites the document in place, as it does when it pins a
+   version (`changelog[].pinned`, §8 rule 2). Entries are added, replaced
+   and removed as the copies are. A publisher SHOULD NOT publish a version
+   solely to record an entry: the version would send a feed entry with no
+   new writing to every plain RSS reader. A reader that fetched the
+   document before an entry landed sees it at its next fetch, and MAY
+   refetch a document it is showing.
+4. **Endcaps and pinned files omit it.** A withdrawal endcap omits the
+   member for §9's reason: a copy is a copy of what the item said. A pinned
+   file never carries it, because copies are replaced and deleted and a
+   frozen file would keep dead addresses; a fork therefore inherits nothing
+   (lineage points only at pins, §5.6).
+5. **Readers.** Ignoring the member is conformant (§13.1 rule 4). A reader
+   MAY show an entry as a link, presented as the publisher's claim, and MUST
+   NOT render a `url` that is not `https:` as a link. A reader MUST NOT hide
+   or merge another party's post on the strength of an entry, whether or
+   not that post links back to the item: anyone may link to an item, so a
+   link back does not make a post the publisher's copy. A reader MUST NOT
+   infer from an entry that the item's author is the account that posted
+   the copy (§5.5). Whether a reader that holds both the item and a post
+   from another network shows them as one piece of writing is its own
+   presentation, judged from the two texts it holds; this document gives no
+   rule for it.
+
+An additive OPTIONAL member; 0.4 text by #43. **Gate:** one client emits an
+entry for a real copy without spending a version on it, and a second client
+shows the link from an imported item without fetching the copy. Promotion
+into §5's member table and a new §5.10.
+
 ## 17. Revision history (non-normative)
 
 One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-09, twelfth revision** (Fable 5.2, session 64; decision #98) —
+  no normative change: §16.14 records `syndication`, an OPTIONAL item
+  member naming copies the publisher made on other networks, as a ruled
+  shape awaiting its gate (in-place like the pin flag, never a version of
+  its own; omitted by endcaps and pinned files; an entry is never grounds
+  to hide another party's post or to infer an identity); §16.6 names TN-4,
+  the companion note on the write surface, now written. Not snapshotted.
 
 - **2026-11-05, tenth revision** (Fable 5.1, session 60; RFC-5's F1 and
   F5, decision #93) — two sentences and one correction, no new construct:

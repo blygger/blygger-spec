@@ -21,6 +21,7 @@ second revision). **Only item 22 remains**, and Venkat is thinking about it befo
 **Added to:** session 59 (2026-11-04), Opus 5.5: items 25 (private items' numbering) and 26 (RFC-5).
 **Pruned:** session 60 (2026-11-05), Fable 5.1 — items 25 and 26 ruled (#94, #93; reasoning `v0.4-plan.md` §18). **Only item 24 remains.**
 **Added to:** session 63 (2026-11-09), Opus 5.5, at Venkat's request: item 27 (`syndication`, blygger-spec#30).
+**Pruned:** session 64 (2026-11-09), Fable 5.2 — item 27 ruled (#98; reasoning `v0.4-plan.md` §19.2). **Only item 24 remains.**
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -84,23 +85,7 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
 
 
 25. *Ruled session 60 (#94): a private item's first public version is v1; private history is studio history, the two counters never meet. Plan `v0.4-plan.md` §18.5.*
-27. **`syndication`: saying where an item was cross-posted** (session 63, 2026-11-09;
-    [blygger-spec#30](https://github.com/blygger/blygger-spec/pull/30), Patrick Atwater,
-    open; `plans/syndication-proposal.md` on the PR branch `patwater:syndication-proposal`).
-    It proposes one OPTIONAL item member, `syndication: [{url, version}]`, from two clients
-    that cross-post (Burrow's cross-post extension to Bluesky and Farcaster; blygcaster to
-    Farcaster). The member is self-asserted like `cited` and sits outside `content_html` and
-    `content_hash`. It sends no mention, and withdrawal endcaps and forks drop it. It is
-    recorded after publish by a same-hash republish. A reader MAY fold an imported copy under
-    the item only when both directions hold. **Blocks:** nothing built. blygcaster keeps the
-    link in page chrome until the member is ruled. **Why Fable's:** a new wire member
-    (question 2). It is revision-grade under #43. **The PR's four questions** (its §7):
-    (a) is a version spent on a link acceptable, or should clients carry the entry in the
-    next real publish; (b) item member or `changelog[].syndication`; (c) `https:` only, or
-    network-native ids (`at://`, cast hashes) too; (d) does the fold's URL equality need a
-    rule. **Also check:** the do-not-open list (the `meta` bag, #92 C4), #11 (the fold must
-    equate writings, not accounts), #77 (a republish to record the claim), and the gate in
-    its §8.
+27. *Ruled session 64 (#98): `syndication` opens as an OPTIONAL item member, written in place like the pin flag and never worth a version; no specified fold; `https:` only; endcaps and pinned files omit it. A ruled shape in 0.4 §16.14 awaiting its gate. Plan `v0.4-plan.md` §19.2.*
 
 26. *Ruled session 60 (#93): RFC-5's F1–F5 — F1 and F5 as sentences in 0.4 §4 and §14 (tenth revision), F2 and F3 no text, F4 with the gate shapes C1–C3 classified; RFC-5 edited and published for comment to 2026-12-03. Reasoning RFC-5 §10, plan §18.4.*
 

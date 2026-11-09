@@ -7,6 +7,68 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 64 — 2026-11-09 — Fable round: tn-4 reviewed (G3 closed); `syndication` ruled (#98)
+**Model:** Fable 5.2 · **Time:** ~12:30–TBD PT · **Committed:** TBD · **Deployed:** —
+
+**What & why:** Venkat opened a Fable round on session 63's immediate agenda. Two items
+were taken, each ruled in chat and recorded on his "go".
+
+1. **tn-4, the write surface (gate G3).** Opus's session-62 draft passes the brief's three
+   checks: §2 gives #31's reason and no more, §5 records #52's refusals without inviting
+   them back, §6 recommends nothing that reads as an API. Five edits. The one that
+   mattered: §2 said tools get portability "by speaking each client's contract, as
+   Micropub tools speak to many sites". Micropub is one shared contract, so the sentence
+   argued for the common write API the note exists to refuse. It now cites the true case
+   (one API for WordPress, another for Ghost). The others: a paragraph saying the
+   Webmention receiver takes a notification and stores no content, so "writing is client"
+   does not overclaim; #3 cited beside #1; RFC 8414 named beside RFC 9728; a dated-record
+   line. Token lifetimes were checked against `oauth.ts`; §4's descriptions of the two
+   third-party tools were not checked. The note moved to
+   `docs/notes/tn-4-the-write-surface.md`. No numbered decision.
+
+2. **#98, `syndication`** (blygger-spec#30, Patrick Atwater; queue item 27). It opens: an
+   OPTIONAL item member `[{url, version}]` naming copies the publisher made on other
+   networks. The claim crosses clients and page chrome cannot carry it (#41). Two changes
+   to the proposal, both of which a future session should not undo by accident:
+   - **No version for a link.** The proposal spent a same-hash republish per entry,
+     reasoning that no member changes between publish events. `changelog[].pinned` does,
+     retroactively. So the entry is written into the document in place. A bookkeeping
+     version would send every plain RSS reader a feed entry with no new writing, and #83
+     already says a change not worth an event does not get one. This is the pin flag's
+     class (self-asserted, outside the hash and `content_html`, about a published version,
+     nothing acted on), not a general channel for changing documents between versions;
+     the brief's do-not-open list says so.
+   - **No specified fold.** The proposal let a reader fold an imported post under the
+     item when the entry names the post and the post links back. A stranger's post that
+     criticises the item and links to it passes that test, so a publisher could have
+     readers fold criticism away. Folding is reader-local presentation of imports that
+     are not blyg items; the spec keeps two MUST NOTs (no hiding another party's post on
+     an entry, no inferring an account identity from one).
+   - Also: item member, not changelog; `https:` only; endcaps and pinned files omit it, so
+     forks inherit nothing.
+   - **Venkat's correction.** The proposal's "a reader SHOULD NOT fetch or show counts"
+     had been turned into a §14 privacy SHOULD NOT. He asked why the protocol cares about
+     something not on the wire. It does not (invariant 3, #96), and the privacy version
+     did not survive either, since `content_html` already loads publisher-chosen hosts.
+     What remains is the wire rule that an entry carries no counts.
+
+**State after:** spec 0.4 at its twelfth revision (§16.14 a ruled shape, §16.6 names
+TN-4), not snapshotted and not deployed. `v0.4-plan.md` §19 has the reasoning. The brief
+is rewritten for the round, the queue holds item 24 only, `opus-brief.md` has a session-64
+section, ROADMAP row 36 is updated and row 118 added. blygger-spec#30 is still open.
+S5b (new PRs and issues) and S5c (listings, census) were not run.
+
+**Open threads:**
+- blygger-spec#30: merge as an exploration with a status line pointing at §16.14, reply on
+  #32 with the ruling, add the `roadmap` label. Outward; waits on Venkat.
+- Whether blygcaster can put the entry in the publishing version (the cast hash is
+  computed before sending, as is a Bluesky record key). Stated from general knowledge of
+  both networks, not verified against blygcaster; asked of Patrick in the reply.
+- Publishing tn-4 and the twelfth revision needs a blygger.org deploy, which was already
+  waiting on Venkat (session 62).
+- Item 24 is the next Fable candidate. It needs each of the nine choices measured against
+  the live clients first.
+
 ## Session 63 — 2026-11-09 — Items staged for Fable: tn-4, `syndication` (spec#30), item 24
 **Model:** Opus 5.5 · **Time:** ~11:11 to 11:22 PT · **Committed:** yes (spec) · **Deployed:** —
 
