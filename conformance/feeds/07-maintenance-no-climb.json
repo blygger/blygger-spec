@@ -1,0 +1,62 @@
+{
+  "description": "A version the client judged maintenance (same text, or under its near-sameness threshold) climbs zero: a's v2 is maintenance, so a stays where it sank. Compare 04, where the same revision climbs one place. RFC-3 R2, decision #97.",
+  "history": {
+    "items": [
+      {
+        "id": "a",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:01:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          },
+          {
+            "version": 2,
+            "at": "2026-10-01T00:04:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": [],
+            "maintenance": true
+          }
+        ]
+      },
+      {
+        "id": "b",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:02:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "c",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:03:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      }
+    ]
+  },
+  "expected": [
+    "c",
+    "b",
+    "a"
+  ]
+}

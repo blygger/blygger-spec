@@ -22,6 +22,7 @@ A spec can fail in two different ways, and these tools look for both:
 | `alloy/` | Alloy 6 model of the protocol's rules; the solver searches for counterexamples | the spec |
 | `model/` | fast-check stateful property tests: a model written from the spec, and the real blygger-studio importer, driven by the same random action sequences | the spec, blygger-studio |
 | `reader/` | Reader fixtures: `content_md` → expected `content_html` written from the spec text, with the normative parts marked; a runner that hands each case to any renderer command (blygger-spec#5) | blygger-studio, plus any renderer that supplies an adapter command |
+| `feeds/` | The pace-layered order's fixtures (RFC-3, decision #97): publishing histories and the order they produce; canonical here, copied by blygger-studio with a CI identity check | any client implementing the order |
 | `lib/` | `studio-boot.mjs`: the one way the toolkit starts blygger-studio, shared by `reader/`, `schemas/` and `model/` (the studio's own esbuild, Miniflare and migrations; owner login; conditional mutations) | — |
 | `intents.json` | The intent ledger: what the protocol is *for*, in the author's words, linked to sections and decisions | — |
 

@@ -452,19 +452,25 @@ other member is unknown and ignored (§13.1 rule 4).
   unless a version is pinned (§8). The `changelog` is metadata (version, time,
   optional note, optional `"pinned": true`, optional `"generated": true`),
   never diffs or content.
-  **A note describes a change; it never reproduces withheld content.** A
-  note that quotes the prior version's text is a diff by another name and
+  **A note describes a change — or, when the author chooses, the changes
+  so far — and never reproduces withheld content** (revision of 2026-11-07,
+  decision #95). A note that quotes the prior version's text is a diff by another name and
   leaks exactly what withholding protects, so where the prior version is
   unpinned a note MUST NOT reproduce it. Between two pinned versions nothing
   is withheld — any reader can fetch both files — and a note may be as full
   as the author likes. Notes are the publisher's description, and like the
   feed `<title>` derived from them (§7) they may be machine-written.
   **No word in a note has wire meaning** (revision of 2026-10-19, decision
-  #83): a note is prose, and clients MUST NOT treat any token in it — a
-  conventional word, a bracketed tag — as a marker of the version's
-  significance in either direction. Whether a version matters *less* is
-  derived by readers from what the wire already carries (§13.2); whether it
-  matters *more* is the pin.
+  #83): a note is prose, and clients MUST NOT, of their own accord, treat
+  any token in it — a conventional word, a bracketed tag — as a marker of
+  the version's significance in either direction. Whether a version matters
+  *less* is derived by readers from what the wire already carries (§13.2);
+  whether it matters *more* is the pin. **What a note says is the
+  publisher's own**, including words a client writes on the publisher's
+  instruction; the protocol polices only the depth rule above. **A reader's
+  owner may instruct their own client to read notes however they like**;
+  that is the owner's reading, delegated, and gives the words no meaning on
+  the wire (revision of 2026-11-07, decision #96).
 - **A changelog entry MAY carry `"generated": true`** (revision of
   2026-10-06, decision #40), meaning the publisher's client wrote the note,
   typically from the local diff between versions, rather than the author.
@@ -2124,6 +2130,11 @@ import every item (§13.1), since folding is display, never omission.
   the sender's origin drew on the target's words, and the target can check
   only what every relation lets it check — that the sender's document
   really names it (§15.4).
+- **Misleading notes are a reader-side concern** (revision of 2026-11-07,
+  decision #96). A changelog note is the publisher's own prose (§5.2), and
+  nothing verifies it. Readers weigh a note against the measured change
+  (§13.2) and answer a feed that misrepresents its changes by how they read
+  it — queuing it low, unsubscribing — not by anything on the wire.
 - **A baked snapshot is the quoter's assertion about the quoted.** A thread's
   `content_html` carries another origin's words, wrapped and attributed by
   data attributes that the quoting publisher wrote. The reference names a
@@ -2867,6 +2878,15 @@ eleventh revision.
   (RFC-1 and RFC-2 promoted as technical notes tn-6 and tn-7) and #94 (a
   private item's first public version is v1) changed no spec text. Not
   snapshotted.
+- **2026-11-07, eleventh revision** (Fable 5.1, session 61; decisions #95
+  and #96) — clarifications, no new construct: §5.2 says a note may
+  describe the changes so far when the author chooses (#95); §5.2's "no
+  word has wire meaning" binds clients *of their own accord*, and two
+  sentences say what a note says is the publisher's own, including words a
+  client writes on instruction, and that a reader's owner may instruct
+  their own client to read notes as they like (#96); §14 says misleading
+  notes are answered on the reading side. #97 (RFC-3's rulings) changed no
+  spec text. Not snapshotted.
 
 - **2026-11-03, ninth revision** (Fable 5.1, session 58; the #58 batch
   review of session 57's work) — three sentences, no new construct: §10.1

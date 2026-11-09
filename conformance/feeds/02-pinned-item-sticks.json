@@ -1,0 +1,106 @@
+{
+  "description": "a has two pinned versions (layer 2, a quarter speed). Five newer items arrive; a sinks 1.25 while d sinks 2, so a holds third place.",
+  "history": {
+    "items": [
+      {
+        "id": "a",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:01:00Z",
+            "note": null,
+            "pinned": true,
+            "quotes": []
+          },
+          {
+            "version": 2,
+            "at": "2026-10-01T00:01:00Z",
+            "note": null,
+            "pinned": true,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "b",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:02:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "c",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:03:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "d",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:04:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "e",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:05:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "f",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:06:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      }
+    ]
+  },
+  "expected": [
+    "f",
+    "e",
+    "a",
+    "d",
+    "c",
+    "b"
+  ]
+}

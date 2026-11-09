@@ -1,0 +1,61 @@
+{
+  "description": "One revision moves an item one place, not to the top.",
+  "history": {
+    "items": [
+      {
+        "id": "a",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:01:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          },
+          {
+            "version": 2,
+            "at": "2026-10-01T00:04:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "b",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:02:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "c",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:03:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      }
+    ]
+  },
+  "expected": [
+    "c",
+    "a",
+    "b"
+  ]
+}

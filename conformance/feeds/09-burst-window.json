@@ -1,0 +1,71 @@
+{
+  "description": "A fragment published more than 15 minutes before the thread that names it is not part of its burst: p takes its own tick, m arrives, then T. Within the window p would sit directly under T. RFC-3 R3.",
+  "history": {
+    "items": [
+      {
+        "id": "o",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T09:00:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "p",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T10:00:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "m",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T10:05:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "T",
+        "kind": "thread",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T10:16:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": [
+              "p"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "expected": [
+    "T",
+    "m",
+    "p",
+    "o"
+  ]
+}

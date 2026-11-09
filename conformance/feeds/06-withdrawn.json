@@ -1,0 +1,116 @@
+{
+  "description": "A withdrawn item leaves the order and takes no tick, but its pinned versions still lend weight to what they quote: f sinks at half speed and ends above g. f and g are published an hour before the threads, so this tests pin weight, not a burst (RFC-3 R3).",
+  "history": {
+    "items": [
+      {
+        "id": "f",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-09-30T23:01:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "g",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-09-30T23:02:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "t1",
+        "kind": "thread",
+        "withdrawn": true,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:03:00Z",
+            "note": null,
+            "pinned": true,
+            "quotes": [
+              "f"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "kind": "thread",
+        "withdrawn": true,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:04:00Z",
+            "note": null,
+            "pinned": true,
+            "quotes": [
+              "f"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "x",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:05:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "y",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:06:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      },
+      {
+        "id": "z",
+        "kind": "fragment",
+        "withdrawn": false,
+        "versions": [
+          {
+            "version": 1,
+            "at": "2026-10-01T00:07:00Z",
+            "note": null,
+            "pinned": false,
+            "quotes": []
+          }
+        ]
+      }
+    ]
+  },
+  "expected": [
+    "z",
+    "y",
+    "x",
+    "f",
+    "g"
+  ]
+}

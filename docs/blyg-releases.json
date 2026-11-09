@@ -160,6 +160,29 @@
       "id": "649yncwqxef2dwhfjkneqc8rgs",
       "version": 1,
       "source_sha256": "27b8dbd80c75cf29e42e05495318f8d8a00c484e659d76541fcd2554e6ac817a"
+    },
+    "0.58.0": {
+      "id": "1v1h3zm5h0nd0prdtxk8d1tz62",
+      "version": 1,
+      "source_sha256": "4dc2a1a9e482514005e4070a9752591d21ae2fd9192add5b4379d56c73a6b609",
+      "batch": [
+        "0.58.0",
+        "0.57.0"
+      ]
+    },
+    "0.57.0": {
+      "id": "1v1h3zm5h0nd0prdtxk8d1tz62",
+      "version": 1,
+      "source_sha256": "ad5ef3aca828314f2bf59fe10f43bb9c3ffaf8666450072a2041abd0b6290462",
+      "batch": [
+        "0.58.0",
+        "0.57.0"
+      ]
+    },
+    "0.58.1": {
+      "id": "371sfwj49315qgp90tsgyapdz5",
+      "version": 1,
+      "source_sha256": "6815e02e9b650b37d8d3d8c56ad2b36147d876f05e5d1e53e2654a2fcc0c58dc"
     }
   }
 }
