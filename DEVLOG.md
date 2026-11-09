@@ -7,6 +7,35 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 62 — 2026-11-09 — Studio 0.58.1 (#142 and the New Nature follow-ups); #59 and spec#28 merged; the Reading redesign begins with Background phase 1; tn-4 drafted
+**Model:** Opus 5.5 · **Time:** 07:34 to 09:30 PT · **Committed:** yes (studio, spec, blygger-org) · **Deployed:** studio 0.58.1 to venkateshrao, PI and blyg.blygger.org (no migration; New Nature untouched); release post on blyg.blygger.org; blygger.org **not** redeployed (refused by auto mode)
+
+**What & why:**
+- **Startup.** All carry-overs were raised this time (session 61's lesson). New: fredcy's studio#142 bug; Florian's `blyg-obsidian` plugin found by the census.
+- **0.58.1.** *#142:* a confirmed write threw `SyncNotInitializedError` when the on-demand items collection had been **cleaned up** (garbage-collected after its views closed). TanStack DB restarts an *idle* collection on a write, not a cleaned-up one. `writeIfSyncing` in `data.ts` now wraps every confirmed `utils.write*`. The first regression test passed against the broken code because it never reached cleaned-up; it was rewritten until it failed with fredcy's exact error. *New Nature follow-ups:*
+  - #131: a comment opens only at a line's start or after a space, and not as `/**`. `word/*note*/` now refuses publish rather than leaking. `parseComments` caches recent results (measured 330 ms per call on a 184,000-character chapter with 20 comments, called about four times per keystroke). The editors' counts wait for a pause in typing.
+  - #126: focus view keeps the fragment tint whether or not the box has focus.
+  - #125: quick edit gets the word counter, with the counts on their own row on a phone.
+  - #133: "Dashboard" checked at 390 px and in the desktop rail.
+- **The deploy looked failed for about 15 minutes.** Every node served 0.58.0 code, uncached and straight from the Worker, after deploys that reported success. A dry-run bundle held only 0.58.1, and a redeploy changed nothing. Venkat confirmed the domain was on the right Worker, and it then caught up on its own. Saved as a memory: wait 15 minutes, don't redeploy.
+- **Merged:** spec#28 (conformance regenerated at 0.57.0: reader suite 79/100, two checker fixes verified; merged with a merge commit, like #22, #25 and #26) and studio#59 (extension vendoring re-scoped to #89; operator path tried by hand: a short commit id is refused, a hand-edited copy stops the build). In both cases I merged main into Aneesh's branch and pushed it there. Auto mode refused the first push to his fork; with Venkat's explicit go-ahead it went through.
+- **#137 (the Shelf)** re-reviewed and ready, but held: Venkat wants imported items on the shelf for the Reading redesign. Aneesh was asked to widen entries to `{ sub, remoteId }`, the hopper-membership shape, before release. Merged with main and tested locally only.
+- **Reading redesign (Venkat):** lenses **All, Mentions, Smart Feed, Fragments, Threads, Shelf, Background**, and "add to shelf" beside "+ add to hopper". The lens order is built; the Shelf parts wait on #137.
+- **Background phase 1 + 4a** (`background-plan.md` §7.1), on branch `feat/reading-redesign`:
+  - Migration 0046 recreates the three `change_*_update` triggers with the new columns. The polling oracle requires every column in the table's main trigger; separate `UPDATE OF` triggers failed it.
+  - `reading_placement`, `subscriptions.background`, and `bg_reasons` on items and imported items. One predicate in `identitySql` covers every lens and the counts.
+  - `PUT /reading/placement`; `background` on `PATCH /subscriptions/{id}`; a `backgroundRules` setting.
+  - Own items: the change category at publish (typo, minor, refresh) sets `minor`.
+  - Studio side: the ⋯ menu actions, the inspector checkbox, the reason label, and a Settings card.
+  - **Deviation:** the card shows only rules that act now, not inert toggles.
+- **Aneesh told** (carry-over): a stub on blyg.blygger.org replying to his RFC-1 comment, sent and delivered. This exposed `citedUrl` guessing `f/` for an unheld thread (ROADMAP 116).
+- **Ecosystem:** Blyg for Obsidian listed; Blynger 0.15.9.
+- **tn-4 drafted** (gate G3 open: two tools on scoped tokens). It sits in `docs/proposals/` because `docs/notes/` publishes at the next sync.
+
+**State after:** studio 0.58.1 live on three nodes. Studio `main` has #59 on top of 0.58.1. `feat/reading-redesign` is local with three commits (lens order, Background server half, studio half): 2333 Worker tests, 223 UI tests and the reading e2e specs pass. Contract and SDK are unchanged on `main`; the branch adds an operation and fields, and the release bumps the contract.
+
+**Open threads:** Aneesh on #137, then the Shelf lens and the release of 0.59.0 (prove 0044 and 0046 on a throwaway remote D1 first); the `citedUrl` fix; blygger.org deploy (ecosystem and ROADMAP), which waits on Venkat; Fable reviews tn-4 and runs item 24; Shannon's #88.
+
 ## Session 61 — 2026-11-07 — Studio 0.57.0 and 0.58.0: six PRs, changelog display, the pace-layered rulings; blygger.com activity sort; RFC-3 opens; the Background plan; an explainer and a batched release post
 **Model:** Opus 5.5, with two Fable 5.1 interludes logged below · **Time:** 14:19 to 18:55 PT · **Committed:** yes (spec, studio, blygger-org, blygger-com) · **Deployed:** studio 0.57.0 and 0.58.0 to venkateshrao, PI and blyg.blygger.org (migration 0045 first; New Nature untouched, still 0.56.0); blygger.com (migration 0011); blygger.org (eleventh revision, roadmap, tn-6)
 
