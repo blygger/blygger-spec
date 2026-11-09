@@ -107,6 +107,11 @@
    "section": "4",
    "text": "Every other path below is the **default**, and the manifest MAY relocate it (§6.1; new in 0.4, promoted from the 0.3 text's §16.6e): `feed` and `items` name the"
   },
+  "C-4-15": {
+   "fp": "a3c97a717a4e",
+   "section": "4",
+   "text": "*(the paths named in the manifest's `hoppers` list)*  ;  Hopper feeds, one per public hopper (OPTIONAL; new in 0.4)  ;  §13.5"
+  },
   "C-5-01": {
    "fp": "51f27aae643f",
    "section": "5",
@@ -478,7 +483,7 @@
    "text": "A registry MAY require a client source as a condition of *listing*; that is its business, not conformance."
   },
   "C-6.1-07": {
-   "fp": "f2fd2ed36c6a",
+   "fp": "19cf80aa99e1",
    "section": "6.1",
    "text": "**Members** (revision of 2026-10-17, decision #76; checked against all 22 live manifests, which conform): REQUIRED `blyg`, `title`, `updated`; RECOMMENDED `leve"
   },
@@ -496,6 +501,21 @@
    "fp": "97c003178407",
    "section": "6.1",
    "text": "All four values MAY carry a query string, because they are expanded or fetched, never resolved against."
+  },
+  "C-6.1-11": {
+   "fp": "4683467f7b7a",
+   "section": "6.1",
+   "text": "The `hoppers` key (new in 0.4, decision #86) is OPTIONAL: an array of the publisher's **public** hoppers, present only when there is at least one."
+  },
+  "C-6.1-12": {
+   "fp": "f75316de8368",
+   "section": "6.1",
+   "text": "Each entry carries `title` (REQUIRED), `page` (REQUIRED, the hopper's page) and `feed` (OPTIONAL, its hopper feed, §13.5), origin-relative or absolute."
+  },
+  "C-6.1-13": {
+   "fp": "974e4821d806",
+   "section": "6.1",
+   "text": "A hopper that is not public MUST NOT be listed."
   },
   "C-7-01": {
    "fp": "618211cdffbe",
@@ -817,6 +837,11 @@
    "section": "12.1",
    "text": "**The same manifest MUST also be served at `{identity}blyg.json`** (§4), as the manifest itself or by a redirect whose final URL has the same identity (§12.2) —"
   },
+  "C-12.1-07": {
+   "fp": "c02df8bb0ebd",
+   "section": "12.1",
+   "text": "A reader SHOULD let the user choose the whole blyg instead."
+  },
   "C-12.2-01": {
    "fp": "64c07f1f9e74",
    "section": "12.2",
@@ -836,6 +861,11 @@
    "fp": "12381cb27d9e",
    "section": "12.2",
    "text": "Adopting a new origin is an **identity change** and MUST be user-confirmed, never automatic."
+  },
+  "C-12.2-05": {
+   "fp": "e50ab8982fcc",
+   "section": "12.2",
+   "text": "When a later manifest no longer lists the feed, the reader stops polling it and treats its entries as gone; it MUST NOT silently convert the subscription into o"
   },
   "C-12.3-01": {
    "fp": "3d882744cc0c",
@@ -917,6 +947,11 @@
    "section": "13.2",
    "text": "A version whose text differs from its predecessor by less than a **reader-local** threshold MAY be treated under the clause above — queued low, not resurfaced a"
   },
+  "C-13.2-06": {
+   "fp": "8efc2acc401a",
+   "section": "13.2",
+   "text": "A fetched document that §15.4's repost test reduces to nothing — directive lines, attached selections, labels and whitespace stripped — carries other people's w"
+  },
   "C-13.3-01": {
    "fp": "2a10bf13f7a4",
    "section": "13.3",
@@ -953,14 +988,39 @@
    "text": "They MUST NOT appear in the publisher's `feed.xml`, `items/index.json`, or as `items/{id}.json` documents, in any form — re-emission would collide with `blyg:id"
   },
   "C-13.5-03": {
-   "fp": "d69a5bebcf80",
+   "fp": "59ca0ee75b91",
    "section": "13.5",
-   "text": "A client MAY **display** imported content publicly as curation — a shown list, with source attribution and links to the origin — without any protocol surface: n"
+   "text": "A client MAY **display** imported content publicly as curation — a shown list, with source attribution and links to the origin — with no protocol surface beyond"
   },
   "C-13.5-04": {
    "fp": "dc9697c79c12",
    "section": "13.5",
    "text": "A site that wants to present a group of blygs in one place is a reader with a public face: it displays curated imported content under this rule, publishes a blo"
+  },
+  "C-13.5-05": {
+   "fp": "168f2dddebc7",
+   "section": "13.5",
+   "text": "(a) MUST serve one only for a public hopper and MUST name it in that hopper's manifest entry (§6.1); a hopper taken private leaves the list and its feed SHOULD "
+  },
+  "C-13.5-06": {
+   "fp": "82c9f1258af7",
+   "section": "13.5",
+   "text": "(b) MUST NOT use the `blyg:` namespace anywhere in it — no `<blyg:manifest>` on the channel, no `blyg:id` or `blyg:version` on any entry — **the publisher's own"
+  },
+  "C-13.5-07": {
+   "fp": "e1f7cae250a6",
+   "section": "13.5",
+   "text": "(c) MUST carry every current member: the feed is the list, not a window; an item leaving the hopper, or rolled to null under §13.4, leaves the feed at the next "
+  },
+  "C-13.5-08": {
+   "fp": "76ea4ebe32df",
+   "section": "13.5",
+   "text": "(d) each entry is one membership: `<guid isPermaLink=\"false\">`, stable for the life of the membership and derived from the hopper and the member's `origin` and "
+  },
+  "C-13.5-09": {
+   "fp": "fe5a45c843e3",
+   "section": "13.5",
+   "text": "The hopper page SHOULD carry `<link rel=\"alternate\" type=\"application/rss+xml\">` to the feed and SHOULD carry `<link rel=\"blyg\">` (§12.1 step 4), so that resolu"
   },
   "C-13.6-01": {
    "fp": "5617c2a54840",
@@ -971,6 +1031,16 @@
    "fp": "3d16a9342587",
    "section": "13.6",
    "text": "Clients SHOULD mark L0 items visibly as wrapped legacy content."
+  },
+  "C-13.6-03": {
+   "fp": "55e9783bf165",
+   "section": "13.6",
+   "text": "It differs in one place: a reader MUST drop an entry that no longer appears, because §13.5 rule (c) makes absence meaningful."
+  },
+  "C-13.6-04": {
+   "fp": "cbf401e3e897",
+   "section": "13.6",
+   "text": "A reader MAY follow an entry's `<link>` through §12 to the member's origin and item, a separate act with its own subscription identity, of which the hopper subs"
   },
   "C-13.7-01": {
    "fp": "570b4788bbc0",
@@ -1264,57 +1334,68 @@
   "P-16.12-01": {
    "fp": "401f49b5ce32",
    "section": "16.12",
-   "text": "OPTIONAL `hoppers`: an array of the publisher's **public** hoppers, present only when there is at least one."
+   "text": "OPTIONAL `hoppers`: an array of the publisher's **public** hoppers, present only when there is at least one.",
+   "retired": true
   },
   "P-16.12-02": {
    "fp": "60ea9f04e532",
    "section": "16.12",
-   "text": "Each entry carries `title` (REQUIRED), `page` (REQUIRED, the hopper's page) and `feed` (OPTIONAL, its hopper feed), origin-relative or absolute."
+   "text": "Each entry carries `title` (REQUIRED), `page` (REQUIRED, the hopper's page) and `feed` (OPTIONAL, its hopper feed), origin-relative or absolute.",
+   "retired": true
   },
   "P-16.12-03": {
    "fp": "974e4821d806",
    "section": "16.12",
-   "text": "A hopper that is not public MUST NOT be listed."
+   "text": "A hopper that is not public MUST NOT be listed.",
+   "retired": true
   },
   "P-16.12-04": {
    "fp": "7218acc7eaeb",
    "section": "16.12",
-   "text": "(a) MUST serve one only for a public hopper and MUST name it in that hopper's manifest entry; a hopper taken private leaves the list and its feed SHOULD answer "
+   "text": "(a) MUST serve one only for a public hopper and MUST name it in that hopper's manifest entry; a hopper taken private leaves the list and its feed SHOULD answer ",
+   "retired": true
   },
   "P-16.12-05": {
    "fp": "219127e13a3a",
    "section": "16.12",
-   "text": "(b) MUST NOT use the `blyg:` namespace anywhere in it — no `<blyg:manifest>` on the channel, no `blyg:id` or `blyg:version` on any entry — **the publisher's own"
+   "text": "(b) MUST NOT use the `blyg:` namespace anywhere in it — no `<blyg:manifest>` on the channel, no `blyg:id` or `blyg:version` on any entry — **the publisher's own",
+   "retired": true
   },
   "P-16.12-06": {
    "fp": "e1f7cae250a6",
    "section": "16.12",
-   "text": "(c) MUST carry every current member: the feed is the list, not a window; an item leaving the hopper, or rolled to null under §13.4, leaves the feed at the next "
+   "text": "(c) MUST carry every current member: the feed is the list, not a window; an item leaving the hopper, or rolled to null under §13.4, leaves the feed at the next ",
+   "retired": true
   },
   "P-16.12-07": {
    "fp": "4d52add8e9b1",
    "section": "16.12",
-   "text": "(d) each entry is one membership: `<guid isPermaLink=\"false\">`, stable for the life of the membership and derived from the hopper and the member's `origin` and "
+   "text": "(d) each entry is one membership: `<guid isPermaLink=\"false\">`, stable for the life of the membership and derived from the hopper and the member's `origin` and ",
+   "retired": true
   },
   "P-16.12-08": {
    "fp": "fe5a45c843e3",
    "section": "16.12",
-   "text": "The hopper page SHOULD carry `<link rel=\"alternate\" type=\"application/rss+xml\">` to the feed and SHOULD carry `<link rel=\"blyg\">` (§12.1 step 4), so that resolu"
+   "text": "The hopper page SHOULD carry `<link rel=\"alternate\" type=\"application/rss+xml\">` to the feed and SHOULD carry `<link rel=\"blyg\">` (§12.1 step 4), so that resolu",
+   "retired": true
   },
   "P-16.12-09": {
    "fp": "c02df8bb0ebd",
    "section": "16.12",
-   "text": "A reader SHOULD let the user choose the whole blyg instead."
+   "text": "A reader SHOULD let the user choose the whole blyg instead.",
+   "retired": true
   },
   "P-16.12-10": {
    "fp": "e50ab8982fcc",
    "section": "16.12",
-   "text": "When a later manifest no longer lists the feed, the reader stops polling it and treats its entries as gone; it MUST NOT silently convert the subscription into o"
+   "text": "When a later manifest no longer lists the feed, the reader stops polling it and treats its entries as gone; it MUST NOT silently convert the subscription into o",
+   "retired": true
   },
   "P-16.12-11": {
    "fp": "21862e34afc7",
    "section": "16.12",
-   "text": "**Readers** import the entries as L0 wrapper rows (§13.6) — summaries and links, never a transclusion source, synthetic ids scoped to the hopper subscription, n"
+   "text": "**Readers** import the entries as L0 wrapper rows (§13.6) — summaries and links, never a transclusion source, synthetic ids scoped to the hopper subscription, n",
+   "retired": true
   },
   "P-16.13-01": {
    "fp": "9af099a1f52f",
