@@ -206,6 +206,14 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
 
 Reasoning in `v0.4-plan.md` §19. None of it blocks 0.59.0.
 
+- **0. Outward actions Venkat left to Opus (session 64); ask him before the first one.**
+  Push `blygger-spec` main (the session-64 commit is local). Merge blygger-spec#30 as an
+  exploration, then add a status line to `plans/syndication-proposal.md` and its
+  `backlog.md` row pointing at spec §16.14 and #98. Reply on blygger-spec#32 in Venkat's
+  voice with the ruling: the two changes (in place, no version; no specified fold, with
+  the stranger's-critical-cast case), the smaller answers, the gate, and the question
+  whether blygcaster can put the entry in the publishing version since a cast hash is
+  computed before sending. Add the `roadmap` label to #32 (ROADMAP row 118).
 - **a. Publish tn-4.** The note is at `docs/notes/tn-4-the-write-surface.md`, reviewed.
   It reaches blygger.org/notes/tn-4/ on the next `blygger-org/sync_spec.py` and deploy,
   which also carries the twelfth spec revision and ROADMAP rows 36 and 118. Build and look
