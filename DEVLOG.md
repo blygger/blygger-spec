@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 64 — 2026-11-09 — Fable round: tn-4 reviewed (G3 closed); `syndication` ruled (#98); 0.5 is Level 3 (#99)
-**Model:** Fable 5.2 · **Time:** ~12:30–TBD PT · **Committed:** TBD · **Deployed:** —
+**Model:** Fable 5.2 · **Time:** ~12:30–13:10 PT · **Committed:** yes (spec, local; not pushed) · **Deployed:** —
 
 **What & why:** Venkat opened a Fable round on session 63's immediate agenda. Two items
 were taken, each ruled in chat and recorded on his "go".
@@ -67,9 +67,12 @@ were taken, each ruled in chat and recorded on his "go".
 
 4. **Item 24 begun.** Collected: the studio's output for each of the nine ambiguous
    fixtures (it matches every fixture's chosen reading), the spec text each turns on, and
-   the sixteen keyword-less sole statements in spec#23's report. A live crawl
-   (`conformance/live/crawl.mjs`) was started to count each construct in the field.
-   Nothing ruled.
+   the sixteen keyword-less sole statements in spec#23's report. A partial live crawl
+   (1,767 item documents, 9 origins, four clients) counted each construct in the field.
+   Nothing ruled. The counts and the leanings formed are written into queue item 24,
+   where the next round will read them. Two findings worth knowing now: no live item
+   lacks `page`, and four live items from two clients have a quote inside
+   `div.blyg-tk-gen`.
 
 **State after:** spec 0.4 at its twelfth revision (§16.14 a ruled shape, §16.6 names
 TN-4), not snapshotted and not deployed. `v0.4-plan.md` §19 has the reasoning. The brief
@@ -85,8 +88,14 @@ S5b (new PRs and issues) and S5c (listings, census) were not run.
   both networks, not verified against blygcaster; asked of Patrick in the reply.
 - Publishing tn-4 and the twelfth revision needs a blygger.org deploy, which was already
   waiting on Venkat (session 62).
-- Item 24: finish the measurement from the crawl (`conformance/live/cache/`), then rule
-  the nine and spec#23's sole statements. Leanings formed but not presented or ruled.
+- Item 24: complete the crawl for the remaining origins, then present and rule the nine
+  and spec#23's sole statements. Leanings are in the queue entry, not presented to Venkat.
+- For Opus, found by the crawl: on path-mounted nodes the studio writes media links into
+  `content_md` host-rooted with the mount in them (`/blyg/media/x.png`), so the hashed
+  source names the mount and a move (#88) breaks it. An origin-relative spelling would
+  not. Not filed as an issue.
+- msn-build (msweet.net) emits one mis-rendered relative link in `content_html`; not
+  reported to its author.
 - The L3 research (R1–R8) is Opus's; the design round follows it.
 - `docs/roadmap.md`'s two v0.4 exit criteria (stale-then-regenerate, a third-party filter
   plugin from the docs alone) were not checked against the studio; the second predates
