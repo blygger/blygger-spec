@@ -1,7 +1,8 @@
 # Proposal — syndication: saying where an item was cross-posted
 
 **Status:** DRAFT, exploratory. Proposed 2026-11-09 by Patrick Atwater (patwater), from
-two client builds that cross-post blyg items to conversational networks. **Nothing here
+two client builds that cross-post blyg items to conversational networks. Discussion is
+on [blygger-spec#32](https://github.com/blygger/blygger-spec/issues/32). **Nothing here
 is ruled.** It adds one OPTIONAL item-document member, so by the four-question test it is
 Fable's (question 2 is a yes), and by #43 it is revision-grade, because a reader that
 ignores the member stays correct. The first networks are **Bluesky** and **Farcaster**,
