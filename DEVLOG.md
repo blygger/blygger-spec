@@ -7,6 +7,33 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 63 — 2026-11-09 — Items staged for Fable: tn-4, `syndication` (spec#30), item 24
+**Model:** Opus 5.5 · **Time:** ~11:11 to 11:22 PT · **Committed:** yes (spec) · **Deployed:** —
+
+**What & why:** Venkat asked for the next Fable round's items to be staged. Session 61's
+round left nothing labelled `Fable review pending`. Since then, two things have become
+Fable's:
+- **tn-4.** Gate G3 opened in session 62, and Opus drafted the note then.
+- **blygger-spec#30.** Patrick Atwater opened it today. It proposes `syndication: [{url, version}]`, an OPTIONAL item member saying where an item was cross-posted. It came out of Burrow's and blygcaster's cross-posting. It's Fable's because it adds a wire member (question 2), and it's revision-grade under #43.
+
+`fable-brief.md` now opens with an immediate agenda, in order:
+1. Review tn-4: #31's reason is not widened, #52's refusals are not reopened, and §6 is not normative.
+2. Rule `syndication`, now queue item 27. The entry carries the PR's four questions, plus checks against the `meta`-bag and typed-stub refusals, #11 (the fold must equate writings, not accounts) and #77.
+3. Item 24, on Venkat's word.
+4. The `plans/` explorations, optionally.
+
+Left unstaged on purpose, as Opus-tier:
+- studio#143 and #144, blykker hooks under #89.
+- The Shelf widening to imported items, studio#137. It is wire-silent, and "private forever" still covers it.
+- Shannon's #88.
+- `ai-extension-hooks.md`, which sits on the parked prototype.
+
+The ecosystem census and the listings check (S5c) were not run.
+
+**State after:** brief, queue (items 24 and 27) and `CLAUDE.md` pointers agree. spec#30
+is open and unmerged; its doc can merge as an exploration whatever the ruling. No ROADMAP
+change: #30 is a proposal, not an accepted item.
+
 ## Session 62 — 2026-11-09 — Studio 0.58.1 (#142 and the New Nature follow-ups); #59 and spec#28 merged; the Reading redesign begins with Background phase 1; tn-4 drafted
 **Model:** Opus 5.5 · **Time:** 07:34 to 09:30 PT · **Committed:** yes (studio, spec, blygger-org) · **Deployed:** studio 0.58.1 to venkateshrao, PI and blyg.blygger.org (no migration; New Nature untouched); release post on blyg.blygger.org; blygger.org **not** redeployed (refused by auto mode)
 
