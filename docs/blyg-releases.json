@@ -178,6 +178,11 @@
         "0.58.0",
         "0.57.0"
       ]
+    },
+    "0.58.1": {
+      "id": "371sfwj49315qgp90tsgyapdz5",
+      "version": 1,
+      "source_sha256": "6815e02e9b650b37d8d3d8c56ad2b36147d876f05e5d1e53e2654a2fcc0c58dc"
     }
   }
 }
