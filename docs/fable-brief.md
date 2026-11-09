@@ -42,7 +42,13 @@ Session 63 staged an immediate agenda; its first two items were taken.
    counts in an entry. Venkat struck the reader-side rule about showing counts: nothing
    is on the wire. Awaiting its gate.
 
-**Not taken:** item 24 and the four `plans/` explorations. Both are under "Next round".
+3. **#99 — version 0.5 is Level 3** (§19.3), Venkat's decision: privacy, encryption and
+   paid access, opened by choice ahead of 1.0. Research brief for Opus at
+   `l3-research-brief.md`; the design round is a gate in the table below.
+
+**Begun, not finished:** item 24. The studio's reading of each of the nine choices and
+the spec text were collected and a live crawl was started for the measurement; nothing
+is ruled. **Not taken:** the four `plans/` explorations.
 
 ## The dated item — RFC-5 closes 2026-12-03
 
@@ -78,6 +84,7 @@ section the build contradicts, and Fable reviews the revision in batch.
 |---|---|---|
 | **G5** | The reference agent (2.10) has run against a live node long enough to refresh a snapshot, answer a mention, and author under its own byline | Review `tn-5` for anything that wants a construct — the refresh scope on the re-bake identity (#38, backlog §1) is the candidate. |
 | **RFC-3 close** — **ruled session 61 (#97)**, [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md) §7; publishes on blyg.blygger.org once the studio builds R2 and R3 (`opus-brief.md` item i) and Venkat says | Its comment period has closed (four weeks from publication) | Scan the stubs with Opus; revise or rule; promote it as a technical note under #90. |
+| **Level 3 design round (0.5)** — decision #99 | Opus has written the research documents in `plans/l3/` that [`l3-research-brief.md`](l3-research-brief.md) asks for (R4, the spec audit, at least; R1–R3 and R5 for a full round) | Design Level 3 as the 0.5 document's first construct. Rule key distribution first (ride-along, off-protocol, or layered), then what is encrypted, what the hash covers, key granularity, how a payment becomes a key, revocation, quoting and pinning, the enterprise mapping, and what a reader without a key sees. Venkat's starting design is in #99. |
 | **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t, which now carries ksurya's non-blyg webmentions, #92 C5) | Edit and rule it; publish with a comment period; at close promote it under #90. |
 
 If nothing is pending review, the dated item is not due and no gate is true when a Fable
@@ -170,11 +177,14 @@ in each live client. Nothing here is pre-decided.
   snapshotted; a snapshot is cut at publication of a new version and thereafter as a
   deliberate act when a third party needs the text to hold still. The tenth revision was
   not snapshotted.
-- **Opening 0.5** needs a construct of #43's second kind built and exercised. Step 7 (#86)
-  and `moved_from` (#88) are 0.4 constructs landing in the living text; do not open 0.5
-  for them.
-- **The L3 round** opens when shape E has a named case (#93 F4); it starts from C3, and
-  group visibility in the private-items proposal (§8.3) waits for it.
+- **Opening 0.5** needs a construct of #43's second kind built and exercised, and #99
+  names it: Level 3. The document opens when the first L3 construct is built, not when
+  the design is ruled (#21, #43). Step 7 (#86), `moved_from` (#88) and `syndication`
+  (#98) are 0.4 constructs; do not open 0.5 for them.
+- **The L3 round is scheduled as 0.5** (#99, session 64), by Venkat's choice and no longer
+  waiting on shape E. It starts from C3 and Venkat's design in #99; group visibility in
+  the private-items proposal (§8.3) is ruled in it. Until it rules, #93's classification
+  and the two do-not-open entries on split-horizon origins and C2 stand.
 
 ## Do not open
 
@@ -222,6 +232,7 @@ in each live client. Nothing here is pre-decided.
 ## Hand back
 
 Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
-locked decisions from **#98**, record reasoning in `v0.4-plan.md` §19 (or a new section),
+locked decisions from **#99**, record reasoning in `v0.4-plan.md` §19 (or a new section;
+the L3 round should start `v0.5-plan.md`),
 append the DEVLOG entry, file any new ideas in `backlog.md`, prune `fable-round-queue.md`,
 and rewrite this brief.

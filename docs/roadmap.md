@@ -199,7 +199,19 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 
 **Exit criteria:** editing a source fragment marks its dependent threads stale and one-click regeneration updates them with correct provenance; a third-party filter plugin can be written from the docs alone without touching core.
 
-## v0.5 — Grove (RAG + presentation)
+## v0.5 — Level 3: privacy, encryption and paid access
+
+> **Session-64 amendment (2026-11-09, Venkat — decision #99; amends the locked build
+> order):** protocol version 0.5 is Level 3. Encrypted content on the wire as static
+> files, keys held by readers, access per item and perhaps per version, with payment
+> rails and enterprise sign-on as ways of obtaining a key. Opened by choice, ahead of
+> 1.0. Not yet designed: Opus does the fact-finding in
+> [`l3-research-brief.md`](l3-research-brief.md), then a Fable design round. **⚠️ FABLE,
+> entirely.** "Grove" below keeps its name and its content but is no longer a protocol
+> version: it has no wire content, and its remaining half (local RAG) is client work
+> under Track 2.
+
+## Grove (RAG + presentation) — client work, formerly v0.5
 
 **Goal:** authoring intelligence and looks. Minimal local RAG over the client's own content, integrated into the thread editor; the styling system.
 
@@ -279,7 +291,7 @@ work."
 
 In rough priority order; each gets its own plan when it comes up.
 
-- **L3 privacy** — encrypted/permissioned feeds: shared-key access to private items, key rotation/revocation, roadmap-aware of FOAF-visibility and ZK approaches. **⚠️ FABLE, entirely** — crypto design; also revisits the deferred "privileged group" feature properly.
+- **L3 privacy** — **moved to v0.5 by decision #99 (session 64)**; the original line follows. Encrypted/permissioned feeds: shared-key access to private items, key rotation/revocation, roadmap-aware of FOAF-visibility and ZK approaches. **⚠️ FABLE, entirely** — crypto design; also revisits the deferred "privileged group" feature properly.
 - **IPFS persistence** — pin item files + media (content hashes already exist per version); resolution fallback rules.
 - **Multi-tenant overloads** — document (not build) the patterns: community studios publishing either one conformant feed per user, or a single **multiplayer feed** with per-item `author` bylines (session-5 author decision — single-publisher, not single-author). Either way: one origin, one accountable client, no shared namespace, no `user@server`, DNS remains the namespace.
 - **Ecosystem** — grandfathering tools (Substack/WordPress→blyg wrappers), theme gallery, a "webring" convention if the blogroll topology wants one.

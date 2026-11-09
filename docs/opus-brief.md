@@ -5,7 +5,7 @@ Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped. **Session 33*
 day, Fable) inserted item 5, fork flattening (#57); items 1–4 shipped in session 32.
 **Session 40** (2026-10-07, Fable) added the official-blyg section below (#66–#68).
 **Session 58** (2026-11-03, Fable) added the mods-mechanism section (#89). **Session 60**
-(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Session 61** (2026-11-07, Fable) added the Shelf section (studio#137). **Session 64** (2026-11-09, Fable 5.2) added the tn-4 and `syndication` section (#98). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
+(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Session 61** (2026-11-07, Fable) added the Shelf section (studio#137). **Session 64** (2026-11-09, Fable 5.2) added the tn-4 and `syndication` section (#98) and the pointer to the Level 3 research brief (#99). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
 session starts (`CLAUDE.md` → At Session Start, step 4).
 
 > **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#57** (sessions 31, 33) and
@@ -214,6 +214,11 @@ Reasoning in `v0.4-plan.md` §19. None of it blocks 0.59.0.
   the stranger's-critical-cast case), the smaller answers, the gate, and the question
   whether blygcaster can put the entry in the publishing version since a cast hash is
   computed before sending. Add the `roadmap` label to #32 (ROADMAP row 118).
+- **L3 research (decision #99): its own brief.** Version 0.5 is Level 3. The fact-finding
+  for the design round is [`l3-research-brief.md`](l3-research-brief.md), tasks R1–R8,
+  findings into `plans/l3/`. Start with R4 (the spec audit). Facts with dated primary
+  sources, no design, nothing built in the studio; R8 only on Venkat's word. It does not
+  block and is not blocked by 0.59.0.
 - **a. Publish tn-4.** The note is at `docs/notes/tn-4-the-write-surface.md`, reviewed.
   It reaches blygger.org/notes/tn-4/ on the next `blygger-org/sync_spec.py` and deploy,
   which also carries the twelfth spec revision and ROADMAP rows 36 and 118. Build and look

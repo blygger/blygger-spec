@@ -7,7 +7,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 64 — 2026-11-09 — Fable round: tn-4 reviewed (G3 closed); `syndication` ruled (#98)
+## Session 64 — 2026-11-09 — Fable round: tn-4 reviewed (G3 closed); `syndication` ruled (#98); 0.5 is Level 3 (#99)
 **Model:** Fable 5.2 · **Time:** ~12:30–TBD PT · **Committed:** TBD · **Deployed:** —
 
 **What & why:** Venkat opened a Fable round on session 63's immediate agenda. Two items
@@ -52,6 +52,25 @@ were taken, each ruled in chat and recorded on his "go".
      did not survive either, since `content_html` already loads publisher-chosen hosts.
      What remains is the wire rule that an entry carries no counts.
 
+3. **#99, version 0.5 is Level 3.** Venkat asked what had to be finished for 0.5 to
+   open. Under #43 nothing can be finished into it: the document opens when a construct
+   that changes what readers do is built, and none was pending. He then chose one: 0.5 is
+   privacy, encryption and paywalls. This reverses the backlog's "nothing before 1.0" and
+   #93 F4's trigger, and moves the roadmap's "Grove" (RAG, styling) to client work, since
+   it had no wire content. His starting design: ciphertext on the wire, keys with readers,
+   access per item and perhaps per version, payment rails (x402, MPP, existing crypto) and
+   enterprise sign-on as ways to a key, ride-along and off-protocol key distribution both
+   open. Nothing is designed. `docs/l3-research-brief.md` specifies eight fact-finding
+   tasks for Opus, the commitments a design must live with, and the nine questions the
+   round will rule. In passing: "Unicode on the wire" would open a version only if the
+   ruling normalizes text before hashing, which is the less likely outcome.
+
+4. **Item 24 begun.** Collected: the studio's output for each of the nine ambiguous
+   fixtures (it matches every fixture's chosen reading), the spec text each turns on, and
+   the sixteen keyword-less sole statements in spec#23's report. A live crawl
+   (`conformance/live/crawl.mjs`) was started to count each construct in the field.
+   Nothing ruled.
+
 **State after:** spec 0.4 at its twelfth revision (§16.14 a ruled shape, §16.6 names
 TN-4), not snapshotted and not deployed. `v0.4-plan.md` §19 has the reasoning. The brief
 is rewritten for the round, the queue holds item 24 only, `opus-brief.md` has a session-64
@@ -66,8 +85,12 @@ S5b (new PRs and issues) and S5c (listings, census) were not run.
   both networks, not verified against blygcaster; asked of Patrick in the reply.
 - Publishing tn-4 and the twelfth revision needs a blygger.org deploy, which was already
   waiting on Venkat (session 62).
-- Item 24 is the next Fable candidate. It needs each of the nine choices measured against
-  the live clients first.
+- Item 24: finish the measurement from the crawl (`conformance/live/cache/`), then rule
+  the nine and spec#23's sole statements. Leanings formed but not presented or ruled.
+- The L3 research (R1–R8) is Opus's; the design round follows it.
+- `docs/roadmap.md`'s two v0.4 exit criteria (stale-then-regenerate, a third-party filter
+  plugin from the docs alone) were not checked against the studio; the second predates
+  #89 and may need rewording.
 
 ## Session 63 — 2026-11-09 — Items staged for Fable: tn-4, `syndication` (spec#30), item 24
 **Model:** Opus 5.5 · **Time:** ~11:11 to 11:22 PT · **Committed:** yes (spec) · **Deployed:** —
