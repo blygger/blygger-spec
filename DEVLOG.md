@@ -7,6 +7,59 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 65 — 2026-11-12 — studio#88 through CI (not merged: e2e); Level 3 research R1–R7 written and queued for Fable
+**Model:** Opus 5.5 · **Time:** ~11:30–14:20 PT · **Committed:** yes (spec, pushed; one commit pushed to Shannon's PR branch) · **Deployed:** —
+
+**What & why:** Two threads.
+
+1. **Shannon Bux's studio#88 (Base UI component primitives).** Venkat thought it ready to
+   merge. Her three review asks were all met: rebased on `ecb5234`, the `/studio/components`
+   gallery is compiled out unless `BLYG_COMPONENT_GALLERY=1` (an esbuild plugin aliases the
+   module to an inert stub), the description names the two visible changes. But CI had never
+   run: a fork's workflow sits at `action_required` until a maintainer approves it, and the
+   PR's checks list reads empty rather than pending, which is easy to mistake for "no CI".
+   Approved (the PR touched no `.github/` or `package.json`). `check` failed on
+   `test/studio-login-theme.test.ts`: the PR renames the theme tokens (`--page` →
+   `--primitive-page`, `--pencil` → `--primitive-accent`) and that server-side test still
+   asserted the old names; her validation listed typecheck and build only. Venkat's rule for
+   the session: fix it if simple, comment if it needs her judgment. The rename was simple —
+   pushed `3f77ae8` to her fork (maintainerCanModify) from a throwaway worktree, `check`
+   then green. **e2e is not simple**: CI hit many failures and the 25-minute job limit; a
+   local desktop run gave **27 of 273 failing** (main: 1 known failure, mentions-performance)
+   across composer tools, filters, ⋯ menus, the `[[` picker, toasts (two toast dialogs match
+   at once after mark-all-read), sheets and swipes — classes, checked state and dialog roles
+   the Base UI migration changed. Which are stale tests and which are behaviour changes is
+   hers, so the list went to her as a PR comment with the repro command. Not merged.
+   Local e2e needed `npm run build` first (`build/models.json`) and node_modules symlinked
+   into the worktree.
+
+2. **Level 3 research.** Venkat asked for the research tasks Fable set last session to be
+   run by an agent. `docs/l3-research-brief.md` (decision #99) has eight; one general-purpose
+   agent wrote R1–R7 into `plans/l3/` in about 20 minutes; **R8 (the probe) was withheld**
+   because the brief requires Venkat's word. Venkat declined to skim and said commit, push,
+   and stage for Fable: the documents, the agent's per-task "could not verify" row in
+   `fable-brief.md`, and queue item 28 (the design round, a round of its own, question D
+   first). Findings the round will meet first: MPP is Tempo Labs/Stripe's Machine Payments
+   Protocol, pre-standard (its IETF individual draft has expired); x402 v2 is now the x402
+   Foundation's; no rail yields a content key without a key server except threshold
+   networks; a Lightning preimage cannot be a shared content key; Python's stdlib has no
+   cipher, so the stdlib rule (session 29, no vendored dependencies) fails for decryption while Go 1.26
+   ships HPKE; the closest prior art (AMP subscription content, Google Workspace CSE) wraps
+   the key to a service rather than to readers, which publishes nothing about the audience
+   (commitment 4); ATProto "Spaces" is server-enforced access, the shape #93 refused; outside
+   demand is one commit–reveal request (blygger-spec#10). Not reviewed line by line by a
+   human or by me — Fable's round is the review.
+
+**State after:** studio#88 open, `check` green, e2e red pending Shannon. blygger-spec `main`
+at the research commit plus this wrap-up; ROADMAP row 119 now waiting on the Fable round.
+Fable queue: item 28 (L3 round) and item 24 (reader suite's nine choices).
+
+**Open threads:** Shannon's e2e fixes, then a full green run (mobile project too) and merge.
+R8 on Venkat's word. The research agent marked AWS/Azure/SCIM/Matrix/SSB/saltpack details as
+general knowledge rather than primary sources — the round should treat them as such.
+blygger.org needs a deploy to publish ROADMAP changes (still waiting on Venkat, as since
+session 62).
+
 ## Session 64 — 2026-11-09 — Fable round: tn-4 reviewed (G3 closed); `syndication` ruled (#98); 0.5 is Level 3 (#99)
 **Model:** Fable 5.2 · **Time:** ~12:30–13:10 PT · **Committed:** yes (spec, local; not pushed) · **Deployed:** —
 
