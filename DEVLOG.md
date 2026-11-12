@@ -7,6 +7,76 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 66 — 2026-11-12 — Fable round: Level 3 research reviewed; kind is fixed (#100); sealed content goes to RFC-6 (#101)
+**Model:** Fable 5.2 · **Time:** ~14:21–15:55 PT · **Committed:** yes (spec) · **Deployed:** —
+
+**What & why:** Venkat opened a Fable session to review session 65's research and then
+worked a Level 3 design through in conversation.
+
+1. **Research R1–R7 reviewed.** Fit to design from. R4 (the spec audit) is the strongest;
+   seven of its citations were checked against the 0.4 text and hold. **One error:** R1
+   said MPP's Internet-Draft had expired with no replacement. The Datatracker shows
+   `draft-ryan-httpauth-payment-01` expired and `draft-httpauth-payment-01` active to
+   2027-03-13, an individual submission. "Pre-standard" stands. Corrected in R1's header
+   and the brief; session 65's entry below repeats the error and is left as written.
+   The seven closing "own view" sections agree because one agent wrote them all, so they
+   count as one opinion. Gaps named: same-hash edits to sealed text read as maintenance;
+   audience transitions; the reader is usually a server; the Workers runtime; the
+   service-wrapped family the agent added to the brief's two.
+
+2. **#101, the design direction.** Venkat set the frame: item-level and block-level
+   encryption, no payment, ordinary enterprise sharing with no assumed org structure, and
+   a reader that discovers, fetches, and asks, with approval by rule, by a person or by
+   their AI delegate. Three strawmen (a key desk, grant files, keys by hand) became one
+   layered design as he answered: cross-organisation requesting is in scope and the
+   Protocol Institute, with no single sign-on, is the first user, so identity is the
+   origin's and grants are static files, with the live endpoint optional. The decisions
+   that shaped it, each his question or correction:
+   - *Redaction needs inline sealing.* So a sealed span is not an item: covers in
+     `content_md`, a `sealed` list, a baked class, which is #20's two-plane pattern and
+     adds no markup. This replaced sealed fragments as the block mechanism, which he had
+     leaned to and I had agreed with; items remain for blocks that deserve identity.
+   - *Nesting* is containment, and "more restrictive" is the author's intent, unchecked.
+   - *Weakening* is OR: several wraps on an entry, lock-to-lock grants for group
+     structure, a reveal for public. No ordering of classifications is on the wire.
+   - *Payments supervene on permissions*: one more ground for a grant. Five constraints
+     keep room for it. Restrictions on use after delivery are refused in advance.
+   The plan is `docs/v0.5-plan.md`. It is a direction, not wire text: Opus drafts RFC-6
+   from it, Fable edits and rules, it publishes with a comment period, and the build
+   follows the close. Payments are RFC-7.
+
+3. **#100, kind is fixed at first publication.** It surfaced twice (client-made sealed
+   blocks, tangled spans). Venkat's point: a machine-made item should be a thread, since
+   a fragment can never later quote or grow; then, that letting a fragment become a
+   thread is an injection path through transclusion where a link is not. The narrower
+   true form is in `v0.4-plan.md` §20: the quoter's next republish would bake in nested
+   third-party words its provenance does not name. Agnosticism was refused. Thirteenth
+   revision of 0.4 (§5.3, §13.3, §13.7). The studio already refused the change in its
+   API, so nothing is built. The reader rule is SHOULD and MAY, softer than first said
+   in the round, so that this stays a revision and no reader is stranded at an old
+   version. `tangling-plan.md` now mints threads and drops two refusals;
+   `background-plan.md`'s `burst` row follows. Neither was built.
+
+**State after:** spec 0.4 at its thirteenth revision, not snapshotted, not deployed.
+Decisions through #101. `v0.5-plan.md` exists; the brief's Level 3 gate is now Opus's
+RFC-6 draft; the queue holds item 24 only; ROADMAP rows 45 and 119 updated. S5b and S5c
+were run: no new PRs or issues; two listings since session 64 (nedshed.dev, Shingai
+Thornton); the census found `Allethrin/blyg-atlas` and `rsthornton/blyg` uncurated and 11
+of 17 studio nodes behind 0.58.1 (its two rewritten files in blygger-org were restored,
+not committed).
+
+**Open threads:**
+- RFC-6 is Opus's to draft. Not re-read this session and flagged in the plan: #35, tn-3,
+  and whether a home URL in the entry stays clear of #52.
+- The plan's §9: seventeen items, the second hash and key commitment first.
+- R8 (the probe) still needs Venkat's word. Questions only he can answer are in R6 §1.4.
+- A reader with no blyg needs a minimal origin to hold a key; whether that population is
+  real is a question for implementers.
+- Unchanged from session 64 and 65, all waiting on Venkat: blygger-spec#30 (merge and
+  reply), the blygger.org deploy (tn-4, now the thirteenth revision, ROADMAP), studio#88
+  (Shannon's e2e), studio#143 and #144 (green, unmerged), 0.59.0 staged.
+- Item 24 and the four `plans/` explorations were not taken.
+
 ## Session 65 — 2026-11-12 — studio#88 through CI (not merged: e2e); Level 3 research R1–R7 written and queued for Fable
 **Model:** Opus 5.5 · **Time:** ~11:30–14:20 PT · **Committed:** yes (spec, pushed; one commit pushed to Shannon's PR branch) · **Deployed:** —
 

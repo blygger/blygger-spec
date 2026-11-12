@@ -68,7 +68,7 @@ new one are in hand: the importer keeps only the latest state.
 | `near-same` | changed ≤ 2 % of the text and ≤ 40 characters, on `content_md` | each version | #83, §13.2 |
 | `minor` | the change classifier calls the version `typo`, `minor` or `refresh` (§3) | each version | #83; §18.8 for the note |
 | `superseded` | the same blyg published a newer item within the **superseded window** after this item's latest activity | when a sibling arrives; cleared by a new version of this item | §13.7 ¶1: ordering is the reader's own; no text needed, and not recommended to other clients (a 15-minute window is one client's taste, #73's logic) — Fable, session 61 |
-| `burst` | a fragment from blyg O named in the `transclusions[]` of a thread from O whose publishing version falls within the **burst window** after the fragment's `created` | when the thread arrives; cleared by a later version of the fragment | #78, §13.7 |
+| `burst` | an item of either kind from blyg O (widened from "a fragment" in session 66: tangled parts are threads, `tangling-plan.md`) named in the `transclusions[]` of a thread from O whose publishing version falls within the **burst window** after the item's `created` | when the thread arrives; cleared by a later version of the fragment | #78, §13.7 |
 | `wordless` | `content_md` with every directive line, attached `>` selection, label and whitespace stripped is empty | each version | #80, §13.2 |
 
 ### 2.1 Quote refreshes (Venkat, session 61)

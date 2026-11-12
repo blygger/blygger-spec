@@ -12,6 +12,7 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 (#86–#88) are summarised below so they are not reopened.
 **Session 61** (2026-11-07, Fable 5.1, mid-session): #95 confirmed, #96 and #97 ruled, the eleventh revision; summarised below.
 **Session 64** (2026-11-09, Fable 5.2): tn-4 reviewed (G3 closed), #98 ruled (`syndication`), the twelfth revision; summarised below.
+**Session 66** (2026-11-12, Fable 5.2): the Level 3 round — research reviewed, #100 (kind is fixed) and the thirteenth revision, #101 (sealed content goes to RFC-6); summarised below.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
 > **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#90–#94**
@@ -25,30 +26,28 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 > **Session 64 took session 63's immediate agenda** (next section): read `CLAUDE.md`
 > **#98** and `v0.4-plan.md` **§19** with the above. The queue now holds item 24 only.
 
-## Ruled session 64 (2026-11-09, Fable 5.2) — drop at the next rewrite
+## Ruled session 66 (2026-11-12, Fable 5.2) — drop at the next rewrite
 
-Session 63 staged an immediate agenda; its first two items were taken.
+Venkat opened the round on the Level 3 research. Read `CLAUDE.md` **#100 and #101**,
+`v0.4-plan.md` **§20** and [`v0.5-plan.md`](v0.5-plan.md) with the list above.
 
-1. **tn-4 reviewed, gate G3 closed** (`v0.4-plan.md` §19.1). Approved with five edits
-   (the Micropub sentence in §2 was backwards; a paragraph on the Webmention receiver;
-   #3 beside #1; RFC 8414 beside RFC 9728; a dated-record line). It is at
-   `docs/notes/tn-4-the-write-surface.md` and publishes at the next `sync_spec`. No
-   decision.
-2. **#98 — `syndication`** (§19.2; spec §16.14, twelfth revision). It opens as an
-   OPTIONAL item member `[{url, version}]`. Two changes to the proposal: the entry is
-   written in place like the pin flag and is never worth a version; and the protocol
-   specifies no fold, keeping two MUST NOTs (no hiding another party's post on an entry,
-   no identity inferred from one). `https:` only; endcaps and pinned files omit it; no
-   counts in an entry. Venkat struck the reader-side rule about showing counts: nothing
-   is on the wire. Awaiting its gate.
+1. **Research R1–R7 reviewed.** Fit to design from. One error corrected in R1's header
+   (MPP's draft is an active individual submission under a new name, not expired). The
+   closing "own view" sections agree with each other because one agent wrote all seven;
+   they are one opinion. Five gaps were named and are answered by, or listed in,
+   `v0.5-plan.md`.
+2. **#100 — an item's kind is fixed at its first publication**, and clients that create
+   items for an author create threads (§20; spec §5.3, §13.3, §13.7, thirteenth
+   revision). `tangling-plan.md` revised to match.
+3. **#101 — Level 3's first feature is sealed content with locks and grants**, a design
+   direction taken to RFC-6; payments follow as RFC-7. Question D was answered by a
+   layering: entries and locks on the wire, grant files as the static path, a request
+   endpoint as an optional dynamic one, the ladder private. The plan lists seventeen
+   items the RFC must settle.
 
-3. **#99 — version 0.5 is Level 3** (§19.3), Venkat's decision: privacy, encryption and
-   paid access, opened by choice ahead of 1.0. Research brief for Opus at
-   `l3-research-brief.md`; the design round is a gate in the table below.
-
-**Begun, not finished:** item 24. The studio's reading of each of the nine choices and
-the spec text were collected and a live crawl was started for the measurement; nothing
-is ruled. **Not taken:** the four `plans/` explorations.
+**From session 64, still current:** #98 `syndication` awaits its gate (§16.14); tn-4 is
+reviewed and publishes at the next `sync_spec`; item 24 is begun, with measurements and
+leanings in the queue entry and nothing ruled.
 
 ## The dated item — RFC-5 closes 2026-12-03
 
@@ -84,8 +83,8 @@ section the build contradicts, and Fable reviews the revision in batch.
 |---|---|---|
 | **G5** | The reference agent (2.10) has run against a live node long enough to refresh a snapshot, answer a mention, and author under its own byline | Review `tn-5` for anything that wants a construct — the refresh scope on the re-bake identity (#38, backlog §1) is the candidate. |
 | **RFC-3 close** — **ruled session 61 (#97)**, [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md) §7; publishes on blyg.blygger.org once the studio builds R2 and R3 (`opus-brief.md` item i) and Venkat says | Its comment period has closed (four weeks from publication) | Scan the stubs with Opus; revise or rule; promote it as a technical note under #90. |
-| **Level 3 design round (0.5)** — decision #99 | Opus has written the research documents in `plans/l3/` that [`l3-research-brief.md`](l3-research-brief.md) asks for (R4, the spec audit, at least; R1–R3 and R5 for a full round) | Design Level 3 as the 0.5 document's first construct. Rule key distribution first (ride-along, off-protocol, or layered), then what is encrypted, what the hash covers, key granularity, how a payment becomes a key, revocation, quoting and pinning, the enterprise mapping, and what a reader without a key sees. Venkat's starting design is in #99. |
-| ↳ **Level 3 research (plans/l3/)** — written 2026-11-12 by Opus 5.5; R1–R7 done, **R8 not run** (needs Venkat's word) | R4 [`r4-spec-audit.md`](../plans/l3/r4-spec-audit.md): table of every 0.4 construct that assumes readable content; no outside sources, nothing unverified. R1 [`r1-payment-rails.md`](../plans/l3/r1-payment-rails.md): MPP = Tempo/Stripe Machine Payments Protocol, core draft expired at the IETF; unverified: Substack per-subscriber text RSS, Ghost's own docs, Lightning fee levels, which Stripe fees apply to MPP. R2 [`r2-encryption-prior-art.md`](../plans/l3/r2-encryption-prior-art.md): Python stdlib has no cipher; unverified: `draft-ietf-hpke-pq` status, Firefox/Safari PQ WebCrypto, Matrix/SSB/saltpack details (general knowledge). R3 [`r3-keys.md`](../plans/l3/r3-keys.md): byte sizes computed, not measured; range constructions general knowledge. R5 [`r5-enterprise.md`](../plans/l3/r5-enterprise.md): RFC-5 has no comments visible on 2026-11-12 (studio-side mentions not checked); AWS/Azure/Purview/SCIM details general knowledge; no MLS document-access deployment found. R6 [`r6-demand.md`](../plans/l3/r6-demand.md): one outside request (commit–reveal, blygger-spec#10); enterprise case not public; five questions for Venkat in §1.4. R7 [`r7-threat-model.md`](../plans/l3/r7-threat-model.md): worksheet, dispositions left blank for the round | The full-round condition above is met; the round can be scheduled |
+| **RFC-6 draft** — sealed content and permissions (#101) | Opus has drafted `docs/rfcs/rfc-6-sealed-content.md` from [`v0.5-plan.md`](v0.5-plan.md), each of the plan's §9 items stated with options, a proposal and a test, and R7's dispositions filled in as proposals | Edit and rule it. Rule first: the second hash and what maintenance means for each audience; key commitment; the two #11 conditions on the origin key (re-read #35 and tn-3 against plan §7); whether the request endpoint is a carve-out like #13 and whether a home URL in the entry stays clear of #52. Then publish on Venkat's word with a comment period; at close promote it under #90. The 0.5 document opens when the first construct is built and exercised, which is after the close. Research: `plans/l3/` R1–R7 (what each could not verify is in its own header; R1 carries a correction). **R8, the probe, is not run** and needs Venkat's word. |
+| **RFC-7** — payments | RFC-6 has closed, and Venkat says | Design from `v0.5-plan.md` §8 and R1: payment as one more ground for a grant. Not started. |
 | **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t, which now carries ksurya's non-blyg webmentions, #92 C5) | Edit and rule it; publish with a comment period; at close promote it under #90. |
 
 If nothing is pending review, the dated item is not due and no gate is true when a Fable
@@ -182,10 +181,10 @@ in each live client. Nothing here is pre-decided.
   names it: Level 3. The document opens when the first L3 construct is built, not when
   the design is ruled (#21, #43). Step 7 (#86), `moved_from` (#88) and `syndication`
   (#98) are 0.4 constructs; do not open 0.5 for them.
-- **The L3 round is scheduled as 0.5** (#99, session 64), by Venkat's choice and no longer
-  waiting on shape E. It starts from C3 and Venkat's design in #99; group visibility in
-  the private-items proposal (§8.3) is ruled in it. Until it rules, #93's classification
-  and the two do-not-open entries on split-horizon origins and C2 stand.
+- **Level 3 is two RFCs** (#101): RFC-6, sealed content and permissions, then RFC-7,
+  payments. Until RFC-6 is ruled, #93's classification and the two do-not-open entries on
+  split-horizon origins and C2 stand; group visibility in the private-items proposal
+  (§8.3) is answered by RFC-6's locks.
 
 ## Do not open
 
@@ -209,6 +208,13 @@ in each live client. Nothing here is pre-decided.
   reopens only with a test that a stranger's post cannot pass; the identifier reopens if
   a second reader shows URL parsing failing. **In-place change is the pin flag's class,
   not a general channel**: a proposal citing #98 for a member readers act on is refused.
+- **A change of kind, or a kind that describes only the current version** — #100. A
+  fragment that must grow is quoted by a new thread.
+- **In the Level 3 design (#101), before or after RFC-6:** a restriction on use after
+  delivery (rentals, read counts, metering); a per-author key, or any signing meaning on
+  the origin's key; a group name, roster, price or rail in any protocol document; new
+  markup in `content_md` for sealed spans; per-reader bytes on the surface. Each reopens
+  only through RFC-6's comment period.
 - **A removal marker** (a 410 with a reason, a tombstone, any delete signal) — #93 F5; a
   compelled removal is a 404 with no marker.
 - **Reader-side mention notification beyond what the reader holds** — #91 B4; telling is
@@ -233,7 +239,7 @@ in each live client. Nothing here is pre-decided.
 ## Hand back
 
 Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
-locked decisions from **#99**, record reasoning in `v0.4-plan.md` §19 (or a new section;
-the L3 round should start `v0.5-plan.md`),
+locked decisions from **#102**, record reasoning in `v0.4-plan.md` §21 (0.4 matters) or
+`v0.5-plan.md` (Level 3),
 append the DEVLOG entry, file any new ideas in `backlog.md`, prune `fable-round-queue.md`,
 and rewrite this brief.

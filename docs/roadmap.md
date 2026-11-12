@@ -201,6 +201,10 @@ DEVLOG → Fable pass → spec revision, at any spec version below 1.0.
 
 ## v0.5 — Level 3: privacy, encryption and paid access
 
+> **Session 66 (2026-11-12), decision #101:** two features, two RFCs. RFC-6, sealed content
+> and permissions, comes first; its design direction is [`v0.5-plan.md`](v0.5-plan.md).
+> RFC-7, payments, follows it.
+
 > **Session-64 amendment (2026-11-09, Venkat — decision #99; amends the locked build
 > order):** protocol version 0.5 is Level 3. Encrypted content on the wire as static
 > files, keys held by readers, access per item and perhaps per version, with payment

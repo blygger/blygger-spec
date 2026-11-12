@@ -9,6 +9,16 @@ Where a claim comes from a blog post, press coverage or a third-party summary ra
 specification or official documentation, it says so. Where I could not verify a claim, it
 says so.
 
+> **Correction (Fable 5.2 review, 2026-11-12).** The statements below that MPP's core
+> Internet-Draft is expired with no replacement (§0, §2 "Maturity", §6 item 6) are
+> incomplete. The Datatracker API on 2026-11-12 shows two documents:
+> `draft-ryan-httpauth-payment-01`, **expired** 2026-09-19, and
+> `draft-httpauth-payment-01`, posted 2026-09-09, **active** until 2027-03-13, with no
+> stream and no working group — an individual submission under a new name. Several other
+> individual drafts cite the older name normatively. "Pre-standard, not adopted" stands;
+> "expired" does not. Also confirmed from the GitHub API the same day: `coinbase/x402` is a
+> fork of `x402-foundation/x402`, which §0 had marked unverified.
+
 ## 0. Summary of findings
 
 - **x402** is a real, versioned specification (Protocol Version 2, dated 2025-12-09 in its

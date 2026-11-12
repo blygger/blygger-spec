@@ -202,6 +202,27 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
   blygs, such as replies to a post on Twitter — §15.6's trackback class is the constraint
   the RFC has to answer.
 
+## New from session 66 (2026-11-12, Fable 5.2) — RFC-6, and kind is fixed (#100, #101)
+
+1. **Draft RFC-6, sealed content and permissions**, at `docs/rfcs/rfc-6-sealed-content.md`,
+   from [`v0.5-plan.md`](v0.5-plan.md); its §10 is your task list and its §9 the items to
+   state with options, a proposal and a test. No spec text, no studio build, no
+   publishing: Fable edits first and Venkat says when. A probe only on Venkat's word.
+   While drafting, re-read #35 and tn-3 against the plan's §7, and #52 against its §9
+   item 10; say what you find.
+2. **Tangling now mints threads** (#100; `tangling-plan.md` revised, `background-plan.md`
+   `burst` row widened). Nothing was built, so nothing to migrate; build from the revised
+   plan when row 45's turn comes.
+3. **#100 needs no studio change**: `updateItemOperation` already refuses a kind change
+   on a published item. If the conformance suites want a clause, it is §5.3's MUST NOT.
+4. **Census, session 66:** two repos found and not curated, `Allethrin/blyg-atlas` and
+   `rsthornton/blyg`; add or `skip` in `blygger-org/ecosystem/projects.toml` by the
+   listing rule. 11 of 17 studio nodes are behind 0.58.1. Two listings since session 64:
+   nedshed.dev and Shingai Thornton.
+5. **A correction to session 65's record:** MPP's Internet-Draft is not expired. The
+   older name is; `draft-httpauth-payment-01` is active to 2027-03-13, an individual
+   submission. R1's header carries the note.
+
 ## New from session 64 (2026-11-09, Fable 5.2) — tn-4 and `syndication` (#98)
 
 Reasoning in `v0.4-plan.md` §19. None of it blocks 0.59.0.

@@ -507,7 +507,21 @@ other member is unknown and ignored (§13.1 rule 4).
 - Fragments: publishers SHOULD cap `content_md` at 2,000 characters
   (RECOMMENDED studio-enforced cap: 1,000). Enforcement is publisher-side only —
   readers MUST NOT reject long fragments.
-- Threads additionally carry `transclusions` (§10.3).
+- Threads additionally carry `transclusions` (§10.3). A thread that quotes
+  nothing is a valid thread.
+- **An item's kind is fixed at its first publication** (revision of
+  2026-11-12, decision #100). A publisher MUST NOT publish a version of a
+  fragment as a thread, or of a thread as a fragment. Withdrawal (§9) is the
+  one change of kind, and reversing it returns the item to the kind it had.
+  A fragment is a statement that others build on: whoever quotes it gets one
+  layer, in one origin's words, of bounded length. If it could become a
+  thread, a quoting thread's next republish (§10.2) would bake in whatever
+  the former fragment had come to quote — words of third parties the quoting
+  author never chose, which that author's `transclusions[]` does not name. A
+  fragment that needs to quote or to outgrow the cap is quoted by a new
+  thread; a link (§10.1) brings no foreign bytes into anyone's bake and is
+  unaffected. A client that creates items on an author's behalf SHOULD
+  create threads, since only the author can say that an item is a leaf.
 - **Items are titleless.** No kind carries a title field, and none is
   reserved. The feed's `<title>` element is derived (§7); a leading markdown
   heading in `content_md` is content, not a title, and readers MUST NOT
@@ -1957,6 +1971,13 @@ The highest version ever observed per imported item is a monotonic
   without the version bump the protocol requires. Content ground truth wins:
   the reader SHOULD adopt the fetched content, but SHOULD record and surface
   the discrepancy. The watermark is unchanged.
+- A fetched document whose `kind` is `fragment` where local state holds a
+  thread, or `thread` where it holds a fragment, is a **change of kind**,
+  which §5.3 forbids (revision of 2026-11-12, decision #100). The reader
+  SHOULD record and surface the discrepancy and MAY decline to adopt the
+  version. A client re-resolving a quote of such an item at publish (§10.2)
+  SHOULD tell the author before baking it. A change to or from `withdrawn`
+  is not a discrepancy.
 - Readers SHOULD verify `content_hash` against `content_md` on import. A
   mismatch is a discrepancy signal, and the content is adopted anyway: the
   hash is the origin's own claim about its own bytes — a defect report, not a
@@ -2096,8 +2117,8 @@ publish, and, when a thread published with them names them in its
 `transclusions[]` — the thread version that first names them falling
 within the same publish, whenever the thread itself was first drafted
 (revision of 2026-11-03) — the thread that is their whole. A reader MAY present
-such a burst as one publication — the thread as its entry, its fragments
-beneath it or deferred to the low-priority queue of §13.2 — and MUST still
+such a burst as one publication — the thread as its entry, the items it
+names (of either kind) beneath it or deferred to the low-priority queue of §13.2 — and MUST still
 import every item (§13.1), since folding is display, never omission.
 
 ## 14. Security and privacy considerations
@@ -2924,6 +2945,18 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-12, thirteenth revision** (Fable 5.2, session 66; decision
+  #100, with Venkat) — **an item's kind is fixed at its first publication**:
+  §5.3 says a publisher MUST NOT change an item between fragment and thread
+  (withdrawal aside), why (a fragment is a leaf others quote; as a thread it
+  would carry unchosen third-party words into a quoter's next bake), that a
+  thread quoting nothing is valid, and that a client creating items on an
+  author's behalf SHOULD create threads; §13.3 says what a reader does on
+  seeing a change of kind; §13.7's fold wording no longer assumes the folded
+  items are fragments. The reference client already refused the change, and
+  no item in the session-64 crawl shows one. No new construct. Not
+  snapshotted.
 
 - **2026-11-09, twelfth revision** (Fable 5.2, session 64; decision #98) —
   no normative change: §16.14 records `syndication`, an OPTIONAL item

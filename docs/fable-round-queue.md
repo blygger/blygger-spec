@@ -23,6 +23,7 @@ second revision). **Only item 22 remains**, and Venkat is thinking about it befo
 **Added to:** session 63 (2026-11-09), Opus 5.5, at Venkat's request: item 27 (`syndication`, blygger-spec#30).
 **Pruned:** session 64 (2026-11-09), Fable 5.2 — item 27 ruled (#98; reasoning `v0.4-plan.md` §19.2). **Only item 24 remains.**
 **Added to:** session 65 (2026-11-12), Opus 5.5, at Venkat's request: item 28 (the Level 3 design round; research R1–R7 written).
+**Pruned:** session 66 (2026-11-12), Fable 5.2 — item 28 taken (#101; plan `v0.5-plan.md`); #100 ruled in passing (kind is fixed). **Only item 24 remains.**
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -135,20 +136,7 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
 
 26. *Ruled session 60 (#93): RFC-5's F1–F5 — F1 and F5 as sentences in 0.4 §4 and §14 (tenth revision), F2 and F3 no text, F4 with the gate shapes C1–C3 classified; RFC-5 edited and published for comment to 2026-12-03. Reasoning RFC-5 §10, plan §18.4.*
 
-28. **The Level 3 design round (0.5)** (session 65, 2026-11-12; decision #99). The research
-    [`l3-research-brief.md`](l3-research-brief.md) asked for is written: R1–R7 in
-    [`plans/l3/`](../plans/l3/), by an Opus 5.5 research agent; **R8, the probe, was not
-    run** and needs Venkat's word. What each document could not verify is in
-    [`fable-brief.md`](fable-brief.md)'s Level 3 row. Blocks: the 0.5 document. Fable's
-    because it is a new wire surface and touches #1, #11, #12 and #93 (#58). A round of its
-    own, like item 24. Start with question D (ride-along, off-protocol, or layered) — most of
-    the rest depends on it. Findings the round should weigh first: no payment rail yields a
-    content key without a key server (threshold networks aside); Python's standard library
-    has no cipher, so the stdlib rule fails for decryption; the closest prior art (AMP
-    subscription content, Google Workspace client-side encryption) wraps the key to a
-    service, not to readers, which publishes nothing about the audience; outside demand is
-    one commit–reveal request (blygger-spec#10). R7's dispositions are blank for the round
-    to fill.
+28. *Taken session 66 (#101): Level 3's first feature is sealed content with locks and grants, a design direction that goes to RFC-6 (Opus drafts from `v0.5-plan.md`, Fable edits and rules); payments follow as RFC-7. Research reviewed; R8 not run.*
 
 ## C. Review after the fact (#58 batch)
 
