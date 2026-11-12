@@ -222,6 +222,12 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
 5. **A correction to session 65's record:** MPP's Internet-Draft is not expired. The
    older name is; `draft-httpauth-payment-01` is active to 2027-03-13, an individual
    submission. R1's header carries the note.
+6. **Outward actions left for you by Venkat (session 66), each on his word as usual:**
+   push `blygger-spec` `main` (session 66's commits are local); merge blygger-spec#30 as
+   an exploration and post the reply (session 64's section below); the blygger.org deploy,
+   which now also carries the thirteenth revision, tn-4 and ROADMAP; studio#143 and #144
+   (green, unmerged); studio#88 once Shannon's e2e fixes land. R8, the probe, still needs
+   his word before it runs.
 
 ## New from session 64 (2026-11-09, Fable 5.2) — tn-4 and `syndication` (#98)
 
