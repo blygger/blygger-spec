@@ -14,6 +14,7 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 **Session 64** (2026-11-09, Fable 5.2): tn-4 reviewed (G3 closed), #98 ruled (`syndication`), the twelfth revision; summarised below.
 **Session 66** (2026-11-12, Fable 5.2): the Level 3 round — research reviewed, #100 (kind is fixed) and the thirteenth revision, #101 (sealed content goes to RFC-6); summarised below.
 **Session 67** (2026-11-12, Fable 5.2): item 24 — the reader suite's nine choices and #23's sole statements, #102, the fourteenth revision; summarised below. **The queue is empty.** Then the four `plans/` reviews and Unicode on the wire, #103, the fifteenth revision: **nothing standing remains.** Last, the payments direction, #104, which amends #101: RFC-7 is drafted beside RFC-6.
+**Session 69** (2026-11-13, Fable 5.2, in the middle of a studio session): #105, mathematics is MathML and the protocol adds nothing for it, the sixteenth revision. **One review now pending:** the studio's sanitizer change for `math`, when Opus has built it (`opus-brief.md`, session 69, invariant 4). RFC-6, RFC-7 and tn-9 still wait for their edit.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
 > **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#90–#94**

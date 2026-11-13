@@ -222,7 +222,9 @@ paths; the one fixed filename is the manifest's own. Neither changes what a
   New in 0.4.
 - **Text content** — an item's `content_html` with tags stripped, whitespace
   collapsed within a block and block boundaries kept as line breaks; what a
-  partial transclusion's selection is checked against (§10.2).
+  partial transclusion's selection is checked against (§10.2). There is no
+  exception for any element: mathematics (§5.2) contributes whatever
+  stripping its tags leaves.
 - **Identity change** — a reader adopting a new origin for an existing
   subscription, which MUST be user-confirmed (§12.2).
 - **Per-item curation** — a publisher's public display of the verified
@@ -539,6 +541,29 @@ other member is unknown and ignored (§13.1 rule 4).
   `media/x.png`, follows the blyg if it moves; a host-rooted one,
   `/blyg/media/x.png`, puts the mount inside the hashed source and does
   not.)*
+- **Mathematics in `content_html` is MathML** (revision of 2026-11-13,
+  decision #105). This is not a construct of this protocol: HTML has an
+  element for mathematics, `math`, and `content_html` is HTML. A publisher
+  that renders mathematical notation SHOULD emit that element, restricted to
+  the presentation elements of MathML Core, and SHOULD NOT emit markup that
+  draws a formula only when the page also loads a stylesheet, a script or a
+  font — the bytes travel three ways with nothing beside them (above), and
+  what arrives must still be the formula. It SHOULD carry the notation the
+  author wrote inside the element, as
+  `<annotation encoding="application/x-tex">` within `<semantics>`, so that a
+  reader that will not draw the formula can still show what was written
+  (§14). The **text content** (§2) of a formula is what stripping tags
+  leaves, the annotation included; no reader special-cases it, so a partial
+  transclusion (§10.2) whose selection crosses a formula is checked against
+  that text and bakes as that text. A publisher SHOULD NOT bake one; quote
+  the item whole, or the prose either side. **How an author writes a formula
+  in `content_md` is the publishing client's business**, like every other
+  question of markdown dialect, and `content_md` carries it as written.
+  *(Non-normative: by decision #71 the reference client reads the received
+  convention — pandoc's `tex_math_dollars`, `$…$` inline and `$$…$$`
+  displayed — and a client with no reason to differ should read the same, so
+  that a fork or an export of `content_md` means in one client what it meant
+  in another.)*
 
 ### 5.3 Kinds
 
@@ -2301,6 +2326,24 @@ import every item (§13.1), since folding is display, never omission.
   any syndicated HTML, and MUST NOT assume a nested snapshot was sanitized by
   anyone. Store verbatim, sanitize at render — the stored ground truth is
   preserved; the presentation is defended.
+- **Mathematics is a second vocabulary inside the HTML** (revision of
+  2026-11-13, decision #105). `content_html` may contain a `math` element
+  (§5.2), and inside one an HTML parser reads by different rules: MathML's
+  token elements can hold HTML, `annotation-xml` can hold a whole foreign
+  document, and markup that is inert text under one set of rules is live
+  under the other. A sanitizer that was written for HTML and passes `math`
+  through has not sanitized it. A reader does one of three things with a
+  `math` element, and each conforms: **keeps it**, retaining inside it only
+  element names on an allowlist of MathML Core presentation elements plus
+  `semantics` and `annotation`, with no `href` or `xlink:href`, no event or
+  `style` attribute, no `annotation-xml`, no `maction` and no HTML element
+  it would not allow outside; **replaces it** with the text of its
+  `application/x-tex` annotation, shown as text; or **drops it** whole. A
+  reader MUST NOT pass a `math` element through unexamined, which is §14's
+  existing rule said of the place it is easiest to forget. Whatever a
+  sanitizer emits should be built from the tokens it accepted, never copied
+  from the input: the same bytes parse differently inside and outside the
+  element, and that difference is the attack.
 - **Resolution fetches attacker-suppliable URLs.** A subscribe-by-URL surface
   makes requests wherever it is pointed. Server-side readers SHOULD apply
   standard fetch hygiene: bounded redirects (§12.2), response size and time
@@ -3092,6 +3135,23 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-13, sixteenth revision** (Fable 5.2, session 69; decision
+  #105) — **mathematics**. No new construct: `content_html` is HTML and
+  HTML has `math`. §5.2: a publisher that renders mathematical notation
+  SHOULD emit MathML Core presentation markup, not markup that needs a
+  stylesheet, script or font beside it, and SHOULD keep the author's
+  notation in an `application/x-tex` annotation; how a formula is written
+  in `content_md` is the client's business, with pandoc's `$…$` and `$$…$$`
+  named non-normatively as the received convention the reference client
+  reads (#71). §2 and §5.2: text content has no exception for a formula, so
+  a partial transclusion across one is checked and baked as stripped text,
+  and a publisher SHOULD NOT bake one. §14: a `math` element is a second
+  vocabulary with its own parsing rules; a reader keeps it under an
+  allowlist, replaces it with its TeX annotation, or drops it, and MUST NOT
+  pass it through unexamined. Measured before ruling: of 397 published
+  items on three nodes, none has a `$` pair that would begin to render.
+  The reference client does not emit it yet. Not snapshotted.
 
 - **2026-11-12, fifteenth revision** (Fable 5.2, session 67; decision
   #103; blygger-spec#6) — **Unicode on the wire, and what conformance

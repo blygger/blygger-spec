@@ -202,6 +202,68 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
   blygs, such as replies to a post on Twitter — §15.6's trackback class is the constraint
   the RFC has to answer.
 
+## New from session 69 (2026-11-13, Fable 5.2) — mathematics (#105, sixteenth revision)
+
+Read `CLAUDE.md` #105 and `v0.4-plan.md` §23 first. A studio build, on a branch from
+`main`, for 0.59.0. **Fable reviews the `src/importer/sanitize.ts` diff before it
+ships**; say so in the PR. The invariants, each with the test that proves it:
+
+1. **Syntax is pandoc's `tex_math_dollars`, and nothing else.** `$…$` inline: the opening
+   `$` has a non-space character right after it, the closing `$` a non-space right before
+   it and no digit right after it; `\$` is a dollar sign. `$$…$$` displayed, on its own
+   lines or inline. No `\(…\)`, no `\[…\]`, no fenced `math` block. Inert inside code
+   spans, code blocks, link destinations, `[TK]` instructions and generated output
+   (`src/code-ranges.ts` is the model). *Test:* "$5 and $10", "costs $5", "a $ b $ c" and
+   `` `$x$` `` publish byte-identical HTML to today's.
+2. **Output is temml's MathML with `annotate: true`, `trust: false`, `throwOnError:
+   true`.** A formula that does not parse is a publish error naming the formula, like an
+   unresolvable directive; preview shows the error in place. Never KaTeX HTML, never a
+   stylesheet link, never a font. `temml` is a Worker-side npm package, beside
+   `markdown-it`: it renders at publish and in the server's preview route, and **must not
+   enter the browser bundle** (session 29's no-vendoring ruling, narrow reading). That
+   reading is pending call #15 in `pending-calls.md`; if Venkat rules the broad one, stop
+   and bring it back. *Test:* a published item's
+   `content_html` contains `<math` and `application/x-tex`, and no `class="katex"`.
+3. **`content_md` is untouched.** The dollars stay as typed; `content_hash` is over them.
+   *Test:* publish, fetch the item document, compare `content_md` to the input.
+4. **The sanitizer keeps `math` by allowlist and emits from tokens.** Move `math` out of
+   `DROP`. Inside a `math` element keep only: `math semantics annotation mrow mi mn mo
+   ms mtext mspace mfrac msqrt mroot mstyle merror mpadded mphantom msub msup msubsup
+   munder mover munderover mmultiscripts mprescripts mtable mtr mtd`. Everything else
+   inside it, **HTML elements included**, is dropped whole, not unwrapped (unwrapping is
+   the right default outside `math` and the wrong one inside, where the unwrapped
+   children land in a different parsing mode). `annotation` is kept only with
+   `encoding="application/x-tex"`; `annotation-xml` and `maction` are dropped whole.
+   Attributes inside `math`: `display displaystyle scriptlevel mathvariant stretchy
+   fence separator lspace rspace movablelimits accent accentunder form largeop symmetric
+   minsize maxsize linethickness columnalign rowalign columnspan rowspan width height
+   depth voffset encoding class dir`, and nothing else: no `href`, no `xlink:href`, no
+   `style`, no `on*`, no `id`. Text is escaped on the way out as it is elsewhere.
+   *Tests:* the mXSS corpus cases for `math` (the `<math><mtext><table><mglyph><style>`
+   family, `annotation-xml encoding="text/html"`, `<math><mi xlink:href="javascript:…">`,
+   CDATA sections, a comment inside `mtext`) each come out with no element or attribute
+   off the lists; add them to `e2e/imported-html-security.spec.ts` as rendered-DOM
+   assertions, not string assertions (session-19's lesson: the bytes can look right and
+   parse wrong).
+5. **Text content is unchanged.** `selectionText` and `plainTextFromHtml` in
+   `src/markdown.ts` get no special case for `math` where they implement §2 (the partial
+   quote check). Presentation text is free: excerpts, `og:description`, feed titles,
+   link labels and search snippets show a formula as its TeX source in `$…$`, taken from
+   the annotation. **The studio refuses a partial-quote selection that includes any part
+   of a formula's text**, at selection time, with a message saying to quote the whole
+   item or the prose either side. *Test:* the §2 normalizer's fixtures are byte-identical
+   before and after; a stub-quote selection across a formula is refused.
+6. **`temml`'s inline `style` and `tml-*` classes.** The publisher's own bake keeps what
+   temml emits (it is our markup about our content). The sanitizer drops `style` on
+   import, so check a displayed formula still displays as a block in the reader with
+   `display="block"` alone; if it does not, add the rule to the reading stylesheet, not
+   to the allowlist.
+
+Also: the editor toolbar gets a formula button and the syntax page a Mathematics entry,
+beside the structure buttons and the Markdown section that session 69 added on branch
+`feat/editor-markdown`. `PROTOCOL_VERSION` stays `"0.4"`. No migration. The fragment
+cap counts `content_md`, dollars included.
+
 ## New from session 67 (2026-11-12, Fable 5.2) — item 24 ruled (#102, fourteenth revision)
 
 Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.

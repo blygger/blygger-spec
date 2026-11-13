@@ -7,6 +7,24 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 69 — 2026-11-13 — (in progress; completed at wrap-up)
+**Model:** Fable 5.2 (Opus 5.5 briefly mid-session) · **Time:** 09:52 PT– · **Committed:** — · **Deployed:** studio 0.58.2 (venkateshrao, PI)
+
+*Entry opened mid-session to record the ruling below; the rest is written at wrap-up.*
+
+- **Decision #105, mathematics (sixteenth 0.4 revision).** Venkat asked for LaTeX in
+  the editor. Ruled with him: no construct. `content_html` carries HTML's `math`
+  element (MathML Core), never markup that needs a stylesheet, script or font beside
+  it; the author's TeX rides inside as an annotation; the `$…$` / `$$…$$` syntax is the
+  client's, named as pandoc's received convention (#71); text content gets no
+  exception, so a partial quote across a formula is stripped text and the studio
+  refuses it; §14 gives a reader three treatments of `math` (keep by allowlist, replace
+  with the TeX, drop) and forbids passing it through. Not sent to RFC: the convention
+  is HTML's and pandoc's, not ours. Measured first: 397 published items on three
+  nodes, none with a `$` pair that would begin to render. Recorded in `CLAUDE.md` #105,
+  `v0.4-plan.md` §23, the spec (§2, §5.2, §14, §17), `opus-brief.md` (the build, six
+  invariants), `fable-brief.md` and ROADMAP row 123. Not built.
+
 ## Session 68 — 2026-11-12 — RFC-6 (sealed content) and RFC-7 (payments) drafted; tn-9 (Common Fabric) drafted for review
 **Model:** Opus 5.5 · **Time:** ~22:05–23:05 PT · **Committed:** yes (spec) · **Deployed:** —
 
