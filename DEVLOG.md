@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 67 — 2026-11-12 — Fable rounds: the reader suite's nine choices and the sole statements (#102); the four `plans/` reviews and Unicode on the wire (#103); the payments direction (#104)
-**Model:** Fable 5.2 · **Time:** ~16:32–18:01 PT · **Committed:** yes (spec, local) · **Deployed:** —
+**Model:** Fable 5.2 · **Time:** ~16:32–18:12 PT · **Committed:** yes (spec, local) · **Deployed:** —
 
 **What & why:** Venkat opened a new session to take whatever Fable work was immediately
 pending. Nothing was: no decision awaited review, RFC-5 closes 2026-12-03, and no gate was
@@ -87,10 +87,22 @@ reasoning `v0.4-plan.md` §21. Committed as `fcc68b9`.
    - *No price on the wire*, at the known cost of per-entry probing by agents.
    - *`about` on a fully sealed item* lives on its one entry; the cover is the natural
      abstract there, so the rule is "`about`, else the cover".
-   Two confirmations were asked for and not answered in words (a lapsed subscriber keeps
-   what they paid for; `about` is bound into the commitment); Venkat's "looking good"
-   after the worked example was taken as assent to the first, which follows from #101's
-   refusal, and the second is written as a proposal for the RFC.
+   `about` bound into the commitment is written as a proposal for the RFC.
+7. **Rent and purchase: a correction to step 6.** I had written "a lapsed subscriber
+   keeps what they paid for" as settled, reading it off #101's refusal of rentals and
+   taking "looking good" as assent. Venkat came back to it: buyers today assume rent, and
+   he would not impose buy-over-rent without an architectural reason. There is none. The
+   only fixed fact is that a held key keeps working; what a lapsed reader holds depends
+   on which keys the home handed out. Two modes on the same wire: epoch lock keys
+   (holding), or entry keys on demand under a live subscription, which is rent as
+   incumbents deliver it and costs the home seeing each first read. A lapsed grant is
+   proposed as a retention event, cooperation like withdrawal. #101's refusal was
+   narrowed to what it should have said: no constructs on the wire that claim to
+   restrict use after delivery. Rental as a business model is fine. His own observation
+   was folded in: purchase is of one version, which stops being served unless pinned and
+   can be withdrawn, so "pin what you sell" is the seller's best practice.
+   The lesson for the record: a refusal's wording was treated as its scope. #101 refused
+   pretending to enforce; it had been written as refusing a business model.
 
 **State after:** spec 0.4 at its fifteenth revision, not snapshotted, not deployed, not
 pushed. Decisions through #104. `v0.5-plan.md` is amended and carries the RFC-7 direction and a worked example. The Fable queue is empty for the first time since session

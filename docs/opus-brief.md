@@ -329,17 +329,23 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
      §10, which lists the sections. **It proposes no wire construct.** If the draft finds
      it needs one, stop and write that up as a finding against RFC-6. It is a
      recommendation for homes and readers, and it will become a technical note at close.
-     **It opens with its assumptions** (plan §8.1, twelve of them, agent-first buying the
+     **It opens with its assumptions** (plan §8.1, thirteen of them, agent-first buying the
      first), each with what changes if it is wrong, and asks commenters to challenge them.
    - *Re-verify before writing.* R1 was read on 2026-11-12 and both specs move. Check
      x402's header names and flows at `x402-foundation/x402`, MPP's draft name and
      Datatracker status (R1's header has Fable's correction), and whether `payment` is a
      registered link relation at IANA — Fable cited it from memory. Quote, date, link.
    - *Lines to hold*, each from #101 or #104: no price, currency, rail or for-sale flag
-     in any protocol document; no restriction on use after delivery; terms are a citation
+     in any protocol document; no construct that claims to restrict use after delivery
+     (expiry, read counts, metering); terms are a citation
      with no rights vocabulary; a pass is the same key type as an origin's, and wallets
      and tokens are evidence for the ladder; no preferred rail; spending limits and the
      ladder stay private.
+   - *Rent and purchase* (plan §8.3): the wire does not choose. Write up both subscription
+     modes (holding, on demand) with the trade-off and recommend neither; draft §9 item
+     15 as a proposal (a lapsed grant is a retention event, cooperation, with a signal at
+     the grant path); say plainly what purchase does and does not give, with "pin what
+     you sell" and free corrections as recommendations.
    - *Not yours:* the rulings. Mark every choice you make as a proposal. Fable edits both
      drafts, then Venkat says when they publish, together.
    - When RFC-4 is drafted (queue item t), give its handler a `redeem` verb beside "stub
