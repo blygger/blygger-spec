@@ -223,7 +223,7 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
    `blyg-tk-gen` div closes before a baked quote and reopens after, with one `generated[]`
    entry (studio#105). Also (d), not a conformance matter: write media links
    origin-relative (`media/x.png`), not host-rooted with the mount in them.
-4. **Replies, on Venkat's word**: blygger-spec#23 with the table from `v0.4-plan.md`
+4. **Replies, on Venkat's word**: **Done 2026-11-12 (Opus, admin pass):** #23 answered with the table and closed; Aneesh told there; blyxt told in rpasetes/blyxt#1. Pioneeringspirit not contacted. blygger-spec#23 with the table from `v0.4-plan.md`
    §21.2, then close it; tell Aneesh that (1) catches one of his own fragments
    (`4qybzpn2…`) and pioneeringspirit's `2f3ets03…`; tell blyxt's author about (9).
 5. **#103, Unicode (fifteenth revision; `v0.4-plan.md` §22).** Conformance: a publisher
@@ -350,7 +350,7 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
      drafts, then Venkat says when they publish, together.
    - When RFC-4 is drafted (queue item t), give its handler a `redeem` verb beside "stub
      this" (plan §8.4).
-9. **Outward actions Venkat left for you (session 67), each on his word as usual:** push
+9. **Outward actions Venkat left for you (session 67), each on his word as usual:** **Done 2026-11-12 (Opus, admin pass, on Venkat's "do all")**, except as noted: spec pushed; blygger.org deployed (fifteenth revision, tn-4, ROADMAP, ecosystem); #6 answered and closed; #30 merged with its status line, #32 answered and labelled; studio#143 and #144 merged. Not done: studio#88 (waits on Shannon's e2e), 0.59.0 (waits on Aneesh's #137), R8. Original text: push
    `blygger-spec` `main` (sessions 66 and 67 are local); the blygger.org deploy, which now
    carries the fifteenth revision with tn-4 and ROADMAP; the replies in items 4 and 5; and the
    rest of the session-66 list below. Run S5b and S5c at your next start: session 67 did
@@ -369,14 +369,14 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
    plan when row 45's turn comes.
 3. **#100 needs no studio change**: `updateItemOperation` already refuses a kind change
    on a published item. If the conformance suites want a clause, it is §5.3's MUST NOT.
-4. **Census, session 66:** two repos found and not curated, `Allethrin/blyg-atlas` and
+4. **Census, session 66:** **Done 2026-11-12:** both listed (blyg-atlas as a reader, rsthornton/blyg as bespoke); the census then found nothing uncurated. two repos found and not curated, `Allethrin/blyg-atlas` and
    `rsthornton/blyg`; add or `skip` in `blygger-org/ecosystem/projects.toml` by the
    listing rule. 11 of 17 studio nodes are behind 0.58.1. Two listings since session 64:
    nedshed.dev and Shingai Thornton.
 5. **A correction to session 65's record:** MPP's Internet-Draft is not expired. The
    older name is; `draft-httpauth-payment-01` is active to 2027-03-13, an individual
    submission. R1's header carries the note.
-6. **Outward actions left for you by Venkat (session 66), each on his word as usual:**
+6. **Outward actions left for you by Venkat (session 66), each on his word as usual:** **Done 2026-11-12** with session 67's item 9.
    push `blygger-spec` `main` (session 66's commits are local); merge blygger-spec#30 as
    an exploration and post the reply (session 64's section below); the blygger.org deploy,
    which now also carries the thirteenth revision, tn-4 and ROADMAP; studio#143 and #144
@@ -387,7 +387,7 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
 
 Reasoning in `v0.4-plan.md` §19. None of it blocks 0.59.0.
 
-- **0. Outward actions Venkat left to Opus (session 64); ask him before the first one.**
+- **0. Outward actions Venkat left to Opus (session 64); ask him before the first one.** **Done 2026-11-12** (#30 merged, status line added, #32 answered and labelled).
   Push `blygger-spec` main (the session-64 commit is local). Merge blygger-spec#30 as an
   exploration, then add a status line to `plans/syndication-proposal.md` and its
   `backlog.md` row pointing at spec §16.14 and #98. Reply on blygger-spec#32 in Venkat's

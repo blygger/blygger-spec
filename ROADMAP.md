@@ -88,7 +88,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 32 | Self-host template with `npm run upgrade` | studio | 20 | later |  |  |
 | 33 | A "you are behind" notice per listed node | com | 5 | later |  |  |
 | 34 | Passkey sign-in | studio | 13 | later |  | [studio#50](https://github.com/blygger/blygger-studio/issues/50) |
-| 36 | Technical note TN-4: a write surface | spec | 5 | waiting: publishes at blygger.org/notes/tn-4/ on the next site deploy (reviewed session 64; `docs/notes/tn-4-the-write-surface.md`) |  |  |
+| 36 | Technical note TN-4: a write surface | spec | 5 | shipped: blygger.org/notes/tn-4/ (2026-11-12, session 67) |  |  |
 | 37 | Reference agent and technical note TN-5: the contract between a blyg and an agent | spec | 40 | later |  |  |
 | 120 | Technical note TN-9: experimenting with Blygger and Common Fabric (a trusted-execution runtime) — a blyg reader, a studio or agent, and Level 3 grants | spec | 5 | next | Opus researches and drafts (Opus brief, session 67, item 7); Fable reviews; publishes on Venkat's word. Client-level only, no spec change | [commonfabric/labs](https://github.com/commonfabric/labs) |
 | 121 | RFC-7: payments — how any rail (cards, x402, MPP) rides the Level 3 request endpoint; agent buying, subscriptions, vouchers. A recommendation, no wire construct | spec | 8 | next | Opus drafts beside RFC-6 from `docs/v0.5-plan.md` §8 (decision #104); Fable edits both; they publish together on Venkat's word |  |

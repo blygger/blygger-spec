@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 67 — 2026-11-12 — Fable rounds: the reader suite's nine choices and the sole statements (#102); the four `plans/` reviews and Unicode on the wire (#103); the payments direction (#104)
-**Model:** Fable 5.2 · **Time:** ~16:32–18:20 PT · **Committed:** yes (spec, local) · **Deployed:** —
+**Model:** Fable 5.2, then Opus 5.5 from ~18:25 · **Time:** ~16:32–18:47 PT · **Committed:** yes (spec, org, studio) · **Deployed:** blygger.org
 
 **What & why:** Venkat opened a new session to take whatever Fable work was immediately
 pending. Nothing was: no decision awaited review, RFC-5 closes 2026-12-03, and no gate was
@@ -138,6 +138,45 @@ revision: both are Opus's. The studio publishes against the new text in three pl
 - blygger-spec#6 has no reply yet; it is in the Opus brief with the others.
 - The origin-string rule was not exercised through three URL parsers, since every live
   origin is plain ASCII. The first internationalized origin is the real test.
+
+**Opus 5.5, after the switch: the administrative pass.** Venkat switched models and said
+to do every pending administrative action and to hold off on the RFCs. Done:
+
+- **Pushed `blygger-spec`** (nine commits: sessions 66 and 67).
+- **blygger-spec#30 merged** as an exploration (squash), with a status line in
+  `plans/syndication-proposal.md` and its backlog row pointing at §16.14 and #98.
+  **#32 answered** in Venkat's voice with the ruling and the blygcaster question, and
+  labelled `roadmap`.
+- **#23 answered and closed** with the S1–S16 table and the nine rulings; Aneesh told
+  there that ruling 1 catches his fragment `4qybzpn2…`. **#6 answered and closed** with
+  #103, including replies to Robert Peake's 2026-10-20 measurement, which the Fable round
+  had not engaged: WordPress origins need ext-intl only at an IDN host (on §3's
+  publisher side), PHP's PCRE gives code points and graphemes free (consistent with the
+  caps), and libxml's version-dependent handling of BEL and U+FFFF is settled by the new
+  character rule. **blyxt told** about ruling 9 in rpasetes/blyxt#1 (its live item
+  `499r03zg…` nests a quote in the wrapper). Pioneeringspirit was not contacted.
+- **Census:** `Allethrin/blyg-atlas` listed as a reader (a new category entry; the
+  section renders as "Readers and aggregators") and `rsthornton/blyg` as bespoke
+  (`shingai-press/0.1`, blyg.shingai.xyz). A rerun found nothing uncurated. 11 of 17
+  studio nodes still behind 0.58.1.
+- **blygger.org deployed**: the fifteenth revision, tn-4 (now live at
+  blygger.org/notes/tn-4/), ROADMAP, the ecosystem page. Built and inspected first: the
+  new passages render, no unrendered list markers. Verified live with cache-busted
+  fetches. Committed in blygger-org.
+- **studio#143 merged** (menu zones, squash). **#144** then conflicted with it in three
+  files (the extension catalogue, an import line, `docs/extensions.md`); resolved as
+  unions in a worktree outside Dropbox, typecheck and `test:ui` (245) passed locally,
+  main merged into the PR branch (no force-push) and pushed. CI green on the merged branch (e2e included); **#144 merged** (squash, `0585aae`). Both ride in 0.59.0.
+- Records: ROADMAP row 36 shipped; carry-overs updated (tn-4 live; #143/#144 ride in
+  0.59.0); the Opus brief marks each outward action done.
+
+**Not done, and why:** studio#88 waits on Shannon (27 desktop e2e failures for her to
+triage, Venkat's comment of 2026-11-12). 0.59.0 waits on Aneesh widening #137 (asked
+2026-11-09, no reply). R8 needs Venkat's word, and is not administrative. Pending calls
+14 and 15 are his decisions. Publishing tn-4 on blyg.blygger.org is his call.
+**New, not triaged:** blygger-spec#31 (chrisbodhi, 2026-11-09): TN-3 needs revising
+after #80, #86 and #88; part A is revisions that follow from ruled text (Opus's under
+#58), the rest needs reading. Unanswered.
 
 ## Session 66 — 2026-11-12 — Fable round: Level 3 research reviewed; kind is fixed (#100); sealed content goes to RFC-6 (#101)
 **Model:** Fable 5.2 · **Time:** ~14:21–15:55 PT · **Committed:** yes (spec) · **Deployed:** —
