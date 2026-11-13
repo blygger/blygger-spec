@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 67 — 2026-11-12 — Fable rounds: the reader suite's nine choices and the sole statements (#102); the four `plans/` reviews and Unicode on the wire (#103); the payments direction (#104)
-**Model:** Fable 5.2 · **Time:** ~16:32–18:12 PT · **Committed:** yes (spec, local) · **Deployed:** —
+**Model:** Fable 5.2 · **Time:** ~16:32–18:20 PT · **Committed:** yes (spec, local) · **Deployed:** —
 
 **What & why:** Venkat opened a new session to take whatever Fable work was immediately
 pending. Nothing was: no decision awaited review, RFC-5 closes 2026-12-03, and no gate was
