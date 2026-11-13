@@ -7,8 +7,8 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 67 — 2026-11-12 — Fable rounds: the reader suite's nine choices and the sole statements (#102); the four `plans/` reviews and Unicode on the wire (#103)
-**Model:** Fable 5.2 · **Time:** ~16:32–17:03 PT · **Committed:** yes (spec, local) · **Deployed:** —
+## Session 67 — 2026-11-12 — Fable rounds: the reader suite's nine choices and the sole statements (#102); the four `plans/` reviews and Unicode on the wire (#103); the payments direction (#104)
+**Model:** Fable 5.2 · **Time:** ~16:32–18:01 PT · **Committed:** yes (spec, local) · **Deployed:** —
 
 **What & why:** Venkat opened a new session to take whatever Fable work was immediately
 pending. Nothing was: no decision awaited review, RFC-5 closes 2026-12-03, and no gate was
@@ -64,8 +64,36 @@ reasoning `v0.4-plan.md` §21. Committed as `fcc68b9`.
    up the two questions put with it, so NFC stayed a SHOULD and the catalogue's
    publication went to `pending-calls.md`.
 
+6. **The payments direction (#104).** Venkat asked for strawmen under one principle:
+   payment rests on competing schemes, as identity does, so the protocol should hold
+   minimal opinion and let any rail ride. Three were put — the door (the request URL
+   answers 402 in the rail's own format), the pass (a bare public key as a grant
+   recipient) and the voucher (pay elsewhere, present proof as evidence) — and they
+   composed instead of competing. Venkat then set the demand pattern, which reordered
+   them: agents with delegated spending authority buying fast and often are the
+   default, so the door is primary; subscriptions are standing access to a class; people
+   without an origin pay at a storefront and redeem into a pass. What that forced:
+   - *RFC-7 has no wire construct.* Everything payments need is a general permission
+     mechanism and belongs in RFC-6. That is why #101's "RFC-7 after RFC-6 closes" was
+     dropped: three of RFC-6's constructs now exist for RFC-7's sake, and a commenter
+     needs both documents.
+   - *Five additions to RFC-6*: `about` (his request, for labelling and for an agent's
+     buying rule), the pass, HTTP challenges with a uniform first answer, explicit lock
+     epochs (a renewing subscription needs a stable lock id), and a terms reference.
+   - *Terms* came from his question whether rights are handled anywhere. They were not,
+     at any level. The answer is a reference in `stub_of`'s two shapes, preferably to a
+     pinned thread, because unpinned history is never served and agreed terms must stay
+     fetchable. A citation, never enforcement; no rights vocabulary.
+   - *No price on the wire*, at the known cost of per-entry probing by agents.
+   - *`about` on a fully sealed item* lives on its one entry; the cover is the natural
+     abstract there, so the rule is "`about`, else the cover".
+   Two confirmations were asked for and not answered in words (a lapsed subscriber keeps
+   what they paid for; `about` is bound into the commitment); Venkat's "looking good"
+   after the worked example was taken as assent to the first, which follows from #101's
+   refusal, and the second is written as a proposal for the RFC.
+
 **State after:** spec 0.4 at its fifteenth revision, not snapshotted, not deployed, not
-pushed. Decisions through #103. The Fable queue is empty for the first time since session
+pushed. Decisions through #104. `v0.5-plan.md` is amended and carries the RFC-7 direction and a worked example. The Fable queue is empty for the first time since session
 34, and the brief's two standing items (the `plans/` review, Unicode) are closed; the
 queue file is kept, since a dozen documents link to it and its numbers. The four `plans/`
 documents carry review notes and are otherwise as written. The reader
@@ -81,8 +109,13 @@ revision: both are Opus's. The studio publishes against the new text in three pl
 - Still on Venkat's word, unchanged: pushing `blygger-spec` `main` (sessions 66 and 67 are
   local), blygger-spec#30, the blygger.org deploy (now the fourteenth revision too),
   studio#88, #143, #144, 0.59.0, R8.
-- No Fable work is left to choose. The next gate is Opus's RFC-6 draft; the next date is
-  RFC-5's close on 2026-12-03.
+- No Fable work is left to choose. The next gate is Opus's RFC-6 and RFC-7 drafts,
+  taken together; the next date is RFC-5's close on 2026-12-03.
+- In the payments design, three details of the worked example are guesses (the request's
+  recipient shape, the URL layout, where `sealed_hash` sits), and the `payment` link
+  relation was cited from memory. Opus verifies the last.
+- The terms reference on public items is useful at Level 2 today and could be ruled apart
+  as a 0.4 revision; left with the RFC so the construct is designed once.
 - Venkat asked for a survey of Common Fabric (commonfabric/labs, a runtime where policy
   travels with data). Opinion given in chat: useful interop at the client level only (a
   blyg reader, a studio or agent, later attestation as a ground for an L3 grant), nothing

@@ -316,6 +316,32 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
    discussion on their repo pointing at the note only if Venkat asks. If the research
    shows the first experiment is not possible as described, write that as the note's
    finding; a short honest note is the right result.
+9. **RFC-7, payments, and the amended RFC-6** (#104; `v0.5-plan.md`, amended the same
+   session). This changes item 1 of the session-66 list below: **draft both RFCs, RFC-6
+   first.**
+   - *RFC-6 gains five things*, each in the plan: an optional `about` on a sealed entry
+     and the commitment's scope (§3.1); the pass as a third grant recipient (§3.6); HTTP
+     challenges at the request endpoint with a uniform first answer (§3.7); lock epochs
+     (§3.8); the terms reference (§3.9). §9 has seven new items to state with options, a
+     proposal and a test (18–24). §12 is a worked example; start from it, and settle its
+     three marked guesses as proposals.
+   - *RFC-7* goes at `docs/rfcs/rfc-7-payments.md`, from the plan's §8 and task 6 in its
+     §10, which lists the sections. **It proposes no wire construct.** If the draft finds
+     it needs one, stop and write that up as a finding against RFC-6. It is a
+     recommendation for homes and readers, and it will become a technical note at close.
+   - *Re-verify before writing.* R1 was read on 2026-11-12 and both specs move. Check
+     x402's header names and flows at `x402-foundation/x402`, MPP's draft name and
+     Datatracker status (R1's header has Fable's correction), and whether `payment` is a
+     registered link relation at IANA — Fable cited it from memory. Quote, date, link.
+   - *Lines to hold*, each from #101 or #104: no price, currency, rail or for-sale flag
+     in any protocol document; no restriction on use after delivery; terms are a citation
+     with no rights vocabulary; a pass is the same key type as an origin's, and wallets
+     and tokens are evidence for the ladder; no preferred rail; spending limits and the
+     ladder stay private.
+   - *Not yours:* the rulings. Mark every choice you make as a proposal. Fable edits both
+     drafts, then Venkat says when they publish, together.
+   - When RFC-4 is drafted (queue item t), give its handler a `redeem` verb beside "stub
+     this" (plan §8.4).
 7. **Outward actions Venkat left for you (session 67), each on his word as usual:** push
    `blygger-spec` `main` (sessions 66 and 67 are local); the blygger.org deploy, which now
    carries the fifteenth revision with tn-4 and ROADMAP; the replies in items 4 and 5; and the

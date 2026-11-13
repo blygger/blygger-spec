@@ -13,7 +13,7 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 **Session 61** (2026-11-07, Fable 5.1, mid-session): #95 confirmed, #96 and #97 ruled, the eleventh revision; summarised below.
 **Session 64** (2026-11-09, Fable 5.2): tn-4 reviewed (G3 closed), #98 ruled (`syndication`), the twelfth revision; summarised below.
 **Session 66** (2026-11-12, Fable 5.2): the Level 3 round — research reviewed, #100 (kind is fixed) and the thirteenth revision, #101 (sealed content goes to RFC-6); summarised below.
-**Session 67** (2026-11-12, Fable 5.2): item 24 — the reader suite's nine choices and #23's sole statements, #102, the fourteenth revision; summarised below. **The queue is empty.** Then the four `plans/` reviews and Unicode on the wire, #103, the fifteenth revision: **nothing standing remains.**
+**Session 67** (2026-11-12, Fable 5.2): item 24 — the reader suite's nine choices and #23's sole statements, #102, the fourteenth revision; summarised below. **The queue is empty.** Then the four `plans/` reviews and Unicode on the wire, #103, the fifteenth revision: **nothing standing remains.** Last, the payments direction, #104, which amends #101: RFC-7 is drafted beside RFC-6.
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
 > **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#90–#94**
@@ -103,7 +103,7 @@ section the build contradicts, and Fable reviews the revision in batch.
 | **G5** | The reference agent (2.10) has run against a live node long enough to refresh a snapshot, answer a mention, and author under its own byline | Review `tn-5` for anything that wants a construct — the refresh scope on the re-bake identity (#38, backlog §1) is the candidate. |
 | **RFC-3 close** — **ruled session 61 (#97)**, [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md) §7; publishes on blyg.blygger.org once the studio builds R2 and R3 (`opus-brief.md` item i) and Venkat says | Its comment period has closed (four weeks from publication) | Scan the stubs with Opus; revise or rule; promote it as a technical note under #90. |
 | **RFC-6 draft** — sealed content and permissions (#101) | Opus has drafted `docs/rfcs/rfc-6-sealed-content.md` from [`v0.5-plan.md`](v0.5-plan.md), each of the plan's §9 items stated with options, a proposal and a test, and R7's dispositions filled in as proposals | Edit and rule it. Rule first: the second hash and what maintenance means for each audience; key commitment; the two #11 conditions on the origin key (re-read #35 and tn-3 against plan §7); whether the request endpoint is a carve-out like #13 and whether a home URL in the entry stays clear of #52. Then publish on Venkat's word with a comment period; at close promote it under #90. The 0.5 document opens when the first construct is built and exercised, which is after the close. Research: `plans/l3/` R1–R7 (what each could not verify is in its own header; R1 carries a correction). **R8, the probe, is not run** and needs Venkat's word. |
-| **RFC-7** — payments | RFC-6 has closed, and Venkat says | Design from `v0.5-plan.md` §8 and R1: payment as one more ground for a grant. Not started. |
+| **RFC-7 draft** — payments (#104) | Opus has drafted `docs/rfcs/rfc-7-payments.md` from [`v0.5-plan.md`](v0.5-plan.md) §8, beside the RFC-6 draft | Edit and rule it **with RFC-6, in one round**. It must propose no wire construct: anything it needs is RFC-6's (`about`, the pass, challenges, epochs, terms). Rule first, in RFC-6: the terms member's name and whether its public-item use is ruled apart as a 0.4 revision; what the commitment binds; the pass against #11 (a bearer key is not a person, but say why); whether epoch numbers on the wire are acceptable. Check Opus re-verified x402, MPP and the `payment` link relation against primary sources. Publish both together on Venkat's word; at close promote each under #90. |
 | **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t, which now carries ksurya's non-blyg webmentions, #92 C5) | Edit and rule it; publish with a comment period; at close promote it under #90. |
 
 If nothing is pending review, the dated item is not due and no gate is true when a Fable
@@ -213,6 +213,11 @@ move's two statements are the old manifest's permanent redirect and the successo
 - **A hash over normalized text, NFC as a MUST, a reader that normalizes an import, a
   per-item `lang` or a `dir` rule, or any rule that asks a reader for a package** —
   #103. Manifest `lang` is parked, not refused: its trigger is in `backlog.md` §1.
+- **In payments (#104):** a price, currency, rail or for-sale flag in any protocol
+  document; a named or preferred rail; a rights vocabulary or machine-readable
+  permissions; terms as a gate for readers or as a mention relation; a second key type
+  for wallets or tokens; any enforcement of terms. Each reopens only through the RFCs'
+  comment period.
 - **In the Level 3 design (#101), before or after RFC-6:** a restriction on use after
   delivery (rentals, read counts, metering); a per-author key, or any signing meaning on
   the origin's key; a group name, roster, price or rail in any protocol document; new
@@ -242,7 +247,7 @@ move's two statements are the old manifest's permanent redirect and the successo
 ## Hand back
 
 Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
-locked decisions from **#104**, record reasoning in `v0.4-plan.md` §23 (0.4 matters) or
+locked decisions from **#105**, record reasoning in `v0.4-plan.md` §23 (0.4 matters) or
 `v0.5-plan.md` (Level 3),
 append the DEVLOG entry, file any new ideas in `backlog.md`, prune `fable-round-queue.md`,
 and rewrite this brief.
