@@ -1,5 +1,13 @@
 # Proposal — syndication: saying where an item was cross-posted
 
+> **Ruled 2026-11-09 (decision #98, session 64).** The construct opened with two changes:
+> an entry is written into the item document in place, like the pin flag, and a publisher
+> SHOULD NOT publish a version to record one; and the protocol specifies no fold, so an
+> entry is never grounds to hide or merge another party's post or to infer the author's
+> account. The ruling is spec §16.14 (twelfth revision of 0.4), awaiting its gate;
+> reasoning `docs/v0.4-plan.md` §19.2. Where this document and §16.14 differ, §16.14 is
+> the ruling. Merged as an exploration on 2026-11-12.
+
 **Status:** DRAFT, exploratory. Proposed 2026-11-09 by Patrick Atwater (patwater), from
 two client builds that cross-post blyg items to conversational networks. Discussion is
 on [blygger-spec#32](https://github.com/blygger/blygger-spec/issues/32). **Nothing here
