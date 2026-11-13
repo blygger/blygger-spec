@@ -240,6 +240,82 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
    (ROADMAP 40) should be built on #82's one-off snapshot, not subscribe-then-import. If
    Venkat says yes to `pending-calls.md` 14, revise `publishing-patterns.md` for
    publication on the official blyg.
+8. **Research Common Fabric and write `tn-9`, a technical note for people who want to
+   experiment with it and Blygger together** (Venkat, session 67; ROADMAP row 120).
+
+   *What it is.* [commonfabric/labs](https://github.com/commonfabric/labs) is a runtime
+   in which software is untrusted and policy travels with the data: values carry
+   confidentiality and integrity labels, derived values inherit them, a flow checker
+   refuses code that would break one, and relaxing a rule is an explicit, recorded
+   release at a boundary. Identity is DIDs; shared "spaces" have access control. It is
+   0BSD, one implementation, early by its own account, and its attestation layer
+   (`docs/specs/verifiable-execution/`) is specified and not built.
+
+   *What Fable's first pass found* (session 67, from `docs/why.md`, most of
+   `docs/how.md` and the spec listing; no code was read or run, so treat every item as
+   a hypothesis to confirm or correct):
+   - The two meet at the studio/page split (#3). Common Fabric can be a studio or a
+     reader; the blyg stays static files. Nothing here is a spec matter.
+   - **A blyg reader inside Common Fabric** looks like the cheapest experiment. Item
+     documents arrive with the provenance an integrity label wants (origin, id, version,
+     `content_hash`), and §13's reader rules — drop withdrawn content unless pinned
+     (§13.4), never re-emit an import (§13.5), never auto-publish a verified mention
+     (§15.5) — are cooperation today and might be expressible as labels the runtime
+     enforces.
+   - **A Common Fabric studio or authoring agent.** Publishing to a blyg is their
+     "release at a boundary"; a scoped publish token (#31, #52) is the kind of secret
+     their token example labels; #39's agent contract and `generated[]` disclosure
+     (§5.7) are what such an agent must meet.
+   - **Level 3, later.** #101 keeps a lock's approval ladder private, so "the requester
+     is an attested runtime" could be one more ground for a grant with no wire text. It
+     waits on their attestation and on RFC-6.
+
+   *Research to do, bounded to about a session.* Read `docs/how.md` in full,
+   `docs/inverting-the-physics-of-trust.md`, the tutorial's identity and security
+   chapter, `docs/specs/verifiable-execution/` (foundations, receipts, CFC and trust),
+   `docs/specs/webhook-ingress/`, the label and declassification specs
+   (`cfc-persisted-declassification.md`, `cfc-value-level-provenance.md`,
+   `cfc-exchange-rules-authoring.md`) and `connectors/`. Answer, with file paths:
+   (a) how a pattern fetches from the open web, and what label fetched public data gets;
+   (b) whether a label can express "delete when the source says withdrawn, unless the
+   source still serves a pinned version", "never publish this outward" and "never send
+   automatically" — write each §13 rule as the label or policy it would be, or say why
+   it cannot be written; (c) how a secret such as a bearer token is held and bound to
+   one destination; (d) what a release to "public" looks like and who may make it;
+   (e) what a receipt will be able to claim, and to whom; (f) how principals are named
+   (DIDs, `mailto`) and whether an origin or a `did:web` can be one; (g) which of this
+   runs today and which is planned — their own docs say, so quote them.
+   If the repo builds in a few minutes, try a minimal pattern that fetches one
+   `items/{id}.json` from a live node and shows its label; if it does not, say so and
+   move on. Do not install anything outside a throwaway directory, and nothing global.
+
+   *The note.* tn-1's genre: non-normative, reasoning first, for implementers. Suggested
+   shape: what each system is in two paragraphs, in its own terms; where they meet and
+   why it is the client; the three experiments, each with what to build, which spec
+   sections it must satisfy, what it would show and what is unknown; what stays off the
+   wire and why; status and dates of what was read (pin the commit of their repo). Write
+   for someone on either side: a Common Fabric developer who has not read our spec, and
+   a blyg client author who has not read theirs. Describe their system from their
+   documents with links, and do not characterise what you did not verify.
+
+   *Lines the note must hold* (each is a locked decision; state it, do not argue it):
+   no policy that restricts use after delivery on the wire (#101's refusal); no rule
+   that asks a reader for more than a standard library (§3, #103); provenance stays
+   self-asserted and no receipt becomes a verified badge on the wire (#59, §5.7 rule
+   6); no auth or identity key in the manifest or `.well-known` (#52, #11); a Common
+   Fabric client is a separate client, as enterprise is, and the studio stays boring.
+   The note is not an endorsement and says so: one vendor, one implementation, early.
+
+   *Process.* Draft at `plans/tn-9-common-fabric-draft.md`, **not** in `docs/notes/`,
+   which publishes on the next site build. It is `tn-9` because tn-8 is reserved for
+   RFC-5's promotion; tn-2 and tn-5 stay reserved. Fable reviews the draft (batch, #58).
+   Then, on Venkat's word: move it to `docs/notes/tn-9-common-fabric.md`, add it to the
+   notes index and the doc map, publish to blygger.org and to blyg.blygger.org with
+   `publish_blyg.py` (run `--dry-run` first; it publishes every changed entry), byline
+   Venkat with one whole-item `generated[]` span (#66b). Consider opening an issue or a
+   discussion on their repo pointing at the note only if Venkat asks. If the research
+   shows the first experiment is not possible as described, write that as the note's
+   finding; a short honest note is the right result.
 7. **Outward actions Venkat left for you (session 67), each on his word as usual:** push
    `blygger-spec` `main` (sessions 66 and 67 are local); the blygger.org deploy, which now
    carries the fifteenth revision with tn-4 and ROADMAP; the replies in items 4 and 5; and the

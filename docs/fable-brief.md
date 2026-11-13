@@ -112,6 +112,9 @@ session opens, **say so in one line and stop**. Nothing optional is left to take
 ## Next round, on Venkat's word
 
 1. **RFC-3 and RFC-4**, when drafted.
+2. **Review Opus's `tn-9` draft** (`plans/tn-9-common-fabric-draft.md`, Common Fabric; Opus
+   brief session 67 item 8) when it exists: that it holds the five lines named there and
+   claims nothing about their system that was not verified.
 
 **Opus-tier, not Fable's — listed so a Fable session does not take them by habit.**
 [blygger-spec#19](https://github.com/blygger/blygger-spec/issues/19) (fetched text is data,

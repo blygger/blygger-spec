@@ -83,6 +83,11 @@ revision: both are Opus's. The studio publishes against the new text in three pl
   studio#88, #143, #144, 0.59.0, R8.
 - No Fable work is left to choose. The next gate is Opus's RFC-6 draft; the next date is
   RFC-5's close on 2026-12-03.
+- Venkat asked for a survey of Common Fabric (commonfabric/labs, a runtime where policy
+  travels with data). Opinion given in chat: useful interop at the client level only (a
+  blyg reader, a studio or agent, later attestation as a ground for an L3 grant), nothing
+  for the spec. Opus researches further and drafts `tn-9`; the task is Opus brief item 8,
+  ROADMAP row 120.
 - For Venkat (`pending-calls.md` 14, 15): publish the patterns catalogue on the official
   blyg? Does no-vendoring reach server-side packages?
 - blygger-spec#6 has no reply yet; it is in the Opus brief with the others.

@@ -90,6 +90,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 34 | Passkey sign-in | studio | 13 | later |  | [studio#50](https://github.com/blygger/blygger-studio/issues/50) |
 | 36 | Technical note TN-4: a write surface | spec | 5 | waiting: publishes at blygger.org/notes/tn-4/ on the next site deploy (reviewed session 64; `docs/notes/tn-4-the-write-surface.md`) |  |  |
 | 37 | Reference agent and technical note TN-5: the contract between a blyg and an agent | spec | 40 | later |  |  |
+| 120 | Technical note TN-9: experimenting with Blygger and Common Fabric (a trusted-execution runtime) — a blyg reader, a studio or agent, and Level 3 grants | spec | 5 | next | Opus researches and drafts (Opus brief, session 67, item 8); Fable reviews; publishes on Venkat's word. Client-level only, no spec change | [commonfabric/labs](https://github.com/commonfabric/labs) |
 | 39 | Author-sized inline images | studio | 3 | ruled: decision #75 (spec 0.4 §16.10); next: studio build | Pandoc's attribute form after the image, `{width=33%}` / `{height=…}`, integer pixels or percent, baked onto the `<img>`. A stylesheet max-height needs no ruling. | [studio#37](https://github.com/blygger/blygger-studio/issues/37) |
 | 40 | Pour-over links: paste a URL and bring the source into the draft | studio | 5 | later |  | [studio#17](https://github.com/blygger/blygger-studio/issues/17) |
 | 42 | Human-readable permalinks (`page` slugs) | studio | 8 | later |  | [studio#19](https://github.com/blygger/blygger-studio/issues/19) |
