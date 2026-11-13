@@ -202,6 +202,33 @@ deployed), reasoning in `v0.4-plan.md` §14. Letters continue CLAUDE.md's TODO l
   blygs, such as replies to a post on Twitter — §15.6's trackback class is the constraint
   the RFC has to answer.
 
+## New from session 67 (2026-11-12, Fable 5.2) — item 24 ruled (#102, fourteenth revision)
+
+Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
+
+1. **Reader fixtures** (`conformance/reader/fixtures/`): remove `ambiguous` from 009, 015,
+   016, 036, 065, 078, 079, 082 and 099 and tighten each to the ruled reading — 015 a
+   publish error only; 078 the item document only; 079 resolved against the origin; 099
+   the quote outside `div.blyg-tk-gen`, the wrapper on both sides of it, one `generated[]`
+   entry; 065 the retained version, and also accept a publish error from a renderer that
+   declares it retained nothing. 066 and 071 were never among the nine; leave them.
+2. **Clause register**: rebuild against the fourteenth revision. S1–S10, S12–S14 and S16
+   now carry keywords; S11 and S15 were reworded as description and should classify as
+   not-a-rule. C-10.2-04's definition is inside its MUST.
+3. **Studio, three publisher changes** (one release, after the fixtures so the suite shows
+   them): (a) publishing a fragment whose `content_md` has a directive line outside code
+   is an error, with a message offering a thread or a code span; (b) a `[[id]]` link to an
+   item with no held `page` renders its item document's URL through the target's `item`
+   template — `remotePermalink`'s convention guess must not reach `content_html`; (c) the
+   `blyg-tk-gen` div closes before a baked quote and reopens after, with one `generated[]`
+   entry (studio#105). Also (d), not a conformance matter: write media links
+   origin-relative (`media/x.png`), not host-rooted with the mount in them.
+4. **Replies, on Venkat's word**: blygger-spec#23 with the table from `v0.4-plan.md`
+   §21.2, then close it; tell Aneesh that (1) catches one of his own fragments
+   (`4qybzpn2…`) and pioneeringspirit's `2f3ets03…`; tell blyxt's author about (9).
+5. **Outward actions** are as in the session-66 list below, with the blygger.org deploy
+   now carrying the fourteenth revision.
+
 ## New from session 66 (2026-11-12, Fable 5.2) — RFC-6, and kind is fixed (#100, #101)
 
 1. **Draft RFC-6, sealed content and permissions**, at `docs/rfcs/rfc-6-sealed-content.md`,

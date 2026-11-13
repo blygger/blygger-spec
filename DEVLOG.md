@@ -7,6 +7,60 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 67 — 2026-11-12 — Fable round: the reader suite's nine choices closed and the sole statements keyworded (#102)
+**Model:** Fable 5.2 · **Time:** ~16:32–16:45 PT · **Committed:** yes (spec, local) · **Deployed:** —
+
+**What & why:** Venkat opened a new session to take whatever Fable work was immediately
+pending. Nothing was: no decision awaited review, RFC-5 closes 2026-12-03, and no gate was
+true (RFC-6 is not drafted). He chose queue item 24, the last item in the queue.
+
+1. **The nine choices** (blygger-spec#22's `ambiguous` fixtures). Ruled from session 64's
+   measurements without re-crawling. Seven follow that session's leanings. The two that
+   needed a decision rather than a reading:
+   - *A directive line in a fragment is now a publish error*, against what every live
+     client does (inert text). The ground is #60, which already called a directive with no
+     bake and no provenance a malformed document, and #100, after which a fragment can
+     never become a thread. Two live fragments fail at their next republish.
+   - *A baked quote sits outside the `blyg-tk-gen` wrapper, and the span keeps one
+     `generated[]` entry.* Session 64 leaned toward an entry per wrapper; that was
+     reversed, because an entry describes one generation, nothing maps wrappers to
+     entries, and an agent's whole-item thread would otherwise carry one identical entry
+     per quote plus one.
+   The rest: the `@vN` reservation is own-line only; CommonMark says where code is; labels
+   are plain text; a link with no `page` to point at names the item document (#85's
+   principle, and §5.8's convention fallback is now explicitly for a reader's own
+   interface); relative URLs resolve against the identity origin, the author's and a
+   non-conformant source's alike; a pin-retained bake carries the retained version.
+2. **The sixteen sole statements** (blygger-spec#23). Fourteen gained keywords, at the
+   strength the rule can bear: MUST where another rule or a check depends on the sentence,
+   SHOULD where nothing does or the behaviour is unobservable. Two were declined and
+   reworded as description: S11, because a MUST NOT on "diffs or content" in the changelog
+   would contradict §5.2's allowance between two pinned versions, and S15, a lowercase
+   "must" that was a consequence.
+3. Venkat was shown all of it in chat, with (1) and the single-entry call flagged as the
+   two worth his say, and answered "Record".
+
+All of it is revision-grade under #43. Fourteenth revision of 0.4; decision #102;
+reasoning `v0.4-plan.md` §21.
+
+**State after:** spec 0.4 at its fourteenth revision, not snapshotted, not deployed, not
+pushed. Decisions through #102. The Fable queue is empty for the first time since session
+34; the file is kept, since a dozen documents link to it and its numbers. The reader
+fixtures still carry `ambiguous` and the clause register still reads the thirteenth
+revision: both are Opus's. The studio publishes against the new text in three places
+(fragment directives, the link fallback, the wrapper) until Opus changes it.
+
+**Open threads:**
+- Opus: fixtures, clause register, three studio changes and the media-link spelling, the
+  reply on blygger-spec#23, and a word to blyxt's author about (9). `opus-brief.md` §
+  session 67.
+- S5b and S5c were not run this session; it opened straight on the queue.
+- Still on Venkat's word, unchanged: pushing `blygger-spec` `main` (sessions 66 and 67 are
+  local), blygger-spec#30, the blygger.org deploy (now the fourteenth revision too),
+  studio#88, #143, #144, 0.59.0, R8.
+- The four `plans/` explorations and Unicode remain the only Fable work that can be
+  chosen; the next gate is Opus's RFC-6 draft.
+
 ## Session 66 — 2026-11-12 — Fable round: Level 3 research reviewed; kind is fixed (#100); sealed content goes to RFC-6 (#101)
 **Model:** Fable 5.2 · **Time:** ~14:21–15:55 PT · **Committed:** yes (spec) · **Deployed:** —
 

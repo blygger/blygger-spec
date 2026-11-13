@@ -24,6 +24,7 @@ second revision). **Only item 22 remains**, and Venkat is thinking about it befo
 **Pruned:** session 64 (2026-11-09), Fable 5.2 — item 27 ruled (#98; reasoning `v0.4-plan.md` §19.2). **Only item 24 remains.**
 **Added to:** session 65 (2026-11-12), Opus 5.5, at Venkat's request: item 28 (the Level 3 design round; research R1–R7 written).
 **Pruned:** session 66 (2026-11-12), Fable 5.2 — item 28 taken (#101; plan `v0.5-plan.md`); #100 ruled in passing (kind is fixed). **Only item 24 remains.**
+**Pruned:** session 67 (2026-11-12), Fable 5.2 — item 24 ruled (#102; reasoning `v0.4-plan.md` §21). **The queue is empty.** The file is kept because other documents cite its item numbers.
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -60,77 +61,7 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
 20. *Ruled session 49 (#74): `cid` names the pinned document's bytes; §16.9.*
 21. *Confirmed session 49.*
 22. *Ruled session 58 (#89): the studio mods mechanism — three surfaces, a hook bar, no program-hosted registry now, principles in `blygger-studio/docs/mods.md`; blykker released. Plan `v0.4-plan.md` §17.1.*
-24. **Nine choices the 0.4 text leaves open, found by the reader suite** (session 57,
-    2026-11-01; [blygger-spec#22](https://github.com/blygger/blygger-spec/pull/22),
-    Aneesh Sathe, merged as `74f15b1`; the full list is in the PR description, and each is
-    a fixture marked `ambiguous` under `conformance/reader/fixtures/`). Each fixture picks a
-    reading, which the studio happens to share; a renderer that reads it the other way gets
-    a warning, not a failure, until this is ruled. (1) `![[id]]` in a fragment: publish
-    error or inert text (§10, §10.3)? (2) Does "MUST reject `![[id@vN]]`" cover the
-    sequence inline in prose, or only the own-line directive? (3) A tab-indented directive
-    line: "surrounding whitespace allowed" against "inert in code blocks" (fixture: code
-    wins). (4) Markup in a link label, `[[id | *x*]]`: emphasis or literal (fixture:
-    literal; §10.2 says a directive's label is escaped, nothing says it of a link's)?
-    (5) The href of a link to an item with no `page`: §10.1's page URL, §5.8's convention
-    fallback, or #85's item document? (6) What an author's relative URL resolves against:
-    origin, item page or mount (§5.2 requires only absoluteness)? (7) A relative URL inside
-    a non-conformant source's held HTML: §10.2 bakes it verbatim, §5.2 MAY resolve on
-    import, MUST be absolute in `content_html` (fixture follows the MUST; a sentence in
-    §10.2?). (8) The version a pin-retained bake carries: the retained version or the
-    endcap's? (9) Where an own-line quote in generated output sits relative to
-    `div.blyg-tk-gen`: inside it, as written, or outside it, since a quote is not generated
-    words? (9) also carries the #60 studio bug, filed as studio#105. Fable's because each
-    answer is a sentence in the 0.4 text that another client would read. The clause
-    register's three For-Fable findings and the F13 sole-statement list from the same PR
-    are in [blygger-spec#23](https://github.com/blygger/blygger-spec/issues/23); take
-    them in the same round.
-
-    **Begun session 64 (2026-11-09, Fable 5.2); nothing ruled.** What was measured, so the
-    next round starts from it:
-
-    - *The studio* (0.57.0, `conformance/reader/out/results.json`) takes the fixture's
-      reading on all nine: (1) inert text; (2) inert; (3) code wins, found by the markdown
-      parser (`code-ranges.ts`), any other leading whitespace allowed; (4) literal,
-      escaped, and the fork flattener escapes labels (`fork-flatten.ts` `escapeText`), so
-      the literal reading round-trips; (5) the convention page `f/{id}/`; (6) RFC 3986
-      against the origin; (7) resolved against the source's origin; (8) the retained
-      version; (9) the quote inside `div.blyg-tk-gen`.
-    - *The field*, a partial crawl: 1,767 item documents from 9 origins, four clients
-      (studio 0.52–0.58, Blynger, blyxt, msn-build); `conformance/live/crawl.mjs` was
-      stopped before the other origins, and its cache is in `conformance/live/cache/`.
-      (1) **2** published fragments carry an own-line directive as literal text
-      (pioneeringspirit `2f3ets03…`, which names itself; aneeshsathe `4qybzpn2…`).
-      (2) and (3) none. (4) 20 link labels, none with markup characters. (5) **no** item
-      document lacks `page`. (6) 27 relative URLs in `content_md`, all but two the
-      studio's own media links, and on path-mounted nodes they are host-rooted with the
-      mount in them (`/blyg/media/x.png` on venkateshrao and caseyjr): correct under RFC
-      3986 against the origin, but the mount is then inside the hashed source, which a
-      move (#88) would break. (7) 1 relative URL in `content_html`, from msn-build, a
-      mis-rendered link. (8) not measurable from the wire. (9) 120 items carry
-      `blyg-tk-gen`, and **4** have a transclusion inside the div, from two clients
-      (studio and blyxt).
-    - *Leanings, formed and not yet presented to Venkat; treat as a starting point, not a
-      ruling.* (1) a publish error, so that an own-line directive never appears in a
-      fragment's `content_md` and the grammar reads the same whatever the kind; two live
-      items would then fail on republish. (2) the reservation covers the own-line form;
-      inline is inert. (3) code wins, decided by CommonMark block structure. (4) the label
-      is plain text in both forms; a flattener escapes it. (5) the item document's URL,
-      by #85's principle that a guess is never baked into published bytes; it costs
-      nothing in the field. (6) RFC 3986 against the item's `origin`, with a client note
-      that origin-relative spellings survive a move. (7) the baker resolves against the
-      source's origin; a sentence in §10.2. (8) the retained version, and the fixture
-      should also accept a publish error from a reader that retained nothing. (9) outside:
-      a quote is never inside `blyg-tk-gen`, because the wrapper would mark another
-      author's words as machine-generated; the span splits, and whether that makes two
-      `generated[]` entries has to be ruled with it. Three of these change the studio
-      (1, 5, 9).
-    - *spec#23's sixteen sole statements* (`conformance/reports/2026-11-01-clauses-0.4.md`,
-      table S): read, not ruled. S11 looks wrong as suggested (a note between two pinned
-      versions may be as full as the author likes, so a blanket MUST NOT on "diffs or
-      content" would contradict §5.2). #23's §16.8 finding was already fixed in the tenth
-      revision.
-
-
+24. *Ruled session 67 (#102): the nine choices and #23's sixteen sole statements, all revisions; text in the 0.4 fourteenth revision, reasoning and the session-64 measurements in `v0.4-plan.md` §21.*
 25. *Ruled session 60 (#94): a private item's first public version is v1; private history is studio history, the two counters never meet. Plan `v0.4-plan.md` §18.5.*
 27. *Ruled session 64 (#98): `syndication` opens as an OPTIONAL item member, written in place like the pin flag and never worth a version; no specified fold; `https:` only; endcaps and pinned files omit it. A ruled shape in 0.4 §16.14 awaiting its gate. Plan `v0.4-plan.md` §19.2.*
 

@@ -1,8 +1,8 @@
 # Fable brief — the standing agenda for the next Fable pass
 
 **This round's product:** review every decision labelled `Fable review pending` (#58);
-take the dated item below when its date has come; take the queued items in
-[`fable-round-queue.md`](fable-round-queue.md) if chosen on purpose; otherwise nothing.
+take the dated item below when its date has come; otherwise nothing. The queue
+([`fable-round-queue.md`](fable-round-queue.md)) is empty since session 67.
 **Since #58, promotions are Opus's**; Fable reviews them after the fact.
 **Written:** session 38 (2026-10-06), by Fable 5.1. **Rewritten:** session 60
 (2026-11-05), by Fable 5.1, after a round in the middle of an Opus session that closed
@@ -13,6 +13,7 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 **Session 61** (2026-11-07, Fable 5.1, mid-session): #95 confirmed, #96 and #97 ruled, the eleventh revision; summarised below.
 **Session 64** (2026-11-09, Fable 5.2): tn-4 reviewed (G3 closed), #98 ruled (`syndication`), the twelfth revision; summarised below.
 **Session 66** (2026-11-12, Fable 5.2): the Level 3 round — research reviewed, #100 (kind is fixed) and the thirteenth revision, #101 (sealed content goes to RFC-6); summarised below.
+**Session 67** (2026-11-12, Fable 5.2): item 24 — the reader suite's nine choices and #23's sole statements, #102, the fourteenth revision; summarised below. **The queue is empty.**
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
 > **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#90–#94**
@@ -20,11 +21,21 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 > [`v0.4-plan.md`](v0.4-plan.md) **§18** (the reasoning) →
 > [`protocol-v0.4.md`](protocol-v0.4.md) **§17** (tenth revision), §16.13 (`moved_from`,
 > awaiting its gate), §16.9–§16.10 (older ruled shapes still awaiting builds) →
-> [`fable-round-queue.md`](fable-round-queue.md) (**item 24 only**) →
 > [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 60.
 >
 > **Session 64 took session 63's immediate agenda** (next section): read `CLAUDE.md`
-> **#98** and `v0.4-plan.md` **§19** with the above. The queue now holds item 24 only.
+> **#98** and `v0.4-plan.md` **§19** with the above. Session 67 emptied the queue: read
+> **#102** and `v0.4-plan.md` **§21**.
+
+## Ruled session 67 (2026-11-12, Fable 5.2) — drop at the next rewrite
+
+**#102, item 24.** The nine `ambiguous` fixtures and the sixteen sole statements are
+ruled, all as revisions (fourteenth). The two that were decisions and not readings: a
+directive line in a fragment is a publish error (#60, #100), and a baked quote sits
+outside the `blyg-tk-gen` wrapper while the span keeps **one** `generated[]` entry. S11
+and S15 were declined and reworded as description. Opus has the fixtures, the clause
+register and three studio changes; when it has done them, **review in batch** that the
+tightened fixtures say what §21.1 says, 099's single entry above all.
 
 ## Ruled session 66 (2026-11-12, Fable 5.2) — drop at the next rewrite
 
@@ -46,8 +57,7 @@ Venkat opened the round on the Level 3 research. Read `CLAUDE.md` **#100 and #10
    items the RFC must settle.
 
 **From session 64, still current:** #98 `syndication` awaits its gate (§16.14); tn-4 is
-reviewed and publishes at the next `sync_spec`; item 24 is begun, with measurements and
-leanings in the queue entry and nothing ruled.
+reviewed and publishes at the next `sync_spec`.
 
 ## The dated item — RFC-5 closes 2026-12-03
 
@@ -88,7 +98,7 @@ section the build contradicts, and Fable reviews the revision in batch.
 | **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t, which now carries ksurya's non-blyg webmentions, #92 C5) | Edit and rule it; publish with a comment period; at close promote it under #90. |
 
 If nothing is pending review, the dated item is not due and no gate is true when a Fable
-session opens, **say so in one line and stop** — or take item 24 or the `plans/` review if
+session opens, **say so in one line and stop** — or take the `plans/` review or Unicode if
 Venkat has decided to.
 
 ## Next round, on Venkat's word
@@ -99,15 +109,7 @@ Venkat has decided to.
    `pour-over-links-proposal.md`; `rich-editor-proposal.md`; `publishing-patterns.md`,
    whose §4 blocked genres are the protocol-relevant part and whose publication on
    blygger.org as a fourth genre is an open question. File what survives in `backlog.md`.
-1. **Item 24 — the nine choices the 0.4 text leaves open**, found by Aneesh's reader
-   suite ([blygger-spec#22](https://github.com/blygger/blygger-spec/pull/22), merged), with
-   the clause register's For-Fable findings in
-   [blygger-spec#23](https://github.com/blygger/blygger-spec/issues/23). Each answer is a
-   sentence in the living text that another client reads, so this is a round of its own,
-   not a quick ruling; measure each choice against the live clients before ruling, as
-   session 49's second round did with the member tables. The reader suite's studio run
-   (72/28) is Opus's to reproduce first, so the round starts from a current report.
-2. **RFC-3 and RFC-4**, when drafted.
+1. **RFC-3 and RFC-4**, when drafted.
 
 **Opus-tier, not Fable's — listed so a Fable session does not take them by habit.**
 [blygger-spec#19](https://github.com/blygger/blygger-spec/issues/19) (fetched text is data,
@@ -210,6 +212,10 @@ in each live client. Nothing here is pre-decided.
   not a general channel**: a proposal citing #98 for a member readers act on is refused.
 - **A change of kind, or a kind that describes only the current version** — #100. A
   fragment that must grow is quoted by a new thread.
+- **A directive that is inert in a fragment, a rendered label, a `generated[]` entry per
+  wrapper, or a permalink-convention URL in published bytes** — #102. The first reopens
+  only if a second client shows authors need a fragment to display the grammar outside
+  code.
 - **In the Level 3 design (#101), before or after RFC-6:** a restriction on use after
   delivery (rentals, read counts, metering); a per-author key, or any signing meaning on
   the origin's key; a group name, roster, price or rail in any protocol document; new
@@ -239,7 +245,7 @@ in each live client. Nothing here is pre-decided.
 ## Hand back
 
 Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
-locked decisions from **#102**, record reasoning in `v0.4-plan.md` §21 (0.4 matters) or
+locked decisions from **#103**, record reasoning in `v0.4-plan.md` §22 (0.4 matters) or
 `v0.5-plan.md` (Level 3),
 append the DEVLOG entry, file any new ideas in `backlog.md`, prune `fable-round-queue.md`,
 and rewrite this brief.
