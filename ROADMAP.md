@@ -79,7 +79,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 22 | The directory runs the conformance toolkit daily | com | 8 | waiting: spec#11 |  | [com#1](https://github.com/blygger/blygger-com/issues/1) |
 | 23 | Remote generation sources: generation that draws on another blyg's items, with a `source` mention | studio | 20 | shipped: studio 0.41.0; exercised PI → venkateshrao 2026-10-10 (G8 open) |  |  |
 | 24 | The 0.4 spec document opened | spec | 8 | shipped: spec 0.4 opened 2026-10-17 (decision #72); 0.3 superseded |  |  |
-| 26 | Unicode on the wire: normalization and origin comparison | spec | 8 | needs ruling |  | [spec#6](https://github.com/blygger/blygger-spec/issues/6) |
+| 26 | Unicode on the wire: normalization and origin comparison | spec | 8 | shipped: spec 0.4 fifteenth revision (decision #103; §3, §5.1, §5.3, §5.9, §12.2, §14) | Conformance checks and the studio's text work follow | [spec#6](https://github.com/blygger/blygger-spec/issues/6) |
 | 27 | Open findings from the first conformance report (partial quotes, closure walk, watermark, required members, grammar edge cases) | spec | 8 | needs ruling |  | [spec#11](https://github.com/blygger/blygger-spec/pull/11) |
 | 28 | In-page anchors (footnotes) in imported HTML | studio | 5 | waiting: discussion |  | [studio#39](https://github.com/blygger/blygger-studio/issues/39) |
 | 29 | Public pages update immediately after owner changes (edge-cache purge) | studio | ? | waiting: discussion |  |  |

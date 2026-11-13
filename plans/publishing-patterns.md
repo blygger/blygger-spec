@@ -1,5 +1,12 @@
 # Exploration — publishing patterns available in Blygger
 
+> **Reviewed session 67 (2026-11-12, Fable 5.2): no ruling needed.** The variorum (§4.1)
+> keeps `![[id@vN]]` reserved, with blygger-spec#8 as its trigger. §4.4's sentence is in
+> spec §10.2. **Stale since written:** `[[id]]` links disclose and notify as notices
+> (#79), so §3.9's "silent link" holds only within one origin; hopper feeds (#86), moves
+> (#88), `syndication` (#98) and fixed kinds (#100) post-date the catalogue. Publication
+> is Venkat's call (`docs/pending-calls.md` 14). Notes: `docs/v0.4-plan.md` §22.1.
+
 **Status:** DRAFT, exploratory. Written session 29 (2026-09-29) by a research-only Opus
 session. **Nothing here is ruled.** This is a catalogue, not a proposal: it asks what
 *genres* the existing primitives already support, which ones they support badly, and which

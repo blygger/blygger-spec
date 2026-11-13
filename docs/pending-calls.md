@@ -105,3 +105,14 @@ here only if the recommendation was reversed, so the reasoning is not lost.
     model-checking runs, including the first failing runs. Keep them.
 13. **Quoted lists lose their bullets and the faithfulness check ignores list markers**
     (session 37 open thread) — leave it until someone quotes a list and minds.
+14. **Publish the patterns catalogue?** (session 67; `plans/publishing-patterns.md` §7 Q1).
+    *Recommendation:* yes, on blyg.blygger.org under #66 and not as a fourth blygger.org
+    genre: it is non-normative, aimed at publishers, and a spine thread over pattern
+    items is itself the book pattern. It needs a revision first, against #79 (links
+    disclose), #86 (hopper feeds), #88 (moves), #98 (`syndication`) and #100 (kind is
+    fixed). Opus revises, you approve as the byline.
+15. **How far does no-vendoring reach?** (session 67; `plans/rich-editor-proposal.md` §7
+    Q2). The session-29 ruling has been read as client-side JavaScript only, leaving the
+    Worker's npm packages (`hono`, `markdown-it`, `fast-xml-parser`) alone. Say if the
+    broader reading was meant. *Recommendation:* the narrow reading; at the protocol
+    level the ruling is now §3's test (#103).

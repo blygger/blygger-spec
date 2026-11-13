@@ -261,6 +261,20 @@ and remains conformant (§15.7). A **reader** conforms at L1 by following the
 rules in §§12–13, and at L2 by additionally honouring the cross-origin
 provenance rules of §10.3.
 
+**What conformance costs** *(non-normative; revision of 2026-11-12, decision
+#103)*. A rule enters this document only if a **reader or receiver** can
+meet it with what a programming language's standard library provides — JSON,
+XML, HTTP, SHA-256, URL parsing, iteration over code points. A **publisher**
+is assumed to hold, in addition, what publishing already takes: a markdown
+renderer, and a URL library if it mounts at an internationalized address.
+Two habits follow, and later text is written to them: a rule states a
+**property of a value** (an origin string is ASCII) in preference to an
+algorithm that produces it (apply IDNA), so that checking costs nothing
+even where producing costs something; and **correctness is a MUST while
+quality is a SHOULD** (a truncation never yields an unpaired surrogate; it
+ought not to split a grapheme cluster, which takes a segmenter). This is a
+test applied to new rules, not a claim that every older sentence passes it.
+
 ### 3.1 The protocol version key
 
 Manifests and item documents carry a `"blyg"` key naming the spec version
@@ -432,6 +446,24 @@ other member is unknown and ignored (§13.1 rule 4).
 - `content_hash` MUST be `"sha256:" + hex(SHA-256(content_md as UTF-8))`,
   computed per published version. It covers `content_md` **only** — not
   `author`, not media bytes, not `content_html`.
+- **The hash is over the bytes served, and that is deliberate** (revision of
+  2026-11-12, decision #103). Two spellings of the same visible text — a
+  composed `é` and an `e` followed by a combining accent — are different
+  bytes and have different hashes; the hash says the bytes are the
+  publisher's, not that no other bytes would look the same. A publisher
+  SHOULD publish `content_md` in Unicode Normalization Form C, which is what
+  nearly every input path already produces, so that a quoted selection
+  (§10.2) and a search match what the eye sees. A reader MUST NOT normalize
+  an imported `content_md`: it would then hold bytes the hash does not
+  cover. Published versions are never renormalized after the fact, and a
+  pinned file (§8) is never rewritten.
+- **`content_md` is text** (same revision). A publisher MUST NOT publish a
+  `content_md` containing a C0 control character other than tab (U+0009),
+  line feed (U+000A) and carriage return (U+000D), or an unpaired surrogate,
+  and SHOULD NOT publish one containing U+FFFE or U+FFFF. None can appear in
+  well-formed XML, so one such character makes the publisher's whole
+  `feed.xml` (§7) unparseable for every subscriber with a strict parser. A
+  reader that meets one treats the document as malformed input (§13.2).
 - An id names an item, not an origin. Ids are generated with enough entropy
   that two origins producing the same id is not a real case; readers
   nonetheless scope every id to the origin it was learned from (§13.1), and a
@@ -516,6 +548,14 @@ other member is unknown and ignored (§13.1 rule 4).
 - Fragments: publishers SHOULD cap `content_md` at 2,000 characters
   (RECOMMENDED studio-enforced cap: 1,000). Enforcement is publisher-side only —
   readers MUST NOT reject long fragments.
+- **A cap stated in characters counts Unicode code points** (revision of
+  2026-11-12, decision #103): the two above and the `cited.excerpt` cap
+  (§5.9). A **truncation** — to a cap, for a derived feed title (§7), for
+  an excerpt — MUST NOT produce an unpaired surrogate, and SHOULD NOT split
+  an extended grapheme cluster (UAX #29). The first is correctness and
+  costs a range check; the second is quality and takes a segmenter, and an
+  implementation without one conforms (§3). A client's visible counter may
+  count what its author sees; the cap is the conformance line.
 - Threads additionally carry `transclusions` (§10.3). A thread that quotes
   nothing is a valid thread.
 - **An item's kind is fixed at its first publication** (revision of
@@ -852,7 +892,8 @@ Four constructs in this version name a version of an item at an origin —
   is defined.
 - The three members above are the whole of a reference's **machine-readable
   identity**, and they are the only members anything in this protocol
-  verifies or compares. A reference MAY additionally carry the human half of
+  verifies or compares. Origins are compared byte for byte, which is sound
+  because an origin string has one spelling (§12.2). A reference MAY additionally carry the human half of
   a citation, `cited`, defined next — and nothing else.
 
 **The human half of a citation — `cited` (new in 0.3).** A reference names a
@@ -1901,6 +1942,23 @@ subscription `{ feed_url }` (L0), or failure with the list of URLs tried.
 
 ### 12.2 Subscription identity
 
+- **An origin string has one spelling, and origins are compared byte for
+  byte** (revision of 2026-11-12, decision #103). An origin written into any
+  document — a document's own `origin`, a reference (§5.9), `moved_from`, a
+  baked `data-blyg-origin` — MUST consist of ASCII characters only, with the
+  scheme and host in lowercase, an internationalized host in its A-label
+  (`xn--`) form, no default port, a path percent-encoded from its UTF-8
+  bytes with uppercase hexadecimal digits, a final `/`, and no query or
+  fragment. This is what a WHATWG URL parser serializes, and an
+  implementation without one MUST write the same string. The path's case is
+  significant and is never folded. The rule is stated as a property so that
+  checking it takes no library (§3); only a publisher that mounts at an
+  internationalized host or a non-ASCII path has anything to convert. A URL
+  taken from the network — a final fetch URL, a mention's source — is put
+  into this form before it is compared with a written origin (§15.4 step 2
+  names the same folding). Until this revision, that two readers of one blyg
+  write the same string was true of readers built on one URL library and
+  promised of all.
 - **Subscription identity is the final fetch origin**: the URL the manifest
   was actually fetched from, minus its last path segment — `blyg.json` at
   the default location — after following redirects. A publisher whose
@@ -2272,6 +2330,23 @@ import every item (§13.1), since folding is display, never omission.
   therefore per-item curation (§15.5), never automatic.
 - **Media immutability** (§5.4) is a promise by the publisher, not a
   verifiable property at L1; `content_hash` covers markdown only.
+- **Text can reorder the text around it** (revision of 2026-11-12, decision
+  #103). `author.name`, a manifest `title`, `cited.source`, `cited.excerpt`,
+  a directive's label and `content_html` itself are one publisher's strings
+  shown beside another's. Bidirectional control characters (U+202A–U+202E,
+  U+2066–U+2069) change the order in which neighbouring text is displayed
+  without changing any stored byte, and a baked quote carries them into the
+  quoter's page. A reader SHOULD isolate every attributed string and every
+  baked quote directionally (`dir="auto"` on the element, or
+  `unicode-bidi: isolate`), so that what a stranger wrote cannot rearrange
+  what stands next to it. A publisher SHOULD NOT publish unpaired bidi
+  controls.
+- **Origins can look alike.** The origin is the only authenticated entity
+  here (§12.2), and two different hosts can be indistinguishable to the eye.
+  Identity is the origin string, always: a reader MUST NOT treat visual
+  similarity as identity, and SHOULD display an internationalized host in a
+  form that lets its owner tell it from its neighbours, with the A-label
+  form available.
 - **The write side is out of scope, and so is its security.** How an
   authoring tool authenticates to a studio, what it may do there, and how
   that access is revoked are the studio's concern (§16.6). The protocol's
@@ -3017,6 +3092,22 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-12, fifteenth revision** (Fable 5.2, session 67; decision
+  #103; blygger-spec#6) — **Unicode on the wire, and what conformance
+  costs**. §5.1: the hash is over the bytes served, on purpose; publishers
+  SHOULD publish `content_md` in NFC and readers MUST NOT normalize an
+  import; `content_md` MUST NOT contain C0 controls (tab, LF and CR aside)
+  or unpaired surrogates. §12.2: an origin string has one ASCII spelling
+  and origins are compared byte for byte (§5.9 points to it). §5.3: a cap in
+  characters counts code points; a truncation MUST NOT produce an unpaired
+  surrogate and SHOULD NOT split a grapheme cluster. §14: bidirectional
+  controls in attributed strings and baked quotes; look-alike origins. §3
+  states, non-normatively, the test the rules were written to: nothing asks
+  a reader or receiver for more than a standard library. A manifest `lang`
+  key was considered and parked. Measured against 1,836 live item documents
+  from 10 origins and the census's 36 hosts: nothing live fails any of it.
+  No new construct. Not snapshotted.
 
 - **2026-11-12, fourteenth revision** (Fable 5.2, session 67; decision
   #102) — **the reader suite's nine open choices closed, and the clause

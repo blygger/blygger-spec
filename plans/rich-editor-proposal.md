@@ -1,5 +1,11 @@
 # Proposal — a rich editor for the reference client
 
+> **Reviewed session 67 (2026-11-12, Fable 5.2): no ruling needed.** §7 Q3 was answered
+> by #78: an editor may rewrite the author's source only as an explicit, visible,
+> author-triggered act, which closes option 3 on principle. Option 4 is refused under #1
+> (`docs/backlog.md` §4). Q2 is Venkat's (`docs/pending-calls.md` 15). Notes:
+> `docs/v0.4-plan.md` §22.1.
+
 **Status:** DRAFT, exploratory. Written session 29 (2026-09-29) by a research-only Opus
 session. **Nothing here is ruled.** Companion docs: [`unicode-support-proposal.md`](unicode-support-proposal.md)
 (the editor's text-handling half) and [`pour-over-links-proposal.md`](pour-over-links-proposal.md)

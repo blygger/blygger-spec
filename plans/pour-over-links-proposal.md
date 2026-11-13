@@ -1,5 +1,11 @@
 # Proposal — pour-over links
 
+> **Reviewed session 67 (2026-11-12, Fable 5.2): no ruling needed.** Three things have
+> changed since this was written. §5's question was ruled as #55 (`cited` MAY sit on a
+> `{url}` stub). Class A no longer needs a subscription: #82 lets a one-off snapshot
+> resolve. `[[id]]` is a disclosed link since #79, not a silent one. The rest is client
+> work (ROADMAP row 40). Notes: `docs/v0.4-plan.md` §22.1.
+
 **Status:** DRAFT, exploratory. Written session 29 (2026-09-29) by a research-only Opus
 session. **Nothing here is ruled.** Companions: [`rich-editor-proposal.md`](rich-editor-proposal.md)
 (the surface this lives on) and [`unicode-support-proposal.md`](unicode-support-proposal.md)

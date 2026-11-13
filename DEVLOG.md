@@ -7,8 +7,8 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 67 — 2026-11-12 — Fable round: the reader suite's nine choices closed and the sole statements keyworded (#102)
-**Model:** Fable 5.2 · **Time:** ~16:32–16:45 PT · **Committed:** yes (spec, local) · **Deployed:** —
+## Session 67 — 2026-11-12 — Fable rounds: the reader suite's nine choices and the sole statements (#102); the four `plans/` reviews and Unicode on the wire (#103)
+**Model:** Fable 5.2 · **Time:** ~16:32–17:03 PT · **Committed:** yes (spec, local) · **Deployed:** —
 
 **What & why:** Venkat opened a new session to take whatever Fable work was immediately
 pending. Nothing was: no decision awaited review, RFC-5 closes 2026-12-03, and no gate was
@@ -41,11 +41,34 @@ true (RFC-6 is not drafted). He chose queue item 24, the last item in the queue.
    two worth his say, and answered "Record".
 
 All of it is revision-grade under #43. Fourteenth revision of 0.4; decision #102;
-reasoning `v0.4-plan.md` §21.
+reasoning `v0.4-plan.md` §21. Committed as `fcc68b9`.
 
-**State after:** spec 0.4 at its fourteenth revision, not snapshotted, not deployed, not
-pushed. Decisions through #102. The Fable queue is empty for the first time since session
-34; the file is kept, since a dozen documents link to it and its numbers. The reader
+4. **The four `plans/` reviews**, on Venkat's "move on". Three needed no ruling: time had
+   answered pour-over's wire question (#55, #82) and the rich editor's byte-rewrite
+   question (#78), and the patterns catalogue's two requests of the spec were already
+   met or correctly parked. The fourth was the standing Unicode question.
+5. **Unicode on the wire (#103).** Measured before ruling: in 1,836 live item documents
+   nothing is outside NFC, nothing carries a control character, every hash is SHA-256 of
+   the UTF-8 bytes, and every origin is lowercase ASCII. So each rule costs nothing
+   today, which is the argument for ruling now and not at the first cross-client
+   disagreement. The decisions that were choices:
+   - *NFC is a SHOULD, not the proposal's MUST.* Nothing depends on it, and a MUST would
+     make conformance depend on which Unicode version a checker ships.
+   - *The origin string's one spelling is a MUST*, stated as a property of the value so
+     that checking takes no library. Mention verification already assumed it.
+   - *Manifest `lang` is parked* on #47's rule; no live blyg needs it.
+   - *The conformance-cost criterion goes into §3 in an asymmetric form*: it protects
+     readers and receivers. The proposal's symmetric form is false of publishers, who
+     need a markdown renderer.
+   Fifteenth revision; reasoning `v0.4-plan.md` §22. Venkat answered "Go" without taking
+   up the two questions put with it, so NFC stayed a SHOULD and the catalogue's
+   publication went to `pending-calls.md`.
+
+**State after:** spec 0.4 at its fifteenth revision, not snapshotted, not deployed, not
+pushed. Decisions through #103. The Fable queue is empty for the first time since session
+34, and the brief's two standing items (the `plans/` review, Unicode) are closed; the
+queue file is kept, since a dozen documents link to it and its numbers. The four `plans/`
+documents carry review notes and are otherwise as written. The reader
 fixtures still carry `ambiguous` and the clause register still reads the thirteenth
 revision: both are Opus's. The studio publishes against the new text in three places
 (fragment directives, the link fallback, the wrapper) until Opus changes it.
@@ -58,8 +81,13 @@ revision: both are Opus's. The studio publishes against the new text in three pl
 - Still on Venkat's word, unchanged: pushing `blygger-spec` `main` (sessions 66 and 67 are
   local), blygger-spec#30, the blygger.org deploy (now the fourteenth revision too),
   studio#88, #143, #144, 0.59.0, R8.
-- The four `plans/` explorations and Unicode remain the only Fable work that can be
-  chosen; the next gate is Opus's RFC-6 draft.
+- No Fable work is left to choose. The next gate is Opus's RFC-6 draft; the next date is
+  RFC-5's close on 2026-12-03.
+- For Venkat (`pending-calls.md` 14, 15): publish the patterns catalogue on the official
+  blyg? Does no-vendoring reach server-side packages?
+- blygger-spec#6 has no reply yet; it is in the Opus brief with the others.
+- The origin-string rule was not exercised through three URL parsers, since every live
+  origin is plain ASCII. The first internationalized origin is the real test.
 
 ## Session 66 — 2026-11-12 — Fable round: Level 3 research reviewed; kind is fixed (#100); sealed content goes to RFC-6 (#101)
 **Model:** Fable 5.2 · **Time:** ~14:21–15:55 PT · **Committed:** yes (spec) · **Deployed:** —

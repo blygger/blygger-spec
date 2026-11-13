@@ -226,8 +226,25 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
 4. **Replies, on Venkat's word**: blygger-spec#23 with the table from `v0.4-plan.md`
    §21.2, then close it; tell Aneesh that (1) catches one of his own fragments
    (`4qybzpn2…`) and pioneeringspirit's `2f3ets03…`; tell blyxt's author about (9).
-5. **Outward actions** are as in the session-66 list below, with the blygger.org deploy
-   now carrying the fourteenth revision.
+5. **#103, Unicode (fifteenth revision; `v0.4-plan.md` §22).** Conformance: a publisher
+   check that every origin string written anywhere has the §12.2 spelling (fail), that
+   `content_md` has no C0 control but tab, LF and CR and no unpaired surrogate (fail),
+   and that it is NFC (warn). Studio, checking first what `src/text.ts` and the two
+   `http.ts` files already do: NFC on save; normalize a typed selection before the
+   partial-quote substring test; caps in code points and surrogate-safe truncation;
+   bidi isolation on attributed strings and baked quotes; a `lang` setting replacing the
+   hardcoded `en` on public pages (modelled on the timezone setting; no manifest key,
+   which is parked); show an internationalized host readably with its A-label available.
+   Reply on blygger-spec#6 with the rulings and close it, on Venkat's word.
+6. **The four `plans/` documents are reviewed** (each has a note at its head). Pour-over
+   (ROADMAP 40) should be built on #82's one-off snapshot, not subscribe-then-import. If
+   Venkat says yes to `pending-calls.md` 14, revise `publishing-patterns.md` for
+   publication on the official blyg.
+7. **Outward actions Venkat left for you (session 67), each on his word as usual:** push
+   `blygger-spec` `main` (sessions 66 and 67 are local); the blygger.org deploy, which now
+   carries the fifteenth revision with tn-4 and ROADMAP; the replies in items 4 and 5; and the
+   rest of the session-66 list below. Run S5b and S5c at your next start: session 67 did
+   not.
 
 ## New from session 66 (2026-11-12, Fable 5.2) — RFC-6, and kind is fixed (#100, #101)
 

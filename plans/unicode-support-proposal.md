@@ -1,5 +1,11 @@
 # Proposal — Unicode support in the protocol
 
+> **Reviewed session 67 (2026-11-12, Fable 5.2): ruled as decision #103**, the fifteenth
+> revision of 0.4. Option B was taken with one change (B1's NFC is a SHOULD, not a MUST),
+> C5 (`lang`) was parked, C6 and C7 refused, and §0's criterion is in spec §3 in an
+> asymmetric form. Reasoning: `docs/v0.4-plan.md` §22. The §6 client table is Opus's;
+> some of it has shipped. This document is otherwise as written.
+
 **Status:** DRAFT, exploratory. Written session 29 (2026-09-29) by a research-only Opus
 session running beside the implementation session. **Nothing here is ruled.** Sections 2
 and 3 are findings and options; §7 is the list for a Fable round.

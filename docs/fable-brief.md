@@ -13,7 +13,7 @@ the tenth revision of 0.4 carries the text. Session 58's round (#89) and session
 **Session 61** (2026-11-07, Fable 5.1, mid-session): #95 confirmed, #96 and #97 ruled, the eleventh revision; summarised below.
 **Session 64** (2026-11-09, Fable 5.2): tn-4 reviewed (G3 closed), #98 ruled (`syndication`), the twelfth revision; summarised below.
 **Session 66** (2026-11-12, Fable 5.2): the Level 3 round — research reviewed, #100 (kind is fixed) and the thirteenth revision, #101 (sealed content goes to RFC-6); summarised below.
-**Session 67** (2026-11-12, Fable 5.2): item 24 — the reader suite's nine choices and #23's sole statements, #102, the fourteenth revision; summarised below. **The queue is empty.**
+**Session 67** (2026-11-12, Fable 5.2): item 24 — the reader suite's nine choices and #23's sole statements, #102, the fourteenth revision; summarised below. **The queue is empty.** Then the four `plans/` reviews and Unicode on the wire, #103, the fifteenth revision: **nothing standing remains.**
 **Rewrite this file each Fable round.** It is the one place a Fable session starts.
 
 > **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#90–#94**
@@ -36,6 +36,15 @@ outside the `blyg-tk-gen` wrapper while the span keeps **one** `generated[]` ent
 and S15 were declined and reworded as description. Opus has the fixtures, the clause
 register and three studio changes; when it has done them, **review in batch** that the
 tightened fixtures say what §21.1 says, 099's single entry above all.
+
+**#103, the `plans/` reviews and Unicode.** Three explorations needed no ruling. Unicode
+(blygger-spec#6) is ruled: the hash is over the bytes served; NFC a publisher SHOULD;
+one ASCII spelling for an origin string, a MUST; caps count code points; `content_md`
+carries no C0 controls or unpaired surrogates; two §14 bullets; manifest `lang` parked;
+and §3 now states what conformance may cost a reader. Reasoning `v0.4-plan.md` §22.
+**Apply §3's test to every new rule from here on**, RFC-6's items included: sealed
+content will ask readers for cryptography, and whether that is in a standard library
+is one of the things to say when ruling it.
 
 ## Ruled session 66 (2026-11-12, Fable 5.2) — drop at the next rewrite
 
@@ -98,17 +107,10 @@ section the build contradicts, and Fable reviews the revision in batch.
 | **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t, which now carries ksurya's non-blyg webmentions, #92 C5) | Edit and rule it; publish with a comment period; at close promote it under #90. |
 
 If nothing is pending review, the dated item is not due and no gate is true when a Fable
-session opens, **say so in one line and stop** — or take the `plans/` review or Unicode if
-Venkat has decided to.
+session opens, **say so in one line and stop**. Nothing optional is left to take.
 
 ## Next round, on Venkat's word
 
-0. **The four unreviewed session-29 explorations in `plans/`** (carry-over since session
-   49): `unicode-support-proposal.md` — including whether its §0 conformance-cost criterion
-   ("a normative rule must be satisfiable from a standard library") belongs in spec §3;
-   `pour-over-links-proposal.md`; `rich-editor-proposal.md`; `publishing-patterns.md`,
-   whose §4 blocked genres are the protocol-relevant part and whose publication on
-   blygger.org as a fourth genre is an open question. File what survives in `backlog.md`.
 1. **RFC-3 and RFC-4**, when drafted.
 
 **Opus-tier, not Fable's — listed so a Fable session does not take them by habit.**
@@ -155,17 +157,6 @@ no item document ever names a hopper. **#87**: `{identity}blyg.json` MUST serve 
 manifest; a `manifest` URL in references and "subscribers only" were refused. **#88**: a
 move's two statements are the old manifest's permanent redirect and the successor's
 `moved_from`; readers offer and adopt only on confirmation; no `moved_to` key.
-
-## The one standing question — Unicode on the wire (blygger-spec#6)
-
-Not a gate; it opens on choice. `content_hash` differs between NFC and NFD spellings of the
-same visible text, the same visible origin serializes to two different strings, three caps
-say "characters" without a unit, and two truncations say nothing about where they may cut.
-#76 settled line endings for the grammar (LF or CRLF) but not for the hash. Take it only
-when no gate is open, or when the first cross-client hash disagreement appears in the
-wild. **Measure first:** hash every live item both ways, serialize every live origin
-through WHATWG, Python's `urllib` and Go's `net/url`, and count what the caps actually count
-in each live client. Nothing here is pre-decided.
 
 ## Sequencing notes
 
@@ -216,6 +207,9 @@ in each live client. Nothing here is pre-decided.
   wrapper, or a permalink-convention URL in published bytes** — #102. The first reopens
   only if a second client shows authors need a fragment to display the grammar outside
   code.
+- **A hash over normalized text, NFC as a MUST, a reader that normalizes an import, a
+  per-item `lang` or a `dir` rule, or any rule that asks a reader for a package** —
+  #103. Manifest `lang` is parked, not refused: its trigger is in `backlog.md` §1.
 - **In the Level 3 design (#101), before or after RFC-6:** a restriction on use after
   delivery (rentals, read counts, metering); a per-author key, or any signing meaning on
   the origin's key; a group name, roster, price or rail in any protocol document; new
@@ -245,7 +239,7 @@ in each live client. Nothing here is pre-decided.
 ## Hand back
 
 Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
-locked decisions from **#103**, record reasoning in `v0.4-plan.md` §22 (0.4 matters) or
+locked decisions from **#104**, record reasoning in `v0.4-plan.md` §23 (0.4 matters) or
 `v0.5-plan.md` (Level 3),
 append the DEVLOG entry, file any new ideas in `backlog.md`, prune `fable-round-queue.md`,
 and rewrite this brief.
