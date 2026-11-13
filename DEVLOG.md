@@ -119,7 +119,7 @@ revision: both are Opus's. The studio publishes against the new text in three pl
 - Venkat asked for a survey of Common Fabric (commonfabric/labs, a runtime where policy
   travels with data). Opinion given in chat: useful interop at the client level only (a
   blyg reader, a studio or agent, later attestation as a ground for an L3 grant), nothing
-  for the spec. Opus researches further and drafts `tn-9`; the task is Opus brief item 8,
+  for the spec. Opus researches further and drafts `tn-9`; the task is Opus brief item 7,
   ROADMAP row 120.
 - For Venkat (`pending-calls.md` 14, 15): publish the patterns catalogue on the official
   blyg? Does no-vendoring reach server-side packages?

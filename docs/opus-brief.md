@@ -240,7 +240,7 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
    (ROADMAP 40) should be built on #82's one-off snapshot, not subscribe-then-import. If
    Venkat says yes to `pending-calls.md` 14, revise `publishing-patterns.md` for
    publication on the official blyg.
-8. **Research Common Fabric and write `tn-9`, a technical note for people who want to
+7. **Research Common Fabric and write `tn-9`, a technical note for people who want to
    experiment with it and Blygger together** (Venkat, session 67; ROADMAP row 120).
 
    *What it is.* [commonfabric/labs](https://github.com/commonfabric/labs) is a runtime
@@ -316,7 +316,7 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
    discussion on their repo pointing at the note only if Venkat asks. If the research
    shows the first experiment is not possible as described, write that as the note's
    finding; a short honest note is the right result.
-9. **RFC-7, payments, and the amended RFC-6** (#104; `v0.5-plan.md`, amended the same
+8. **RFC-7, payments, and the amended RFC-6** (#104; `v0.5-plan.md`, amended the same
    session). This changes item 1 of the session-66 list below: **draft both RFCs, RFC-6
    first.**
    - *RFC-6 gains five things*, each in the plan: an optional `about` on a sealed entry
@@ -329,6 +329,8 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
      §10, which lists the sections. **It proposes no wire construct.** If the draft finds
      it needs one, stop and write that up as a finding against RFC-6. It is a
      recommendation for homes and readers, and it will become a technical note at close.
+     **It opens with its assumptions** (plan §8.1, twelve of them, agent-first buying the
+     first), each with what changes if it is wrong, and asks commenters to challenge them.
    - *Re-verify before writing.* R1 was read on 2026-11-12 and both specs move. Check
      x402's header names and flows at `x402-foundation/x402`, MPP's draft name and
      Datatracker status (R1's header has Fable's correction), and whether `payment` is a
@@ -342,7 +344,7 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
      drafts, then Venkat says when they publish, together.
    - When RFC-4 is drafted (queue item t), give its handler a `redeem` verb beside "stub
      this" (plan §8.4).
-7. **Outward actions Venkat left for you (session 67), each on his word as usual:** push
+9. **Outward actions Venkat left for you (session 67), each on his word as usual:** push
    `blygger-spec` `main` (sessions 66 and 67 are local); the blygger.org deploy, which now
    carries the fifteenth revision with tn-4 and ROADMAP; the replies in items 4 and 5; and the
    rest of the session-66 list below. Run S5b and S5c at your next start: session 67 did
