@@ -7,6 +7,91 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 68 — 2026-11-12 — RFC-6 (sealed content) and RFC-7 (payments) drafted; tn-9 (Common Fabric) drafted for review
+**Model:** Opus 5.5 · **Time:** ~22:05–23:05 PT · **Committed:** yes (spec) · **Deployed:** —
+
+**What & why:** Venkat asked to begin "the 2 refs and the technical note on the fabric
+protocol", read as RFC-6, RFC-7 and tn-9 (Opus brief, session 67, items 7 and 8). All
+three are drafts for Fable. Nothing is published, and the RFCs sit in `docs/rfcs/`,
+which is not auto-published. Every choice the plan did not make is marked *Proposal
+(Opus)*.
+
+1. **RFC-6** (`docs/rfcs/rfc-6-sealed-content.md`), from `v0.5-plan.md` and R1–R7. It
+   states the plan's 24 items, with options, a proposal and a test, plus three new ones.
+   It also proposes dispositions for R7's worksheet (its section 13). The departures from
+   the plan, each argued in the draft:
+   - **The plan's clear `sealed_hash` is dropped.** A clear hash of sealed text is R4's
+     guess-confirmation target. It is replaced by a SHA-256 commitment over the entry
+     key, nonce, ciphertext and the description shown (`about`, else the cover). That
+     also settles the equivocation problem: one ciphertext can no longer open to two
+     texts.
+   - **Unchanged entries are carried byte for byte** into the next version. Maintenance
+     becomes per audience, an entry key is per content rather than per version, and
+     stealth edits stay detectable.
+   - **A home document** carries the home's X25519 key. Grant paths come from X25519
+     plus HKDF, so pre-approval needs no contact. The plan needed a shared secret and
+     never said where it came from.
+   - **The oracle rule:** a home answers "granted" live only when the grant follows from
+     what the request carried. A grant that follows from who the recipient is goes only
+     to the grant path.
+   - **A 402 is not cacheable.** The plan said it was (§3.7, §8.2, §12.2). Both rails
+     forbid it: MPP `draft-httpauth-payment-01` §11.10 requires `no-store`, and x402's
+     HTTP transport keeps it out of shared caches.
+   - **The suite:** AES-256-GCM, HKDF-SHA-256, HPKE with X25519; padding buckets from 256
+     bytes; a text selector on each span for markdown renderers; partial quotes take
+     whole covers only.
+
+   Found while drafting: documents carry only symmetric wraps, so the
+   harvest-now-decrypt-later exposure is confined to grant files at hidden paths. That is
+   a better position than R3 feared.
+
+   **The re-read the session-66 brief asked for** (RFC-6 §6.1):
+   - tn-3 gains a second test, "who can read what is granted to the origin".
+   - #35's signature over `content_hash` covers only the covers. A signed digest over
+     `content_hash` and the commits is proposed for tn-2.
+   - The origin `encryption_key` in the manifest is read as outside #52's auth line.
+     That is a reading of a locked decision, so it is Fable's.
+2. **RFC-7** (`docs/rfcs/rfc-7-payments.md`). It proposes no wire construct. It carries
+   the thirteen assumptions, each with what changes if it is wrong, and worked exchanges
+   for x402, MPP and a card through `rel="payment"`. Rent and purchase are written up
+   with no recommendation. Two proposals: bind each challenge to its recipient (MPP's
+   `digest`), and keep the rail's description field in agreement with `about`.
+   **Re-checked today:**
+   - x402 is still v2, at commit `07c4caf`, with headers `PAYMENT-REQUIRED`,
+     `PAYMENT-SIGNATURE` and `PAYMENT-RESPONSE`.
+   - MPP's `draft-httpauth-payment-01` is active to 2027-03-13, an individual submission.
+   - `rel="payment"` is registered at IANA, and its registration says it "is not
+     intended to initiate an automated transaction". Session 67 had cited it from memory;
+     it is confirmed.
+3. **tn-9** (`plans/tn-9-common-fabric-draft.md`), from `commonfabric/labs` at `210f787c`
+   (0BSD, confirmed). It answers questions (a)–(g) with file paths and describes the
+   three experiments. Not established:
+   - what label a `fetchJson` result carries;
+   - the code behind their "sent only to the origin that minted it" token policy, which
+     was not found and is reported as their description only.
+
+   Common Fabric principals include `did:web`, so a blyg origin could be named, but only
+   if the publisher serves a DID document, which Blygger will not ask for.
+
+**State after:** three drafts, committed locally and not pushed. ROADMAP rows 119–121
+read "waiting: Fable". The protocol text is unchanged.
+
+**Open threads:**
+- For Fable, in the RFCs:
+  - #103's stdlib criterion cannot hold for decryption; option (a) draws the line at
+    decrypting (RFC-6 item 3).
+  - The #52 reading of `encryption_key` (RFC-6 item 10).
+  - The plan corrections above. RFC-6 and RFC-7 go to Fable together.
+- Unverified: X25519 in Workers' `crypto.subtle`. This is for the R8 probe, which needs
+  Venkat's word.
+- tn-9's reader experiment was not run, because Deno is not installed and no global
+  install is allowed. It could run from a Deno binary in a throwaway directory if Venkat
+  wants it.
+- RFC-4, when drafted, gains the `redeem` verb (RFC-7 §6).
+- tn-3 §5 should gain RFC-6 §6.1's second test when RFC-6 closes.
+- S5c (census, listings) was not run this session; S5b found nothing new since session
+  67.
+
 ## Session 67 — 2026-11-12 — Fable rounds: the reader suite's nine choices and the sole statements (#102); the four `plans/` reviews and Unicode on the wire (#103); the payments direction (#104)
 **Model:** Fable 5.2, then Opus 5.5 from ~18:25 · **Time:** ~16:32–18:47 PT · **Committed:** yes (spec, org, studio) · **Deployed:** blygger.org
 
