@@ -73,16 +73,16 @@ RFC-7 lists the thirteen assumptions it rests on, each with what would change if
 
 ## How to comment
 
-Both RFCs are published on this blyg with a comment period open until **[date]**. Comments use the medium itself:
+Both RFCs are published on this blyg with a comment period open until **28 November 2026**. They are published as drafted, before the protocol's editorial pass, so expect revisions during the period; each one is a new version of the same item. Comments use the medium itself:
 
 - **Respond** by stubbing the RFC from your own blyg. Your response names the exact version you read.
 - **Quote** the passage you're answering with a partial quote.
 - **Counter-propose** by forking the RFC and changing what you'd change.
-- **No blyg?** Comment on the matching issue in [`blygger/blygger-spec`](https://github.com/blygger/blygger-spec/issues).
+- **No blyg?** Comment on GitHub: [blygger-spec#34](https://github.com/blygger/blygger-spec/issues/34) for RFC-6, [blygger-spec#35](https://github.com/blygger/blygger-spec/issues/35) for RFC-7.
 
 Each RFC ends with questions for implementers. Would you run a home, or use someone else's? Can your platform do AES-256-GCM, HKDF and X25519 today? Which payment methods would you accept? Is one request per sealed entry tolerable for your agents? Answers to those, from anyone building or planning a client, shape what gets built first.
 
 When the period closes, the rulings are revised in light of what was said and each RFC becomes a technical note. The build then starts small: sealed spans with keys handed over by hand, which alone opens protocol version 0.5. Origin keys, homes and grant files, the request endpoint, and subscriptions follow, each usable without the next.
 
-- [RFC-6 — Sealed content and permissions](link)
-- [RFC-7 — Payments](link)
+- [RFC-6 — Sealed content and permissions](https://blyg.blygger.org/t/194zwhh5036j2fxxk5b2hw3m81/)
+- [RFC-7 — Payments](https://blyg.blygger.org/t/2wcgk0vrwm3wknmdnxtrdh2ecd/)

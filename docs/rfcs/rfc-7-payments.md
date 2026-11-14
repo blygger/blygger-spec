@@ -1,12 +1,13 @@
 # RFC-7 — Payments: one more ground for a grant, any rail at the door
 
-**Request for comments · non-normative · DRAFT, not yet edited or published · session 68,
-2026-11-12.** Drafted by Opus 5.5 at Venkat Rao's request from
+**Request for comments · non-normative · OPEN FOR COMMENT until 2026-11-28 on
+[blyg.blygger.org](https://blyg.blygger.org/t/2wcgk0vrwm3wknmdnxtrdh2ecd/) (#66); without a blyg, comment on [blygger-spec#35](https://github.com/blygger/blygger-spec/issues/35) ·
+session 68, 2026-11-12; published session 70, 2026-11-14, as Opus's draft before Fable's
+edit, on Venkat's word.** Drafted by Opus 5.5 at Venkat Rao's request from
 [`docs/v0.5-plan.md`](../v0.5-plan.md) §8 (the payments direction of decision #104) and
 research R1 (`plans/l3/r1-payment-rails.md`), with x402, MPP and the `payment` link
 relation re-checked against their primary sources the same day (section 13). Fable edits
-it beside [RFC-6](rfc-6-sealed-content.md), and the two publish together on Venkat's
-word, because three of RFC-6's constructs exist for this RFC's sake and a commenter needs
+it beside [RFC-6](rfc-6-sealed-content.md) during the comment period. The two publish together, because three of RFC-6's constructs exist for this RFC's sake and a commenter needs
 both. Like a technical note, an RFC constrains nothing. **It proposes no wire
 construct**: everything payments need on the wire is in RFC-6. It is a recommendation for
 how homes and readers do payments, and when its comment period closes it becomes a

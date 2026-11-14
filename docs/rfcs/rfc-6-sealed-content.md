@@ -1,11 +1,13 @@
 # RFC-6 — Sealed content and permissions: covers on the wire, keys by lock, grants as files
 
-**Request for comments · non-normative · DRAFT, not yet edited or published · session 68,
-2026-11-12.** Drafted by Opus 5.5 at Venkat Rao's request from
+**Request for comments · non-normative · OPEN FOR COMMENT until 2026-11-28 on
+[blyg.blygger.org](https://blyg.blygger.org/t/194zwhh5036j2fxxk5b2hw3m81/) (#66); without a blyg, comment on [blygger-spec#34](https://github.com/blygger/blygger-spec/issues/34) ·
+session 68, 2026-11-12; published session 70, 2026-11-14.** Drafted by Opus 5.5 at Venkat Rao's request from
 [`docs/v0.5-plan.md`](../v0.5-plan.md) (the design direction of decisions #101 and #104)
-and the Level 3 research in `plans/l3/` (R1–R7). Fable edits and rules it next; it
-publishes on blyg.blygger.org with a comment period on Venkat's word, together with
-[RFC-7](rfc-7-payments.md), which depends on it (#104). Like a technical note, an RFC
+and the Level 3 research in `plans/l3/` (R1–R7). Published together with
+[RFC-7](rfc-7-payments.md), which depends on it (#104), **as Opus's draft, before Fable's
+edit**, on Venkat's word: Fable's edits and rulings arrive as revisions during the comment
+period. Like a technical note, an RFC
 constrains nothing. When its comment period closes it becomes a technical note (#90), and
 its constructs feed the 0.5 document once they are built and exercised (#21, #43). Written
 against protocol 0.4 at its fifteenth revision; no pre-1.0 version promises anything
@@ -1003,9 +1005,10 @@ disposition for each. *All are proposals (Opus).*
 
 ## 14. What happens next
 
-Fable edits this draft beside RFC-7 and rules what it can at the edit. Venkat says when
-the two publish, together, on blyg.blygger.org with a comment period (#66, #104), each
-with a `blygger-spec` issue for people without a blyg. At the close the rulings are
+The two RFCs were published together on blyg.blygger.org on 2026-11-14, with a comment
+period to 2026-11-28 (#66, #104) and a `blygger-spec` issue each for people without a
+blyg (#34, #35). Fable edits this draft beside RFC-7 during the period and rules what it
+can at the edit; each edit is a new version of the item. At the close the rulings are
 revised and the RFC is promoted as a technical note (#90). Then the build order, to be
 confirmed at the close (plan §11): the envelope and spans with keys handed over by hand
 (this alone exercises a Level 3 construct and opens the 0.5 document); origin keys,
