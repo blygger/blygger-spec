@@ -16,6 +16,11 @@
    "section": "3",
    "text": "A conforming reader at any level MUST ignore constructs it does not understand rather than reject the document containing them (this is what lets levels and ver"
   },
+  "C-3-02": {
+   "fp": "b318ea42a96f",
+   "section": "3",
+   "text": "Two habits follow, and later text is written to them: a rule states a **property of a value** (an origin string is ASCII) in preference to an algorithm that pro"
+  },
   "C-3.1-01": {
    "fp": "f81ab6c7bc2b",
    "section": "3.1",
@@ -177,6 +182,21 @@
    "section": "5.1",
    "text": "`content_hash` MUST be `\"sha256:\" + hex(SHA-256(content_md as UTF-8))`, computed per published version."
   },
+  "C-5.1-04": {
+   "fp": "71fe3a3bbfd5",
+   "section": "5.1",
+   "text": "A publisher SHOULD publish `content_md` in Unicode Normalization Form C, which is what nearly every input path already produces, so that a quoted selection (§10"
+  },
+  "C-5.1-05": {
+   "fp": "e6c5d8613620",
+   "section": "5.1",
+   "text": "A reader MUST NOT normalize an imported `content_md`: it would then hold bytes the hash does not cover."
+  },
+  "C-5.1-06": {
+   "fp": "b130303ee102",
+   "section": "5.1",
+   "text": "A publisher MUST NOT publish a `content_md` containing a C0 control character other than tab (U+0009), line feed (U+000A) and carriage return (U+000D), or an un"
+  },
   "C-5.2-01": {
    "fp": "1362d5cc4bf3",
    "section": "5.2",
@@ -198,9 +218,9 @@
    "text": "Readers MAY resolve a relative URL against the document's origin on import as a defensive measure and MUST NOT depend on one being present."
   },
   "C-5.2-05": {
-   "fp": "dd782c0672c3",
+   "fp": "dbf6253f026b",
    "section": "5.2",
-   "text": "**No word in a note has wire meaning** (revision of 2026-10-19, decision #83): a note is prose, and clients MUST NOT treat any token in it — a conventional word"
+   "text": "**No word in a note has wire meaning** (revision of 2026-10-19, decision #83): a note is prose, and clients MUST NOT, of their own accord, treat any token in it"
   },
   "C-5.2-06": {
    "fp": "e6b3c8577a95",
@@ -231,6 +251,21 @@
    "fp": "3237320f02db",
    "section": "5.3",
    "text": "The feed's `<title>` element is derived (§7); a leading markdown heading in `content_md` is content, not a title, and readers MUST NOT extract one."
+  },
+  "C-5.3-05": {
+   "fp": "f88d452797c9",
+   "section": "5.3",
+   "text": "A **truncation** — to a cap, for a derived feed title (§7), for an excerpt — MUST NOT produce an unpaired surrogate, and SHOULD NOT split an extended grapheme c"
+  },
+  "C-5.3-06": {
+   "fp": "577e2465ba0f",
+   "section": "5.3",
+   "text": "A publisher MUST NOT publish a version of a fragment as a thread, or of a thread as a fragment."
+  },
+  "C-5.3-07": {
+   "fp": "354e9966a6da",
+   "section": "5.3",
+   "text": "A client that creates items on an author's behalf SHOULD create threads, since only the author can say that an item is a leaf."
   },
   "C-5.4-01": {
    "fp": "15eccb3079c2",
@@ -328,7 +363,7 @@
    "text": "**A fork's page SHOULD show its lineage** (revision of 2026-10-06, decision #65): a publisher that renders an HTML page for a fork SHOULD show on it that the it"
   },
   "C-5.7-01": {
-   "fp": "9cc91ec15450",
+   "fp": "f2824f4287b1",
    "section": "5.7",
    "text": "What the wire gains is generation's **provenance shadow**: a publisher whose version contains machine-generated prose SHOULD disclose it via an OPTIONAL top-lev"
   },
@@ -381,6 +416,16 @@
    "fp": "411759439c90",
    "section": "5.7",
    "text": "A client that makes generated spans visible SHOULD say, wherever it explains the mark, that the disclosure is the publisher's own and unverified (rule 6); a tin"
+  },
+  "C-5.7-12": {
+   "fp": "131471dd0627",
+   "section": "5.7",
+   "text": "Drawn-upon material is woven into new prose, not quoted: a source reference MUST NOT appear in `transclusions` and MUST NOT produce a `blyg-transclusion` blockq"
+  },
+  "C-5.7-13": {
+   "fp": "1d0cf0fa0011",
+   "section": "5.7",
+   "text": "Generated output may carry a directive on a line of its own, which transcludes at publish like any other (§10.1); the publisher MUST close the `blyg-tk-gen` wra"
   },
   "C-5.8-01": {
    "fp": "5c5c4886cc69",
@@ -567,6 +612,16 @@
    "section": "7",
    "text": "A publisher SHOULD publish the thread last, so that it is the newest entry, and readers MAY fold the burst (§13.7; revision of 2026-10-17, decision #78)."
   },
+  "C-7-11": {
+   "fp": "1a767c5ab40b",
+   "section": "7",
+   "text": "A publisher SHOULD NOT serialize the opaque `author` object itself into the XML: the state plane is ground truth, the feed is a signal."
+  },
+  "C-7-12": {
+   "fp": "56fb68c41d38",
+   "section": "7",
+   "text": "Later versions add elements to this same namespace under the reader ignore rule (§13.1); the protocol version signal is the manifest's `blyg` key (§3.1), never "
+  },
   "C-8-01": {
    "fp": "39d561a56d01",
    "section": "8",
@@ -632,6 +687,11 @@
    "section": "9",
    "text": "A withdrawn stub stops *verifying* as a stub, because its endcap omits `stub_of`, and SHOULD re-send its mention once so the target learns this (§15.2)."
   },
+  "C-9-02": {
+   "fp": "6f011d53130f",
+   "section": "9",
+   "text": "An endcap MUST NOT carry `stub_of` (§10.6) or a `generated` array (§5.7): mention verification relies on the first (§15.4), and neither describes a document wit"
+  },
   "C-10.1-01": {
    "fp": "60392156e7a2",
    "section": "10.1",
@@ -677,6 +737,16 @@
    "section": "10.1",
    "text": "A client-private authoring form inside brackets — a span to be minted as its own fragment, an alias to be resolved to an id — MUST be rewritten before publish s"
   },
+  "C-10.1-10": {
+   "fp": "eaad5414527f",
+   "section": "10.1",
+   "text": "A publisher MUST NOT publish a fragment whose `content_md` contains a directive line; it is a publish error, as an unresolvable directive is."
+  },
+  "C-10.1-11": {
+   "fp": "a9a130635870",
+   "section": "10.1",
+   "text": "When the publisher holds no `page` for the target, the `href` is the absolute URL of the target's **item document**, through the target's `item` template or the"
+  },
   "C-10.2-01": {
    "fp": "015a0570279a",
    "section": "10.2",
@@ -712,6 +782,26 @@
    "section": "10.2",
    "text": "A directive that carries a label (§10.1) additionally bakes `data-blyg-label=\"{label}\"`, the label verbatim and HTML-escaped (revision of 2026-10-19, decision #"
   },
+  "C-10.2-08": {
+   "fp": "b90e7eac7252",
+   "section": "10.2",
+   "text": "A reader MUST NOT resolve a directive or a link in another origin's `content_md` in order to display the item: what a quote says is what its publisher baked (§1"
+  },
+  "C-10.2-09": {
+   "fp": "e3e10c149e46",
+   "section": "10.2",
+   "text": "A **local** id — a draft or a published item — MUST NOT fall through to step 2: an imported document with the same id as a local item is the ambiguity §5.1 desc"
+  },
+  "C-10.2-10": {
+   "fp": "a18d512552bb",
+   "section": "10.2",
+   "text": "The held HTML is baked as it is, with one exception: a URL in it that is not absolute — the source was non-conformant, §5.2 — MUST be resolved against the **sou"
+  },
+  "C-10.2-11": {
+   "fp": "894d362aeb6f",
+   "section": "10.2",
+   "text": "The closure MUST be walked through the **versions actually baked** — from each `transclusions[]` entry to that version's own `transclusions[]`, which the publis"
+  },
   "C-10.3-01": {
    "fp": "b0200e77c50d",
    "section": "10.3",
@@ -727,6 +817,11 @@
    "section": "10.3",
    "text": "Readers at L2 MUST scope a transclusion's `id` to its `origin` when present, and to the document's own origin when absent, before doing anything with it — the s"
   },
+  "C-10.3-04": {
+   "fp": "a1c87f59c725",
+   "section": "10.3",
+   "text": "Mention verification (§15.4) MUST NOT consult it, as it does not consult `cited`; a reader that ignores it entirely remains conformant, because readers display "
+  },
   "C-10.3a-01": {
    "fp": "26ea2f12fd42",
    "section": "10.3a",
@@ -741,6 +836,11 @@
    "fp": "91cf2ad8625e",
    "section": "10.3a",
    "text": "Readers MUST scope `id` to `origin` as §13.1 requires, and MAY ignore the array entirely; a 0.3 reader does."
+  },
+  "C-10.3a-04": {
+   "fp": "a5be3e4a35e9",
+   "section": "10.3a",
+   "text": "A sender SHOULD NOT send a mention for a same-origin entry, here or for any other reference (§15.2): there is nobody to tell."
   },
   "C-10.6-01": {
    "fp": "0b89687e151a",
@@ -776,6 +876,16 @@
    "fp": "ca470d686f2a",
    "section": "10.6",
    "text": "Either shape MAY carry the `cited` object of §5.9 — the blyg-target shape since §5.9 named `stub_of` as a site, the `{url}` shape by the revision of 2026-10-06 "
+  },
+  "C-10.6-08": {
+   "fp": "bf383defd12c",
+   "section": "10.6",
+   "text": "`stub_of` is the machine-readable response marker, and readers and receivers MUST NOT infer a stub relation from the body, in either direction (inspecting the b"
+  },
+  "C-10.6-09": {
+   "fp": "bb103c8b0c0a",
+   "section": "10.6",
+   "text": "The value is monotonic: it MUST NOT decrease (decision #76, conformance finding F17)."
   },
   "C-11-01": {
    "fp": "23f702dcc52f",
@@ -867,6 +977,16 @@
    "section": "12.2",
    "text": "When a later manifest no longer lists the feed, the reader stops polling it and treats its entries as gone; it MUST NOT silently convert the subscription into o"
   },
+  "C-12.2-06": {
+   "fp": "a3e2de51e0cb",
+   "section": "12.2",
+   "text": "An origin written into any document — a document's own `origin`, a reference (§5.9), `moved_from`, a baked `data-blyg-origin` — MUST consist of ASCII characters"
+  },
+  "C-12.2-07": {
+   "fp": "c12900dba378",
+   "section": "12.2",
+   "text": "This is what a WHATWG URL parser serializes, and an implementation without one MUST write the same string."
+  },
   "C-12.3-01": {
    "fp": "3d882744cc0c",
    "section": "12.3",
@@ -952,6 +1072,16 @@
    "section": "13.2",
    "text": "A fetched document that §15.4's repost test reduces to nothing — directive lines, attached selections, labels and whitespace stripped — carries other people's w"
   },
+  "C-13.2-07": {
+   "fp": "d6300a943cd9",
+   "section": "13.2",
+   "text": "An unparseable *entry* SHOULD be skipped individually — the containing feed is not rejected (the §13.1 ignore ethos, applied to syntax)."
+  },
+  "C-13.2-08": {
+   "fp": "71b8f2ef61d8",
+   "section": "13.2",
+   "text": "The threshold has no place on the wire, and a client SHOULD NOT advertise it anywhere, so that no author can write to it; the author's own lever is to hold a sm"
+  },
   "C-13.3-01": {
    "fp": "2a10bf13f7a4",
    "section": "13.3",
@@ -966,6 +1096,16 @@
    "fp": "2475ca5ae0c1",
    "section": "13.3",
    "text": "Readers SHOULD verify `content_hash` against `content_md` on import."
+  },
+  "C-13.3-04": {
+   "fp": "6ad75592f695",
+   "section": "13.3",
+   "text": "The reader SHOULD record and surface the discrepancy and MAY decline to adopt the version."
+  },
+  "C-13.3-05": {
+   "fp": "9b54ef5406f4",
+   "section": "13.3",
+   "text": "A client re-resolving a quote of such an item at publish (§10.2) SHOULD tell the author before baking it."
   },
   "C-13.4-01": {
    "fp": "6a792e2439c2",
@@ -1053,9 +1193,9 @@
    "text": "**Items published together MAY be shown together** (revision of 2026-10-17, decision #78)."
   },
   "C-13.7-03": {
-   "fp": "de426443e725",
+   "fp": "8fe9a1dc4a4d",
    "section": "13.7",
-   "text": "A reader MAY present such a burst as one publication — the thread as its entry, its fragments beneath it or deferred to the low-priority queue of §13.2 — and MU"
+   "text": "A reader MAY present such a burst as one publication — the thread as its entry, the items it names (of either kind) beneath it or deferred to the low-priority q"
   },
   "C-14-01": {
    "fp": "3d998d84d6b8",
@@ -1076,6 +1216,21 @@
    "fp": "705955024838",
    "section": "14",
    "text": "Ordering across origins is each reader's own observation-time policy, which §13.7 says SHOULD keep a skewed origin from dominating."
+  },
+  "C-14-05": {
+   "fp": "05067d7d971c",
+   "section": "14",
+   "text": "A reader SHOULD isolate every attributed string and every baked quote directionally (`dir=\"auto\"` on the element, or `unicode-bidi: isolate`), so that what a st"
+  },
+  "C-14-06": {
+   "fp": "70121854f73f",
+   "section": "14",
+   "text": "A publisher SHOULD NOT publish unpaired bidi controls."
+  },
+  "C-14-07": {
+   "fp": "c28580dbdecf",
+   "section": "14",
+   "text": "Identity is the origin string, always: a reader MUST NOT treat visual similarity as identity, and SHOULD display an internationalized host in a form that lets i"
   },
   "C-15-01": {
    "fp": "0caf66de33b8",
@@ -1143,6 +1298,11 @@
    "section": "15.3",
    "text": "Both MUST be absolute `http(s)` URLs; `source` MUST differ from `target`; `target` MUST resolve, by the receiver's own published data, to one of this blyg's ite"
   },
+  "C-15.3-05": {
+   "fp": "43e113d177f6",
+   "section": "15.3",
+   "text": "A claim refused by any cap MUST be answered 429 and SHOULD NOT be queued."
+  },
   "C-15.4-01": {
    "fp": "593e9d9644b6",
    "section": "15.4",
@@ -1194,6 +1354,11 @@
    "fp": "72e672833a37",
    "section": "15.5",
    "text": "Notices are held apart: they MUST NOT appear in a responses list, MAY be shown as \"linked from\" or \"reposted by\" with attribution under §13.5 like any display, "
+  },
+  "C-15.5-03": {
+   "fp": "072e360e5aec",
+   "section": "15.5",
+   "text": "A receiver MUST NOT publish one automatically, and MUST NOT put one in the feed, the archive index, or any item document; they add no manifest vocabulary."
   },
   "C-15.6-01": {
    "fp": "51ee8e8e51ca",
@@ -1421,6 +1586,56 @@
    "fp": "ab3f94f298c0",
    "section": "16.13",
    "text": "Published references stay as made; a republish re-resolves against the reader's current record (§10.2) and names the new identity, and MAY re-send its mentions."
+  },
+  "P-16.14-01": {
+   "fp": "66dde334a346",
+   "section": "16.14",
+   "text": "An item document MAY carry `syndication`, an array naming copies of the item that its publisher made on other networks:"
+  },
+  "P-16.14-02": {
+   "fp": "35ffeb5a113b",
+   "section": "16.14",
+   "text": "`url` is REQUIRED and MUST be an absolute `https:` URL at which the copy can be read; it SHOULD be the most stable URL the network offers."
+  },
+  "P-16.14-03": {
+   "fp": "dbc437b5174d",
+   "section": "16.14",
+   "text": "`version` is REQUIRED: the version of this item the copy was made from."
+  },
+  "P-16.14-04": {
+   "fp": "ea3362dc9b60",
+   "section": "16.14",
+   "text": "A publisher MUST NOT put counts, replies or account data in an entry (§16.8); there is no network name."
+  },
+  "P-16.14-05": {
+   "fp": "5db104f751a6",
+   "section": "16.14",
+   "text": "A publisher SHOULD NOT publish a version solely to record an entry: the version would send a feed entry with no new writing to every plain RSS reader."
+  },
+  "P-16.14-06": {
+   "fp": "8326eb57a0cb",
+   "section": "16.14",
+   "text": "A reader that fetched the document before an entry landed sees it at its next fetch, and MAY refetch a document it is showing."
+  },
+  "P-16.14-07": {
+   "fp": "a16440407cf3",
+   "section": "16.14",
+   "text": "A reader MAY show an entry as a link, presented as the publisher's claim, and MUST NOT render a `url` that is not `https:` as a link."
+  },
+  "P-16.14-08": {
+   "fp": "25857cb323f0",
+   "section": "16.14",
+   "text": "A reader MUST NOT hide or merge another party's post on the strength of an entry, whether or not that post links back to the item: anyone may link to an item, s"
+  },
+  "P-16.14-09": {
+   "fp": "136d036469b6",
+   "section": "16.14",
+   "text": "A reader MUST NOT infer from an entry that the item's author is the account that posted the copy (§5.5)."
+  },
+  "P-16.14-10": {
+   "fp": "bf3a0b3d14a0",
+   "section": "16.14",
+   "text": "An additive OPTIONAL member; 0.4 text by #43."
   }
  }
 }

@@ -1,17 +1,18 @@
 {
   "id": "directive-tab-indented",
-  "title": "A tab-indented directive line at the start of a document",
+  "title": "A tab-indented directive line at the start of a document is indented code: code wins (#102)",
   "group": "grammar",
   "snapshot": "spec/0.4/2026-10-18",
-  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
-  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "text": "docs/protocol-v0.4.md at blygger-spec d248bc4 (fifteenth revision, 2026-11-12)",
+  "note": "Revisions two to fifteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) come from them, so those cases cite the living text.",
   "spec_refs": [
     "§10.1"
   ],
   "clauses": [],
   "decisions": [
     "#9",
-    "#54"
+    "#54",
+    "#102"
   ],
   "kind": "thread",
   "self": {
@@ -41,6 +42,5 @@
     ],
     "transclusions": []
   },
-  "ambiguous": "§10.1 allows surrounding whitespace on the directive line, and also says the directive is inert inside code blocks. In CommonMark a line indented by a tab (four columns) is an indented code block. The expectation lets the code rule win, as it does for four spaces after a blank line.",
   "seeded_from": "tr_tabs"
 }

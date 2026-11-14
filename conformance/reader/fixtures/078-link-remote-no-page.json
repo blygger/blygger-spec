@@ -1,10 +1,10 @@
 {
   "id": "link-remote-no-page",
-  "title": "A link to an imported item whose document names no page",
+  "title": "A link to an imported item whose document names no page names the item document, never the convention",
   "group": "urls",
   "snapshot": "spec/0.4/2026-10-18",
-  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
-  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "text": "docs/protocol-v0.4.md at blygger-spec d248bc4 (fifteenth revision, 2026-11-12)",
+  "note": "Revisions two to fifteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) come from them, so those cases cite the living text.",
   "spec_refs": [
     "§10.1",
     "§5.8"
@@ -14,7 +14,8 @@
   ],
   "decisions": [
     "#53",
-    "#85"
+    "#85",
+    "#102"
   ],
   "kind": "fragment",
   "self": {
@@ -38,13 +39,10 @@
   ],
   "expect": {
     "error": false,
-    "content_html": "<p><a href=\"https://remote.example/f/6a7b8c9d0e1f2g3h4j5k6m7n8p/\">…</a></p>\n",
+    "content_html": "<p><a href=\"https://remote.example/items/6a7b8c9d0e1f2g3h4j5k6m7n8p.json\">…</a></p>\n",
     "normative": [
       {
-        "a": [
-          "https://remote.example/f/6a7b8c9d0e1f2g3h4j5k6m7n8p/",
-          "https://remote.example/items/6a7b8c9d0e1f2g3h4j5k6m7n8p.json"
-        ]
+        "a": "https://remote.example/items/6a7b8c9d0e1f2g3h4j5k6m7n8p.json"
       }
     ],
     "links": [
@@ -53,9 +51,5 @@
         "origin": "https://remote.example/"
       }
     ]
-  },
-  "ambiguous": "§10.1 says the anchor's href is the absolute URL of the target's page (§5.8), and §5.8 lets readers fall back to the reference convention when `page` is absent. Decision #85 says a mention sender in the same position names the item document instead. The expectation accepts either the convention page or the item document.",
-  "ambiguous_checks": [
-    "normative"
-  ]
+  }
 }

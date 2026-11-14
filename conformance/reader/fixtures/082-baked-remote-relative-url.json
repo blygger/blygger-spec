@@ -1,10 +1,10 @@
 {
   "id": "baked-remote-relative-url",
-  "title": "A relative URL in an imported item's HTML must not reach this item's content_html relative",
+  "title": "A relative URL in an imported item's HTML is resolved against the source's origin before the bake",
   "group": "urls",
   "snapshot": "spec/0.4/2026-10-18",
-  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
-  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "text": "docs/protocol-v0.4.md at blygger-spec d248bc4 (fifteenth revision, 2026-11-12)",
+  "note": "Revisions two to fifteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) come from them, so those cases cite the living text.",
   "spec_refs": [
     "§5.2",
     "§10.2"
@@ -14,7 +14,8 @@
     "C-5.2-04"
   ],
   "decisions": [
-    "#53"
+    "#53",
+    "#102"
   ],
   "kind": "thread",
   "self": {
@@ -53,7 +54,7 @@
         "text": "See the notes for more.",
         "children": [
           {
-            "a": "(absolute)",
+            "a": "https://remote.example/notes/",
             "text": "the notes"
           }
         ]
@@ -66,10 +67,5 @@
         "origin": "https://remote.example/"
       }
     ]
-  },
-  "ambiguous": "The source is non-conformant (§5.2 requires its own content_html to be absolute). §10.2 bakes the held HTML, §5.2 says readers MAY resolve relative URLs on import, and §5.2 also says this item's content_html MUST be absolute. The expectation follows the MUST: whoever resolves it, the URL that reaches the bake is absolute.",
-  "ambiguous_checks": [
-    "normative",
-    "absolute-urls"
-  ]
+  }
 }

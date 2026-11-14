@@ -24,8 +24,7 @@
   {"section": "10.2", "match": "A thread MUST NOT transclude a local thread", "set": {"side": "client"}},
   {"section": "10.1", "match": "MUST reject it at publish time", "set": {"side": "client"}},
   {"section": "13.7", "match": "and MUST still import every item", "set": {"side": "reader"}},
-  {"section": "16.12", "match": "it MUST NOT silently convert the subscription", "set": {"side": "reader"}},
-  {"section": "16.12", "match": "import the entries as L0 wrapper rows", "set": {"side": "reader"}},
+  {"section": "12.2", "match": "it MUST NOT silently convert the subscription", "set": {"side": "reader"}},
   {"section": "5.7", "match": "No data attributes are REQUIRED", "set": {"level": "MAY", "level_basis": "override: negated keyword (not REQUIRED = optional)"}},
   {"section": "15.7", "match": "but is not REQUIRED to", "set": {"level": "MAY", "level_basis": "override: negated keyword (not REQUIRED = optional)"}}
  ],

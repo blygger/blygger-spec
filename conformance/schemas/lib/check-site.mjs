@@ -22,7 +22,8 @@ export function checkSite(dir) {
   const docs = [];
   const manifest = readJson(join(dir, "blyg.json"));
   const ms = validateDoc("manifest", manifest);
-  docs.push({ path: "blyg.json", type: "manifest", schema: ms, rules: [], verdict: verdict(ms, []) });
+  const mr = runRules("manifest", manifest, { origin });
+  docs.push({ path: "blyg.json", type: "manifest", schema: ms, rules: mr, verdict: verdict(ms, mr) });
 
   const index = readJson(join(dir, "items/index.json"));
   const is = validateDoc("index", index);

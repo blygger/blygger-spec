@@ -1,12 +1,13 @@
 {
   "id": "remote-withdrawn-pin-retained",
-  "title": "An imported item withdrawn at its origin but pin-retained resolves to the retained snapshot",
+  "title": "An imported item withdrawn at its origin but pin-retained bakes the retained version; a reader that retained nothing publish-errors",
   "group": "resolution",
   "snapshot": "spec/0.4/2026-10-18",
-  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
-  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "text": "docs/protocol-v0.4.md at blygger-spec d248bc4 (fifteenth revision, 2026-11-12)",
+  "note": "Revisions two to fifteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) come from them, so those cases cite the living text.",
   "spec_refs": [
     "§10.2",
+    "§10.3",
     "§13.4"
   ],
   "clauses": [
@@ -14,7 +15,8 @@
   ],
   "decisions": [
     "#8",
-    "#26"
+    "#26",
+    "#102"
   ],
   "kind": "thread",
   "self": {
@@ -51,7 +53,7 @@
     }
   ],
   "expect": {
-    "error": false,
+    "error": "either",
     "content_html": "<blockquote class=\"blyg-transclusion\" data-blyg-id=\"8w8w8w8w8w8w8w8w8w8w8w8w8w\" data-blyg-version=\"1\" data-blyg-origin=\"https://remote.example/\">\n<p>Pinned words that outlive withdrawal.</p>\n</blockquote>\n",
     "normative": [
       {
@@ -74,6 +76,5 @@
         "origin": "https://remote.example/"
       }
     ]
-  },
-  "ambiguous": "Retention is a MAY (§13.4: a pinned version MAY be retained), so a reader that kept no copy of the pin after the withdrawal is conformant and publish-errors here; the fixture states that this renderer holds the retained snapshot. Separately, §10.2 does not say which version number a bake of a retained snapshot carries: the expectation bakes the retained version (1), whose bytes are quoted, not the withdrawal endcap (2)."
+  }
 }

@@ -6,7 +6,9 @@ that supplies an adapter ([ADAPTERS.md](ADAPTERS.md)). It was written against
 `docs/protocol-v0.3.md`; where `docs/protocol-v0.4.md` changed a rule it
 checks, it follows 0.4: absolute `page` (C-5.8-01), relocatable manifest paths
 (C-4-14), remote generation sources (C-5.7-08), the author's label (#70), and
-a partial quote's CommonMark extent and LF/CRLF line endings (#76).
+a partial quote's CommonMark extent and LF/CRLF line endings (#76),
+the fragment directive as a publish error (#102), and Unicode on the wire
+(#103: `content_md` is text, NFC as a warning, an origin's one spelling).
 Nothing here is normative: where the checker had to choose a
 reading the spec leaves open, the choice is listed under **For Fable** in the
 report.
@@ -54,7 +56,7 @@ its own repository, without changes here: pass it with `--impl` or `IMPLS`.
 | `schemas/pinned.schema.json` | `items/{id}/v{n}.json` (§8) |
 | `schemas/manifest.schema.json`, `index.schema.json` | `blyg.json` (§6.1), `items/index.json` (§6.2) |
 | `schemas/advisory.schema.json` | The SHOULD/RECOMMENDED layer. Its errors are warnings, never failures (decision #48) |
-| `lib/semantic.mjs` | Cross-field rules JSON Schema cannot express, each tagged with level, § and decisions: hash, changelog contiguity, `updated`, absolute URLs in `content_html` (#53), directives ↔ `transclusions[]` ↔ baked wrappers (#26, #49), stub version agreement (#27), `forked_from.cited.url`, `page` form, `blyg-tk-gen` wrappers, pins served, … |
+| `lib/semantic.mjs` | Cross-field rules JSON Schema cannot express, each tagged with level, § and decisions: hash, changelog contiguity, `updated`, absolute URLs in `content_html` (#53), directives ↔ `transclusions[]` ↔ baked wrappers (#26, #49), stub version agreement (#27), `forked_from.cited.url`, `page` form, `blyg-tk-gen` wrappers, pins served, no directive line in a fragment (#102), `content_md` is text and NFC and every written origin has the §12.2 spelling (#103, item, pinned and manifest scope), … |
 | `lib/grammar.mjs` | A reference reading of the §10.1 bracket grammar written from the spec, used by the rules |
 | `lib/feed.mjs` | A small checker for the `blyg:` elements of `feed.xml` (§7) |
 | `lib/selftest.mjs` | Mutation self-test: breaks one MUST in a good document and confirms the checker fails it |
