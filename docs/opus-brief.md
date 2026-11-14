@@ -341,6 +341,53 @@ formula with `encoding="APPLICATION/X-TEX"` is dropped today); stop `mathAt`'s s
 a closing dollar after `TEX_MAX` characters, since a longer formula is not drawn anyway
 and the scan is otherwise quadratic in a paragraph of lone dollars.
 
+**Fable's look at the R1–R4 diff (`ffd7aae`), session 70, 2026-11-14: not yet. Five
+changes, then merge without another review** unless one of them cannot be built as
+written. R4, the dollar scan, the case-insensitive `encoding`/`display` and the
+per-request failure store are approved as built. Reasoning for R2a/R2b:
+`v0.4-plan.md` §23.6.
+
+- **R1a. Refuse on the placeholder, not on the failure.** `$x % [[id]]$`,
+  `$x % [[id | y]]$` and `$a % [TK]impyrt=b[/TK]$` publish (200) with `<a href>` or
+  `<span class="blyg-tk-gen">` inside the formula's `<annotation>`: TeX drops the rest
+  of a line after `%`, so the formula parses and no failure is recorded. In the
+  `math_inline` render rule, note a failure whenever `SENTINEL.test(token.content)`,
+  whether or not `renderTex` returned an error. *Tests:* the three inputs return 400
+  and write nothing; a displayed formula with the link on a commented line too.
+- **R3a. `replaceElements` slices the original with positions from a lowercased copy,
+  and `İ` (U+0130) lowercases to two code units.** `İ<script>SECRET</script>tail` gives
+  the §2 text `İ< ail`; an item with an `İ` and a formula gets a mangled excerpt. Never
+  search a copy whose length can differ: lower ASCII only
+  (`replace(/[A-Z]/g, …)`), or search the original with sticky case-insensitive
+  literals. *Tests:* for `İ<script>x</script>tail`, `İİİİ<p>a</p><style>b{}</style><p>c</p>`
+  and an `İ` before a formula, `selectionText`, `plainTextFromHtml` and
+  `selectionTouchesMath` equal what the old regex gave; put `İ`, `ẞ` and a surrogate
+  pair in the fuzz alphabet and run it again.
+- **R3b. The scanner is quadratic with two names.** 20,000 `<script></script>` pairs
+  followed by one `<style></style>` take 3.8 s at 340 KB and 34 s at 1 MB (the old
+  regex was linear there): each step searches for the far `<style` again. Keep each
+  name's next position and search again only once `pos` has passed it. *Test:* that
+  input, and its mirror, in under 50 ms.
+- **R2a. Containment is a paint rule** (§23.6). `math { overflow: clip }` in the
+  public, reading and preview stylesheets. *Tests, browser suite:* on a public thread
+  page, for `\raisebox{20em}{W}`… (refused at publish after R2b, so plant the HTML as an
+  imported item whose formula the redraw accepts, or use `\smash` over a forty-row
+  array, which publishes), no leaf of the formula is hit by `elementFromPoint` outside
+  its paragraph's box; for a corpus of ordinary formulas (fractions, sums with limits,
+  accents, `\overline`, a displayed integral, a matrix) a screenshot with the rule
+  equals one without it. Add `overflow-clip-margin` only if that second test needs it,
+  and then no more than 0.5em. Say in the PR which engines the suite ran.
+- **R2b. `voffset` within ±2em, and the absolute `voffset` values in one formula sum
+  to at most 4em**, in `allowedMath`; the other lengths keep R2's bounds. *Tests:*
+  `\raisebox{20em}{x}` and `\raisebox{-2em}` nested three deep are refused at publish
+  and shown as TeX in the reader; `\raisebox{0.5em}{x}` and `\genfrac` still draw.
+
+Smaller, same pass: R4's budget charges a formula's whole length even when it is over
+`TEX_MAX` and never drawn, so one oversized formula turns the rest of a thread to
+text; charge only what is drawn. And the syntax page's list of what does not survive
+gains negative space (`\!`, `\hspace{-…}`, kerns draw as no space: temml emits them as
+a `style`).
+
 Not this PR, to file as studio issues: (a) the sanitizer keeps any `class` value, so
 imported HTML can wear the Studio's own classes, several of which are `position: fixed`
 (`.toast`, the sheet, the save bar); restrict `class` on import to the `blyg-` wire

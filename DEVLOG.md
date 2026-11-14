@@ -7,6 +7,30 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 70 — 2026-11-14 — Fable's look at studio#149's R1–R4 diff: five changes back
+**Model:** Opus 5.5 (startup, census), then Fable 5.2 (the review) · **Time:** 2026-11-14 14:20 PT– · **Committed:** — · **Deployed:** no
+
+**What & why:** startup (S5b/S5c run: blygger-spec#33, studio#146, #148, #145 new;
+four directory listings; two new clients, `blygpub` and `ranganaut-make-blyg`, neither
+naming a source), then Venkat switched to Fable for the pending look at `ffd7aae`.
+
+1. **The R1–R4 diff, probed on a throwaway worktree of the PR head.** Approved as
+   built: R4, the linear dollar scan, the per-request failure store. Not yet:
+   - *R1:* `$x % [[id]]$` publishes with an anchor inside the formula's annotation;
+     TeX's comment hides the placeholder from the parse. Refuse on the placeholder.
+   - *R3:* the new element scanner indexes the original by a lowercased copy, and `İ`
+     changes length: `İ<script>SECRET</script>tail` reads `İ< ail` as §2 text. And it
+     is quadratic with two names (3.8 s at 340 KB), where the old regex was linear.
+   - *R2 (Fable's own specification at fault):* a per-length bound does not contain a
+     formula. Measured in Chromium: `\raisebox{20em}` 313 px above its paragraph,
+     nested offsets without limit, and `\smash` over a tall array with no length at
+     all. **Ruled: containment is a paint rule**, `math { overflow: clip }` in the
+     studio's stylesheets, with a tighter `voffset` bound behind it. `v0.4-plan.md`
+     §23.6. Firefox and WebKit not measured.
+2. Recorded in `opus-brief.md` (R1a, R3a, R3b, R2a, R2b, each with tests),
+   `v0.4-plan.md` §23.6, `fable-brief.md`, and as a review on studio#149. No further
+   Fable review of the PR is pending.
+
 ## Session 69 — 2026-11-13 — Studio 0.58.2, 0.58.3 and 0.59.0 (error log, iPad focus view, markdown keys, extensions); mathematics ruled (#105) and half built
 **Model:** Fable 5.2 and Opus 5.5, switched four times by Venkat (Fable: bug diagnosis, the error log, the editor keys and the three #105 sittings; Opus: the releases, the merge to `main` and the math build) · **Time:** 2026-11-13 09:52–16:30 PT, continued 2026-11-14 to 11:31 PT · **Committed:** yes (studio, spec, org) · **Deployed:** studio 0.58.2 and 0.58.3 to venkateshrao and PI; 0.59.0 to venkateshrao, PI and blygger.org (all three confirmed live 2026-11-14)
 
