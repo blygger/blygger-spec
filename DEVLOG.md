@@ -7,10 +7,44 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 69 — 2026-11-13 — (in progress; completed at wrap-up)
-**Model:** Fable 5.2 (Opus 5.5 briefly mid-session) · **Time:** 09:52 PT– · **Committed:** — · **Deployed:** studio 0.58.2 (venkateshrao, PI)
+## Session 69 — 2026-11-13 — Studio 0.58.2, 0.58.3 and 0.59.0 (error log, iPad focus view, markdown keys, extensions); mathematics ruled (#105) and half built
+**Model:** Fable 5.2 and Opus 5.5, switched four times by Venkat (Fable: bug diagnosis, the error log, the editor keys and the three #105 sittings; Opus: the releases, the merge to `main` and the math build) · **Time:** 09:52–16:30 PT · **Committed:** yes (studio, spec) · **Deployed:** studio 0.58.2 and 0.58.3 to venkateshrao and PI; 0.59.0 to venkateshrao, PI and blygger.org
 
-*Entry opened mid-session to record the ruling below; the rest is written at wrap-up.*
+**What & why:** Venkat came with bugs and asked for features; the session became three
+studio releases and a protocol ruling. S5b/S5c (new PRs and issues, listings, census)
+were not run.
+
+1. **Focus view closed at once on an iPad** (0.58.2). iPad Safari has the Fullscreen API
+   and leaves fullscreen when its keyboard rises; the view read that exit as Escape. The
+   view no longer asks for browser fullscreen on iOS (`platform()` in `useFocusView`).
+   Diagnosed by reading, not reproduced; Venkat to confirm on the iPad.
+2. **The error log** (ROADMAP row 59, 0.58.2). Venkat saw a transient banner he could
+   not quote ("collection must be reloaded"); the likeliest source was the one confirmed
+   write #142 missed (mention hide/show), now through `writeIfSyncing`. The log keeps the
+   last 100 errors in `localStorage`: every banner (`Failure`), uncaught exceptions,
+   rejections and route failures, with route, item, failed request, status, code, build
+   and stack; Settings → Errors lists them, copies diagnostics and exports a JSON file
+   with the device (share sheet on a phone). Kept local by Venkat's choice (no
+   migration, no server-side stacks). The first full run found a real defect: leaving a
+   page logged each dropped request, so nothing is recorded after `pagehide`. Venkat
+   then asked for extensions: their failures are logged under their name and slot, and
+   `context.showError` lets one show an error of its own (additive; no extension needs
+   changing). The log covers the browser Studio only; cron, importer and Webmention
+   errors stay in the Worker logs (a server-side log would be its own feature).
+3. **Sublists, line breaks, code blocks** (0.58.3). All three already rendered
+   (CommonMark); what was missing was typing them. Tab/Shift+Tab nest list items (a
+   numbered item that opens a sublist becomes 1, or markdown reads it as text; Tab off a
+   list or on a first item keeps its meaning, since four spaces with nothing above is a
+   code block), Shift+Enter writes the backslash break, toolbar buttons for an iPad, a
+   Markdown section on the syntax page.
+4. **Releases.** 0.58.2 and 0.58.3 were cut from the `v0.58.1` tag so they could ship
+   without `main`'s held #59, #143, #144; PR #147 merged them back (merge commit, since
+   the tags point into it; the conflicts were the error log's extension hooks meeting
+   menu zones and editor regions). Venkat then asked to release `main`: **0.59.0** carries
+   #59 (extension vendoring), #143 (menu zones), #144 (editor regions) and the hotfix
+   line, no migration, live on all three blygs (blygger.org came from 0.58.1). **The
+   reading redesign (`feat/reading-redesign`, migration 0046) is not in it**; the
+   carry-over that named it 0.59.0 is rewritten.
 
 - **Decision #105, mathematics (sixteenth 0.4 revision).** Venkat asked for LaTeX in
   the editor. Ruled with him: no construct. `content_html` carries HTML's `math`
@@ -38,6 +72,39 @@ Per-session development log. Non-skippable: every coding session appends an entr
   meaning, refuse by name; changes only emphasis, draw plain; Core can draw it, draw it
   in Core. `\overline`/`\underline` become `mover`/`munder`; the strikes are refused;
   boxes draw plain. `v0.4-plan.md` §23.5.
+- **The math build (Opus), branch `feat/math`, two local WIP commits, not pushed.**
+  `src/math.ts` finds formulas by pandoc's rule (inline rule after `escape`), and
+  `src/math-render.ts` draws them with temml in the Worker only: `scripts/build-spa.ts`
+  swaps in `math-render.browser.ts` and fails the build if temml reaches the bundle.
+  Publish refuses a formula that does not parse (`MathPublishError`) and a partial quote
+  across a formula (`selectionTouchesMath`); the stub editor refuses that selection;
+  excerpts show the TeX. Found on the way: every display of a thread runs `sanitizeHtml`
+  (public page, reader, preview), so the reader half could not wait. The sanitizer now
+  redraws: two `HTMLRewriter` passes with an unguessable marker and token, the first
+  `application/x-tex` annotation of each top-level `math` drawn again, caps, a TeX
+  fallback, and one render function for publish and display that strips `style` and
+  checks its output against the allowlist. Seven MathML cases joined the shared hostile
+  corpus and are asserted as parsed DOM in the browser suite (all passing).
+
+**State after:** studio 0.59.0 on venkateshrao, PI and blygger.org; `main` = `v0.59.0`.
+Spec 0.4 sixteenth revision written (#105, three sittings), not published. ROADMAP row
+59 shipped; row 123 (mathematics) in progress; row 124 added for the markdown keys.
+
+**Open threads:**
+- **Math, to finish on `feat/math`** (worktree at the scratchpad path is disposable; the
+  branch is in the repo): apply the third sitting (`opus-brief.md` invariant 4, the
+  `menclose` paragraph); fix `test/replacement-patterns.test.ts` "a block TK span with
+  $-patterns publishes verbatim", which now reads `$`-patterns as a formula (decide
+  whether that fixture's text should change or the pattern needs escaping); run the
+  full browser suite, which did not finish on the last commit; push and open the PR;
+  **Fable reviews the sanitizer diff before release.**
+- Venkat: confirm on the iPad that focus view stays open (0.58.2) and that "export
+  error log" opens the share sheet; if the "collection" banner recurs, export the log.
+- Pending call #15 (does no-vendoring reach server packages?) now matters: temml runs
+  on every thread display.
+- Not pushed: `blygger-spec` (four commits including session 68's). Spec page not
+  redeployed. ROADMAP publishes on the next `blygger-org/deploy.sh`.
+- S5b/S5c were skipped this session; run them next.
 
 ## Session 68 — 2026-11-12 — RFC-6 (sealed content) and RFC-7 (payments) drafted; tn-9 (Common Fabric) drafted for review
 **Model:** Opus 5.5 · **Time:** ~22:05–23:05 PT · **Committed:** yes (spec) · **Deployed:** —
