@@ -183,6 +183,36 @@
       "id": "371sfwj49315qgp90tsgyapdz5",
       "version": 1,
       "source_sha256": "6815e02e9b650b37d8d3d8c56ad2b36147d876f05e5d1e53e2654a2fcc0c58dc"
+    },
+    "0.59.0": {
+      "id": "2n17ghxcefxgahdfxtgy9zxx4z",
+      "version": 1,
+      "source_sha256": "44105575b3c24a9a21bf3242a98333ac655bed003cee89fb6576970451e54ed9",
+      "batch": [
+        "0.59.0",
+        "0.58.3",
+        "0.58.2"
+      ]
+    },
+    "0.58.3": {
+      "id": "2n17ghxcefxgahdfxtgy9zxx4z",
+      "version": 1,
+      "source_sha256": "bb944d580efdacac05fdc6cbebfe8d33a1a1a241773efce6025ab6f356a51222",
+      "batch": [
+        "0.59.0",
+        "0.58.3",
+        "0.58.2"
+      ]
+    },
+    "0.58.2": {
+      "id": "2n17ghxcefxgahdfxtgy9zxx4z",
+      "version": 1,
+      "source_sha256": "48992c4f978da7439fbe78a4cefe5615aaff42b5391e2a60031f637889661088",
+      "batch": [
+        "0.59.0",
+        "0.58.3",
+        "0.58.2"
+      ]
     }
   }
 }
