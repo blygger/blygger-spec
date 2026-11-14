@@ -263,6 +263,17 @@ ships**; say so in the PR. The invariants, each with the test that proves it:
      fallback. If temml legitimately emits a name not listed, bring the name back to
      Fable; do not add it. *Test:* a stubbed renderer returning `<math><mi href="x">`
      yields the fallback.
+   **Ruled on the `menclose` gap** (`v0.4-plan.md` §23.5): `menclose` and `notation` stay
+   off the lists. In the shared render function, before the allowlist check:
+   `\overline` and `\underline` become `mover`/`munder` with a stretchy bar `mo`
+   (`accent="true"` / `accentunder="true"`); `\boxed` and `\fbox` lose the box and keep
+   their content; `\cancel`, `\bcancel`, `\xcancel`, `\sout`, `\angl`, `\phase` and
+   `\longdiv` are refused with a message naming the command ("…needs a stylesheet most
+   readers will not have"). *Tests:* a browser test that `$\overline{AB}$` on a public
+   page differs in pixels from `$AB$` and has a bar element of non-zero width; a publish
+   test for each refused command; `\boxed{x}` publishes and contains no `menclose`.
+   Check `\widehat` and `\overrightarrow` after the style strip and add `accent` if they
+   shrank. The syntax page's list of what does not survive follows these three groups.
    **Fable reviews this diff before release.**
 5. **Text content is unchanged.** `selectionText` and `plainTextFromHtml` in
    `src/markdown.ts` get no special case for `math` where they implement §2 (the partial

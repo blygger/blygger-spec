@@ -32,6 +32,12 @@ Per-session development log. Non-skippable: every coding session appends an entr
   at publish or display; and mathematics renders in generated output like any other
   text (the brief's "inert" clause was wrong). `v0.4-plan.md` §23.4; brief invariants
   1, 4 and 6 rewritten.
+- **#105, third sitting: the `menclose` gap.** Opus built the redraw and brought back
+  one name, `menclose` (`\overline`, `\cancel`). Measured: Chromium draws nothing for
+  it. Ruled it stays off the list, with a test for such commands: losing it changes the
+  meaning, refuse by name; changes only emphasis, draw plain; Core can draw it, draw it
+  in Core. `\overline`/`\underline` become `mover`/`munder`; the strikes are refused;
+  boxes draw plain. `v0.4-plan.md` §23.5.
 
 ## Session 68 — 2026-11-12 — RFC-6 (sealed content) and RFC-7 (payments) drafted; tn-9 (Common Fabric) drafted for review
 **Model:** Opus 5.5 · **Time:** ~22:05–23:05 PT · **Committed:** yes (spec) · **Deployed:** —
