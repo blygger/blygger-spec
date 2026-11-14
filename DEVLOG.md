@@ -118,6 +118,17 @@ escaped. Suites: UI 297, Worker 2,386 passed, browser 564 passed and 1 failed �
 [studio#149](https://github.com/blygger/blygger-studio/pull/149), not to merge before
 Fable's review.
 
+*Fable's review of studio#149, the same day:* the redraw mechanism approved after
+probing it with hostile spellings; four changes required before merge
+(`opus-brief.md`, session 69, R1–R4). R1 is a bug the probe found and a ruling: a
+formula containing `[[id]]` or a TK span published with error markup and a private
+marker in `content_html`; a formula cannot contain a link, mention or generated span,
+and publish refuses it. R2 bounds lengths (`\raisebox{-30em}` could overlay another
+author's text). R3: two new regexes were quadratic on hostile HTML (0.7 s at 160 KB),
+as is an existing one beside them. R4: a per-document TeX budget. Two findings outside
+the PR to file: the sanitizer keeps any `class`, so imported HTML can wear the
+Studio's `position: fixed` classes; the composer's local preview has no renderer.
+
 ## Session 68 — 2026-11-12 — RFC-6 (sealed content) and RFC-7 (payments) drafted; tn-9 (Common Fabric) drafted for review
 **Model:** Opus 5.5 · **Time:** ~22:05–23:05 PT · **Committed:** yes (spec) · **Deployed:** —
 

@@ -293,6 +293,60 @@ ships**; say so in the PR. The invariants, each with the test that proves it:
    in the syntax page's Mathematics entry. *Test:* a fragment and a thread quoting it
    show byte-identical markup for the same formula.
 
+**Fable's review of studio#149 (2026-11-14): the redraw is approved; four changes before
+merge.** The two-pass mechanism was read and probed with hostile spellings (a formula
+in an attribute value, a comment, a `textarea`, an `svg`; upper-case tags; an unclosed
+formula; HTML that breaks out of `math`; CDATA): in every case the output held only
+what the renderer drew or nothing, and tokens landed only where the rewriter saw an
+element. `allowedMath` fails closed on anything tag-shaped. Required:
+
+- **R1. Error markup must never be published.** `$a [[id]] b$`, `$x [[id | y]]$` and
+  `$a [TK]impyrt=b[/TK] c$` publish today (200) with `<code class="math-error" …>` in
+  `content_html`, a link or generated span inside it, and a private marker character in
+  its `title` (studio#3). Cause: `mathErrors` checks the text before the link and TK
+  sentinels go in, and the real render fails after. Ruled: **a formula cannot contain a
+  link, a mention or a generated span; publish refuses it**, like any formula that does
+  not parse. Decide it on what is actually rendered: have the render rule record each
+  failure in the markdown-it `env`, thread an `env` through every render that feeds
+  `content_html` (body, generated blocks, a thread's prose parts), and throw
+  `MathPublishError` if any recorded one. Do not detect it by searching the HTML for
+  `math-error`: a thread bakes other origins' HTML verbatim, and one of them could carry
+  that string. *Tests:* the three inputs above return 400; a thread quoting an item whose
+  HTML contains `<code class="math-error">` still publishes.
+- **R2. Bound the lengths a formula can set.** `\raisebox{-30em}{x}` gives
+  `voffset="-30em"` and `\hspace{9999em}` a 9,999em `mspace`: a quoted formula can lay
+  its text over another author's paragraph or blow the page's width, which is what
+  stripping `style` was for. In `allowedMath`, every value of `width height depth
+  voffset lspace rspace minsize maxsize linethickness` must be a number with `em`, `ex`,
+  `px`, `pt` or `%` (or the literal `-1width` temml emits for `\llap`), no greater than
+  20em or its rough equivalent (320px, 240pt, 100%), and no less than −2em (−32px,
+  −24pt); else the fallback. *Tests:* both commands above are refused at publish and
+  shown as TeX in the reader; `\quad`, `\!`, `\hspace{3em}`, `\smash`, `\llap` and a
+  `\genfrac` with a 2pt rule still draw.
+- **R3. Two new regexes are quadratic on hostile HTML.** `mathAsTex` and
+  `selectionTouchesMath` in `src/markdown.ts` use `<math\b…[\s\S]*?</math>` globally;
+  with unclosed `<math>` repeated, 160 KB takes 0.7 s and 1 MB about half a minute, on
+  the import and excerpt paths. Scan once with `indexOf`: find `<math`, find the next
+  `</math>`, and stop at the first opener with no closer. The existing
+  `<(script|style)…>` strip in `plainTextFromHtml` has the same shape (0.55 s at
+  160 KB); fix it the same way while there. *Test:* 20,000 unclosed openers of each
+  kind in under 50 ms.
+- **R4. A TeX budget per document.** 1,000 formulas of 4,000 characters is 4 MB of TeX
+  and about three seconds of rendering on every display. Add a budget of 100,000
+  characters of TeX drawn per document; past it, formulas are their TeX as text.
+  *Test:* a document over the budget draws the first formulas and shows the rest as text.
+
+Smaller, same pass: compare `encoding` and `display` values case-insensitively (a
+formula with `encoding="APPLICATION/X-TEX"` is dropped today); stop `mathAt`'s scan for
+a closing dollar after `TEX_MAX` characters, since a longer formula is not drawn anyway
+and the scan is otherwise quadratic in a paragraph of lone dollars.
+
+Not this PR, to file as studio issues: (a) the sanitizer keeps any `class` value, so
+imported HTML can wear the Studio's own classes, several of which are `position: fixed`
+(`.toast`, the sheet, the save bar); restrict `class` on import to the `blyg-` wire
+classes and what the reader styles. (b) the composer's local preview shows a formula as
+`$…$` text, since the browser bundle has no renderer; fine, but say so in the help.
+
 Also: the editor toolbar gets a formula button and the syntax page a Mathematics entry,
 beside the structure buttons and the Markdown section that session 69 added on branch
 `feat/editor-markdown`. `PROTOCOL_VERSION` stays `"0.4"`. No migration. The fragment
