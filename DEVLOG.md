@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 69 — 2026-11-13 — Studio 0.58.2, 0.58.3 and 0.59.0 (error log, iPad focus view, markdown keys, extensions); mathematics ruled (#105) and half built
-**Model:** Fable 5.2 and Opus 5.5, switched four times by Venkat (Fable: bug diagnosis, the error log, the editor keys and the three #105 sittings; Opus: the releases, the merge to `main` and the math build) · **Time:** 09:52–16:30 PT · **Committed:** yes (studio, spec) · **Deployed:** studio 0.58.2 and 0.58.3 to venkateshrao and PI; 0.59.0 to venkateshrao, PI and blygger.org
+**Model:** Fable 5.2 and Opus 5.5, switched four times by Venkat (Fable: bug diagnosis, the error log, the editor keys and the three #105 sittings; Opus: the releases, the merge to `main` and the math build) · **Time:** 2026-11-13 09:52–16:30 PT, continued 2026-11-14 to 11:31 PT · **Committed:** yes (studio, spec, org) · **Deployed:** studio 0.58.2 and 0.58.3 to venkateshrao and PI; 0.59.0 to venkateshrao, PI and blygger.org (all three confirmed live 2026-11-14)
 
 **What & why:** Venkat came with bugs and asked for features; the session became three
 studio releases and a protocol ruling. S5b/S5c (new PRs and issues, listings, census)
@@ -136,6 +136,16 @@ patterns with one linear element scanner, fuzzed against the old regex (20,000
 inputs, identical: the §2 normalizer did not move). The closing-dollar search is now
 one pass per paragraph, fuzzed against the rule read opener by opener. Suites: UI 297,
 Worker 2,407 passed, browser 565 passed with no failures.
+
+*Last, on Venkat's word:* 0.58.2, 0.58.3 and 0.59.0 had not been announced; posted as one
+thread on blyg.blygger.org (`publish_releases.py --batch`,
+`2n17ghxcefxgahdfxtgy9zxx4z`), crediting `claude-opus-5-5` (the script's default; the
+0.58.2 entry was written under Fable). **New rule (Venkat): blygger releases are
+announced on `blyg.blygger.org` only**, never on the PI or venkateshrao blygs; in
+`CLAUDE.md` beside #66 and in `blygger-org/CLAUDE.md`. Everything pushed at wrap-up.
+Still open: Fable's look at studio#149's R1–R4 diff (`ffd7aae`), then merge, release
+0.60.0 and deploy; the iPad checks; pending call #15; issues for the `class`-on-import
+finding and the `editor-regions` flake (both unfiled, waiting on Venkat); S5b/S5c.
 
 ## Session 68 — 2026-11-12 — RFC-6 (sealed content) and RFC-7 (payments) drafted; tn-9 (Common Fabric) drafted for review
 **Model:** Opus 5.5 · **Time:** ~22:05–23:05 PT · **Committed:** yes (spec) · **Deployed:** —
