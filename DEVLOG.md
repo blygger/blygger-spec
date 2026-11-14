@@ -108,6 +108,16 @@ Spec 0.4 sixteenth revision written (#105, three sittings), not published. ROADM
   redeployed. ROADMAP publishes on the next `blygger-org/deploy.sh`.
 - S5b/S5c were skipped this session; run them next.
 
+*Continued 2026-11-14 (Opus 5.5), on Venkat's word:* `blygger-spec` pushed; the third
+sitting's rule applied (`\overline`/`\underline` as `mover`/`munder` with a test that
+the bar has width and changes the pixels, boxes plain, strikes refused by name, accents
+kept full size with `accent="true"`); the `replacement-patterns` fixture's lone dollars
+escaped. Suites: UI 297, Worker 2,386 passed, browser 564 passed and 1 failed — the
+`editor-regions.spec.ts:39` toast flake, which also fails 1 in 12 on plain `main`
+(from #144). Squashed to one commit and opened as
+[studio#149](https://github.com/blygger/blygger-studio/pull/149), not to merge before
+Fable's review.
+
 ## Session 68 — 2026-11-12 — RFC-6 (sealed content) and RFC-7 (payments) drafted; tn-9 (Common Fabric) drafted for review
 **Model:** Opus 5.5 · **Time:** ~22:05–23:05 PT · **Committed:** yes (spec) · **Deployed:** —
 
