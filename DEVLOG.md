@@ -95,8 +95,10 @@ Spec 0.4 sixteenth revision written (#105, three sittings), not published. ROADM
   branch is in the repo): apply the third sitting (`opus-brief.md` invariant 4, the
   `menclose` paragraph); fix `test/replacement-patterns.test.ts` "a block TK span with
   $-patterns publishes verbatim", which now reads `$`-patterns as a formula (decide
-  whether that fixture's text should change or the pattern needs escaping); run the
-  full browser suite, which did not finish on the last commit; push and open the PR;
+  whether that fixture's text should change or the pattern needs escaping); the
+  browser suite (before the redraw commit) ran 562 passed, 25 skipped and 1 failed:
+  `e2e/editor-regions.spec.ts:39` on mobile, which may be the Σ button wrapping the
+  toolbar or a flake, so rerun it first; push and open the PR;
   **Fable reviews the sanitizer diff before release.**
 - Venkat: confirm on the iPad that focus view stays open (0.58.2) and that "export
   error log" opens the share sheet; if the "collection" banner recurs, export the log.
