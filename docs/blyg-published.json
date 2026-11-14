@@ -122,7 +122,9 @@
         "first": "RFC-6 open for comment until 2026-11-28.",
         "revision": "RFC-6 revised during its comment period."
       },
-      "id": "194zwhh5036j2fxxk5b2hw3m81"
+      "id": "194zwhh5036j2fxxk5b2hw3m81",
+      "version": 1,
+      "source_sha256": "09ed33057fb912acb8b4f3e5648b656e479911523ba56cf6b4a4e0573303b645"
     },
     {
       "file": "docs/rfcs/rfc-7-payments.md",
@@ -132,7 +134,9 @@
         "first": "RFC-7 open for comment until 2026-11-28.",
         "revision": "RFC-7 revised during its comment period."
       },
-      "id": "2wcgk0vrwm3wknmdnxtrdh2ecd"
+      "id": "2wcgk0vrwm3wknmdnxtrdh2ecd",
+      "version": 1,
+      "source_sha256": "52c730504fe0e6a3668d22ccc1d34476ff22c460ba8bb9db2699f3245cedba42"
     },
     {
       "file": "docs/posts/2026-11-14-sealed-content-and-payments.md",
@@ -143,7 +147,9 @@
         "first": "An explainer for RFC-6 (sealed content) and RFC-7 (payments), open for comment until 2026-11-28.",
         "revision": "Sealed content and payments post revised; see the source history."
       },
-      "id": "6em279j4r93c6t3tbc3dkpn05b"
+      "id": "6em279j4r93c6t3tbc3dkpn05b",
+      "version": 1,
+      "source_sha256": "d3128815995cd741ee6c687b17ecf59d49ed76bb415afc9cb92310170b909170"
     }
   ]
 }
