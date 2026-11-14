@@ -129,6 +129,14 @@ as is an existing one beside them. R4: a per-document TeX budget. Two findings o
 the PR to file: the sanitizer keeps any `class`, so imported HTML can wear the
 Studio's `position: fixed` classes; the composer's local preview has no renderer.
 
+*Opus, the same day:* R1–R4 and the two small fixes made and pushed to studio#149
+(`ffd7aae`). R1 records failed formulas per publish in an `AsyncLocalStorage` store
+the render rule writes to, checked before any write. R3 replaced the three lazy
+patterns with one linear element scanner, fuzzed against the old regex (20,000
+inputs, identical: the §2 normalizer did not move). The closing-dollar search is now
+one pass per paragraph, fuzzed against the rule read opener by opener. Suites: UI 297,
+Worker 2,407 passed, browser 565 passed with no failures.
+
 ## Session 68 — 2026-11-12 — RFC-6 (sealed content) and RFC-7 (payments) drafted; tn-9 (Common Fabric) drafted for review
 **Model:** Opus 5.5 · **Time:** ~22:05–23:05 PT · **Committed:** yes (spec) · **Deployed:** —
 
