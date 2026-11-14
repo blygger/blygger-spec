@@ -2332,13 +2332,17 @@ import every item (§13.1), since folding is display, never omission.
   token elements can hold HTML, `annotation-xml` can hold a whole foreign
   document, and markup that is inert text under one set of rules is live
   under the other. A sanitizer that was written for HTML and passes `math`
-  through has not sanitized it. A reader does one of three things with a
+  through has not sanitized it. A reader does one of four things with a
   `math` element, and each conforms: **keeps it**, retaining inside it only
   element names on an allowlist of MathML Core presentation elements plus
   `semantics` and `annotation`, with no `href` or `xlink:href`, no event or
   `style` attribute, no `annotation-xml`, no `maction` and no HTML element
-  it would not allow outside; **replaces it** with the text of its
-  `application/x-tex` annotation, shown as text; or **drops it** whole. A
+  it would not allow outside; **redraws it**, discarding the element and
+  rendering its `application/x-tex` annotation afresh with a renderer of its
+  own (the treatment that copies nothing from inside the element but one
+  string, and so the one a reader unsure of its parser should prefer);
+  **replaces it** with that annotation, shown as text; or **drops it**
+  whole. A
   reader MUST NOT pass a `math` element through unexamined, which is §14's
   existing rule said of the place it is easiest to forget. Whatever a
   sanitizer emits should be built from the tokens it accepted, never copied
@@ -3148,8 +3152,8 @@ eleventh revision.
   a partial transclusion across one is checked and baked as stripped text,
   and a publisher SHOULD NOT bake one. §14: a `math` element is a second
   vocabulary with its own parsing rules; a reader keeps it under an
-  allowlist, replaces it with its TeX annotation, or drops it, and MUST NOT
-  pass it through unexamined. Measured before ruling: of 397 published
+  allowlist, redraws it from its TeX annotation, replaces it with that
+  annotation as text, or drops it, and MUST NOT pass it through unexamined. Measured before ruling: of 397 published
   items on three nodes, none has a `$` pair that would begin to render.
   The reference client does not emit it yet. Not snapshotted.
 

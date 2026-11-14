@@ -212,8 +212,9 @@ ships**; say so in the PR. The invariants, each with the test that proves it:
    `$` has a non-space character right after it, the closing `$` a non-space right before
    it and no digit right after it; `\$` is a dollar sign. `$$…$$` displayed, on its own
    lines or inline. No `\(…\)`, no `\[…\]`, no fenced `math` block. Inert inside code
-   spans, code blocks, link destinations, `[TK]` instructions and generated output
-   (`src/code-ranges.ts` is the model). *Test:* "$5 and $10", "costs $5", "a $ b $ c" and
+   spans, code blocks and link destinations, by markdown's own rules. **It renders in
+   generated output like any other text** (amended, `v0.4-plan.md` §23.4: the earlier
+   "inert in generated output" was wrong). *Test:* "$5 and $10", "costs $5", "a $ b $ c" and
    `` `$x$` `` publish byte-identical HTML to today's.
 2. **Output is temml's MathML with `annotate: true`, `trust: false`, `throwOnError:
    true`.** A formula that does not parse is a publish error naming the formula, like an
@@ -226,25 +227,43 @@ ships**; say so in the PR. The invariants, each with the test that proves it:
    `content_html` contains `<math` and `application/x-tex`, and no `class="katex"`.
 3. **`content_md` is untouched.** The dollars stay as typed; `content_hash` is over them.
    *Test:* publish, fetch the item document, compare `content_md` to the input.
-4. **The sanitizer keeps `math` by allowlist and emits from tokens.** Move `math` out of
-   `DROP`. Inside a `math` element keep only: `math semantics annotation mrow mi mn mo
-   ms mtext mspace mfrac msqrt mroot mstyle merror mpadded mphantom msub msup msubsup
-   munder mover munderover mmultiscripts mprescripts mtable mtr mtd`. Everything else
-   inside it, **HTML elements included**, is dropped whole, not unwrapped (unwrapping is
-   the right default outside `math` and the wrong one inside, where the unwrapped
-   children land in a different parsing mode). `annotation` is kept only with
-   `encoding="application/x-tex"`; `annotation-xml` and `maction` are dropped whole.
-   Attributes inside `math`: `display displaystyle scriptlevel mathvariant stretchy
-   fence separator lspace rspace movablelimits accent accentunder form largeop symmetric
-   minsize maxsize linethickness columnalign rowalign columnspan rowspan width height
-   depth voffset encoding class dir`, and nothing else: no `href`, no `xlink:href`, no
-   `style`, no `on*`, no `id`. Text is escaped on the way out as it is elsewhere.
-   *Tests:* the mXSS corpus cases for `math` (the `<math><mtext><table><mglyph><style>`
-   family, `annotation-xml encoding="text/html"`, `<math><mi xlink:href="javascript:…">`,
-   CDATA sections, a comment inside `mtext`) each come out with no element or attribute
-   off the lists; add them to `e2e/imported-html-security.spec.ts` as rendered-DOM
-   assertions, not string assertions (session-19's lesson: the bytes can look right and
-   parse wrong).
+4. **The sanitizer redraws** (amended, `v0.4-plan.md` §23.4; replaces "keeps by
+   allowlist", which `HTMLRewriter` cannot do safely). `math` stays out of the kept
+   tags: every `math` element is discarded whole and replaced by a fresh rendering of
+   its first `application/x-tex` annotation. Four properties, each with a test:
+   - *Nothing inside the element is copied.* Only the decoded text of that annotation
+     and whether the start tag has `display="block"`. A formula with no such annotation
+     is dropped. *Test:* the mXSS corpus cases (the `<math><mtext><table><mglyph><style>`
+     family, `annotation-xml encoding="text/html"`, `<mi xlink:href="javascript:…">`,
+     CDATA, a comment in `mtext`, a nested `math`, an unclosed `math`) each sanitize to
+     output containing no element or attribute that the input's `math` subtree had and
+     the renderer did not produce; assert on the **parsed DOM in the browser suite**
+     (`e2e/imported-html-security.spec.ts`), not on strings.
+   - *The replacement stands where the parser saw the element.* Suggested mechanics, two
+     rewriter passes when the input contains `<math`: pass one mutates nothing but adds a
+     per-call random marker attribute to each top-level `math` and collects its
+     annotation text and display flag; pass two is the sanitizer, which replaces a marked
+     `math` with a per-call random text token (`el.replace`, as text) and removes an
+     unmarked one; then substitute tokens in the output. The token must be unguessable
+     and must not occur in the input (check, and draw again). Any mechanism is fine that
+     never substitutes into a position the rewriter did not itself create. *Test:* an
+     input that carries a guessed token in an attribute value and in a comment is not
+     substituted there.
+   - *Rendering is bounded.* At most 4,000 characters of TeX per formula and 1,000
+     formulas per document; temml's `maxExpand` and `maxSize` left at their defaults.
+     Over a cap or on any error: the TeX, escaped, in `<code class="math-source">`.
+     Memoize renders per isolate (bounded), since every display of a thread redraws.
+   - *The renderer's output is checked.* Before use, every element name in it is one of
+     `math semantics annotation mrow mi mn mo ms mtext mspace mfrac msqrt mroot mstyle
+     merror mpadded mphantom msub msup msubsup munder mover munderover mmultiscripts
+     mprescripts mtable mtr mtd`, and every attribute name one of `display displaystyle
+     scriptlevel mathvariant stretchy fence separator lspace rspace movablelimits accent
+     accentunder form largeop symmetric minsize maxsize linethickness columnalign
+     rowalign columnspan rowspan width height depth voffset encoding class`; else the
+     fallback. If temml legitimately emits a name not listed, bring the name back to
+     Fable; do not add it. *Test:* a stubbed renderer returning `<math><mi href="x">`
+     yields the fallback.
+   **Fable reviews this diff before release.**
 5. **Text content is unchanged.** `selectionText` and `plainTextFromHtml` in
    `src/markdown.ts` get no special case for `math` where they implement §2 (the partial
    quote check). Presentation text is free: excerpts, `og:description`, feed titles,
@@ -253,11 +272,15 @@ ships**; say so in the PR. The invariants, each with the test that proves it:
    of a formula's text**, at selection time, with a message saying to quote the whole
    item or the prose either side. *Test:* the §2 normalizer's fixtures are byte-identical
    before and after; a stub-quote selection across a formula is refused.
-6. **`temml`'s inline `style` and `tml-*` classes.** The publisher's own bake keeps what
-   temml emits (it is our markup about our content). The sanitizer drops `style` on
-   import, so check a displayed formula still displays as a block in the reader with
-   `display="block"` alone; if it does not, add the rule to the reading stylesheet, not
-   to the allowlist.
+6. **No `style` on a formula, at publish or at display** (amended, §23.4). One function
+   wraps temml for both paths and removes every `style` attribute from its output;
+   `tml-*` classes stay (inert without temml's stylesheet, which is never shipped).
+   `display="block"` alone must make a displayed formula a block: check it in the
+   browser suite on a public page, and add a rule to the public and reading stylesheets
+   only if a supported browser needs one. Report which common commands lose something
+   visible (`\color`, `\boxed`, `\cancel`, `\rule` are the likely ones) in the PR and
+   in the syntax page's Mathematics entry. *Test:* a fragment and a thread quoting it
+   show byte-identical markup for the same formula.
 
 Also: the editor toolbar gets a formula button and the syntax page a Mathematics entry,
 beside the structure buttons and the Markdown section that session 69 added on branch

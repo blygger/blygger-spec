@@ -24,6 +24,14 @@ Per-session development log. Non-skippable: every coding session appends an entr
   nodes, none with a `$` pair that would begin to render. Recorded in `CLAUDE.md` #105,
   `v0.4-plan.md` §23, the spec (§2, §5.2, §14, §17), `opus-brief.md` (the build, six
   invariants), `fable-brief.md` and ROADMAP row 123. Not built.
+- **#105 amended, second Fable sitting.** Opus built the publish half and stopped on two
+  faults in the brief. Ruled: the studio's reader **redraws** a `math` element from its
+  TeX annotation with its own renderer and copies nothing else from inside it, because
+  the sanitizer is a streaming rewriter that passes kept bytes through (the spec's §14
+  gains redrawing as a fourth conformant treatment); a formula carries **no `style`**
+  at publish or display; and mathematics renders in generated output like any other
+  text (the brief's "inert" clause was wrong). `v0.4-plan.md` §23.4; brief invariants
+  1, 4 and 6 rewritten.
 
 ## Session 68 — 2026-11-12 — RFC-6 (sealed content) and RFC-7 (payments) drafted; tn-9 (Common Fabric) drafted for review
 **Model:** Opus 5.5 · **Time:** ~22:05–23:05 PT · **Committed:** yes (spec) · **Deployed:** —
