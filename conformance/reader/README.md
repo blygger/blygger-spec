@@ -17,11 +17,12 @@ Two decisions shape it (Aneesh Sathe's answers to the questions on #5):
 
 **Snapshot.** The fixtures were written against `spec/0.4/2026-10-18`, the
 only dated 0.4 snapshot, and the living text it grew into:
-`docs/protocol-v0.4.md` at blygger-spec `8e8bce5` (seventh revision,
-2026-11-01). Revisions two to seven are not snapshotted, and four things the
-fixtures check come from them: the label bake `data-blyg-label` (#81),
-`links[]` (#79), the blockquote's CommonMark extent (#76) and LF/CRLF line
-endings (#76). Every fixture records both.
+`docs/protocol-v0.4.md` at blygger-spec `d248bc4` (fifteenth revision,
+2026-11-12). Revisions two to fifteen are not snapshotted, and five things
+the fixtures check come from them: the label bake `data-blyg-label` (#81),
+`links[]` (#79), the blockquote's CommonMark extent (#76), LF/CRLF line
+endings (#76) and the nine readings ruled by #102 (fourteenth revision).
+Every fixture records both.
 
 ## Running
 
@@ -116,11 +117,25 @@ projection is one whose text is the publisher's choice (an unlabelled
 `[[id]]`); an href of `"(absolute)"` must be absolute but its exact value is
 not fixed; an href given as a list accepts any of its members.
 
-**Ambiguity.** Where the text left a choice, the fixture says so in
+**Ambiguity.** Where the text leaves a choice, the fixture says so in
 `ambiguous`, chooses a reading, and names in `ambiguous_checks` the
 sub-checks the ambiguity covers. A renderer that differs there gets a
-warning, not a failure; a failure in any other sub-check still fails. The
-ambiguous cases are the questions in the PR description.
+warning, not a failure; a failure in any other sub-check still fails. No
+fixture is ambiguous today: the nine first marked that way (the questions on
+blygger-spec#22) were ruled by decision #102 (v0.4-plan §21) and now expect
+the ruled reading:
+
+| Fixture | Ruling (#102) |
+|---|---|
+| 009 `directive-reserved-version-inline` | (2) the reservation covers the own-line form; inline it is inert |
+| 015 `directive-in-fragment` | (1) a directive line in a fragment is a publish error, and nothing else passes |
+| 016 `directive-tab-indented` | (3) code wins, by CommonMark's block structure |
+| 036 `link-label-markup` | (4) a label is plain text in both forms |
+| 065 `remote-withdrawn-pin-retained` | (8) the bake carries the retained version; a reader that retained nothing may publish-error |
+| 078 `link-remote-no-page` | (5) the item document, never the permalink convention |
+| 079 `markdown-relative-links` | (6) resolved by RFC 3986 against the identity origin |
+| 082 `baked-remote-relative-url` | (7) resolved against the source's origin before the bake |
+| 099 `tk-output-own-line-directive` | (9) the quote outside `div.blyg-tk-gen`, the wrapper reopening after it, one `generated[]` entry |
 
 ## Fixtures
 
@@ -153,7 +168,7 @@ group with `--only` on the others.
 `adapters/studio/` drives the reference client.
 
 ```sh
-git clone --branch v0.57.0 https://github.com/blygger/blygger-studio.git /tmp/studio
+git clone --branch v0.59.0 https://github.com/blygger/blygger-studio.git /tmp/studio
 (cd /tmp/studio && npm ci && npm run build)
 STUDIO_DIR=/tmp/studio node run.mjs --adapter studio
 ```
@@ -193,22 +208,27 @@ items are retained past withdrawal only when curated into a hopper (a MAY in
 answer from Miniflare rather than DNS, and Miniflare 5 needs its options
 converted.
 
-## Results at blygger-studio 0.57.0
+## Results at blygger-studio 0.59.0
 
-79 pass, 21 fail, against 100 fixtures. Every failure is one disagreement:
+77 pass, 23 fail, against 100 fixtures, with the #102 rulings in the
+fixtures. Every failure is one of three disagreements:
 
 | Finding | Cases | Spec |
 |---|---|---|
 | `links[]` is never emitted | 21 | §10.3a, #79 (ROADMAP row 77, studio queue item o) |
+| A directive line in a fragment publishes as literal text instead of refusing | 1 (015) | §10.1, #102 (1) |
+| A baked quote in generated output sits inside `div.blyg-tk-gen` | 1 (099) | §5.7 rule 3, #102 (9), studio#105 |
 
-The run at 0.49.12 passed 72. 0.50.0 fixed the lazy-continuation partial
-quote (blygger-studio#104, §10.1, #76) and the own-line `![[id]]` in a
-generated block (#105, #60, §5.7); 0.57.0 bakes `data-blyg-label`
-(blygger-studio#136, §10.1, §10.2, #81), which cleared five more.
+078 also fails on its href: the studio bakes the permalink convention
+(`remotePermalink`) for a target with no `page`, where #102 (5) names the
+item document; it is counted under `links[]` above because it fails that
+too. These are the three publisher changes the session-67 Opus brief lists
+(item 3, (a)–(c)).
 
-On the nine ambiguous cases the studio's readings match the fixtures' chosen
-ones: none of them warns. One still fails on a check the ambiguity does not
-cover (`link-label-markup` on `links[]`).
+The run at 0.57.0 passed 79 against the unruled fixtures, where 015, 078
+and 099 accepted the studio's reading. The run at 0.49.12 passed 72. 0.50.0
+fixed the lazy-continuation partial quote (blygger-studio#104, §10.1, #76)
+and 0.57.0 bakes `data-blyg-label` (blygger-studio#136, §10.1, §10.2, #81).
 
 ## Provenance
 

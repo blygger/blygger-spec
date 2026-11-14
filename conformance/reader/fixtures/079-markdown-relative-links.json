@@ -1,10 +1,10 @@
 {
   "id": "markdown-relative-links",
-  "title": "Relative markdown links are made absolute in content_html",
+  "title": "Relative markdown links resolve against the identity origin (RFC 3986)",
   "group": "urls",
   "snapshot": "spec/0.4/2026-10-18",
-  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
-  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "text": "docs/protocol-v0.4.md at blygger-spec d248bc4 (fifteenth revision, 2026-11-12)",
+  "note": "Revisions two to fifteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) come from them, so those cases cite the living text.",
   "spec_refs": [
     "§5.2"
   ],
@@ -12,7 +12,8 @@
     "C-5.2-03"
   ],
   "decisions": [
-    "#53"
+    "#53",
+    "#102"
   ],
   "kind": "fragment",
   "self": {
@@ -26,18 +27,14 @@
     "content_html": "<p><a href=\"https://home.example/archive/\">the archive</a> and <a href=\"https://home.example/notes/x\">notes</a></p>\n",
     "normative": [
       {
-        "a": "(absolute)",
+        "a": "https://home.example/archive/",
         "text": "the archive"
       },
       {
-        "a": "(absolute)",
+        "a": "https://home.example/notes/x",
         "text": "notes"
       }
     ]
   },
-  "ambiguous": "§5.2 requires every URL in content_html to be absolute but does not say what a relative URL the author wrote resolves against (the origin, the item's page, the mount). Only absoluteness is checked.",
-  "ambiguous_checks": [
-    "normative"
-  ],
   "seeded_from": "links_inline"
 }

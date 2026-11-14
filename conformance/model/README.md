@@ -22,7 +22,7 @@ Knobs (environment variables):
 - `STUDIO_DIR`: default `~/Code/blygger-studio`. Point it at a stock checkout of a release tag that has run `npm ci && npm run build` (the studio's `build/` holds generated modules its source imports), not at a working tree someone is editing:
 
   ```sh
-  git clone --branch v0.57.0 https://github.com/blygger/blygger-studio.git /tmp/studio
+  git clone --branch v0.59.0 https://github.com/blygger/blygger-studio.git /tmp/studio
   (cd /tmp/studio && npm ci && npm run build)
   STUDIO_DIR=/tmp/studio npm run report
   ```

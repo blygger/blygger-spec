@@ -1,18 +1,22 @@
 {
   "id": "directive-in-fragment",
-  "title": "A directive in a fragment does not produce a baked transclusion",
+  "title": "A directive line in a fragment is a publish error",
   "group": "grammar",
   "snapshot": "spec/0.4/2026-10-18",
-  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
-  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "text": "docs/protocol-v0.4.md at blygger-spec d248bc4 (fifteenth revision, 2026-11-12)",
+  "note": "Revisions two to fifteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) come from them, so those cases cite the living text.",
   "spec_refs": [
     "§10",
+    "§10.1",
     "§10.3",
     "§5.3"
   ],
   "clauses": [],
   "decisions": [
-    "#9"
+    "#9",
+    "#60",
+    "#100",
+    "#102"
   ],
   "kind": "fragment",
   "self": {
@@ -34,10 +38,7 @@
     }
   ],
   "expect": {
-    "error": "either",
-    "content_html": "<p>Opening.</p>\n<p>![[01j9zq3k4m5n6p7q8r9s0t1v2w]]</p>\n<p>Closing.</p>\n",
-    "normative": []
+    "error": true
   },
-  "ambiguous": "§10 defines transclusion for threads and §10.3 says fragments omit `transclusions` entirely, so a fragment can carry no baked quote with provenance. The text does not say whether a directive in a fragment is a publish error or inert text. The expectation accepts either, and fails only a bake.",
   "seeded_from": "tr_in_fragment"
 }

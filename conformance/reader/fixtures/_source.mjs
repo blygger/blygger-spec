@@ -5,7 +5,8 @@
 // Every expectation here is written from the spec text (docs/protocol-v0.4.md,
 // the living 0.4 document), never recorded from a client. Where the text left
 // a choice, the case carries `ambiguous` with the reading chosen; a renderer
-// that differs on such a case gets a warning, not a failure.
+// that differs on such a case gets a warning, not a failure. The nine cases
+// first marked that way were ruled by decision #102 and are no longer ambiguous.
 //
 // All content is synthetic. Ids are valid lowercase Crockford base32 (§5.1).
 import { createHash } from "node:crypto";
@@ -18,8 +19,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 export const SNAPSHOT = {
   snapshot: "spec/0.4/2026-10-18",
-  text: "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
-  note: "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  text: "docs/protocol-v0.4.md at blygger-spec d248bc4 (fifteenth revision, 2026-11-12)",
+  note: "Revisions two to fifteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) come from them, so those cases cite the living text.",
 };
 
 // ── The world every case draws its referenced items from ──────────────────
@@ -168,9 +169,8 @@ c("grammar", "directive-in-blockquote-line", "A directive behind a blockquote ma
   md: `> ![[${LF}]]`, items: [LF], html: BQ(P(t(`![[${LF}]]`))), literals: [`![[${LF}]]`], tr: [], spec: ["§10.1"], decisions: ["#9"], seed: "tr_in_blockquote_literal" });
 c("grammar", "directive-reserved-version", "![[id@vN]] is reserved: a publisher MUST reject it", {
   md: `![[${RA}@v1]]`, items: [RA], error: true, spec: ["§10.1"], clauses: ["C-10.1-01"], decisions: ["#9"], seed: "tr_reserved_version" });
-c("grammar", "directive-reserved-version-inline", "The reserved form inline in prose", {
-  md: `See ![[${RA}@v1]] here.`, items: [RA], html: P(t(`See ![[${RA}@v1]] here.`)), literals: [`![[${RA}@v1]]`], tr: [], spec: ["§10.1"], decisions: ["#9"],
-  ambiguous: "§10.1 says publishers MUST reject `![[id@vN]]`, and also that a directive sequence anywhere but alone on its line is inert text. The expectation reads the reservation as applying to the directive (an own-line construct), so the inline sequence is inert and publishes. Rejecting it would also be a defensible reading." });
+c("grammar", "directive-reserved-version-inline", "The reserved form inline in prose is inert text (#102: the reservation covers the own-line form)", {
+  md: `See ![[${RA}@v1]] here.`, items: [RA], html: P(t(`See ![[${RA}@v1]] here.`)), literals: [`![[${RA}@v1]]`], tr: [], spec: ["§10.1"], decisions: ["#9", "#102"] });
 c("grammar", "directives-in-order", "Several directives, adjacent and separated, bake in directive order", {
   md: `![[${LF}]]\n![[${RA}]]\n\n![[${RB}]]`, items: [LF, RA, RB], html: Q(LF) + Q(RA) + Q(RB), tr: [TR(LF), TR(RA), TR(RB)], spec: ["§10.1", "§10.3"], decisions: ["#26", "#76"], seed: "tr_two_quotes" });
 c("grammar", "same-target-twice", "A target quoted twice has two transclusions[] entries", {
@@ -185,13 +185,11 @@ c("grammar", "uppercase-id-literal", "An id is lowercase (§5.1): uppercase brac
 c("grammar", "bracketed-non-ids-literal", "Brackets whose first 26 characters are not an id, or an id not followed by ]] or |, are literal", {
   md: `[[just words]] [[short]] [[ ${LF}]] [[${LF}x]]`, items: [LF], html: P(t(`[[just words]] [[short]] [[ ${LF}]] [[${LF}x]]`)),
   literals: ["[[just words]]", "[[short]]", `[[ ${LF}]]`, `[[${LF}x]]`], tr: [], links: [], spec: ["§10.1"], decisions: ["#70"], seed: "link_not_ids" });
-c("grammar", "directive-in-fragment", "A directive in a fragment does not produce a baked transclusion", {
-  kind: "fragment", md: `Opening.\n\n![[${LF}]]\n\nClosing.`, items: [LF], error: "either", html: P("Opening.") + P(t(`![[${LF}]]`)) + P("Closing."),
-  spec: ["§10", "§10.3", "§5.3"], decisions: ["#9"], seed: "tr_in_fragment",
-  ambiguous: "§10 defines transclusion for threads and §10.3 says fragments omit `transclusions` entirely, so a fragment can carry no baked quote with provenance. The text does not say whether a directive in a fragment is a publish error or inert text. The expectation accepts either, and fails only a bake." });
-c("grammar", "directive-tab-indented", "A tab-indented directive line at the start of a document", {
-  md: `\t![[${LF}]]`, items: [LF], html: PRE(`![[${LF}]]`), literals: [`![[${LF}]]`], tr: [], spec: ["§10.1"], decisions: ["#9", "#54"], seed: "tr_tabs",
-  ambiguous: "§10.1 allows surrounding whitespace on the directive line, and also says the directive is inert inside code blocks. In CommonMark a line indented by a tab (four columns) is an indented code block. The expectation lets the code rule win, as it does for four spaces after a blank line." });
+c("grammar", "directive-in-fragment", "A directive line in a fragment is a publish error", {
+  kind: "fragment", md: `Opening.\n\n![[${LF}]]\n\nClosing.`, items: [LF], error: true,
+  spec: ["§10", "§10.1", "§10.3", "§5.3"], decisions: ["#9", "#60", "#100", "#102"], seed: "tr_in_fragment" });
+c("grammar", "directive-tab-indented", "A tab-indented directive line at the start of a document is indented code: code wins (#102)", {
+  md: `\t![[${LF}]]`, items: [LF], html: PRE(`![[${LF}]]`), literals: [`![[${LF}]]`], tr: [], spec: ["§10.1"], decisions: ["#9", "#54", "#102"], seed: "tr_tabs" });
 
 // code — §10.1 inert inside code (#54)
 c("code", "directive-in-code-span", "An own-line directive wrapped in a code span is inert", {
@@ -238,10 +236,9 @@ c("label", "link-label-remote", "A labelled link to an imported item", {
   kind: "fragment", md: `[[${RA} | their post]] and [[${RB}|a line]]`, items: [RA, RB], html: P(L(RA, "their post"), " and ", L(RB, "a line")), links: [LK(RA), LK(RB)], spec: ["§10.1", "§10.3a"], decisions: ["#70", "#79"], seed: "label_link_remote" });
 c("label", "link-label-text-escaped", "A label with & and quotes is text in the anchor", {
   kind: "fragment", md: `[[${LF} | Tom & "Jerry"]]`, items: [LF], html: P(L(LF, `Tom & "Jerry"`)), links: [LK(LF)], spec: ["§10.1"], decisions: ["#70"], seed: "label_link_escaped" });
-c("label", "link-label-markup", "Markdown and HTML in a link label", {
+c("label", "link-label-markup", "Markdown and HTML in a link label are plain text (#102)", {
   kind: "fragment", md: `[[${LF} | *not emphasis*]] and [[${LF} | a <b>bold</b> word]]`, items: [LF],
-  html: P(L(LF, "*not emphasis*"), " and ", L(LF, "a <b>bold</b> word")), links: [LK(LF), LK(LF)], spec: ["§10.1"], decisions: ["#70"], seed: "label_link_markup",
-  ambiguous_checks: ["normative"], ambiguous: "§10.1 says the label is 'everything after that pipe up to ]]' and is the anchor text, and §10.2 bakes a directive's label 'verbatim and HTML-escaped'. It does not say whether markdown or HTML inside a link label is rendered. The expectation takes the label as literal text (the author's words, escaped), which matches the directive rule." });
+  html: P(L(LF, "*not emphasis*"), " and ", L(LF, "a <b>bold</b> word")), links: [LK(LF), LK(LF)], spec: ["§10.1"], decisions: ["#70", "#81", "#102"], seed: "label_link_markup" });
 c("label", "link-label-ends-at-first-close", "A label ends at the first ]]: the rest of the line is literal", {
   kind: "fragment", md: `[[${LF} | cut]] here]]`, items: [LF], html: P(L(LF, "cut"), " here]]"), literals: ["here]]"], links: [LK(LF)], spec: ["§10.1"], decisions: ["#70"], seed: "label_link_cut_and_several" });
 c("label", "directive-label-ends-at-first-close", "A directive whose label would contain ]] is not alone on its line: inert", {
@@ -318,9 +315,8 @@ c("resolution", "local-withdrawn-target", "A withdrawn local item with nothing r
   md: `![[${LG}]]`, items: [LG], error: true, spec: ["§10.2"], clauses: ["C-10.2-01"], decisions: ["#8"], seed: "tr_withdrawn" });
 c("resolution", "remote-withdrawn-unretained", "An imported item withdrawn at its origin, with no pin, is a publish error", {
   md: `![[${RX}]]`, items: [RX], error: true, spec: ["§10.2", "§13.4"], clauses: ["C-10.2-01"], decisions: ["#8", "#26"], seed: "tr_source_withdrawn" });
-c("resolution", "remote-withdrawn-pin-retained", "An imported item withdrawn at its origin but pin-retained resolves to the retained snapshot", {
-  md: `![[${RW}]]`, items: [RW], html: Q(RW), tr: [TR(RW)], spec: ["§10.2", "§13.4"], clauses: ["C-10.2-01"], decisions: ["#8", "#26"],
-  ambiguous: "Retention is a MAY (§13.4: a pinned version MAY be retained), so a reader that kept no copy of the pin after the withdrawal is conformant and publish-errors here; the fixture states that this renderer holds the retained snapshot. Separately, §10.2 does not say which version number a bake of a retained snapshot carries: the expectation bakes the retained version (1), whose bytes are quoted, not the withdrawal endcap (2)." });
+c("resolution", "remote-withdrawn-pin-retained", "An imported item withdrawn at its origin but pin-retained bakes the retained version; a reader that retained nothing publish-errors", {
+  md: `![[${RW}]]`, items: [RW], error: "either", html: Q(RW), tr: [TR(RW)], spec: ["§10.2", "§10.3", "§13.4"], clauses: ["C-10.2-01"], decisions: ["#8", "#26", "#102"] });
 c("resolution", "ambiguous-imported-id", "The same id imported from two origins is a publish error, never a guess", {
   md: `![[${RM}]]`, items: [RM + "@1", RM + "@2"], error: true, spec: ["§10.2", "§5.1"], clauses: ["C-10.2-01"], decisions: ["#17", "#26"], seed: "tr_ambiguous" });
 c("resolution", "closure-contains-self", "A thread may not transclude a local thread whose local closure contains the publishing thread", {
@@ -347,23 +343,20 @@ c("urls", "link-remote-page", "A link to an imported item resolves its relative 
   kind: "fragment", md: `[[${RA}]]`, items: [RA], html: P(L(RA)), links: [LK(RA)], spec: ["§10.1", "§5.8"], clauses: ["C-5.2-03"], decisions: ["#53", "#79"], seed: "link_imported_page" });
 c("urls", "link-remote-absolute-page", "A link to an imported item whose page is absolute uses it as given", {
   kind: "fragment", md: `[[${RP}]]`, items: [RP], html: P(L(RP)), links: [LK(RP)], spec: ["§10.1", "§5.8"], clauses: ["C-5.2-03"], decisions: ["#53"], seed: "link_imported_absolute_page" });
-c("urls", "link-remote-no-page", "A link to an imported item whose document names no page", {
-  kind: "fragment", md: `[[${RN}]]`, items: [RN], html: P(`<a href="${R1}f/${RN}/" data-x-presentation-text>…</a>`), links: [LK(RN)],
-  anyHref: { [`${R1}f/${RN}/`]: [`${R1}f/${RN}/`, `${R1}items/${RN}.json`] }, spec: ["§10.1", "§5.8"], clauses: ["C-5.8-02"], decisions: ["#53", "#85"],
-  ambiguous_checks: ["normative"], ambiguous: "§10.1 says the anchor's href is the absolute URL of the target's page (§5.8), and §5.8 lets readers fall back to the reference convention when `page` is absent. Decision #85 says a mention sender in the same position names the item document instead. The expectation accepts either the convention page or the item document." });
-c("urls", "markdown-relative-links", "Relative markdown links are made absolute in content_html", {
-  kind: "fragment", md: "[the archive](/archive/) and [notes](notes/x)", items: [], html: P(A(SELF_ORIGIN + "archive/", "the archive", true), " and ", A(SELF_ORIGIN + "notes/x", "notes", true)),
-  spec: ["§5.2"], clauses: ["C-5.2-03"], decisions: ["#53"], seed: "links_inline",
-  ambiguous_checks: ["normative"], ambiguous: "§5.2 requires every URL in content_html to be absolute but does not say what a relative URL the author wrote resolves against (the origin, the item's page, the mount). Only absoluteness is checked." });
+c("urls", "link-remote-no-page", "A link to an imported item whose document names no page names the item document, never the convention", {
+  kind: "fragment", md: `[[${RN}]]`, items: [RN], html: P(`<a href="${R1}items/${RN}.json" data-x-presentation-text>…</a>`), links: [LK(RN)],
+  spec: ["§10.1", "§5.8"], clauses: ["C-5.8-02"], decisions: ["#53", "#85", "#102"] });
+c("urls", "markdown-relative-links", "Relative markdown links resolve against the identity origin (RFC 3986)", {
+  kind: "fragment", md: "[the archive](/archive/) and [notes](notes/x)", items: [], html: P(A("https://home.example/archive/", "the archive"), " and ", A(SELF_ORIGIN + "notes/x", "notes")),
+  spec: ["§5.2"], clauses: ["C-5.2-03"], decisions: ["#53", "#102"], seed: "links_inline" });
 c("urls", "markdown-relative-image", "A relative image source is made absolute in content_html", {
   kind: "fragment", md: "![a diagram](media/x7f2.png)", items: [], html: P(`<img src="${SELF_ORIGIN}media/x7f2.png" alt="a diagram">`),
   spec: ["§5.2", "§5.4"], clauses: ["C-5.2-03"], decisions: ["#53"], seed: "tr_sanitize_markdown" });
 c("urls", "baked-remote-markup", "A baked quote carries the source's own HTML verbatim, its links included, with no link added", {
   md: `![[${RH}]]`, items: [RH], html: Q(RH), tr: [TR(RH)], links: [], spec: ["§10.2", "§5.2"], decisions: ["#26", "#53"] });
-c("urls", "baked-remote-relative-url", "A relative URL in an imported item's HTML must not reach this item's content_html relative", {
-  md: `![[${RR}]]`, items: [RR], html: bq(RR, 1, `<p>See <a href="${R1}notes/" data-x-absolute-only>the notes</a> for more.</p>\n`, { origin: R1 }), tr: [TR(RR)],
-  spec: ["§5.2", "§10.2"], clauses: ["C-5.2-03", "C-5.2-04"], decisions: ["#53"],
-  ambiguous_checks: ["normative","absolute-urls"], ambiguous: "The source is non-conformant (§5.2 requires its own content_html to be absolute). §10.2 bakes the held HTML, §5.2 says readers MAY resolve relative URLs on import, and §5.2 also says this item's content_html MUST be absolute. The expectation follows the MUST: whoever resolves it, the URL that reaches the bake is absolute." });
+c("urls", "baked-remote-relative-url", "A relative URL in an imported item's HTML is resolved against the source's origin before the bake", {
+  md: `![[${RR}]]`, items: [RR], html: bq(RR, 1, `<p>See <a href="${R1}notes/">the notes</a> for more.</p>\n`, { origin: R1 }), tr: [TR(RR)],
+  spec: ["§5.2", "§10.2"], clauses: ["C-5.2-03", "C-5.2-04"], decisions: ["#53", "#102"] });
 
 // disclosure — §10.3 transclusions[], §10.3a links[]
 c("disclosure", "transclusions-order-and-origin", "transclusions[] is in directive order; origin is omitted for own-origin sources and present for remote ones", {
@@ -405,10 +398,9 @@ c("generation", "tk-several-spans", "Each generated span is wrapped, and generat
   kind: "fragment", md: "One [TK]a[=]alpha[/TK], two [TK]c[=]gamma[/TK].", items: [], html: P("One ", GS("alpha"), ", two ", GS("gamma"), "."), gen: [GEN(), GEN()], spec: ["§5.7"], decisions: ["#20"], seed: "tk_multiple" });
 c("generation", "tk-markup-inside-span", "Markdown inside an inline generated span renders inside the wrapper", {
   kind: "fragment", md: "Price [TK]p[=]*five* dollars[/TK] end.", items: [], html: P("Price ", GS("<em>five</em> dollars"), " end."), gen: [GEN()], spec: ["§5.7"], decisions: ["#20"] });
-c("generation", "tk-output-own-line-directive", "An own-line directive in generated output transcludes at publish (#60)", {
-  md: `Intro.\n\n[TK]write it[=]Mine.\n\n![[${LF}]][/TK]\n\nOutro.`, items: [LF], html: P("Intro.") + GD(P("Mine.") + Q(LF)) + P("Outro."), tr: [TR(LF)], gen: [GEN()],
-  spec: ["§5.7", "§10.1"], decisions: ["#60", "#20"], seed: "tr_block_tk_directive_split",
-  ambiguous_checks: ["normative"], ambiguous: "Decision #60 makes the directive a real transclusion, so the quote and its transclusions[] entry are normative. Where the quote sits relative to the div.blyg-tk-gen is not stated; the expectation nests it inside the generated block, where the author's output put it, though a quote is not generated words." });
+c("generation", "tk-output-own-line-directive", "An own-line directive in generated output transcludes at publish (#60), outside the wrapper, which reopens after it; one generated[] entry", {
+  md: `Intro.\n\n[TK]write it[=]Mine.\n\n![[${LF}]]\n\nAfter the quote.[/TK]\n\nOutro.`, items: [LF], html: P("Intro.") + GD(P("Mine.")) + Q(LF) + GD(P("After the quote.")) + P("Outro."), tr: [TR(LF)], gen: [GEN()],
+  spec: ["§5.7", "§10.1"], decisions: ["#60", "#20", "#102"], seed: "tr_block_tk_directive_split" });
 c("generation", "tk-ungenerated-scope", "A scope with no output is a publish error", {
   kind: "fragment", md: "Before [TK]summarise the argument[/TK] after.", items: [], error: true, spec: ["§5.7"], decisions: ["#20"], seed: "tk_ungenerated_inline" });
 

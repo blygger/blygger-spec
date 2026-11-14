@@ -96,6 +96,69 @@ rule("md.no-reserved-directive", "no reserved ![[id@vN]] in published content_md
   return p.reserved.length ? [`reserved directive on line(s) ${p.reserved.map((x) => x + 1).join(",")}`] : [];
 });
 
+rule("fragment.no-directive", "a fragment's content_md has no directive line outside code", ["§10.1", "§10.3"], ["#60", "#100", "#102"], "fail", (d) => {
+  if (d.kind !== "fragment") return [];
+  const p = parse(d.content_md || "");
+  return p.transclusions.length ? [`directive line(s) ${p.transclusions.map((t) => t.line + 1).join(",")} in a fragment: a publish error since #102`] : [];
+});
+
+// ---------------- Unicode (#103, fifteenth revision) ----------------
+/** Code points that make content_md not text (§5.1): C0 but tab/LF/CR, and unpaired surrogates. */
+export function badTextChars(s) {
+  const out = [];
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    if (c < 0x20 && c !== 0x09 && c !== 0x0a && c !== 0x0d) out.push(`U+${c.toString(16).toUpperCase().padStart(4, "0")} at ${i}`);
+    else if (c >= 0xd800 && c <= 0xdbff) { const n = s.charCodeAt(i + 1); if (n >= 0xdc00 && n <= 0xdfff) i++; else out.push(`unpaired surrogate U+${c.toString(16).toUpperCase()} at ${i}`); }
+    else if (c >= 0xdc00 && c <= 0xdfff) out.push(`unpaired surrogate U+${c.toString(16).toUpperCase()} at ${i}`);
+  }
+  return out;
+}
+rule("md.is-text", "content_md has no C0 control but tab, LF and CR, and no unpaired surrogate", ["§5.1"], ["#103"], "fail", (d) =>
+  typeof d.content_md === "string" ? badTextChars(d.content_md).slice(0, 5) : []);
+rule("md.no-noncharacters", "content_md has no U+FFFE or U+FFFF", ["§5.1"], ["#103"], "warn", (d) =>
+  typeof d.content_md === "string" && /[\uFFFE\uFFFF]/.test(d.content_md) ? ["content_md contains U+FFFE or U+FFFF"] : []);
+rule("md.nfc", "content_md is in Unicode Normalization Form C", ["§5.1"], ["#103"], "warn", (d) => {
+  if (typeof d.content_md !== "string" || badTextChars(d.content_md).length) return [];
+  return d.content_md.normalize("NFC") !== d.content_md ? ["content_md is not NFC (NFC-ness is relative to this checker's Unicode version)"] : [];
+});
+
+/** Problems with an origin string's one spelling (§12.2): ASCII, lowercase scheme and host, no default port, uppercase percent hex, final /, no query or fragment. */
+export function originSpelling(o) {
+  if (typeof o !== "string") return [];
+  const errs = [];
+  if (/[^\x21-\x7e]/.test(o)) errs.push("non-ASCII or whitespace");
+  const m = /^([^:/?#]+):\/\/([^/?#]*)([^?#]*)(.*)$/.exec(o);
+  if (!m) return [...errs, "not an absolute URL"];
+  const [, scheme, authority, path, rest] = m;
+  if (scheme !== scheme.toLowerCase()) errs.push("scheme not lowercase");
+  const host = authority.replace(/^.*@/, "");
+  const hp = /^(\[[^\]]*\]|[^:]*)(?::(\d*))?$/.exec(host) || [];
+  if (hp[1] && hp[1] !== hp[1].toLowerCase()) errs.push("host not lowercase");
+  if (hp[2] !== undefined && ((scheme.toLowerCase() === "https" && hp[2] === "443") || (scheme.toLowerCase() === "http" && hp[2] === "80") || hp[2] === "")) errs.push("default or empty port");
+  if (/%[0-9a-f]?[a-f]|%[a-f][0-9a-f]/.test(path)) errs.push("lowercase percent-escape hex");
+  if (!path.endsWith("/")) errs.push("no final /");
+  if (rest) errs.push("query or fragment");
+  return errs;
+}
+/** Every origin string written into a document: any `origin` or `moved_from` member, at any depth, and each baked data-blyg-origin. */
+export function writtenOrigins(d) {
+  const out = [];
+  const walk = (v, path) => {
+    if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${path}[${i}]`));
+    else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) {
+      if ((k === "origin" || k === "moved_from") && typeof x === "string") out.push({ at: `${path}${path ? "." : ""}${k}`, value: x });
+      else if (k !== "content_html" && k !== "content_md") walk(x, `${path}${path ? "." : ""}${k}`);
+    }
+  };
+  walk(d, "");
+  for (const m of String(d.content_html || "").matchAll(/data-blyg-origin="([^"]*)"/g)) out.push({ at: "content_html data-blyg-origin", value: decode(m[1]) });
+  return out;
+}
+const originRule = (d) => writtenOrigins(d).flatMap((o) => { const e = originSpelling(o.value); return e.length ? [`${o.at} "${o.value}": ${e.join(", ")}`] : []; });
+rule("origin.one-spelling", "every origin string written has the §12.2 spelling", ["§12.2", "§5.9"], ["#103"], "fail", originRule);
+rule("manifest.origin.one-spelling", "every origin string written has the §12.2 spelling", ["§12.2", "§6.1"], ["#103", "#88"], "fail", originRule, "manifest");
+
 rule("transclusions.match-directives", "transclusions[] matches the directives in content_md, in order", ["§10.3", "§10.1"], ["#26", "#49"], "fail", (d) => {
   if (d.kind !== "thread") return [];
   const p = parse(d.content_md || "");
@@ -244,7 +307,7 @@ rule("pinned.forked_from-immutable", "a pin of a forked item carries the same fo
   const a = ctx.item.forked_from, b = d.forked_from;
   return !b || a.origin !== b.origin || a.id !== b.id || a.version !== b.version ? ["pinned version's forked_from differs from (or omits) the item's lineage"] : [];
 }, "pinned");
-for (const r of RULES.filter((r) => ["html.absolute-urls", "md.no-tk-grammar", "transclusions.match-directives", "transclusions.baked-wrappers", "stub_of.version-agreement", "forked_from.cited-url-is-page"].includes(r.id))) {
+for (const r of RULES.filter((r) => ["html.absolute-urls", "md.is-text", "md.nfc", "origin.one-spelling", "md.no-tk-grammar", "transclusions.match-directives", "transclusions.baked-wrappers", "stub_of.version-agreement", "forked_from.cited-url-is-page"].includes(r.id))) {
   RULES.push({ ...r, id: "pinned." + r.id, scope: "pinned" });
 }
 

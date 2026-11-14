@@ -9,7 +9,7 @@
    "session_inferred": true,
    "date": null,
    "by": [],
-   "line": 53,
+   "line": 56,
    "text": "**Protocol = static file contract** under the blyg origin (mounted anywhere per decision #14; reference default `/blyg/`): `items/{id}.json` is the state plane (ground truth, full archive); `feed.xml` is the notification plane (lossy RSS, just a signal).",
    "spec_sections": [],
    "other_refs": [],
@@ -30,7 +30,7 @@
    "session_inferred": true,
    "date": null,
    "by": [],
-   "line": 54,
+   "line": 57,
    "text": "**IDs**: stable random 128-bit IDs for identity; per-version content hashes for integrity/IPFS. Never content-addressed IDs.",
    "spec_sections": [],
    "other_refs": [],
@@ -45,7 +45,7 @@
    "session_inferred": true,
    "date": null,
    "by": [],
-   "line": 55,
+   "line": 58,
    "text": "**Studio/page split**: every client = private studio (dynamic, unconstrained) + public page (the `/blyg` artifact, protocol-governed). The protocol governs *only* the page.",
    "spec_sections": [],
    "other_refs": [],
@@ -62,7 +62,7 @@
    "session_inferred": true,
    "date": null,
    "by": [],
-   "line": 56,
+   "line": 59,
    "text": "**Conformance levels** L0–L3, strict supersets; clients ignore unknown constructs; every blyg feed stays a valid RSS feed with self-contained HTML per item.",
    "spec_sections": [],
    "other_refs": [],
@@ -77,7 +77,7 @@
    "session_inferred": true,
    "date": null,
    "by": [],
-   "line": 57,
+   "line": 60,
    "text": "**AI is never in the protocol.** Generation is studio-side at authoring time; the page publishes output + provenance.",
    "spec_sections": [],
    "other_refs": [],
@@ -95,7 +95,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 58,
+   "line": 61,
    "text": "**Roadmap order** (restructured session 3, with Venkat; **amended session 12, 2026-08-10, Fable + Venkat**): no-AI core first; both core abstractions in the first release. Build order after the session-12 amendment: v0.1 publish → v0.2 subscribe → **TK-core (pulled forward from v0.4** — depends only on v0.1; matches the session-11 release bar of TK + pubsub**)** → v0.3 threads-cross-client → v0.4-remainder (filter plugins, staleness-over-DAG, auto-hoppers) → v0.5 RAG/polish → v1.0 freeze.",
    "spec_sections": [],
    "other_refs": [],
@@ -110,7 +110,7 @@
    "session_inferred": true,
    "date": null,
    "by": [],
-   "line": 59,
+   "line": 62,
    "text": "Private content in v1 = never-published drafts (owner-only). Privileged-group access is deferred to L3.",
    "spec_sections": [],
    "other_refs": [],
@@ -125,7 +125,7 @@
    "session_inferred": false,
    "date": null,
    "by": [],
-   "line": 60,
+   "line": 63,
    "text": "**Withdraw + pin model** (session 3, supersedes tombstone/silent-unpublish): no permanent delete of published items — the single exit is *withdraw*, a permanent reversible endcap (`kind: \"withdrawn\"`, 200 forever, one feed entry, compliant clients roll up to null); *pins* are irrevocable per-version hosting promises (`items/{id}/v{n}.json`) that survive withdrawal; only pinned versions are exposed, pinning never forces a fork; `forked_from` is reserved for v0.3. Rationale: `docs/proposals/retract-pin-fork-proposal.md`.",
    "spec_sections": [],
    "other_refs": [],
@@ -144,7 +144,7 @@
    "session_inferred": false,
    "date": null,
    "by": [],
-   "line": 61,
+   "line": 64,
    "text": "**Transclusion grammar** (session 3): `![[id]]` on its own line, `![[id@vN]]` reserved; publish-time snapshot baked into self-contained HTML with `{id, version}` provenance; fragments-only nesting in v0.1; **no auto-pin** — pins remain a separate deliberate act; source withdrawal never cascades into thread snapshots. Spec: `docs/v0.1-plan.md` §2.9. **Amended by #26** (session 22): transclusion is no longer fragments-only or same-origin — thread targets and imported items resolve, by the local snapshot. *(Back-reference added session 38 per conformance F16.)*",
    "spec_sections": [],
    "other_refs": [
@@ -178,7 +178,7 @@
    "session_inferred": true,
    "date": null,
    "by": [],
-   "line": 62,
+   "line": 65,
    "text": "Licensing: MIT (code), CC-BY-4.0 (`docs/`).",
    "spec_sections": [],
    "other_refs": [],
@@ -195,7 +195,7 @@
    "session_inferred": false,
    "date": null,
    "by": [],
-   "line": 63,
+   "line": 66,
    "text": "**Author/identity model** (session 5): `author` is an optional, per-item, origin-scoped, client-asserted, *opaque* pass-through object (`name` recommended, `url` optional, all other members = the client's private authorspace grammar) — no protocol guarantees or representations about it; authors are never addressable; the only protocol-authenticated entity is the client/origin. **Identity, like AI, is never in the protocol.** Feed invariant narrowed from single-*author* to single-**publisher**: multiplayer clients may publish one conformant feed with per-item bylines (no shared namespace, no `user@server`, DNS remains the namespace). Decision record: `docs/proposals/author-field-proposal.md`.",
    "spec_sections": [],
    "other_refs": [],
@@ -216,7 +216,7 @@
    "session_inferred": false,
    "date": null,
    "by": [],
-   "line": 64,
+   "line": 67,
    "text": "**Response primitives & curation** (session 7): no reply primitive, ever (frozen-spec stance, reaffirmed); transclusion is the primitive, stub is the gesture; **make-public for imported items = curation display only** (public hopper page, local snapshot, source attribution) — imported items are **never re-emitted on the publisher's feed** (would collide with `blyg:id` rollup + single-publisher invariant); feed-speech about others' content costs editorial (stub or fork-from-pin). No tags, no canned phrases in protocol — hoppers are the taxonomy, stub templates are studio sugar. Third leg of the pattern: **editorial convenience, like AI and identity, is never in the protocol.** Decision record: `docs/proposals/curation-discovery-generation-proposal.md`.",
    "spec_sections": [],
    "other_refs": [],
@@ -233,7 +233,7 @@
    "session_inferred": false,
    "date": null,
    "by": [],
-   "line": 65,
+   "line": 68,
    "text": "**Discovery model** (session 7): two planes, both **L2 and optional** — static plane = curated OPML blogroll (origin-relative `blogroll.opml` + manifest key, ships v0.2; no completeness claim); notification plane = **Webmention** (W3C, reused not invented) with **structural verification** (receiver checks the source item JSON actually names the target), ships v0.3; verified mentions are studio signals feeding detect-stubs, never auto-published. \"Follow\" is deliberately nothing: subscription stays client-local and invisible; no follower lists/requests/objects ever — the public graph is blogrolls (outbound) + verified stubs (inbound). The Webmention receiver is the protocol's first dynamic surface, acknowledged as an amendment carve-out to decision #1: optional-at-L2, \"just files\" stays the L1 floor. ActivityPub/WebSub/directories rejected (records in the proposal doc).",
    "spec_sections": [],
    "other_refs": [],
@@ -255,7 +255,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 66,
+   "line": 69,
    "text": "**Mount independence** (session 8, Fable + Venkat): a blyg's origin is *any* absolute base URL — domain root, any path, any subdomain; the surface is strictly origin-relative and no protocol construct may assume a path component (readers MUST NOT infer anything from the mount). **Wire vocabulary and deployment lexicon are formally split:** manifest filename `blyg.json`, `\"blyg\"` version key, `blyg:` GUID/XML elements are protocol-permanent; the *mount* is per-deployment config (`Env.MOUNT`, reference default **`/blyg`**, `\"\"` = root). The path is the deployer's, the filename is the protocol's; the fixed filename is the discovery anchor that keeps free mounts findable. (Token spellings in this record amended by #16 — originally `blygg.json`/`blygg:`.) Consequence: v0.2 autodiscovery may not probe a fixed path — treat-URL-as-origin + `<link rel=\"blyg\">` + conventional-mount fallback, mechanics finalized in the v0.2 plan (⚠️ FABLE). Supersedes task 16's slug-drives-path conflation; spec §4, plan task 17. **Amended by #51** (session 28): the manifest may locate the rest of the surface and need not be named `blyg.json` when HTML points at it; the fixed filename still anchors the bare-origin probe. *(Back-reference added session 38 per conformance F16.)*",
    "spec_sections": [
     {
@@ -304,7 +304,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 67,
+   "line": 70,
    "text": "**Spec publishing model** (session 8, Fable + Venkat): the normative spec is published at semantic versioned URLs — `blygger.org/spec/{version}/` (latest; \"freezes at stable\" amended by #21: pre-1.0 versions never freeze, only 1.0 does) + `/spec/{version}/{date}/` immutable snapshots + `/spec/` index — with each snapshot paired to a `spec/{version}/{date}` git tag in `blygger-spec` and every published page footer-stamped with its source commit. **The spec is never published as a blyg**: spec URLs must be semantic/citable vs. deliberately opaque item ids; a normative document is the wrong shape for fragment/thread primitives; the normative text must not depend on the machinery it defines. Deferred, not rejected: an announcements blyg (v0.2+) and a ceremonial 1.0 pin. Reference-impl releases (`ref-v*` tags) are loosely coupled — site links to stable Releases URLs, no lockstep deploys. Plan: `docs/spec-publishing-plan.md`. (Doc lifecycle across protocol versions formalized by #23.)",
    "spec_sections": [],
    "other_refs": [],
@@ -340,7 +340,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 68,
+   "line": 71,
    "text": "**Vocabulary rule: blyg/blygger, `blygg` retired** (session 9, 2026-08-05, Fable + Venkat): the noun is **blyg** (one g — as *blog* is to *blogger*) and the protocol/brand name is **blygger** (the `ygg` gesturing at Yggdrasil); the intermediate spelling `blygg` is retired everywhere, including the wire. Amends #14's token spellings without touching its architecture — the wire/mount split stands, but the wire tokens are now `blyg.json` (manifest filename), `\"blyg\"` (JSON version key), `blyg:` (XML ns prefix, GUID scheme `blyg:{id}:v{n}`), `blyg-transclusion` (baked blockquote class), `<link rel=\"blyg\">` (reserved autodiscovery); mount default stays `/blyg`, so path and filename now happen to agree — a convention coincidence, not a protocol linkage (#14's origin-relativity rules unchanged). Cost was zero because nothing is deployed (task 11's D1 id is still the placeholder); after first deploy this would have been a breaking wire migration. Spec is DRAFT so no version bump; recorded here and in DEVLOG per the spec's own change rule. Historical records (`DEVLOG.md`, `RENAME.md`, `ygg-initial-spec.md`) deliberately keep the old spelling.",
    "spec_sections": [],
    "other_refs": [],
@@ -379,7 +379,7 @@
    "by": [
     "Fable"
    ],
-   "line": 69,
+   "line": 72,
    "text": "**Resolution algorithm & subscription identity** (session 12, 2026-08-10, Fable): given any URL, resolution is deterministic, ordered, and bounded (≤ 6 fetches): normalize → direct `blyg.json` probe → feed-upgrade via `<blyg:manifest>` → one-hop `<link rel=\"blyg\" href=\"{origin}\">` → conventional-mount probes (`/blyg/`, root) → RSS fallback (L0). **Subscription identity = final fetch origin** (post-redirect), never the manifest's self-asserted `site` — a mirror must not inherit another origin's identity; disagreement is surfaced, not adopted. Adopting a new origin on re-resolution is always user-confirmed. Blogroll is **standard OPML 2.0 with no extensions** — the `blyg:manifest` feed element makes plain OPML blyg-resolvable, so nothing custom is needed. Mechanics: `docs/v0.2-plan.md` §2.",
    "spec_sections": [],
    "other_refs": [
@@ -409,7 +409,7 @@
    "by": [
     "Fable"
    ],
-   "line": 70,
+   "line": 73,
    "text": "**Importer invariants** (session 12, 2026-08-10, Fable): (a) **the archive index is the reconciliation surface; the feed is a cheap trigger** — gaps, skew, and malformed feeds degrade to an index diff, never to loss; (b) **the item document is ground truth for content, but the local version watermark never silently regresses** — a lower-than-watermark version is surfaced as a suspected history rewrite, reset only by the user; (c) **retention past withdrawal follows the origin's own serving surface** — readers may retain exactly what the origin still serves (pinned versions) and MUST roll everything else to null, which settles hopper-copy-vs-withdrawal; (d) version keys are informative (`\"0.x\"` accepted with ignore rules, publishers emit what they implement). State machine: `docs/v0.2-plan.md` §3.",
    "spec_sections": [],
    "other_refs": [
@@ -435,7 +435,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 71,
+   "line": 74,
    "text": "**Versioning stays a bare counter; pins are the significance primitive** (session 12, 2026-08-10, Fable + Venkat): `version` remains a bare positive integer, +1 per publish event — no semver, no edition field, no significance markup on the wire, at any level. Semver rejected (breaks the load-bearing +1 discipline behind #18's watermark, restructures wire-permanent tokens post-deploy, encodes API-compatibility semantics prose doesn't have); an additive author-asserted `edition` field also rejected, on design-intent grounds: **an edition bump is cheap talk; a pin is a costly signal** — the protocol's machine-readable \"this state matters\" is the pin (§8), backed by an irrevocable hosting promise, and publishers should think consciously in pins rather than in version-structure skeuomorphism. Auto-pin heuristics dissolve into pin-suggestion studio UX (fourth application of the standing pattern: significance markup, like AI/identity/editorial convenience, is never in the protocol). Decision record: `docs/notes/tn-1-versioning-and-pins.md` (the first technical note — genre + publishing pipeline defined in `docs/spec-publishing-plan.md` §5).",
    "spec_sections": [],
    "other_refs": [
@@ -468,7 +468,7 @@
    "by": [
     "Fable"
    ],
-   "line": 72,
+   "line": 75,
    "text": "**TK authoring contract** (session 12, 2026-08-10, Fable): instructed generation is a **two-layer split** — the TK grammar (`[TK]instruction[=]output[/TK]` since the session-16 respelling below, inline or block, no nesting, valid in fragment and thread working copies) is **studio-private pre-generation state that never reaches the wire**; published `content_md` is ordinary marker-free markdown (the hash covers exactly what readers read), with provenance as an optional item-doc `\"generated\"` array (`{sources:[{id,version}], model, at}` per scope; no instruction bytes ever) plus a baked `blyg-tk-gen` HTML class — mirroring transclusion's two-plane pattern, and amending the §4 item-3 inert-markers lean. **Quote-vs-source rule** (resolves §4 item 6 without touching #9): outside TK scopes, own-line `![[id]]` is a transclusion (verbatim quote, `transclusions[]`), unchanged; **inside a TK scope every `![[id]]` is a source reference** — content fed to the generator, disclosed in `generated[].sources`, never a blockquote; scopes cannot contain transclusions (compose by exclusion). Generation is always an explicit, author-reviewed studio act — publish with unresolved scopes is an error, publish never triggers generation. Disclosure is SHOULD-record in spec language, always-recorded in the reference client (self-asserted like all provenance). One provider-call interface serves every present and future hook. Plan + rationale: `docs/tk-core-plan.md`. **§2.1 grammar confirmed (session 15, 2026-09-11, Fable):** no `]` terminates the instruction; any closing token beginning with `]` mis-splits an instruction ending in a `![[id]]` source ref — the primary case instructions exist to carry. That constraint is forced and stands. **§2.1 grammar respelled to balanced tokens (session 16, 2026-09-11, Fable + Venkat):** the scanner tokens are now `[TK]`, `[=]`, `[/TK]` — typed forms `[TK]instruction[/TK]` (ungenerated) and `[TK]instruction[=]output[/TK]` (generated). Venkat rejected the session-12 unbalanced opener (`[TK` with no closing bracket) as unreadable; the session-15 argument only rules out `]`-*initial instruction terminators*, and the opener's `]` sits before any instruction text, so the balanced spelling was always compatible — it is also what the frozen v0 spec, roadmap, and session-11 proposal examples all wrote informally. Readability is now an explicit grammar objective. No wire impact (grammar is studio-private); old-spelling working copies on the two test nodes are migrated or discarded, not dual-supported (pre-release, per #21). Implementation task list: `tk-core-plan.md` §9 (Sonnet/Opus-safe). **Amended session 38 (2026-10-06, Fable 5.1, decision #60):** \"inside a TK scope\" means the *instruction* — the pre-generation state the scanner reads for sources. The *output* is content: at publish the scope is consumed and whatever own-line `![[id]]` survives in `content_md` is a transclusion directive by §10.1, which has no scope to exempt it. A directive in the output is a source only if the instruction named it.",
    "spec_sections": [],
    "other_refs": [
@@ -523,7 +523,7 @@
    "by": [
     "Venkat"
    ],
-   "line": 73,
+   "line": 76,
    "text": "**Development-phase strategy: pre-1.0 spec is always draft; 1.0 is the release event** (session 12, 2026-08-10, Venkat): building the reference implementation **is** testing the protocol — the spec changes in response to testing discoveries at any version < 1.0, and **no pre-1.0 spec version is ever declared stable** (supersedes the freeze-0.1-at-stable intent). v1.0 is the first version we stand behind, published to a larger audience at a deliberate release event; until then spec users and implementation builders should assume **no promises**, including of the wire surface (wire-permanence discipline in #14/#16 manages migration cost, it is not an outsider-facing guarantee). Testing cohort: Venkat alone on the two live nodes initially, possibly a few invited testers pre-1.0, no open beta. The session-11 RC bar (stable spec + 2 reference implementations) gates the 1.0 event itself. Recorded in `docs/roadmap.md` \"Development-phase strategy\" + the spec's status header.",
    "spec_sections": [],
    "other_refs": [],
@@ -545,7 +545,7 @@
    "by": [
     "Fable"
    ],
-   "line": 74,
+   "line": 77,
    "text": "**Namespace URI is a permanent opaque token** (session 15, 2026-09-11, Fable): `https://blygger.org/ns/0.1` never tracks the protocol version — the `0.1` is part of the token's spelling, fixed when the namespace was minted, not a version claim — and stays unchanged through every 0.x and the 1.0 release (Dublin Core `/1.1/`, Atom `2005` precedent). Closes a gap #14/#16 left open: those froze the other wire tokens (`blyg.json`, the `blyg:` prefix, the GUID scheme) but never covered the URI; `types.ts` asserted permanence in a comment (\"once v0.2 ships importers\") with no decision record, and that window closed silently at the session-13 deploys, leaving live feeds declaring `ns/0.1` against `blyg: \"0.2\"` manifests — which this decision makes *correct*, not a mismatch. Rationale: vocabulary evolution rides the ignore-unknown-`blyg:*` rule (spec §11.4 at 0.1; §13.1 since 0.2 — section number corrected session 38 per conformance F16) inside one namespace; a version-tracking URI would force readers to enumerate namespaces and break exactly the readers the ignore rule protects, and it would make the URI a *stricter* version signal than the deliberately informative manifest key (#18d) — the manifest's `blyg` key is the version signal, the URI is identity. A semantically incompatible future vocabulary would mint a new URI; reserved, expected never. Renaming to a version-free spelling (`/ns`) was considered and rejected: post-deploy the churn is real and the benefit cosmetic — the page served at the URI itself answers the confusion at the exact moment it arises. Recorded publicly in spec §7 + the `blygger.org/ns/0.1` page.",
    "spec_sections": [
     {
@@ -607,7 +607,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 75,
+   "line": 78,
    "text": "**Per-version spec documents; the highest version is the living one** (session 15, 2026-09-11, Fable + Venkat; amends #15's structure): each protocol version gets its own **standalone-complete** normative document (`docs/protocol-v{X.Y}.md` → `blygger.org/spec/{X.Y}/`) — a superset revision of the previous version's full text, never a delta: a `/spec/{version}/` URL hands an implementor one complete document. The **highest-numbered document is the living one**: testing-driven revisions (per #21) land only there; at the moment version N+1's document is published, version N's stops receiving edits, flips DRAFT → **SUPERSEDED** (forward-linking banner + index status), and stays citable with its snapshots intact. First application: draft `protocol-v0.2.md` folding the subscribe side (resolution #17, importer/reader conformance #18, blogroll, L0 wrapper) plus the additive TK wire members (`generated[]`, `blyg-tk-gen` — #20) into the 0.1 text; `protocol-v0.1.md` then freezes as superseded. **Executed session 20 (2026-09-13):** 0.2 drafted (Fable) and published (Opus); 0.1 flipped to SUPERSEDED with its banner, snapshot byte-identical. Rationale: the living-doc rule gives #21's \"spec changes in response to testing\" a single unambiguous home, and supersession keeps citations stable without pretending frozen text is current.",
    "spec_sections": [],
    "other_refs": [],
@@ -652,7 +652,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 76,
+   "line": 79,
    "text": "**Pinned-version HTML pages** (session 18, 2026-09-12, Fable + Venkat; amends the session-5 §2.8 ruling via the additive path it explicitly reserved): a publisher MAY serve a rendered page per pinned version at the live permalink + `/v{n}/` (`f/{id}/v{n}/`, `t/{id}/v{n}/`) — gated exactly like the JSON file (404 unless pinned, 200 forever once pinned, survives withdrawal), serving that version's publish-time `content_html` verbatim, with `rel=\"canonical\"` to the live permalink, a frozen-snapshot banner, and a link to its `v{n}.json` twin. Not a publish event: never in feed/archive/index, no manifest vocabulary; readers MUST NOT require it. Rationale: **a pin exists to be cited, and a human citation wants a page, not JSON** — demand demonstrated by Venkat clicking a pin citation and hitting raw JSON (the exact trigger session 5 said to wait for). Route shape deliberately mirrors the permalink (`items/` is the machine plane, `f/`·`t/` the human plane; the citation URL is constructible in your head). The reference client serves them; the live page's pin citations link the pages, each page links its JSON. Spec §8.4 rewritten; unpinned history remains unreachable in every representation.",
    "spec_sections": [
     {
@@ -689,7 +689,7 @@
    "by": [
     "Fable"
    ],
-   "line": 77,
+   "line": 80,
    "text": "**§8.4 constrains routes and promises, not presentation; the pinned-version carousel conforms** (session 20, 2026-09-13, Fable; resolves the session-19 flag): the 0.1 sentence \"a public page's version display is an indicator, not navigation\" was session 5's *rationale for refusing history routes*, not a UI mandate — a presentation mandate would contradict the protocol's own charter (invariant 1 \"the protocol governs only the page\"; §8.4's own \"page chrome is presentation\"; §10.5). The normative content, restated in `protocol-v0.2.md` §8.4 so the two readings can never diverge again: **no route serves unpinned history in any representation, and a version display MUST NOT offer, imply, or hint at access to unpinned versions** — every version exposed, by link or presented in place, must be one the origin already promises forever (live + pinned, nothing else). Within that bound, presentation is the client's; the design-intent sentence (pins are frozen citable artifacts of one identity, not pages of one document) is retained as guidance — keep each pinned version discrete, visibly frozen, individually citable. The carousel conforms (positions = pins + live only; JS-off degrades to plain links; the only fetch is the already-promised `v{n}.json`); the session-5 all-versions scrubber remains impossible because its bytes are never served. **Companion ruling, same session: `blyg-tk-gen` stays unstyled in the reference client** — a visible tint would present self-asserted provenance as a verified authorship badge, a claim the protocol refuses to make (decision #20's disclosure = JSON provenance + inspectable class); the class name is a permanent wire token, styling is any client's free presentation choice (spec §5.7). Both rulings are folded into the 0.2 draft's text.",
    "spec_sections": [
     {
@@ -725,7 +725,7 @@
    "by": [
     "Fable"
    ],
-   "line": 78,
+   "line": 81,
    "text": "**Cross-client transclusion and nesting** (session 22, 2026-09-16, Fable 5.1): the `![[id]]` grammar is unchanged; resolution order becomes **local published item of any kind → imported non-L0 blyg item by `remote_id` (current, or tombstone with a pin-retained snapshot) → error**, with more-than-one-imported-match a publish error rather than a guess — the directive names an *identity*, not an origin. **The local snapshot is what gets baked, never a live fetch**: publish does not depend on the network, quoting follows reading, and network cycles are harmless because snapshots are static bytes. Thread targets are allowed (nesting = nested blockquotes; provenance records direct transclusions only, deeper layers are inspectable in the baked data attributes); the only DAG rule is a **local closure check** (a thread may not transclude a local thread whose transitive local closure contains it), remote closures are not walked. `transclusions[]` entries gain an optional `origin` (omitted for own-origin, so every 0.2 document is a valid 0.3 document); the baked wrapper gains `data-blyg-origin` for remote sources. Snapshot independence (0.2 §10.4) and republish-re-resolves apply verbatim across origins; a withdrawn, unretained remote source is a publish error on republish exactly as a withdrawn local fragment is — softening that would be the first place withdrawal failed to roll to null, deferred as an open thread. Plan: `docs/v0.3-plan.md` §2.1.",
    "spec_sections": [
     {
@@ -759,7 +759,7 @@
    "by": [
     "Fable"
    ],
-   "line": 79,
+   "line": 82,
    "text": "**Stubs are threads with `stub_of`; the stub action absorbs `respond`** (session 22, 2026-09-16, Fable 5.1): a stub is a thread declaring itself a response to **one** target via top-level `stub_of`, in two shapes — `{origin, id, version}` for a blyg target (`origin` REQUIRED even when own: a citation is absolute) or `{url}` for a plain-web target. Threads only (the frozen spec's own framing; stackable because threads transclude). **The body is the author's** — the protocol never requires it to transclude the target; readers rely on the marker, not body inspection. Version-agreement rule: at publish, if the body transcludes the target, `stub_of.version` := the baked version, else it keeps the creation-time value. Lives on `versions` (pins carry their citation; endcaps omit it, which is what makes a withdrawn stub stop verifying). No feed vocabulary. **Client: the reading feed's `respond ↗` is retired and its slot becomes `stub ↗`** — resolving the session-18 question in favour of one affordance, not a lighter sibling; L0 targets keep respond's copy-none-of-their-text prefill. **Not coupled to hoppers** — a flagged deviation from the frozen spec's \"(a) adds to a hopper\": the stub's provenance is the ledger, a side-effect hopper entry would be a second one that drifts. Plan §2.2, §3.1.",
    "spec_sections": [],
    "other_refs": [
@@ -795,7 +795,7 @@
    "by": [
     "Fable"
    ],
-   "line": 80,
+   "line": 83,
    "text": "**Webmention mechanics** (session 22, 2026-09-16, Fable 5.1; mechanism + verification principle were locked session 7): manifest key `\"webmention\"` (URL, origin-relative allowed; absent = does not receive; static exports omit it) plus W3C `rel=\"webmention\"` link + `Link` header on pages; reference endpoint at `{origin}webmention` — *inside* the origin surface because it is a protocol surface, unlike host-rooted `/studio` and `/api`. **Send** on publish for every remote-origin reference (`stub_of`, `transclusions[].origin`, later `forked_from`); source = the item's permalink page, target = the referenced item's page; discovery = target manifest key first, W3C discovery second, none → `no_endpoint` (no retry); network/5xx/429 retry **15m → 1h → 4h → 12h → 24h** then failed; fire-and-forget from the author's view; republish re-sends only new/changed references; withdrawal re-sends once so the receiver can mark it gone. **Receive**: 400 on syntactic failure or unknown target item, 429 over 60/hour/source-host, 202 then async **structural verification** (≤ 2 fetches, ≤ 3 redirects, 5 s, 1 MB): source page → `rel=\"alternate\" application/json` → item document (or JSON directly); the document's `origin` MUST equal the final source URL's origin (0.2 §12.2 applied inbound — kills mirrors and impostors); withdrawn → `gone`; relation from `stub_of` / `transclusions[]` / `forked_from` naming our origin + the target id, else failed. **No content is stored** — a verified mention is a pointer. Verified mentions are **studio signals** (detect-stubs), never auto-published, never on any protocol surface; public display is per-item curation under 0.2 §13.5 (Phase B, Venkat's call). Plain non-structural mentions: spec MAY, held apart as a lower class; **reference client drops them at 0.3**. Static-only deployments do nothing and stay conformant. Plan §2.3.",
    "spec_sections": [
     {
@@ -841,7 +841,7 @@
    "by": [
     "Fable"
    ],
-   "line": 81,
+   "line": 84,
    "text": "**The `page` field closes the permalink-convention gap** (session 22, 2026-09-16, Fable 5.1): the reference client has built remote permalinks as `{origin}f/{id}/`·`t/{id}/` since 0.2, a convention 0.2 §4 explicitly calls presentation. Webmention needs a target URL and a way from a W3C source *page* back to the document that is verified, so: item documents MAY carry `\"page\"` (origin-relative permalink; reference client always emits it; readers prefer it, MAY fall back to the convention), and permalink pages SHOULD carry `<link rel=\"alternate\" type=\"application/json\" href=\"…/items/{id}.json\">`. Both optional for conformance, required of the reference client, additive. Plan §2.3.2.",
    "spec_sections": [
     {
@@ -873,7 +873,7 @@
    "by": [
     "Fable"
    ],
-   "line": 83,
+   "line": 86,
    "text": "**The citation's human half goes on the wire — `cited`, additive and optional** (session 27, 2026-09-28, Fable 5.1; resolves `v0.3-plan.md` §8, reading (b)): an OPTIONAL `cited` object MAY sit inside any reference — `stub_of`, `transclusions[]`, `forked_from` — with `retrieved` REQUIRED and `source`, `author`, `excerpt` (caption, ~200 chars), `url` OPTIONAL; self-asserted, never authoritative, frozen when the reference is made, never read by mention verification, never in `content_html`, ignorable by readers. Rationale: transclusion already bakes the target's *entire* content self-asserted, so a label is strictly weaker than what §10 permits; `author` is #11's pass-through; and a citation is as-of-retrieval, so the citing publisher's frozen label is *more* correct than a reader's later lookup, not a fallback for it. Six independent clients made reading (c)'s condition moot. **Strict #21 (Venkat's call, session 27):** ruled shape in `protocol-v0.3.md` §16.1 now; normative in §5.9 only after blygger-studio emits it. Plan §8c.",
    "spec_sections": [
     {
@@ -928,7 +928,7 @@
    "by": [
     "Fable"
    ],
-   "line": 84,
+   "line": 87,
    "text": "**No normative write surface, ever; a companion note after it is built** (session 27, 2026-09-28, Fable 5.1; resolves roadmap-tracks 1.8): the protocol governs the public artifact (#1's studio/page split) and a normative write API would make a static-file client non-conformant for a reason unrelated to publishing — the very second implementation the 1.0 bar wants. Shape: a non-normative technical note in the tn-1 genre describing *a* write surface, written once blygger-studio's is built and used by ≥1 third-party tool; belongs to no protocol version (not 0.4). **Auth direction for the client:** per-client bearer tokens with coarse verb scopes (Micropub tradition), owner-minted and owner-revoked; the owner password is the root credential and no tool ever holds it; revocation = token list + per-token revoke + revoke-all; password reset rotates the root, leaves tokens standing, and MUST offer revoke-all. `/api` may be versioned and documented **now** as the client's contract (2.9 unblocked); tools discover it via an HTML `rel` link, never a manifest key. Does not touch #11. Plan §8c; spec §16.6.",
    "spec_sections": [
     {
@@ -961,7 +961,7 @@
    "by": [
     "Fable"
    ],
-   "line": 85,
+   "line": 88,
    "text": "**`[[id]]` is a plain internal link and is silent on the wire** (session 27, 2026-09-28, Fable 5.1; resolves `v0.3-plan.md` §8b): a transclusion is disclosed because it *copies* the target's words at a version; a link asserts nothing on the target's behalf, so no `transclusions[]` entry, no mention, no fourth relation — the set stays exactly `stub | transclusion | fork`. Deliberately preserves the one way to cite without notifying. Grammar: inline anywhere, resolved by #26's order, rendered as an anchor to the target's `page`, anchor text presentation, unresolvable = publish error. Stays in `content_md`, so it is a grammar addition: spec §16.2 now, §10.1 once built. Plan §8c. **Reversed by #79** (session 50, 2026-10-19): the bracket form discloses via `links[]` and notifies as a notice; the silent citation is the markdown link.",
    "spec_sections": [
     {
@@ -1014,7 +1014,7 @@
    "by": [
     "Fable"
    ],
-   "line": 86,
+   "line": 89,
    "text": "**Staleness is a direct relation; nothing on the wire is missing** (session 27, 2026-09-28, Fable 5.1; confirms the brief's T3 and sharpens it): the freshness check is fetch `{origin}items/{id}.json`, compare `version` to the reference's — every reference already carries the last version seen; only the client's outbound-mention table lacks it (roadmap-tracks 1.7), so T3 and 1.7 close as one client fix. Under snapshot independence a thread that baked B at B's version is not stale when B's own source changes — A holds B's unchanged bytes — so \"staleness over the DAG\" lacks a *definition*, is open for 0.4, and may resolve to \"no such thing\". Spec §10.4, §16.5. Companion ruling: remote TK sources wait for 0.4 with their shape pre-committed (`generated[].sources[]` takes the §5.9 reference shape, `origin` omitted for own-origin — four constructs, one reference object; spec §16.3). Plan §8c.",
    "spec_sections": [
     {
@@ -1059,7 +1059,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 87,
+   "line": 90,
    "text": "**`generator_url` — an optional manifest key naming the client's source; no maintenance declaration** (session 27, 2026-09-28, Fable + Venkat; a discovery nice-to-have, not a conformance matter): the manifest MAY carry `generator_url`, one absolute URL to the client's canonical source repository or home page, baked in by the client's author like Atom's generator `uri`. Publishers SHOULD emit it; readers MUST NOT gate on it (§3.2 applies); absence means only \"not stated\". **SHOULD, never MUST**: a MUST would make 5 of 7 live clients non-conformant for a reason unrelated to publishing, is unenforceable given §3.2, and gains nothing over SHOULD because the population that writes clients is the population that reads the spec. **No maintained/unmaintained flag, ever**: the software that would have to say \"I am unmaintained\" is by definition the software nobody updates, so maintenance status is *observed* by the directory (release dates, manifest `updated`), never declared on the wire. Hard requirements belong to the registry — blygger.com may require a client source at listing time. Does nothing for manifest-less tools and mods, which stay submission-only. Strict #21: spec §16 now, §6.1 once blygger-studio emits it. Plan §8c.",
    "spec_sections": [
     {
@@ -1101,7 +1101,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 88,
+   "line": 91,
    "text": "**Identity practice: URL-shaped, proven by reciprocal link or signature over `content_hash`; a recommended practice, never protocol** (session 27, 2026-09-28, Fable + Venkat; #11 untouched): measured first — all 11 live blygs across all 7 clients put exactly `name` + `url` in per-item `author`; nobody invented an authorspace grammar, so the roadmap's \"six implementers each invent something\" was false and the field is empty to converge on. Spine of `tn-2`: **a person is a URL they control** (invariant 4 extended from origins to people). Two proofs: a reciprocal link (`rel=\"me\"`: `author.url` names a home page that links back to the origin), and a detached signature over the existing `content_hash` (canonical digest already; no JSON canonicalization, no new item field), carried in a conventional `author` member. OAuth providers are ways to obtain a profile URL; wallets/keypairs are the signature proof; DIDs and Fediverse actors are URLs (`did:web` is DNS); email is `mailto` with no proof. Reader rules: verified claims shown as verified, unverified as claims, **no cross-origin identity merge without a verified claim**. Agent bylines (#38) get a convention here too. Sequencing: a proposal in `docs/proposals/` now (as `author-field-proposal` was), `tn-2` after one client emits a proof and another verifies it. Plan §8c.",
    "spec_sections": [],
    "other_refs": [
@@ -1139,7 +1139,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 89,
+   "line": 92,
    "text": "**Groups: no new construct; two supported shapes and a test; content-free stubbing is an anti-pattern** (session 27, 2026-09-28, Fable + Venkat): \"multi-user blyg with separate folders\" is already **N origins under one host** (#14 mount independence) with a house **blogroll** as the index and optionally a house blyg for an editorial voice — or **one origin with bylines** (#11's masthead). **The test is who can withdraw**: in a shared origin the publisher withdraws anyone's item and owns every pin; members who need their own accountability need their own origins, and #35's verified home URL is what lets a byline survive the move. Studio-side, members are #31's scoped tokens. The \"aggregator that stubs everything\" is **rejected as a pipe**: a stub is a response (false marker), each sends a Webmention (signal flood — the trackback failure on our own side), and automating transclusion makes re-emission free, which §13.5 forbids by cost. The aggregator pattern is already in the spec: §13.5 curation display + a blogroll of members (one OPML import subscribes to all) + optionally a plain-RSS digest *outside* the blyg surface for L0 readers. Spec: a warning sentence in §10.6 and the shape named in §13.5 (documentation of built constructs, in the 0.3 text now); `tn-3` writes it up. Plan §8c.",
    "spec_sections": [
     {
@@ -1178,7 +1178,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 90,
+   "line": 93,
    "text": "**Imported generated text is disclosed through the existing `generated[]`; the draft's rule 7 was wrong and is replaced** (session 27, 2026-09-28, Fable + Venkat; un-defers §8b's `impyrt`): the honesty-critical claim is *this prose is machine-generated*; who ran the model is not part of it, and the wire already refuses to carry how generation was asked for (#20). A rule forbidding disclosure of pasted generated text pushes authors toward not disclosing — the opposite of the construct's purpose. So: an imported span is a `generated[]` entry with `sources: []`, `model`/`at` when known; rule 1's wording widens so an empty list means \"no sources declared\", not \"pure instructed generation\"; **no \"external\" flag** (unverifiable, and no reader would act on it). `[TK]impyrt=…[/TK]` is studio-private grammar under #20's two-layer split and reaches the wire as an ordinary `blyg-tk-gen` span. Wire shape exists and is exercised, so this is Opus-buildable now and the 0.3 text is corrected in place. Plan §8c.",
    "spec_sections": [
     {
@@ -1216,7 +1216,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 91,
+   "line": 94,
    "text": "**The protocol is agent-agnostic at every level, and says so; the response-versus-pipe line is what matters, not human-versus-agent** (session 27, 2026-09-28, Fable + Venkat): three attribution levels, each covered by an existing construct that never asks who acted — **span** (`generated[]` + `blyg-tk-gen`, whether a tool you invoked or an agent acting on its own; the difference is an unverifiable process claim), **item** (an agent is a valid opaque `author`; whole-item generation is one block span in `generated[]` — byline says who, provenance says how), **origin** (invariant 4: the only authenticated entity is the origin, and DNS is owned by someone accountable; invariant 3 is about the reader side and the wire, never about who writes). At the studio an agent is a third-party authoring tool with #31's scoped tokens — a peer is a token with a member's scopes, and the token does not know the difference. `tn-2` gets an **agent byline convention**: name, the agent's own URL, and an `operator` URL naming the accountable human/org. An agent that *reads and responds* to every member item under its own byline, disclosed as generated, is a legitimate stubber — a critic, not a planet; #36's anti-pattern is content-free stubbing whoever runs it. **Maintenance splits on the same line:** detection and ops (stale snapshots, withdrawn sources, pin checks, mention retries, upgrades) are client automation — crons, not a role; **anything that republishes is authorship**, because refreshing a snapshot bumps the version, emits a feed entry and re-sends a mention — snapshot independence exists so a quote stays what the author chose. An agent with refresh authority is a co-author with `update` scope; there is no safe maintenance-only scope. Wire fact worth keeping: **a re-bake is distinguishable from an edit** — same `content_hash`, new version — so a client can show \"snapshots refreshed\" and a narrower refresh scope is definable later on that identity. Recommended: detect always, refresh only on a decision, never silently. No \"I am an agent\" flag on the wire (a spammer would not set it; the honest agent is known by its origin). Plan §8c.",
    "spec_sections": [],
    "other_refs": [
@@ -1247,7 +1247,7 @@
    "session_inferred": false,
    "date": "2026-09-28",
    "by": [],
-   "line": 92,
+   "line": 95,
    "text": "**A minimal reference agent is worth building; the contract it proves is the product; RAG hooks already exist; attribution level is the author's choice, not the agent's capability** (session 27, 2026-09-28, Fable + Venkat): not a \"bot spec\" — a **contract between a blyg and an agent**, proven by a deliberately unintelligent reference agent (the chief-of-staff: detects staleness, drafts refreshes, files inbound mentions as tasks) whose intelligence is pluggable, so Venkat's `mixture-of-vgrs` can be the brain. The contract's parts: (a) **write** = #31's tokens and scopes; (b) **read** = the public state plane is already the corpus — complete, versioned, hashed (`items/index.json` + item documents); studio-private material (drafts, hoppers, signals) needs a read scope; (c) **signals** = staleness, inbound mentions, new imports — direction: agents **poll** `/api` first, webhooks only when a need is measured; (d) **provenance** = `generated[].sources` is exactly how RAG-drawn-on archive items are disclosed (the existing \"drawn on\" semantics), remote sources per the 0.4 shape (#33), and #37's import path for text the agent produced externally. RAG authorship itself is out of scope and the note says it can and should happen. **Is a blyg with an agent a 2-author blyg?** Only if the agent signs items. There are no author folders on the wire — one origin, one feed, one index; the studio is the shared stage and the byline is the distinction. The three levels are attribution choices: *ghostwriter* (span-level, one byline), *byline* (agent signs whole items — SHOULD carry the agent's byline with `operator`, not the human's), *own origin* (the agent's own blyg under the house blogroll — the N-origins shape, if its withdrawals should be its own). The agent needs its own token and its own byline value, not a folder. Repo: `blygger/blygger-agent` (proposed), Track 2-adjacent; `tn-5` after it runs. Plan §8c.",
    "spec_sections": [],
    "other_refs": [
@@ -1282,7 +1282,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 93,
+   "line": 96,
    "text": "**Changelog notes: depth is bounded by what is public; generated notes are a studio default and disclosed by a flag; the narrative is reader-side** (session 27, 2026-09-28, Fable + Venkat): §5.2's \"never diffs or content\" applied to notes — a note that *quotes* withheld prior text is a diff by another name and leaks what withheld-unless-pinned protects. So: between two **pinned** versions a note may be as comprehensive as the author likes (nothing is withheld; any reader could diff the two pinned files); where the prior version is **unpinned** a note describes and never reproduces. This is Venkat's \"more pins, richer changelogs\" heuristic with its reason, and the one constraint a note generator is built under. Clarification added to 0.3 §5.2 now (documentation of an existing rule). **Reference client:** generate a note from the local diff when the author leaves it blank, pin-bounded, editable before publish — a strong recommendation to other clients, not protocol. **One additive member, ruled, §16 until built:** optional `\"generated\": true` on a changelog entry, self-asserted, so a client reconstructing a history knows which notes were the author's words (a note is prose readers read and becomes the feed title, so it is a disclosure case like any span). **Reader side needs nothing:** the changelog is a timeline of notes, pinned files are the content at each pinned state, diffs between consecutive pins are computable locally — the richer rollup (\"what changed\" from notes, \"see the change\" between pins) is buildable today against any 0.2 blyg. NetNewsWire showing N copies of the *latest* text is §7 working as designed (entries MUST carry latest content; per-version GUIDs resurface edits), not a canonical-URL artefact. Flagged, not opened: entries for *pinned* events carrying the pinned content — a 0.4 candidate at most. `tn-6` after the generator ships. Plan §8c.",
    "spec_sections": [
     {
@@ -1318,7 +1318,7 @@
    "session_inferred": false,
    "date": "2026-09-28",
    "by": [],
-   "line": 94,
+   "line": 97,
    "text": "**Discovery through stub chains: four client surfaces need nothing from the spec; forward discovery is closed by #28, and the one addition that would open it is a 0.4 candidate** (session 27, 2026-09-28, Fable + Venkat): people already stub stubs and restub back and forth, and the reader shows one level. **The chain is already in the reader's database**: nesting is nested blockquotes and every baked layer carries `data-blyg-id/version/origin` (#26: \"deeper layers are inspectable in the baked data attributes\"), so the latest item of any restub chain carries every participant, offline, zero fetches — the reader renders one level only because the provenance line is drawn for direct transclusions. Surfaces, all within the current spec: **(1) chain view** from the nested attributes, subscribe affordance per unknown origin (one cached manifest fetch each); **(2) \"responds to\" walk** — follow `stub_of` to the target document and its own `stub_of`, one public fetch per hop, bounded and cached, to the root of any chain whether or not you are in it; **(3) the conversation around you** — verified inbound mentions ∪ own outbound references = every participant of every chain you are in; \"responded to you, not subscribed\" is the strongest signal because they demonstrably read you; **(4) second-degree blogrolls and cited origins** — your subscriptions' blogrolls and every origin in your imports' provenance, minus subscriptions, ordered locally by how many of your reads list/cite it (client-local sorting, never published — #12 untouched). **Closed direction:** forward discovery (who responded to a thing you read) is what Webmention collects and #28 keeps verified mentions off every protocol surface; the reference client's public responses list is presentation HTML and readers MUST NOT parse it. Opening it would take one optional per-item curated responses surface in the blogroll's shape (opt-in per item, verified only, no completeness claim) — **recorded as a 0.4 candidate, not opened.** Build cautions: an absent `data-blyg-origin` on a nested layer means *same origin as the layer that baked it*, so the parser carries origin context down the tree; the importer's sanitizer (`importer/sanitize.ts`) is allowlist-by-removal and **verified this session to preserve `data-blyg-*`**. Plan §8c; spec §16.6d; studio backlog.",
    "spec_sections": [
     {
@@ -1353,7 +1353,7 @@
    "session_inferred": false,
    "date": "2026-09-28",
    "by": [],
-   "line": 95,
+   "line": 98,
    "text": "**Publication guidance: implement the published living text, pin to snapshots, never build from plan docs or client code; ruled shapes appear in the living spec's §16 before they are built** (session 27, 2026-09-28, Fable + Venkat): the in-the-wild 0.2/0.3 mix is not implementers choosing wrong — 0.3 shipped in the reference client (session 23) **twelve days before any 0.3 text existed** (session 27), so the 0.3 third-party clients built from `v0.3-plan.md` and the client's code, while 0.2 clients built from the published spec and remain conformant (levels are strict supersets; every 0.2 document is a valid 0.3 document). Guidance now in three places: the spec's status header (\"Which version to implement\": site = published living text; dated snapshot = what you cite and pin to, with diff links; repo `main` = same text, may run ahead; plan docs and client source are *not* the spec; the risk of the living text is that it moves, the risk of a superseded one is only incompleteness), the README, and the plan doc's new non-normative banner. **Process fix, which is the real decision:** #21 stands (build, then prose), but the *shape* of a ruled construct goes into the living document's §16 at ruling time, labelled not-yet-normative, so the spec is always the first place a shape is visible and no third party has to read a plan doc again. Living doc gains a §17 revision history, one line per published change. Site-side (index page prose in `sync_spec.py`, done this session; the `/start/` sentence, with 4.4) is Opus's to deploy. Note: a 0.2 snapshot `2026-09-16` **does** exist — the doc-map's \"no snapshot cut yet\" was stale and is corrected.",
    "spec_sections": [
     {
@@ -1387,7 +1387,7 @@
    "by": [
     "Fable"
    ],
-   "line": 96,
+   "line": 99,
    "text": "**Version boundary rule: revisions add what readers already ignore safely; a new version is needed when a reader or receiver must change what it does** (session 28, 2026-09-28, Fable 5.1; gives #21/#23 a test): a revision to the living document may add any construct a conformant reader of that version already handles correctly by the ignore-unknown rule, with no change in the meaning of what it does display — `cited`, `generator_url`, `[[id]]`'s rendered anchor, `changelog[].generated`, `origin` on `sources[]`. A new protocol version is required when a construct changes what a reader or receiver must *do* to be correct — a new mention relation a receiver must verify, a selector a reader must honour, a field that changes feed derivation. Consequence: the 0.4 document is opened when the first such construct is built and exercised (#21), 0.3 flips at its publication (#23), and until then every ruled 0.4 shape lives in 0.3 §16 (#42). Plan: `docs/v0.4-plan.md`. **Amended session 38 (2026-10-06, Fable 5.1, decision #63):** the test's third party is named — a new version is also required when a *publisher re-parsing another origin's `content_md`* must change what it does; #57 closed that path for threads and #63 for the links in forked fragments. **Corrected by #49** (session 28): the example \"a selector a reader must honour\" was wrong on this protocol's terms, since readers never resolve; partial transclusion is a revision. *(Back-reference added session 38 per conformance F16.)*",
    "spec_sections": [
     {
@@ -1436,7 +1436,7 @@
    "session_inferred": false,
    "date": "2026-09-28",
    "by": [],
-   "line": 97,
+   "line": 100,
    "text": "**Remote generation sources: a source, not a quotation, disclosed as a reference, and it notifies — a fourth mention relation `source`; a 0.4 construct written before its build, deliberately** (session 28, 2026-09-28, Fable 5.1; resolves spec §16.3): #20's line is about the authorial act (verbatim-and-visible vs drawn-upon-and-woven) and origin does not move it — a blockquote around non-verbatim prose would be false. Nor may the draw be silent: notification tracks whether the target's words are carried (#32 keeps links silent because they carry none), and a generation source carries them transformed; a silent rule would make paraphrase-by-model the one way to use a stranger's words without telling them. Shape: `generated[].sources[]` takes the §5.9 reference (`origin` present for remote, omitted for own), MAY carry `cited`; resolves at generation time by #26's order, so sources widen from own fragments to any item a directive may name, threads included, always the local snapshot; disclosure direct only as §10.3; a remote source SHOULD send a mention with relation **`source`**, the set becoming `stub | transclusion | fork | source`; 0.3 receivers fail it, correctly. Many mentions from one agent's draw are legitimate under #36 — each says a model at this origin used those words, and the item has content. 0.4 by #43 (receivers change). The one sanctioned inversion of #21: the wire had to be able to say it before Opus could build it; normative after a build and a cross-node exercise. Spec §16.3; plan `v0.4-plan.md` §2; studio backlog.",
    "spec_sections": [
     {
@@ -1485,7 +1485,7 @@
    "by": [
     "Fable"
    ],
-   "line": 98,
+   "line": 101,
    "text": "**Transitive staleness does not exist and will not be defined** (session 28, 2026-09-28, Fable 5.1; closes spec §16.5 and the roadmap's \"staleness over the DAG\"): A's reference to B is stale iff B has a newer version. If B's source C moved and B has not republished, A holds B's unchanged bytes, and republishing A re-bakes B's *current* version, still containing the old C — A can do nothing about C; only B can, and B sees C directly (§10.4). Every edge is owned by its publisher; graph freshness is the direct check at each origin, nothing more. No construct, no wire fact. A client MAY show \"the item you quote has itself gone stale\" from nested `data-blyg-*` plus one fetch per layer — presentation. Spec §10.4, §16.5 rewritten.",
    "spec_sections": [
     {
@@ -1513,7 +1513,7 @@
    "by": [
     "Fable"
    ],
-   "line": 99,
+   "line": 102,
    "text": "**No title field, at any version; the wish is met by the derived title and by presentation** (session 28, 2026-09-28, Fable 5.1; closes spec §16.4's title question): items stay titleless (§5.3), `<title>` stays derived (§7), and readers MUST NOT extract a title from a leading heading — a reader inventing structure the publisher did not assert is exactly what the rule prevents. The RECOMMENDED derivation's excerpt half already begins with a leading heading when there is one, and how the reference client renders its own pages and feed is its own; the \"linked title\" wish is a studio task. Spec §5.3, §16.4.",
    "spec_sections": [
     {
@@ -1545,7 +1545,7 @@
    "by": [
     "Fable"
    ],
-   "line": 100,
+   "line": 103,
    "text": "**Two parked feed/surface candidates decided against: pinned-content feed entries not opened; the per-item responses surface stays closed** (session 28, 2026-09-28, Fable 5.1; spec §16.6c, §16.6d): (a) entries for pinned publish events carrying the pinned content would leak nothing, but blyg readers are unaffected either way (only the item document advances state, §13.2), the only beneficiary is a plain RSS reader nobody has spoken for, and the observation that raised it was a reader working as designed — parked on a measured need; (b) a machine-readable responses list is a follower list by another name and the first surface a count could attach to (#12, #13); #41's four reader-side surfaces are unbuilt, and this reopens only if they are built and found insufficient. Neither is a 0.4 item.",
    "spec_sections": [
     {
@@ -1579,7 +1579,7 @@
    "by": [
     "Fable"
    ],
-   "line": 101,
+   "line": 104,
    "text": "**Conformance partition for the suite (roadmap-tracks 1.4, the Fable half)** (session 28, 2026-09-28, Fable 5.1): MUST/MUST NOT/REQUIRED clauses fail; SHOULD/RECOMMENDED clauses warn and never fail; MAY constructs are shape-checked only when present. Two suites, because invariant 1 splits them: a **publisher** suite that takes an origin and reports per clause per level (L0 valid RSS, L1 the 0.1/0.2 publish surface, L2 the 0.3 constructs), and a **reader** suite of fixtures a client author runs locally against their importer (§13). The checker asserts against the published living text and names the snapshot it was built from. Rest is Opus.",
    "spec_sections": [
     {
@@ -1601,7 +1601,7 @@
    "by": [
     "Fable"
    ],
-   "line": 102,
+   "line": 105,
    "text": "**Partial quotation is a partial *transclusion* — same directive family, a text-quote selector, substring-verified — and it is a 0.3 revision, not a 0.4 construct** (session 28, 2026-09-28, Fable + Venkat; resolves spec §16.4's open half; Venkat's case: the blogging norm of linking an item and quoting a suitable block as the inspiration, with extensive quotation being commentary or fork territory): the medium's three registers are quote-a-passage (inspiration), transclude-whole (critical commentary, the stub), fork-from-pin (derivative) — the missing rung reuses the whole form, not a new construct. **Grammar:** a transclusion directive immediately followed, with no blank line, by a markdown blockquote is a partial transclusion whose selection is the blockquote's text; a blank line detaches it. Chosen over an inline `![[id|passage]]` form for readability and multi-paragraph quotes. **Faithfulness:** the selection MUST be a substring of the target snapshot's *text content* (rendered HTML, tags stripped, whitespace collapsed, block boundaries kept as line breaks) at publish, else a publish error like an unresolvable directive; any reader MAY re-check while the origin serves that version — exactly the whole form's condition plus a substring test. Elision is not fixed and not claimed. **Wire:** the `transclusions[]` entry gains OPTIONAL `selector` — `exact` REQUIRED, `prefix`/`suffix` OPTIONAL and short (the W3C Web Annotation text-quote shape); verification ignores it as it ignores `cited`; readers ignoring it stay conformant. The bake carries a second class beside `blyg-transclusion` (`blyg-partial`, permanent wire token) so partiality is visible; whether it bakes the passage's inline formatting or plain text in paragraphs is left to the build. No cap on quote length — a substring test does not care and a cap would be editorial convenience in the protocol. Same `transclusion` mention relation, same staleness check. **Revision, by #43:** readers never resolve and display baked HTML, so a 0.3 reader ignoring `selector` displays the passage correctly and changes nothing it does — which corrects #43's own example (\"a selector a reader must honour\" was wrong on this protocol's terms). 0.4 therefore opens on remote generation sources alone. **Plain-web `{url}` targets get nothing**: an ordinary markdown blockquote, because there is no versioned document to verify against. Studio: select-text-in-reading-view → quote; the stub action SHOULD prefill this form for long targets. Spec §16.4 (shape), normative in §10 once built and exercised. Plan `v0.4-plan.md` §2.2.",
    "spec_sections": [
     {
@@ -1652,7 +1652,7 @@
    "session_inferred": false,
    "date": "2026-09-28",
    "by": [],
-   "line": 103,
+   "line": 106,
    "text": "**A reader affordance that inserts `[[id]]` does not collide with #27, because a link is not a response; it must be named for what it does and kept out of the response slot** (session 28, 2026-09-28, Fable 5.1; raised by the parallel Opus session): #27's forbidden sibling was a *response* affordance that does not declare itself (`respond ↗` produced a quote saying \"I am answering this\" with no marker anyone could rely on). #32 ruled `[[id]]` declares nothing — no relation, no mention — so a link button is not a lighter way to respond but a different act, citing without responding, which #32 called necessary. Refusing it would leave the construct unreachable from where authors meet items. **Condition:** not \"respond\"/\"reply\"/\"answer\", not a peer of `stub ↗`; it lives beside copy-permalink as \"copy `[[id]]`\" or \"insert link\" into an open draft — shape is semantics to a user. `stub ↗` remains the one affordance meaning \"I am responding\". A quiet response by fragment-plus-link is #32 working as intended, not a leak around #27. Studio only; the reader end of the `[[` picker work. *(Premise amended by #79, session 50: a `[[id]]` link now notifies, as a notice; the naming condition stands, since a link is still not a response.)*",
    "spec_sections": [],
    "other_refs": [],
@@ -1683,7 +1683,7 @@
    "session_inferred": false,
    "date": "2026-09-28",
    "by": [],
-   "line": 104,
+   "line": 107,
    "text": "**The manifest locates the surface: `feed`/`items` become authoritative, `item`/`pin` URI templates are added, a manifest need not be named `blyg.json` when HTML can point at it, and identity is the manifest's URL minus its last segment — a 0.4 construct** (session 28, 2026-09-28, Fable + Venkat; adopts [blygger-spec#2](https://github.com/blygger/blygger-spec/issues/2) by cyberscribe, reshaped): managed hosts intercept `.json`/`.xml` paths as static files before a CMS routes them, so WordPress and its kin cannot serve §4's fixed paths without rewrite rules shared hosting forbids — the largest CMS on the web could not conform. **What #14's fixed-filename rule actually protects** is that a reader handed a bare origin finds the manifest with no HTML; that covers `blyg.json` only, and §4's ban on trusting `feed`/`items` values was never doing work. Shape: manifest `feed` and `items` values are authoritative (origin-relative or absolute; defaults `feed.xml`, `items/index.json`); new OPTIONAL `item` and `pin` keys are **RFC 6570 level-1 templates** with `{id}` and `{id}`,`{n}` (defaults `items/{id}.json`, `items/{id}/v{n}.json`); readers MUST expand them, which is why this is 0.4 by #43 (a reader that ignores the keys 404s on a templated blyg). Discovery: §12.1 step 2 unchanged (bare origin → `blyg.json`, always the first probe); **step 4 extended, no new rel and no new media type** — fetch the `rel=\"blyg\"` href, if it parses as a manifest that *is* the manifest, else append `blyg.json` as today. **Identity (§12.2) = the manifest's final URL minus its last path segment** — the same rule stated without the filename; every reference names it, so it must be stable. `page` MAY be absolute (a CMS permalink lives outside the surface's mount); media already may be. Static-file conformance stands — a template can expand to static paths and the defaults do; feed `<blyg:manifest>`/`<blyg:item>` already carry absolute URLs; receivers check mention targets against their own templates. Cost: following a reference needs the target's manifest, which subscribed readers hold and receivers own — one cached fetch per unknown origin on a staleness check. Not adopted from the proposal: `rel=\"alternate\" type=\"application/blyg+json\"` (a second discovery vocabulary for one job). **Amended by #87** (session 56, 2026-11-01): a manifest may be *named* elsewhere, but `{identity}blyg.json` MUST also serve it; the \"need not be named `blyg.json`\" clause never covered the parties who hold only an identity. Gate: one non-reference client publishing through templates (the WordPress case) and the reference client subscribing to it, transcluding from it and sending it a verified mention. Spec §16.6e; plan `v0.4-plan.md` §2.3, §7.5; backlog entry moved to ruled.",
    "spec_sections": [
     {
@@ -1758,7 +1758,7 @@
     "Fable",
     "Opus"
    ],
-   "line": 105,
+   "line": 108,
    "text": "**An OAuth-style minting flow stays within #31; MCP is a transport for #39's contract, not a second one; the contributor builds 2.9 and Opus comes off it** (session 31, 2026-10-03, Fable 5.1; rules Kyle Mathews' `blygger-studio/docs/migration.md` §3 before it starts): #31 fixed the **token model** — bearer, coarse verb scopes, owner-minted, owner-revoked, root password never held by a tool — not the minting UX. Micropub's own auth is IndieAuth, which is OAuth 2 with your own site as the authorization server; an authorization-code flow where the owner approves scopes on their own studio *is* the Micropub tradition, and a paste-a-token page is the other way to mint the same token. Everything OAuth adds beyond that (token endpoint, redirect, optional refresh) is client contract, which #31 ¶3 already gave to the client. Evidence that the direction had to be blessed with teeth rather than fought: Blygger Desktop holds either the owner password (stock server: signs in at `/studio/login`, password in the Keychain) or one unscoped `BLYG_OWNER_TOKEN` Worker secret (extended server) — both the exact situation #31 ends; its author lists the scopes he needs (studio#11) and says he switches the day scoped tokens ship; and his docs already read the contributor's OAuth plan as upstream's direction. **Four invariants, which are the review checklist for the PR:** (1) **one token model** — OAuth mints #31's tokens, listed and revocable per token plus revoke-all in the studio, password typed only on the studio's own login page, and the manual mint-and-paste path exists beside it because CLI tools, crons and the reference agent have no browser; (2) **no `.well-known`, no manifest key** — `/.well-known/` is host-rooted and breaks path-mounted blygs (#14; `venkateshrao.com/blyg/` is one); discovery is the HTML `rel` link on the studio page and the metadata lives under the mount; nothing about auth touches `blyg.json` or the spec, ever; (3) **scopes** — a read scope for studio-private material (#39b), publishing a distinct verb from drafting, no refresh-only scope (#38); names are the build's and studio#11 is the measured demand; (4) **MCP = same operations, same scopes, a token like any other tool** — text written through it is disclosed via client-recorded provenance (#37's path; studio#11's `tk-provenance`) with `sources` in the §5.9 shape; polling, not webhooks (#39c); `tn-5` still comes from the reference agent, not from the MCP server. Consequences: Opus queue item 2 withdrawn; password reset rides with the auth middleware; Opus reviews the PR against 1–4 and drafts `tn-4` after gate G3; upstreaming Blygger Desktop's reading-rows and read-state extensions is fine (studio-private). Spec §16.6 (clarifying paragraph); plan `v0.4-plan.md` §8.1; `blygger-studio/CLAUDE.md`.",
    "spec_sections": [
     {
@@ -1814,7 +1814,7 @@
    "by": [
     "Fable"
    ],
-   "line": 106,
+   "line": 109,
    "text": "**`content_html` is self-contained: every URL in it absolute** (session 31, 2026-10-03, Fable 5.1; the session-30 one-line question): the same bytes travel three ways with no origin to resolve against — the feed `<description>` (§7), an importer's store (§13), and baked verbatim into *other origins'* threads (§10.2) — and §7 already required it for the description, which *is* `content_html`; §10.1 already assumed it for `[[id]]` anchors. `media[].url` stays relative-or-absolute: a structured field readers resolve. Readers MAY resolve a relative URL defensively on import (blygger-studio 0.11.0 does) and MUST NOT depend on one. A revision by #43 — a publisher MUST; readers change nothing — built and live on both nodes in 0.11.0, so it entered §5.2 directly, cross-referenced from §7. Plan §8.2.",
    "spec_sections": [
     {
@@ -1864,7 +1864,7 @@
    "by": [
     "Fable"
    ],
-   "line": 107,
+   "line": 110,
    "text": "**`[[id]]` is inert inside code, as the directive already was** (session 31, 2026-10-03, Fable 5.1; on [blygger-spec#4](https://github.com/blygger/blygger-spec/issues/4) by aneeshsathe): §10.1's \"anywhere in `content_md`\" was an oversight — the directive has the code exemption and the link form shares it, so the grammar itself can be quoted in a code block. One rule for both forms: inert inside code spans and code blocks. A grammar correction, not a construct; §10.1 now. The reference client has the matching bug on both forms (studio#4). Plan §8.3.",
    "spec_sections": [
     {
@@ -1894,7 +1894,7 @@
    "by": [
     "Fable"
    ],
-   "line": 108,
+   "line": 111,
    "text": "**`cited` MAY sit on a `{url}` stub** (session 31, 2026-10-03, Fable 5.1; on [blygger-spec#7](https://github.com/blygger/blygger-spec/issues/7)): #49's \"plain-web targets get nothing\" is about *verification* — a selector promises a faithfulness test that cannot run against a page with no versioned document. `cited` promises no test (§15.4 MUST ignore it; a reader dropping it stays conformant), and §5.9's own argument is *stronger* for a target that cannot be re-fetched at any version: the frozen label is the only record of what was read. Same object, same rules, same ~200-character cap — the quotation channel for the plain web is an ordinary blockquote, so the cap still has a fallback. Four reference sites. Strict #21: §16.1a now; §10.6 once the studio emits it and an import across nodes retains it; a revision by #43. Plan §8.4.",
    "spec_sections": [
     {
@@ -1940,7 +1940,7 @@
    "by": [
     "Fable"
    ],
-   "line": 109,
+   "line": 112,
    "text": "**`page` SHOULD be stable for the life of an item** (session 31, 2026-10-03, Fable 5.1; on [blygger-spec#9](https://github.com/blygger/blygger-spec/issues/9)): a slug is a promise the moment anyone links to it — a reader holds the `page` it imported, `cited.url` is frozen by design, a Webmention's target is a URL — and `version` signals only that something changed. Publishers that must move a page SHOULD redirect the old path; readers MAY refresh `page` from the item document on any fetch (the staleness check fetches it anyway); a frozen `cited.url` naming the old path stays correct, because it names what was seen. The alternative — a reader MUST re-read `page` per version — rejected as a new reader obligation that does nothing for links already outside the system. Not a construct; §5.8 now. Plan §8.5.",
    "spec_sections": [
     {
@@ -1969,7 +1969,7 @@
    "session_inferred": false,
    "date": "2026-10-03",
    "by": [],
-   "line": 110,
+   "line": 113,
    "text": "**A fork of a thread descends from the pinned document, not from its composition: baked quotes are flattened into ordinary blockquotes with an attribution line, recursively, and the fork inherits no `transclusions[]`** (session 33, 2026-10-03, Fable + Venkat; Venkat's report: forking a thread with quotes gave an editable top level and, one level down, uneditable directive ids; his proposal: unroll the whole tree): the reference client copied the pinned version's `content_md`, in which quotes exist only as `![[id]]` directives, so the fork inherited a *composition* that re-resolved in the forker's context — an own-origin fork quoted the fragment as it is now rather than as v1 baked it, a remote fork failed at publish for every quoted origin the forker was not subscribed to and drifted for the rest, and the fork sent quote-mentions to third parties on the forker's behalf, a composition act the forker never chose. That contradicts §5.6's own rationale (the bytes a fork descends from must be the bytes anyone can still fetch) and rule 6 (a copy, not a transclusion). **Pin-closure rejected** — a thread may be pinned only when everything it quotes is pinned — for a stronger reason than tedium: a thread's pin already freezes every baked quote in its `content_html`, nested ones included, so the fragments' pins add nothing to the promise, and imported sources could never satisfy it. **Shape:** the source of quoted text is the pinned file's `content_html`, never the forker's local snapshots; the thread's own prose stays byte-exact from `content_md`; each `blyg-transclusion` blockquote becomes an ordinary markdown blockquote, recursively, with a visible attribution line naming origin and id and linking to the quoted item's page where the node can compute it and to its item document otherwise — the plain-web register (a quote plus a link, editable, not verified), with lineage to the pinned thread as the way to verify; the `blyg-transclusion` token MUST NOT survive, because the forker's node baked and verified nothing; the fork carries no inherited `transclusions[]` and sends no quote-mentions; the forker re-cites by writing `![[id]]` where a live quote is wanted. Generated spans (`blyg-tk-gen`) in the pinned document are re-wrapped as `impyrt` so disclosure survives — which exposed that the current fork drops `generated[]` from a forked fragment too, the same class of leak as session 32's restore-then-publish finding; one re-wrap fixes both. Forking the quoted fragment directly stays the precise instrument for owning one passage with its own lineage. Publisher behaviour, no wire change: a revision by #43. Strict #21: §16.6f now; §5.6 rule 6 once built and a fork of a thread with a remote quote has crossed both nodes (gate **G11**). Plan `v0.4-plan.md` §9.1; Opus queue item 5.",
    "spec_sections": [
     {
@@ -2014,7 +2014,7 @@
     "Fable",
     "Opus"
    ],
-   "line": 111,
+   "line": 114,
    "text": "**Model routing gates on blast radius, not topic: Opus 5.5 rules reversible questions under a four-question test and Fable reviews in batch; Fable keeps what reaches the wire** (session 33, 2026-10-03, Fable + Venkat; Venkat's prompt: Opus 5.5 is released and said to be near Fable-grade — reduce the need for Fable rounds as far as feasible): the old rule routed by subject (\"protocol semantics\") and made Fable the bottleneck for reversible work. The record argues for a narrower gate: of #52–#57, three (#53, #56, #57) needed no new principle and changed nothing on the wire, today's TK questions were lookups of #44 and #32, and Opus 5.5 in sessions 30–32 found non-obvious bugs, held a recorded choice against a skill pushing the other way, deferred the model-cost call to Venkat and recorded spec gaps as open threads — the behaviours the gate exists to protect. **The test** (`## Model routing`): no reader/receiver/importer must change (#43), nothing readers see is added, removed or renamed, no locked decision is reinterpreted and nothing on the do-not-open list is touched, and a locked decision's principle can be cited as settling it — then Opus rules, records in the same format with a `Fable review pending` label, and builds; §16-to-normative promotions after a gate are in this tier. Any yes, or no citable principle: Fable. **What Fable keeps:** opening the 0.4 document (G8), any new wire surface, verification and identity semantics including the Unicode round, conflicts between locked decisions, reversals, and the batch review. **Why it is safe regardless of the capability claim, which is unverified:** the test classifies by reversibility, so a wrong Opus ruling costs one studio release and a right one saves a round. Mixed authorship in this list is fine because every entry names who ruled it. Process, not protocol: no spec text changes. Recorded here, in `docs/roadmap.md`'s reading rule, and in both briefs.",
    "spec_sections": [
     {
@@ -2048,7 +2048,7 @@
    "by": [
     "Fable"
    ],
-   "line": 112,
+   "line": 115,
    "text": "**Any client that styles `blyg-tk-gen` SHOULD say the disclosure is the publisher's own and unverified; §5.7 no longer describes the reference client** (session 38, 2026-10-06, Fable 5.1): §5.7's last paragraph said the reference client \"deliberately leaves it unstyled\" because a tint would present self-asserted provenance as a verified badge. Studio 0.27.0 styles it — opt-in, off by default, with a robot whose box says \"self-reported, not verified\" — so the sentence was false, and its reason was the right concern answered correctly. Ruled: the sentence becomes the rule for any client — styling is presentation and the client's choice; a client that makes generated spans visible SHOULD say, wherever it explains the mark, that the disclosure is the publisher's own and unverified (§5.7 rule 6). A revision by #43 (presentation guidance, nothing on the wire). A spec does not describe one client's styling; it says what the mark must not claim. Eighth revision. Plan `v0.4-plan.md` §10.2.",
    "spec_sections": [
     {
@@ -2080,7 +2080,7 @@
    "by": [
     "Fable"
    ],
-   "line": 113,
+   "line": 116,
    "text": "**An own-line `![[id]]` left in TK output transcludes at publish; #20's \"inside a TK scope\" means the instruction** (session 38, 2026-10-06, Fable 5.1; reconciles plan §9.2 with #20, studio#5, conformance F18): the decisive fact is on the wire. The scope is consumed at publish — markers stripped, output becomes `content_md` — and §10.1 is permanent protocol surface with no scope to exempt a line, so a directive the author leaves on its own line in output is a transclusion directive like any other. Studio 0.17.0's alternative (leave the line in `content_md` unbaked) published a malformed document: a directive with no bake and no `transclusions[]` entry, visible to any reader, checker or forker re-parsing the text. 0.20.1 stands. Two corrections: **a directive in the output is a source only if the instruction also named it** — sources are what the generator was fed; the studio scans the whole scope for source ids today and must scan the instruction — and the studio SHOULD warn when an output contains a directive the instruction did not, since the echo bakes a quote and notifies an origin the author never chose (Opus queue item 5 already). Plain `[[id]]` links in output are links, by the same reasoning (#54). No wire change; no spec text change (§10.1 already says it). #20 amended inline. Plan §10.3.",
    "spec_sections": [
     {
@@ -2119,7 +2119,7 @@
    "by": [
     "Fable"
    ],
-   "line": 114,
+   "line": 117,
    "text": "**Mention verification compares the item document's final URL to `{origin}items/{id}.json` exactly** (session 38, 2026-10-06, Fable 5.1; conformance F1 and F4, Alloy 7/7c/7d/7e): §15.4 step 2 said \"scheme, host, port\", contradicting the rule it claimed to apply — §12.2's identity is the full fetch base URL, path included, and #14 made path mounts first-class — so two blygs path-mounted on one host (#36's group shape) could verify in each other's name; the studio implemented the parenthetical literally. One test fixes both findings: the final URL MUST be exactly the live document's URL for the document's own `origin` and `id`. The prefix part closes F1; the exactness closes F4 — a pinned file's URL is never the live document's, so a pin that still carries `stub_of` stops verifying when the live document is an endcap, with no third fetch. Legitimate senders are unaffected: source is the page (§15.2), whose alternate link names the live document (§5.8). §15.3 step 1's target check worded to match. A correction of text that disagreed with itself, so a revision — with the note that receivers built on the old parenthetical have a hole to close (the studio first). **0.4 consequence, into §16.6e now:** a templated blyg's `item` template may place documents outside the identity origin (Soapbox's plan), so a template-aware receiver checks the final URL against the asserted origin's own template from its manifest — one more fetch, bounds raised to 3 — and 0.3 receivers fail such claims, which is correct for them. Eighth revision. `tn-3` revises on this. Plan §10.4. **Narrowed by #84** (session 52, 2026-10-20): \"§15.3 step 1's target check worded to match\" was the wrong analogy — the source check is about location because a stranger's document is known only by where it was served; the target check is about membership, since the receiver owns its items. Step 2 is unchanged.",
    "spec_sections": [
     {
@@ -2177,7 +2177,7 @@
    "by": [
     "Fable"
    ],
-   "line": 115,
+   "line": 118,
    "text": "**#57 stands against F6: a quote the pinned document carries is copied whatever the quoted item's current state; partiality is read from `blyg-partial` in the bake** (session 38, 2026-10-06, Fable 5.1; conformance F6, Alloy 5g(b); studio#29): a pinned thread serves a withdrawn unpinned item's words forever by §8 and §10.4, and the fork copies those bytes, so it adds a place the words can be fetched from, not a disclosure. The \"freeze at the withdrawn version\" §10.2 refuses is a live, verified quote wrapper claiming a current source; the flattened blockquote claims nothing, and its attribution line points at an id whose live document says withdrawn — the honest state. A SHOULD to drop would need the forker to know the quoted item's state at publish (network, which publish never needs) and would make the fork misrepresent the pinned document. Accepted explicitly; a client MAY note the state when it holds it. Second half: a forking client decides a quote's partiality from the `blyg-partial` class in the pinned `content_html`, never from `>` lines in `content_md` — bakes from clients that predate the partial grammar carry none (studio 0.21.2's call, now the rule). Both sentences are in §16.6f and travel into §5.6 rule 6 at the G11 promotion, which is unblocked. Plan §10.5.",
    "spec_sections": [
     {
@@ -2226,7 +2226,7 @@
    "by": [
     "Fable"
    ],
-   "line": 116,
+   "line": 119,
    "text": "**#43's boundary test names its third party — a publisher re-parsing another origin's `content_md`; inherited `[[id]]` links in a fork flatten like quotes** (session 38, 2026-10-06, Fable 5.1; conformance F7): #43 asked whether a reader or receiver must change; a forker re-parses another blyg's `content_md`, so grammar forms travel between clients and #49 was classed a revision on reader grounds alone. #57 removed the last such re-parse for threads (forks descend from the bake). The remaining case is a forked *fragment*, whose copied `[[id]]` links re-resolve in the forker's context and fail at publish for an origin the forker has not imported — #57 in miniature. Ruled: the test reads \"a reader, a receiver, or a publisher re-parsing another origin's `content_md`\"; and a forking client SHOULD replace inherited `[[id]]` links with ordinary markdown links to the target's absolute page as the pinned `content_html` rendered it. Publisher behaviour, a revision; the studio's fork does not do it today. §16.6f carries the shape; #43 amended inline. Plan §10.6.",
    "spec_sections": [
     {
@@ -2261,7 +2261,7 @@
    "by": [
     "Fable"
    ],
-   "line": 117,
+   "line": 120,
    "text": "**A manifest's address is a path; a query-string manifest is out of scope** (session 38, 2026-10-06, Fable 5.1; Robert Peake's question on blygger-spec#2, queue item 15): a base URL with a query string cannot anchor origin-relative references — resolving `items/x.json` against `/?rest_route=…` drops the query (RFC 3986) — so it has no surface and no stable identity prefix, which is why §12.1 step 1 strips the query. `feed`, `items`, `item` and `pin` MAY carry one, because they are expanded or fetched, never resolved against. One line in §16.6e; a 0.4 construct's text, like the rest of that section. WordPress \"Plain\" permalinks therefore need the manifest at a real path, which Soapbox's plan already does. Plan §10.7.",
    "spec_sections": [
     {
@@ -2300,7 +2300,7 @@
     "Fable",
     "Opus"
    ],
-   "line": 118,
+   "line": 121,
    "text": "**A fork's page SHOULD show its lineage; custody runs one hop per fork** (session 38, 2026-10-06, Opus 5.5; **confirmed by Fable 5.1, session 49, 2026-10-17** — rule 8 is the first explicit statement that verification does not compose across forks, and its wording stands; Venkat stated the intent, \"yes\" to Fable's recommendation in `pending-calls.md` item 1; conformance F8/F9): Venkat described forks as letting \"a reader compare the mod to the source\", but §5.6 specified lineage on the wire only; four of five live forks show it on the page, Brady Dale's does not. And since #57 a fork's quotes are unverified, so custody runs back one pin at a time. Both confirmed as intended. §5.6 rules 7 (presentation SHOULD) and 8 (statement of design). Four-question test: no reader change, nothing new on the wire, no locked decision touched (it states #57's consequence), principle cited: #57 and §5.6's own rationale. The reference client already complies (`forkLineage` in `pages.ts`). Ninth revision. Plan `v0.4-plan.md` §10.9.",
    "spec_sections": [
     {
@@ -2335,7 +2335,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 119,
+   "line": 122,
    "text": "**An official blyg at `blyg.blygger.org` carries everything except the spec and the site's static pages** (session 40, 2026-10-07, Venkat; Fable review session 40, see end): this decides the \"announcements blyg\" #15 deferred. **Moves to the blyg:** RFCs (comment periods run there: comments are stubs, quotes are partial transclusions, `stub_of.version` records which draft a comment answered, the version under comment is pinned, counter-proposals are forks); release announcements, **third-party clients' releases included**; technical notes, which are ported; and any other content that fits. **Stays on blygger.org:** the normative spec (#15's three reasons still hold for it) and static pages such as the ecosystem and contributor pages. The reading of #15 that Fable checks: its refusal covers normative text, not non-normative records or invitations to respond. Consequences: a subdomain (not a path on the static Pages site), because receiving mentions needs a live studio and a static export cannot (§15.7); the RFC section of blygger.org is not built; the git file stays the single source for each RFC and note, and a sync publishes new versions, never hand-edited copies; existing `blygger.org/notes/tn-N/` URLs are cited from spec §5.2 and must keep resolving; roadmap-tracks 3.1's generic `/updates.xml` is likely redundant with the blyg's feed, though the per-node \"you are behind\" notice is not. Open questions are in `docs/fable-round-queue.md` item 18. Nothing built. **Fable review (session 40, 2026-10-07, Fable 5.1):** (a) #15's refusal covers normative text only — all three of its reasons are about the spec; non-normative records and invitations to respond are what a blyg is for; the deferred 1.0 ceremonial pin is untouched. (b) Bylines: the accountable human who commissioned and approved the text is the byline and each item carries one whole-item `generated[]` span naming the model — the TK pattern, since a human approving each item makes the model a tool that was invoked (#38's response-versus-pipe line); the agent byline with `operator` is reserved for items an agent publishes on its own initiative. (c) Porting a technical note changes no status: `blygger.org/notes/tn-N/` stays the canonical citable URL and keeps serving the note's text (not a redirect to an opaque id), because the spec cites it as rationale and #15's third reason applies to what the spec leans on; the blyg item is the same git source published as a thread, where the note takes comments, and the page links to it. **Live the same session:** `https://blyg.blygger.org/` — Worker `blyg-blygger-org`, blygger-studio 0.34.0, Custom Domain mounted at the root, D1/R2 `blyg-blygger-org`(`-media`), secrets `BLYG_BLYGGER_ORG_*` in `.env.keys`, no AI key; on Venkat's **personal** Cloudflare account, not PI's, because the blygger repos stay their own GitHub org though the Protocol Institute sponsors the project; title \"Blygger\", byline Venkatesh Rao, public responses on so RFC stubs show. Manifest and empty index verified 2026-10-07. Nothing published yet.",
    "spec_sections": [
     {
@@ -2375,7 +2375,7 @@
    "session_inferred": false,
    "date": "2026-10-07",
    "by": [],
-   "line": 120,
+   "line": 123,
    "text": "**RFC-1 rulings: mentions are silent; the shared-origin proof is `rel=\"me\"` between `author.url` and the member's page under the origin; `ids` is a conventional `author` member; the spec says nothing; an RFC becomes its own note** (session 40, 2026-10-07, Fable 5.1; Opus 5.5 drafted `docs/notes/tn-6-mentions-and-identifier-schemes.md` (then `docs/rfcs/rfc-1-…`; promoted session 60, #90–#92), reasoning in its section 10): (1) the RFC route runs on `blyg.blygger.org` (#66): thread, version under comment pinned, stubs as comments with `stub_of.version`, partial transclusions as quotes, forks as counter-proposals, a `blygger-spec` issue only for people without a blyg; it becomes a TN of its own by #35's gate (one client emits mention h-cards, a second resolves them) and does not fold into `tn-2`, which absorbs rulings 3 and 5. (2) A mention notifies nobody — #32's principle: a link asserts nothing a receiver could verify; §15.3 refuses or §15.4 fails a plain Webmention aimed at a blyg page; the reference client sends nothing and offers no opt-in (differs from the draft); a client sending W3C Webmentions to non-blyg pages observes three constraints (never into a blyg origin, never for h-cards in baked quotes, never by default). (3) Not an acknowledgement class: #35's reciprocal `rel=\"me\"` unchanged, its origin-side end moved from the origin to the member's page under it; one reader rule with two acceptable far ends, two fetches, two display states. (4) No spec text about preserving microformats; the fix is the studio sanitizer (`<data value>`); revisit only when a second client emits and a sanitizing reader's loss has caused a nameable failure, candidate home §13.1. (5) `ids`: unordered absolute URIs in exactly three wire schemes — `https:`, `acct:`, `did:` (Ethereum as `did:pkh:`, bare CAIP-10 read as the same account) — each `self` or `bound`; a book match is display, never a merge (§13.1 rules 5, 7). **Agent members (section 5.6, Venkat's question):** roster records carry `operator` and `model`; the token scope decides the byline (draft-only → human byline + `generated[]` span; publish scope → agent byline + whole-item span); book provenance is set by the resolver only, never a caller; no pin or withdraw scopes on agent tokens by default. Census re-run 2026-10-07: 20 listed, 19 reachable, field unchanged. Identity semantics, so Fable's under #58. Plan `v0.4-plan.md` §10.10.",
    "spec_sections": [
     {
@@ -2436,7 +2436,7 @@
    "session_inferred": false,
    "date": "2026-10-07",
    "by": [],
-   "line": 121,
+   "line": 124,
    "text": "**RFC-2 rulings: a comments section is the owner's curated display of published responses, every comment a real stub, and the medium's first answer is \"from your own blyg\"** (session 40, 2026-10-07, Fable 5.1; Opus 5.5 drafted `docs/notes/tn-7-comments-sections.md` (then `docs/rfcs/rfc-2-…`; promoted session 60, #90–#92), reasoning in its section 11; Blygger Studio builds none of it): (1) fits §16.8 and §10.6 on the wire — a display tree from `stub_of` is §10.6's own nesting; the character risk is answered by framing: hosted comments (signed-in, vetted anonymous) are an on-ramp whose accountability the house takes on, and the reference client's responses list stays a citation trail. (2) A bounded cache is fetch-on-display under §15.4 step 5 and §13.5 — the test: if the origin withdraws and the receiver never fetches again, the text must stop showing; durable copies only by pin (§13.4). (3) Unsignalled edits: the house re-sends for its own comments origin (§15.2 permits), kind-1 receivers refresh on a schedule; a spec SHOULD to re-send on every stub edit is rejected. (4) A sibling comments origin is the recommended shape (#61 makes it verify as a stranger would; one renderer for three kinds); it must import the main origin so quotes resolve (§10.2) and run its own endpoint. (5) No counts, no `h-cite` responses markup on post pages (#12, #13, #41, #47). (6) Vetted anonymous bylines `{\"name\": \"anon 7f3k\"}` are consistent with §5.5 and #38 on three conditions: mandatory pre-moderation, an irreversible suffix, no `url`/`ids`; the withdrawal link says withdrawal is permanent and visible. (7) Length classifies how much is shown, never whether something is a response (§10.6 rule 2). Gate to become a TN: one client hosts comments in this shape and a second displays them as kind-1 responses. Plan `v0.4-plan.md` §10.11.",
    "spec_sections": [
     {
@@ -2507,7 +2507,7 @@
    "session_inferred": false,
    "date": "2026-10-12",
    "by": [],
-   "line": 122,
+   "line": 125,
    "text": "**A static front page is presentation: a publisher may serve one published item at its mount root, and that item's live HTML pages and pinned pages may name the root as `rel=\"canonical\"`; the item's `page`, document, feed entry and index entry do not change** (session 47, 2026-10-12, Opus 5.5; **confirmed by Fable 5.1, session 49, 2026-10-17**, with the citation corrected — the rule is §8.4 rule 3, not §2.8 — and the reading sharpened: nothing in this protocol reads `rel=\"canonical\"`, readers use `page` and mentions target it, so the link is for indexers and a publisher serving one item at two live addresses names the one to index; now a sentence in 0.4 §8.4 rule 3; Venkat asked for WordPress-style static front pages in Blygger Studio): §8.4 rule 3's \"live permalink\" is read as the page where the item lives for people, which for a front page is the root; `page` stays `t/{id}/` (#56) and readers, mentions and pins are untouched, so the four-question test is no on 1–3, and the session-20 ruling that §8.4 does not constrain presentation settles it. Reasoning in `docs/v0.4-plan.md` §10.12.",
    "spec_sections": [
     {
@@ -2543,7 +2543,7 @@
    "session_inferred": false,
    "date": "2026-10-17",
    "by": [],
-   "line": 124,
+   "line": 127,
    "text": "**`[[id | label]]` and `![[id | label]]`: an optional author's label after the id, ignored by resolution; any other bracketed text is literal, and a client-private bracket form is rewritten before publish** (session 49, 2026-10-17, Fable 5.1; Venkat's session-48 request for author-chosen link text, Ned Twigg's blygger-spec#16 asking for comments inside directive ids, ruled together with tangling, studio#20): the id comes first — the received wiki-link order, #71 — the pipe separates, the label runs to `]]` and may itself contain a pipe, whitespace around the pipe is trimmed, an empty label is none, and there is no escape. On a link the label is the anchor text baked into `content_html`; on a directive it is a comment that reaches nothing — not the bake, not `transclusions[]`, not the feed. Resolution ignores it: the id alone names the target, and a publisher that does not know the form sees literal text. A client MAY tell the author a label has drifted from its target; the protocol checks nothing, because a label is the author's words, not a claim about the target (as `cited` is frozen at the moment of reference). Notification is unchanged: a labelled link is silent, a labelled directive quotes. **Tangling (item 19) gets no construct and no reservation**: its output is ordinary wire, and the rule that a client-private form MUST be rewritten before publish is what tells the two proposals apart. Recommended to the studio, not ruled: do not spell tangling `[[text]]`, because under this grammar a forgotten id would silently mint a fragment whose content is the label. Lands in 0.4 §10.1 because 0.4 is the living text; by #43 it is revision-grade, since readers see only `content_html`. Four-question test: question 2 yes (a `content_md` grammar form), so Fable's. Plan `v0.4-plan.md` §11.2. Studio build is Opus's: the three bracket regexes (`transclusion.ts`, `directives.ts`, `fork-flatten.ts`), the palette, and *copy ID* emitting the long form; a flattened fork link (#63) keeps the baked anchor text, which is now the label.",
    "spec_sections": [
     {
@@ -2588,7 +2588,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 125,
+   "line": 128,
    "text": "**Received conventions trump cosmetic preference** (session 49, 2026-10-17, Venkat; recorded by Fable 5.1): where a widely used protocol or convention already answers a question of form, Blygger follows it, and the project departs from received precedent only for a deeper technical reason, never for taste. First application: #70's order — Venkat had asked for `[[title | id]]`; the double-bracket precedent (MediaWiki, Obsidian, whose `![[…]]` embed Blygger already borrowed) is `[[target|label]]`, label-first lives in other bracket families (markdown `[text](url)`, TiddlyWiki, Confluence), and no technical reason favoured the departure. Applies to grammar, wire spellings and defaults alike; cite it when a proposal's only argument is that it reads better.",
    "spec_sections": [],
    "other_refs": [],
@@ -2612,7 +2612,7 @@
    "by": [
     "Fable"
    ],
-   "line": 126,
+   "line": 129,
    "text": "**Version 0.4 opened** (session 49, 2026-10-17, Fable 5.1, under #43 with gates G8 and G9 true): `docs/protocol-v0.4.md` is the living text — the 0.3 text carried forward with its section numbers, §16.3 promoted into §5.7 rules 1, 8 and 9 and §15.4 (relation set `stub`, `transclusion`, `fork`, `source`; bound 3 fetches under templates), §16.6e promoted into §4, §5.8, §6.1, §12.1 steps 1 and 4, §12.2, §15.3 step 1 and §15.4 step 2, #70 added to §10.1, #69's sentence to §8.4 rule 3. `protocol-v0.3.md` is frozen at its eleventh revision and flips to SUPERSEDED in `blygger-org/sync_spec.py` in the same change (#23). Plan `v0.4-plan.md` §11.",
    "spec_sections": [
     {
@@ -2697,7 +2697,7 @@
    "by": [
     "Fable"
    ],
-   "line": 127,
+   "line": 130,
    "text": "**The pace-layered order is an RFC with reference constants; `pinned_at` is a ruled shape on pinned changelog entries; a pin MAY re-send its mentions** (session 49, 2026-10-17, Fable 5.1; queue items 15 and 16, from Venkat's session-46 ruling that the pace-layered home page is part of the premise): (1) a convention recommended to other clients takes the #66 route — Opus drafts RFC-3 from `blygger-studio/docs/pace-layered-feed.md` with `test/fixtures/feeds/*.json` as its conformance check, Fable edits, it publishes on blyg.blygger.org for comment; the model is what the name promises, the constants (six layers, halving per layer and per hop, one place per version) are reference values a client may tune. (2) `changelog[].pinned_at`, OPTIONAL ISO UTC, only beside `\"pinned\": true`, self-asserted, absent = unknown and consumers fall back to the version's `at`; a ruled shape in 0.4 §16.9 until the studio emits it (it has stored `pinned_at` since migration 0002) and another client reads it. (3) §15.2: a sender MAY re-send a pinned version's remote mentions; the receiver re-verifies and MAY record pin state from the changelog it fetched anyway; nothing required; the reference order stays own-origin pins only and inbound pins are an extension. Plan `v0.4-plan.md` §12.1.",
    "spec_sections": [
     {
@@ -2738,7 +2738,7 @@
    "by": [
     "Fable"
    ],
-   "line": 128,
+   "line": 131,
    "text": "**`cid` on a pinned changelog entry names the pinned document's exact bytes, not a bundle; mirroring pinned bytes is retention** (session 49, 2026-10-17, Fable 5.1; blygger-spec#13, anuraj-rp; queue item 20): OPTIONAL, only beside `\"pinned\": true`, an IPFS CID of `{origin}items/{id}/v{n}.json` as served; emitting it promises those bytes `author` included — stronger than §8 rule 6, opt-in. Readers MAY fetch from IPFS when the origin does not serve the pin and treat it as the origin's file. A third-party mirror of pinned bytes is within §13.4 and MUST NOT mirror unpinned versions. The bundle was not adopted because its author's own open points (chunking determinism, off-origin media) have no protocol answer; the CID profile and the pin-log contract are a technical note. Ruled shape, 0.4 §16.9, awaiting a build. Plan §12.2.",
    "spec_sections": [
     {
@@ -2778,7 +2778,7 @@
    "by": [
     "Fable"
    ],
-   "line": 129,
+   "line": 132,
    "text": "**Author-sized images use Pandoc's attribute form, `width` and `height` only** (session 49, 2026-10-17, Fable 5.1; studio#37, djinna; queue item 18; under #71): `![alt](url){width=33%}` — the one attribute syntax markdown processors share (Pandoc link attributes, markdown-it-attrs) — restricted to `width` and `height`, bare integer pixels or a percentage; the publisher bakes the attributes onto `<img>`; a client that does not know the form shows literal text, as with an unknown label. The URL-fragment hint was refused as an invented convention; a stylesheet cap is the studio's without a ruling. Ruled shape, 0.4 §16.10, awaiting a build (Opus: parse, bake, size picker). Plan §12.3.",
    "spec_sections": [
     {
@@ -2812,7 +2812,7 @@
    "by": [
     "Fable"
    ],
-   "line": 130,
+   "line": 133,
    "text": "**Eight clarifications from the conformance round, and the first member tables** (session 49, 2026-10-17, Fable 5.1; Aneesh Sathe's findings F2, F3, F5, F14, F17 on blygger-spec#11; queue items 6–8, 10, 11), all revisions by #43, none changing a reader's obligations: **F14** §5 and §6.1 gain REQUIRED/RECOMMENDED/OPTIONAL member tables drawn from the text and measured against one document and manifest from all 22 live blygs (13 item members and 9 manifest members present in every one; nothing live fails the tables; `page` and `author` stay RECOMMENDED/OPTIONAL though universal). **F2** a partial quote's reader re-check is opportunistic and its window closes when the origin stops serving the version; the promised check is the publisher's at publish; quote pins to stay checkable. **F3** the local closure check walks the baked versions, not the targets' current documents. **F5** the watermark survives withdrawal: the endcap is the highest version and a reader keeps it, so a lower or equal version is a replay, not a return. **F17** a line ends at LF or CRLF; a partial quote's blockquote has CommonMark's extent, lazy continuation included; one `transclusions[]` entry per directive, duplicates included; `stub_of.version` is monotonic (keeps its last value, never the creation value); a local id never falls through to an import; `stub_of` MUST NOT name an L0 wrapper id (a `{url}` stub names the entry's link; one live stub does this and is nonconforming — Opus makes the studio refuse it). Plan §12.4.",
    "spec_sections": [
     {
@@ -2853,7 +2853,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 131,
+   "line": 134,
    "text": "**`ignyr` is a reader-side queue, not a wire member: a same-hash republish is maintenance** (session 49, 2026-10-17, Fable 5.1; Venkat's session-34 directive and his session-43 calls that the name stays and agent refreshes carry it by default; queue item 13): a changelog flag saying a version matters less is the significance marker #19 and TN-1 refuse, in the other direction — and the wire already says it: a republish that changed no words has the same `content_hash` as the version before it (§16.6b's re-bake test). §13.2 now says readers MAY queue such versions at low priority and SHOULD NOT resurface them as new; the studio's updates tab names that queue *ignyr*, and an agent's refreshes land there by default because a refresh is same-hash by construction. What this does not give, by design, is a signal to plain RSS readers; that is the one thing the flag would have added and the one thing the bare counter forbids. Venkat was told this reverses the shape he had assumed and asked for it recorded. Plan §12.5. **Extended by #83** (session 50): a version under a reader-local near-sameness threshold is maintenance too, and no token in a note has wire meaning.",
    "spec_sections": [
     {
@@ -2888,7 +2888,7 @@
    "session_inferred": false,
    "date": "2026-10-17",
    "by": [],
-   "line": 132,
+   "line": 135,
    "text": "**Inline fragment authoring: tangling is a studio act whose output is ordinary wire; the author's source MAY be rewritten by an explicit publish-time act; a multi-item publish is one event per item with the thread last and no quiet publish; readers MAY fold a burst; named ids are refused and `page` is the human name** (session 49, 2026-10-17, Fable 5.1; the session-29 exploration `plans/inline-fragment-authoring.md`, studio#16 Q3, studio#20 Q1–Q4; salient because Brady Dale's Blynger already chops documents into bursts of 10–12 fragments per minute, measured tonight against bradydale.com, each burst a quarter of its 50-entry feed window): (1) **Option B** of the exploration — rewrite at publish, the wire sees `![[id]]` directives — is what #70 already requires of any client-private bracket form, and the explicit, visible, author-triggered rewrite of the author's own source is acceptable: it is what §5.7 already does to generation instructions. Invisible per-open rewriting stays intolerable (studio#16). (2) **The feed flood is real and is not hidden**: §7 now says one event per item, no quiet publish, thread last; §13.7 says readers MAY fold items an origin published together — same `created` publish, a thread created with them naming them — into one publication with the thread as its entry, deferring fragments to §13.2's low-priority queue, and MUST still import all of them. **Venkat's premise that #77's `ignyr` covers this was half right**: #77 keys on an unchanged `content_hash` across versions and a new fragment has no prior version, so this is a second, derived input to the same reader-side queue, not the same rule; recorded as such. The client cap and visible count the exploration proposed are the studio's. (3) **Names**: `page` slugs are already legal and `page` is already SHOULD-stable (#56); human-readable ids are refused on #2 and §5.1 (collision, identity change across copies nobody controls, squatting, the id in a protocol-fixed path; DOI/ARK/UUID precedent) — filed in `backlog.md` §4 so it is not re-proposed; authoring aliases are a client-private form under #70, ambiguity a publish error by §10.2's logic. (4) **Studio design, not protocol**: pre-flight the whole thread's resolution before minting (atomicity); a blank line after each inserted directive (#49 adjacency); no nesting; a span over §5.3's cap wants to be a thread; no untangle (withdrawal is permanent, §9); the 26-character prose collision gets no escape hatch. Spelling of the tangle operator is the studio's; #70's advice against `[[text]]` stands. Plan `v0.4-plan.md` §13. Third revision of 0.4.",
    "spec_sections": [
     {
@@ -2963,7 +2963,7 @@
    "by": [
     "Fable"
    ],
-   "line": 133,
+   "line": 136,
    "text": "**Plain internal links are disclosed: `links[]` on the item document, a fifth mention relation `link`, the markdown link is the one silent citation; reverses #32** (session 50, 2026-10-19, Fable 5.1; Venkat's report of demand for simple responses and his explicit call to reverse #32): a fragment reading `[[id | this]] is right` is the simple response the medium lacked, and #27 is untouched because stubs stay threads. Without a wire member there is nothing to verify, and verifying by scanning HTML for the target URL is the trackback check §15.6 demotes, so each resolved `[[id]]` produces a `{id, origin?}` entry in `links[]` — not a reference (§5.9): a page, not a version, so no `version`, `cited` or `selector`. A remote entry SHOULD send a mention; the receiver derives `link`, last in §15.4's order; a 0.3 receiver fails it, correctly. #32's necessary affordance survives as `[text](absolute page URL)` — same anchor in `content_html`, no entry, no mention, never inspected; the author chooses by spelling. Links are notices, never responses (#80). Forks flatten the bracket form (#63), so a fork carries no entry for inherited links — one-hop custody (#65). Additive, revision-grade in 0.4 by #43; #50's naming condition on the reader affordance stands though its premise is gone. Spec §10.1, §10.3a, §5 member table, §15.2, §15.4, §2; plan §14.1. Fourth revision.",
    "spec_sections": [
     {
@@ -3045,7 +3045,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 134,
+   "line": 137,
    "text": "**Reposts are classified by the receiver and held with links as notices; verified mentions split into responses and notices; no wire marker** (session 50, 2026-10-19, Fable 5.1; Venkat asked whether a bare `![[id]]` is a SHOULD NOT — it is not: it is the studio's own repost shape from 0.31.0, and §10.6's misuse paragraph is about volume with nothing to say): a sender's \"this matters less\" flag is what #19 and #77 refuse, and the wire already says it — a repost's `content_md` is nothing but directives. §15.4, after the relation: strip directive lines, attached partial-selection blockquotes, labels and whitespace; nothing left is a repost. The relation is unchanged (stub-ness comes from the marker, §10.6 rule 2); the class changes. §15.5: **responses** (`stub`, `transclusion`, `fork`, `source`, with words) and **notices** (`link`, reposts) — notices MUST NOT appear in a responses list, MAY show as \"linked from\" / \"reposted by\", SHOULD go to a low-priority queue; the studio's is ignyr, the protocol says notice. The test is per document, the relation per target: twenty wordless directives send twenty notices; with a paragraph of its own, one `stub` and nineteen `transclusion` responses. The misuse language stands — the class absorbs content-free stubbing, it does not bless it. Studio: the repost action tells the author the target sees a repost, not a response. Plan §14.2.",
    "spec_sections": [
     {
@@ -3092,7 +3092,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 135,
+   "line": 138,
    "text": "**The directive label travels: baked as `data-blyg-label`, RECOMMENDED as the attribution anchor, never the target's title** (session 50, 2026-10-19, Fable 5.1; Venkat: make `![[id | text]]`'s label the link title \"since transcludes also present with links\"; premise corrected — the bake has no link inside, §10.2, the \"quoted from\" line is presentation, so a subscriber never had the label): the publisher's own page could already use it; to reach subscribers and fork flatteners it must be in the bake. One definition now covers both forms — the author's label for the target, shown wherever the reference is presented. Guard against #46: a reader MUST NOT present it as the target's title or as anything but the quoter's words; frozen with the quoted version, checked by nobody, as `cited` is. Additive attribute on a permanent wire token; readers ignore unknown attributes. Spec §10.1, §10.2, §2; plan §14.3.",
    "spec_sections": [
     {
@@ -3134,7 +3134,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 136,
+   "line": 139,
    "text": "**Quoting and stubbing need no subscription; a client may respond from any URL; the client-agnostic \"stub this\" affordance is an RFC** (session 50, 2026-10-19, Fable 5.1; Venkat: how does a reader stub from a browsing view on any device, browser extensions in mind): §10.2 step 2 said \"from any subscribed origin\" — a client-local notion (#13, §10.6 rule 7) that had leaked into a wire rule. Now any snapshot the publisher holds from the item's identity origin by §12, by polling or by a one-off fetch; `stub_of.version` stays \"what the author saw\". Studio: one deep link that takes a URL, resolves it (§12 and the page's JSON alternate), holds a one-off snapshot with no subscription and opens the composer as `stub ↗` does; a plain-web URL opens a `{url}` stub with `cited`; reached by bookmarklet, share sheet (Web Share Target; iOS by Shortcut) and extensions through the same link or the owner API on a scoped token. Real work: `imported_items` is keyed on `subscription_id`, so one-off snapshots need a store of their own with retention rules, since nothing polls them. For a blyg page to offer \"stub this\" to a stranger it must find their studio — a convention across clients, so Fable → RFC on blyg.blygger.org with a comment period (session-40 rule); received pattern: a registered `web+blyg:` handler with a Mastodon-style remote-interaction fallback. Queue item 23, drafted when Venkat says go. Spec §10.2, §16.11; plan §14.4.",
    "spec_sections": [
     {
@@ -3181,7 +3181,7 @@
    "session_inferred": false,
    "date": "2026-10-19",
    "by": [],
-   "line": 137,
+   "line": 140,
    "text": "**No author-to-machine significance channel in any spelling; the author's lever is the note in words and not publishing; readers derive near-sameness as they derive same-hash** (session 50, 2026-10-19, Fable 5.1; a parallel Opus session was asked to rig an `ignyr` word into changelog notes for readers to honour and read #77 as forbidding it — correctly): a token in free text that readers route on is the flag #77 refused with a worse spec (`[skip ci]` is the precedent), and \"matters less\" has its own attack — soften a claim under \"ignyr\" so subscribers do not re-read, the rewrite §13.3 guards against; Wikipedia's minor-edit flag works only because one origin has admins. TN-1 already makes the note the home of human-readable significance, so writing \"ignyr\" is allowed as prose; §5.2 now says no token in a note has wire meaning and clients MUST NOT give one meaning (the #70 sentence, for notes). The honest author lever is not publishing: a change not worth an event waits for the next one; held revisions are studio sugar. §13.2: a version whose text differs from its predecessor by less than a reader-local, never-advertised threshold MAY be treated as maintenance — #77 at edit distance zero, generalized; keep it small, one word can negate a sentence, nothing is omitted. Opus: drop the token rigging, build held revisions and the near-sameness rule. Plan §14.5.",
    "spec_sections": [
     {
@@ -3220,7 +3220,7 @@
    "session_inferred": false,
    "date": "2026-10-20",
    "by": [],
-   "line": 138,
+   "line": 141,
    "text": "**A mention's target is known by membership, not location: it MUST resolve, by the receiver's own published data, to one of its items — `page`, item document or a pinned version's address, wherever they live; §15.4 step 2's location test is unchanged** (session 52, 2026-10-20, Fable 5.1; Robert Peake's [blygger-spec#17](https://github.com/blygger/blygger-spec/issues/17): on his templated Soapbox blyg every target §15.3 step 1 names lies outside the base URL it required): the \"full base URL\" wording was carried into step 1 from #61's fix to the *source* check, whose Alloy note said the two checks \"should be read the same way\" — but they answer different questions. A stranger's document is known only by where it was served, so location is the authority for step 2 and #61 stands; the receiver's own items are its own data, so membership is the authority for step 1 and location was a proxy that §5.8 (absolute `page`) and §6.1 (relocated surface) broke. No host test either — a CMS may put permalinks on another host, and a host test adds nothing membership does not give. Two blygs on one host stay apart by the same test. Pinned-version addresses are valid targets (a third-party sender may name the pin it forked; the mention is recorded against the item), which is the one receiver change: the studio's `targetItemId` gains the pin shapes, and its mount-prefix check is noted as conformant only because its surface is never relocated. Principle, now in the text: a receiver's own items are known by membership; a stranger's document by where it was served. Revision by #43, fifth of 0.4, not snapshotted. Spec §15.3 step 1, §17; plan §15. Opus: the studio pin branch, the Alloy check-7 note, C-15.3-01 at the next clause build.",
    "spec_sections": [
     {
@@ -3269,7 +3269,7 @@
    "by": [
     "Fable"
    ],
-   "line": 139,
+   "line": 142,
    "text": "**A sender that does not hold the target's `page` names the target's item document through its `item` template, never the permalink convention** (session 52, 2026-10-20, Fable 5.1; Robert Peake's follow-up on blygger-spec#17, two hours after #84): §15.2's \"else the reference convention\" guessed `f/{id}/`, `t/{id}/` — paths §4 has called presentation since 0.3 and forbids readers to infer — and the old location test hid it because a default-layout studio happens to serve them; #84 exposed it at Soapbox (does not serve the convention) and at the studio's own 0.48.1 kind check (`remotePermalink` guesses \"fragment\" when it does not know the kind). The decisive case: a blyg with no HTML pages (§5.8) has no page to guess, so the item document is its only mentionable address. Target = `page` when held, else `{origin}items/{id}.json` via the target's `item` template or the default (§6.1); MUST NOT construct from the convention; the sender already holds the manifest from endpoint discovery. `page` stays first because the receiver resolves both and it is what every live sender sends. Sender-side only, no wire or receiver change; revision by #43, sixth of 0.4. Spec §15.2, §17; plan §15.1. Opus: studio 0.48.2 sends the item document whenever it lacks `page` (item v).",
    "spec_sections": [
     {
@@ -3320,7 +3320,7 @@
    "session_inferred": false,
    "date": "2026-11-01",
    "by": [],
-   "line": 140,
+   "line": 143,
    "text": "**Hopper feeds and the `hoppers` manifest key: a public hopper MAY have a feed and the manifest MAY list public hoppers; not re-emission, because #12's line is the state plane and the `blyg:` namespace, not the manifest; no item document ever names a hopper** (session 56, 2026-11-01, Fable 5.1; Aneesh Sathe's [blygger-spec#18](https://github.com/blygger/blygger-spec/pull/18) for the World Machines bridge, unparking queue item 14): the blogroll is already a manifest key naming a curated list (#13), and §13.5's \"no manifest vocabulary\" answered whether an imported item becomes a protocol object — it still does not; the feed names memberships, publicity stays the list's. Four answers: (a) no `blyg:` namespace anywhere in the feed, own items included — with `blyg:id` on own items it would be a filtered blyg feed, a refused construct; (b) resolution through the manifest, §12.1 step 7 as a post-condition on steps 2–5, identity (origin, the feed's resolved absolute URL), no channel marker, no reorder, bound unchanged; (c) excerpts never the held snapshot, RSS 2.0 `<source>` for attribution (#71), `pubDate` the time joined; (d) L0 rows scoped to the hopper subscription, an entry that leaves the feed MUST be dropped because the feed is the whole list, following an entry's link through §12 is a separate act. Added: **membership belongs to the list, never to the item** — the sentence that keeps hoppers a taxonomy and not tags on the wire. Step 7 is a reader change, so 0.4 text by #43; a ruled shape in 0.4 §16.12 under #42 (the PR's inline PROPOSED text was moved there), promoted when the studio emits a hopper feed on one node, a second node subscribes to it by URL, an entry leaves on removal, and the whole-blyg subscription is unaffected. Plan `v0.4-plan.md` §16.1. Opus: review studio#84 against §16.12, run the gate, promote under #58. **Built and promoted session 57 (2026-11-01):** studio 0.50.0 (#84); gate run venkateshrao → protocol-institute; §16.12 promoted into §2, §4, §6.1, §12.1 step 7, §12.2, §13.5, §13.6 in the eighth revision, under #58.",
    "spec_sections": [
     {
@@ -3392,7 +3392,7 @@
    "session_inferred": false,
    "date": "2026-11-01",
    "by": [],
-   "line": 141,
+   "line": 144,
    "text": "**The fixed name holds at every identity origin: `{identity}blyg.json` MUST serve the manifest, as the manifest itself or by a redirect whose final URL has the same identity; #51 amended** (session 56, 2026-11-01, Fable 5.1; chrisbodhi's [blygger-spec#21](https://github.com/blygger/blygger-spec/issues/21), accepted as proposed): #51 let a manifest be named elsewhere and then costed reference-following at one cached fetch of the target's manifest, which assumed the fixed name answers at the identity; the three parties who hold only an identity — a receiver verifying under templates (§15.4), a sender building a target (§15.2, #85), a forker checking a pin (§5.6 rule 2) — all probe it, and two clients (Studio 0.48.2 forks, blygd refuses) disagreed about one live origin. The MUST is meetable by the publishers #51 was for: the hosts that intercept `.json` paths serve static files, a CMS plugin can write one, and the directory holding it is the identity origin while templates relocate the rest — which is exactly Soapbox's live shape (`https://www.robertpeake.com/blyg/blyg.json`, everything else under `/wp-json/`). Step 4's direct form stays as discovery. Not taken: a `manifest` URL in every §5.9 reference (bloats every citation for a publisher's omission); \"readable only by subscribers\" (documents silent breakage). Revision by #43, seventh of 0.4, publisher-side. Spec §4, §6.1, §12.1 step 4, §12.2, §15.4, §17; plan §16.2. Conformance: the fixed-name probe at the identity is a MUST in the publisher suite.",
    "spec_sections": [
     {
@@ -3458,7 +3458,7 @@
    "session_inferred": false,
    "date": "2026-11-01",
    "by": [],
-   "line": 142,
+   "line": 145,
    "text": "**Origin succession: the old origin's permanent redirect of its manifest is the statement of a move; the successor acknowledges it with an OPTIONAL manifest key `moved_from`; readers offer to follow on both, never adopt alone; receivers read a former identity as their own** (session 56, 2026-11-01, Fable 5.1; Florian Lohse's [blygger-studio#102](https://github.com/blygger/blygger-studio/issues/102), live case: his 2026-10-25 move and Venkat's stub of a post-move fragment under the old identity, unverifiable at the new Studio): a move is not only a social act. (1) Only the old origin's controller can redirect `{old}blyg.json` — invariant 4's trust basis unchanged — and HTTP already has the word (#71), so no `moved_to` key; a mover SHOULD redirect the manifest permanently and the rest of the surface, and SHOULD keep serving the item documents it published at the old origin, because pinned bytes carry the old `origin` (§8). (2) `moved_from`, an array of former identity origins, after Mastodon's `movedTo`/`alsoKnownAs` and DID Core — the narrower name because \"also known as\" includes concurrent aliases, which is the mirror §12.2 forbids; alone it proves nothing and gains an impostor nothing, since senders discover endpoints from the identity they hold. (3) Readers: a permanent redirect of a subscription's manifest to a different identity is a move candidate; with the acknowledgement the reader SHOULD offer to follow, without it reports a discrepancy (§12.2's `site` rule); adoption stays user-confirmed; a polling rule, since fresh resolution already follows the redirect. (4) Receivers: an origin in their own `moved_from` names them — membership by their own published data (#84) — with the target matched after substituting their identity for the former one, and §15.4's relation check accepting the former origin; this recovers Florian's case without anyone republishing. (5) Senders change nothing. Not opened: #11, #12. New manifest key, additive, 0.4 by #43; a ruled shape in §16.13, gate: Florian's node declares it, Venkat's mention verifies, one reader is offered the follow. Plan §16.3. Opus: the key in settings, the receiver's substitution, the follow-the-move offer that keeps hopper memberships and signals; blygger.com's two entries for his blyg are the directory's version of the same question.",
    "spec_sections": [
     {
@@ -3509,7 +3509,7 @@
    "session_inferred": false,
    "date": "2026-11-03",
    "by": [],
-   "line": 143,
+   "line": 146,
    "text": "**The studio mods mechanism: three surfaces in cost order — configuration through the owner API on a scoped token, compiled-in extensions in the fixed slots, hooks proposed upstream against a stated bar; no program-hosted extension registry now; the principles are published in the studio repo; a mod is on its own the moment it lives on the first two surfaces** (session 58, 2026-11-03, Fable 5.1; queue item 22, Aneesh Sathe's [studio#59](https://github.com/blygger/blygger-studio/pull/59) as one answer, blykker's five proposed upstream hooks as the evidence; Kyle Mathews against a registry 2026-10-26/27, Venkat for hooks plus principles): (1) **Surfaces.** Configuration through the owner API as an editor would (#31, #52) is blykker's whole phase 1 and costs the studio nothing; compiled-in extensions keep every rule of `docs/extensions.md` (no runtime loading, read-only server routes, writes only through the contract under scopes, nothing reaches the wire); a mod that needs a surface the studio lacks proposes a general slot as a studio PR. (2) **The bar a hook must clear:** *general* — named for what it does, not for the mod (a \"book layout\" slot is refused, an owner stylesheet for public pages is considered); *wire-silent* — nothing in the bake, `feed.xml`, item documents or the manifest, while presentation of the publisher's own pages is open by §8.4 and #25, the CSS contract's §1 classes living in the bake where no stylesheet can remove them; *reads-only on the server* — a write hook in the Worker is refused, writes happen in the browser through `client` or from outside on a token polling `/api/changes` (#39c). (3) **blykker's hooks against the bar:** public-page presentation and per-thread hiding of feed apparatus are acceptable in their general forms (an owner stylesheet or page-template setting; presentation only); a custom link-section label is a setting, not a hook; **a feed filter dropping marked fragments is refused for `feed.xml`** — §7 since #78 says one event per published item and no quiet publish, the home page's omission is presentation the existing feed-order slot already allows, and the reader-side answer is §13.7's folding; **a server hook on publish is refused** — the general forms exist on both sides already, an extension action writing through the owner session or a tool on a scoped token watching `/api/changes`. (4) **The registry:** not the program's, now, for four reasons — the extension API has no version and no stability promise, so an index pinned to studio ranges is a maintenance promise the program cannot keep (#34's logic: the directory observes, it never vouches); a listing under the `blygger` org reads as endorsement whatever the page says, and the one thing the program's name must not be lent to is code running in the owner's session, which can publish and mint tokens; demand is unmeasured — no third-party extension exists and the one real mod needs no browser code; #47's rule, park on a measured need. blygger.org/ecosystem MAY list extensions as it lists clients, observation under the existing listing rule. Browser-only is a hard rule for **vendored** code because `openapi.json` must stay a function of the repository; a server half is upstreamed or not run; nothing is hosted on blygger.org. What survives of #59, and it is most of it: the operator path — `ext:add` from a repo URL at a pinned commit, the tree hash, the import-boundary and browser-only checks, the review prompt, the build's refuse-if-edited — a registry of one whose index is the operator's own `extensions.local.json`; `registry/index.json`, `registry:check`, `registry:site` and the hosting question are dropped; anyone may publish an index of their own and the program points at none. (5) **Principles** go in the studio repo as `docs/mods.md` (Opus drafts): the three surfaces, the bar, \"a mod keeps the studio's generator string\", \"the no-fork promise is the mod's own, not the program's\" — not an RFC (#66 is for conventions across clients; this is one client's) and not a technical note. (6) **On its own:** a mod is independent when it lives on surfaces 1 and 2 and proposes hooks as any contributor does; blykker meets that today; when it runs its own sessions is Venkat's call. No spec text; the four-question test's second question was a yes only for the feed filter, refused by text that exists. Plan `v0.4-plan.md` §17. Opus: draft `docs/mods.md`; re-scope #59 with Aneesh per (4); blykker's hooks (1)–(3) land as studio settings or slots in their general forms. **Batch review, same session:** §16.12's promotion confirmed; studio#106's reading and the tangling plan's two wording fixes confirmed and written as the ninth revision (§10.1, §13.7, §13.2).",
    "spec_sections": [
     {
@@ -3584,7 +3584,7 @@
     "Fable",
     "Venkat"
    ],
-   "line": 144,
+   "line": 147,
    "text": "**An RFC becomes a technical note when its comment period closes; the first build is a revision trigger, not the promotion gate** (session 60, 2026-11-05, Fable 5.1 + Venkat; amends ruling 1(d) of #67 and the closing paragraph of #68): a technical note is a design-reasoning record, not a build record, and both RFC-1 and RFC-2 had their reasoning tested in public and revised in response. tn-1 and tn-3 were written before any build, and tn-3 was revised when facts arrived (#61) — notes already work this way. Holding a closed RFC as neither open nor a note is an orphan state the genre does not have. So the close is the promotion; the note carries a status line (*unbuilt*, then which client built it), and the build gate protects what it was meant to by forcing a revision of the note when the first build lands. tn-2's own gate (#35) is untouched — tn-2 was never an RFC. Numbering follows the note series: RFC-1 → `tn-6`, RFC-2 → `tn-7` (tn-2, tn-4, tn-5 stay reserved). The blyg items keep their ids: each note is v2 of the item the commenters stubbed at v1, pinned, so comments stay attached to what they answered (#66). Plan `v0.4-plan.md` §18.1.",
    "spec_sections": [],
    "other_refs": [
@@ -3621,7 +3621,7 @@
    "session_inferred": false,
    "date": "2026-11-05",
    "by": [],
-   "line": 145,
+   "line": 148,
    "text": "**RFC-1 closed and promoted as `tn-6`; a mention's silence re-grounded after #79; `@handle` resolved by the publishing server on every write path; a found-mentions list on the reader's own shelf** (session 60, 2026-11-05, Fable 5.1; comments by Mike Casey and Aneesh Sathe on blyg.blygger.org, anchor blygger-spec#14): (B1) #79 reversed #32, on which ruling 2 of #67 relied; the silence stands on what remains — a mention's wire form is the markdown link, the form #79 kept silent, and its target is a person's page, never an item, so no relation and no `links[]` entry can name it (§16.8, corrected in the tenth revision to \"a relation that names a person\"). (B2) `@handle` is resolved by the publishing server on every write path — editor, API, tools; submitted markdown may carry it, published `content_md` never does; unresolved `@word`s are returned as warnings to every client; an unmatched `@word` is literal prose, not a rejection. Forced by #63: forkers re-parse `content_md`, so studio grammar must never survive publish. Raised by Mike Casey. (B3) tn-6 §5.6 items 2 (byline by token scope) and 3 (address-book provenance by the resolver) separated, each opening with what it governs; editorial, no rule changed. (B4) **A found-mentions list** (raised by Aneesh Sathe): a reading client MAY list for its owner the mentions found in items it already holds, matched against the owner's own member record (`url`, `ids`), quotes excluded, labelled as a reading-side find apart from verified mentions, no count; nothing is sent, so ruling 2 is untouched. Feeds the owner does not read are refused: telling is the notification ruling 2 refuses, and crawling is a search engine's job. (B5) Opus brief item e is unblocked: the studio's RFC-1 work may begin under B2 and B4. Plan `v0.4-plan.md` §18.2; tn-6 §11.",
    "spec_sections": [
     {
@@ -3670,7 +3670,7 @@
    "by": [
     "Fable"
    ],
-   "line": 146,
+   "line": 149,
    "text": "**RFC-2 closed and promoted as `tn-7`; reply notification for signed-in commenters only; no typed stubs on the wire, ever** (session 60, 2026-11-05, Fable 5.1; comments by Aneesh Sathe, Mike Casey and ksurya, anchor blygger-spec#15): (C1) kind-2 reply notification is accepted as house behaviour, off the wire — opt-in, only when a stub of the comment verifies, byline, origin and link and never the text (§15.4 step 5), the address living with the sign-in record; refused for kind 3, because §7.3 holds no address, an address is the one datum that reverses the anonymity, and deleting it at the moderation decision makes it useless since replies come later; in its place a MAY — the browser token may show a returning browser the replies to its own comments. Raised by Aneesh Sathe. (C2) One install SHOULD run both origins. (C3) The studio's responses list already is kind 1, links only; it is not addable as an extension, since extensions do not reach public pages (#89). (C4) Typed stubs: none on the wire, ever — #10's bag stays refused; sorting verified stubs into display sections is presentation, by any signal a client or genre defines. Raised by Mike Casey. (C5) ksurya's webmentions from non-blyg places are forwarded to RFC-4 (#82). (C6) A #79 notice is never a response. Plan `v0.4-plan.md` §18.3; tn-7 §12.",
    "spec_sections": [
     {
@@ -3711,7 +3711,7 @@
    "session_inferred": false,
    "date": "2026-12-03",
    "by": [],
-   "line": 147,
+   "line": 150,
    "text": "**RFC-5 (enterprise): audience is a property of the origin; compelled removal is a 404 with no marker; group visibility stays L3, with the private-items gate shapes classified; published for comment to 2026-12-03** (session 60, 2026-11-05, Fable 5.1; RFC-5 drafted by Opus 5.5 session 59, client-neutral at Venkat's direction): (F1) confirmed with spec text (§4, tenth revision): what an origin serves does not depend on who asks — every reader who can reach it gets the same bytes, and reachability is the deployment's; per-reader difference within an origin is L3 (#7), and split-horizon is that by the back door (§12.2). (F2) confirmed, no text: §14's probe clause is already conditional; an allowlisted intended fetch is not a probe; an unreachable source is failed (§15.4). (F3) client policy, no text: §14 already says a quote cannot be recalled; the boundary rule lives in the note; declining a SHOULD for a stated reason is what SHOULD means. (F4) confirmed: enterprise needs no L3 to start; shape E is the trigger, with a named case. Of the private-items proposal's gate shapes, **C2 is refused** (not static; L3 by the back door), **C3 is where the L3 round starts**, and **C1** — a redacted wire, with a fuller rendition off the mount to signed-in readers — is client territory under #3, with one invariant: nothing on the protocol surface names, links to or depends on the fuller rendition, and the public document is complete in itself, the redaction the author's own visible edit (#78). (F5) a sentence in §14, no marker: law may compel a publisher to remove what it promised to serve, or a reader to retain what an origin withdrew; both are outside the protocol; a compelled removal is a 404 with no marker, since a marker is the tombstone #8 refused and invites delete requests; a compelled retention never reaches any surface the spec governs. At close, RFC-5 is promoted as `tn-8` under #90. Reasoning RFC-5 §10, plan `v0.4-plan.md` §18.4.",
    "spec_sections": [
     {
@@ -3763,7 +3763,7 @@
    "by": [
     "Fable"
    ],
-   "line": 148,
+   "line": 151,
    "text": "**A private item's first public version is v1** (session 60, 2026-11-05, Fable 5.1; `plans/private-items-proposal.md` §8.2, option (a), confirmed under #19): a publish event is what the wire sees, and the counter is the reader's watermark (#18b); a watermark over versions no reader saw is meaningless. Private history is studio history, as TK's pre-generation state is studio-private under #20; the two counters never meet, and the public changelog begins at v1. Option (b), a public count continuing the private one, leaks a private life by arithmetic. For the build: the studio should not dress private versions in public \"vN\" chrome. Group visibility (§8.3) not opened; it waits for the L3 round (#93 F4). Also confirmed, no batch review needed: the proposal's §3.3 TK hash-equality rewrite is #20/#44 applied — provenance names the version whose bytes the model read, and byte-equality is the test. Plan `v0.4-plan.md` §18.5.",
    "spec_sections": [
     {
@@ -3795,6 +3795,524 @@
    "tokens": [
     "plans/private-items-proposal.md",
     "v0.4-plan.md"
+   ]
+  },
+  {
+   "number": 95,
+   "title": "Changelog display is presentation; a summary reads notes and never text; a note may summarize the history to date",
+   "session": 61,
+   "session_inferred": false,
+   "date": "2026-11-07",
+   "by": [
+    "Fable",
+    "Opus"
+   ],
+   "line": 153,
+   "text": "**Changelog display is presentation; a summary reads notes and never text; a note may summarize the history to date** (session 61, 2026-11-07, Opus 5.5; **confirmed by Fable 5.1 the same session**, §18.10, with the clause \"or, when the author chooses, the changes so far\" added to §5.2; Venkat's request, blygger-studio branch `feat/changelog-display`): (1) Studio settings choose what an item's own public page shows of its changelog — the latest note (the default, unchanged), every note, or an AI summary — and, separately, what the reader shows for blyg items. The changelog is already on the wire (§5.2), so showing more of it is presentation (§8.4 as #25 reads it). (2) An AI summary is written **from the notes only**: notes are public and already obey §5.2's depth rule, so a summary of them cannot reproduce withheld text. It is studio-private — kept per item version, labelled as machine-written with the model named (#59's spirit), never in an item document, the feed or the manifest. (3) An owner may draft a change note that **summarizes the history to date**, this version included, up to 400 characters: it reads the earlier notes and the two texts, under the same depth rule, and is `generated` when published unedited (#40). It is still a note in §5.2's sense — prose describing change, with no wire meaning (#83) — so nothing on the wire changes; the cost is a longer feed entry title. Four-question test: no reader or receiver changes; nothing is added to the wire; #40 and #83 are applied, not reinterpreted; principles cited: §5.2, #40, #59, #83. **For the review:** whether \"a note describes a change\" stretches to \"a note describes the changes so far\" — the reading taken here — or wants a sentence in §5.2. Reasoning `v0.4-plan.md` §18.7.",
+   "spec_sections": [
+    {
+     "section": "18.10",
+     "via": "spec?"
+    },
+    {
+     "section": "5.2",
+     "via": "spec?"
+    },
+    {
+     "section": "8.4",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "18.7",
+     "via": "other"
+    }
+   ],
+   "relations": [],
+   "mentions": [
+    25,
+    40,
+    59,
+    83
+   ],
+   "tokens": [
+    "feat/changelog-display",
+    "generated",
+    "v0.4-plan.md"
+   ]
+  },
+  {
+   "number": 96,
+   "title": "The protocol binds clients, not owners: a client MUST NOT route on a changelog note of its own accord, in either direction; an owner MAY instruct their own client to, on both the reading and the publishing side; the protocol polices only the depth rule",
+   "session": 61,
+   "session_inferred": false,
+   "date": "2026-11-07",
+   "by": [],
+   "line": 154,
+   "text": "**The protocol binds clients, not owners: a client MUST NOT route on a changelog note of its own accord, in either direction; an owner MAY instruct their own client to, on both the reading and the publishing side; the protocol polices only the depth rule** (session 61, 2026-11-07, Fable 5.1 with Venkat; rules `v0.4-plan.md` §18.8 after Venkat's challenge): #83 protects the wire from acquiring a meaning, which needs a *convention* — clients shipping the rule for everyone, so authors write to it (`[skip ci]`). An owner's standing instruction to their own agent (\"if a note says minor, believe it; flag signs of spam\") is the owner's reading, delegated, as a mail filter is: the note is addressed to readers so they can decide what to open; nothing reaches the wire, since the author cannot know whether any reader honours the word; and the protocol has no standing over the studio (invariant 3) or the reading order (§13.7). The Smart Feed prompt is already this mechanism. **Four conditions:** no shipped rule, default, template or checkbox routes on note words (the stored instruction is empty; a placeholder may show an example; Opus's \"raise only\" recommendation is withdrawn as a shipped asymmetric rule); reading only — nothing the client publishes or sends, and no directory, routes on another blyg's note; visible and revocable; the wire gains nothing. **Symmetric on publish** (Venkat): an owner may instruct their client to write words into notes, truthful or not, and the client does not police it — misrepresentation is the author's risk and a consumer problem (§10.6, #36, #80, #28). **What stays policed is the depth rule** (§5.2, #40), because a note quoting an unpinned version breaks §8's promise: the wire contract, not the owner's speech. Text: §5.2 and §14, eleventh revision. Reasoning §18.9; build in `background-plan.md` §3.4.",
+   "spec_sections": [
+    {
+     "section": "13.7",
+     "via": "spec?"
+    },
+    {
+     "section": "10.6",
+     "via": "spec?"
+    },
+    {
+     "section": "5.2",
+     "via": "spec?"
+    },
+    {
+     "section": "8",
+     "via": "spec?"
+    },
+    {
+     "section": "14",
+     "via": "spec?"
+    },
+    {
+     "section": "18.9",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "18.8",
+     "via": "other"
+    },
+    {
+     "section": "3.4",
+     "via": "other"
+    }
+   ],
+   "relations": [],
+   "mentions": [
+    28,
+    36,
+    40,
+    80,
+    83
+   ],
+   "tokens": [
+    "[skip ci]",
+    "background-plan.md",
+    "v0.4-plan.md"
+   ]
+  },
+  {
+   "number": 97,
+   "title": "RFC-3's four items: the model is the convention and the constants reference values; a maintenance version climbs zero; a burst takes one tick; the fixtures move to `blygger-spec/conformance/feeds/` with a CI-checked copy in the studio",
+   "session": 61,
+   "session_inferred": false,
+   "date": "2026-11-07",
+   "by": [],
+   "line": 155,
+   "text": "**RFC-3's four items: the model is the convention and the constants reference values; a maintenance version climbs zero; a burst takes one tick; the fixtures move to `blygger-spec/conformance/feeds/` with a CI-checked copy in the studio** (session 61, 2026-11-07, Fable 5.1; `rfcs/rfc-3-pace-layered-order.md` §7): R2 because climbing one place is resurfacing in miniature (#77, #83); R3 ruled together with the reader's burst rule as §13.7's one fold seen from two sides (thread first, fragments beneath it, everything else sinks once). The studio builds R2 and R3 with fixtures before the RFC publishes. No spec text. Reasoning §18.11.",
+   "spec_sections": [
+    {
+     "section": "13.7",
+     "via": "spec?"
+    },
+    {
+     "section": "18.11",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "7",
+     "via": "other"
+    }
+   ],
+   "relations": [],
+   "mentions": [
+    77,
+    83
+   ],
+   "tokens": [
+    "blygger-spec/conformance/feeds/",
+    "rfcs/rfc-3-pace-layered-order.md"
+   ]
+  },
+  {
+   "number": 98,
+   "title": "`syndication` opens as an OPTIONAL item member `[{url, version}]`, written in place like the pin flag and never worth a version; the protocol specifies no fold and an entry is never grounds to hide another party's post or infer an identity",
+   "session": 64,
+   "session_inferred": false,
+   "date": "2026-11-09",
+   "by": [],
+   "line": 156,
+   "text": "**`syndication` opens as an OPTIONAL item member `[{url, version}]`, written in place like the pin flag and never worth a version; the protocol specifies no fold and an entry is never grounds to hide another party's post or infer an identity** (session 64, 2026-11-09, Fable 5.2 with Venkat; blygger-spec#30, Patrick Atwater; queue item 27): the claim crosses clients and page chrome cannot carry it (#41), so it opens, revision-grade under #43, named under #71. **Two changes to the proposal.** (1) The proposal spent a same-hash republish per entry on the premise that a member cannot change between publish events; `changelog[].pinned` already does, so the document is rewritten in place and a publisher SHOULD NOT publish a version solely to record an entry (a bookkeeping version sends plain RSS readers an entry with no new writing; #83: a change not worth an event does not get one). The class is the pin flag's — self-asserted, outside the hash and `content_html`, about a published version, nothing acted on — and is not a general side channel. (2) The proposal's fold (entry names the copy, copy links back) is satisfied by a stranger's post that criticises the item and links to it, so a publisher could have readers fold criticism away; the fold leaves the text, as reader-local presentation of non-blyg imports, and two MUST NOTs stay: no hiding or merging another party's post on an entry, no inferring that the author is that account (#11, #35). **Also:** item member, not changelog (the list is copies that exist now); `url` MUST be `https:`, no network-native id (reopen if a second reader shows URL parsing failing); endcaps and pinned files omit it, so forks inherit nothing; an entry carries no counts (§16.8). **Venkat's challenge:** a reader-side rule about showing counts has no ground, since nothing is on the wire (invariant 3, #96); dropped, and the privacy SHOULD NOT offered in its place withdrawn too. **Gate:** one client emits for a real copy without spending a version, a second shows it from an import with no fetch. Spec §16.14, twelfth revision; reasoning `v0.4-plan.md` §19.2. The same session reviewed **tn-4** (gate G3 closed, five edits, no decision; §19.1).",
+   "spec_sections": [
+    {
+     "section": "16.8",
+     "via": "spec?"
+    },
+    {
+     "section": "16.14",
+     "via": "spec"
+    },
+    {
+     "section": "19.1",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "19.2",
+     "via": "other"
+    }
+   ],
+   "relations": [],
+   "mentions": [
+    11,
+    35,
+    41,
+    43,
+    71,
+    83,
+    96
+   ],
+   "tokens": [
+    "[{url, version}]",
+    "changelog[].pinned",
+    "content_html",
+    "https:",
+    "syndication",
+    "url",
+    "v0.4-plan.md"
+   ]
+  },
+  {
+   "number": 99,
+   "title": "Protocol version 0.5 is Level 3: privacy, encryption and paid access; opened by Venkat's choice, ahead of the trigger and ahead of 1.0",
+   "session": 64,
+   "session_inferred": false,
+   "date": "2026-11-09",
+   "by": [
+    "Fable",
+    "Venkat"
+   ],
+   "line": 157,
+   "text": "**Protocol version 0.5 is Level 3: privacy, encryption and paid access; opened by Venkat's choice, ahead of the trigger and ahead of 1.0** (session 64, 2026-11-09, Venkat; recorded by Fable 5.2): reverses three recorded positions — the backlog's \"nothing before the 1.0 freeze\", the roadmap's placing of L3 after 1.0, and #93 F4's rule that the L3 round opens when RFC-5's shape E has a named case. **Amends #6's order:** v0.5 was \"Grove\" (local RAG and styling); Grove has no wire content, its styling half shipped in sessions 19–20, and its RAG half becomes Track 2 client work with no version of its own. It is a true new version under #43, since encrypted content changes what a reader must do. **Starting design, Venkat's, not yet ruled:** encrypted content goes out on the wire as static files and a reader holding the right key decrypts it; access is fine-grained, per item and perhaps per version; emerging payment rails (x402, MPP, existing crypto) and enterprise sign-on are both ways a reader comes to hold a key; ride-along key distribution (the protocol says how keys are distributed and revoked) and off-protocol distribution are both open. **What stands until the round rules:** #93's classification (C2 refused, C3 the starting shape, C1 client territory), #7 for v1 private items, #11, #12, and \"same bytes for everyone\" (§4). **Next:** Opus does the fact-finding in [`docs/l3-research-brief.md`](docs/l3-research-brief.md) (tasks R1–R8, findings into `plans/l3/`); the Fable design round follows and rules key distribution first. No spec text. Reasoning `v0.4-plan.md` §19.3.",
+   "spec_sections": [
+    {
+     "section": "4",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "19.3",
+     "via": "other"
+    }
+   ],
+   "relations": [
+    {
+     "from": 99,
+     "to": 6,
+     "type": "amends",
+     "phrase": "Amends #6's"
+    }
+   ],
+   "mentions": [
+    6,
+    7,
+    11,
+    12,
+    43,
+    93
+   ],
+   "tokens": [
+    "docs/l3-research-brief.md",
+    "plans/l3/",
+    "v0.4-plan.md"
+   ]
+  },
+  {
+   "number": 100,
+   "title": "An item's kind is fixed at its first publication; machine-made items are threads",
+   "session": 66,
+   "session_inferred": false,
+   "date": "2026-11-12",
+   "by": [
+    "Fable",
+    "Venkat"
+   ],
+   "line": 158,
+   "text": "**An item's kind is fixed at its first publication; machine-made items are threads** (session 66, 2026-11-12, Fable 5.2 + Venkat): a publisher MUST NOT change an item between fragment and thread once published; withdrawal and its reversal are the only change of kind. **Why:** a fragment is a promise to whoever quotes it — one layer, one origin's words, bounded length. If a fragment could become a thread, a quoting thread's next republish would bake in nested third-party content its author never chose and its `transclusions[]` does not name (provenance records direct quotes only, #26); under Level 3 that content could include sealed entries under other locks. Venkat's framing: transclusion is an injection path, a link is not, because a link carries no foreign bytes into a bake. A fragment that must grow is quoted by a new thread, which is the protocol's own way of composing, so nothing is lost. Staying agnostic was the alternative and was refused: a kind that describes only the current version is one nobody can rely on. Thread-to-fragment is refused by the same rule for simplicity, though harmless. **Companion:** a client that creates items on an author's behalf (tangling, any automatic split) SHOULD create threads, because \"fragment\" is the author's own statement that an item is a leaf and the choice is now permanent; `tangling-plan.md` was revised to mint threads and to drop the two refusals that kept parts legal fragments, and `background-plan.md`'s `burst` rule widened to items of either kind. Readers: SHOULD surface a change of kind and MAY decline the version (§13.3). **Evidence:** the studio API already refused the change (`updateItemOperation`, \"kind is fixed once an item has been published\") and its editor offers the switch only on drafts; none of the 8 identities held at more than one version in the session-64 crawl cache changes kind (a small sample; the wire cannot show unpinned history). A revision by #43, not a version: no conforming publisher changes, and the reader rule is SHOULD and MAY. Text: 0.4 §5.3, §13.3, §13.7, thirteenth revision. Reasoning: `docs/v0.4-plan.md` §20.",
+   "spec_sections": [
+    {
+     "section": "13.3",
+     "via": "spec?"
+    },
+    {
+     "section": "5.3",
+     "via": "spec?"
+    },
+    {
+     "section": "13.7",
+     "via": "spec"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "20",
+     "via": "other"
+    }
+   ],
+   "relations": [],
+   "mentions": [
+    26,
+    43
+   ],
+   "tokens": [
+    "background-plan.md",
+    "burst",
+    "docs/v0.4-plan.md",
+    "tangling-plan.md",
+    "transclusions[]",
+    "updateItemOperation"
+   ]
+  },
+  {
+   "number": 101,
+   "title": "Level 3's first feature is sealed content with locks and grants, taken to RFC-6; payments follow as RFC-7",
+   "session": 66,
+   "session_inferred": false,
+   "date": "2026-11-12",
+   "by": [
+    "Fable",
+    "Venkat"
+   ],
+   "line": 159,
+   "text": "**Level 3's first feature is sealed content with locks and grants, taken to RFC-6; payments follow as RFC-7** (session 66, 2026-11-12, Fable 5.2 + Venkat; **a design direction, not wire text** — the RFC's items are ruled when Fable edits it and again at its close, #66/#90): the round reviewed research R1–R7 and answered the brief's question D with a layering. **On the wire:** an OPTIONAL `sealed` list of entries on the item document (ciphertext plus the entry key wrapped under one or more locks); `content_md` carries only author-written covers and clear text, with **no new markup**, and `content_html` wraps each cover in a new permanent class (the two-plane pattern of #20); `content_hash` stays the hash of what a keyless reader reads. One mechanism at three granularities: a sealed item, a sealed span inside any item (a phrase or a block; not an item, so redaction costs no feed events), and a sealed item quoted with the existing directive, which a quoter can copy without holding a key. Entries nest (containment, AND) and carry several wraps (any one opens, OR). **Keys:** a lock is an opaque id naming a key; holding it is standing membership; an entry key is per version and is the size of an exception. A grant is a static file wrapping a key to an origin's manifest key or to another lock (lock-to-lock grants carry an organisation's own ordering; no hierarchy or group name is on the wire). A lock's home (a URL, not necessarily the origin) answers requests granted, pending or refused; its ladder — pre-approved, automatic, or a person or their AI delegate — is private. **Identity** is the origin's: one encryption-only key per origin in the manifest, never in `author` (#11 held under those two conditions, to be ruled in the RFC). Sign-on is usable and never required; the Protocol Institute, without it, is the first user. **Payments supervene:** payment is one more ground for a grant, so RFC-6 keeps five things true (per-lock and per-entry request URLs so a 402 fits, a live key-in-response path for recipients without an origin, the home as a URL, per-version entry keys, no price or rail in any document). **Refused in advance:** restrictions on use after delivery (rentals, read counts, metering). Sealed fragments as the block mechanism were considered and dropped for spans. Plan: `docs/v0.5-plan.md`, with seventeen items the RFC must settle (the second hash, key commitment, padding, #52, the second dynamic surface among them). Nothing is built before the comment period closes.",
+   "spec_sections": [],
+   "other_refs": [],
+   "relations": [],
+   "mentions": [
+    11,
+    20,
+    52,
+    66,
+    90
+   ],
+   "tokens": [
+    "author",
+    "content_hash",
+    "content_html",
+    "content_md",
+    "docs/v0.5-plan.md",
+    "sealed"
+   ]
+  },
+  {
+   "number": 102,
+   "title": "The reader suite's nine open choices, and the clause register's sole statements",
+   "session": 67,
+   "session_inferred": false,
+   "date": "2026-11-12",
+   "by": [
+    "Fable",
+    "Venkat"
+   ],
+   "line": 160,
+   "text": "**The reader suite's nine open choices, and the clause register's sole statements** (session 67, 2026-11-12, Fable 5.2 + Venkat; queue item 24: Aneesh Sathe's [blygger-spec#22](https://github.com/blygger/blygger-spec/pull/22) and [#23](https://github.com/blygger/blygger-spec/issues/23); measured in session 64 against the studio and 1,767 item documents from 9 origins): all revisions by #43 — readers display baked HTML and change nothing. **(1) A directive line in a fragment is a publish error** — #60 already called a directive with no bake and no `transclusions[]` entry a malformed document, inert-in-fragments would make the grammar depend on `kind`, and since #100 the fragment can never become the thread that would give the line meaning; two live fragments fail at their next republish and no client refuses it today. **(2) The `![[id@vN]]` reservation is of the own-line form**, with or without a label; inline it is inert like the plain sequence. **(3) Code wins, and CommonMark's block structure says where code is**; outside a code block any surrounding whitespace is ignored. **(4) A label is plain text in both forms**, escaped by the publisher (#81's one definition; a rendered label would allow an anchor in an anchor). **(5) A link to an item with no `page` names the item document** through the target's `item` template, never the permalink convention — #85's principle that a guess is never baked into published bytes; §5.8's convention fallback is for a reader's own interface. **(6) An author's relative URL resolves by RFC 3986 against the item's identity origin**, the only base the protocol defines (#14). **(7) A relative URL in a non-conformant source's held HTML is resolved against the source's origin before the bake** — the one change a baker makes to held HTML. **(8) A pin-retained bake carries the retained version**, the highest held; a reader that retained nothing publish-errors. **(9) A baked quote is never inside a `blyg-tk-gen` wrapper**: the wrapper closes before the quote and reopens after (§5.7 rule 3's disjointness), and **the span keeps one `generated[]` entry** — an entry is one generation, nothing maps wrappers to entries, and the alternative gave an agent's whole-item thread quoting ten items eleven identical entries against #66's \"one whole-item span\"; this reverses session 64's leaning toward split entries, and a checker can no longer test that the counts are equal. Four live items (studio, blyxt) have a quote inside the wrapper. **Sole statements (#23, S1–S16):** MUST or MUST NOT where another rule depends on them (S1 verified mentions off every published surface, S2 sources never in `transclusions`, S3 endcaps omit `stub_of` and `generated`, S4 local ids never fall through, S5 `stub_of.version` never decreases, S16 verification does not consult `selector`); reader MUST NOTs that state locked decisions (S6 no stub relation from the body, #27, with #80's repost test changing class and never relation; S9 the namespace is not a version, #22; S10 a reader does not re-resolve another origin's directives for display); SHOULD or SHOULD NOT for S7, S8, S13, S14; S12's 429 a MUST and \"not queued\" a SHOULD NOT, being unobservable; **S11 and S15 declined and reworded as description** — a blanket MUST NOT on \"diffs or content\" would contradict §5.2's allowance between two pinned versions. The closure walk's definition moved into its MUST; §16.6d's heading corrected. Studio changes for Opus: the fragment error, the link fallback, the wrapper split (studio#105), and origin-relative media links on path-mounted nodes. Text: 0.4 fourteenth revision. Reasoning: `docs/v0.4-plan.md` §21.",
+   "spec_sections": [
+    {
+     "section": "5.8",
+     "via": "spec?"
+    },
+    {
+     "section": "5.7",
+     "via": "spec?"
+    },
+    {
+     "section": "5.2",
+     "via": "spec?"
+    },
+    {
+     "section": "16.6d",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "21",
+     "via": "other"
+    }
+   ],
+   "relations": [],
+   "mentions": [
+    14,
+    22,
+    23,
+    27,
+    43,
+    60,
+    66,
+    80,
+    81,
+    85
+   ],
+   "tokens": [
+    "![[id@vN]]",
+    "blyg-tk-gen",
+    "docs/v0.4-plan.md",
+    "generated",
+    "generated[]",
+    "item",
+    "kind",
+    "page",
+    "selector",
+    "stub_of",
+    "stub_of.version",
+    "transclusions",
+    "transclusions[]"
+   ]
+  },
+  {
+   "number": 103,
+   "title": "Unicode on the wire, and what conformance costs",
+   "session": 67,
+   "session_inferred": false,
+   "date": "2026-11-12",
+   "by": [
+    "Fable",
+    "Venkat"
+   ],
+   "line": 161,
+   "text": "**Unicode on the wire, and what conformance costs** (session 67, 2026-11-12, Fable 5.2 + Venkat; [blygger-spec#6](https://github.com/blygger/blygger-spec/issues/6) and the session-29 exploration `plans/unicode-support-proposal.md`, reviewed with the other three `plans/` documents; measured first against the session-64 crawl cache — 1,836 item documents from 10 origins — and the census's 36 hosts: no `content_md` outside NFC, no control characters, no bidi overrides, every `content_hash` equal to SHA-256 of the UTF-8 bytes, every origin ASCII and lowercase): all revisions by #43. **(1) The hash is over the bytes served, on purpose.** Publishers SHOULD publish `content_md` in NFC; readers MUST NOT normalize an import; nothing published is renormalized and pins are never rewritten. NFC is a SHOULD where the proposal had a MUST, because nothing else in the protocol depends on it (the hash is over bytes either way) and whether a string is NFC depends on the checker's Unicode version. **(2) An origin string has one spelling and origins are compared byte for byte**: ASCII only, lowercase scheme and host, A-label for an internationalized host, no default port, path percent-encoded with uppercase hex, a final `/`, no query or fragment; a URL from the network is put into that form before comparison. MUST, since #61's verification depends on it. Stated as a property, so checking takes no library. **(3) A cap in characters counts code points.** **(4) `content_md` is text**: no C0 controls but tab, LF and CR, no unpaired surrogates (MUST, because one breaks every subscriber's parse of the whole feed); a truncation MUST NOT produce an unpaired surrogate and SHOULD NOT split a grapheme cluster. **(5) A manifest `lang` key is parked**, by #47's rule of a measured need: no live blyg publishes primarily in another language; the trigger is the first that does, or the directory wanting to group by language; RSS `<language>` needs no ruling. Per-item `lang` and a `dir` rule are refused as #46 was. **(6) §14 gains two bullets**: bidirectional controls in attributed strings and baked quotes (readers SHOULD isolate), and look-alike origins (identity is the string). **(7) The conformance-cost criterion is written into §3, non-normative and asymmetric** (Venkat's session-29 no-vendoring ruling read at the protocol level): a rule enters the spec only if a reader or receiver can meet it from a standard library; a publisher is assumed to hold what publishing already takes. The strict form (\"any rule, from a stdlib\") was not adopted because it is already false for publishers, who need a markdown renderer. It is a test for new rules, not a claim about every older sentence. **The other three explorations needed no ruling:** pour-over links (its wire question was #55; its subscribe-first path is superseded by #82), the rich editor (its byte-rewrite question was answered by #78; a block document model on the wire is refused under #1), publishing patterns (the variorum stays reserved with blygger-spec#8 as trigger; its §10.2 sentence already exists). Two calls left with Venkat in `docs/pending-calls.md`: whether the patterns catalogue is published, and how far the no-vendoring ruling reaches. Text: 0.4 fifteenth revision (§3, §5.1, §5.3, §5.9, §12.2, §14). Reasoning: `docs/v0.4-plan.md` §22.",
+   "spec_sections": [
+    {
+     "section": "14",
+     "via": "spec?"
+    },
+    {
+     "section": "3",
+     "via": "spec?"
+    },
+    {
+     "section": "10.2",
+     "via": "spec?"
+    },
+    {
+     "section": "5.1",
+     "via": "spec?"
+    },
+    {
+     "section": "5.3",
+     "via": "spec?"
+    },
+    {
+     "section": "5.9",
+     "via": "spec?"
+    },
+    {
+     "section": "12.2",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "22",
+     "via": "other"
+    }
+   ],
+   "relations": [
+    {
+     "from": 82,
+     "to": 103,
+     "type": "supersedes",
+     "phrase": "superseded by #82"
+    }
+   ],
+   "mentions": [
+    1,
+    43,
+    46,
+    47,
+    55,
+    61,
+    78,
+    82
+   ],
+   "tokens": [
+    "<language>",
+    "content_hash",
+    "content_md",
+    "dir",
+    "docs/pending-calls.md",
+    "docs/v0.4-plan.md",
+    "lang",
+    "plans/",
+    "plans/unicode-support-proposal.md"
+   ]
+  },
+  {
+   "number": 104,
+   "title": "The payments direction, and five additions to the sealed-content direction",
+   "session": 67,
+   "session_inferred": false,
+   "date": "2026-11-12",
+   "by": [
+    "Fable",
+    "Venkat"
+   ],
+   "line": 162,
+   "text": "**The payments direction, and five additions to the sealed-content direction** (session 67, 2026-11-12, Fable 5.2 + Venkat; amends #101; **a design direction, not wire text**, ruled when Fable edits the RFCs and again at their close): **Venkat's principle** — payment rests on competing schemes, as identity does, so the protocol holds minimal opinion and any rail or verification scheme rides it; base cases are cards, x402 and MPP; NFT gating is not blocked and not the target. **Demand pattern:** fast, frequent, agent-driven buying under delegated spending authority is the default; people set limits and preferences; subscriptions are standing access to a class of content for a renewing period. **RFC-7 proposes no wire construct**; it is a recommendation that becomes a technical note (#90), and everything it needs is in RFC-6. **Added to RFC-6:** (1) an OPTIONAL plain-text `about` on a sealed entry, the seller's own description, never a title (#46), with one rule for readers — `about`, else the cover — and the entry's commitment proposed to bind whichever was shown; (2) the **pass**, a bare public key as a third grant recipient, for readers with no origin: static, re-fetchable, a bearer instrument; (3) a home MAY answer a request with any HTTP challenge, and the first answer to a probe is the same for everyone; (4) **epochs**: a lock keeps a stable id and each epoch has its own key, so a subscription is a standing claim on the lock and renewal is obtaining the next epoch's key; (5) **terms**: a reference to a stable document in `stub_of`'s two shapes, a pinned blyg version or a plain URL, on a wrap, optionally on a grant, and on an item or manifest for public content — a citation and never enforcement, no rights vocabulary, never a gate for readers, never a mention. This is the protocol's first rights construct of any kind. **The door:** the request URL answers 402 in the rail's own format; hold, probe, then ask; `rel=\"payment\"` for a person; two doors per entry, the entry's and the lock's. **No price, currency, rail or for-sale flag in any protocol document** (Venkat agreed). **The assumptions are written down** (plan §8.1, thirteen, agent-first buying the first, each with what to revisit if it is wrong) and RFC-7 must carry them as its own section. **Without an origin:** pay at a storefront, redeem a voucher (opaque evidence, no wire text) into a pass; a `redeem` verb goes to RFC-4's handler. **Disclosed, not ruled:** reversal, third-party homes holding lock keys, paid content travelling with quotes, on-chain member lists. **Rent and purchase (revised the same session, Venkat's question; narrows #101's refusal):** the wire does not choose. A held key keeps working, so what a lapsed subscriber keeps is decided by which keys the home hands out — *holding* (epoch lock keys: everything in the paid epochs, read with no traffic) or *on demand* (one entry key per item opened, free under the subscription: the home stops answering on lapse, at the cost of seeing every first read). Rent is the expected default; the RFC states the trade-off and recommends neither. A lapsed grant is proposed as a **retention event** (plan §9 item 15: a conforming reader drops the key and decrypted copies, as on withdrawal; cooperation, said as such). **What #101 refuses is now worded as constructs on the wire that claim to restrict use after delivery** — expiry times, read counts, metering — not rental as a business model; locking out a non-cooperating reader stays impossible without per-reader serving (#93), re-encrypting the back catalogue, or a trusted runtime. Purchase is weaker than the word: an entry key opens one version, superseded versions stop being served unless pinned, and withdrawal reaches paid content, so a seller who means \"buy\" SHOULD pin what was sold and corrections should be free. An earlier draft of this decision imposed \"a lapsed subscriber keeps what they paid for\"; Venkat declined to impose it without an architectural reason, and there was none. Three strawmen (the door, the pass, the voucher) were put and composed, not chosen between. Opus drafts RFC-7 beside RFC-6; the two go to Fable and are meant to publish together. Plan: `docs/v0.5-plan.md` §3.1, §3.6–§3.9, §8, §9 items 18–24, §12 (a worked example).",
+   "spec_sections": [],
+   "other_refs": [
+    {
+     "section": "8.1",
+     "via": "other"
+    },
+    {
+     "section": "9",
+     "via": "other"
+    },
+    {
+     "section": "3.1",
+     "via": "other"
+    },
+    {
+     "section": "3.6",
+     "via": "other"
+    },
+    {
+     "section": "3.9",
+     "via": "other"
+    },
+    {
+     "section": "8",
+     "via": "other"
+    },
+    {
+     "section": "12",
+     "via": "other"
+    }
+   ],
+   "relations": [
+    {
+     "from": 104,
+     "to": 10,
+     "type": "amends",
+     "phrase": "amends #10"
+    }
+   ],
+   "mentions": [
+    46,
+    90,
+    93
+   ],
+   "tokens": [
+    "about",
+    "docs/v0.5-plan.md",
+    "redeem",
+    "rel=\"payment\"",
+    "stub_of"
    ]
   }
  ]
