@@ -34,7 +34,7 @@ So a home can pre-approve people without ever contacting them. It writes the fil
 
 When a request has to be decided, the home works through what RFC-6 calls a **ladder**: pre-approved, automatic yes, automatic no, or ask a person. That person can be the lock's owner or the owner's **AI delegate**, working from standing instructions. How a home decides is entirely its own business. It might use a roster, a sign-on token, a signed NDA or a payment.
 
-One rule protects member lists. A home may answer "granted" on the spot only when the request itself earned it, for instance with a payment or a token. If it answered instantly for everyone already on its roster, anyone could name a stranger and learn from the reply whether that stranger is a member.
+One rule protects member lists. Anyone can put a stranger's address in a request, so a home tells a reader where it stands only when the request proves it comes from that reader. The proof uses a secret that only the home and the reader can work out, and it convinces nobody else. A request without it gets the answer anyone would get, so nobody can learn from a home whether someone else is a member.
 
 ## A promise the publisher can't quietly break
 

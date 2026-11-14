@@ -2,12 +2,15 @@
 
 **Request for comments · non-normative · OPEN FOR COMMENT until 2026-11-28 on
 [blyg.blygger.org](https://blyg.blygger.org/t/2wcgk0vrwm3wknmdnxtrdh2ecd/) (#66); without a blyg, comment on [blygger-spec#35](https://github.com/blygger/blygger-spec/issues/35) ·
-session 68, 2026-11-12; published session 70, 2026-11-14, as Opus's draft before Fable's
-edit, on Venkat's word.** Drafted by Opus 5.5 at Venkat Rao's request from
+session 68, 2026-11-12; published session 70, 2026-11-14, and edited by Fable 5.2 the
+same day (decision #106).** Drafted by Opus 5.5 at Venkat Rao's request from
 [`docs/v0.5-plan.md`](../v0.5-plan.md) §8 (the payments direction of decision #104) and
 research R1 (`plans/l3/r1-payment-rails.md`), with x402, MPP and the `payment` link
-relation re-checked against their primary sources the same day (section 13). Fable edits
-it beside [RFC-6](rfc-6-sealed-content.md) during the comment period. The two publish together, because three of RFC-6's constructs exist for this RFC's sake and a commenter needs
+relation re-checked against their primary sources the same day (section 13). Fable's edit
+changed little here: it follows RFC-6's two changes at the door (a request may prove it
+is the recipient's own, and a refusal is guarded as a grant is; sections 3 and 5), and
+the rest stands as the position the comment period argues with. The two RFCs publish
+together, because three of RFC-6's constructs exist for this RFC's sake and a commenter needs
 both. Like a technical note, an RFC constrains nothing. **It proposes no wire
 construct**: everything payments need on the wire is in RFC-6. It is a recommendation for
 how homes and readers do payments, and when its comment period closes it becomes a
@@ -124,7 +127,10 @@ added to it: no Blygger header, no Blygger price format, no Blygger payment obje
 3. **Pay.** The buyer POSTs the request (RFC-6 section 3.11) naming its recipient, an
    origin or a pass, with the rail's credential. The answer carries the key wrapped to
    the recipient and the rail's receipt, and the home writes the grant file, so the key
-   can be fetched again without paying again.
+   can be fetched again without paying again. **A paid request needs no proof of the
+   recipient** (RFC-6 section 3.11): the grant follows from the payment, and it is
+   wrapped to the recipient named, so paying for someone else's key is a gift and
+   nothing worse.
 4. **A person at a browser.** The 402 carries `Link: <…>; rel="payment"` to a checkout
    page bound to the request. The person pays there, and the reader polls its grant path
    as for any pending request.
@@ -255,7 +261,10 @@ chooses by which keys it hands out:
 
 On demand is rent as buyers know it: a lapsed subscriber of an incumbent service loses
 the archive and keeps the emails already received. It uses entry-key grants and nothing
-new. The trade-off is a reading log at the home against a real lapse. **This RFC
+new. Each request carries the proof of RFC-6 section 3.11: "has a live subscription" is
+a fact about who the recipient is, which a home says live only to a request proven to
+be that recipient's. Without the proof the reader is told "pending" and fetches its
+grant path, one round trip more. The trade-off is a reading log at the home against a real lapse. **This RFC
 recommends neither.** A home may mix them, for example epoch keys for the current period
 and on demand for the archive.
 

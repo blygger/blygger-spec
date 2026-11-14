@@ -116,11 +116,11 @@
     },
     {
       "file": "docs/rfcs/rfc-6-sealed-content.md",
-      "model": "claude-opus-5-5",
+      "model": "claude-opus-5-5+claude-fable-5-2",
       "pin": true,
       "notes": {
         "first": "RFC-6 open for comment until 2026-11-28.",
-        "revision": "RFC-6 revised during its comment period."
+        "revision": "RFC-6 edited by Fable (decision #106): section 9 opens with what was ruled."
       },
       "id": "194zwhh5036j2fxxk5b2hw3m81",
       "version": 1,
@@ -128,11 +128,11 @@
     },
     {
       "file": "docs/rfcs/rfc-7-payments.md",
-      "model": "claude-opus-5-5",
+      "model": "claude-opus-5-5+claude-fable-5-2",
       "pin": true,
       "notes": {
         "first": "RFC-7 open for comment until 2026-11-28.",
-        "revision": "RFC-7 revised during its comment period."
+        "revision": "RFC-7 edited by Fable (decision #106), following RFC-6's changes at the door."
       },
       "id": "2wcgk0vrwm3wknmdnxtrdh2ecd",
       "version": 1,
@@ -145,7 +145,7 @@
       "footer": "post",
       "notes": {
         "first": "An explainer for RFC-6 (sealed content) and RFC-7 (payments), open for comment until 2026-11-28.",
-        "revision": "Sealed content and payments post revised; see the source history."
+        "revision": "One paragraph revised to follow RFC-6's edit: a home tells a reader where it stands only when the request proves it is that reader's."
       },
       "id": "6em279j4r93c6t3tbc3dkpn05b",
       "version": 1,

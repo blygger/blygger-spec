@@ -5,9 +5,9 @@
 session 68, 2026-11-12; published session 70, 2026-11-14.** Drafted by Opus 5.5 at Venkat Rao's request from
 [`docs/v0.5-plan.md`](../v0.5-plan.md) (the design direction of decisions #101 and #104)
 and the Level 3 research in `plans/l3/` (R1–R7). Published together with
-[RFC-7](rfc-7-payments.md), which depends on it (#104), **as Opus's draft, before Fable's
-edit**, on Venkat's word: Fable's edits and rulings arrive as revisions during the comment
-period. Like a technical note, an RFC
+[RFC-7](rfc-7-payments.md), which depends on it (#104), as Opus's draft on Venkat's word,
+and **edited by Fable 5.2 the same day (session 70, decision #106)**: section 9 opens with
+what that edit ruled, what it changed and what stays open for the comment period. Like a technical note, an RFC
 constrains nothing. When its comment period closes it becomes a technical note (#90), and
 its constructs feed the 0.5 document once they are built and exercised (#21, #43). Written
 against protocol 0.4 at its fifteenth revision; no pre-1.0 version promises anything
@@ -15,8 +15,9 @@ against protocol 0.4 at its fifteenth revision; no pre-1.0 version promises anyt
 
 **How to read the proposals.** The plan fixed the direction; it left names, shapes and
 twenty-four questions open. Every choice this draft makes that the plan did not is marked
-*Proposal (Opus)*. Section 9 lists the items to be ruled, each with its options, the
-proposal and a test that would show the proposal right or wrong. Where the draft departs
+*Proposal (Opus)*; a change made at the edit is marked *Fable, at the edit*. Section 9
+lists the items, each with its options, the proposal and a test that would show the
+proposal right or wrong, under a table of where each stands after the edit. Where the draft departs
 from the plan, it says so and why (section 9 items 12, 23 and 24, and section 11).
 
 ## Summary
@@ -59,9 +60,9 @@ replaces the plan's clear `sealed_hash`, which would have let anyone confirm a g
 the sealed text; an unchanged entry carried byte for byte into the next version, so that
 "maintenance" stays computable and an entry key is per *content*, not per version; a text
 selector on each span for markdown-rendering clients; a small **home document** carrying
-the home's public key, from which grant paths are derived without contact; a live
-answer only when the grant follows from what the request carried, never from who the
-recipient is; and a correction to the plan from the rails themselves: **a 402 must not
+the home's public key, from which grant paths are derived without contact; a home that
+answers about a recipient only to a request proven to come from that recipient (the
+edit's change, section 3.11); and a correction to the plan from the rails themselves: **a 402 must not
 be cached** (MPP requires `Cache-Control: no-store`), so "the same first answer for
 everyone" means the same in substance, not cacheable bytes.
 
@@ -308,9 +309,9 @@ sealed**, member by member:
 |---|---|---|
 | `id`, `kind`, `version`, `created`, `updated`, `changelog[].at`, `pinned` | clear | The watermark (§13.3), reconciliation (§13.2) and staleness (§5.9) need them. The timing leak is disclosed (section 7) |
 | `content_md`, `content_html`, `content_hash` | clear; covers and clear text only | Level 2 display and the feed (#4) |
-| `transclusions[]`, `links[]`, `stub_of`, `forked_from`, `generated[].sources[]` **identities** (`origin`, `id`, `version`) | clear by default | Mentions verify (§15.4) and staleness works only if a stranger can read them. The cost: a sealed item's citations are public |
+| `transclusions[]`, `links[]`, `forked_from`, `generated[].sources[]` **identities** (`origin`, `id`, `version`) for a reference made in clear text; `stub_of` always | clear | Mentions verify (§15.4) and staleness works only if a stranger can read them. A stub is a public response to its target; a response whose target must stay secret is not a stub |
 | Any reference member that **carries words**: `selector`, `cited.excerpt`, `cited.author`, a directive's label | inside the plaintext when the quote or link sits in sealed text | These are sealed words in another field (R4 §3 item 1) |
-| A reference that occurs only inside sealed text | clear by default; the author MAY list it inside the plaintext instead | Inside, it sends no mention and is invisible to strangers: silent, and honest about it |
+| A reference made only inside sealed text | **the publisher's choice, per reference**: clear, or inside the plaintext *(Fable, at the edit)* | Clear, it verifies and notifies, and tells everyone what the sealed words cite: in a redaction, that can name the thing redacted, and a published reference cannot be taken back. Inside, it sends no mention and nobody outside the audience learns of it. Recommended to clients: **inside for a span, clear for a wholly sealed item** (section 9, item 6) |
 | `media[]` | media used only by sealed words are listed inside the plaintext; their files are encrypted | A clear image beside a sealed caption publishes the image. Encrypted media: section 3.8 |
 | `generated[]` | entries for clear generated text clear; entries for generated text inside a seal inside the plaintext | `model` and `sources` describe sealed words |
 | `author` | clear | The byline is the publication's face (#11 untouched). A sealed byline is a sealed span in the prose |
@@ -399,8 +400,11 @@ path   = base32(HKDF-SHA-256(shared, salt = home URL,
 subject = "lock:" ‖ lock ‖ ":" ‖ epoch      or      "entry:" ‖ commit
 ```
 
-For a lock recipient (a lock-to-lock grant), `shared` is that lock's key at the epoch in
-question, so every holder of lock B can compute where the grants to B are. **Pre-approval
+For a lock recipient (a lock-to-lock grant), `shared` is the recipient lock's key at one
+of **its own** epochs, so every holder of lock B at that epoch can compute where the
+grants to B are. A holder tries each epoch key of B it holds. A home that means a
+lock-to-lock grant to continue writes it again for each new epoch of B; one it does not
+rewrite stays with those who held B then *(Fable, at the edit)*. **Pre-approval
 needs no contact**: the home writes the grant before the recipient asks, and the
 recipient finds it by computing the path.
 
@@ -451,6 +455,22 @@ by hand, or homes its locks at a home someone else runs.
   untrusted text the home handles as data. `evidence` is opaque to the protocol: a
   sign-on token, a payment voucher, a signed acceptance of terms, whatever the home's
   ladder accepts.
+- **Proof of the recipient** *(Fable, at the edit; section 9 item 28).* A request MAY
+  carry
+
+  ```json
+  "proof": { "at": "2026-11-14T22:10:05Z", "mac": "<base64url HMAC-SHA-256>" }
+  ```
+
+  where `mac = HMAC-SHA-256(k, "blyg-request-v1" ‖ request URL ‖ at)`,
+  `k = HKDF-SHA-256(shared, salt = home URL, info = "blyg-request-v1")`, and `shared` is
+  the X25519 secret between the home's key and the recipient's, the one grant paths are
+  derived from (section 3.10). Only the holder of the recipient's private key can compute
+  it, and the home checks it with its own. The home refuses a proof whose `at` is more
+  than five minutes from its clock. It is a MAC, not a signature: it convinces the home
+  and nobody else, so an origin's key still signs nothing (section 6). **A proven request
+  is the recipient's own. An unproven one may come from anybody**, whatever origin it
+  names.
 - **Three answers**: **granted** (200, with the key wrapped to the recipient, or a
   statement that the grant file now exists), **pending** (202; the requester polls its
   grant path), **refused** (403, optional note). The home wraps any grant to the key in
@@ -467,14 +487,23 @@ by hand, or homes its locks at a home someone else runs.
   x402's HTTP transport says to keep the 402 out of shared caches
   (`specs/transports-v2/http.md`, "Browser clients"). A home may still serve a static,
   cacheable offer list in its rail's own format; the protocol specifies none.
-- **When a live answer is allowed** *(Proposal (Opus); plan §9 item 12).* A home answers
-  "granted" live only when the grant follows from **what the request itself carried**:
-  its evidence, its payment, a pass the requester holds. A grant that follows from **who
-  the recipient is** (an origin on a roster, a pre-approval) is delivered only at the
-  grant path, and the live answer is "pending". Otherwise anyone could name a stranger's
-  origin and learn from the answer whether that origin is on the roster: the home would
-  be an oracle for its own member list, which is the follower list #12 and #13 refuse,
-  served one query at a time.
+- **A home answers about a recipient only to that recipient** *(Fable, at the edit;
+  replaces the draft's rule, section 9 item 12).* Anyone can name a stranger's origin in
+  a request. If the answer depended on whether that origin is on a roster, the home
+  would be an oracle for its own member list, which is the follower list #12 and #13
+  refuse, served one query at a time. So:
+    - **To a proven request** a home may answer anything live: granted, pending, refused.
+      The asker has shown it is the recipient, and learning one's own standing is no leak.
+    - **To an unproven request** a home gives the answer it would give anyone: a
+      challenge, or a grant that follows from **what the request itself carried** (its
+      evidence, its payment), wrapped to the named recipient. Whatever depends on **who
+      the recipient is** — a grant *or a refusal* — is not said live: the answer is
+      "pending", in the same time, and the outcome is found at the grant path, which
+      only the recipient can compute.
+    - A home SHOULD NOT put an unproven request in front of a person or a delegate as
+      coming from the origin it names. Its `note` is anybody's text.
+  The draft's rule covered grants and left refusals: a home that refused non-members
+  live and answered members "pending" told the two apart.
 - **CORS.** A request endpoint meant for browser readers sends credentialed-CORS headers
   for the calling origin, never `*` with credentials (R4 §2.1), and exposes whatever
   challenge headers its rail uses (x402 lists its own).
@@ -532,7 +561,8 @@ to say "CC BY". One construct serves all of them: **a reference to a stable docu
    epoch, this one entry, or (through lock-to-lock grants) a lock it holds. A 200 is a
    grant.
 3. **Ask.** Finding nothing, it may POST a request to whichever home it thinks likeliest
-   to agree.
+   to agree, with a proof that it is the recipient it names (section 3.11), so that the
+   home may answer it at once.
 4. **Decide.** The home runs its ladder: **pre-approved** (the grant already exists),
    **automatic** (a rule over origins, rosters — an OPML list is one natural form — or
    presented evidence), or **exception** (queued for the lock's owner or their AI
@@ -564,9 +594,14 @@ says "this lock, ask here" in both cases.
 | One pinned entry | A grant of that entry's key (by commitment) to a lock or origin; the pinned bytes are untouched | No |
 | Public | Reveal the entry key in the clear (any reader then checks it against the commitment), or publish a new version with the words in place of the cover | Yes |
 
-*Proposal (Opus)* for the reveal: a wrap of the form `{"lock": "public", "key": "<entry key
-in the clear>"}`. A conforming reader shows revealed content as ordinary content, and a
-Level 2 reader still shows the cover until the publisher replaces it.
+*Fable, at the edit* (the draft had a wrap under a lock named `"public"`): the reveal is a
+member of the entry, `"revealed": "<entry key, base64url>"`, beside its `wraps`. A lock id
+is an opaque random string, and a reserved word among them is a second meaning for the
+field. A conforming reader checks the revealed key against the commitment and shows the
+content as ordinary content; a Level 2 reader still shows the cover until the publisher
+replaces it. A reveal is a new version that changes no ciphertext, so it reads as
+maintenance, and it cannot be undone: the same key opens every earlier and pinned
+version that carries the entry.
 
 **Revocation**, stated in the register of §9 ("cooperation, not cryptography"):
 
@@ -658,7 +693,8 @@ Under this design a stranger learns, and the RFC says so rather than hiding it:
 - **Size class**, to a padding bucket (section 3.3).
 - **Which entries share a lock**, since lock ids are clear (section 9 item 7), and which
   home each lock uses.
-- **Citations.** A sealed item's references are clear by default (section 3.7).
+- **Citations**, where the publisher leaves them clear, and `stub_of` always (section
+  3.7).
 - **Epoch cadence**, which may reveal a home's rotation or billing period (section 9 item
   21).
 - **Member counts if the grants host lists.** Grant paths are unguessable, but a host
@@ -696,7 +732,7 @@ full checklist; these are its answers under this design.
 | §5.2 depth rule | Gains a clause: a clear note never reproduces sealed content (section 3.7) |
 | §5.3 kinds, cap | No new kind; a sealed fragment's cap counts its plaintext |
 | §5.4 media | Encrypted media for sealed words (section 3.8) |
-| §5.6 forks | A forker without the key cannot fork the sealed words; one with the key publishes them in its own audience. Client policy, as #93 F3 treated quoting across a boundary (item 14) |
+| §5.6 forks | A forker without the key cannot fork the sealed words, and keeps the seal by carrying each entry as a copy with `from`, exactly as a quote does (section 3.9): the entry's AAD names the source item, so it cannot be re-homed. One with the key may do the same, or publish the words in its own audience. Client policy, as #93 F3 treated quoting across a boundary (item 14) |
 | §5.7 generation | Sealed text fed to a generator lands in the generating item's audience. Client policy (item 14) |
 | §5.9 references, `cited` | Identities clear; `cited.excerpt` of a sealed target is sealed words and goes inside or is omitted |
 | §6.2 index, §7 feed | Sealed items listed with covers; spans add no events; a plain RSS reader sees covers (item 8) |
@@ -717,7 +753,42 @@ full checklist; these are its answers under this design.
 Every item is new wire (four-question test, Q2 yes), so every item is Fable's, at the edit
 or at the close. Each states the options, the proposal and a **test**: the check that
 would show the proposal right or wrong. Items 1–24 are the plan's §9, in its order; items
-25–27 are new.
+25–27 were new in the draft; item 28 was added at the edit.
+
+### Where each item stands after the edit (Fable 5.2, session 70, decision #106)
+
+A ruling made at the edit is the position the comment period argues with, not a closed
+question: the close revises it in the light of what was said (#90). "Stands" means the
+proposal is the position; "open" means the edit did not rule, and says what would.
+
+| Item | After the edit |
+|---|---|
+| 1, 23 Second hash, `sealed_hash` | **Ruled as proposed**: no hash of sealed text anywhere in the clear. A hash an outsider can test a guess against is not an integrity feature |
+| 2, 19 Commitment | **Ruled as proposed**. The probe confirms the two-key case is rejected |
+| 3 Algorithms; the conformance-cost criterion | Suite: **stands, open until the probe** has run it in a browser, a Worker, Go and Python. Criterion: **ruled, option (a)**. §3's paragraph on what conformance costs describes a reader that does not decrypt, and stays true of it: such a reader ignores `sealed`, shows covers and compares commitments as strings. A reader that decrypts holds its platform's cryptography library, and the 0.5 text will say so. One suite, chosen because browsers have it, is what keeps that cost the same for every client |
+| 4 Padding | **Stands**; the bucket sizes are open to the probe's measurements |
+| 5 Selector | **Ruled as proposed** |
+| 6 What stays clear | **Ruled with one change**: a reference made only in sealed text is clear or inside at the publisher's choice, with no default on the wire. The draft's "clear by default" would have had a redaction publish, in `links[]`, the identity it redacts. Recommended to clients: inside for a span, since a span exists to hide something in a public text and what it cites is the likeliest thing hidden; clear for a wholly sealed item, since that is a publication to a narrower audience and its use of other people's words is the case #44's reasoning on notification speaks to. `stub_of` is always clear |
+| 7 Lock ids visible | **Ruled as proposed, for a different reason.** The draft said a home's URLs are per lock; they are not, a home serves many. The reason is that a reader who holds nothing must be able to name the lock it is asking for |
+| 8 Index and feed | **Ruled as proposed** |
+| 9 Pins | **Ruled as proposed** |
+| 10 Carve-out; #52 | **Ruled as proposed.** #52's line is about how a tool finds and authenticates to a studio's write surface. A key for receiving confidential bytes authorises nothing, and is authenticated as everything here is, by being served from the origin |
+| 11 Grant paths | **Stands**, with the lock-to-lock epoch made explicit (section 3.10); two implementations agreeing is the test |
+| 12 The oracle | **Ruled with a change**: section 3.11's rule, resting on item 28 |
+| 13 Mentions | **Ruled as proposed**, for clear references |
+| 14 Generation, forks, display | **Ruled as proposed** (client policy), with the mechanics of a kept seal stated (section 8, §5.6 row) |
+| 15 Lapse | **Ruled as proposed**: SHOULD, cooperation, said as such |
+| 16 Post-quantum | **Ruled as proposed**: disclose, reserve `alg` |
+| 17 Conformance | **Stands**; the clauses are written when the constructs are built (#21) |
+| 18 `about` | **Stands**; the cap is open to implementers' answers (section 10) |
+| 20 The pass | **Stands**; whether readers without an origin are a real population is section 10's first question |
+| 21 Epochs | **Ruled as proposed** |
+| 22 Terms | **Stands, and is not split out.** The item and manifest uses stay in this RFC until the close, so the construct is argued once |
+| 24 Request shape | **Stands**, with `proof` added (item 28) |
+| 25 Partial quotes | **Ruled as proposed**: whole covers only |
+| 26 Home document | **Ruled as proposed** |
+| 27 Reveal | **Ruled with a change**: an entry member `revealed`, not a reserved lock id (section 5) |
+| 28 Request proof | **New, ruled at the edit**; the MAC's exact input is open to the probe |
 
 ### Wire shape
 
@@ -770,15 +841,17 @@ would show the proposal right or wrong. Items 1–24 are the plan's §9, in its 
 
 **6. What stays clear.**
 - *Proposal:* section 3.7's table: references and counters clear, words sealed, a clear
-  note never reproduces sealed content.
+  note never reproduces sealed content. *At the edit:* a reference made only in sealed
+  text is the publisher's choice, clear or inside (see the table above).
 - *Test:* every row of R4's audit table has an answer under the proposal, and no member
   that carries a target's words is clear when the words are sealed.
 
 **7. Lock ids are visible.**
 - *Options:* accept; blind them per entry (an HMAC of the lock id under the lock key, so
   only holders recognise their locks).
-- *Proposal:* accept and disclose. Blinding hides which entries share a lock only from
-  someone who cannot see the home URLs, and a home's URLs are per lock.
+- *Proposal:* accept and disclose. *At the edit:* the reason is that a reader holding
+  nothing asks for a lock by its id (`{home}l/{lock}`), so a blinded id leaves it nothing
+  to ask for.
 - *Test:* none needed beyond the disclosure; revisit if an implementer names a case where
   shared-lock visibility harms them.
 
@@ -815,17 +888,19 @@ would show the proposal right or wrong. Items 1–24 are the plan's §9, in its 
 
 **12. Abuse of the request endpoint, and the oracle.**
 - *Proposal:* section 3.11: a probe's answer is the same for everyone in substance and is
-  not cached; a live "granted" only for grants that follow from what the request carried;
-  rate limits private. **This departs from the plan's "cacheable"**, because both rails
-  forbid caching a 402.
-- *Test:* naming an origin that is on a roster, and one that is not, produces
-  indistinguishable answers.
+  not cached; rate limits private. **This departs from the plan's "cacheable"**, because
+  both rails forbid caching a 402. *At the edit:* a home answers about a recipient only
+  to a proven request (item 28); an unproven one learns nothing that depends on who the
+  recipient is, grant or refusal.
+- *Test:* unproven requests naming an origin on a roster and one that is not get answers
+  indistinguishable in content and in time; a proven request from the rostered origin is
+  granted live.
 
 ### Behaviour
 
 **13. Mentions.**
-- *Proposal:* yes. References stay clear, so a sealed item sends and verifies mentions
-  like any item; the receiver displays the cover; repost classification reads the cover.
+- *Proposal:* yes. A clear reference sends and verifies a mention like any other, so a
+  sealed item with clear references behaves like any item; the receiver displays the cover; repost classification reads the cover.
   A reference listed inside the plaintext sends nothing.
 - *Test:* a sealed stub of a public item verifies on a 0.4 receiver unchanged.
 
@@ -915,8 +990,23 @@ would show the proposal right or wrong. Items 1–24 are the plan's §9, in its 
 - *Test:* a pre-approved recipient finds its grant with no prior contact.
 
 **27. Revealing a key in the clear.**
-- *Proposal:* the `"lock": "public"` wrap of section 5.
+- *Proposal (Opus):* a wrap under a lock named `"public"`. *At the edit:* an entry member
+  `revealed` (section 5).
 - *Test:* a Level 3 reader shows a revealed entry; the commitment checks.
+
+### Added at the edit
+
+**28. Proof that a request is the recipient's.**
+- *Options:* (a) none: any request may name any origin, and the home guards its roster by
+  never answering live about a recipient (the draft); (b) a signature by the recipient's
+  key, which needs a signing key the design refuses (section 6); (c) a MAC under the
+  secret the home and the recipient already share for grant paths.
+- *Ruled:* (c), section 3.11. It needs nothing the suite lacks (X25519, HKDF, HMAC), it
+  proves nothing to a third party, and it lets a home answer its own members at once,
+  which on-demand subscriptions need (RFC-7 section 5).
+- *Open:* the exact bytes under the MAC and the clock window.
+- *Test:* a request with a valid proof is answered live; the same request with the proof
+  of a different key, or one six minutes old, is answered as an unproven request.
 
 ## 10. Questions for implementers
 
@@ -956,6 +1046,11 @@ Recorded because each will be proposed.
 9. **Sealed fragments as the block mechanism.** Dropped in session 66 for spans, which
    cost no feed events.
 10. **A cacheable 402.** The plan's; both rails forbid it (section 3.11).
+11. **A signature on a request.** It would give every origin a signing key, which
+    section 6 refuses. The MAC of section 3.11 proves the same thing to the one party
+    that needs it.
+12. **A reserved lock id meaning "public".** A second meaning for a field of opaque ids;
+    the reveal is its own member (section 5).
 
 ## 12. Relation to other documents
 
@@ -985,11 +1080,11 @@ disposition for each. *All are proposals (Opus).*
 |---|---|---|
 | Stranger reads sealed content | Needs a lock key or an entry key | **Prevent** (AES-256-GCM) |
 | Stranger learns existence, timing, edit count, size class | Index, feed, counters, padded length | **Disclose** (section 7) |
-| Stranger learns audience size or membership | No reader is named in any document; grant paths are unguessable; the home is not an oracle | **Prevent**, except a listing host: **disclose** with a SHOULD and a MUST NOT (section 7) |
+| Stranger learns audience size or membership | No reader is named in any document; grant paths are unguessable; a home answers about a recipient only to a proven request | **Prevent**, except a listing host: **disclose** with a SHOULD and a MUST NOT (section 7) |
 | Stranger confirms a guess at the sealed text | No clear hash of sealed text; the commitment includes a 256-bit key | **Prevent** (section 3.4) |
 | Harvest now, decrypt later | Documents carry only symmetric wraps; grant files carry classical X25519 wraps at hidden paths | **Disclose** for 0.5, `alg` reserved (item 16) |
-| Stranger learns the citation graph of sealed items | Reference identities clear by default | **Disclose**; the author may move a reference inside (section 3.7) |
-| Stranger probes or floods a home | Optional endpoint, private rate limits, uniform probe answer | **Out of scope** beyond the oracle rule (section 3.11) |
+| Stranger learns the citation graph of sealed items | A reference made in sealed text is clear or inside, at the publisher's choice; `stub_of` is clear | **Disclose** what is left clear (section 3.7) |
+| Stranger probes or floods a home, or asks in another origin's name | Optional endpoint, private rate limits, uniform answer to unproven requests, which reach no person under the name they claim | **Prevent** the impersonation and the oracle (section 3.11); the rest **out of scope** |
 | Former member keeps what they decrypted, and pinned versions | Nothing recalls a held key | **Disclose** (section 5) |
 | Former member reads content published after revocation | Not without a later epoch's key or a new entry key | **Prevent**, for content sealed under later epochs only |
 | Paying reader republishes, inside or outside the protocol | Quotes copy ciphertext, not plaintext; a holder can still copy the plaintext anywhere | **Disclose**; generation and forks across a boundary are client policy (item 14) |
@@ -1007,8 +1102,9 @@ disposition for each. *All are proposals (Opus).*
 
 The two RFCs were published together on blyg.blygger.org on 2026-11-14, with a comment
 period to 2026-11-28 (#66, #104) and a `blygger-spec` issue each for people without a
-blyg (#34, #35). Fable edits this draft beside RFC-7 during the period and rules what it
-can at the edit; each edit is a new version of the item. At the close the rulings are
+blyg (#34, #35). Fable edited both the same day (decision #106; the table at the head of
+section 9 says what was ruled and what is open), published as version 2 of each item;
+any later edit is a new version too. At the close the rulings are
 revised and the RFC is promoted as a technical note (#90). Then the build order, to be
 confirmed at the close (plan §11): the envelope and spans with keys handed over by hand
 (this alone exercises a Level 3 construct and opens the 0.5 document); origin keys,

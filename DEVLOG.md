@@ -30,6 +30,24 @@ naming a source), then Venkat switched to Fable for the pending look at `ffd7aae
 2. Recorded in `opus-brief.md` (R1a, R3a, R3b, R2a, R2b, each with tests),
    `v0.4-plan.md` §23.6, `fable-brief.md`, and as a review on studio#149. No further
    Fable review of the PR is pending.
+3. **Opus built the five** on `feat/math` (`1aebfe1`, pushed): typecheck clean, Worker
+   2,422, UI 297, browser 569 passed. One deviation, noted on the PR: a bare
+   `overflow: clip` cut glyph ink off ordinary formulas, so the rule carries
+   `overflow-clip-margin: 0.25em` and sits behind `@supports`; an engine without the
+   margin is unclipped and relies on the `voffset` bound. Safari and Firefox unchecked.
+4. **RFC-6 and RFC-7 published** on blyg.blygger.org on Venkat's word, as Opus's drafts,
+   pinned, open for comment to 2026-11-28 (two weeks, his choice), with comment issues
+   blygger-spec#34 and #35 and an explainer post
+   (`docs/posts/2026-11-14-sealed-content-and-payments.md`).
+5. **Decision #106: Fable's edit of both, the same day** (version 2 of each). Three
+   changes: a request may prove it is the recipient's own (a MAC under the secret that
+   grant paths already use), and a home answers about a recipient only to such a
+   request, refusals included; a reference made only in sealed text is clear or inside
+   at the publisher's choice, where the draft's default had a redaction publish what it
+   redacts; the reveal is an entry member. Two readings of locked decisions (#103, #52).
+   The rest ruled as proposed or left open for the probe and for implementers; the table
+   at the head of RFC-6 section 9 has every item, `v0.5-plan.md` §13 the reasoning.
+   tn-9 not edited.
 
 ## Session 69 — 2026-11-13 — Studio 0.58.2, 0.58.3 and 0.59.0 (error log, iPad focus view, markdown keys, extensions); mathematics ruled (#105) and half built
 **Model:** Fable 5.2 and Opus 5.5, switched four times by Venkat (Fable: bug diagnosis, the error log, the editor keys and the three #105 sittings; Opus: the releases, the merge to `main` and the math build) · **Time:** 2026-11-13 09:52–16:30 PT, continued 2026-11-14 to 11:31 PT · **Committed:** yes (studio, spec, org) · **Deployed:** studio 0.58.2 and 0.58.3 to venkateshrao and PI; 0.59.0 to venkateshrao, PI and blygger.org (all three confirmed live 2026-11-14)
