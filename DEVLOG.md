@@ -7,6 +7,55 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 71 — 2026-11-14 — Studio 0.60.0 (download backup, Discover, `npm run backup`); blygger.com `/blygs.json`; roadmap Open/Shipped/All and a status check
+**Model:** Opus 5.5 · **Time:** ~2026-11-14 20:15–21:20 PT · **Committed:** yes (spec, studio, org, com) · **Deployed:** studio 0.60.0 on venkateshrao, protocol-institute and blyg.blygger.org (not New Nature); blygger.com; blygger.org four times; the 0.60.0 announcement on blyg.blygger.org
+
+**What & why:**
+
+1. **Roadmap page filter.** blygger.org/roadmap/ opens on open items with Open / Shipped /
+   All switches (`?show=`), linkable, all rows without JS. `build.py`'s `roadmap_filter`
+   marks rows from the Status cell (`shipped`, not `shipped in part`, or `closed` = done);
+   `roadmap-filter.js` adds the switch. `sync_roadmap` drops GitHub's `\|` inside code
+   spans (row 66 showed a backslash). ROADMAP.md and W5b no longer say shipped rows drop
+   off: Venkat's call, the page hides them instead.
+2. **blygger.com `/blygs.json`** (Venkat: expose activity rather than have clients scrape
+   HTML): the OPML's blygs, most active first, with `listedAt`, activity level, score,
+   events and last post, plus the scoring constants; CORS-open, ETag, 60 s. Deployed.
+   Row 125 (a directory API/MCP) and row 126 (any conforming discovery service, via RFC)
+   added at Venkat's request.
+3. **Studio 0.60.0.** *Download backup* in More streams one tar from `{studio}/backup`
+   (owner cookie only, never a token): tables as paged JSONL, R2 files, `backup.json`
+   last with `complete: true`. *Discover* (✦ beside ＋) reads `/blygs.json` from the
+   browser: new (since the `discoverSeenAt` mark, the newest listing date shown) or all,
+   activity, preview ↗ in a new tab, subscribe one or a batch through the OPML import's
+   paced walk; the owner's own blyg is never offered. Contract 5.9.0, SDK 0.15.0, no
+   migration. Venkat asked for a beta note pointing to "the npm command" he had seen;
+   the one on blygger.org/start (`npm run export`) is public pages only, and the
+   README's `wrangler d1 export` is D1 only and includes credential tables, so
+   **`npm run backup`** was built: same archive from a checkout through wrangler, one
+   request per page and per file with retries, no Worker read cap. The start page now
+   says export is the public site.
+4. **Found before release:** the first live `npm run backup` (blyg.blygger.org) showed
+   the deny-list copying better-auth's runtime tables (`jwks`, `session`,
+   `oauthAccessToken`, `user`, …), none of them in `migrations/`. Tables are now an
+   allow-list (`src/backup-format.ts`), and `test-ui/backup-tables.test.ts` makes every
+   migration table choose a side. The trial archives were deleted.
+5. **Release:** fast-forwarded `main`, `release:check`, tag `v0.60.0`; Check and Release
+   green (5 assets); deployed the three nodes, each reports `blygger-studio/0.60.0` and
+   401s an anonymous `/studio/backup`. Announced: `3psqv9wj3f52yxjanxn06a4tq0`. The
+   reading redesign renumbers to 0.61.0; maths (#149) is not in 0.60.0.
+6. **Roadmap status check:** 102 and 88 shipped, 54 closed (studio#54 closed after
+   0.46.3, unconfirmed), 22 unblocked (spec#11 merged), 114 unblocked (Aneesh widened
+   #137, `291bb23`) and with it 112, 115, 116. Follow-ups are a carry-over.
+
+**Tests:** studio 2323 Worker + 299 UI pass, typecheck clean, the new e2e spec plus OPML
+import 12/12 on isolated ports; blygger.com 73 pass. CI Check and Release green on v0.60.0.
+
+**Open:** the session-71 carry-over (re-review #137 and ship the redesign as 0.61.0;
+#149's failing Check and rebase; rows 74/56 waiting on Kyle; row 56's link; rows 51 and
+122). `npm run backup` is untried on a large blyg. blygger.org/start still says a path
+mount puts `/studio` and `/api` at the host root (wrong since 0.49.12).
+
 ## Session 70 — 2026-11-14 — studio#149's review changes built; RFC-6 and RFC-7 published and edited (#106); blygger.org audit
 **Model:** Opus 5.5 and Fable 5.2, switched four times by Venkat (Fable: the #149 review and the RFC edit; Opus: startup, the math build, publishing, the site audit) · **Time:** 2026-11-14 14:20–20:15 PT · **Committed:** yes (spec, studio `feat/math`, org) · **Deployed:** blygger.org (site audit, 0.4 sixteenth revision); RFC-6, RFC-7 and the explainer post on blyg.blygger.org
 
