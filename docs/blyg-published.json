@@ -123,8 +123,8 @@
         "revision": "RFC-6 edited by Fable (decision #106): section 9 opens with what was ruled."
       },
       "id": "194zwhh5036j2fxxk5b2hw3m81",
-      "version": 1,
-      "source_sha256": "09ed33057fb912acb8b4f3e5648b656e479911523ba56cf6b4a4e0573303b645"
+      "version": 2,
+      "source_sha256": "e54cb9a6afd7653a8c59b3e0274c792b91264a42b087cdaf3374fa75a0f269d2"
     },
     {
       "file": "docs/rfcs/rfc-7-payments.md",
@@ -135,8 +135,8 @@
         "revision": "RFC-7 edited by Fable (decision #106), following RFC-6's changes at the door."
       },
       "id": "2wcgk0vrwm3wknmdnxtrdh2ecd",
-      "version": 1,
-      "source_sha256": "52c730504fe0e6a3668d22ccc1d34476ff22c460ba8bb9db2699f3245cedba42"
+      "version": 2,
+      "source_sha256": "23695271467efb605980abcf68d7e090d1d07e71723e4fb2deb0f9dd36addb95"
     },
     {
       "file": "docs/posts/2026-11-14-sealed-content-and-payments.md",
@@ -148,8 +148,8 @@
         "revision": "One paragraph revised to follow RFC-6's edit: a home tells a reader where it stands only when the request proves it is that reader's."
       },
       "id": "6em279j4r93c6t3tbc3dkpn05b",
-      "version": 1,
-      "source_sha256": "d3128815995cd741ee6c687b17ecf59d49ed76bb415afc9cb92310170b909170"
+      "version": 2,
+      "source_sha256": "c02c8153897d27ed3755e09297ceb02fcb9610a5b45e37c618db9224744e8171"
     }
   ]
 }
