@@ -87,6 +87,7 @@ is a different document: [docs/roadmap.md](docs/roadmap.md).
 | 31 | Discovery from references: quote-chain view, "responds to" walk, second-degree blogrolls | studio | 13 | later |  |  |
 | 32 | Self-host template with `npm run upgrade` | studio | 20 | later |  |  |
 | 33 | A "you are behind" notice per listed node | com | 5 | later |  |  |
+| 125 | A real API for the directory, and an MCP server over it: search and filter listings, activity, health findings and new arrivals, for clients and agents alike (Venkat, session 71) | com | 8 | later | `/blygs.json` (session 71) is the first read surface; which queries an agent needs, and whether MCP wraps the same routes as the studio's does | |
 | 34 | Passkey sign-in | studio | 13 | later |  | [studio#50](https://github.com/blygger/blygger-studio/issues/50) |
 | 36 | Technical note TN-4: a write surface | spec | 5 | shipped: blygger.org/notes/tn-4/ (2026-11-12, session 67) |  |  |
 | 37 | Reference agent and technical note TN-5: the contract between a blyg and an agent | spec | 40 | later |  |  |
