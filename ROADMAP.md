@@ -13,8 +13,8 @@ happens on the linked issues, and this file only says where each item stands.
 - **Status**: `next` (up soon), `later`, `in review` (a contribution is waiting
   for review), `waiting` (on a person or a date, named in the row), `needs ruling`
   (a protocol question decided before any build), `shipped` (with the version;
-  shipped rows drop off after a release or two, and the changelogs are the
-  permanent record).
+  the changelogs are the permanent record). On blygger.org the list opens on
+  the items still open; Shipped and All are a click away.
 - **Open question** is anything to settle before the work starts. It is
   answered when the item is picked up, not in advance.
 
