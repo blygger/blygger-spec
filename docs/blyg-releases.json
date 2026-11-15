@@ -218,6 +218,24 @@
       "id": "3psqv9wj3f52yxjanxn06a4tq0",
       "version": 1,
       "source_sha256": "7b481fba354180790dc62f43d2d4431f6f5dd7a9a3a9afbd7f6be2a9aacd8ed7"
+    },
+    "0.61.0": {
+      "id": "10r1mam3rtee99sv8xmhazzt5y",
+      "version": 1,
+      "source_sha256": "33d81ec56ed39c6dfe313f1266d98cf7160db6ac167e42528959f76713a7438a",
+      "batch": [
+        "0.61.0",
+        "0.60.1"
+      ]
+    },
+    "0.60.1": {
+      "id": "10r1mam3rtee99sv8xmhazzt5y",
+      "version": 1,
+      "source_sha256": "65910caf1e459fbd8d8215aac4e34521a66070f202fe915ddd5ed50ace914616",
+      "batch": [
+        "0.61.0",
+        "0.60.1"
+      ]
     }
   }
 }
