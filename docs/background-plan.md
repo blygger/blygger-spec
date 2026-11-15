@@ -250,6 +250,18 @@ Each phase is a PR, releasable on its own. **Order (Venkat, session 61): phase 4
 Its own-items half ships with phase 1; its imported half follows phase 2, whose near-same
 measure is what a note's claim is checked against. So: **1 + 4a → 2 → 4b → 3.**
 
+**Reordered session 72 (2026-11-15, Venkat): tangling first.** Phase 1 + 4a shipped in studio
+0.61.0. Next is **phase 3, with `wordless` and `maintenance` pulled out of phase 2**, as studio
+0.62.0, so that readers fold a tangle before the studio can publish one (row 45; the plan's
+"a studio that ships the first half without the second floods its own readers"). Tangling's
+publish side follows as 0.63.0, then the rest of phase 2 (`near-same`, `superseded`) and 4b.
+The burst rule shares one definition with the public pace-layered order's `findBursts` and
+`BURST_WINDOW_MS` (0.58.0, RFC-3 R3) rather than a second copy; own tangles fold in the
+owner's own reading feed by the same rule. **Public pages are left alone** (Venkat: flooding
+the owner's own home page is fine). A follow-up idea, not scheduled: in the pace-layered
+order, burst members could enter a layer below their thread so they sink faster (an RFC-3
+reference-constant change).
+
 1. **Foundation, with 4a.** Migration, query predicate, reasons field on entries, the Settings
    card (toggles inert until phase 2 except withdrawn and minor), item and blyg placement with
    their ⋯ actions and the source inspector toggle, reason chips, counts. **4a:** own items'
