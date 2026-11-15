@@ -213,6 +213,11 @@
         "0.58.3",
         "0.58.2"
       ]
+    },
+    "0.60.0": {
+      "id": "3psqv9wj3f52yxjanxn06a4tq0",
+      "version": 1,
+      "source_sha256": "7b481fba354180790dc62f43d2d4431f6f5dd7a9a3a9afbd7f6be2a9aacd8ed7"
     }
   }
 }
