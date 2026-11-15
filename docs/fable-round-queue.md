@@ -25,6 +25,7 @@ second revision). **Only item 22 remains**, and Venkat is thinking about it befo
 **Added to:** session 65 (2026-11-12), Opus 5.5, at Venkat's request: item 28 (the Level 3 design round; research R1–R7 written).
 **Pruned:** session 66 (2026-11-12), Fable 5.2 — item 28 taken (#101; plan `v0.5-plan.md`); #100 ruled in passing (kind is fixed). **Only item 24 remains.**
 **Pruned:** session 67 (2026-11-12), Fable 5.2 — item 24 ruled (#102; reasoning `v0.4-plan.md` §21). **The queue is empty.** The file is kept because other documents cite its item numbers.
+**Added to:** session 72 (2026-11-15), Opus 5.5, at Venkat's request: item 29 (a visible responses count on reading views and public pages).
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -66,6 +67,35 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
 27. *Ruled session 64 (#98): `syndication` opens as an OPTIONAL item member, written in place like the pin flag and never worth a version; no specified fold; `https:` only; endcaps and pinned files omit it. A ruled shape in 0.4 §16.14 awaiting its gate. Plan `v0.4-plan.md` §19.2.*
 
 26. *Ruled session 60 (#93): RFC-5's F1–F5 — F1 and F5 as sentences in 0.4 §4 and §14 (tenth revision), F2 and F3 no text, F4 with the gate shapes C1–C3 classified; RFC-5 edited and published for comment to 2026-12-03. Reasoning RFC-5 §10, plan §18.4.*
+
+29. **A visible responses count: in the reader, and on public pages** (Venkat, session 72,
+    2026-11-15). He wants every reading view, collapsed and expanded, **and the public
+    item page** to show how many responses a post has, so active conversations can be
+    scanned for, and holds that this does not violate the no-metrics rule. Pair with his
+    plan to merge the Responses tab into Reading (Feed | Sources | Responses), which is
+    studio-private and Opus's.
+    - **What is Opus's already:** studio-private counts. §13.7 permits any local heuristic
+      provided nothing derived is published, so a count in the studio (own posts: verified
+      responses plus local ones; others' posts: responses among the blygs the owner reads,
+      since #41 forbids reading another blyg's public responses list) needs no ruling, and
+      Venkat has said yes to it (session 72).
+    - **What is Fable's:** the **public** count. §16.8's "metrics of any kind" is about the
+      wire, and §8.4 does not constrain presentation (session 20), so it is not a protocol
+      violation on its face. But it reverses a stance the reference client recorded and
+      recommends to other clients: the public responses list is "a citation trail with no
+      count" (session 23, ROADMAP task 17; CLAUDE.md backlog); `proposal.yml`: "a number is
+      the one thing on the page a stranger could move"; tn-7 §8, "No counts. No '42
+      comments'… A presence indicator ('Comments ↓') is enough", carrying #12 and #13 into
+      presentation; #47, the responses surface is "the first surface a count could attach
+      to". Venkat's counter: responses are verified stubs (a real blyg publishing a real
+      item each), the owner can hide any, and the purpose is finding live conversations,
+      not ranking.
+    - **Options to rule between:** (a) public count allowed, with conditions (verified
+      only, after hides, never in machine-readable markup or the feed); (b) a presence
+      marker only on public pages ("responses ↓", "in conversation"), counts in the studio;
+      (c) the count as an owner setting, off by default; and whether tn-7 §8 changes if (a).
+    - **Blocks:** only the public half of studio 0.62.0; the studio half and the tab
+      proceed without it.
 
 28. *Taken session 66 (#101): Level 3's first feature is sealed content with locks and grants, a design direction that goes to RFC-6 (Opus drafts from `v0.5-plan.md`, Fable edits and rules); payments follow as RFC-7. Research reviewed; R8 not run.*
 

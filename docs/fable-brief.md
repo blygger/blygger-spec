@@ -2,7 +2,7 @@
 
 **This round's product:** review every decision labelled `Fable review pending` (#58);
 take the dated item below when its date has come; otherwise nothing. The queue
-([`fable-round-queue.md`](fable-round-queue.md)) is empty since session 67.
+([`fable-round-queue.md`](fable-round-queue.md)) holds item 29 (session 72: a public responses count), staged at Venkat's request.
 **Since #58, promotions are Opus's**; Fable reviews them after the fact.
 **Written:** session 38 (2026-10-06), by Fable 5.1. **Rewritten:** session 60
 (2026-11-05), by Fable 5.1, after a round in the middle of an Opus session that closed
