@@ -111,8 +111,3 @@ here only if the recommendation was reversed, so the reasoning is not lost.
     items is itself the book pattern. It needs a revision first, against #79 (links
     disclose), #86 (hopper feeds), #88 (moves), #98 (`syndication`) and #100 (kind is
     fixed). Opus revises, you approve as the byline.
-15. **How far does no-vendoring reach?** (session 67; `plans/rich-editor-proposal.md` §7
-    Q2). The session-29 ruling has been read as client-side JavaScript only, leaving the
-    Worker's npm packages (`hono`, `markdown-it`, `fast-xml-parser`) alone. Say if the
-    broader reading was meant. *Recommendation:* the narrow reading; at the protocol
-    level the ruling is now §3's test (#103).
