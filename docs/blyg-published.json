@@ -150,6 +150,16 @@
       "id": "6em279j4r93c6t3tbc3dkpn05b",
       "version": 2,
       "source_sha256": "c02c8153897d27ed3755e09297ceb02fcb9610a5b45e37c618db9224744e8171"
+    },
+    {
+      "file": "docs/posts/2026-11-16-mathematics.md",
+      "model": "claude-opus-5-5",
+      "pin": false,
+      "footer": "post",
+      "notes": {
+        "first": "Mathematics on a blyg: what Studio 0.62.0 draws, shown in place.",
+        "revision": "Mathematics post revised; see the source history."
+      }
     }
   ]
 }
