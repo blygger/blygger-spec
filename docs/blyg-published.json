@@ -159,7 +159,10 @@
       "notes": {
         "first": "Mathematics on a blyg: what Studio 0.62.0 draws, shown in place.",
         "revision": "Mathematics post revised; see the source history."
-      }
+      },
+      "id": "5wx1bn64kw62fxk49f8da20ba2",
+      "version": 1,
+      "source_sha256": "04047f27d635df3e85dbdb6212f62c0655170c624236c981b8f252dcdb0e3019"
     }
   ]
 }
