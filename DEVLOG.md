@@ -7,6 +7,76 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 72 — 2026-11-15/16 — Studio 0.60.1, 0.61.0 and 0.62.0: Discover fix and tooltips; the Reading redesign with the Shelf; the burst fold and mathematics
+**Model:** Opus 5.5 · **Time:** 2026-11-15 11:34 PT to 2026-11-16 09:55 PT, with a break · **Committed:** yes (spec, studio) · **Deployed:** studio 0.61.0 (migrations 0044, 0046 first) and 0.62.0 on venkateshrao, PI and blyg.blygger.org (not New Nature); three posts on blyg.blygger.org
+
+**What & why:**
+
+1. **0.60.1.** Discover's "new" view filtered on the seen mark alone, so it offered
+   blygs the owner already follows (all of them on a first visit). It is now the
+   unfollowed blygs, newest listing first, five at a time with *show more*; a *new*
+   badge marks listings since the last visit; *all* is unchanged. The setup wizard's
+   finish screen offers Discover (not a step: subscribing writes at once). **Tooltips
+   became one pattern** at Venkat's request, "consistent with Shannon's PR": `Tooltip`
+   and `IconButton` taken verbatim from studio#88 into `src/ui/primitives.tsx`, plus a
+   `TooltipProvider` (300 ms shared delay); every native `title` on an interactive
+   control is a Tooltip now, plain text keeps `title`. Comment posted on #88.
+2. **0.61.0, the Reading redesign.** #137 (Aneesh's Shelf, widened to
+   `{ sub, remoteId }`) re-reviewed and merged as a merge commit. Built on
+   `feat/reading-redesign` (rebased from 0.58.1): the **Shelf lens**
+   (`GET /reading?shelf=true`, `shelfIdentitySql`, shelf order, ignores Background,
+   own drafts stay on the Write list), **+ add to shelf** on every entry (shortening
+   to *+ shelf* / *+ hopper…* below 430 px), the `citedUrl` fix (row 116: an unheld
+   item is cited by its item document, as a mention does; publish stays network-free),
+   `reading_placement` into the backup allow-list (the 0.60.0 guard caught it).
+   0044 and 0046 proven on throwaway remote D1 `blyg-throwaway-s72` (applied in
+   order, every new trigger exercised, deleted). Deployed and announced with 0.60.1
+   as one thread.
+3. **Background reordered for tangling** (Venkat): the burst fold first, so readers
+   fold a tangle before the studio can publish one. Public pages left alone ("flooding
+   is fine"); idea noted: burst members could enter a layer below their thread in the
+   pace-layered order. Recorded in `background-plan.md` §7.
+4. **0.62.0.** *Burst fold:* `src/burst.ts` shares `BURST_WINDOW_MS`/`withinBurst`
+   with the public `findBursts`; `settleImportedBackground` (at `applyEffect`) and
+   `settleOwnBackground` (at publish) mark parts a thread version is first to name,
+   with clamped times, and catch a part arriving after its thread; the thread shows
+   **+N parts** (`ReadingEntry.parts`). *Wordless* (via `extractDirectives`, §15.4's
+   test) and *maintenance* (same hash, same quotes) join; each rule toggles in
+   Settings; a settings PATCH may name only the rules it changes. *Mathematics*
+   (#149, row 123): rebased onto 0.61.0, then delivered as a merge of main into the
+   PR branch (force-push is refused) with the tested tree; its failing Check was a
+   timing bound (59 ms against 50, now the file's 150); the lockfile is main's plus
+   `temml`. **Pending call #15 decided by Venkat: the narrow reading** of
+   no-vendoring (client-side JavaScript only). Venkat's **iPad look** passed on a
+   local `wrangler dev --ip 0.0.0.0 --local-protocol https` server (https because the
+   owner cookie is Secure). Contract 5.11.0, SDK 0.17.0, no migration.
+5. **Posts on blyg.blygger.org:** 0.60.1 + 0.61.0 (`10r1mam3rtee99sv8xmhazzt5y`),
+   0.62.0 (`2kcg1ews4rdhxt798fbx08yxr0`), and **"Mathematics on a Blyg"**
+   (`5wx1bn64kw62fxk49f8da20ba2`, `docs/posts/2026-11-16-mathematics.md`), which is
+   its own demonstration (16 formulas), previewed on a local 0.62.0 first.
+6. **Staged for Fable:** queue item 29, a public responses count (Venkat wants counts
+   in every reading view and on public pages; the recorded stance is a citation trail
+   with no count). Studio-side counts and a Responses tab in Reading are Opus's,
+   unscheduled.
+
+**Mistakes and findings.** The first publish of the release post was refused by the
+auto-mode classifier and went through on Venkat's explicit "do it". Three Worker
+tests and one e2e test published a fragment and a quoting thread seconds apart, which
+is now correctly a burst; they turn the rule off. `e2e/editor-regions.spec.ts:39`
+(mobile) failed in three full runs and passes alone; #149 measured it at 1 in 12 on
+plain `main`: a toast-timing flake, not fixed. One `auth-security-worker` mutation
+baseline failed on CI (a 200 where 429 was expected, a budget window rolling over)
+and passed on rerun.
+
+**Tests:** 0.62.0: Worker 2472, UI 304, browser 587 passed (the one flake above).
+
+**State after:** studio 0.62.0 live on three nodes (New Nature still on its own
+schedule); Release run for v0.62.0 in progress at wrap-up.
+
+**Open:** tangling's publish side (row 45) as 0.63.0; item 29 for Fable; the
+responses tab and studio-side counts; the editor-regions flake; the pace-layered
+"sink faster" idea.
+
 ## Session 71 — 2026-11-14 — Studio 0.60.0 (download backup, Discover, `npm run backup`); blygger.com `/blygs.json`; roadmap Open/Shipped/All and a status check
 **Model:** Opus 5.5 · **Time:** ~2026-11-14 20:15–21:20 PT · **Committed:** yes (spec, studio, org, com) · **Deployed:** studio 0.60.0 on venkateshrao, protocol-institute and blyg.blygger.org (not New Nature); blygger.com; blygger.org four times; the 0.60.0 announcement on blyg.blygger.org
 
