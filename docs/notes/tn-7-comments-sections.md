@@ -8,7 +8,8 @@ same item, and section 12 says what the comments changed. **Status: unbuilt.** T
 first client to host comments under this shape revises this note (decision #90:
 close is promotion, first build is the revision trigger). Drafted by Opus 5.5 at
 Venkat Rao's request; edited by Fable 5.1 in session 40 (2026-10-07), whose rulings
-on the seven open questions are section 11; revised by Fable 5.1 in session 60. This
+on the seven open questions are section 11; revised by Fable 5.1 in session 60, and
+by Fable 5.2 on 2026-11-16 (the counts bullet in section 8, decisions #107 and #108). This
 is a **Recommendation for clients that want a comments section**. Like every
 technical note, it constrains nothing. Blygger Studio will not implement it; its
 public responses list stays a citation trail. **It depends softly on
@@ -383,11 +384,14 @@ person. No email address is kept, even for reply notices (section 6.6).
   that makes all three look alike erases the differences readers most need.
 - **Order by observation time** (§13.7), not by the commenter's self-asserted
   `created`. A stranger's clock does not get to move their comment to the top.
-- **No counts.** No "42 comments" and no per-commenter tallies. This is #12's and
-  #13's no-metrics stance carried into presentation, the reason the reference
-  responses list shows "a citation trail with no count", and the reason #47 kept a
-  responses surface closed: a count is the first thing a ranking attaches to. A
-  presence indicator ("Comments ↓") is enough.
+- **No count on the wire; on the page, the client's choice** (revised 2026-11-16,
+  decisions #107 and #108; this bullet used to read "No counts"). No item document,
+  feed or index carries a count of comments, and the next bullet keeps one out of
+  markup: a number a publisher asserts cannot be checked, and one that software can
+  read is the first thing a ranking attaches to (#12, #13, #47). Whether the page
+  says "42 comments" to the person reading it is presentation. Blygger Studio's own
+  answer for its responses list (a count of what is shown, nothing ordered by it, no
+  totals) is in its studio style and is one answer, not the answer.
 - **No machine-readable comments markup on the post page.** IndieWeb practice puts
   `h-cite` comment markup inside the post's `h-entry`. Doing that turns the display
   into exactly the machine-readable responses surface #41 tells readers never to parse
@@ -498,6 +502,9 @@ metrics, #47 kept the responses surface closed because a count is the first thin
 a ranking attaches to, and #41 tells readers never to parse one. The comments
 origin's feed and index are the machine-readable record, as the draft says. The
 h-card bylines inside comments say who wrote them and nothing more.
+*Amended 2026-11-16 (Fable 5.2, decisions #107 and #108):* "no counts anywhere" is
+narrowed to the wire and to markup. What a page tells a person is the client's own
+style. The markup half of this ruling is unchanged.
 
 **6. Anonymous bylines.** Consistent with §5.5 and #38. `author` is the origin's
 unverified assertion, byte-equal values group only within one origin and only

@@ -51,6 +51,199 @@ verb, no refresh-only scope; MCP = same operations and scopes, provenance record
 when it passes; flag to Venkat if it wants something outside them. `tn-4` is yours to
 draft from his build once gate G3 opens.
 
+## New from session 73 — a starter guide for developers: where does my change belong? (hackathon, week of 2026-11-23)
+
+**Venkat's ask.** New developers arrive at a hackathon next week. They need one
+starter document that makes them disciplined about *where* a change goes: a local
+change re-applied at each upgrade, a pull request to the Studio, an extension, a proper
+mod like blykker, or a request for a spec ruling, **with a test for picking each**.
+
+**What exists, so it is not rewritten.** `blygger-studio/docs/mods.md` (three surfaces,
+the bar a hook must clear, how blykker's five hooks fared, two promises),
+`docs/extensions.md` (slots, writing one, security model), `docs/extension-vendoring.md`,
+`docs/client-access.md` and `docs/api.md`; blykker's `README.md` and `PLAN.md`; the
+spec's `proposal.yml`. **What is missing:** one page that covers every route and tells
+a newcomer which to take; any `CONTRIBUTING.md` in either repository; anything on
+local changes; a first-hour path.
+
+**Deliver** (studio repo, by 2026-11-20 so Venkat can read it before the event):
+
+1. `docs/where-does-it-go.md` (name is yours), 1,500 to 2,000 words, written for
+   someone who has never seen the code. It links to the documents above and does not
+   repeat them.
+2. A short `CONTRIBUTING.md` in `blygger-studio` and in `blygger-spec` that opens with
+   the decision list and points there.
+3. Links from the README and from the top of `mods.md`.
+
+**The ladder, cheapest first.** Each rung with its test, an example that exists, what
+it costs the developer, and what it costs everyone else. Put the tests as questions a
+developer answers in order, stopping at the first yes:
+
+| # | Question | Then it is | Goes to |
+|---|---|---|---|
+| 1 | Would it change bytes another blyg or reader receives (an item document, the feed, `blyg.json`, `content_html`), or would another client have to change to work with it? | **A spec question.** Nothing is built until it is ruled | An issue on `blygger-spec` (`proposal.yml`); Venkat routes it to a Fable round |
+| 2 | Is it a bug, or something every blyg would want with no setting? | **A pull request to the Studio** | `blygger-studio` |
+| 3 | Can it be done from outside, on a token, through `{mount}/api` and Settings, with no code inside the Studio? | **A tool or configuration** (mod surface 1) | Your own repository |
+| 4 | Is it interface for one owner, in the browser, in a slot that exists? | **An extension** | In-repo, or your repository and vendored |
+| 5 | Does it need a slot or setting the Studio lacks, in a form any blyg could use? | **A hook, proposed upstream** | A pull request, against the bar in `mods.md` |
+| 6 | Is it several of 3 to 5 together, making a kind of blyg (a book, a course, a lab notebook)? | **A mod**, like blykker | Its own repository |
+| 7 | Does it only make sense on your node (your branding, your infrastructure) and have no general form? | **A local change** | Your deployment; see below |
+| 8 | Does it need to change what the Studio is? | **Another client** | A fork, under the README's fork section |
+
+Points each rung must cover:
+
+- **Rung 1 is first on purpose.** Most hackathon ideas that sound like features are
+  wire changes (a reaction, a tag, a reply, a count, a new field). Say so plainly, list
+  the refusals people will hit in the first hour (`protocol-v0.4.md` §16.8; no metrics
+  and no identity on the wire), and say that a well-argued case is welcome and several
+  have won. **What a page looks like is not a spec question** (#108): it is a theme, a
+  mod or the Studio's own style (`docs/studio-style.md`, draft).
+- **Rung 2: "the Studio should be boring."** It is the reference client. A pull
+  request that adds an opinion gets asked to become an extension. Say what review
+  looks like, that a PR description may carry instructions for the reviewer, and that
+  `npm test` and `check:template` must pass.
+- **Rungs 3 to 5** restate `mods.md` in two sentences each and link. Add the three-part
+  bar for a hook as a checklist: general, wire-silent, reads only on the server.
+- **Rung 6: what makes something a mod and not a pile of settings.** Use blykker: a
+  config file and a tool first, extensions second, hooks proposed upstream third, and
+  the two promises (the generator string stays the Studio's; not forking is the mod's
+  own promise).
+- **Rung 7, local changes: make the existing practice easy** (Venkat, session 73:
+  "People seem to be doing random patches anyway and procrastinating on upgrading to
+  save rework. I'd like some simple hygiene rules that make it easy to upgrade
+  versions without losing harmless local patches"). See the section after this list.
+- **Rung 8** is two sentences and a link. Becoming another client is fine.
+
+**Also in the page:**
+
+- **A first hour.** Clone, install, run locally, publish an item, turn on the
+  `example` extension. Include the traps this machine has taught us: apply D1
+  migrations by hand before `wrangler dev`; fresh installs may need
+  `--legacy-peer-deps`; e2e on its own ports. Verify every command on a clean
+  checkout; do not write it from memory.
+- **Never develop against a live blyg.** A scratch database and local dev. Extension
+  code runs in the owner's session and can publish and mint tokens, which is why
+  nothing loads at run time.
+- **Five or six starter ideas, one per rung,** so people can see the ladder applied:
+  for example a tool that imports a folder of notes (3), a reading-view extension (4),
+  an owner stylesheet hook if it is still open (5), a wire idea written up as an issue
+  and not built (1).
+- **Working with an AI agent:** point it at `AGENTS.md` and this page; the same ladder
+  applies to what an agent proposes.
+- **Where to ask**, and how an accepted idea gets a ROADMAP row.
+
+### Local patches: the hygiene rules, and the small tooling behind them
+
+**The fact to build on.** A source installation's `npm run upgrade` already merges the
+newest release tag into the operator's checkout and keeps `wrangler.jsonc` on conflict
+(README, "Upgrade a source installation"). So a patch kept as a commit already
+survives an upgrade unless it conflicts. Nothing new has to be invented; the practice
+has to be named, made visible and made cheap. A Worker-archive installation has no
+source and cannot carry a patch: say so, and say that moving to a source install is
+the first step for anyone who wants one.
+
+**The rules for the page** (seven, short; reword freely, keep the substance):
+
+1. **Try the places that are not patches first.** Settings, a theme, the `.local`
+   files (`extensions.local.json`, `models.local.json`, `wrangler.private.jsonc`), an
+   extension. They survive every upgrade by construction.
+2. **One patch, one commit, on your own branch,** with a message that starts `local:`
+   and says why in a line. Never uncommitted, never a stash: a stash is how a patch
+   is lost.
+3. **Add, don't edit, where you can.** A new file never conflicts. An edit to a shared
+   file should be as few lines as possible, with no reformatting around it.
+4. **Harmless means three things.** It does not change what the blyg serves to others
+   (item documents, the feed, `blyg.json`, `content_html`). It adds no migration and
+   changes no table. It does not rename the client (`generator`). A patch that fails
+   one of these is not a local patch: the first is a spec question (rung 1), the
+   second will collide with the next upstream migration number, the third breaks the
+   census and update notices.
+5. **Every patch names its exit:** the upstream issue or pull request it is waiting
+   for, or one line on why it will never be general. A patch with an exit is a bridge;
+   one without is a fork in slow motion.
+6. **Upgrade often.** Each release merged is a small conflict or none; five at once is
+   an afternoon. Security fixes arrive only by upgrading.
+7. **Tell us what you patched.** One standing issue on `blygger-studio` where
+   operators list their local patches. The program adds hooks on measured need (#89),
+   and this is the measurement: the same patch on three nodes is a hook.
+
+**Tooling, small, in this order. Stop when the hackathon date arrives.**
+
+- **`npm run patches`**: list the local commits since the installed release tag (the
+  `local:` ones and any others, which it flags as unlabelled), each with the files it
+  touches. Read-only.
+- **A warning, not a refusal**, on any local commit that touches the paths rule 4
+  names: `migrations/`, the bake and the feed and manifest emitters, the generator
+  string, `src/contract/`. Name the paths in one list in the script. Warn and carry
+  on: the operator may know better, and a guard that blocks gets bypassed.
+- **In `npm run upgrade`**: before the merge, print that list; after it, say which
+  local commits conflicted and in which files, and stop for the operator to resolve.
+  Today it says only "commit or stash local changes first".
+- **Stretch, only if cheap:** a `patches:check` that exports a fixture blyg with and
+  without the local commits and compares the published bytes, which turns "harmless"
+  from a path list into a proof. `scripts/export.ts` and the feed fixtures are most of
+  it. Do not hold the page for this.
+
+**Not a `patches/` directory of diff files.** Diffs rot against a moving tree and are
+harder to carry than commits, and the upgrade is already a merge.
+
+**A patched Studio says so, in the Studio and not on the wire** (Venkat, session 73).
+`generator` stays `blygger-studio/x.y.z`: the census and update notices parse it, and
+rule 4 forbids renaming. The Studio's own Settings page shows the count of local
+patches ("3 local patches", from the same list `npm run patches` prints, baked at
+build), and the bug-report template (`.github/ISSUE_TEMPLATE/bug.yml`) asks for it.
+Nothing about patches appears in `blyg.json`, a feed or any public page.
+
+**Not in scope:** new extension slots, a registry (#89 stands), any change to
+`mods.md`'s rulings.
+
+**Fable's part:** none needed to write it. The ladder is from #58, #89 and #108, and
+the patch rules are studio practice. Bring back only what turns out to reach the wire.
+
+## New from session 73 (2026-11-16, Fable 5.2) — the public responses count (#107)
+
+Read `CLAUDE.md` #107 and `v0.4-plan.md` §24.1 first. A studio build, with the
+studio-private counts and the Responses tab, which were already yours (§13.7). No
+migration is expected and no contract change for the public half: it is page chrome.
+**Only point 2's first half is protocol** (no count in a document or feed, §16.8). The
+rest is the studio's own style (#107, #108): build it as the default, and do not write
+it up anywhere as a rule for other clients. Each point with the test that proves it:
+
+1. **The count is the length of the list the page renders.** Compute it from the same
+   query that draws the public responses list (verified, unhidden, the item's list
+   switched on), never from a second query. *Tests:* list off, no count anywhere; three
+   responses with one hidden shows 2; hide another and it shows 1; hide the last and
+   the count is gone (no "0 responses").
+2. **Text for people, never data.** The count appears as visible text only. *Test:* for
+   an item with responses, the number is absent from the item document, the pinned
+   version document, `blyg.json`, `items.json`, the feed and every hopper feed; the
+   page carries no `data-` attribute, microformat class, JSON-LD or meta tag holding
+   it. Add the check to `check:template` or the page tests so a later theme change
+   cannot add one.
+3. **Nothing public is ordered or selected by it.** No sort, filter, badge or section
+   on a public page keyed on the count. Nothing to build; say so in a comment where the
+   count is rendered, since that is where someone will be tempted.
+4. **No totals, no tallies.** No sum on the front page or the about page, no count
+   beside a responder's name.
+
+**Where it shows:** the item's page (beside the responses heading or its anchor link),
+and any list on the same origin that shows the item: front page, archive, a thread
+quoting it. **Not** on a curation display of an imported item (§13.5, #41). Wording is
+yours; "3 responses" linking to the list is the plain form. An owner's theme or mod
+may do what the default does not.
+
+**Studio side** (no ruling needed, recorded so the two halves agree): own posts count
+verified responses plus local ones; others' posts count responses among the blygs the
+owner reads. The two numbers may differ from the public one and from each other. Do
+not label them alike if they sit near a public preview.
+
+**Hand back:** the release note, and one look by Fable at a live page's source against
+point 2. Reply on nothing: there is no issue for this; add ROADMAP row 127's
+version when it ships.
+
+**Also confirmed this round (§24.2):** your `@supports (overflow-clip-margin)` deviation
+on studio#149. Nothing to change.
+
 ## New from session 56 (2026-11-01) — three rulings, do these before the queue below
 
 Decisions #86–#88 (`CLAUDE.md`), reasoning `v0.4-plan.md` §16, text in the spec's seventh

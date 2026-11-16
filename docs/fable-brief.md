@@ -1,75 +1,107 @@
 # Fable brief — the standing agenda for the next Fable pass
 
-**This round's product:** review every decision labelled `Fable review pending` (#58);
-take the dated item below when its date has come; otherwise nothing. The queue
-([`fable-round-queue.md`](fable-round-queue.md)) holds item 29 (session 72: a public responses count), staged at Venkat's request.
-**Since #58, promotions are Opus's**; Fable reviews them after the fact.
-**Written:** session 38 (2026-10-06), by Fable 5.1. **Rewritten:** session 60
-(2026-11-05), by Fable 5.1, after a round in the middle of an Opus session that closed
-RFC-1 and RFC-2 and promoted them as technical notes (#90–#92), ruled RFC-5's five items
-and published it for comment (#93), and ruled the private-items numbering question (#94);
-the tenth revision of 0.4 carries the text. Session 58's round (#89) and session 56's
-(#86–#88) are summarised below so they are not reopened.
-**Session 61** (2026-11-07, Fable 5.1, mid-session): #95 confirmed, #96 and #97 ruled, the eleventh revision; summarised below.
-**Session 64** (2026-11-09, Fable 5.2): tn-4 reviewed (G3 closed), #98 ruled (`syndication`), the twelfth revision; summarised below.
-**Session 66** (2026-11-12, Fable 5.2): the Level 3 round — research reviewed, #100 (kind is fixed) and the thirteenth revision, #101 (sealed content goes to RFC-6); summarised below.
-**Session 67** (2026-11-12, Fable 5.2): item 24 — the reader suite's nine choices and #23's sole statements, #102, the fourteenth revision; summarised below. **The queue is empty.** Then the four `plans/` reviews and Unicode on the wire, #103, the fifteenth revision: **nothing standing remains.** Last, the payments direction, #104, which amends #101: RFC-7 is drafted beside RFC-6.
-**Session 69** (2026-11-13, Fable 5.2, in the middle of a studio session): #105, mathematics is MathML and the protocol adds nothing for it, the sixteenth revision. **One review now pending:** the studio's sanitizer change for `math`, when Opus has built it (`opus-brief.md`, session 69, invariant 4, as amended in a second sitting the same day: the reader redraws from the TeX annotation; `v0.4-plan.md` §23.4). RFC-6, RFC-7 and tn-9 still wait for their edit.
-**2026-11-14 (session 69, continued):** studio#149 reviewed. The redraw mechanism is approved; four changes are required before merge (`opus-brief.md`, session 69, R1–R4), one of them a ruling: a formula cannot contain a link, a mention or a generated span, and publish refuses it. **Pending:** a look at the R1–R4 diff, made and pushed to studio#149 as `ffd7aae` (2026-11-14).
-**Session 70 (2026-11-14, Fable 5.2):** the R1–R4 diff read and probed; not yet. Five changes handed back (`opus-brief.md`, session 69 section, R1a, R3a, R3b, R2a, R2b; `v0.4-plan.md` §23.6): a formula is contained at paint (`math { overflow: clip }`), since no attribute bound contains `\smash`; a TeX comment could hide a link from R1. **No further review of studio#149 is pending**: Opus merges when the five are built as written, and brings back only what cannot be. (Opus built them the same day, `1aebfe1`, with one deviation to look at when convenient: the clip sits behind `@supports (overflow-clip-margin)`, since a bare clip cut ordinary glyph ink; see the PR comment.) **RFC-6 and RFC-7 were published and then edited the same day (#106, `v0.5-plan.md` §13)**; open for comment to **2026-11-28**, which is the next dated item: revise #106's rulings at the close and promote both as notes (#90). **tn-9 still waits for its edit.**
-**Rewrite this file each Fable round.** It is the one place a Fable session starts.
+**Rewritten:** session 73 (2026-11-16), by Fable 5.2, at Venkat's request, after a round
+that ruled #107 and then turned into a change of direction. Earlier rewrites: sessions 38
+and 60. **Rewrite this file each Fable round.** It is the one place a Fable session
+starts.
 
-> **Read first, in this order:** this brief → `CLAUDE.md` locked decisions **#90–#94**
-> (session 60; #86–#89 sessions 56 and 58; #84–#85 session 52; #79–#83 session 50) →
-> [`v0.4-plan.md`](v0.4-plan.md) **§18** (the reasoning) →
-> [`protocol-v0.4.md`](protocol-v0.4.md) **§17** (tenth revision), §16.13 (`moved_from`,
-> awaiting its gate), §16.9–§16.10 (older ruled shapes still awaiting builds) →
-> [`backlog.md`](backlog.md) → [`opus-brief.md`](opus-brief.md) § session 60.
->
-> **Session 64 took session 63's immediate agenda** (next section): read `CLAUDE.md`
-> **#98** and `v0.4-plan.md` **§19** with the above. Session 67 emptied the queue: read
-> **#102** and `v0.4-plan.md` **§21**.
+## This round's product: the spec as a book
 
-## Ruled session 67 (2026-11-12, Fable 5.2) — drop at the next rewrite
+**Read [`spec-refactor-plan.md`](spec-refactor-plan.md) in full before anything else.**
+It is the task.
 
-**#102, item 24.** The nine `ambiguous` fixtures and the sixteen sole statements are
-ruled, all as revisions (fourteenth). The two that were decisions and not readings: a
-directive line in a fragment is a publish error (#60, #100), and a baked quote sits
-outside the `blyg-tk-gen` wrapper while the span keeps **one** `generated[]` entry. S11
-and S15 were declined and reworded as description. Opus has the fixtures, the clause
-register and three studio changes; when it has done them, **review in batch** that the
-tightened fixtures say what §21.1 says, 099's single entry above all.
+Venkat's goal, in his words: a 1.0 spec "that's not just comprehensive and thorough, but
+also elegant and a pleasure to read as a design document even for humans, though mostly
+agents will read it." It may go to print. At perhaps 50,000 words by 1.0 it is "a
+book-length artifact and requires a book-like integrity". The substance of 0.4 does not
+change. Level 3 gets a part of its own, and **he has said to assume RFC-6 and RFC-7 pass
+largely unchanged**.
 
-**#103, the `plans/` reviews and Unicode.** Three explorations needed no ruling. Unicode
-(blygger-spec#6) is ruled: the hash is over the bytes served; NFC a publisher SHOULD;
-one ASCII spelling for an origin string, a MUST; caps count code points; `content_md`
-carries no C0 controls or unpaired surrogates; two §14 bullets; manifest `lang` parked;
-and §3 now states what conformance may cost a reader. Reasoning `v0.4-plan.md` §22.
-**Apply §3's test to every new rule from here on**, RFC-6's items included: sealed
-content will ask readers for cryptography, and whether that is in a standard library
-is one of the things to say when ruling it.
+**Decided** (plan §3 and §4, decision #109): history leaves the text; a reason appealed
+to repeatedly becomes an explained doctrinal principle and a one-off becomes a note;
+**principles explain and do not bind**; **every rule has an opaque id** (`R-0001`); a
+formal grammar as an annex; a draft to implementers; parts by major area; a manuscript
+until 0.5 opens on an exercised Level 3 construct.
 
-## Ruled session 66 (2026-11-12, Fable 5.2) — drop at the next rewrite
+### Where it stands
 
-Venkat opened the round on the Level 3 research. Read `CLAUDE.md` **#100 and #101**,
-`v0.4-plan.md` **§20** and [`v0.5-plan.md`](v0.5-plan.md) with the list above.
+**The first sitting is done** (session 73). In [`book/`](book/README.md): the editorial
+sheet, the inventory of reasons with seventeen candidate principles in four families,
+the disposition of all 272 clauses, the cast, the clause map and the findings, and
+**two sample chapters, Pins and Withdrawal**.
 
-1. **Research R1–R7 reviewed.** Fit to design from. One error corrected in R1's header
-   (MPP's draft is an active individual submission under a new name, not expired). The
-   closing "own view" sections agree with each other because one agent wrote all seven;
-   they are one opinion. Five gaps were named and are answered by, or listed in,
-   `v0.5-plan.md`.
-2. **#100 — an item's kind is fixed at its first publication**, and clients that create
-   items for an author create threads (§20; spec §5.3, §13.3, §13.7, thirteenth
-   revision). `tangling-plan.md` revised to match.
-3. **#101 — Level 3's first feature is sealed content with locks and grants**, a design
-   direction taken to RFC-6; payments follow as RFC-7. Question D was answered by a
-   layering: entries and locks on the wire, grant files as the static path, a request
-   endpoint as an optional dynamic one, the ladder private. The plan lists seventeen
-   items the RFC must settle.
+**Waiting on Venkat's reading of the samples.** Until he has said the template works,
+write no further chapter. What he is asked (plan §4, C and F to H):
 
-**From session 64, still current:** #98 `syndication` awaits its gate (§16.14); tn-4 is
-reviewed and publishes at the next `sync_spec`.
+1. Do the sample chapters read as he wants the book to read?
+2. The doctrine: which of the seventeen stay, merge or go.
+3. "Quote" for "transclusion" in the prose.
+4. The outline, now that there is something to hold it against.
+
+**Then, in order:** Part I, the doctrine, in full; Parts II to VII, a part to a sitting
+or two, each ending with its clause map; Part VIII after 2026-11-28; annexes; a
+read-through; the draft for comment.
+
+### How to work
+
+- **Obey [`book/editorial-sheet.md`](book/editorial-sheet.md).** Change the sheet
+  before departing from it.
+- **Substance is guarded by the clause map**, not by care. A 0.4 requirement with no
+  keyword stays a definition and goes in [`book/findings.md`](book/findings.md).
+- **Drift is the risk** (plan §9). Any 0.4 revision and its manuscript counterpart are
+  made in the same sitting.
+- **Write for someone who will read it from the first page.** Do not carry over a
+  sentence because it exists; carry over what it requires.
+- **Do not begin Part VIII before 2026-11-28.**
+
+### Still to do from session 73
+
+- **Queue item 31, the studio style** for the reference client
+  (`blygger-studio/docs/studio-style.md`): **drafted in session 73** as "Studio style" (Venkat's name), for him to edit; Opus checks each entry against the code before it is linked from blygger.org. It receives what
+  the book takes out about the reference client ([`book/reasons-inventory.md`](book/reasons-inventory.md)
+  §5 lists it). Open with Venkat: its name.
+- **Eight findings** in `book/findings.md`, each a possible 0.4 revision. F-1 and F-2
+  matter most: withholding's most general statement and nearly all of withdrawal have
+  no requirement keyword.
+
+### For Opus, in parallel
+
+Rebuild the clause register on the current text (ROADMAP row 122's follow-ups first);
+report what `sync_spec.py` and the snapshot pages read from the document's structure;
+later, the agent test's question set and the print build. The public responses count
+(#107, `opus-brief.md` § session 73) is unaffected.
+
+## Also standing
+
+- **RFC-6 and RFC-7 close 2026-11-28.** Revise #106's rulings at the close and promote
+  both as notes under #90. R8, the probe, still needs Venkat's word, and several of
+  #106's open items wait on it.
+- **tn-9** (Common Fabric) still waits for its edit.
+- **A look at the public responses count** when Opus has built it: view a live page's
+  source and confirm no document, feed or markup carries the number (#107).
+- **The batch review of #102's tightened fixtures**, when Opus has built them: that
+  they say what `v0.4-plan.md` §21.1 says, fixture 099's single entry above all.
+- **Session 73 confirmed** the `@supports (overflow-clip-margin)` deviation on
+  studio#149 (`v0.4-plan.md` §24.2). Nothing pending on mathematics.
+
+> **Read after the plan:** `CLAUDE.md` locked decisions **#100–#107** →
+> [`v0.4-plan.md`](v0.4-plan.md) **§21–§24** → [`v0.5-plan.md`](v0.5-plan.md) and RFC-6 →
+> [`protocol-v0.4.md`](protocol-v0.4.md), all of it, as the source text →
+> [`backlog.md`](backlog.md).
+
+## Settled in sessions 64 to 69, so it is not reopened
+
+**#98** `syndication` is an OPTIONAL item member awaiting its gate (§16.14). **#100** an
+item's kind is fixed at its first publication. **#101, #104** Level 3's first feature is
+sealed content with locks and grants (RFC-6); payments ride it with no wire construct
+(RFC-7). **#102** the reader suite's nine choices and the sole statements, all
+revisions; a directive line in a fragment is a publish error; a baked quote sits outside
+the `blyg-tk-gen` wrapper while the span keeps one `generated[]` entry. **#103** Unicode:
+the hash is over the bytes served, NFC a SHOULD, one ASCII spelling for an origin
+string; and §3 states what conformance may cost a reader, a test to apply to every new
+rule, sealed content included. **#105** mathematics is MathML and the protocol adds
+nothing for it. **#106** RFC-6 and RFC-7 at the edit. **#107** a public responses count
+is presentation; no count in any document or feed (§16.8, unchanged).
 
 ## The dated item — RFC-5 closes 2026-12-03
 
@@ -104,13 +136,13 @@ section the build contradicts, and Fable reviews the revision in batch.
 | Gate | What must be true | Then Fable does |
 |---|---|---|
 | **G5** | The reference agent (2.10) has run against a live node long enough to refresh a snapshot, answer a mention, and author under its own byline | Review `tn-5` for anything that wants a construct — the refresh scope on the re-bake identity (#38, backlog §1) is the candidate. |
-| **RFC-3 close** — **ruled session 61 (#97)**, [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md) §7; publishes on blyg.blygger.org once the studio builds R2 and R3 (`opus-brief.md` item i) and Venkat says | Its comment period has closed (four weeks from publication) | Scan the stubs with Opus; revise or rule; promote it as a technical note under #90. |
-| **RFC-6 draft** — sealed content and permissions (#101) | Opus has drafted `docs/rfcs/rfc-6-sealed-content.md` from [`v0.5-plan.md`](v0.5-plan.md), each of the plan's §9 items stated with options, a proposal and a test, and R7's dispositions filled in as proposals | Edit and rule it. Rule first: the second hash and what maintenance means for each audience; key commitment; the two #11 conditions on the origin key (re-read #35 and tn-3 against plan §7); whether the request endpoint is a carve-out like #13 and whether a home URL in the entry stays clear of #52. Then publish on Venkat's word with a comment period; at close promote it under #90. The 0.5 document opens when the first construct is built and exercised, which is after the close. Research: `plans/l3/` R1–R7 (what each could not verify is in its own header; R1 carries a correction). **R8, the probe, is not run** and needs Venkat's word. |
-| **RFC-7 draft** — payments (#104) | Opus has drafted `docs/rfcs/rfc-7-payments.md` from [`v0.5-plan.md`](v0.5-plan.md) §8, beside the RFC-6 draft | Edit and rule it **with RFC-6, in one round**. It must propose no wire construct: anything it needs is RFC-6's (`about`, the pass, challenges, epochs, terms). Rule first, in RFC-6: the terms member's name and whether its public-item use is ruled apart as a 0.4 revision; what the commitment binds; the pass against #11 (a bearer key is not a person, but say why); whether epoch numbers on the wire are acceptable; item 15, a lapsed grant as a retention event, and what it asks of a reader that holds a lock key. Check Opus re-verified x402, MPP and the `payment` link relation against primary sources. Publish both together on Venkat's word; at close promote each under #90. |
+| **RFC-3 close** — ruled session 61 (#97), [`rfcs/rfc-3-pace-layered-order.md`](rfcs/rfc-3-pace-layered-order.md) §7; open for comment on blyg.blygger.org | 2026-12-10 has passed | Scan the stubs with Opus; revise or rule; promote it as a technical note under #90. Do not edit it before then (session 73: it is the model of an optional, named presentation convention). |
+| **RFC-6 and RFC-7 close** (#101, #104, #106) | 2026-11-28 has passed | Scan the stubs and blygger-spec#34 and #35 with Opus; revise #106's rulings or let them stand; promote both as technical notes under #90. Venkat expects no dissent (session 73). Then Part VIII of the book is written from RFC-6 ([`spec-refactor-plan.md`](spec-refactor-plan.md) §10). The 0.5 document opens when the first construct is built and exercised. **R8, the probe, is not run** and needs Venkat's word. |
 | **RFC-4 draft** | Opus has drafted RFC-4, responding from anywhere (#82; `opus-brief.md` item t, which now carries ksurya's non-blyg webmentions, #92 C5) | Edit and rule it; publish with a comment period; at close promote it under #90. |
 
-If nothing is pending review, the dated item is not due and no gate is true when a Fable
-session opens, **say so in one line and stop**. Nothing optional is left to take.
+The book is the standing work. If Venkat has not said to begin it, nothing is pending
+review, no dated item is due and no gate is true when a Fable session opens, **say so in
+one line and ask about the book**.
 
 ## Next round, on Venkat's word
 
@@ -189,6 +221,8 @@ move's two statements are the old manifest's permanent redirect and the successo
 
 - **#11 identity, #12 metrics** — load-bearing refusals. (#88 touches neither: origins,
   not people.)
+- **A count in any document, feed or page markup, or any rule about what another
+  client's page may show** — #107 and session 73: the wire is policed, pages are not.
 - **A normative write API** (#31), **a relation that names a person** (§16.8; #79 added
   the `link` relation, #91 re-grounded a mention's silence), **a title field** (#46),
   **transitive staleness** (#45), **a maintenance flag** (#34, and #77: a same-hash
@@ -250,8 +284,9 @@ move's two statements are the old manifest's permanent redirect and the successo
 
 ## Hand back
 
-Per gate: what was promoted, into which section, in which document. Continue `CLAUDE.md`'s
-locked decisions from **#105**, record reasoning in `v0.4-plan.md` §23 (0.4 matters) or
-`v0.5-plan.md` (Level 3),
-append the DEVLOG entry, file any new ideas in `backlog.md`, prune `fable-round-queue.md`,
-and rewrite this brief.
+Per gate: what was promoted, into which section, in which document. For the book: the
+sitting's products, the clause map for what was touched, and any finding about a rule,
+kept apart from the text. Continue `CLAUDE.md`'s locked decisions from **#108**, record
+reasoning in `v0.4-plan.md` from §25 (0.4 matters) or `v0.5-plan.md` (Level 3), keep
+`spec-refactor-plan.md` current, append the DEVLOG entry, file any new ideas in
+`backlog.md`, prune `fable-round-queue.md`, and rewrite this brief.

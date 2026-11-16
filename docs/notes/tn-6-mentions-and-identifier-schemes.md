@@ -463,9 +463,11 @@ Three rules protect readers. They mirror #35's reader rules:
    merging identities across origins without a verified claim, applied to
    mentions. A match against the reader's book is a display decision, never a
    merge (§13.1 rules 5 and 7).
-3. **No counts and no gating.** "You were mentioned 40 times" is a follower
-   metric by another name (#12, #13). A client may list mentions of a contact
-   for its own owner. It never publishes them as a number.
+3. **No counts on the wire and no gating.** "You were mentioned 40 times" is a
+   follower metric by another name (#12, #13), and no document or feed carries
+   one. A client may list mentions of a contact for its own owner. What it shows
+   on a page is its own style (revised 2026-11-16, decision #108; this rule used
+   to end "It never publishes them as a number").
 
 **A found-mentions list** (session 60). A reading client MAY list, for its
 owner, mentions of the owner found in items it has already imported, under

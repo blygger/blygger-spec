@@ -7,6 +7,133 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 73 — 2026-11-16 — A public responses count ruled (#107); the clip deviation confirmed; the wire and the page (#108); the spec as a book begun (#109)
+**Model:** Opus 5.5 (orientation, 10:27) → Fable 5.2 (items 1–8, by `/model` switch; everything below is Fable's) → Opus 5.5 (wrap-up) · **Time:** ~10:27–15:05 PT · **Committed:** yes (spec, studio) · **Deployed:** —
+
+**What Fable did, in brief.** Ruled the public responses count (#107), then rescoped it
+when Venkat stress-tested it; recorded his pluralist direction as #108 (the project
+polices the wire; pages are each client's, and the reference client's choices are one
+style) with the seventeenth 0.4 revision and three note edits that follow from it;
+confirmed Opus's `@supports` clip deviation on studio#149; set up the spec-as-a-book
+refactor toward 1.0 (#109) and ran its first sitting (working papers and two sample
+chapters); drafted "Studio style"; scoped two Opus tasks (the starter guide with local
+patch hygiene, and the public count build). Opus's only part was the orientation at
+the start and this wrap-up.
+
+**What & why:**
+
+1. **#107, queue item 29: a public responses count is presentation** (first given
+   "under four invariants"; item 5 records the scope it was committed with). Venkat asked for the count in session 72; the recorded stance was "a
+   citation trail with no count" (session 23) and tn-7 §8 told every client "No counts".
+   Read back, the stance protected three things, none of them the numeral: a metric on
+   the wire (§16.8), a machine-readable responses surface (#47), and a ranking. So the
+   count is allowed and those are refused directly: (1) it counts only the verified,
+   unhidden entries of a list the owner switched on, and says nothing at zero; (2) it is
+   text, never in a document, feed or markup; (3) nothing public is ordered or selected
+   by it; (4) no blyg-wide total, no per-responder tally. A presence marker (b) cannot
+   tell thirty responses from one; a second setting (c) guards nothing the per-item
+   opt-in does not. Cost accepted: it reverses published advice, and a visible number is
+   compared whatever the page declines to do with it. No spec revision. tn-7 §8 and §11
+   ruling 5 revised (dated, the original kept), `proposal.yml` reworded, #68 annotated.
+   Reasoning `v0.4-plan.md` §24.1; build brief `opus-brief.md` § session 73; ROADMAP
+   row 127.
+2. **Batch review (#58): studio#149's `@supports (overflow-clip-margin)` clip,
+   confirmed** (`v0.4-plan.md` §24.2). It moves browsers without the margin onto the
+   attribute bound §23.6 already named as their containment; `\smash` of tall content
+   stays uncontained there, as §23.6 says.
+
+3. **The stress test, and a change of spirit (Venkat).** He pressed on #107: nothing stops
+   a site from showing counts and rankings, so is the page worth policing? Further than
+   he put it: a crawler can count stubs per target from feeds alone, so the number was
+   never withheld, only never *asserted*. His direction: the project is pluralist; the
+   spec projects hard power through conformance, the reference client soft power
+   through a style, and other styles are not blocked. Not recorded as a decision yet.
+   **Staged as queue items 30–32:** #107's scope (binds the studio only), a written
+   studio style for the studio (three registers: spec, notes, style), and an audit of
+   what migrates (one small §8.4 revision, three note edits; the spec's display rules
+   otherwise protect another party and stay).
+4. **The spec as a book** (queue item 33, `docs/spec-refactor-plan.md`). Sized first:
+   31,100 words, a quarter of it apparatus; rule, reason and record share one stream.
+   Then Venkat set the goal: a 1.0 spec that is elegant and a pleasure to read as a
+   design document, perhaps 50,000 words and possibly in print, with a book's
+   integrity. Decided by him: history out; a reason appealed to repeatedly becomes an
+   explained doctrinal principle, a one-off becomes a note; a formal grammar annex; a
+   draft for implementers; parts by area with philosophy apart from rules; assume the
+   RFCs pass. The plan defines integrity so it can be checked (one voice, vocabulary,
+   argument, cast), a ten-part outline with Composition and Sealed content as parts of
+   their own, a chapter template, acceptance by clause map plus a reader test and an
+   agent test. It lands as a manuscript in `docs/book/` that becomes the 0.5 document,
+   because section numbers are cited in 73 studio files and the clause ids, and #21/#43
+   open a version only on an exercised construct. Five questions remain his (plan §4).
+   **Nothing was begun.** `fable-brief.md` rewritten around it. ROADMAP rows 128, 129.
+
+5. **Go on everything; items 30 and 32 recorded.** #107 is recorded with its scope (the
+   first "four invariants" wording was never committed): the protocol's rule is that no
+   document or feed carries a count, and the rest is the studio's style. **#108**: the
+   wire and the page, three registers, and the test for a display rule in the spec.
+   **0.4's seventeenth revision**: §8.4's two SHOULDs on a pinned page's look and one
+   imperative sentence are description; two clauses leave the register. tn-7, tn-6 and
+   tn-3 say "on the wire". **#109**: the book, with Venkat's answers (principles
+   explain and do not bind; opaque rule ids; a manuscript until 0.5 opens on an
+   exercised construct).
+6. **The book's first sitting** (`docs/book/`). Read 0.4 §1–§15 in full. Products: an
+   editorial sheet (six actors; definition, rule and note as the only three kinds of
+   sentence; `R-0001` ids; a five-movement chapter); an inventory of reasons sorted
+   into principle, note, record, rejected design and client aside, giving **seventeen
+   candidate principles in four families**; the disposition of all 272 clauses (a
+   scratch extraction: the committed register is from 2026-11-01 and says 221); a cast
+   of four origins and eight items; and **two sample chapters, Pins and Withdrawal**,
+   with their clause map (14 of 272). **Found:** withdrawal is almost entirely
+   keyword-less (two clauses carry it), as is withholding's most general statement;
+   a pinned document has no member table. Eight findings in `book/findings.md`, none
+   changed in the book: a keyword-less requirement is carried as a definition.
+
+7. **"Studio style" drafted** (`blygger-studio/docs/studio-style.md`, queue item 31).
+   Venkat's name: no "Blygger", since other software could use it; no "house", which
+   ties it to the spec. First person, no requirement keywords; four ideas (a soapbox
+   not a scoreboard; claims look like claims; the author decides what is public; boring
+   on purpose) and about fifteen choices, each with what it serves, what it costs and
+   another way to go. Unverified against the code; Opus checks before it is linked.
+
+8. **A developers' starter guide scoped for Opus** (`opus-brief.md` § session 73, first
+   section), for a hackathon in the week of 2026-11-23: one page on where a change
+   belongs, as eight questions answered in order (spec question, Studio pull request,
+   tool on a token, extension, upstream hook, mod, local change, another client).
+   `mods.md` and `extensions.md` already cover three of the rungs; missing are the
+   page that joins them, any `CONTRIBUTING.md`, and a policy on local changes.
+   **Venkat on that last:** make the existing practice easy; people patch anyway and
+   put off upgrading to save rework. Scoped as seven hygiene rules over the upgrade's
+   existing merge (a patch is a `local:` commit; harmless means wire-silent, no
+   migration, no rename; every patch names its exit) and small tooling (`npm run
+   patches`, a path warning, conflict reporting in `upgrade`). No `patches/` directory.
+
+9. **A patched Studio says so** (Venkat agreed): a local-patch count on the Studio's
+   own Settings page and in the bug-report template, never in `generator` or on any
+   public surface. In the Opus brief with the rest of the starter guide.
+
+**State after:** Locked decisions run to #109. 0.4 is at its seventeenth revision
+(committed, not deployed; blygger.org shows the sixteenth). The Fable queue holds item
+33 (the book) only. `docs/book/` holds the manuscript's working papers and Pins and
+Withdrawal; no other chapter is written. `blygger-studio/docs/studio-style.md` is a
+draft, unlinked. The Opus brief has two new session-73 sections: the developers'
+starter guide (due 2026-11-20 for the hackathon) and the public responses count.
+ROADMAP rows 127–129 added.
+
+**Open threads:**
+- **Venkat reads the two sample chapters.** Four questions wait on it (`fable-brief.md`):
+  does the template read right; "quote" for "transclusion"; which of the seventeen
+  principles to cut or merge; whether to rule withdrawal's keyword-less requirements
+  (`book/findings.md` F-1, F-2) as a 0.4 revision now or after the whole book. No
+  further chapter until then.
+- **Studio style:** Venkat edits; Opus checks each entry against the code before it is
+  linked from blygger.org. One entry (the count) describes behaviour not yet built.
+- **Starter guide** for the hackathon week of 2026-11-23: Opus, by 2026-11-20.
+- **Deploy:** the seventeenth revision, revised tn-3/6/7 and ROADMAP rows 127–129 reach
+  blygger.org on the next `blygger-org/deploy.sh`; tn-7's copy on blyg.blygger.org
+  lags until republished. The `proposal.yml` change is live on push.
+- **The committed clause register is stale** (221 clauses, 2026-11-01; 272 now). Opus
+  rebuilds it before the book's clause map is checked in CI.
+
 ## Session 72 — 2026-11-15/16 — Studio 0.60.1, 0.61.0 and 0.62.0: Discover fix and tooltips; the Reading redesign with the Shelf; the burst fold and mathematics
 **Model:** Opus 5.5 · **Time:** 2026-11-15 11:34 PT to 2026-11-16 09:55 PT, with a break · **Committed:** yes (spec, studio) · **Deployed:** studio 0.61.0 (migrations 0044, 0046 first) and 0.62.0 on venkateshrao, PI and blyg.blygger.org (not New Nature); three posts on blyg.blygger.org
 

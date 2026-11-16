@@ -10,9 +10,10 @@ body:
         strong and deliberate bias against adding to it. Two rules that have killed more
         proposals than anything else:
 
-        - **No metrics.** No counts, no follower numbers, no engagement signals. The
-          public-responses list deliberately shows a citation trail and never a number,
-          because a number is the one thing on the page a stranger could move.
+        - **No metrics on the wire.** No counts, no follower numbers, no engagement
+          signals in any document or feed. A number a publisher asserts cannot be
+          checked, so the protocol carries none. What a client shows on its own pages
+          is that client's business.
         - **Identity is not in the protocol** (decision #11), on purpose. Identity is an
           opaque, client-asserted pass-through.
 

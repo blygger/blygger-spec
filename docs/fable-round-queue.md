@@ -26,6 +26,8 @@ second revision). **Only item 22 remains**, and Venkat is thinking about it befo
 **Pruned:** session 66 (2026-11-12), Fable 5.2 — item 28 taken (#101; plan `v0.5-plan.md`); #100 ruled in passing (kind is fixed). **Only item 24 remains.**
 **Pruned:** session 67 (2026-11-12), Fable 5.2 — item 24 ruled (#102; reasoning `v0.4-plan.md` §21). **The queue is empty.** The file is kept because other documents cite its item numbers.
 **Added to:** session 72 (2026-11-15), Opus 5.5, at Venkat's request: item 29 (a visible responses count on reading views and public pages).
+**Pruned:** session 73 (2026-11-16), Fable 5.2 — item 29 ruled (#107; reasoning `v0.4-plan.md` §24.1).
+**Added to:** session 73, same day, Fable 5.2, at Venkat's request after he stress-tested #107: items 30–33 (the scope of #107, a studio style, what migrates out of the spec and the notes, and a refactor of the spec). He said go on all of them the same session: 30 and 32 are done, 31 is to be drafted, 33 is under way.
 **Read with** [`fable-brief.md`](fable-brief.md), which stays the standing agenda; this file
 is the itemised queue for the next round. Delete an item once it is ruled; delete the file
 when it is empty.
@@ -68,34 +70,28 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
 
 26. *Ruled session 60 (#93): RFC-5's F1–F5 — F1 and F5 as sentences in 0.4 §4 and §14 (tenth revision), F2 and F3 no text, F4 with the gate shapes C1–C3 classified; RFC-5 edited and published for comment to 2026-12-03. Reasoning RFC-5 §10, plan §18.4.*
 
-29. **A visible responses count: in the reader, and on public pages** (Venkat, session 72,
-    2026-11-15). He wants every reading view, collapsed and expanded, **and the public
-    item page** to show how many responses a post has, so active conversations can be
-    scanned for, and holds that this does not violate the no-metrics rule. Pair with his
-    plan to merge the Responses tab into Reading (Feed | Sources | Responses), which is
-    studio-private and Opus's.
-    - **What is Opus's already:** studio-private counts. §13.7 permits any local heuristic
-      provided nothing derived is published, so a count in the studio (own posts: verified
-      responses plus local ones; others' posts: responses among the blygs the owner reads,
-      since #41 forbids reading another blyg's public responses list) needs no ruling, and
-      Venkat has said yes to it (session 72).
-    - **What is Fable's:** the **public** count. §16.8's "metrics of any kind" is about the
-      wire, and §8.4 does not constrain presentation (session 20), so it is not a protocol
-      violation on its face. But it reverses a stance the reference client recorded and
-      recommends to other clients: the public responses list is "a citation trail with no
-      count" (session 23, ROADMAP task 17; CLAUDE.md backlog); `proposal.yml`: "a number is
-      the one thing on the page a stranger could move"; tn-7 §8, "No counts. No '42
-      comments'… A presence indicator ('Comments ↓') is enough", carrying #12 and #13 into
-      presentation; #47, the responses surface is "the first surface a count could attach
-      to". Venkat's counter: responses are verified stubs (a real blyg publishing a real
-      item each), the owner can hide any, and the purpose is finding live conversations,
-      not ranking.
-    - **Options to rule between:** (a) public count allowed, with conditions (verified
-      only, after hides, never in machine-readable markup or the feed); (b) a presence
-      marker only on public pages ("responses ↓", "in conversation"), counts in the studio;
-      (c) the count as an owner setting, off by default; and whether tn-7 §8 changes if (a).
-    - **Blocks:** only the public half of studio 0.62.0; the studio half and the tab
-      proceed without it.
+29. *Ruled session 73 (#107): a public responses count is presentation, allowed under four invariants — it counts only what the page shows, it is never data, nothing public is ordered by it, no totals or tallies. No spec revision; tn-7 §8 and §11 revised. Reasoning `v0.4-plan.md` §24.1.*
+
+30. *Ruled session 73 (#107 as recorded): the four points bind the reference client only, as its style; the protocol's rule is that no document or feed carries a count. Reasoning `v0.4-plan.md` §24.3.*
+31. *Drafted session 73 as "Studio style", `blygger-studio/docs/studio-style.md` (#108); Venkat edits, Opus checks each entry against the code, then it is linked from blygger.org.* Original entry: **A studio style for the reference client, written down** (session 73). In place of
+    design principles others must infer from the studio. **Recommended shape:** the
+    studio's own named style, `blygger-studio/docs/studio-style.md`, linked from
+    blygger.org, with the ecosystem page linking any other client's beside it. Three
+    registers kept apart: the spec (MUST, conformance), technical notes (a convergence
+    benefit claimed), studio style (first person, "the Studio does", no requirement
+    keywords, backed only by its reasons). Each entry: the choice, the part of the ethos
+    it serves, its cost, and an alternative another client could reasonably take. It
+    opens with the ethos in a few lines and states the one hard edge (style ends where
+    the wire begins; #41). Sources: #12, #13, #47, #68 ruling 5, session 23's citation
+    trail, the self-host plan, the no-othering site voice, "the studio should be boring",
+    RFC-3 by link. **Open with Venkat:** studio repo or spec repo; the style's name.
+    Fable drafts, Venkat edits; afterwards it is his and Opus's.
+32. *Done session 73 (#108): the seventeenth 0.4 revision (§8.4's page advice is description); tn-7 §8, tn-6 §6 rule 3 and tn-3 §6.2 say "on the wire". Audit and test in `v0.4-plan.md` §24.4.*
+33. **The spec as a book: the refactor toward 1.0** (session 73, decision #109). Task in
+    [`spec-refactor-plan.md`](spec-refactor-plan.md); manuscript in [`book/`](book/README.md).
+    **First sitting done:** editorial sheet, inventory of reasons, disposition, cast,
+    clause map, findings, and two sample chapters (Pins, Withdrawal). **Waiting on
+    Venkat's reading** before any further chapter. Then Part I.
 
 28. *Taken session 66 (#101): Level 3's first feature is sealed content with locks and grants, a design direction that goes to RFC-6 (Opus drafts from `v0.5-plan.md`, Fable edits and rules); payments follow as RFC-7. Research reviewed; R8 not run.*
 

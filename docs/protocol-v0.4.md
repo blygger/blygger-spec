@@ -1262,13 +1262,12 @@ exposes — as a link, or presented in place — MUST be one the origin already
 promises forever, i.e. the live version and pinned versions, nothing else. A
 version display MUST NOT offer, imply, or hint at access to unpinned history.
 
-Within that bound, presentation is the client's. The floor is discrete pin
-citations (e.g. "v6 · pinned: v2, v4"); a page MAY additionally present the
-pinned artifacts themselves in place (the reference client pages among them
-with each shown version visibly marked frozen). The design intent to honor,
-whatever the presentation: **pins are a sequence of frozen citable artifacts
-of one identity, not pages of one document.** Keep each pinned version
-discrete, visibly frozen, and individually citable; a presentation cannot
+Within that bound, presentation is the client's (revision of 2026-11-16,
+decision #108: this paragraph and rule 3 below used to advise how a page
+should look). A page may cite pins discretely ("v6 · pinned: v2, v4") or
+present the pinned artifacts themselves in place. What the wire gives any
+presentation to work with: **pins are a sequence of frozen citable artifacts
+of one identity, not pages of one document.** No presentation can
 reconstruct a continuous edit history, because the bytes for one are never
 served.
 
@@ -1289,10 +1288,10 @@ Rules, for publishers that serve these pages:
    verbatim** (baked transclusion snapshots included for threads). Page
    chrome (banner, links) is presentation and may evolve; the content is
    what is promised.
-3. The page SHOULD carry `rel="canonical"` pointing at the live permalink,
-   SHOULD be visibly marked as a frozen snapshot, and SHOULD link its
+3. The page SHOULD carry `rel="canonical"` pointing at the live permalink.
+   How it marks itself as a frozen snapshot, and whether it links its
    `v{n}.json` twin — the page is the human citation, the JSON the machine
-   citation. Nothing in this protocol reads `rel="canonical"`: readers use
+   citation — is presentation. Nothing in this protocol reads `rel="canonical"`: readers use
    `page` (§5.8) and mentions target it (§15.2), so the link is for
    indexers, and its job is that they index the live page rather than its
    frozen copies. A publisher that serves one item at more than one live
@@ -3139,6 +3138,19 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-16, seventeenth revision** (Fable 5.2, session 73; decision
+  #108) — **a page's look is the client's**. §8.4: two SHOULDs on a pinned
+  version's page (that it be visibly marked as a frozen snapshot, that it
+  link its `v{n}.json` twin) and the sentence telling a presentation to keep
+  pinned versions "discrete, visibly frozen, and individually citable" are
+  now description. The bound on what a version display may expose is
+  unchanged, and so is `rel="canonical"`. The test applied to the whole
+  document: a display rule is the protocol's when it protects someone other
+  than the page's owner or bounds what the origin serves; every other
+  display rule in the text passed it and stays. Two clauses leave the
+  clause register. Nothing a conformant client emits or accepts changes.
+  Not snapshotted.
 
 - **2026-11-13, sixteenth revision** (Fable 5.2, session 69; decision
   #105) — **mathematics**. No new construct: `content_html` is HTML and
