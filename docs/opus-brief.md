@@ -124,6 +124,11 @@ Points each rung must cover:
 - **Never develop against a live blyg.** A scratch database and local dev. Extension
   code runs in the owner's session and can publish and mint tokens, which is why
   nothing loads at run time.
+- **A ready hackathon idea for rung 4: suggested edits** (decision #110, `v0.4-plan.md`
+  §25, `backlog.md` §2). The protocol needs nothing new: an extension offers "suggest
+  an edit" (fork and edit, or a stub with quoted passages) and a view that shows
+  incoming `fork` mentions as diffs against the owner's own pin. It is also the best
+  worked example of rung 1 answered "no": it sounds like a wire change and is not.
 - **Five or six starter ideas, one per rung,** so people can see the ladder applied:
   for example a tool that imports a folder of notes (3), a reading-view extension (4),
   an owner stylesheet hook if it is still open (5), a wire idea written up as an issue

@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 73 — 2026-11-16 — A public responses count ruled (#107); the clip deviation confirmed; the wire and the page (#108); the spec as a book begun (#109)
-**Model:** Opus 5.5 (orientation, 10:27) → Fable 5.2 (items 1–8, by `/model` switch; everything below is Fable's) → Opus 5.5 (wrap-up) · **Time:** ~10:27–15:05 PT · **Committed:** yes (spec, studio) · **Deployed:** —
+**Model:** Opus 5.5 (orientation, 10:27) → Fable 5.2 (items 1–8, by `/model` switch; everything below is Fable's) → Opus 5.5 (wrap-up) → Fable 5.2 (item 10) · **Time:** ~10:27–15:05 PT, then 16:05–16:20 · **Committed:** yes (spec, studio) · **Deployed:** —
 
 **What Fable did, in brief.** Ruled the public responses count (#107), then rescoped it
 when Venkat stress-tested it; recorded his pluralist direction as #108 (the project
@@ -111,7 +111,20 @@ the start and this wrap-up.
    own Settings page and in the bug-report template, never in `generator` or on any
    public surface. In the Opus brief with the rest of the starter guide.
 
-**State after:** Locked decisions run to #109. 0.4 is at its seventeenth revision
+10. **#110, after the wrap-up (Fable 5.2 again, by `/model` switch): a pull request is a
+    pattern, not a construct.** Venkat asked whether the protocol could carry a
+    suggested change to another blyg's post. It already can: fork and edit for a
+    pinned item, a stub with quoted passages for an unpinned one, a verified mention
+    either way, a diff computed by the target's studio (which alone holds the base
+    when it is unpinned), and acceptance as the author's own next version. Refused: a
+    proposal marker (a typed stub), proposal state (a conversation object) and any
+    merge (one origin writing into another's item). The fork rule is not relaxed for
+    unpinned versions. Weak points recorded: forking a thread flattens its quotes; an
+    accepted suggestion has no machine-readable credit (backlog §1). Interface goes
+    to an extension, and it is offered as a hackathon idea. Reasoning
+    `v0.4-plan.md` §25.
+
+**State after:** Locked decisions run to #110. 0.4 is at its seventeenth revision
 (committed, not deployed; blygger.org shows the sixteenth). The Fable queue holds item
 33 (the book) only. `docs/book/` holds the manuscript's working papers and Pins and
 Withdrawal; no other chapter is written. `blygger-studio/docs/studio-style.md` is a

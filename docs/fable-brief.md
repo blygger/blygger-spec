@@ -100,7 +100,8 @@ the `blyg-tk-gen` wrapper while the span keeps one `generated[]` entry. **#103**
 the hash is over the bytes served, NFC a SHOULD, one ASCII spelling for an origin
 string; and §3 states what conformance may cost a reader, a test to apply to every new
 rule, sealed content included. **#105** mathematics is MathML and the protocol adds
-nothing for it. **#106** RFC-6 and RFC-7 at the edit. **#107** a public responses count
+nothing for it. **#106** RFC-6 and RFC-7 at the edit. **#110** a pull request is a
+pattern over fork, stub and mention, with no construct and no merge. **#107** a public responses count
 is presentation; no count in any document or feed (§16.8, unchanged).
 
 ## The dated item — RFC-5 closes 2026-12-03
@@ -221,6 +222,9 @@ move's two statements are the old manifest's permanent redirect and the successo
 
 - **#11 identity, #12 metrics** — load-bearing refusals. (#88 touches neither: origins,
   not people.)
+- **A proposal marker or relation, proposal state on the wire, a merge into another
+  origin's item, or lineage that names an unpinned version** — #110. A pull request is
+  a pattern over fork, stub and mention.
 - **A count in any document, feed or page markup, or any rule about what another
   client's page may show** — #107 and session 73: the wire is policed, pages are not.
 - **A normative write API** (#31), **a relation that names a person** (§16.8; #79 added
@@ -286,7 +290,7 @@ move's two statements are the old manifest's permanent redirect and the successo
 
 Per gate: what was promoted, into which section, in which document. For the book: the
 sitting's products, the clause map for what was touched, and any finding about a rule,
-kept apart from the text. Continue `CLAUDE.md`'s locked decisions from **#108**, record
-reasoning in `v0.4-plan.md` from §25 (0.4 matters) or `v0.5-plan.md` (Level 3), keep
+kept apart from the text. Continue `CLAUDE.md`'s locked decisions from **#111**, record
+reasoning in `v0.4-plan.md` from §26 (0.4 matters) or `v0.5-plan.md` (Level 3), keep
 `spec-refactor-plan.md` current, append the DEVLOG entry, file any new ideas in
 `backlog.md`, prune `fable-round-queue.md`, and rewrite this brief.

@@ -422,6 +422,11 @@ Nothing here demands a change. Two things are worth a Fable eye:
 
 ## 7. Open questions
 
+*Added session 73 (2026-11-16): **the suggested edit** is a pattern to add at the next
+revision (decision #110): fork and edit for a pinned item, a stub with quoted passages
+for an unpinned one, acceptance as the author's own next version. Reasoning in
+`docs/v0.4-plan.md` §25.*
+
 1. **Is a pattern catalogue a thing this project publishes?** `blygger.org` already has
    three genres (spec text, technical notes, talks). A fourth — *patterns* — would be the
    first documentation aimed at publishers rather than implementers. It is also the kind of
