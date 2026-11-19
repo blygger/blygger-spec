@@ -73,6 +73,24 @@ deploy `9e002fa`; a placeholder browser test; the §13.7 links sentence for Fabl
 of row 77 (link mentions, notices); plan §2.4's deleted-directive notice; the stub-quote edge
 (a span quoting the stub's own target); #88's toast; 0.63.0 release prep; blygger-org deploy.
 
+**Later the same day (continued; Opus 5.5, then Fable 5.2 for two rulings).** Link mentions
+built (row 77, studio `eae55f7`): remote `links[]` entries send mentions, the receiver files
+`link` last in the §15.4 order, and a `link` never enters a public responses list. The
+browser suite then showed a contents thread folding its chapter by link; Venkat chose
+"placeholders only" and the fold was narrowed. Full e2e 592 passed, 26 skipped; the reader
+conformance suite 100 of 100 against the local studio (74 at its last recorded run). Studio
+and spec pushed, migration 0048 applied and `deploy:vgr` run on venkateshrao, verified
+from the live bundle. Kyle Mathews opened studio#151 (oracle suites onto
+`@tanstack/oracles`, +43k lines, also removing the host-root `/api` alias) and #152
+(conditional GETs, `/changes` deleted). Fable ruled:
+
+9. **#111.** Conditional GETs are accepted as how tools watch a node; `/changes` is
+   deprecated for two releases and not removed outright, under five conditions on #152.
+10. **#112, the eighteenth revision.** The fold by link is confirmed and its test changed
+    from time to text: a reader MAY fold a linked item published in the same act only when
+    it says no more than the link's own text. A fold covers the burst's versions, not the
+    item. The studio's imported-item rule is to add the text test.
+
 ## Session 73 — 2026-11-16 — A public responses count ruled (#107); the clip deviation confirmed; the wire and the page (#108); the spec as a book begun (#109)
 **Model:** Opus 5.5 (orientation, 10:27) → Fable 5.2 (items 1–8, by `/model` switch; everything below is Fable's) → Opus 5.5 (wrap-up) → Fable 5.2 (item 10) · **Time:** ~10:27–15:05 PT, then 16:05–16:20 · **Committed:** yes (spec, studio) · **Deployed:** —
 

@@ -117,11 +117,9 @@ for late comments.
 
 ## Review first — decisions Opus ruled (#58)
 
-**Pending now: the fold by link** (session 74, [`v0.4-plan.md`](v0.4-plan.md) §26). The
-studio folds `[[+ text]]` placeholders a thread names in `links[]` as it folds the parts it
-quotes; §13.7's first sentence makes that the reader's own policy. For review: the drafted
-§13.7 sentence recommending it to other clients, and §26's three points. #95 was confirmed
-in session 61 (§18.10).
+Nothing pending. The fold by link (session 74, [`v0.4-plan.md`](v0.4-plan.md) §26) was
+reviewed the same day: confirmed, with the test tightened from time to text (#112, the
+eighteenth revision, §27). #95 was confirmed in session 61 (§18.10).
 
 Session 60's five decisions are Fable's own. Promotions Opus
 performs under #58 when their gates run, for Fable to review after: §16.9 `pinned_at` →

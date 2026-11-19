@@ -2274,6 +2274,18 @@ such a burst as one publication — the thread as its entry, the items it
 names (of either kind) beneath it or deferred to the low-priority queue of §13.2 — and MUST still
 import every item (§13.1), since folding is display, never omission.
 
+A link names an item without quoting it, so folding a linked item hides text
+the thread does not carry (eighteenth revision, decision #112). A reader MAY
+fold an item the thread names only in `links[]` (§10.3a) when the two were
+published in the same act and the item's text at that version is no more
+than the link's own text: a placeholder for something not yet written. Any
+other linked item, such as a chapter its contents page names, is its own
+arrival, however close together the two were published.
+
+A fold covers the versions published in the burst, not the item (same
+revision). A later version with a different `content_hash` is an ordinary
+update, and a reader that folded the first SHOULD show it as one.
+
 ## 14. Security and privacy considerations
 
 - **Withdrawal is cooperation, not erasure.** The protocol makes the honest
@@ -3138,6 +3150,17 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-18, eighteenth revision** (Fable 5.2, session 74; decision
+  #112) — **a placeholder folds, a linked chapter does not**. §13.7: a
+  reader MAY fold an item its thread names only in `links[]` when the two
+  were published in the same act and the item says no more than the link's
+  own text; any other linked item is its own arrival. Time alone is not the
+  test: a tool that publishes a chapter and then its contents page lands
+  them seconds apart. And said once for quoted and linked items alike: a
+  fold covers the versions published in the burst, and a reader that folded
+  the first SHOULD show a later version with a different `content_hash` as
+  an ordinary update. Nothing a publisher emits changes. Not snapshotted.
 
 - **2026-11-16, seventeenth revision** (Fable 5.2, session 73; decision
   #108) — **a page's look is the client's**. §8.4: two SHOULDs on a pinned
