@@ -172,7 +172,10 @@
       "notes": {
         "first": "Tangling explained: write the essay, publish the parts (Studio 0.63.0).",
         "revision": "Tangling post revised; see the source history."
-      }
+      },
+      "id": "0g4gyq24jjm6pyggg22h70t220",
+      "version": 1,
+      "source_sha256": "a04ce6bce6d927fdedd53710ec179150e6cd353838c982e9a8d754f3e0a94500"
     }
   ]
 }
