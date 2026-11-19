@@ -91,6 +91,42 @@ from the live bundle. Kyle Mathews opened studio#151 (oracle suites onto
     it says no more than the link's own text. A fold covers the burst's versions, not the
     item. The studio's imported-item rule is to add the text test.
 
+**Then (Opus 5.5, after the rulings).** The session-74 queue (`opus-brief.md`, items a–g):
+
+11. **0.63.0 released.** Contract 5.12.0, SDK 0.18.0, a CHANGELOG naming migrations 0047
+    and 0048; tagged at `c772e11` after Check went green, and Release green. Deployed to
+    venkateshrao, PI and blyg.blygger.org (0047 and 0048 applied on the two that lacked
+    them), each checked by its service worker's version line; announced at
+    blyg.blygger.org/t/0enf8zg43d5rtvsr5xre4gktbd/. studio#20 (tangling) closed with the
+    release. New Nature untouched.
+12. **studio#88 merged** (`b5751e8`, after the tag, so it ships in 0.64.0). Before the merge
+    one test-only commit went to Shannon's branch: the theme test read tokens her rebase
+    had dropped. That commit also removed her `mobile-webkit` project, which never got
+    past login, and called the removal minor. Venkat asked what the project was for: it
+    was the regression test for her fix of the very toast bug we had reported, and the
+    removal left that fix untested. Cause found by watching the cookie: the server sets
+    the session cookie `Secure`, Chromium keeps it on `http://127.0.0.1`, WebKit drops it.
+    The login helper now hands WebKit the cookie without `Secure`; with her CSS removed
+    WebKit fails and mobile Chromium passes, so the test guards the fix. Restored in
+    `e54af45`, with a correction posted on #88. The lesson is the one in
+    `read-pr-body-before-merge`: read a contributor's commits before removing anything of
+    theirs, not only the failure.
+13. **The clause register** rebuilt for the eighteenth revision (`520535b`): 273
+    normative clauses, decisions to #112; no id lost or moved, three edited clauses kept
+    theirs by near-match, 50 new. Two overrides still pointed at §16.12 from before the
+    eighth revision's promotion; one had left `C-12.2-05` tagged publisher.
+14. **Notices view** (row 77's remainder, studio `5597f8a`): the responses page counted
+    `link` mentions as "on the page now", which they never are. `MentionGroup.links`
+    added, `visible` excludes links, and each target lists its links under "Linked from"
+    after its responses. Contract 5.13.0 at the next release.
+15. **Reader suite** at 0.63.0: 100 of 100 (`e44607a`; 79 at 0.57.0, the 21 were all
+    `links[]`). ROADMAP rows 45 and 130 shipped, 77 in part.
+
+**State after:** studio 0.63.0 live on three nodes; main carries #88, the WebKit test and
+the notices view, unreleased (0.64.0 needs its CHANGELOG, contract 5.13.0, SDK 0.19.0).
+Open: #152 waits on Kyle's revision under #111; #151 after it; tn-4's revision when #152
+merges; tangling leftovers; the blygger-org site deploy (Venkat's).
+
 ## Session 73 — 2026-11-16 — A public responses count ruled (#107); the clip deviation confirmed; the wire and the page (#108); the spec as a book begun (#109)
 **Model:** Opus 5.5 (orientation, 10:27) → Fable 5.2 (items 1–8, by `/model` switch; everything below is Fable's) → Opus 5.5 (wrap-up) → Fable 5.2 (item 10) · **Time:** ~10:27–15:05 PT, then 16:05–16:20 · **Committed:** yes (spec, studio) · **Deployed:** —
 
