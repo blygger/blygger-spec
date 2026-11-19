@@ -193,22 +193,18 @@ items are retained past withdrawal only when curated into a hopper (a MAY in
 answer from Miniflare rather than DNS, and Miniflare 5 needs its options
 converted.
 
-## Results at blygger-studio 0.57.0
+## Results at blygger-studio 0.63.0
 
-79 pass, 21 fail, against 100 fixtures. Every failure is one disagreement:
+100 pass, 0 fail, against 100 fixtures (2026-11-19). 0.63.0 emits `links[]`
+(§10.3a, #79; ROADMAP row 77), which cleared the 21 cases that failed at 0.57.0,
+the only finding then. On the nine ambiguous cases the studio's readings match
+the fixtures' chosen ones: none of them warns.
 
-| Finding | Cases | Spec |
-|---|---|---|
-| `links[]` is never emitted | 21 | §10.3a, #79 (ROADMAP row 77, studio queue item o) |
-
-The run at 0.49.12 passed 72. 0.50.0 fixed the lazy-continuation partial
-quote (blygger-studio#104, §10.1, #76) and the own-line `![[id]]` in a
-generated block (#105, #60, §5.7); 0.57.0 bakes `data-blyg-label`
-(blygger-studio#136, §10.1, §10.2, #81), which cleared five more.
-
-On the nine ambiguous cases the studio's readings match the fixtures' chosen
-ones: none of them warns. One still fails on a check the ambiguity does not
-cover (`link-label-markup` on `links[]`).
+The run at 0.49.12 passed 72 and the run at 0.57.0 passed 79. 0.50.0 fixed the
+lazy-continuation partial quote (blygger-studio#104, §10.1, #76) and the
+own-line `![[id]]` in a generated block (#105, #60, §5.7); 0.57.0 bakes
+`data-blyg-label` (blygger-studio#136, §10.1, §10.2, #81), which cleared five
+more.
 
 ## Provenance
 
