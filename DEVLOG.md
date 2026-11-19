@@ -165,6 +165,18 @@ integrity check.
 revision, live on blygger.org. Open: tn-3, tn-6 and tn-7 to republish; #152 and #151 with
 Kyle; Shannon's follow-ups; WebKit out of the main e2e job; Background phase 2 and 4b next.
 
+**Second wrap-up, 2026-11-19 11:03 PST.**
+- **Shannon's #88 thread is closed.** She found the toast closes on its own after 2.4 s in Safari and Chrome. Whether she tested on a phone is unclear, and Venkat ruled the residual not worth chasing. A closing note was posted.
+- **#153** is renamed "Establish security principles for studio dependencies (supply-chain inventory)".
+- **Kyle reworked #152 under #111.** All five conditions are met on his side:
+  - `/changes` and `getChanges` are deprecated through 0.65 and 0.66 and removed in 0.67, at contract 6.0.0;
+  - contract 5.14.0, SDK 0.20.0;
+  - validators are documented as opaque;
+  - `docs/mods.md` and the CHANGELOG are updated;
+  - the version is renumbered to 0.65.0.
+- **Neither PR is merged.** #151 is green. On #152, Kyle's later commit `4cae30f` failed `check`: `batch-validator-work.oracle.test.ts` fails `getItem-delegated-49` with no mutant active, which leaves two gaps open. Kyle was told on the PR. Venkat's instruction: merge #151, then #152 retargeted to main, with merge commits, once #152 is green.
+- **Maintainers.** Kyle Mathews and Aneesh Sathe are now admins on all four repos, and Venkat stays the default merger. This is recorded at the top of this repo's `CLAUDE.md` and in both `CONTRIBUTING.md` files. Venkat's session rituals don't bind them; anyone merging reads *Next session first*.
+
 ## Session 73 — 2026-11-16 — A public responses count ruled (#107); the clip deviation confirmed; the wire and the page (#108); the spec as a book begun (#109)
 **Model:** Opus 5.5 (orientation, 10:27) → Fable 5.2 (items 1–8, by `/model` switch; everything below is Fable's) → Opus 5.5 (wrap-up) → Fable 5.2 (item 10) · **Time:** ~10:27–15:05 PT, then 16:05–16:20 · **Committed:** yes (spec, studio) · **Deployed:** —
 
