@@ -147,7 +147,21 @@ service worker's version line) and announced at
 blyg.blygger.org/t/4b247ya8fa25gtn2fzwmmz12rs/ on the morning of 2026-11-19. The lasting fix
 (WebKit in its own job, or its packages cached) is carried.
 
-**State after:** studio 0.64.0 live on three nodes; main clean. Spec at the eighteenth
+**After the wrap-up (Venkat's request): a supply-chain inventory.** From the lockfile (302
+packages; 76 at run time, 226 for development; three install scripts), the measured
+contents of both bundles, the workflows and the run-time fetches, each rated high, medium or
+low. `npm audit` showed five advisories against Hono 4.13.14, one of them the router
+skipping wildcard middleware, which is how the studio attaches its sign-in checks. The
+repository is public, so Venkat chose to patch before publishing: **0.64.1** (Hono 4.13.18,
+fast-xml-parser 5.12.1; four lockfile entries changed; Worker 2,501, UI 310 and browser 595
+passed; CI green) went to venkateshrao, PI and blyg.blygger.org and was announced. Then the
+survey went up as [studio#153](https://github.com/blygger/blygger-studio/issues/153), with a
+comment asking Kyle to review the ratings, the Renovate config that has never run, and
+anything missed. Also found: Renovate was configured in #94 and has never opened a pull
+request; on-device OCR fetches Tesseract's worker, core and model from jsDelivr with no
+integrity check.
+
+**State after:** studio 0.64.1 live on three nodes; main clean. Spec at the eighteenth
 revision, live on blygger.org. Open: tn-3, tn-6 and tn-7 to republish; #152 and #151 with
 Kyle; Shannon's follow-ups; WebKit out of the main e2e job; Background phase 2 and 4b next.
 

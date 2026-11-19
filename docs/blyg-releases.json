@@ -251,6 +251,11 @@
       "id": "4b247ya8fa25gtn2fzwmmz12rs",
       "version": 1,
       "source_sha256": "a3cd06bd313d7c8207fbf199e5fc2764aa6d26b7953348d12c416e1c8bd8ffea"
+    },
+    "0.64.1": {
+      "id": "0s94kcqa4hxdg0pf11wgpqxy3g",
+      "version": 1,
+      "source_sha256": "987ce32051cc5fe8b052d24485b4b9bc5a3711da5107343c6bde5e30bd74e749"
     }
   }
 }
