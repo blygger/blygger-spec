@@ -12,6 +12,10 @@ without a protocol revision.
 each release. The client's current contract is its own OpenAPI document and the docs in
 [`blygger/blygger-studio`](https://github.com/blygger/blygger-studio).
 
+**Revised session 75, 2026-11-19 (Opus 5.5)**, after decision #111: §3's polling
+paragraph now describes conditional reads (studio#152, merged for 0.65.0). `/changes`
+answers in 0.65.0 and 0.66.0, deprecated, and is removed in 0.67.0.
+
 ## 1. The question
 
 Within weeks of the first strangers' blygs, people were writing to them from somewhere
@@ -115,8 +119,11 @@ and a phone.
 it as the protocol's `generated[]` (§5.7). The claim is the client's own assertion, like
 every provenance member.
 
-**Polling, not webhooks** (#39). `GET {mount}/api/changes` returns revision counters per
-domain; a tool polls it and reloads only what moved.
+**Polling, not webhooks** (#39). A tool polls the resources it needs with `If-None-Match`
+and reloads on a `200`; a `304` has no body and means nothing moved. The validators are
+opaque, so plain HTTP is enough and the SDK's conditional reads are a convenience. Until
+0.65.0 the mechanism was `GET {mount}/api/changes`, revision counters per domain; it is
+deprecated for two releases and removed in 0.67.0 (#111).
 
 ## 4. What tools did with it
 
