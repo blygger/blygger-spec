@@ -7,6 +7,72 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 74 — 2026-11-18 — Starter guide and local patches; tangling built and live on venkateshrao; `links[]` and `[[+ text]]` placeholders
+**Model:** Opus 5.5 · **Time:** ~14:28–16:25 PT · **Committed:** yes (spec, studio, org) · **Deployed:** studio `0e9bd93` (tangling, migration 0047) to venkateshrao only
+
+**What & why:**
+
+1. **PRs.** studio#88 (Shannon, Base UI primitives): her rebase and e2e fixes took the
+   browser suite from 27 failures to 1 in 588; CI approved by maintainer (fork run). The
+   remaining failure, `[mobile] cosmetics.spec.ts:21`, is Base UI's toast pausing while the
+   pointer is over it: on the phone layout the toast appears under the last click and never
+   closes (moving the mouse away: 4/4 pass, without: 1/3). Commented asking her to check a
+   real phone before deciding between a test change and a toast change, and whether the
+   composer's Save/Publish going `small` was intended. Robert Peake (cyberscribe) reported
+   Soapbox 0.1.6 implements #103; replied on spec#6; `projects.toml` bumped to 0.1.6.
+2. **Developers' starter guide** (carry-over, due 2026-11-20): `blygger-studio/docs/where-does-it-go.md`,
+   the eight-rung ladder with tests, a first hour verified on a clean v0.62.0 clone (Node 24,
+   npm 11.19: `npm ci` needs no `--legacy-peer-deps` now), seven local-patch rules, starter
+   ideas per rung (suggested edits, #110, as rung 1 answered no). `CONTRIBUTING.md` in studio
+   and spec; links from the README and `mods.md`. **Local patches:** `npm run patches`
+   (commits no `v*` tag or upstream remote carries; flags unlabelled ones and wire paths),
+   a count baked at build into Settings → updates (never on the wire), `upgrade` prints the
+   list and names the local commits behind a conflict and no longer advises a stash, the bug
+   template asks for the count. Pinned studio#150 for operators to list patches (rule 7).
+   Venkat: "no migration" stays the definition of harmless; a `9000_` migration is
+   pointed to with a warning. Found while testing upgrade: a merge that does not conflict
+   runs upgrade's post-merge remote steps; in a clean clone wrangler refused (two accounts),
+   so nothing remote ran. Test with a certain conflict.
+3. **Tangling, publish side (row 45).** `![[+ text]]` spans per `tangling-plan.md` §1–2:
+   grammar in `src/tangle.ts` (not `grammar.ts`, #70); pre-flight is `publish()` with a new
+   `dryRun` (every check, no write) for each part and for the thread with spans removed;
+   the `tangle: true` gate (409 `tangle-confirmation-required`, count and labels) for every
+   caller; one revision-guarded batch mints parts (`kind 'thread'`, #100) and rewrites the
+   thread; parts then thread; `tangled_from` (migration 0047, items trigger recreated for
+   the polling oracle) lets a re-publish finish a stopped tangle. Studio: count dialog, the
+   editor takes up the rewritten source (else autosave would restore the spans), dashed "new
+   item" preview (inserted after provenance injection, which pairs quotes by position),
+   plain text / change notes / classifier read the words, syntax page. Full e2e green
+   (590/26 skipped). **Deployed to venkateshrao only; Venkat tested it: "worked great".**
+   The deployed build was made before the push, so its Settings shows "1 local patch" until
+   the next deploy.
+4. **`[[+ text]]` placeholders and `links[]`** (Venkat's extension, after reading Aneesh's
+   withdrawn speculative-authoring proposal, spec#24). Decided with Venkat: the spelling
+   stays `+`-marked so a missing id never mints; the new item's public text is the anchor
+   text as a heading (a reader arriving directly sees what it is); a comment to self in its
+   working copy names the thread and sentence (comments are studio-only, so they cannot be
+   the public text, and a comment-only item would not publish); placeholders fold under the
+   thread like quoted parts. Folding by link needed `links[]` on the wire, ruled #79 but
+   unbuilt (row 77), so: publish records resolved links from `content_md` in document order
+   (`versions.links_json`, migration 0048), item and pinned documents emit `links`, imports
+   keep it, and Background's burst rule names an item by quote or by link. Built without a
+   ruling because §13.7 opens "ordering the merged reading surface is the reader's own
+   policy"; the sentence recommending it to other clients goes to Fable's batch.
+   Committed (`9e002fa`), **not pushed, not deployed**; unit and Worker suites green, no
+   browser test for placeholders yet.
+
+**State after:** Studio main has tangling (`0e9bd93`, CI green, live on venkateshrao).
+Local-only commit `9e002fa` holds `links[]` and placeholders, migration 0048 unapplied
+anywhere. Version still 0.62.0; 0.63.0 not cut (contract/SDK bumps at release prep).
+Starter guide published on GitHub (studio `docs/where-does-it-go.md`), not on blygger.org.
+blygger-org: Soapbox 0.1.6 committed and pushed, not deployed (the reply to Robert says the
+page lists 0.1.6).
+
+**Open threads:** see the carry-overs in `CLAUDE.md` (updated this session): push and
+deploy `9e002fa`; a placeholder browser test; the §13.7 links sentence for Fable; the rest
+of row 77 (link mentions, notices); plan §2.4's deleted-directive notice; the stub-quote edge
+(a span quoting the stub's own target); #88's toast; 0.63.0 release prep; blygger-org deploy.
+
 ## Session 73 — 2026-11-16 — A public responses count ruled (#107); the clip deviation confirmed; the wire and the page (#108); the spec as a book begun (#109)
 **Model:** Opus 5.5 (orientation, 10:27) → Fable 5.2 (items 1–8, by `/model` switch; everything below is Fable's) → Opus 5.5 (wrap-up) → Fable 5.2 (item 10) · **Time:** ~10:27–15:05 PT, then 16:05–16:20 · **Committed:** yes (spec, studio) · **Deployed:** —
 
