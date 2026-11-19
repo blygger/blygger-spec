@@ -195,9 +195,10 @@ converted.
 
 ## Results at blygger-studio 0.63.0
 
-100 pass, 0 fail, against 100 fixtures (2026-11-19). 0.63.0 emits `links[]`
+101 pass, 0 fail, against 101 fixtures (2026-11-19). 0.63.0 emits `links[]`
 (§10.3a, #79; ROADMAP row 77), which cleared the 21 cases that failed at 0.57.0,
-the only finding then. On the nine ambiguous cases the studio's readings match
+the only finding then. Case 101 is a tangled thread's published text (tangling
+plan §4.4); it needed no new group, which is the plan's point. On the nine ambiguous cases the studio's readings match
 the fixtures' chosen ones: none of them warns.
 
 The run at 0.49.12 passed 72 and the run at 0.57.0 passed 79. 0.50.0 fixed the

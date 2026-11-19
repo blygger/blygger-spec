@@ -1,13 +1,13 @@
 {
   "area": "reader",
   "title": "Reader suite: content_md → content_html fixtures",
-  "generated_at": "2026-11-19T07:51:42.942Z",
+  "generated_at": "2026-11-19T08:06:14.979Z",
   "renderer": "blygger-studio 0.63.0",
   "snapshot": "spec/0.4/2026-10-18",
   "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
-  "fixtures": 100,
+  "fixtures": 101,
   "counts": {
-    "pass": 100,
+    "pass": 101,
     "warn": 0,
     "fail": 0,
     "unreported": 0
@@ -15,9 +15,9 @@
   "checks": [
     {
       "id": "reader.blygger-studio.census",
-      "title": "blygger-studio 0.63.0: 100 fixtures against spec/0.4/2026-10-18",
+      "title": "blygger-studio 0.63.0: 101 fixtures against spec/0.4/2026-10-18",
       "status": "info",
-      "detail": "100 pass, 0 warn (ambiguous text or fragment-only URLs), 0 fail, 0 unreported (passed what was checked, but left out an array the fixture expects)",
+      "detail": "101 pass, 0 warn (ambiguous text or fragment-only URLs), 0 fail, 0 unreported (passed what was checked, but left out an array the fixture expects)",
       "spec_refs": [
         "§10.1",
         "§10.2",
@@ -30,7 +30,7 @@
         "#48"
       ],
       "counts": {
-        "pass": 100,
+        "pass": 101,
         "warn": 0,
         "fail": 0,
         "info": 0
@@ -1582,6 +1582,25 @@
       ],
       "clauses": [],
       "group": "generation"
+    },
+    {
+      "id": "reader.blygger-studio.tangled-thread-output",
+      "title": "blygger-studio 0.63.0: A tangled thread's published text is ordinary wire: labelled directives, each followed by a blank line, and a labelled link (tangling plan §4.4)",
+      "status": "pass",
+      "detail": "outcome: published · normative: 3 normative node(s) match · absolute-urls: 1 URL(s), all absolute · transclusions: 2 entries as expected · links: 1 entry as expected",
+      "spec_refs": [
+        "§10.1",
+        "§10.2",
+        "§10.3a",
+        "§13.7"
+      ],
+      "decisions": [
+        "#70",
+        "#78",
+        "#79"
+      ],
+      "clauses": [],
+      "group": "label"
     }
   ]
 }

@@ -273,7 +273,6 @@ c("label", "directive-label-inline-inert", "A labelled directive not alone on it
   md: `text ![[${LF} | inline]] text`, items: [LF], html: P(t(`text ![[${LF} | inline]] text`)), literals: [`![[${LF} | inline]]`], tr: [], links: [], spec: ["§10.1"], decisions: ["#70"], seed: "label_directive_malformed" });
 c("label", "directive-label-unresolvable", "A labelled directive naming an unknown id is a publish error", {
   md: `![[${UNKNOWN} | missing]]`, items: [], error: true, spec: ["§10.2"], decisions: ["#70"], seed: "label_directive_unresolved" });
-
 // partial — §10.1–§10.3 partial transclusion (#49, #76)
 c("partial", "partial-local", "A directive with an attached blockquote is a partial transclusion", {
   md: `Intro.\n\n![[${LF}]]\n> used daily, beat big tools\n\nMine.`, items: [LF], html: P("Intro.") + QP(LF, ["used daily, beat big tools"]) + P("Mine."),
@@ -411,6 +410,10 @@ c("generation", "tk-output-own-line-directive", "An own-line directive in genera
   ambiguous_checks: ["normative"], ambiguous: "Decision #60 makes the directive a real transclusion, so the quote and its transclusions[] entry are normative. Where the quote sits relative to the div.blyg-tk-gen is not stated; the expectation nests it inside the generated block, where the author's output put it, though a quote is not generated words." });
 c("generation", "tk-ungenerated-scope", "A scope with no output is a publish error", {
   kind: "fragment", md: "Before [TK]summarise the argument[/TK] after.", items: [], error: true, spec: ["§5.7"], decisions: ["#20"], seed: "tk_ungenerated_inline" });
+c("label", "tangled-thread-output", "A tangled thread's published text is ordinary wire: labelled directives, each followed by a blank line, and a labelled link (tangling plan §4.4)", {
+  md: `Opening words.\n\n![[${LF} | Small tools, used daily, beat…]]\n\n![[${LN} | Notebooks and pencils]]\n\nMiddle words, and [[${LF} | an idea for later]].\n`,
+  items: [LF, LN], html: P("Opening words.") + Q(LF, { label: "Small tools, used daily, beat…" }) + Q(LN, { label: "Notebooks and pencils" }) + P("Middle words, and ", L(LF, "an idea for later"), "."),
+  tr: [TR(LF), TR(LN)], links: [LK(LF)], spec: ["§10.1", "§10.2", "§10.3a", "§13.7"], decisions: ["#70", "#78", "#79"] });
 
 // ── Write ───────────────────────────────────────────────────────────────────
 const strip = (html) => html.replace(/ data-x-[a-z-]+/g, "");

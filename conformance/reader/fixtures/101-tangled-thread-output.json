@@ -1,0 +1,99 @@
+{
+  "id": "tangled-thread-output",
+  "title": "A tangled thread's published text is ordinary wire: labelled directives, each followed by a blank line, and a labelled link (tangling plan §4.4)",
+  "group": "label",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 8e8bce5 (seventh revision, 2026-11-01)",
+  "note": "Revisions two to seven of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76) and LF/CRLF line endings (#76) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.1",
+    "§10.2",
+    "§10.3a",
+    "§13.7"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#70",
+    "#78",
+    "#79"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "Opening words.\n\n![[01j9zq3k4m5n6p7q8r9s0t1v2w | Small tools, used daily, beat…]]\n\n![[01j9zq3k4m5n6p7q8r9s0t1v6a | Notebooks and pencils]]\n\nMiddle words, and [[01j9zq3k4m5n6p7q8r9s0t1v2w | an idea for later]].\n",
+  "items": [
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/01j9zq3k4m5n6p7q8r9s0t1v2w/",
+      "content_md": "Small tools, used daily, beat big tools used rarely.",
+      "content_html": "<p>Small tools, used daily, beat big tools used rarely.</p>\n"
+    },
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v6a",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/01j9zq3k4m5n6p7q8r9s0t1v6a/",
+      "content_md": "Notebooks & pencils are *slow* thinking.",
+      "content_html": "<p>Notebooks &amp; pencils are <em>slow</em> thinking.</p>\n"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<p>Opening words.</p>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"01j9zq3k4m5n6p7q8r9s0t1v2w\" data-blyg-version=\"1\" data-blyg-label=\"Small tools, used daily, beat…\">\n<p>Small tools, used daily, beat big tools used rarely.</p>\n</blockquote>\n<blockquote class=\"blyg-transclusion\" data-blyg-id=\"01j9zq3k4m5n6p7q8r9s0t1v6a\" data-blyg-version=\"1\" data-blyg-label=\"Notebooks and pencils\">\n<p>Notebooks &amp; pencils are <em>slow</em> thinking.</p>\n</blockquote>\n<p>Middle words, and <a href=\"https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/\">an idea for later</a>.</p>\n",
+    "normative": [
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+          "data-blyg-version": "1",
+          "data-blyg-label": "Small tools, used daily, beat…"
+        },
+        "text": "Small tools, used daily, beat big tools used rarely."
+      },
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion"
+        ],
+        "data": {
+          "data-blyg-id": "01j9zq3k4m5n6p7q8r9s0t1v6a",
+          "data-blyg-version": "1",
+          "data-blyg-label": "Notebooks and pencils"
+        },
+        "text": "Notebooks & pencils are slow thinking."
+      },
+      {
+        "a": "https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/",
+        "text": "an idea for later"
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "01j9zq3k4m5n6p7q8r9s0t1v2w",
+        "version": 1
+      },
+      {
+        "id": "01j9zq3k4m5n6p7q8r9s0t1v6a",
+        "version": 1
+      }
+    ],
+    "links": [
+      {
+        "id": "01j9zq3k4m5n6p7q8r9s0t1v2w"
+      }
+    ]
+  }
+}
