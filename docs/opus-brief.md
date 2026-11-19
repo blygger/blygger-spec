@@ -5,7 +5,7 @@ Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped. **Session 33*
 day, Fable) inserted item 5, fork flattening (#57); items 1–4 shipped in session 32.
 **Session 40** (2026-10-07, Fable) added the official-blyg section below (#66–#68).
 **Session 58** (2026-11-03, Fable) added the mods-mechanism section (#89). **Session 60**
-(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Session 61** (2026-11-07, Fable) added the Shelf section (studio#137). **Session 64** (2026-11-09, Fable 5.2) added the tn-4 and `syndication` section (#98) and the pointer to the Level 3 research brief (#99). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
+(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Session 61** (2026-11-07, Fable) added the Shelf section (studio#137). **Session 74** (2026-11-18, Fable 5.2) added the `/changes` and fold-by-link section (#111, #112), which is first. **Session 64** (2026-11-09, Fable 5.2) added the tn-4 and `syndication` section (#98) and the pointer to the Level 3 research brief (#99). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
 session starts (`CLAUDE.md` → At Session Start, step 4).
 
 > **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#57** (sessions 31, 33) and
@@ -50,6 +50,75 @@ mint-and-paste path; no `.well-known`, no manifest key; a read scope and a disti
 verb, no refresh-only scope; MCP = same operations and scopes, provenance recorded). Merge
 when it passes; flag to Venkat if it wants something outside them. `tn-4` is yours to
 draft from his build once gate G3 opens.
+
+## New from session 74 (2026-11-18, Fable 5.2) — `/changes` deprecated (#111), the fold by link (#112); do these first
+
+Decisions #111 and #112, reasoning in `v0.4-plan.md` §27, the eighteenth revision (§13.7).
+Already done in the ruling session: the reader's text test for imported items (studio
+`2a6d2cc`, pushed, **not deployed**), the reply to Kyle on studio#152 with the five
+conditions, and one test-only commit on studio#88 (`87e2091`).
+
+**a. Deploy and release 0.63.0.** The order is fixed by #111's condition 5: main ships
+first, Kyle renumbers behind it.
+
+1. Deploy `2a6d2cc` to venkateshrao (`npm run deploy:vgr`; no migration beyond 0048, which
+   is applied there).
+2. Release prep: contract 5.12.0, SDK 0.18.0, CHANGELOG with **Migrations 0047 and 0048**
+   named. Run `release:check` before tagging; check the Release run after the tag.
+3. Roll out to PI and blygger.org (migrations 0047, 0048, then deploy). New Nature is its
+   own project's. The syntax page and `docs/` already describe `![[+ text]]` and
+   `[[+ text]]`; the CHANGELOG entry says that a placeholder folds only when it says no
+   more than its link (#112).
+
+**b. tn-4, a dated revision under #90.** §3's "Polling, not webhooks" paragraph names
+`GET {mount}/api/changes`. Revise it to: a tool polls the resources it needs with
+`If-None-Match` and reloads on a `200`; `/changes` is deprecated and goes two releases
+after the release that ships conditional reads. **Do this when #152 merges, not before**:
+until then `/changes` is the only mechanism a released studio has. Fable reviews in batch.
+The same trigger covers #89's wording in `CLAUDE.md` ("polling `/api/changes`" becomes
+"polling the resources") and `blykker/CLAUDE.md` line 68.
+
+**c. Review studio#152 against #111's five conditions** when Kyle has revised it. They are
+the checklist, as #52's four were for the OAuth PR: (1) `/changes` and `getChanges` answer
+unchanged, deprecated in OpenAPI and the SDK; (2) a minor contract bump, 6.0.0 kept for
+the removal; (3) docs say validators are opaque and `conditionalReads` is optional; (4)
+`docs/mods.md`, `docs/where-does-it-go.md` and CHANGELOG updated; (5) renumbered behind
+0.63.0 and rebased on main. Then record the removal as a dated ROADMAP row: two releases
+after the one that ships #152. Anything the PR does beyond the conditions that touches
+the contract's shape comes back to Fable.
+
+**d. Review studio#151** (oracle suites onto `@tanstack/oracles`, +43k lines) after 0.63.0
+is cut, as a tooling change. Three things to settle, the first two Opus's own under #58:
+whether a dependency pinned to a GitHub commit is acceptable in the dev toolchain (the
+no-vendoring ruling covers client-side JavaScript only, pending-calls #15); that
+`npm test` stays what an operator runs on their own install, with repository guards in CI
+(`check:template`'s rule); and, before the merge, that nothing of Venkat's still calls the
+host-root `venkateshrao.com/api` alias the PR removes. The removal itself needs no ruling
+(its window ran out two releases after 0.49.12) and wants its own CHANGELOG line.
+
+**e. studio#88** (Shannon). CI on `87e2091` was running at hand-off. Green: it is ready
+for Venkat's merge call. The `mobile-webkit` project was removed because WebKit never got
+past login on the suite's plain-http server; the cause (the Secure owner cookie) is
+inferred, not confirmed. If Shannon's phone test shows the toast staying up after a tap
+on Safari, the fix is in `src/ui/sheets.tsx`'s `ToastHost` (Base UI's viewport pauses on
+`mouseenter`; ignore the compatibility mouse events that follow a touch), and a WebKit
+project needs the suite served over https first.
+
+**f. The conformance clause register is stale.** `conformance/clauses/build.py` rewrote
+`decisions.json`, `ids.lock.json` and `out/` by several thousand lines when run for the
+eighteenth revision, far more than one revision accounts for; the run was discarded. Find
+the last revision it was built for, rebuild, read the diff for ids that moved (the lock
+exists so they do not), and commit it by itself. Two override strings match nothing
+("it MUST NOT silently convert the subscription", "import the entries as L0 wrapper
+rows"): fix or drop them. §13.7 gains one MAY and one SHOULD in this revision.
+
+**g. Carried from the session-74 list, unchanged:** the notices view (row 77's remainder:
+`link` notices shown apart from responses in Signals); tangling leftovers (plan §2.4's
+notice naming a part whose directive was deleted, the stub-quote edge, plan §4.4
+conformance fixtures, a two-node check that a tangle and a placeholder fold on a
+subscriber and that a seconds-apart chapter does not); record the reader suite's 100 of
+100 in `conformance/reader/out/`; the blygger-org deploy (Soapbox 0.1.6, the spec's
+seventeenth and eighteenth revisions, ROADMAP rows).
 
 ## New from session 73 — a starter guide for developers: where does my change belong? (hackathon, week of 2026-11-23)
 
