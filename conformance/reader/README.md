@@ -17,11 +17,13 @@ Two decisions shape it (Aneesh Sathe's answers to the questions on #5):
 
 **Snapshot.** The fixtures were written against `spec/0.4/2026-10-18`, the
 only dated 0.4 snapshot, and the living text it grew into:
-`docs/protocol-v0.4.md` at blygger-spec `8e8bce5` (seventh revision,
-2026-11-01). Revisions two to seven are not snapshotted, and four things the
-fixtures check come from them: the label bake `data-blyg-label` (#81),
-`links[]` (#79), the blockquote's CommonMark extent (#76) and LF/CRLF line
-endings (#76). Every fixture records both.
+`docs/protocol-v0.4.md` at blygger-spec `470f552` (eighteenth revision,
+2026-11-18). Revisions two to eighteen are not snapshotted, and what the
+fixtures check from them is: the label bake `data-blyg-label` (#81),
+`links[]` (#79), the blockquote's CommonMark extent (#76), LF/CRLF line
+endings (#76), the nine readings ruled by #102 (fourteenth revision), MathML
+in `content_html` (#105, sixteenth revision) and the published text of a
+tangled thread (#112, eighteenth revision). Every fixture records both.
 
 ## Running
 
@@ -153,7 +155,7 @@ group with `--only` on the others.
 `adapters/studio/` drives the reference client.
 
 ```sh
-git clone --branch v0.57.0 https://github.com/blygger/blygger-studio.git /tmp/studio
+git clone --branch v0.64.1 https://github.com/blygger/blygger-studio.git /tmp/studio
 (cd /tmp/studio && npm ci && npm run build)
 STUDIO_DIR=/tmp/studio node run.mjs --adapter studio
 ```
@@ -193,19 +195,28 @@ items are retained past withdrawal only when curated into a hopper (a MAY in
 answer from Miniflare rather than DNS, and Miniflare 5 needs its options
 converted.
 
-## Results at blygger-studio 0.63.0
+## Results at blygger-studio 0.64.1
 
-101 pass, 0 fail, against 101 fixtures (2026-11-19). 0.63.0 emits `links[]`
-(§10.3a, #79; ROADMAP row 77), which cleared the 21 cases that failed at 0.57.0,
-the only finding then. Case 101 is a tangled thread's published text (tangling
-plan §4.4); it needed no new group, which is the plan's point. On the nine ambiguous cases the studio's readings match
-the fixtures' chosen ones: none of them warns.
+100 pass, 3 fail, against 103 fixtures (2026-11-19), with the #102 rulings
+in the fixtures: the nine cases once marked ambiguous now carry the ruled
+reading and none is marked ambiguous. Case 101 is a tangled thread's
+published text (tangling plan §4.4); 102 and 103 are the mathematics cases
+(a whole quote of an item carrying MathML bakes it verbatim; a partial
+selection of the prose beside a formula verifies against text content, #105).
+All three pass. The three failures are the three publisher changes #102
+asks of the studio (session-67 Opus brief, item 3 (a)–(c); ROADMAP row 122):
 
-The run at 0.49.12 passed 72 and the run at 0.57.0 passed 79. 0.50.0 fixed the
-lazy-continuation partial quote (blygger-studio#104, §10.1, #76) and the
-own-line `![[id]]` in a generated block (#105, #60, §5.7); 0.57.0 bakes
-`data-blyg-label` (blygger-studio#136, §10.1, §10.2, #81), which cleared five
-more.
+| Finding | Case | Spec |
+|---|---|---|
+| A directive line in a fragment publishes as literal text instead of refusing | 015 | §10.1, #102 (1) |
+| A link to an imported item with no `page` bakes the permalink convention (`f/{id}/`), not the item document | 078 | §10.1, §5.8, #85, #102 (5) |
+| A baked quote in generated output sits inside `div.blyg-tk-gen` | 099 | §5.7 rule 3, #102 (9), studio#105 |
+
+The 0.63.0 run upstream (101 of 101) used the unruled fixtures, where 015,
+078 and 099 accepted the studio's reading. Earlier runs: 0.49.12 passed 72,
+0.57.0 passed 79; 0.50.0 fixed the lazy-continuation partial quote
+(blygger-studio#104) and the own-line `![[id]]` in a generated block (#60),
+0.57.0 bakes `data-blyg-label` (#81) and 0.63.0 emits `links[]` (#79).
 
 ## Provenance
 

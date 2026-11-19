@@ -12,6 +12,8 @@ import {
   bakedTransclusions, directives, flatText, isAbsoluteUrl, normalizeLines,
   textContent, urlAttrs,
 } from "./lib/text.mjs";
+import { badTextChars, originSpelling, writtenOrigins } from "../schemas/lib/semantic.mjs";
+import { parse as parseGrammar } from "../schemas/lib/grammar.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ID_RE = /^[0-9abcdefghjkmnpqrstvwxyz]{26}$/;
@@ -44,6 +46,9 @@ export const CHECKS = {
   "live.generated-sources": { title: "`generated[].sources[]`: own sources omit `origin`, remote sources carry it (0.4)", spec_refs: ["§5.7", "§5.9"], decisions: ["#20", "#44"], clauses: ["C-5.7-08", "C-5.9-01"], kind: "invariant" },
   "live.updated-changelog": { title: "`updated` equals the latest changelog entry's `at`", spec_refs: ["§5.2"], decisions: [], clauses: ["C-5.2-02"], kind: "invariant" },
   "live.fork-reresolution": { title: "Fork content vs. source pin: directives, selectors, baked versions, origins", spec_refs: ["§5.6", "§10.2"], decisions: ["#26", "#49"], clauses: ["C-10.2-01","C-5.6-08"], kind: "info" },
+  "live.md-text": { title: "`content_md` is text: no C0 control but tab, LF and CR, no unpaired surrogate (fail); NFC (warn)", spec_refs: ["§5.1"], decisions: ["#103"], clauses: [], kind: "invariant" },
+  "live.origin-spelling": { title: "Every origin string written (documents, references, baked `data-blyg-origin`, manifest) has the §12.2 spelling", spec_refs: ["§12.2", "§5.9"], decisions: ["#103"], clauses: [], kind: "invariant" },
+  "live.fragment-directive": { title: "No fragment carries a directive line outside code (a publish error since #102)", spec_refs: ["§10.1", "§10.3"], decisions: ["#60", "#100", "#102"], clauses: [], kind: "invariant" },
   "live.fork-lineage-visible": { title: "A fork's public page links its source (origin / pinned version)", spec_refs: ["§5.6"], decisions: [], clauses: [], kind: "info" },
 };
 
@@ -106,6 +111,12 @@ export async function check(crawlPath = join(HERE, "out", "crawl.json")) {
         feed_ns: o.feed?.parsed?.ns ?? null,
       },
     });
+
+    // #103: the manifest's written origins (moved_from, any origin member)
+    {
+      const mb = writtenOrigins(m).flatMap((w) => { const e = originSpelling(w.value); return e.length ? [`blyg.json ${w.at} ${JSON.stringify(w.value)}: ${e.join(", ")}`] : []; });
+      if (mb.length) add("live.origin-spelling", "fail", mb.slice(0, 3).join(" · "), { origin: o.identity });
+    }
 
     // identity
     if (m.site && !sameOrigin(m.site, o.identity)) {
@@ -238,6 +249,22 @@ export async function check(crawlPath = join(HERE, "out", "crawl.json")) {
       // reserved directive
       for (const dv of directives(d.content_md)) {
         if (dv.reserved_version != null) add("live.reserved-directive", "fail", `published content_md contains ![[${dv.id}@v${dv.reserved_version}]] (line ${dv.line})`, at);
+      }
+
+      // #103: content_md is text, NFC; every written origin has one spelling
+      if (typeof d.content_md === "string") {
+        const bad = badTextChars(d.content_md);
+        if (bad.length) add("live.md-text", "fail", `content_md is not text: ${bad.slice(0, 3).join(", ")}`, at);
+        else if (d.content_md.normalize("NFC") !== d.content_md) add("live.md-text", "warn", "content_md is not NFC", at);
+        else add("live.md-text", "pass", "text, NFC", at);
+      }
+      const spellBad = writtenOrigins(d).flatMap((w) => { const e = originSpelling(w.value); return e.length ? [`${w.at} ${JSON.stringify(w.value)}: ${e.join(", ")}`] : []; });
+      add("live.origin-spelling", spellBad.length ? "fail" : "pass", spellBad.length ? spellBad.slice(0, 3).join(" · ") : "every written origin has the §12.2 spelling", at);
+
+      // #102 (1): a directive line in a fragment
+      if (d.kind === "fragment") {
+        const tr = parseGrammar(d.content_md || "").transclusions;
+        if (tr.length) add("live.fragment-directive", "fail", `fragment has directive line(s) ${tr.map((t) => t.line + 1).join(",")}; readers keep showing it as literal text, and it fails at its next republish`, at);
       }
 
       // withdrawn endcap

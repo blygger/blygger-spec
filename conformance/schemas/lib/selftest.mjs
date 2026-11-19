@@ -37,6 +37,11 @@ export function selftest(docs) {
   m("endcap-with-content", "withdrawn endcap with content", [], docs.fragment, (d) => (d.kind = "withdrawn"));
   m("fragment-transclusions", "a fragment carrying transclusions", [], docs.fragment, (d) => (d.transclusions = []));
   m("changelog-gap", "changelog skips a version", [], docs.fragment, (d) => { d.changelog.push({ version: d.version + 2, at: d.updated }); d.version += 2; });
+  m("md-control-char", "a C0 control character in content_md (#103)", [], docs.fragment, (d) => (d.content_md += "\u0007"));
+  m("md-unpaired-surrogate", "an unpaired surrogate in content_md (#103)", [], docs.fragment, (d) => (d.content_md += "\ud800"));
+  m("origin-uppercase-host", "an origin with an uppercase host (#103, §12.2)", [], docs.stub, (d) => (d.stub_of.origin = d.stub_of.origin.replace(/\/\/([^/]+)/, (m, h) => "//" + h.toUpperCase())));
+  m("origin-default-port", "an origin with its default port (#103, §12.2)", [], docs.stub, (d) => (d.stub_of.origin = d.stub_of.origin.replace(/^(https?:\/\/[^/]+)/, (h) => h + (h.startsWith("https") ? ":443" : ":80"))));
+  m("fragment-directive", "a directive line in a fragment (#102)", [], docs.fragment, (d) => (d.content_md += "\n\n![[" + d.id + "]]"));
   m("page-host-rooted", "page host-rooted (/f/…)", ["C-5.8-01"], docs.fragment, (d) => (d.page = "/" + d.page));
   m("page-absolute-not-url", "an absolute page that is not an http(s) URL", ["C-5.8-01"], docs.fragment, (d) => (d.page = "urn:blyg:" + d.id));
   m("pinned-endcap", "a pinned file for a withdrawal endcap", ["C-8-03"], docs.pinned, (d) => (d.kind = "withdrawn"), "pinned");

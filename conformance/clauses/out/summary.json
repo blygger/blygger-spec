@@ -1,13 +1,13 @@
 {
  "area": "clauses",
  "title": "Clause register & traceability",
- "generated_at": "2026-11-19T07:34:52+00:00",
+ "generated_at": "2026-11-19T20:13:20+00:00",
  "checks": [
   {
    "id": "register.counts",
    "title": "Clause register extracted",
    "status": "info",
-   "detail": "273 normative clauses (MUST 138, SHOULD 81, MAY 54) in 46 sections; 25 pending §16 sentences; 112 decisions; 394 tests joined from other areas. Side split: publisher 140, reader 80, client 23, sender 15, receiver 14, unknown 1",
+   "detail": "273 normative clauses (MUST 138, SHOULD 81, MAY 54) in 46 sections; 25 pending §16 sentences; 112 decisions; 432 tests joined from other areas. Side split: publisher 140, reader 80, client 23, sender 15, receiver 14, unknown 1",
    "spec_refs": [],
    "decisions": []
   },
