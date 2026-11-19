@@ -246,6 +246,11 @@
       "id": "0enf8zg43d5rtvsr5xre4gktbd",
       "version": 1,
       "source_sha256": "8d456bb158ef2f3e46931c87deda192651b37f10718ccaf434704e1e5dadaa67"
+    },
+    "0.64.0": {
+      "id": "4b247ya8fa25gtn2fzwmmz12rs",
+      "version": 1,
+      "source_sha256": "a3cd06bd313d7c8207fbf199e5fc2764aa6d26b7953348d12c416e1c8bd8ffea"
     }
   }
 }

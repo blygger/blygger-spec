@@ -7,8 +7,8 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
-## Session 74 — 2026-11-18 — Starter guide and local patches; tangling built and live on venkateshrao; `links[]` and `[[+ text]]` placeholders
-**Model:** Opus 5.5 · **Time:** ~14:28–16:25 PT · **Committed:** yes (spec, studio, org) · **Deployed:** studio `0e9bd93` (tangling, migration 0047) to venkateshrao only
+## Session 74 — 2026-11-18/19 — Starter guide and local patches; tangling, placeholders and `links[]` (0.63.0); #111, #112 and the eighteenth revision; #88 merged (0.64.0)
+**Model:** Opus 5.5, Fable 5.2 for two rulings · **Time:** ~14:28 PT 2026-11-18 to ~01:00 PT 2026-11-19, with breaks · **Committed:** yes (spec, studio, org) · **Deployed:** studio 0.63.0 (migrations 0047, 0048) and 0.64.0 on venkateshrao, PI and blyg.blygger.org; blygger.org site; two posts on blyg.blygger.org (0.63.0 release, tangling explainer). Not New Nature
 
 **What & why:**
 
@@ -126,6 +126,30 @@ from the live bundle. Kyle Mathews opened studio#151 (oracle suites onto
 the notices view, unreleased (0.64.0 needs its CHANGELOG, contract 5.13.0, SDK 0.19.0).
 Open: #152 waits on Kyle's revision under #111; #151 after it; tn-4's revision when #152
 merges; tangling leftovers; the blygger-org site deploy (Venkat's).
+
+**Last (Opus 5.5, toward 01:00 PT).** blygger.org deployed (`./deploy.sh`; the eighteenth
+revision, roadmap and census live; synced content committed `d720335`). A short explainer,
+`docs/posts/2026-11-18-tangling.md`, published on blyg.blygger.org; `publish_blyg.py`
+gained `--only FILE` (`ff0aa10`) because a plain run would also have republished tn-3, tn-6
+and tn-7, which carry session 73's #108 revision and were never republished (doing that was
+refused by auto mode; carried). Tangling leftovers all done: the dropped-part warning and
+the stub-chooser span fix (studio `609885c`), reader case 101 (`1b20653`, 101 of 101), and a
+two-node fold check on two local Miniflare nodes, all five checks passing. **0.64.0**
+(Shannon's components, link notices apart, the two tangling fixes; contract 5.13.0, SDK
+0.19.0, no migrations): three Check runs on main were cancelled at the e2e job's time limit
+with nothing failed. The limit went from 25 to 40 minutes (`2d15307`) on the guess that the
+suite had grown; the next run hit 40 as well, and its log showed the real cause: `playwright
+install --with-deps … webkit` fetched WebKit's 140 MB of system packages from Ubuntu's mirror
+at 65 kB/s (35 minutes), and the 621 tests started three minutes before the cancel. Run
+times tonight tracked the mirror, not the suite. The job was rerun and passed; 0.64.0 was
+tagged at `2d15307`, deployed to venkateshrao, PI and blyg.blygger.org (each checked by its
+service worker's version line) and announced at
+blyg.blygger.org/t/4b247ya8fa25gtn2fzwmmz12rs/ on the morning of 2026-11-19. The lasting fix
+(WebKit in its own job, or its packages cached) is carried.
+
+**State after:** studio 0.64.0 live on three nodes; main clean. Spec at the eighteenth
+revision, live on blygger.org. Open: tn-3, tn-6 and tn-7 to republish; #152 and #151 with
+Kyle; Shannon's follow-ups; WebKit out of the main e2e job; Background phase 2 and 4b next.
 
 ## Session 73 — 2026-11-16 — A public responses count ruled (#107); the clip deviation confirmed; the wire and the page (#108); the spec as a book begun (#109)
 **Model:** Opus 5.5 (orientation, 10:27) → Fable 5.2 (items 1–8, by `/model` switch; everything below is Fable's) → Opus 5.5 (wrap-up) → Fable 5.2 (item 10) · **Time:** ~10:27–15:05 PT, then 16:05–16:20 · **Committed:** yes (spec, studio) · **Deployed:** —
