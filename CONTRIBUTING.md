@@ -13,3 +13,7 @@ The full ladder, with tool, extension, hook, mod, local patch and fork as the ot
 Use the **Protocol proposal** template, and describe the problem before the solution. Two refusals stop most proposals: no metrics of any kind on the wire, and no identity in the protocol. [`protocol-v0.4.md` §16.8](docs/protocol-v0.4.md) lists what will never appear. A well-argued case against a locked decision is still welcome; several have won.
 
 A proposal that is accepted gets a row in [`ROADMAP.md`](ROADMAP.md), published at [blygger.org/roadmap](https://blygger.org/roadmap/), and its issue stays open until the work ships. A spec bug, such as two sections that disagree or a rule that cannot be implemented as written, goes in the **Protocol defect or ambiguity** template.
+
+## Merging
+
+Venkat Rao merges by default. Kyle Mathews and Aneesh Sathe are also maintainers across the `blygger` repositories. They work through pull requests like everyone else, and push to `main` or merge only when Venkat is unavailable or hands a merge to them.

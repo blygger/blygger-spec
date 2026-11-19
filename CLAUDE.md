@@ -6,6 +6,8 @@ Blygger is an AI-native decentralized public writing medium — fragments + thre
 
 **Four repos, four tracks.** The program roadmap is [`docs/roadmap-tracks.md`](docs/roadmap-tracks.md) — core protocol (here), reference client (`blygger-studio`), registry/discovery (`blygger-com`), developer community (`blygger-org`). This repo keeps the session ritual and the single `DEVLOG.md` for all four.
 
+**Maintainers (since 2026-11-19):** Kyle Mathews (`KyleAMathews`) and Aneesh Sathe (`aneeshsathe`) are admins on all four repos beside Venkat. **Venkat is the default merger.** Their routine development goes through PRs like anyone's; they push to `main` or merge only when Venkat is unavailable or delegates it. Admin rights mean branch protection does not stop them, so a merge Venkat did not make is not evidence of his approval. Check the PR thread for the delegation. The session rituals below are Venkat's sessions' process, not theirs. Anyone who merges should first read *Next session first* below for PRs held behind a ruling (session 61 merged held-back PRs by skipping it).
+
 ## Document map
 
 | Doc | Role |
