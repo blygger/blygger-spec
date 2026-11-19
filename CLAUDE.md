@@ -218,7 +218,7 @@ Delete an entry once it is done or Venkat says to drop it. An empty list means s
 
 - **Next session first (session 74 to-dos, 2026-11-18):**
   1. **Push and deploy studio `9e002fa`** (local only): `links[]` on the wire and `[[+ text]]` placeholders. Before the deploy, add a browser test for a placeholder (preview `.blyg-tangle-link`, count dialog "(linked)", rewritten `[[id | text]]`) and rerun the full e2e. Deploy is migration 0048 then `deploy:vgr`, as session 74 did 0047; push first so Settings shows no local patches.
-  2. **Fable batch (#58):** draft the §13.7 sentence recommending that readers fold items a thread names in `links[]` (placeholders) as they fold `transclusions[]`; the studio already does (reader policy, §13.7's first sentence).
+  2. ~~Fable batch: draft the §13.7 sentence~~ **drafted** (session 74 cont.): `v0.4-plan.md` §26, listed under "Review first" in `fable-brief.md`. Waits on Fable's batch review.
   3. **Rest of row 77:** send `link` mentions for remote `links[]` entries (§15.2 SHOULD) and show notices apart from responses (§15.4–15.5); reader-suite fixtures waiting on `links[]` (21 of 100) should now be rerun.
   4. **Tangling leftovers:** plan §2.4's notice naming a part whose directive was deleted; the stub-quote edge (a span that quotes the stub's own target); plan §4.4 conformance fixtures; a two-node check that a tangle folds on a subscriber.
   5. **0.63.0 release prep** once 1–4 settle: contract 5.12.0, SDK 0.18.0, CHANGELOG (migrations 0047, 0048), then the other nodes (PI; blygger.org; New Nature is its own project's).
