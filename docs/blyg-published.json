@@ -20,8 +20,8 @@
       "model": "claude-opus-5",
       "canonical": "https://blygger.org/notes/tn-3/",
       "pin": false,
-      "version": 1,
-      "source_sha256": "06916e904b7ec25ef7f35bdc2d35fbe765ab33e6a35663a01b26145a14361e50",
+      "version": 2,
+      "source_sha256": "f7d12bbaa7bb2cfde5b26174c8c0e129253c1e5d5a90a9b72ef7ee8ae0d929b6",
       "notes": {
         "first": "TN-3, ported from blygger.org/notes/tn-3/.",
         "revision": "TN-3 revised; see the source history."
@@ -36,8 +36,8 @@
         "revision": "Promoted to TN-6 after the comment period; see \u00a711."
       },
       "id": "7eeh3bfzfcnhh90d5pkvkc2r1n",
-      "version": 3,
-      "source_sha256": "05428f613c7ce168cbe4d31818243f8478e740783c201abb7396749653b468a9",
+      "version": 4,
+      "source_sha256": "1bd870c4c10a9a602415b90bf1870f7a092d21cd619a7b25ce3719eb6d344b09",
       "canonical": "https://blygger.org/notes/tn-6/"
     },
     {
@@ -49,8 +49,8 @@
         "revision": "Promoted to TN-7 after the comment period; see \u00a712."
       },
       "id": "2mzqh4jt3ye14xm6sr5gf32cah",
-      "version": 2,
-      "source_sha256": "70b30ca325c94775e0ba3c02d36e002a2af33ecf63703c2c8c207fa4ee0817c7",
+      "version": 3,
+      "source_sha256": "1ca657a430e8a862109d238388377245b8b7af61aa0aef0d8c354c3fff0b4af4",
       "canonical": "https://blygger.org/notes/tn-7/"
     },
     {

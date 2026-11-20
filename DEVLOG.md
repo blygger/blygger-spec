@@ -7,6 +7,23 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 75 — 2026-11-19 — Studio 0.65.0 (#151, #152); the blygger.com listing redesigned; the release published by hand
+**Model:** Opus 5.5 · **Time:** ~11:04–16:00 PT · **Committed:** yes (spec, studio, com, blykker) · **Deployed:** studio 0.65.0 to venkateshrao, PI and blyg.blygger.org (no migration); blygger.com (migration 0012 + backfill); tn-3, tn-6, tn-7 republished on blyg.blygger.org; blygger.org (`deploy.sh`, synced content `a700e69`)
+
+**What & why:**
+
+1. **The #108 revision reached the official blyg.** `publish_blyg.py --only` for tn-3 (v2), tn-6 (v4) and tn-7 (v3), dry run first; live item files checked. Carried since session 74, where auto mode refused it.
+2. **#151 and #152 merged** (Kyle Mathews; Venkat's approval of 2026-11-19), with merge commits: #151 into main, #152 retargeted and merged. Main's tree differs from #152's head by two documentation lines from main's own commits after his branch was cut, no code. Nothing local calls `venkateshrao.com/api`. Post-merge doc work (opus-brief items b and c): tn-4's dated revision (§3 describes conditional reads; `/changes` answers in 0.65.0 and 0.66.0 and goes in 0.67.0), #89's wording, `blykker/CLAUDE.md`, ROADMAP rows 132 and 133.
+3. **WebKit's one browser test got its own CI job** (`e2e-webkit`), so a slow Ubuntu mirror holds up only that job. The rebase onto #151/#152 conflicted, since they had added `--legacy-peer-deps` and two browser-oracle suites to the e2e job; the oracles drive Chromium and stayed in the main job. Main's first run: e2e 22 min, e2e-webkit 1.5 min. `check` is now about 53 minutes (oracle suites 18 + 12, `npm test` 12) and gates every release; carried for Kyle.
+4. **0.65.0 released.** #152 had already written the entry and bumped the contract (5.14.0) and SDK (0.20.0); #151's alias removal sat under "Unreleased" and was folded in with a tooling line. The release Check failed in `check:fixtures`: an unauthenticated GitHub API listing hit the runner's shared 60-an-hour limit (403). A rerun of the job went green, the tag went on `156b99d`, and `check:fixtures` now sends the workflow token (`bf9d0fd`). Deployed to three nodes from the tagged commit; each manifest reads 0.65.0; `venkateshrao.com/api` now 404s, `/blyg/api` answers 401.
+5. **The Release run could not publish:** `gh release create` got `403 Resource not accessible by integration` twice, with the token showing `Contents: write` as in v0.64.1's good run. Org and repo settings were read with a temporary `admin:org` scope and ruled out (default workflow permission read as always, all actions allowed, no rulesets on the free plan, immutability off). Two differences remain: `v0.65.0` is an annotated tag where every earlier release used a lightweight one, and the range changed workflow files. The downloads were built from a full clone of the tag (a shallow clone records "unknown" local patches where CI's says 0), checked with `release:verify` and published with Venkat's credentials. 0.66.0 is tagged lightweight as the test.
+6. **blygger.com listing** (Venkat): newest first is the default again, with Most active a choice; the sort row moved from above the tabs to directly above each list, as buttons; each listing has a folded "about" line with the author (manifest `author`; a feed's channel author, never a bare email), the client linked to `generator_url`, protocol and level, and listing date. Migration 0012 stores them from what the check already fetches. An h-card fetch was measured and not built: every reachable listed blyg declares `author.name`, and the hourly pass is at 46 of 50 subrequests. `blygs.json` keeps its activity order for clients that rely on it. 43 listings were backfilled at once by the Worker's own parsing code; three unreachable ones fill at their next re-check. The sortable-table version is ROADMAP row 135.
+7. **Duplicate blygs.** Venkat asked about Pioneering Spirit (Patrick Atwater) at two addresses: its `workers.dev` submission was rejected 2026-10-07 and was never public. The directory has refused same-item-id submissions since session 38; the gap is in the studio, which refuses only an identical address, so a second address imports every item twice. ROADMAP row 134.
+
+**State after:** studio 0.65.0 live on three nodes with its release page; blygger.com redesigned and deployed; all repos pushed except the blygger-org census output, committed at wrap-up. ROADMAP rows 131–135 touched (132 shipped).
+
+**Open threads:** in `CLAUDE.md` carry-overs: venkateshrao's two dead `/api` routes in the private config; the release 403 (tag 0.66.0 lightweight); `check`'s 53 minutes. blygger.org was deployed at the end of the session: ROADMAP rows 132–135 and tn-4's revision are live.
+
 ## Session 74 — 2026-11-18/19 — Starter guide and local patches; tangling, placeholders and `links[]` (0.63.0); #111, #112 and the eighteenth revision; #88 merged (0.64.0)
 **Model:** Opus 5.5, Fable 5.2 for two rulings · **Time:** ~14:28 PT 2026-11-18 to ~01:00 PT 2026-11-19, with breaks · **Committed:** yes (spec, studio, org) · **Deployed:** studio 0.63.0 (migrations 0047, 0048) and 0.64.0 on venkateshrao, PI and blyg.blygger.org; blygger.org site; two posts on blyg.blygger.org (0.63.0 release, tangling explainer). Not New Nature
 
@@ -164,6 +181,18 @@ integrity check.
 **State after:** studio 0.64.1 live on three nodes; main clean. Spec at the eighteenth
 revision, live on blygger.org. Open: tn-3, tn-6 and tn-7 to republish; #152 and #151 with
 Kyle; Shannon's follow-ups; WebKit out of the main e2e job; Background phase 2 and 4b next.
+
+**Second wrap-up, 2026-11-19 11:03 PST.**
+- **Shannon's #88 thread is closed.** She found the toast closes on its own after 2.4 s in Safari and Chrome. Whether she tested on a phone is unclear, and Venkat ruled the residual not worth chasing. A closing note was posted.
+- **#153** is renamed "Establish security principles for studio dependencies (supply-chain inventory)".
+- **Kyle reworked #152 under #111.** All five conditions are met on his side:
+  - `/changes` and `getChanges` are deprecated through 0.65 and 0.66 and removed in 0.67, at contract 6.0.0;
+  - contract 5.14.0, SDK 0.20.0;
+  - validators are documented as opaque;
+  - `docs/mods.md` and the CHANGELOG are updated;
+  - the version is renumbered to 0.65.0.
+- **Neither PR is merged.** #151 is green. On #152, Kyle's later commit `4cae30f` failed `check`: `batch-validator-work.oracle.test.ts` fails `getItem-delegated-49` with no mutant active, which leaves two gaps open. Kyle was told on the PR. Venkat's instruction: merge #151, then #152 retargeted to main, with merge commits, once #152 is green.
+- **Maintainers.** Kyle Mathews and Aneesh Sathe are now admins on all four repos, and Venkat stays the default merger. This is recorded at the top of this repo's `CLAUDE.md` and in both `CONTRIBUTING.md` files. Venkat's session rituals don't bind them; anyone merging reads *Next session first*.
 
 ## Session 73 — 2026-11-16 — A public responses count ruled (#107); the clip deviation confirmed; the wire and the page (#108); the spec as a book begun (#109)
 **Model:** Opus 5.5 (orientation, 10:27) → Fable 5.2 (items 1–8, by `/model` switch; everything below is Fable's) → Opus 5.5 (wrap-up) → Fable 5.2 (item 10) · **Time:** ~10:27–15:05 PT, then 16:05–16:20 · **Committed:** yes (spec, studio) · **Deployed:** —
