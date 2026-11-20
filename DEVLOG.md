@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 75 — 2026-11-19 — Studio 0.65.0 (#151, #152); the blygger.com listing redesigned; the release published by hand
-**Model:** Opus 5.5 · **Time:** ~11:04–16:00 PT · **Committed:** yes (spec, studio, com, blykker) · **Deployed:** studio 0.65.0 to venkateshrao, PI and blyg.blygger.org (no migration); blygger.com (migration 0012 + backfill); tn-3, tn-6, tn-7 republished on blyg.blygger.org
+**Model:** Opus 5.5 · **Time:** ~11:04–16:00 PT · **Committed:** yes (spec, studio, com, blykker) · **Deployed:** studio 0.65.0 to venkateshrao, PI and blyg.blygger.org (no migration); blygger.com (migration 0012 + backfill); tn-3, tn-6, tn-7 republished on blyg.blygger.org; blygger.org (`deploy.sh`, synced content `a700e69`)
 
 **What & why:**
 
@@ -22,7 +22,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 
 **State after:** studio 0.65.0 live on three nodes with its release page; blygger.com redesigned and deployed; all repos pushed except the blygger-org census output, committed at wrap-up. ROADMAP rows 131–135 touched (132 shipped).
 
-**Open threads:** in `CLAUDE.md` carry-overs: venkateshrao's two dead `/api` routes in the private config; the release 403 (tag 0.66.0 lightweight); `check`'s 53 minutes; blygger.org deploy for the new ROADMAP rows and tn-4's revision (Venkat's).
+**Open threads:** in `CLAUDE.md` carry-overs: venkateshrao's two dead `/api` routes in the private config; the release 403 (tag 0.66.0 lightweight); `check`'s 53 minutes. blygger.org was deployed at the end of the session: ROADMAP rows 132–135 and tn-4's revision are live.
 
 ## Session 74 — 2026-11-18/19 — Starter guide and local patches; tangling, placeholders and `links[]` (0.63.0); #111, #112 and the eighteenth revision; #88 merged (0.64.0)
 **Model:** Opus 5.5, Fable 5.2 for two rulings · **Time:** ~14:28 PT 2026-11-18 to ~01:00 PT 2026-11-19, with breaks · **Committed:** yes (spec, studio, org) · **Deployed:** studio 0.63.0 (migrations 0047, 0048) and 0.64.0 on venkateshrao, PI and blyg.blygger.org; blygger.org site; two posts on blyg.blygger.org (0.63.0 release, tangling explainer). Not New Nature
