@@ -155,7 +155,7 @@ group with `--only` on the others.
 `adapters/studio/` drives the reference client.
 
 ```sh
-git clone --branch v0.64.1 https://github.com/blygger/blygger-studio.git /tmp/studio
+git clone --branch v0.65.0 https://github.com/blygger/blygger-studio.git /tmp/studio
 (cd /tmp/studio && npm ci && npm run build)
 STUDIO_DIR=/tmp/studio node run.mjs --adapter studio
 ```
@@ -195,9 +195,10 @@ items are retained past withdrawal only when curated into a hopper (a MAY in
 answer from Miniflare rather than DNS, and Miniflare 5 needs its options
 converted.
 
-## Results at blygger-studio 0.64.1
+## Results at blygger-studio 0.65.0
 
-100 pass, 3 fail, against 103 fixtures (2026-11-19), with the #102 rulings
+100 pass, 3 fail, against 103 fixtures (2026-11-19; the same three as
+0.64.1, since 0.65.0 changed no publish path), with the #102 rulings
 in the fixtures: the nine cases once marked ambiguous now carry the ruled
 reading and none is marked ambiguous. Case 101 is a tangled thread's
 published text (tangling plan §4.4); 102 and 103 are the mathematics cases
