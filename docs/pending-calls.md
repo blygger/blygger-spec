@@ -94,7 +94,7 @@ here only if the recommendation was reversed, so the reasoning is not lost.
 10. **AI spend budget prototype** (carry-over, session 36; branch `proto/ai-integrations`,
     migration still `0023_ai_usage.sql` there; it needs 0027 or later, session 43). *Recommendation:* keep parked until the session-36/37
     merges settle, as already decided; the interim 200-call cap is holding. *Needed:*
-    nothing now.
+    nothing now. *Session 76: Venkat confirmed — keep parked.*
 
 ## D. Small and stale
 
@@ -103,9 +103,9 @@ here only if the recommendation was reversed, so the reasoning is not lost.
 12. ~~**Kyle's `models/d1-polling-cache/logs/`**~~ **Dropped session 38 (Opus):** the logs are
     deliberate. The model's README cites them by name as the preserved evidence of the
     model-checking runs, including the first failing runs. Keep them.
-13. **Quoted lists lose their bullets and the faithfulness check ignores list markers**
+13. ~~**Quoted lists**~~ **Decided session 76: fix it** (ROADMAP row 136). Original entry: **Quoted lists lose their bullets and the faithfulness check ignores list markers**
     (session 37 open thread) — leave it until someone quotes a list and minds.
-14. **Publish the patterns catalogue?** (session 67; `plans/publishing-patterns.md` §7 Q1).
+14. ~~**Publish the patterns catalogue?**~~ **Decided session 76: yes, as recommended** (ROADMAP row 137). Original entry: **Publish the patterns catalogue?** (session 67; `plans/publishing-patterns.md` §7 Q1).
     *Recommendation:* yes, on blyg.blygger.org under #66 and not as a fourth blygger.org
     genre: it is non-normative, aimed at publishers, and a spine thread over pattern
     items is itself the book pattern. It needs a revision first, against #79 (links
