@@ -84,6 +84,10 @@ export function bakedTransclusions(html) {
 }
 
 const ID = "[0-9abcdefghjkmnpqrstvwxyz]{26}";
+// The author's label (0.4 §10.1, #70): `| text` after the id, up to `]]`;
+// whitespace around the pipe optional; resolution ignores it. Same pattern as
+// ../../schemas/lib/grammar.mjs.
+const LABEL = "(?:[ \\t]*\\|((?:(?!\\]\\]).)*))?";
 
 // Transclusion directives in content_md (§10.1), skipping fenced code.
 export function directives(md) {
@@ -99,10 +103,11 @@ export function directives(md) {
       continue;
     }
     if (fence) continue;
-    const m = l.match(new RegExp(`^\\s*!\\[\\[(${ID})(@v(\\d+))?\\]\\]\\s*$`));
+    const m = l.match(new RegExp(`^\\s*!\\[\\[(${ID})(@v(\\d+))?${LABEL}\\]\\]\\s*$`));
     if (!m) continue;
+    const label = m[4] != null && m[4].trim() ? m[4].trim() : null;
     const d = { line: i + 1, id: m[1], reserved_version: m[3] ? Number(m[3]) : null,
-      partial: false, selection: null };
+      label, partial: false, selection: null };
     // Partial: immediately followed (no blank line) by a blockquote.
     const sel = [];
     let j = i + 1;
@@ -119,12 +124,12 @@ export function directives(md) {
   return out;
 }
 
-// Plain internal links [[id]] outside code (§10.1).
+// Plain internal links [[id]] and [[id | label]] outside code (§10.1).
 export function plainLinks(md) {
   const s = String(md || "")
     .replace(/(^|\n)\s{0,3}(`{3,}|~{3,})[\s\S]*?\n\s{0,3}\2[^\n]*/g, "$1")
     .replace(/`[^`\n]*`/g, "");
-  return [...s.matchAll(new RegExp(`(?<!!)\\[\\[(${ID})\\]\\]`, "g"))].map((m) => m[1]);
+  return [...s.matchAll(new RegExp(`(?<!!)\\[\\[(${ID})${LABEL}\\]\\]`, "g"))].map((m) => m[1]);
 }
 
 // href / src / srcset / poster values in an HTML string.

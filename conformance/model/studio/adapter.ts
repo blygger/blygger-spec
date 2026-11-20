@@ -135,9 +135,9 @@ export class Studio implements StudioAdapter {
   /** An owner contract call. Item mutations are conditional since contract 5.0.0: expectedRevision is read first. */
   private async mutate(method: string, path: string, id: string) {
     const headers = { cookie: await this.login(), origin: BASE, accept: "application/json" };
-    const got = await call(`${BASE}/api/items/${id}`, { headers });
+    const got = await call(`${BASE}/blyg/api/items/${id}`, { headers });
     const revision = got.status === 200 ? ((await got.json()) as any).revision : undefined;
-    return call(`${BASE}/api${path}`, { method, headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify(revision === undefined ? {} : { expectedRevision: revision }) });
+    return call(`${BASE}/blyg/api${path}`, { method, headers: { ...headers, "content-type": "application/json" }, body: JSON.stringify(revision === undefined ? {} : { expectedRevision: revision }) });
   }
 
   async withdraw(id: string) {

@@ -51,9 +51,9 @@ const cases = [
   ["tk-source-own-line", "An own-line directive inside a TK scope is still a source", ["§5.7"], ["#20"], `[TK]Draw on this\n![[{{L}}]]\n[=]Some output.[/TK]`, { tk_sources: [["{{L}}"]] }],
   ["tk-scope-beside-transclusion", "A TK scope and a real transclusion in one thread: one quote, one source", ["§5.7", "§10.3"], ["#20"], `![[${RA}]]\n\n[TK]Summarise ![[{{L}}]][=]Some output.[/TK]`, { transclusions: [W(RA)], tk_sources: [["{{L}}"]] }],
   ["tk-in-code-is-not-a-scope", "A [TK] written inside code is an example of the grammar, not a scope; the directive below it is real", ["§5.7", "§10.1"], ["#20", "#54"], "`[TK]x ![[" + RA + "]][/TK]`\n\n![[" + RB + "]]", { transclusions: [W(RB)], literal: ["[TK]"] }],
-  ["tk-output-own-line-directive", "An own-line directive left in hand-written TK output: provisionally a real transclusion at publish", ["§5.7", "§10.1"], ["#20"],
+  ["tk-output-own-line-directive", "An own-line directive left in hand-written TK output is a real transclusion at publish (#60)", ["§5.7", "§10.1"], ["#20", "#60", "#102"],
     `Intro.\n\n[TK]write it[=]Mine.\n\n![[{{L}}]][/TK]\n\nOutro.`,
-    { transclusions: [W("{{L}}")], generate: false, ambiguous: "Decision #20 says that inside a TK scope every ![[id]] is a source reference, never a blockquote, and blygger-studio 0.17.0 (studio#5) made this line inert. Venkat's provisional ruling, shipped in blygger-studio 0.20.1 (DEVLOG session 33, item 8, taking the v0.4-plan §9.2 reading), makes an own-line directive left in TK output a real transclusion at publish, pending a Fable ruling that reconciles it with #20. The expectation encodes the provisional ruling. The output is hand-written (generate: false), so no harness regenerates it." }],
+    { transclusions: [W("{{L}}")], generate: false }],
 ];
 
 for (const f of readdirSync(here).filter((f) => f.endsWith(".json"))) unlinkSync(join(here, f));

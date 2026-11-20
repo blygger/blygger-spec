@@ -1,0 +1,70 @@
+{
+  "id": "partial-beside-formula",
+  "title": "A selection of the prose beside a formula verifies against text content; the formula is not part of it",
+  "group": "partial",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 470f552 (eighteenth revision, 2026-11-18)",
+  "note": "Revisions two to eighteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) MathML in content_html (#105, sixteenth revision) and the fold of tangled parts (#112, eighteenth revision) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.2",
+    "§2",
+    "§5.2"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#49",
+    "#105"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "![[4e4e4e4e4e4e4e4e4e4e4e4e4e]]\n> ties five constants together.",
+  "items": [
+    {
+      "id": "4e4e4e4e4e4e4e4e4e4e4e4e4e",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/4e4e4e4e4e4e4e4e4e4e4e4e4e/",
+      "content_md": "Euler's identity, $e^{i\\pi}+1=0$, ties five constants together.",
+      "content_html": "<p>Euler's identity, <math><semantics><mrow><msup><mi>e</mi><mrow><mi>i</mi><mi>π</mi></mrow></msup><mo>+</mo><mn>1</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding=\"application/x-tex\">e^{i\\pi}+1=0</annotation></semantics></math>, ties five constants together.</p>\n",
+      "content_hash": "sha256:64d8d7396f2ed68c421850c5f00d5849c9e55072ce8e3b248a1c5987c247be0e"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"4e4e4e4e4e4e4e4e4e4e4e4e4e\" data-blyg-version=\"1\" data-blyg-origin=\"https://remote.example/\">\n<p>ties five constants together.</p>\n</blockquote>\n",
+    "normative": [
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion",
+          "blyg-partial"
+        ],
+        "data": {
+          "data-blyg-id": "4e4e4e4e4e4e4e4e4e4e4e4e4e",
+          "data-blyg-version": "1",
+          "data-blyg-origin": "https://remote.example/"
+        },
+        "text": "ties five constants together.",
+        "p": [
+          "ties five constants together."
+        ]
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "4e4e4e4e4e4e4e4e4e4e4e4e4e",
+        "version": 1,
+        "origin": "https://remote.example/",
+        "selector": {
+          "exact": "ties five constants together."
+        }
+      }
+    ]
+  }
+}
