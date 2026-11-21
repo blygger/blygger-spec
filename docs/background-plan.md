@@ -296,6 +296,30 @@ reference-constant change).
 touches the same reader components (`ChangeLead`); merge it before phase 1 starts. Phase 4's
 imported half needs the §18.8 ruling only for the note; the model on texts does not.
 
+### 7.1 Phase 2 as built (session 77, 2026-11-21)
+
+Built on studio `main` after 0.67.1, unreleased. Three departures from §2 and §5, each a
+client choice:
+
+- **The material-quote toggle is a rule, inverted.** `quotes-material` is stored for a refresh
+  that brought in a quote rewritten beyond near-same (measured on the baked blockquote's text,
+  top level, by `data-blyg-id`) and counts only while `quotes-refreshed` does. It is on by
+  default, which is §2.1's default: such refreshes go to Background. Turning it off is the
+  plan's *material quote change* toggle. One settings object, no new key.
+- **The superseded window is a constant** (`SUPERSEDED_WINDOW_MS`, 15 minutes), like the burst
+  window since session 72. A tunable window needs the first numeric settings field. The
+  stored reason is a fact taken on arrival, so a changed window could only act on new
+  arrivals anyway.
+- **No superseded backfill.** An item gets the reason when a newer item from its blyg arrives,
+  or, on first sight, when a newer one is already held. Subscribing to a blyg therefore
+  applies the rule across its archive as it imports. Items imported before this build keep
+  their reasons until something new arrives near them.
+
+Own items: a first publication supersedes the owner's items last published within the window
+before it, in the owner's own reading feed (public pages unchanged, §8). The e2e server turns
+`superseded` off, because its specs publish many items seconds apart; the Worker suite
+(`test/background-measured.test.ts`) covers the rule.
+
 ## 8. Not in this plan
 
 - Anything on the wire, any public-page change, any change to the feed.
