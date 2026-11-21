@@ -1,7 +1,7 @@
 # The Agentic feed — plan
 
 **Status:** a plan, not built. Session 77 (2026-11-21), Opus 5.5 with Venkat. ROADMAP row 52, the
-priority after studio 0.68.0. A client contract (decision #31), not protocol: nothing here reaches
+priority after studio 0.68.0 (shipped the same session). Venkat answered §8 the same day. A client contract (decision #31), not protocol: nothing here reaches
 the wire, so no Fable ruling is needed unless other clients are to share the edition format (§7).
 
 ## 1. What it is
@@ -42,8 +42,8 @@ All studio-private. Most are readable today with `owner:read`; §4 narrows that.
 | Your writing | Everything you have published, as a model of your interests | own items |
 | Your brief | The agentic feed prompt | `feed_prompt` (Settings → AI → agentic feed) |
 
-**Not recorded:** time on an item, scroll depth, search queries. Recording any of them is a
-privacy choice (§8, question 4).
+**Not recorded yet:** time on an item, session length, who you read most, scroll depth, search
+queries. They become an opt-in class, a checkbox each, off by default (§8, answer 4).
 
 ## 3. The edition: what an assistant writes
 
@@ -79,11 +79,11 @@ document that the Studio renders in the Agentic feed tab.
   "why you're seeing this"), and section `title` and `note`. New presentation ideas (§6) arrive as
   new fields, so the resident and outside assistants gain them together.
 - **Text the assistant writes is shown as the assistant's** — reasons, notes, titles — and
-  disclosed as generated, as the Studio already does for model text (the mods promise). Whether it
-  may write more than a line is §8, question 1.
+  disclosed as generated, as the Studio already does for model text (the mods promise). Free text
+  is allowed (§8, answer 1).
 - **Optional per-entry scores.** An assistant that only ranks can send `scores` instead of
-  sections; the Studio lays out a default edition from them (one section, by score). See §8,
-  question 3.
+  sections; the Studio lays out a default edition from them (one section, by score). Both modes
+  are supported (§8, answer 3).
 
 ## 4. The contract
 
@@ -105,7 +105,9 @@ Follows the Saved pattern (#135/#137) so it reads as familiar.
   needs `owner:read`, which also reads unpublished drafts; this is the narrow grant an outside
   assistant should ask for.
 - `reading:curate`: write the edition and its run log, and nothing else. It cannot publish, draft,
-  change the Feed's order or Background, or mark anything read (§8, question 2).
+  or change the Feed's order or Background.
+- Side effects are separate opt-in grants (§8, answer 2): `reading:state` (exists) to mark read,
+  and a new `reading:save` to add to or remove from Saved.
 
 The Access page lists grants with these scopes like any other, with per-grant revoke and
 revoke-all (#31).
@@ -149,22 +151,32 @@ Each is a future edition field, never a Feed behaviour:
 - **Studio should be boring** (#35): the Studio ships the contract, the rendering and a plain
   resident assistant; inventive assistants belong outside it.
 
-## 8. Open questions for Venkat
+## 8. Venkat's answers (session 77, 2026-11-21)
 
-1. **Assistant text:** free text (labelled as the assistant's) in section notes and reasons, or
-   one-line reasons only?
-2. **Side effects:** may a curating assistant also mark entries read or add to Saved, through
-   separate opt-in scopes (`reading:state` exists), or never?
-3. **Edition or scores:** require whole editions, accept scores alone (the Studio lays them out),
-   or both? Recommendation: both, since scores are what a basic assistant can do well.
-4. **Attention signals:** record time on an item or search queries for assistants, or keep the
-   present set? Recommendation: keep the present set until an assistant shows it needs more.
+1. **Assistant text: yes.** Section notes, reasons and titles may be free text, always shown as
+   the assistant's and disclosed as generated.
+2. **Side effects: yes, by opt-in scopes.** A curating assistant may mark entries read
+   (`reading:state`, which exists) and add to Saved (a new `reading:save`), each a separate grant
+   the owner chooses. `reading:curate` alone still writes only the edition.
+3. **Both modes.** An assistant may submit a whole edition or per-entry scores; with scores the
+   Studio lays out the edition. The mode is per `PUT` (`sections` or `scores`, never both).
+4. **Attention signals: an opt-in class, controlled by the owner.** Whatever raw signals a
+   platform would track — time on an item, time and length per browsing session, who the owner
+   tends to read more, scroll depth, search queries — the Studio may record, but only with a
+   checkbox per signal in Settings, off by default. Recorded signals stay studio-private, are
+   readable under `reading:read` like the rest, are listed with their retention on the signals
+   page, and can be cleared. Turning a box off stops recording and offers to delete what was
+   kept.
 
-## 9. Build order (once §8 is answered)
+## 9. Build order
 
-1. The two scopes, with their oracle laws (the auth oracles are Kyle's to approve).
+1. The scopes (`reading:read`, `reading:curate`, `reading:save`), with their oracle laws (the
+   auth oracles are Kyle's to approve).
 2. `GET`/`PUT /agentic` with the closed field set, `expectedRevision`, and the tab rendering an
    edition (sections, reasons, folds, groups), with the empty state pointing to Settings.
 3. The resident assistant on the cron, under the budget, with §14 framing.
 4. The driver choice in Settings, and the run log.
 5. A worked outside assistant as an example (a script using a manual token), in `docs/`.
+6. The opt-in attention signals (§8, answer 4): a Settings section of checkboxes, recording only
+   what is checked, a retention line and a clear button for each, and their reads under
+   `reading:read`.
