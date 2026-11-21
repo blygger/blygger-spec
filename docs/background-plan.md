@@ -320,6 +320,50 @@ before it, in the owner's own reading feed (public pages unchanged, §8). The e2
 `superseded` off, because its specs publish many items seconds apart; the Worker suite
 (`test/background-measured.test.ts`) covers the rule.
 
+### 7.2 Phase 4b, first half, as built (session 78, 2026-11-21)
+
+Built on studio `main`, unreleased (the 0.69.0 batch; migration 0054). This is helper 3,
+`classify-change`, for imported versions (`helpers-plan.md` §7); it is not yet in the helper
+catalogue as an operation of its own.
+
+- **The setting is `bg_model_imported`** (Settings → Background, a sub-check under the `minor`
+  rule, disabled until Settings → AI names a classifier). The `minor` rule's label drops "your
+  own": one toggle governs minor changes from both halves.
+- **Queue, then judge.** At import, a new version of an item already held whose words changed
+  and that the measured rules left open (not `maintenance`, `near-same`, `quotes-refreshed` or
+  `quotes-material`) is queued with **both texts**, because the held text is overwritten by
+  the import (`imported_change_queue`, one row per item; a newer version replaces a waiting
+  one). The **quarter-hour tick** judges ten at a time with `decide()` and `CLASSIFY_QUESTION`,
+  the same question own items get. Not the minute tick: the polling-cache oracle promises an
+  unchanged minute tick only two small D1 reads, and a settings read broke it.
+- **Labels:** `typo` or `minor` adds the `minor` reason; `major` leaves the entry where the
+  measured rules put it. Either way `bg_detail.classify` records `{ by, category }`, and the
+  chip reads "minor change (typo)".
+- **Budget fallback:** over the daily AI budget, the version keeps the measured rules' verdict,
+  `bg_detail.classify.error` says "over the daily AI budget", and the tick stops; the queue
+  waits for the next day's budget. A provider error is recorded the same way. Turning the
+  setting off empties the queue.
+- **The note is never sent.** Only the two texts reach the model (§14; a test asserts it).
+
+**The routing instruction and the disagreement chip: Venkat ruled (a), session 78, built the
+same day.** The disagreement check runs only under the owner's routing instruction: the owner's
+delegation is what lets the client read a note at all (#96). Options (b), always check, and (c),
+Settings only, were set aside.
+
+- `bg_instruction` (Settings → Background, under *judge other blygs' changes too*, at most 500
+  characters, empty by default; the placeholder is an example, never a default).
+- The queue keeps each version's changelog note (`imported_change_queue.note`). It is sent only
+  while an instruction is written, with the instruction, both framed as data after the texts.
+  The model then answers a second fixed-choice question, `NOTE_CLAIM_QUESTION`: does the note
+  claim a typo, minor or major change, or none?
+- **Disagreement:** a note claiming `typo` or `minor` while more than `DISAGREE_FRACTION` (10 %,
+  reader-local like near-same's 2 %) of the text changed. The entry is not sent to Background,
+  `bg_detail.classify.disagree` records `{ note, changed }`, and a chip in every lens reads
+  "note says minor · 35% changed". An agreeing small change goes to Background as "minor change
+  (typo, by your instruction)".
+- **Not built:** Settings listing the disagreements (it needs a read route, and so the oracle
+  tool lists). The per-entry chip is the first half.
+
 ## 8. Not in this plan
 
 - Anything on the wire, any public-page change, any change to the feed.

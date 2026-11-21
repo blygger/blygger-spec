@@ -102,7 +102,14 @@ MCP is a transport for the contract, not a second one).
    card the post's own words with its source, version and time. Credit Aneesh Sathe and Burrow
    0.23.0. UI: a Catch up control on reading entries that have layers.
 2. **`catch-up-summary`** (text): an ordered summary over `catch-up`'s output, cached per set of
-   versions, disclosed as generated.
+   versions, disclosed as generated. **Built session 78** (studio `main`, unreleased; migration
+   0053 `helper_results`, one row per helper and subject, keyed by every card's origin, id and
+   version). Two departures from §4, both to revisit with the resident assistant: it answers
+   synchronously with a claim, as changelog summaries do, and a concurrent caller gets 409
+   rather than a run to poll (`/helpers/runs/{id}` waits until a helper is slow or bulk); and
+   the model is one **text helpers** setting (`ai_model_helpers`, blank = the change-notes
+   model), not one per helper, until there is a second text helper. Its scope is
+   `owner:draft`, as `summarizeChangelog`'s is, until `reading:helpers` exists.
 3. **`classify-change`** (decision): the change classifier as a helper for any version pair,
    imported included. This is Background phase 4b's model, so 4b and this helper are one build.
 4. **`relevance`** (decision): how an entry relates to the owner's own writing (Surya's case,

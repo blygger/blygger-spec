@@ -176,6 +176,26 @@
       "id": "0g4gyq24jjm6pyggg22h70t220",
       "version": 1,
       "source_sha256": "a04ce6bce6d927fdedd53710ec179150e6cd353838c982e9a8d754f3e0a94500"
+    },
+    {
+      "file": "docs/notes/tn-8-where-does-my-change-belong.md",
+      "model": "claude-opus-5-5",
+      "pin": true,
+      "notes": {
+        "first": "TN-8: the contributor guide, made a technical note.",
+        "revision": "TN-8 revised; see the source history."
+      },
+      "canonical": "https://blygger.org/notes/tn-8/"
+    },
+    {
+      "file": "docs/posts/2026-11-21-where-does-my-change-belong.md",
+      "model": "claude-opus-5-5",
+      "pin": false,
+      "footer": "post",
+      "notes": {
+        "first": "TN-8 announced: where does my change belong?",
+        "revision": "TN-8 announcement revised; see the source history."
+      }
     }
   ]
 }

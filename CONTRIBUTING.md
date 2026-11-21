@@ -6,7 +6,7 @@ This repository holds the protocol: what a blyg serves and what a reader may rel
 2. Is it a bug in a client, or a feature of one? → that client's repository. For the reference client, [blygger-studio](https://github.com/blygger/blygger-studio/issues/new/choose).
 3. Is it about how a page looks: a layout, a theme, a reading view, a count on your own page? → **not a spec question.** The project polices the wire, not the page. It belongs to a client, an extension or a mod.
 
-The full ladder, with tool, extension, hook, mod, local patch and fork as the other rungs, is **[where does my change belong?](https://github.com/blygger/blygger-studio/blob/main/docs/where-does-it-go.md)** in the Studio repository.
+The full ladder, with tool, extension, hook, mod, local patch and fork as the other rungs, is **[where does my change belong? (TN-8)](https://blygger.org/notes/tn-8/)**, a technical note in this repository.
 
 ## Proposals
 
