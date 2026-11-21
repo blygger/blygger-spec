@@ -85,6 +85,36 @@ document that the Studio renders in the Agentic feed tab.
   sections; the Studio lays out a default edition from them (one section, by score). Both modes
   are supported (§8, answer 3).
 
+### 3.1 Every edition is a blyg thread, private by default (Venkat, session 77)
+
+An edition is also a conformant blyg thread, so it can be published like any other. The Studio
+composes it from existing constructs only (`src/agentic-thread.ts`), so nothing new reaches the
+wire:
+
+- the masthead is a heading in the Studio's own words (the tab's name and the date); each section
+  is a `##` heading;
+- an entry shown in full is an own-line quote, `![[id]]` (an imported item resolves by the local
+  snapshot, #26); every other entry is a plain link, `[[id]]` (#32);
+- every word the assistant wrote (titles, notes, headlines, summaries, reasons) is an `impyrt`
+  span (#37, §5.7 rule 7), with the assistant's model when it named one, so publishing discloses
+  it as generated. The words are flattened to a paragraph and cannot open or close a scope,
+  quote, link, code span or heading.
+
+**Private by default.** The thread is a draft: owner-only, never on the wire, until the owner opens
+it in the editor and publishes it. The draft is the assistant's only while it is unpublished and
+still holds what the Studio last wrote; once the owner edits or publishes it, the next edition
+starts a new draft and theirs is left alone. When private items land (#94,
+`plans/private-items-proposal.md`), editions become private items by default and public stays a
+deliberate act.
+
+Publishing an edition quotes and links other blygs, so it sends their mentions like any thread.
+That is why it is never automatic.
+
+### 3.2 The tab's name is the owner's
+
+Settings → AI → agentic feed → *tab name* (`agenticTitle`, at most 40 characters, default "Agentic
+feed"): "Daily digest", "My briefing". It labels the tab and heads each edition's thread.
+
 ## 4. The contract
 
 Follows the Saved pattern (#135/#137) so it reads as familiar.
@@ -129,6 +159,13 @@ A basic assistant on the node, so the tab works with no outside setup.
   grant (named). Only the chosen driver's `PUT` is accepted, so two assistants never fight over
   one edition.
 
+### 5.1 The assistant delegates
+
+The resident assistant, and any outside one, does routine work through **delegates**: simple
+mechanical or small-model agents that people reach through the same operations as UI controls
+(catch up on a nested conversation, classify a change, relevance to your writing). See
+[`delegates-plan.md`](delegates-plan.md).
+
 ## 6. Other AI presentation choices that belong here
 
 Each is a future edition field, never a Feed behaviour:
@@ -169,6 +206,31 @@ Each is a future edition field, never a Feed behaviour:
    kept.
 
 ## 9. Build order
+
+**Foundations built, session 77 (studio `main`, unreleased; contract 6.2.0, migration 0052).**
+Venkat: the default Agentic feed is a digest with editorialized sections, like a daily paper; his
+sectional design follows. Built ahead of it, so the design lands on a working base:
+
+- `agentic_edition` (one row: revision, mode, the edition as written, its draft thread),
+  `GET`/`PUT /api/agentic`
+  with `expectedRevision` and a 409 carrying the current edition, both modes, and the closed field
+  set: edition `title`, `lede`, `agent`, `generatedAt`; section `title`, `kind` (`lead`,
+  `section`, `briefs`), `note`; entry `headline`, `summary`, `reason`, `present` (`full`,
+  `excerpt`, `title`, `folded`), `group`, `version`. Anything else is a 400.
+- The layout resolves each reference to a reading entry and leaves out what is not held, what is
+  withdrawn, repeats and empty sections; scores become one "Ranked for you" section, highest first.
+- The tab draws the edition as a digest (`src/ui/agentic.tsx`): masthead, lede, sections, the lead
+  large, briefs in two columns on a wide screen, folded and grouped entries listed under their
+  first; every word the assistant wrote carries a pencil wash and `data-generated`.
+- **Scopes for now:** `GET` is `owner:read` and `PUT` is `owner:manage`, so an outside assistant
+  works today with a manual token. The narrow scopes (step 1) wait on the auth oracles' review.
+- Each `PUT` also composes the edition into its private draft thread (§3.1), and the tab links to
+  it; the tab's name is a setting (§3.2).
+- The section `kind`s are placeholders for Venkat's design; new kinds and fields are additions to
+  the closed set.
+
+Remaining, in order:
+
 
 1. The scopes (`reading:read`, `reading:curate`, `reading:save`), with their oracle laws (the
    auth oracles are Kyle's to approve).
