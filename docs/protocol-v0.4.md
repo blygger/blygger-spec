@@ -3164,11 +3164,11 @@ Desktop's cross-post extension and blygcaster; exploration
 by blygger-studio 0.67.0
 ([blygger-studio#148](https://github.com/blygger/blygger-studio/pull/148),
 Aneesh Sathe), with Blygger Desktop built to the same shape as the second
-client, and its gate run on ⟦date⟧ across two live deployments:
-⟦`venkateshrao.com/blyg/`⟧ recorded an entry for a real copy of a published
-item on ⟦network⟧ with the document rewritten in place — `version`,
+client, and its gate run on 2026-11-21 across two live deployments:
+`venkateshrao.com/blyg/` recorded an entry for a real copy of a published
+item on Bluesky with the document rewritten in place — `version`,
 `updated`, `content_hash`, the changelog, `feed.xml` and `items/index.json`
-unchanged; ⟦`blyg.protocol-institute.org`⟧ imported the item and showed the
+unchanged; `blyg.protocol-institute.org` imported the item and showed the
 entry as the publisher's claim without fetching the copy. Promoted into §5's
 member table, §5.10, §8 rule 5 and §9 in this document's nineteenth
 revision. The normative text is there; this number is kept so that earlier
@@ -3192,8 +3192,8 @@ eleventh revision.
 
 - **2026-11-20, nineteenth revision** (Fable 5.1, session 76; decision #98,
   its gate run) — **`syndication` promoted** from §16.14 now that its gate
-  has run (blygger-studio 0.67.0, #148; ⟦venkateshrao → protocol-institute,
-  a real copy on ⟦network⟧⟧): §5's member table gains `syndication`,
+  has run (blygger-studio 0.67.0, #148; venkateshrao → protocol-institute,
+  a real copy on Bluesky, 2026-11-21): §5's member table gains `syndication`,
   OPTIONAL; §5.10 carries the rules — an entry is an `https:` URL and a
   published version and nothing else; the publisher's claim, outside the
   hash, no mention, nothing in the feed or the index; rewritten in place
