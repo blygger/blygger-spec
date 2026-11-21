@@ -115,12 +115,28 @@ That is why it is never automatic.
 Settings → AI → agentic feed → *tab name* (`agenticTitle`, at most 40 characters, default "Agentic
 feed"): "Daily digest", "My briefing". It labels the tab and heads each edition's thread.
 
+### 3.3 More than one agentic feed (Venkat, session 77)
+
+People may keep several assistants, or subscribe to several "newspapers", so there may be several
+agentic feeds, each its own tab beside the Feed. Each feed has its own:
+
+- **name** (the tab's label and its editions' heading), **brief** (prompt) and **driver** (off,
+  the resident assistant, or one named outside grant);
+- **edition** and revision, and its own private draft thread per edition;
+- **grant:** an outside assistant's `reading:curate` is scoped to the feeds it was granted, so a
+  newspaper subscription cannot write into another one's tab.
+
+The data model and routes are keyed by feed from the start (`/api/agentic/{feed}`, a list at
+`/api/agentic`), with one feed, `default`, until the UI grows more tabs. The tab bar then shows each
+feed in the owner's order between Mentions and Saved; the six-tab layout is the one-feed case.
+
 ## 4. The contract
 
 Follows the Saved pattern (#135/#137) so it reads as familiar.
 
-- `GET /agentic` (`reading:read`): the current edition and its `revision`.
-- `PUT /agentic` (`reading:curate`): replace the edition; takes `expectedRevision`, answers 409
+- `GET /agentic` (`reading:read`): the agentic feeds, in the owner's order, each with its name.
+- `GET /agentic/{feed}` (`reading:read`): that feed's current edition and its `revision`.
+- `PUT /agentic/{feed}` (`reading:curate`, for that feed): replace the edition; takes `expectedRevision`, answers 409
   on a stale one. Validated against the closed field set; unknown fields are refused with 400.
 - `POST /agentic/runs` (`reading:curate`, optional): an append-only log of what a run looked at
   and decided, shown under the tab's ⋯ as "how this edition was made".
@@ -161,10 +177,10 @@ A basic assistant on the node, so the tab works with no outside setup.
 
 ### 5.1 The assistant delegates
 
-The resident assistant, and any outside one, does routine work through **delegates**: simple
+The resident assistant, and any outside one, does routine work through **helpers**: simple
 mechanical or small-model agents that people reach through the same operations as UI controls
 (catch up on a nested conversation, classify a change, relevance to your writing). See
-[`delegates-plan.md`](delegates-plan.md).
+[`helpers-plan.md`](helpers-plan.md).
 
 ## 6. Other AI presentation choices that belong here
 

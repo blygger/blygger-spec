@@ -1,13 +1,13 @@
-# Delegates — simple agents that complex agents and people share
+# Helpers — simple agents that complex agents and people share
 
-**Status:** a plan, not built. Session 77 (2026-11-21), Opus 5.5 with Venkat. Companion to
+**Status:** a plan; `catch-up` is being built first (session 77). Session 77 (2026-11-21), Opus 5.5 with Venkat. Companion to
 [`agentic-feed-plan.md`](agentic-feed-plan.md). A client contract (decision #31), not protocol.
 
 ## 1. The idea (Venkat)
 
 A top-level agent, such as the Agentic feed's assistant or a power user's own, should not have to do
-everything itself. It delegates routine work to a set of **simpler agents**: some purely
-mechanical, some backed by a small, cheap model. The same delegates are available to a person in
+everything itself. It helpers routine work to a set of **helpers**: some purely
+mechanical, some backed by a small, cheap model. The same helpers are available to a person in
 the UI and to a person's own AI through the API or MCP.
 
 **Agents are peers of the human owner.** They see the same mechanical and simple-AI affordances a
@@ -21,7 +21,7 @@ Two examples:
 - **Classifier agents** like Clef and Jev: decision models with a fixed label set, already used by
   the change classifier.
 
-## 2. Kinds of delegate
+## 2. Kinds of helper
 
 | Kind | What it is | Cost | Examples |
 |---|---|---|---|
@@ -29,7 +29,7 @@ Two examples:
 | **Decision** | A decision model with a fixed label set (Clef, Jev). An injected instruction can at most mislabel (§14) | small, budgeted | Change size (typo, minor, major, refresh), topic labels from the owner's list, "is this the same story as X", relevance to the owner's writing |
 | **Text** | A small text model that writes words, always disclosed as generated | budgeted | Catch-up summary, changelog summary (exists), headline or dek for an entry, translation, a digest of a long thread |
 
-Delegates compose. Catch up is the clearest case: the mechanical layout feeds the text summary,
+Helpers compose. Catch up is the clearest case: the mechanical layout feeds the text summary,
 which a top-level assistant can then quote in an edition. Each layer is usable on its own.
 
 ## 3. What already exists, to be wrapped rather than rebuilt
@@ -47,76 +47,79 @@ Today these are internal functions or UI features. The plan gives each a name an
 
 ## 4. The contract
 
-**One operation per delegate, under `/api/delegates/{name}`, and the same as an MCP tool** (#52:
+**One operation per helper, under `/api/helpers/{name}`, and the same as an MCP tool** (#52:
 MCP is a transport for the contract, not a second one).
 
-- **A catalogue:** `GET /api/delegates` lists each delegate with its name, kind, a one-line
+- **A catalogue:** `GET /api/helpers` lists each helper with its name, kind, a one-line
   description, input and output schemas, cost class, the model it would use (owner-chosen), and
   whether it is offered in the UI.
-- **Calling:** `POST /api/delegates/{name}` with typed input, typically reading identities (`sub`,
+- **Calling:** `POST /api/helpers/{name}` with typed input, typically reading identities (`sub`,
   `remoteId`, optional `version`), as Saved and editions name entries.
-  - Mechanical delegates answer at once.
-  - Model delegates answer at once when cached, else start a **run**
-    (`GET /api/delegates/runs/{id}`). The caller polls, as everywhere (#39).
-- **Output is data, with provenance.** A model delegate's output carries `{ model, at, sources }`
+  - Mechanical helpers answer at once.
+  - Model helpers answer at once when cached, else start a **run**
+    (`GET /api/helpers/runs/{id}`). The caller polls, as everywhere (#39).
+- **Output is data, with provenance.** A model helper's output carries `{ model, at, sources }`
   in the §5.9 reference shape. Whoever places it in a thread places it as an `impyrt` span, so it
   is disclosed when published, as editions do (`agentic-feed-plan.md` §3.1).
-- **Caching:** results are keyed by delegate, input identities and their versions, like changelog
+- **Caching:** results are keyed by helper, input identities and their versions, like changelog
   summaries. Asking twice about the same versions costs nothing. A new version is a new key.
-- **Scopes:** reading a delegate's inputs needs what reading them directly needs (`reading:read`
-  for an agent, the owner cookie for the UI). Model delegates also need `reading:delegate` so an
-  owner can let an agent read without letting it spend. Delegates never write to the blyg; a
+- **Scopes:** reading a helper's inputs needs what reading them directly needs (`reading:read`
+  for an agent, the owner cookie for the UI). Model helpers also need `reading:helpers` so an
+  owner can let an agent read without letting it spend. Helpers never write to the blyg; a
   caller that wants to act on a result does so through its own grant (`reading:curate`,
   `reading:save`, …).
-- **Budget:** model delegates spend the node's AI budget, attributed per caller (the owner's UI, the
+- **Budget:** model helpers spend the node's AI budget, attributed per caller (the owner's UI, the
   resident assistant, each outside grant). Settings shows who spent what and can cap each caller.
   This is where pending call #10's budget model lands.
 
 ## 5. People and agents get the same affordances
 
-- **In the UI**, a delegate marked for people is a control where it belongs: **Catch up** on any
+- **In the UI**, a helper marked for people is a control where it belongs: **Catch up** on any
   thread with nested quotes (a sheet, oldest first, with an optional summary); **classify** in an
   entry's ⋯; **translate** later. The button calls the same operation an agent calls.
-- **For agents**, every delegate is in the catalogue and is an MCP tool. Some are agent-only:
+- **For agents**, every helper is in the catalogue and is an MCP tool. Some are agent-only:
   bulk forms (classify fifty entries in one run), the quote graph of a whole subscription, raw
   structure (an entry's layers and references as JSON).
 - **A person's own AI** (Claude through MCP, say) drives the same tools under the person's grant.
   That is the "human AI" hookup, and it is no different from an outside assistant's.
 
-## 6. Who supplies delegates
+## 6. Who supplies helpers
 
 - **The Studio core** ships the mechanical ones and a small set of model ones. They should stay
   boring (#35).
-- **Extensions** may register delegates (catalogue entries plus handlers), compiled in as
-  extensions are today. A delegate is a computation over held data and writes nothing, which fits
+- **Extensions** may register helpers (catalogue entries plus handlers), compiled in as
+  extensions are today. A helper is a computation over held data and writes nothing, which fits
   the extension model's read-only rule.
-- **Other clients:** Burrow already has catch-up. If clients should share delegate names and
-  shapes, so an agent written for one works with another, the catalogue format goes the #66 route
-  (an RFC) once two clients implement it. Until then each client's catalogue is its own.
+- **Other clients:** helpers are the **Studio's reference design**, not a standard and not a
+  recommendation (Venkat, session 77). Burrow and others may do agentic feeds entirely
+  differently. A client that uses the Studio as its server sees the same raw signals and may call
+  the Studio's helpers, but nothing here asks another client to copy the catalogue, and it never
+  goes the RFC route.
 
-## 7. First delegates, in order
+## 7. First helpers, in order
 
 1. **`catch-up`** (mechanical): a thread or entry with nested quotes, laid out oldest first, each
    card the post's own words with its source, version and time. Credit Aneesh Sathe and Burrow
    0.23.0. UI: a Catch up control on reading entries that have layers.
 2. **`catch-up-summary`** (text): an ordered summary over `catch-up`'s output, cached per set of
    versions, disclosed as generated.
-3. **`classify-change`** (decision): the change classifier as a delegate for any version pair,
-   imported included. This is Background phase 4b's model, so 4b and this delegate are one build.
+3. **`classify-change`** (decision): the change classifier as a helper for any version pair,
+   imported included. This is Background phase 4b's model, so 4b and this helper are one build.
 4. **`relevance`** (decision): how an entry relates to the owner's own writing (Surya's case,
    studio#57), on a cheap model of its own.
 5. **`same-story`** (mechanical first, decision second): entries across blygs that quote, link or
    copy the same item, then optionally a model's judgment for the rest.
 
 The resident Agentic feed assistant (`agentic-feed-plan.md` §5) is written as a caller of these
-delegates, not a monolith. That keeps it boring and makes it the worked example for power users.
+helpers, not a monolith. That keeps it boring and makes it the worked example for power users.
 
-## 8. Questions for Venkat
+## 8. Venkat's answers (session 77, 2026-11-21)
 
-1. **Name:** "delegates", "helpers", "skills" or "tools"? The UI never needs to say it; the API and
-   MCP catalogue do.
-2. **Model choice:** may a caller ask for a model, or does the owner's per-delegate setting always
-   decide? Recommendation: the owner decides; a caller may ask only for a cheaper tier.
-3. **Catch up in the UI:** a sheet from the entry (Burrow's ⇧C), or a reading mode of its own?
-4. **Cross-client:** should the catalogue aim at an RFC with Burrow from the start (shared names
-   for `catch-up`, `classify-change`), or stay the Studio's own until both clients have shipped?
+1. **Name:** helpers. `/api/helpers`, MCP tools named after each helper, scope `reading:helpers`
+   for model helpers.
+2. **Model choice:** the owner's per-helper setting decides; a caller cannot pick one. A caller may
+   later be able to bring its own model (and key) for its runs, which would spend nothing of the
+   node's budget.
+3. **Catch up:** build it now. First as a sheet from the entry, like Burrow's ⇧C; a reading mode
+   of its own can follow.
+4. **Cross-client:** no RFC. This is the Studio's reference design (§6).
