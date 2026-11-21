@@ -223,8 +223,7 @@ Base steps run first (S1–S4); the list below is the local config.
 
 Delete an entry once it is done or Venkat says to drop it. An empty list means say nothing.
 
-- **Next session first (from session 77, 2026-11-21):** studio **0.68.0** is live on venkateshrao, PI and blyg.blygger.org (migration 0051): six reading tabs, the pace-layered Feed, Background phase 2. 0.67.1 is released.
-  0. **Tag `v0.68.0`** (lightweight) on `c0f03eb` once its Check has passed; 0.68.0's own Check (`f023f48`) failed on two timing/layout tests fixed there.
+- **Next session first (from session 77, 2026-11-21):** studio **0.68.0** is live on venkateshrao, PI and blyg.blygger.org (migration 0051): six reading tabs, the pace-layered Feed, Background phase 2. 0.67.1 and 0.68.0 are released (v0.68.0 tagged on `c0f03eb`, two test fixes after the release commit's Check failed).
   1. **Fix the Catch up sheet:** the entry ⋯ "catch up" row does not open its sheet (`src/ui/catch-up.tsx`; the helper API works; `e2e/catch-up.spec.ts` fails). Studio main is two local commits ahead (`6828146`, `45a7856`): the Agentic feed foundations and helpers, the 0.69.0 batch.
   2. **The 0.69.0 batch** (one CI run): the Agentic feed (`docs/agentic-feed-plan.md` §9: scopes after Kyle's oracle review, the resident assistant, Venkat's sectional design when it comes), helpers (`docs/helpers-plan.md` §7: catch-up's summary with Background 4b).
   3. **New Nature's session** owns its 0.66.0–0.68.0 rollout (migrations 0049, 0051) and can build its bars on `editorBar`.
