@@ -417,8 +417,8 @@ Ground truth for one item. Example (a fragment):
 ```
 
 Threads additionally carry `transclusions` (§10.3) and MAY carry `stub_of`
-(§10.6). Any item MAY carry `forked_from` (§5.6), `generated` (§5.7) and `links`
-(§10.3a).
+(§10.6). Any item MAY carry `forked_from` (§5.6), `generated` (§5.7), `links`
+(§10.3a) and `syndication` (§5.10).
 
 **Members** (revision of 2026-10-17, decision #76 — the first explicit
 list, drawn from the sections below and checked against one document from
@@ -433,6 +433,7 @@ every live blyg, all 22 of which already conform):
 | `transclusions` | REQUIRED for threads, absent for fragments | §10.3 |
 | `stub_of`, `forked_from`, `generated` | OPTIONAL, present when the construct is | §10.6, §5.6, §5.7 |
 | `links` | OPTIONAL; present when the version resolved at least one `[[id]]` (fourth revision) | §10.3a |
+| `syndication` | OPTIONAL; present when the publisher names a copy of the item on another network (nineteenth revision) | §5.10 |
 
 A withdrawal endcap (§9) keeps the REQUIRED members with empty content. Any
 other member is unknown and ignored (§13.1 rule 4).
@@ -967,6 +968,70 @@ nature, so the citing publisher's frozen label is *more* faithful to what
 was cited than a reader's later lookup of the live target — not a fallback
 for when the link dies.
 
+### 5.10 Copies on other networks — `syndication`
+
+*(New in 0.4; revision of 2026-11-20, decision #98.)* A publisher that posts
+an item's words on another network — a social account, a newsletter, a forum
+— MAY say so. An item document MAY carry `syndication`, an array naming the
+copies of the item that its publisher made elsewhere:
+
+```json
+"syndication": [
+  { "url": "https://bsky.app/profile/did:plc:abcdexample234/post/3lzexample22", "version": 3 }
+]
+```
+
+1. **An entry is a URL and a version, and nothing else.** `url` is REQUIRED
+   and MUST be an absolute `https:` URL at which the copy can be read; it
+   SHOULD be the most stable URL the network offers. `version` is REQUIRED:
+   the version of this item the copy was made from — a published version,
+   so never above the document's own `version`. An entry has these two
+   members and no other: a publisher MUST NOT put counts, replies, account
+   data or a network's name in one (§16.8), and a reader treats anything
+   else in an entry as unknown (§13.1 rule 4). The member is omitted when
+   there is no copy to name. This document sets no bound on the list's
+   length; a client that caps what it writes caps its own.
+2. **It is the publisher's claim.** Self-asserted like `cited`, never in
+   `content_html`, outside `content_hash`, and not a reference (§5.9): it
+   sends no mention and §15.4 never reads it. Nothing is added to the feed
+   or to the archive index.
+3. **It changes without a publish event.** The member describes versions
+   already published and changes nothing the item says or shows, so the
+   publisher rewrites the document in place, as it does when it pins a
+   version retroactively (`changelog[].pinned`, §8 rule 2): `version`,
+   `updated`, `content_hash` and the changelog are unchanged, and so are
+   `feed.xml` and `items/index.json`. Entries are added, replaced and
+   removed as the copies are. A publisher SHOULD NOT publish a version
+   solely to record an entry: the version would send a feed entry with no
+   new writing to every plain RSS reader. The cost is the reader's and is
+   accepted: a reader that fetched the document before an entry landed sees
+   it at its next fetch of that document, which may be the item's next
+   version, and a reader MAY refetch a document it is showing. The rewrite
+   is not a stealth edit (§13.3), which is a change of content under one
+   version; this changes no content.
+4. **Endcaps and pinned files omit it.** A withdrawal endcap omits the
+   member for §9's reason: a copy is a copy of what the item said. A pinned
+   file never carries it, because copies are replaced and deleted and a
+   frozen file would keep dead addresses; a fork therefore inherits nothing
+   (lineage points only at pins, §5.6).
+5. **Readers.** Ignoring the member is conformant (§13.1 rule 4). A reader
+   MAY show an entry as a link, presented as the publisher's claim, needs no
+   fetch of the copy to do so, and MUST NOT render a `url` that is not
+   `https:` as a link; it MAY drop an entry that is not well formed and keep
+   the rest. A reader MUST NOT hide or merge another party's post on the
+   strength of an entry, whether or not that post links back to the item:
+   anyone may link to an item, so a link back does not make a post the
+   publisher's copy. A reader MUST NOT infer from an entry that the item's
+   author is the account that posted the copy (§5.5). Whether a reader that
+   holds both the item and a post from another network shows them as one
+   piece of writing is its own presentation, judged from the two texts it
+   holds; this document gives no rule for it.
+
+Why the member may change in place, for the record: its class is the pin
+flag's — self-asserted, outside the hash and `content_html`, about a version
+already published, and nothing a reader or receiver acts on. That class is
+not a general channel. A member readers act on gets a publish event.
+
 ## 6. Manifest and archive index
 
 ### 6.1 Manifest — `blyg.json`
@@ -1241,7 +1306,9 @@ Rules:
    **A pin carries its own citations**: a pinned stub version carries the
    `stub_of` it was published with (§10.6), and a pinned version of a forked
    item carries `forked_from` (§5.6) — the frozen artifact says what it
-   answered and where it came from, at the version it said so.
+   answered and where it came from, at the version it said so. A pinned
+   file never carries `syndication` (§5.10): copies are replaced and
+   deleted, and a frozen file would keep dead addresses.
 6. **`author` rides outside the pin promise.** `content_hash` covers
    `content_md` only, so the pin's immutability guarantee covers *content*,
    never the author bytes. A pinned file SHOULD carry the assertion as
@@ -1313,9 +1380,9 @@ Withdrawing publishes a permanent **endcap**: a version bump with
 `content_md` = `""`, `content_html` = `""`, `media` = `[]`, an optional note,
 `"kind": "withdrawn"`, `updated` set, and the changelog retained plus the endcap
 entry. For threads, the endcap also empties `transclusions` to `[]` (§10.4).
-An endcap MUST NOT carry `stub_of` (§10.6) or a `generated` array (§5.7):
-mention verification relies on the first (§15.4), and neither describes a
-document with no words. **The endcap keeps `page` and `forked_from`**: the endcap empties
+An endcap MUST NOT carry `stub_of` (§10.6), a `generated` array (§5.7) or
+`syndication` (§5.10): mention verification relies on the first (§15.4), and
+none of the three describes a document with no words. **The endcap keeps `page` and `forked_from`**: the endcap empties
 what the item *said*, and where an item lives and where it came from are
 not what it said.
 
@@ -3087,62 +3154,34 @@ declares `moved_from`; a pre-move reader's mention of a post-move item
 verifies; and one reader is offered the follow. Promotion into §6.1, §12.2,
 §15.3 and §15.4.
 
-### 16.14 Syndication — `syndication` (ruled 2026-11-09; awaiting a build)
+### 16.14 Syndication — `syndication` (promoted to §5 and §5.10, 2026-11-20)
 
-Decision #98, on
+Ruled 2026-11-09 (decision #98) on
 [blygger-spec#30](https://github.com/blygger/blygger-spec/pull/30) (Patrick
 Atwater, from two clients that cross-post items to other networks: Blygger
-Desktop's cross-post extension and blygcaster). The exploration is
-`plans/syndication-proposal.md`; where it and this section differ, this
-section is the ruling.
+Desktop's cross-post extension and blygcaster; exploration
+`plans/syndication-proposal.md`, reasoning `docs/v0.4-plan.md` §19.2). Built
+by blygger-studio 0.67.0
+([blygger-studio#148](https://github.com/blygger/blygger-studio/pull/148),
+Aneesh Sathe), with Blygger Desktop built to the same shape as the second
+client, and its gate run on 2026-11-21 across two live deployments:
+`venkateshrao.com/blyg/` recorded an entry for a real copy of a published
+item on Bluesky with the document rewritten in place — `version`,
+`updated`, `content_hash`, the changelog, `feed.xml` and `items/index.json`
+unchanged; `blyg.protocol-institute.org` imported the item and showed the
+entry as the publisher's claim without fetching the copy. Promoted into §5's
+member table, §5.10, §8 rule 5 and §9 in this document's nineteenth
+revision. The normative text is there; this number is kept so that earlier
+citations resolve.
 
-An item document MAY carry `syndication`, an array naming copies of the item
-that its publisher made on other networks:
-
-```json
-"syndication": [
-  { "url": "https://bsky.app/profile/did:plc:abcdexample234/post/3lzexample22", "version": 3 }
-]
-```
-
-1. **An entry is a URL and a version.** `url` is REQUIRED and MUST be an
-   absolute `https:` URL at which the copy can be read; it SHOULD be the
-   most stable URL the network offers. `version` is REQUIRED: the version
-   of this item the copy was made from. A publisher MUST NOT put counts,
-   replies or account data in an entry (§16.8); there is no network name.
-2. **It is the publisher's claim.** Self-asserted like `cited`, never in
-   `content_html`, outside `content_hash`, and not a reference (§5.9): it
-   sends no mention and §15.4 never reads it. Nothing is added to the feed.
-3. **It changes without a publish event.** The member describes versions
-   already published and changes nothing the item says or shows, so the
-   publisher rewrites the document in place, as it does when it pins a
-   version (`changelog[].pinned`, §8 rule 2). Entries are added, replaced
-   and removed as the copies are. A publisher SHOULD NOT publish a version
-   solely to record an entry: the version would send a feed entry with no
-   new writing to every plain RSS reader. A reader that fetched the
-   document before an entry landed sees it at its next fetch, and MAY
-   refetch a document it is showing.
-4. **Endcaps and pinned files omit it.** A withdrawal endcap omits the
-   member for §9's reason: a copy is a copy of what the item said. A pinned
-   file never carries it, because copies are replaced and deleted and a
-   frozen file would keep dead addresses; a fork therefore inherits nothing
-   (lineage points only at pins, §5.6).
-5. **Readers.** Ignoring the member is conformant (§13.1 rule 4). A reader
-   MAY show an entry as a link, presented as the publisher's claim, and MUST
-   NOT render a `url` that is not `https:` as a link. A reader MUST NOT hide
-   or merge another party's post on the strength of an entry, whether or
-   not that post links back to the item: anyone may link to an item, so a
-   link back does not make a post the publisher's copy. A reader MUST NOT
-   infer from an entry that the item's author is the account that posted
-   the copy (§5.5). Whether a reader that holds both the item and a post
-   from another network shows them as one piece of writing is its own
-   presentation, judged from the two texts it holds; this document gives no
-   rule for it.
-
-An additive OPTIONAL member; 0.4 text by #43. **Gate:** one client emits an
-entry for a real copy without spending a version on it, and a second client
-shows the link from an imported item without fetching the copy. Promotion
-into §5's member table and a new §5.10.
+Not taken, for the record, and not to be re-proposed without a new argument:
+a specified fold of an imported post under the item (a stranger's post that
+criticises the item and links to it passes any URL test a fold could use);
+a version spent to record an entry; a network-native identifier or a
+network's name in an entry; counts in an entry; any rule about what a reader
+fetches or shows from the other network. In-place change is the pin flag's
+class, not a general channel: a proposal citing this section for a member
+readers act on is refused.
 
 ## 17. Revision history (non-normative)
 
@@ -3150,6 +3189,21 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-20, nineteenth revision** (Fable 5.1, session 76; decision #98,
+  its gate run) — **`syndication` promoted** from §16.14 now that its gate
+  has run (blygger-studio 0.67.0, #148; venkateshrao → protocol-institute,
+  a real copy on Bluesky, 2026-11-21): §5's member table gains `syndication`,
+  OPTIONAL; §5.10 carries the rules — an entry is an `https:` URL and a
+  published version and nothing else; the publisher's claim, outside the
+  hash, no mention, nothing in the feed or the index; rewritten in place
+  with no version of its own, as a retroactive pin is, and not a stealth
+  edit; omitted by endcaps and pinned files, so a fork inherits nothing;
+  readers MAY show it as a link with no fetch of the copy, MUST NOT hide or
+  merge another party's post on it and MUST NOT infer an identity from it.
+  §8 rule 5 and §9 name the omissions. §16.14 kept as a pointer. One wire
+  change, additive: a reader that ignores the member stays conformant. Not
+  snapshotted.
 
 - **2026-11-18, eighteenth revision** (Fable 5.2, session 74; decision
   #112) — **a placeholder folds, a linked chapter does not**. §13.7: a
