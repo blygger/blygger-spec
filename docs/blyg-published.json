@@ -198,7 +198,10 @@
       "notes": {
         "first": "TN-8 announced: where does my change belong?",
         "revision": "TN-8 announcement revised; see the source history."
-      }
+      },
+      "id": "5any2cscbf9h37vbaa4t4894kb",
+      "version": 1,
+      "source_sha256": "3954435d734deed757b8c676b53643a5bedd95d49b27bd7d2972f3f7d0cc0843"
     }
   ]
 }
