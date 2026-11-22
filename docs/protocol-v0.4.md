@@ -3229,12 +3229,43 @@ and showed the list with the source's numbers. The rule is in §10.2; §5.6
 flattens baked list items as list items. An **editorial layer** over a
 partial quote (decision #116) is a separate direction and goes to RFC-8.
 
+### 16.16 A web page as a generation source (ruled 2026-11-22; awaiting a gate run)
+
+Decision #117. §5.7 rule 8's local-snapshot rule governs items; a web page
+has no snapshot and no version, so what a studio fetches while generating is
+its own business (invariant 3). What it feeds, it discloses (rule 1): a web
+page the generator read is a `generated[].sources[]` entry in §10.6's
+plain-web shape, not a §5.9 reference:
+
+```json
+{ "url": "https://contraptions.venkateshrao.com/p/the-profligacy-principle",
+  "cited": { "source": "Contraptions", "excerpt": "The Profligacy Principle",
+             "url": "https://contraptions.venkateshrao.com/p/the-profligacy-principle",
+             "retrieved": "2026-11-22T18:00:00Z" } }
+```
+
+`cited` follows §5.9's rules; `retrieved` is RECOMMENDED, since the page has
+no version. Such an entry sends no mention (rule 9 fires on `origin`). A URL
+that names a blyg item the publisher holds is that item: a reference, fed
+from the snapshot, notifying if remote. The list is built from what was
+read, never inferred from the output, and a URL that could not be read is not
+listed. Promoted into §5.7 rule 1 when a client emits it and a cross-node
+import retains it; §14's fetch-hygiene bullet then names generation-time
+fetching.
+
 ## 17. Revision history (non-normative)
 
 One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-22, twenty-second revision** (Opus 5.5 recording Fable 5.1's
+  ruling, session 79; decision #117) — **a web page as a generation
+  source**, ruled shape in §16.16: §5.7 rule 8 governs items only; a page
+  the generator read is disclosed in `sources[]` as §10.6's `{url, cited}`,
+  sends no mention, and a URL naming a held blyg item is that item.
+  Additive: readers never resolve `sources[]`. Not snapshotted.
 
 - **2026-11-21, twenty-first revision** (Opus 5.5 under #58, session 78;
   decision #114, its gate run; Fable review pending) — **a quoted list keeps
