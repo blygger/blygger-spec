@@ -321,6 +321,11 @@
         "0.66.0",
         "0.65.0"
       ]
+    },
+    "0.70.0": {
+      "id": "1p9ksqt0b69zhz24h6cvd1c1dk",
+      "version": 1,
+      "source_sha256": "917f8a17b81c6379a02cfb7327a1b11732fe771fed83f33ac68b263d1e2baeff"
     }
   }
 }
