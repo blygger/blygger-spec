@@ -117,7 +117,7 @@ MCP is a transport for the contract, not a second one).
 5. **`same-story`** (mechanical first, decision second): entries across blygs that quote, link or
    copy the same item, then optionally a model's judgment for the rest.
 
-**Later: helpers inside [TK] generation** (Venkat, session 78). Today a TK scope is one model
+**Later: smart-scoped TK** (Venkat, session 78; ROADMAP row 146). Today a TK scope is one model
 call over the instruction, its sources and the draft. Letting that call use helpers as tools
 (search the blyg and the reader's imports, catch up on a conversation, fetch a supplied page)
 turns it into a short tool-using loop under the same budget and disclosure: everything the
