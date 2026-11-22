@@ -185,7 +185,10 @@
         "first": "TN-8: the contributor guide, made a technical note.",
         "revision": "TN-8 revised; see the source history."
       },
-      "canonical": "https://blygger.org/notes/tn-8/"
+      "canonical": "https://blygger.org/notes/tn-8/",
+      "id": "2d244a6ff5tz7mfe5gd4m41a4p",
+      "version": 1,
+      "source_sha256": "e36d1edffe7d258995033bc4658281ad2049ed7a01c513df3147e3c0baf52560"
     },
     {
       "file": "docs/posts/2026-11-21-where-does-my-change-belong.md",

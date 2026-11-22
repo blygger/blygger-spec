@@ -1,6 +1,6 @@
 # Where does my change belong? TN-8, a map for contributors
 
-The hackathon is in its second day, and the most common question so far is not how to build something but where it should go. The answer now has a number: **[TN-8, Where does my change belong?](https://blygger.org/notes/tn-8/)**
+The hackathon is in its second day. Before building anything, it pays to decide where it should go, and the map for that now has a number: **[TN-8, Where does my change belong?](https://blygger.org/notes/tn-8/)**, also [an item on this blyg](https://blyg.blygger.org/t/2d244a6ff5tz7mfe5gd4m41a4p/).
 
 It is a ladder of eight questions, asked in order, stopping at the first yes:
 
