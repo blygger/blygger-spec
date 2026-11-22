@@ -22,12 +22,14 @@ Knobs (environment variables):
 - `STUDIO_DIR`: default `~/Code/blygger-studio`. Point it at a stock checkout of a release tag that has run `npm ci && npm run build` (the studio's `build/` holds generated modules its source imports), not at a working tree someone is editing:
 
   ```sh
-  git clone --branch v0.65.0 https://github.com/blygger/blygger-studio.git /tmp/studio
+  git clone --branch v0.69.0 https://github.com/blygger/blygger-studio.git /tmp/studio
   (cd /tmp/studio && npm ci && npm run build)
   STUDIO_DIR=/tmp/studio npm run report
   ```
 
   Studio 0.49.x tests on Vite 8, which wants Node 20.19 or later; the runs recorded here used Node 20.13.1 without trouble. **From 0.65.0 that no longer holds:** the studio declares Node 22.18 or later, and under an older Node `npm ci` silently skips rolldown's native binding, so every studio campaign dies with "Cannot find native binding". Run both `npm ci` and the report under Node 22.18+ (the 0.65.0 run used Node 26).
+
+  From 0.69.0 the studio has an FTS5 search index (migration 0050). The adapter's reset between runs leaves virtual tables and their shadow tables alone: SQLite refuses a write to a shadow table (`table search_fts_idx may not be modified`), which failed every studio campaign at run 0, and the index follows its content table through the studio's own triggers.
 
   The adapter calls the owner API at the mounted address, `https://example.com/blyg/api/…`. 0.65.0 removed the host-root `/api` alias (blygger-studio#151), and under the old address every pin and withdraw got a 404, so D3 failed on the first pin.
 - `ONLY=P6-post,D2`: run only the listed campaigns.

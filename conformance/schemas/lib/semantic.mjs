@@ -292,6 +292,13 @@ rule("pins.served", "every changelog pinned:true version is served as v{n}.json 
   return errs;
 });
 
+rule("syndication.version-published", "every syndication entry names a published version of the item", ["§5.10"], ["#98"], "fail", (d) => {
+  if (!Array.isArray(d.syndication)) return [];
+  const published = new Set((d.changelog || []).map((c) => c.version));
+  return d.syndication.filter((e) => e && Number.isInteger(e.version) && (e.version > d.version || (published.size && !published.has(e.version))))
+    .map((e) => `entry names v${e.version}, ${e.version > d.version ? `above the document's v${d.version}` : "which the changelog does not list"}`);
+});
+
 // pinned-document rules
 rule("pinned.hash", "pinned content_hash = sha256(content_md)", ["§8", "§5.1"], [], "fail", (d) => (d.content_hash && sha(d.content_md || "") !== d.content_hash ? ["content_hash mismatch"] : []), "pinned");
 rule("pinned.at-matches-changelog", "pinned at/note match the item's changelog entry", ["§8"], [], "warn", (d, ctx) => {

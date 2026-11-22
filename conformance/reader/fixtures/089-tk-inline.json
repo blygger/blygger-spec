@@ -3,8 +3,8 @@
   "title": "An inline generated span is wrapped in span.blyg-tk-gen",
   "group": "generation",
   "snapshot": "spec/0.4/2026-10-18",
-  "text": "docs/protocol-v0.4.md at blygger-spec 470f552 (eighteenth revision, 2026-11-18)",
-  "note": "Revisions two to eighteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) MathML in content_html (#105, sixteenth revision) and the fold of tangled parts (#112, eighteenth revision) come from them, so those cases cite the living text.",
+  "text": "docs/protocol-v0.4.md at blygger-spec 1166a97 (twenty-first revision, 2026-11-21)",
+  "note": "Revisions two to twenty-one of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) MathML in content_html (#105, sixteenth revision) the fold of tangled parts (#112, eighteenth revision) and list structure in a partial bake (#114, twenty-first revision) come from them, so those cases cite the living text.",
   "spec_refs": [
     "§5.7"
   ],

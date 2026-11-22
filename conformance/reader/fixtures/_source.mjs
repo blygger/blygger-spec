@@ -19,8 +19,8 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 export const SNAPSHOT = {
   snapshot: "spec/0.4/2026-10-18",
-  text: "docs/protocol-v0.4.md at blygger-spec 470f552 (eighteenth revision, 2026-11-18)",
-  note: "Revisions two to eighteen of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) MathML in content_html (#105, sixteenth revision) and the fold of tangled parts (#112, eighteenth revision) come from them, so those cases cite the living text.",
+  text: "docs/protocol-v0.4.md at blygger-spec 1166a97 (twenty-first revision, 2026-11-21)",
+  note: "Revisions two to twenty-one of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) MathML in content_html (#105, sixteenth revision) the fold of tangled parts (#112, eighteenth revision) and list structure in a partial bake (#114, twenty-first revision) come from them, so those cases cite the living text.",
 };
 
 // ── The world every case draws its referenced items from ──────────────────
@@ -50,6 +50,8 @@ const RW = "8w8w8w8w8w8w8w8w8w8w8w8w8w"; // withdrawn at its origin, v1 pinned a
 const RX = "9x9x9x9x9x9x9x9x9x9x9x9x9x"; // withdrawn at its origin, nothing pinned
 const RM = "3m3m3m3m3m3m3m3m3m3m3m3m3m"; // the same id at two origins
 const RF = "4e4e4e4e4e4e4e4e4e4e4e4e4e"; // fragment whose HTML carries a MathML formula (#105)
+const LL = "01j9zq3k4m5n6p7q8r9s0t1v8c"; // local fragment: a paragraph, a numbered list, a paragraph (#114)
+const RL = "5k5k5k5k5k5k5k5k5k5k5k5k5k"; // remote fragment: a loose nested bullet list, then a numbered list starting at 7 (#114)
 const UNKNOWN = "0zzzzzzzzzzzzzzzzzzzzzzzzz";
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -67,6 +69,10 @@ const RA2_HTML = RA1_HTML + "<p>A second paragraph about <em>emphasis</em> and t
 const RB_MD = "धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.";
 const RF_MD = "Euler's identity, $e^{i\\pi}+1=0$, ties five constants together.";
 const RF_HTML = `<p>Euler's identity, <math><semantics><mrow><msup><mi>e</mi><mrow><mi>i</mi><mi>π</mi></mrow></msup><mo>+</mo><mn>1</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">e^{i\\pi}+1=0</annotation></semantics></math>, ties five constants together.</p>\n`;
+const LL_MD = "Rules of thumb:\n\n1. Write it down.\n2. Keep it small.\n3. Read it back.\n\nThat is all.";
+const LL_HTML = "<p>Rules of thumb:</p>\n<ol>\n<li>Write it down.</li>\n<li>Keep it small.</li>\n<li>Read it back.</li>\n</ol>\n<p>That is all.</p>\n";
+const RL_MD = "- a notebook\n\n- a pencil\n\n  - and a sharpener\n\n- patience\n\n7. seventh\n8. eighth";
+const RL_HTML = "<ul>\n<li><p>a notebook</p>\n</li>\n<li><p>a pencil</p>\n<ul>\n<li>and a sharpener</li>\n</ul>\n</li>\n<li><p>patience</p>\n</li>\n</ul>\n<ol start=\"7\">\n<li>seventh</li>\n<li>eighth</li>\n</ol>\n";
 const RC_MD = `Opening line of a remote thread.\n\n![[${RA}]]\n> Stigmergy is what a protocol looks like from inside\n\nClosing line with a link to [[${RB}]].`;
 const RC_HTML = `<p>Opening line of a remote thread.</p>\n` +
   bq(RA, 2, `<p>Stigmergy is what a protocol looks like from inside</p>\n`, { partial: true }) +
@@ -79,12 +85,14 @@ export const WORLD = {
   [LF]: local(LF, "fragment", LF_MD, `<p>${LF_MD}</p>\n`),
   [LN]: local(LN, "fragment", LN_MD, `<p>Notebooks &amp; pencils are <em>slow</em> thinking.</p>\n`),
   [LT]: local(LT, "thread", LT_MD, `<p>A thread about notebooks.</p>\n${bq(LF, 1, `<p>${LF_MD}</p>\n`)}<p>Closing thought.</p>\n`, { transclusions: [{ id: LF, version: 1 }] }),
+  [LL]: local(LL, "fragment", LL_MD, LL_HTML),
   [LD]: local(LD, "fragment", "Not yet published.", "", { state: "draft", version: 0 }),
   [LG]: local(LG, "fragment", "", "", { state: "withdrawn", version: 2, kind: "withdrawn", page: `f/${LG}/`, history: [{ version: 1, content_md: "Words withdrawn later." }] }),
   [LLOOP]: local(LLOOP, "thread", `Looping back:\n\n![[${SELF}]]`, `<p>Looping back:</p>\n${bq(SELF, 1, "<p>First version of this thread.</p>\n")}`, { transclusions: [{ id: SELF, version: 1 }], needs_self: true }),
   [RA]: remote(R1, RA, "fragment", RA2_MD, RA2_HTML, { version: 2, pins: { 1: { content_md: RA1_MD, content_html: RA1_HTML } } }),
   [RB]: remote(R1, RB, "fragment", RB_MD, `<p>${RB_MD}</p>\n`),
   [RC]: remote(R1, RC, "thread", RC_MD, RC_HTML, { transclusions: [{ id: RA, version: 2, selector: { exact: "Stigmergy is what a protocol looks like from inside" } }], links: [{ id: RB }] }),
+  [RL]: remote(R1, RL, "fragment", RL_MD, RL_HTML),
   [RF]: remote(R1, RF, "fragment", RF_MD, RF_HTML),
   [RP]: remote(R1, RP, "fragment", "Pencils, again.", "<p>Pencils, again.</p>\n", { page: "https://www.remote.example/2026/pencils/" }),
   [RN]: remote(R1, RN, "fragment", "A fragment whose document names no page.", "<p>A fragment whose document names no page.</p>\n", { page: null }),
@@ -129,6 +137,8 @@ const QP = (id, lines, opts = {}) => {
   const it = W(id, 1);
   return bq(id, it.version, lines.map((l) => `<p>${esc(l)}</p>\n`).join(""), { origin: it.local ? undefined : it.origin, label: opts.label, partial: true });
 };
+/** A partial transclusion whose bake keeps the target's list structure (§10.2, #114): `body` is written out, since the structure is the target's. */
+const QL = (id, body) => { const it = W(id, 1); return bq(id, it.version, body, { origin: it.local ? undefined : it.origin, partial: true }); };
 const GS = (inner) => `<span class="blyg-tk-gen">${inner}</span>`;
 const GD = (inner) => `<div class="blyg-tk-gen">${inner}</div>\n`;
 const CODE = (s) => `<code>${esc(s)}</code>`;
@@ -417,6 +427,35 @@ c("grammar", "whole-with-formula", "A whole transclusion of an item whose HTML c
 c("partial", "partial-beside-formula", "A selection of the prose beside a formula verifies against text content; the formula is not part of it", {
   md: `![[${RF}]]\n> ties five constants together.`, items: [RF], html: QP(RF, ["ties five constants together."]),
   tr: [TR(RF, { exact: "ties five constants together." })], spec: ["§10.2", "§2", "§5.2"], decisions: ["#49", "#105"] });
+
+// partial, list structure — §10.2 as revised 2026-11-21 (#114). The expectation
+// shows the target's structure, which a publisher MAY bake: a `<p>` per line in
+// its place passes, a list the target does not have fails.
+c("partial", "partial-list-ordered-run", "Two quoted items of a numbered list MAY bake as list items, numbered as the source numbers them", {
+  md: `![[${LL}]]\n> Keep it small.\n>\n> Read it back.`, items: [LL],
+  html: QL(LL, `<ol start="2">\n<li>Keep it small.</li>\n<li>Read it back.</li>\n</ol>\n`), tr: [TR(LL, { exact: "Keep it small.\nRead it back." })],
+  spec: ["§10.2", "§10.3", "§2"], decisions: ["#114", "#49"] });
+c("partial", "partial-list-with-paragraph", "A selection across a paragraph and a list item: the paragraph is a <p>, the item MAY be an <li>", {
+  md: `![[${LL}]]\n> Rules of thumb:\n>\n> Write it down.`, items: [LL],
+  html: QL(LL, `<p>Rules of thumb:</p>\n<ol>\n<li>Write it down.</li>\n</ol>\n`), tr: [TR(LL, { exact: "Rules of thumb:\nWrite it down." })],
+  spec: ["§10.2", "§10.3"], decisions: ["#114", "#49"] });
+c("partial", "partial-list-within-item", "A selection inside one list item is still a line within that item", {
+  md: `![[${LL}]]\n> it small`, items: [LL],
+  html: QL(LL, `<ol start="2">\n<li>it small</li>\n</ol>\n`), tr: [TR(LL, { exact: "it small" })],
+  spec: ["§10.2"], decisions: ["#114", "#49"] });
+c("partial", "partial-list-nested", "Nesting MAY be kept where both of the lines it joins are quoted", {
+  md: `![[${RL}]]\n> a pencil\n>\n> and a sharpener`, items: [RL],
+  html: QL(RL, `<ul>\n<li><p>a pencil</p>\n<ul>\n<li>and a sharpener</li>\n</ul>\n</li>\n</ul>\n`), tr: [TR(RL, { exact: "a pencil\nand a sharpener" })],
+  spec: ["§10.2", "§10.3"], decisions: ["#114", "#49", "#26"] });
+c("partial", "partial-list-start-remote", "A quoted item of an imported list that starts at 7 keeps the source's number", {
+  md: `![[${RL}]]\n> eighth`, items: [RL],
+  html: QL(RL, `<ol start="8">\n<li>eighth</li>\n</ol>\n`), tr: [TR(RL, { exact: "eighth" })],
+  spec: ["§10.2"], decisions: ["#114", "#49"] });
+c("partial", "partial-quoter-list-marker", "The quoter's own list marker means nothing: a line that is a paragraph in the target MUST NOT bake as a list item", {
+  md: `![[${LF}]]\n> - Small tools`, items: [LF], html: QP(LF, ["Small tools"]), tr: [TR(LF, { exact: "Small tools" })],
+  spec: ["§10.2"], decisions: ["#114", "#49"] });
+c("resolution", "whole-list-start-kept", "A whole transclusion of an imported numbered list: the bake is the source's HTML, and its <ol start> SHOULD survive the reader's sanitizer", {
+  md: `![[${RL}]]`, items: [RL], html: Q(RL), tr: [TR(RL)], spec: ["§10.2", "§5.2"], decisions: ["#114", "#26"] });
 
 // ── Write ───────────────────────────────────────────────────────────────────
 const strip = (html) => html.replace(/ data-x-[a-z-]+/g, "");

@@ -23,20 +23,21 @@
     "transclusions": { "type": "array", "items": { "$ref": "defs.schema.json#/$defs/transclusion" }, "description": "§10.3: threads always carry it, in directive order; fragments omit it; a withdrawn thread's endcap carries []." },
     "stub_of": { "$ref": "defs.schema.json#/$defs/stubOf", "description": "§10.6 (decision #27): threads only; lives on versions; omitted on endcaps." },
     "forked_from": { "$ref": "defs.schema.json#/$defs/absoluteReference", "description": "§5.6: reference to the pinned version this item was copied from; origin REQUIRED; immutable; survives withdrawal." },
-    "generated": { "type": "array", "minItems": 1, "items": { "$ref": "defs.schema.json#/$defs/generatedEntry" }, "description": "§5.7 rule 4: omitted entirely when the version involved no generation; never on an endcap." }
+    "generated": { "type": "array", "minItems": 1, "items": { "$ref": "defs.schema.json#/$defs/generatedEntry" }, "description": "§5.7 rule 4: omitted entirely when the version involved no generation; never on an endcap." },
+    "syndication": { "type": "array", "minItems": 1, "items": { "$ref": "defs.schema.json#/$defs/syndicationEntry" }, "description": "§5.10 (decision #98): copies of the item its publisher made on other networks; omitted when there is no copy to name; never on an endcap (§9) or in a pinned file (§8 rule 5)." }
   },
   "allOf": [
     {
       "if": { "properties": { "kind": { "const": "withdrawn" } }, "required": ["kind"] },
       "then": {
-        "description": "§9: endcap — content_md = \"\", content_html = \"\", media = [], transclusions empty if present, no stub_of, no generated.",
+        "description": "§9: endcap — content_md = \"\", content_html = \"\", media = [], transclusions empty if present, no stub_of, no generated, no syndication (§5.10 rule 4).",
         "properties": {
           "content_md": { "const": "" },
           "content_html": { "const": "" },
           "media": { "maxItems": 0 },
           "transclusions": { "maxItems": 0 }
         },
-        "not": { "anyOf": [{ "required": ["stub_of"] }, { "required": ["generated"] }] }
+        "not": { "anyOf": [{ "required": ["stub_of"] }, { "required": ["generated"] }, { "required": ["syndication"] }] }
       }
     },
     {

@@ -123,9 +123,9 @@
    "text": "Threads additionally carry `transclusions` (§10.3) and MAY carry `stub_of` (§10.6)."
   },
   "C-5-02": {
-   "fp": "0024ea787072",
+   "fp": "af0e694b6a78",
    "section": "5",
-   "text": "Any item MAY carry `forked_from` (§5.6), `generated` (§5.7) and `links` (§10.3a)."
+   "text": "Any item MAY carry `forked_from` (§5.6), `generated` (§5.7), `links` (§10.3a) and `syndication` (§5.10)."
   },
   "C-5-03": {
    "fp": "3d3b4b9ec527",
@@ -166,6 +166,11 @@
    "fp": "b581b9c69541",
    "section": "5",
    "text": "A withdrawal endcap (§9) keeps the REQUIRED members with empty content."
+  },
+  "C-5-11": {
+   "fp": "20efcc06d19c",
+   "section": "5",
+   "text": "`syndication`  ;  OPTIONAL; present when the publisher names a copy of the item on another network (nineteenth revision)  ;  §5.10"
   },
   "C-5.1-01": {
    "fp": "05d0a5fe46a6",
@@ -512,6 +517,56 @@
    "section": "5.9",
    "text": "Readers MUST NOT present it as verified or as the target's current state, MUST NOT bake it into `content_html`, and a reader that ignores it entirely remains co"
   },
+  "C-5.10-01": {
+   "fp": "d160d6e1584e",
+   "section": "5.10",
+   "text": "*(New in 0.4; revision of 2026-11-20, decision #98.)* A publisher that posts an item's words on another network — a social account, a newsletter, a forum — MAY "
+  },
+  "C-5.10-02": {
+   "fp": "d9235f0a8f9b",
+   "section": "5.10",
+   "text": "An item document MAY carry `syndication`, an array naming the copies of the item that its publisher made elsewhere:"
+  },
+  "C-5.10-03": {
+   "fp": "35ffeb5a113b",
+   "section": "5.10",
+   "text": "`url` is REQUIRED and MUST be an absolute `https:` URL at which the copy can be read; it SHOULD be the most stable URL the network offers."
+  },
+  "C-5.10-04": {
+   "fp": "d2f6da31bc3e",
+   "section": "5.10",
+   "text": "`version` is REQUIRED: the version of this item the copy was made from — a published version, so never above the document's own `version`."
+  },
+  "C-5.10-05": {
+   "fp": "7ed6f586befa",
+   "section": "5.10",
+   "text": "An entry has these two members and no other: a publisher MUST NOT put counts, replies, account data or a network's name in one (§16.8), and a reader treats anyt"
+  },
+  "C-5.10-06": {
+   "fp": "5db104f751a6",
+   "section": "5.10",
+   "text": "A publisher SHOULD NOT publish a version solely to record an entry: the version would send a feed entry with no new writing to every plain RSS reader."
+  },
+  "C-5.10-07": {
+   "fp": "93609331c5ae",
+   "section": "5.10",
+   "text": "The cost is the reader's and is accepted: a reader that fetched the document before an entry landed sees it at its next fetch of that document, which may be the"
+  },
+  "C-5.10-08": {
+   "fp": "6e27ae93de8b",
+   "section": "5.10",
+   "text": "A reader MAY show an entry as a link, presented as the publisher's claim, needs no fetch of the copy to do so, and MUST NOT render a `url` that is not `https:` "
+  },
+  "C-5.10-09": {
+   "fp": "25857cb323f0",
+   "section": "5.10",
+   "text": "A reader MUST NOT hide or merge another party's post on the strength of an entry, whether or not that post links back to the item: anyone may link to an item, s"
+  },
+  "C-5.10-10": {
+   "fp": "136d036469b6",
+   "section": "5.10",
+   "text": "A reader MUST NOT infer from an entry that the item's author is the account that posted the copy (§5.5)."
+  },
   "C-6.1-01": {
    "fp": "9ca25054ffcd",
    "section": "6.1",
@@ -712,7 +767,13 @@
   "C-9-02": {
    "fp": "6f011d53130f",
    "section": "9",
-   "text": "An endcap MUST NOT carry `stub_of` (§10.6) or a `generated` array (§5.7): mention verification relies on the first (§15.4), and neither describes a document wit"
+   "text": "An endcap MUST NOT carry `stub_of` (§10.6) or a `generated` array (§5.7): mention verification relies on the first (§15.4), and neither describes a document wit",
+   "retired": true
+  },
+  "C-9-03": {
+   "fp": "789a40ebdf6b",
+   "section": "9",
+   "text": "An endcap MUST NOT carry `stub_of` (§10.6), a `generated` array (§5.7) or `syndication` (§5.10): mention verification relies on the first (§15.4), and none of t"
   },
   "C-10.1-01": {
    "fp": "60392156e7a2",
@@ -823,6 +884,31 @@
    "fp": "894d362aeb6f",
    "section": "10.2",
    "text": "The closure MUST be walked through the **versions actually baked** — from each `transclusions[]` entry to that version's own `transclusions[]`, which the publis"
+  },
+  "C-10.2-12": {
+   "fp": "fe7f1bccc85f",
+   "section": "10.2",
+   "text": "A line is a `<p>`, except that **a line that lies within a list item of the target snapshot MAY be baked as an `<li>`** in a `<ul>` or `<ol>` like the target's "
+  },
+  "C-10.2-13": {
+   "fp": "d808575031aa",
+   "section": "10.2",
+   "text": "Nesting MAY be kept where the lines it joins are both in the selection, and an `<ol>` whose first baked item is not the target list's first SHOULD carry `start`"
+  },
+  "C-10.2-14": {
+   "fp": "7b28d5161a97",
+   "section": "10.2",
+   "text": "**The structure comes from the target, never from the quoter:** a publisher MUST NOT bake a line as a list item, or under a nesting, that it does not have in th"
+  },
+  "C-10.2-15": {
+   "fp": "c7fc57fd23a3",
+   "section": "10.2",
+   "text": "A reader's sanitizer SHOULD keep an integer `start` on `ol`."
+  },
+  "C-10.2-16": {
+   "fp": "863a5ee1e73d",
+   "section": "10.2",
+   "text": "A reader MAY check that from the document alone, with no fetch."
   },
   "C-10.3-01": {
    "fp": "b0200e77c50d",
@@ -1627,52 +1713,62 @@
   "P-16.14-01": {
    "fp": "66dde334a346",
    "section": "16.14",
-   "text": "An item document MAY carry `syndication`, an array naming copies of the item that its publisher made on other networks:"
+   "text": "An item document MAY carry `syndication`, an array naming copies of the item that its publisher made on other networks:",
+   "retired": true
   },
   "P-16.14-02": {
    "fp": "35ffeb5a113b",
    "section": "16.14",
-   "text": "`url` is REQUIRED and MUST be an absolute `https:` URL at which the copy can be read; it SHOULD be the most stable URL the network offers."
+   "text": "`url` is REQUIRED and MUST be an absolute `https:` URL at which the copy can be read; it SHOULD be the most stable URL the network offers.",
+   "retired": true
   },
   "P-16.14-03": {
    "fp": "dbc437b5174d",
    "section": "16.14",
-   "text": "`version` is REQUIRED: the version of this item the copy was made from."
+   "text": "`version` is REQUIRED: the version of this item the copy was made from.",
+   "retired": true
   },
   "P-16.14-04": {
    "fp": "ea3362dc9b60",
    "section": "16.14",
-   "text": "A publisher MUST NOT put counts, replies or account data in an entry (§16.8); there is no network name."
+   "text": "A publisher MUST NOT put counts, replies or account data in an entry (§16.8); there is no network name.",
+   "retired": true
   },
   "P-16.14-05": {
    "fp": "5db104f751a6",
    "section": "16.14",
-   "text": "A publisher SHOULD NOT publish a version solely to record an entry: the version would send a feed entry with no new writing to every plain RSS reader."
+   "text": "A publisher SHOULD NOT publish a version solely to record an entry: the version would send a feed entry with no new writing to every plain RSS reader.",
+   "retired": true
   },
   "P-16.14-06": {
    "fp": "8326eb57a0cb",
    "section": "16.14",
-   "text": "A reader that fetched the document before an entry landed sees it at its next fetch, and MAY refetch a document it is showing."
+   "text": "A reader that fetched the document before an entry landed sees it at its next fetch, and MAY refetch a document it is showing.",
+   "retired": true
   },
   "P-16.14-07": {
    "fp": "a16440407cf3",
    "section": "16.14",
-   "text": "A reader MAY show an entry as a link, presented as the publisher's claim, and MUST NOT render a `url` that is not `https:` as a link."
+   "text": "A reader MAY show an entry as a link, presented as the publisher's claim, and MUST NOT render a `url` that is not `https:` as a link.",
+   "retired": true
   },
   "P-16.14-08": {
    "fp": "25857cb323f0",
    "section": "16.14",
-   "text": "A reader MUST NOT hide or merge another party's post on the strength of an entry, whether or not that post links back to the item: anyone may link to an item, s"
+   "text": "A reader MUST NOT hide or merge another party's post on the strength of an entry, whether or not that post links back to the item: anyone may link to an item, s",
+   "retired": true
   },
   "P-16.14-09": {
    "fp": "136d036469b6",
    "section": "16.14",
-   "text": "A reader MUST NOT infer from an entry that the item's author is the account that posted the copy (§5.5)."
+   "text": "A reader MUST NOT infer from an entry that the item's author is the account that posted the copy (§5.5).",
+   "retired": true
   },
   "P-16.14-10": {
    "fp": "bf3a0b3d14a0",
    "section": "16.14",
-   "text": "An additive OPTIONAL member; 0.4 text by #43."
+   "text": "An additive OPTIONAL member; 0.4 text by #43.",
+   "retired": true
   }
  }
 }

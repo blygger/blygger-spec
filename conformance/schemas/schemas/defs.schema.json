@@ -152,6 +152,16 @@
         "mime": { "type": "string", "pattern": "^[a-z0-9.+-]+/[a-z0-9.+-]+", "description": "§5.4: media type." },
         "alt": { "type": "string", "description": "§5.4: SHOULD be carried (advisory layer)." }
       }
+    },
+    "syndicationEntry": {
+      "type": "object",
+      "description": "§5.10 rule 1 (decision #98): one copy of the item on another network. A URL and a version, and nothing else: no counts, replies, account data or network name (§16.8).",
+      "required": ["url", "version"],
+      "additionalProperties": false,
+      "properties": {
+        "url": { "type": "string", "pattern": "^https://[^\\s/]+", "description": "§5.10 rule 1: an absolute https: URL at which the copy can be read." },
+        "version": { "$ref": "#/$defs/version", "description": "§5.10 rule 1: the published version the copy was made from; never above the document's own version (rule syndication.version-published)." }
+      }
     }
   }
 }

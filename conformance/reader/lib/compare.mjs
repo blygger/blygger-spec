@@ -14,9 +14,9 @@ function describe(n) {
   return `<${n.wrapper} class="${n.classes.join(" ")}"${Object.entries(n.data).map(([k, v]) => ` ${k}="${v}"`).join("")}>`;
 }
 
-/** Compare two projected node lists. Returns { ok, problems: [string], notes: [string] }. */
+/** Compare two projected node lists. Returns { ok, problems: [string], notes: [string], warnings: [string] } (warnings: SHOULDs not met). */
 export function compareNodes(exp, act, path = "") {
-  const problems = [], notes = [];
+  const problems = [], notes = [], warnings = [];
   const n = Math.max(exp.length, act.length);
   for (let i = 0; i < n; i++) {
     const e = exp[i], a = act[i];
@@ -42,14 +42,32 @@ export function compareNodes(exp, act, path = "") {
     }
     for (const k of Object.keys(a.data)) if (!KNOWN_DATA.includes(k)) notes.push(`${at}: extra attribute ${k}="${a.data[k]}" (not compared)`);
     if (norm(e.text) !== norm(a.text)) problems.push(`${at}: wrapper text expected "${e.text.slice(0, 120)}", got "${(a.text || "").slice(0, 120)}"`);
-    if (e.p) {
-      const ap = a.p || [];
-      if (e.p.length !== ap.length || e.p.some((x, j) => norm(x) !== norm(ap[j]))) problems.push(`${at}: partial bake expected <p> lines ${JSON.stringify(e.p)}, got ${JSON.stringify(ap)}`);
+    if (e.lines) {
+      // §10.2 (#114): one block per line. The expectation carries the target's
+      // list structure, which a publisher MAY bake; a `<p>` in its place passes.
+      const al = a.lines || [];
+      if (e.lines.length !== al.length || e.lines.some((x, j) => norm(x.text) !== norm(al[j].text))) {
+        problems.push(`${at}: partial bake expected lines ${JSON.stringify(e.lines.map((x) => x.text))}, got ${JSON.stringify(al.map((x) => x.text))}`);
+      } else {
+        e.lines.forEach((el, j) => {
+          const et = el.lists, as = al[j].lists;
+          const off = et.length - as.length;
+          if (off < 0 || as.some((l, k) => l.tag !== et[off + k].tag)) {
+            problems.push(`${at}: line ${j + 1} ("${el.text.slice(0, 40)}") is baked under ${as.map((l) => `<${l.tag}>`).join(" ")}, a list structure the target does not have there (§10.2: the structure comes from the target, never from the quoter)`);
+          } else if (off > 0) {
+            notes.push(`${at}: line ${j + 1} baked ${as.length ? "under fewer lists than" : "as a paragraph, not as the list item it is in"} the target (a MAY)`);
+          }
+          if (off >= 0) as.forEach((l, k) => {
+            if (l.tag === "ol" && et[off + k].tag === "ol" && l.ordinal !== et[off + k].ordinal) warnings.push(`${at}: line ${j + 1} is numbered ${l.ordinal} where the target numbers it ${et[off + k].ordinal} (§10.2: an <ol> whose first baked item is not the target list's first SHOULD carry start)`);
+          });
+        });
+      }
     }
+    if (e.starts && JSON.stringify(e.starts) !== JSON.stringify(a.starts || [])) warnings.push(`${at}: the quoted HTML's <ol start> values are ${JSON.stringify(e.starts)}, the bake has ${JSON.stringify(a.starts || [])} (§10.2: a reader's sanitizer SHOULD keep an integer start on ol)`);
     const sub = compareNodes(e.children || [], a.children || [], at);
-    problems.push(...sub.problems); notes.push(...sub.notes);
+    problems.push(...sub.problems); notes.push(...sub.notes); warnings.push(...sub.warnings);
   }
-  return { ok: problems.length === 0, problems, notes };
+  return { ok: problems.length === 0, problems, notes, warnings };
 }
 
 function compareEntries(name, exp, act, keys) {
@@ -85,6 +103,7 @@ export function compareCase(fx, result) {
     const actual = project(html);
     const cmp = compareNodes(exp.normative || [], actual);
     checks.push({ name: "normative", status: cmp.ok ? "pass" : "fail", detail: cmp.ok ? `${(exp.normative || []).length} normative node(s) match${cmp.notes.length ? "; " + cmp.notes.join("; ") : ""}` : cmp.problems.join("; "), actual });
+    if (cmp.ok && cmp.warnings.length) checks.push({ name: "list-numbering", status: "warn", detail: cmp.warnings.join("; ") });
     if (exp.literals) {
       const text = norm(textContent(parse(html)));
       const missing = exp.literals.filter((l) => !text.includes(norm(l)));

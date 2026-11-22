@@ -35,6 +35,7 @@ export async function buildStudioSamples(s, SAMPLES) {
   const pin = async (label, id, v) => ok(await s.mutate("PUT", `/items/${id}/versions/${v}/pin`, id), `pin ${label} v${v}`);
   const withdraw = async (label, id) => ok(await s.mutate("POST", `/items/${id}/withdraw`, id, { note: "taken back" }), `withdraw ${label}`);
   const scenario = {};
+  const scenarioChecks = [];
 
   // 1. local fragment used as a quote target and a TK source
   scenario.local = await create("local", { contentMd: "Local source fragment about gardens and paths." });
@@ -62,6 +63,23 @@ export async function buildStudioSamples(s, SAMPLES) {
   await edit("pins", scenario.pins, { contentMd: "A sharpened claim." });
   await publish("pins v3", scenario.pins, { note: "Sharpened the claim.", noteGenerated: true });
   await pin("pins", scenario.pins, 2);
+
+  // 3a. syndication (§5.10, decision #98): a copy of v2 named on the live document. The
+  // rewrite is in place: nothing else on the public surface may move.
+  const surface = async (id) => ({ doc: JSON.parse((await s.get(`items/${id}.json`)).text), feed: (await s.get("feed.xml")).text, index: (await s.get("items/index.json")).text, pin: (await s.get(`items/${id}/v2.json`)).text });
+  const before = await surface(scenario.pins);
+  ok(await s.mutate("PUT", `/items/${scenario.pins}/syndication`, scenario.pins, { entries: [{ url: "https://social.example/@tester/post/3lzexample22", version: 2 }] }), "syndication pins");
+  const after = await surface(scenario.pins);
+  {
+    const moved = ["version", "updated", "content_hash", "content_md", "content_html", "changelog"].filter((k) => JSON.stringify(before.doc[k]) !== JSON.stringify(after.doc[k])).map((k) => `item ${k}`);
+    if (before.feed !== after.feed) moved.push("feed.xml");
+    if (before.index !== after.index) moved.push("items/index.json");
+    if (before.pin !== after.pin) moved.push("the pinned v2 file");
+    const there = Array.isArray(after.doc.syndication) && after.doc.syndication.length === 1;
+    scenarioChecks.push({ id: "syndication-in-place", title: "recording a syndication entry rewrites the item document in place", status: !there || moved.length ? "fail" : "pass",
+      detail: !there ? "the entry is not on the item document after the write" : moved.length ? `changed with the entry: ${moved.join(", ")}` : "entry on the live document; version, updated, content_hash, content, changelog, feed.xml, items/index.json and the pinned file unchanged",
+      spec_refs: ["§5.10", "§8"], decisions: ["#98"] });
+  }
 
   // 4. a thread with every reference kind: local whole, remote whole, remote partial, links, code
   scenario.thread = await create("thread", { kind: "thread", contentMd: `Intro to the thread.\n\n![[${scenario.local}]]\n\n![[${RB}]]\n\n![[${RA}]]\n> Stigmergy is what a protocol looks like from inside\n\nSee also [[${RC}]] and [[${scenario.local}]].\n\n\`\`\`\n![[${RA}]]\n\`\`\`` });
@@ -97,6 +115,8 @@ export async function buildStudioSamples(s, SAMPLES) {
   // 8. withdrawals: a pinned fragment, a stub (endcap must omit stub_of), a fork (endcap keeps forked_from)
   scenario.withdrawn = await create("withdrawn", { contentMd: "Soon to be withdrawn." });
   await publish("withdrawn", scenario.withdrawn);
+  // a copy named before the pin and the withdrawal: neither the pinned file nor the endcap may carry it (§5.10 rule 4)
+  ok(await s.mutate("PUT", `/items/${scenario.withdrawn}/syndication`, scenario.withdrawn, { entries: [{ url: "https://social.example/@tester/post/3lzexample33", version: 1 }] }), "syndication withdrawn");
   await pin("withdrawn", scenario.withdrawn, 1);
   await withdraw("withdrawn", scenario.withdrawn);
   await withdraw("stub", scenario.stub);
@@ -117,7 +137,7 @@ export async function buildStudioSamples(s, SAMPLES) {
     }
   }
   const labels = Object.fromEntries(Object.entries(scenario).map(([k, v]) => [v, k]));
-  put("scenario.json", JSON.stringify({ title: `blygger-studio ${s.version} (in-process harness)`, studio_version: s.version, origin: STUDIO_ORIGIN, remote: REMOTE, scenario, labels, log, outbound: outbound.log.filter((l) => !l.includes("anthropic")).slice(0, 80) }, null, 2));
+  put("scenario.json", JSON.stringify({ title: `blygger-studio ${s.version} (in-process harness)`, studio_version: s.version, origin: STUDIO_ORIGIN, remote: REMOTE, scenario, labels, checks: scenarioChecks, log, outbound: outbound.log.filter((l) => !l.includes("anthropic")).slice(0, 80) }, null, 2));
   console.log(`collected ${index.items.length} items`);
   return scenario;
 }

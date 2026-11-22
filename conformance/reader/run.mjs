@@ -81,6 +81,23 @@ if (flag("--self-check")) {
     const e = fx.expect;
     results[fx.id] = e.error === true ? { error: "expected publish error" } : { content_html: e.content_html, transclusions: e.transclusions, links: e.links, generated: e.generated };
   }
+  // The list rule's two edges (§10.2, #114), checked on the comparison itself:
+  // a `<p>` per line where the target has a list must pass (a MAY), and a list
+  // where the target has none must fail (a MUST NOT).
+  const { compareNodes } = await import("./lib/compare.mjs");
+  const { project } = await import("./lib/html.mjs");
+  const bad = [];
+  for (const fx of fixtures) {
+    const html = fx.expect.content_html;
+    if (!html || !/blyg-partial/.test(html)) continue;
+    const listed = /<li[ >]/.test(html);
+    const mutant = listed
+      ? html.replace(/<\/?(?:ul|ol)[^>]*>\n?/g, "").replace(/<li>(?!<p>)([^<]*)(?=\n|<\/li>)/g, "<p>$1</p>").replace(/<\/?li>\n?/g, "")
+      : html.replace(/<p>/g, "<ul><li>").replace(/<\/p>/g, "</li></ul>");
+    const cmp = compareNodes(fx.expect.normative, project(mutant));
+    if (listed ? !cmp.ok : cmp.ok) bad.push(`${fx.id}: ${listed ? "a <p> per line was refused" : "an invented list was accepted"}${cmp.problems.length ? " (" + cmp.problems[0] + ")" : ""}`);
+  }
+  if (bad.length) { console.error(`self-check: the list rule's comparison is wrong\n  ${bad.join("\n  ")}`); process.exit(1); }
 } else {
   let cmd = opt("--cmd");
   let batch = flag("--batch");
