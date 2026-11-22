@@ -1,38 +1,53 @@
 {
-  "title": "blygger-studio 0.65.0 (in-process harness)",
-  "studio_version": "0.65.0",
+  "title": "blygger-studio 0.69.0 (in-process harness)",
+  "studio_version": "0.69.0",
   "origin": "https://studio.example/",
   "remote": "https://source.example/",
   "scenario": {
-    "local": "1bdkk1e2j56cq54t6c3k38v6yk",
-    "media": "4rcbrey1cc54este7gk0r00rg7",
-    "pins": "56v5396jgz2e1p9a3raedry3hy",
-    "thread": "486zsv75kjnymc1efaq8y5aa6r",
-    "stub": "6rqd49yg9sad7h6tybdg2mvk3h",
-    "stubPartial": "6c6xn3pq2ctmj7aaekmrn4dyea",
-    "stubUrl": "3ccv0v6hdgtfgqrp1y31jnr2am",
-    "forkRemoteThread": "7vd302k8abp5566np0t281khe2",
-    "forkRemoteFragment": "7ad09vmcbahk1ev1n5r2v8x0ne",
-    "forkOwn": "0vc5dax9rw5xfq4pevajdt5wz3",
-    "generated": "5s9g17212vna2rtkhamw1rz995",
-    "impyrt": "0efnkfma6842f54yfjt52etmsd",
-    "withdrawn": "5gn7p6fq92syc7g95ze8e3mkr7"
+    "local": "2tz502nrzcd4t1wpbhzb9f6rj6",
+    "media": "3n8t0dgag38czkjwry24xytdfx",
+    "pins": "09nnttepz5jzxg5ytt4qg1xwmw",
+    "thread": "2sytkecya0hv6gm771f8wxm104",
+    "stub": "5b6rv9y8ggsge8bzcj0jx2edtm",
+    "stubPartial": "47y4jksmhzqdxxb6d504e91yb0",
+    "stubUrl": "7xzn4mzwtp52zb1mnzhgv6pz3p",
+    "forkRemoteThread": "29zmf505bcv9jk577wgtgp5gwv",
+    "forkRemoteFragment": "17bxe0ccj16hmwkkmaj6mgsgd9",
+    "forkOwn": "5zt0s48q9bdsck1dz56wpykb6d",
+    "generated": "2j6nz5hkqc08bswr0mmwhptyxq",
+    "impyrt": "4e019hhbnstef6fhqzqbmfayfa",
+    "withdrawn": "14atfqrwdh5jj6n3kzenv90399"
   },
   "labels": {
-    "1bdkk1e2j56cq54t6c3k38v6yk": "local",
-    "4rcbrey1cc54este7gk0r00rg7": "media",
-    "56v5396jgz2e1p9a3raedry3hy": "pins",
-    "486zsv75kjnymc1efaq8y5aa6r": "thread",
-    "6rqd49yg9sad7h6tybdg2mvk3h": "stub",
-    "6c6xn3pq2ctmj7aaekmrn4dyea": "stubPartial",
-    "3ccv0v6hdgtfgqrp1y31jnr2am": "stubUrl",
-    "7vd302k8abp5566np0t281khe2": "forkRemoteThread",
-    "7ad09vmcbahk1ev1n5r2v8x0ne": "forkRemoteFragment",
-    "0vc5dax9rw5xfq4pevajdt5wz3": "forkOwn",
-    "5s9g17212vna2rtkhamw1rz995": "generated",
-    "0efnkfma6842f54yfjt52etmsd": "impyrt",
-    "5gn7p6fq92syc7g95ze8e3mkr7": "withdrawn"
+    "2tz502nrzcd4t1wpbhzb9f6rj6": "local",
+    "3n8t0dgag38czkjwry24xytdfx": "media",
+    "09nnttepz5jzxg5ytt4qg1xwmw": "pins",
+    "2sytkecya0hv6gm771f8wxm104": "thread",
+    "5b6rv9y8ggsge8bzcj0jx2edtm": "stub",
+    "47y4jksmhzqdxxb6d504e91yb0": "stubPartial",
+    "7xzn4mzwtp52zb1mnzhgv6pz3p": "stubUrl",
+    "29zmf505bcv9jk577wgtgp5gwv": "forkRemoteThread",
+    "17bxe0ccj16hmwkkmaj6mgsgd9": "forkRemoteFragment",
+    "5zt0s48q9bdsck1dz56wpykb6d": "forkOwn",
+    "2j6nz5hkqc08bswr0mmwhptyxq": "generated",
+    "4e019hhbnstef6fhqzqbmfayfa": "impyrt",
+    "14atfqrwdh5jj6n3kzenv90399": "withdrawn"
   },
+  "checks": [
+    {
+      "id": "syndication-in-place",
+      "title": "recording a syndication entry rewrites the item document in place",
+      "status": "pass",
+      "detail": "entry on the live document; version, updated, content_hash, content, changelog, feed.xml, items/index.json and the pinned file unchanged",
+      "spec_refs": [
+        "§5.10",
+        "§8"
+      ],
+      "decisions": [
+        "#98"
+      ]
+    }
+  ],
   "log": [
     {
       "label": "settings",
@@ -40,6 +55,7 @@
       "body": {
         "siteTitle": "Studio Under Test",
         "theme": "auto",
+        "studioTheme": "",
         "customTheme": null,
         "customThemeDark": null,
         "customThemeName": "",
@@ -55,6 +71,7 @@
         "aiModelTk": "claude-sonnet-5-5",
         "aiModelChangelog": "claude-sonnet-5-5",
         "aiModelFeed": "",
+        "aiModelHelpers": "",
         "aiModelClassify": "",
         "changeCategoryInNote": true,
         "feedPrompt": "",
@@ -62,11 +79,17 @@
         "changelogDisplay": "latest",
         "readerChangelogDisplay": "latest",
         "changelogSummaryPrompt": "",
+        "agenticTitle": "Agentic feed",
+        "readerOrder": "pace-layered",
         "backgroundRules": {
           "burst": true,
           "wordless": true,
           "maintenance": true,
-          "minor": true
+          "quotes-refreshed": true,
+          "quotes-material": true,
+          "near-same": true,
+          "minor": true,
+          "superseded": true
         },
         "acceptMentions": true,
         "updateCheck": true,
@@ -84,11 +107,15 @@
         "linksOpml": true,
         "linksBlyggerOrg": true,
         "linksBlyggerCom": true,
+        "bgFlagDisagreement": true,
+        "bgInstruction": "",
+        "bgModelImported": false,
         "hopperFeeds": false,
         "setup": "pending",
         "defaults": {
           "siteTitle": "studio.example",
           "theme": "auto",
+          "studioTheme": "",
           "customTheme": null,
           "customThemeDark": null,
           "customThemeName": "",
@@ -104,6 +131,7 @@
           "aiModelTk": "",
           "aiModelChangelog": "",
           "aiModelFeed": "",
+          "aiModelHelpers": "",
           "aiModelClassify": "",
           "changeCategoryInNote": true,
           "feedPrompt": "",
@@ -111,11 +139,17 @@
           "changelogDisplay": "latest",
           "readerChangelogDisplay": "latest",
           "changelogSummaryPrompt": "",
+          "readerOrder": "pace-layered",
+          "agenticTitle": "Agentic feed",
           "backgroundRules": {
             "burst": true,
             "wordless": true,
             "maintenance": true,
-            "minor": true
+            "quotes-refreshed": true,
+            "quotes-material": true,
+            "near-same": true,
+            "minor": true,
+            "superseded": true
           },
           "acceptMentions": true,
           "updateCheck": true,
@@ -134,6 +168,9 @@
           "linksBlyggerOrg": true,
           "linksBlyggerCom": true,
           "hopperFeeds": false,
+          "bgModelImported": false,
+          "bgInstruction": "",
+          "bgFlagDisagreement": true,
           "updateFeedUrl": ""
         },
         "feedOrders": [
@@ -158,7 +195,7 @@
       "label": "subscribe",
       "status": 201,
       "body": {
-        "id": "2dyetbjfjfv2vr8xvmgyhdwefn",
+        "id": "1wzm2cajw81yhpke23fh75akqz",
         "kind": "blyg",
         "origin": "https://source.example/",
         "feedUrl": "https://source.example/feed.xml",
@@ -169,7 +206,7 @@
         "lastIndexSyncAt": null,
         "inBlogroll": false,
         "flags": [],
-        "created": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
         "titleFollowsSource": true,
         "background": false,
         "hopperFeedUrl": null
@@ -179,12 +216,12 @@
       "label": "create local",
       "status": 201,
       "body": {
-        "id": "1bdkk1e2j56cq54t6c3k38v6yk",
+        "id": "2tz502nrzcd4t1wpbhzb9f6rj6",
         "revision": 1,
         "kind": "fragment",
         "status": "draft",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "Local source fragment about gardens and paths.",
         "dirty": true,
@@ -209,12 +246,12 @@
       "label": "create media",
       "status": 201,
       "body": {
-        "id": "4rcbrey1cc54este7gk0r00rg7",
+        "id": "3n8t0dgag38czkjwry24xytdfx",
         "revision": 1,
         "kind": "fragment",
         "status": "draft",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "Image post (draft)",
         "dirty": true,
@@ -230,8 +267,8 @@
       "label": "upload media",
       "status": 201,
       "body": {
-        "id": "j17ck804",
-        "url": "https://studio.example/media/j17ck804/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png",
+        "id": "8as682jx",
+        "url": "https://studio.example/media/8as682jx/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png",
         "mime": "image/png",
         "revision": 2
       }
@@ -240,14 +277,14 @@
       "label": "edit media",
       "status": 200,
       "body": {
-        "id": "4rcbrey1cc54este7gk0r00rg7",
+        "id": "3n8t0dgag38czkjwry24xytdfx",
         "revision": 3,
         "kind": "fragment",
         "status": "draft",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
-        "contentMd": "Image post\n\n![a single pixel](https://studio.example/media/j17ck804/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png)",
+        "contentMd": "Image post\n\n![a single pixel](https://studio.example/media/8as682jx/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png)",
         "dirty": true,
         "stubOf": null,
         "forkedFrom": null,
@@ -270,12 +307,12 @@
       "label": "edit media",
       "status": 200,
       "body": {
-        "id": "4rcbrey1cc54este7gk0r00rg7",
+        "id": "3n8t0dgag38czkjwry24xytdfx",
         "revision": 5,
         "kind": "fragment",
         "status": "public",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 1,
         "contentMd": "Image post — the image has been deleted from the text.",
         "dirty": true,
@@ -300,12 +337,12 @@
       "label": "create pins",
       "status": 201,
       "body": {
-        "id": "56v5396jgz2e1p9a3raedry3hy",
+        "id": "09nnttepz5jzxg5ytt4qg1xwmw",
         "revision": 1,
         "kind": "fragment",
         "status": "draft",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "First draft of a claim.",
         "dirty": true,
@@ -330,12 +367,12 @@
       "label": "edit pins",
       "status": 200,
       "body": {
-        "id": "56v5396jgz2e1p9a3raedry3hy",
+        "id": "09nnttepz5jzxg5ytt4qg1xwmw",
         "revision": 3,
         "kind": "fragment",
         "status": "public",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 1,
         "contentMd": "First draft of a claim, typo fixed.",
         "dirty": true,
@@ -360,12 +397,12 @@
       "label": "edit pins",
       "status": 200,
       "body": {
-        "id": "56v5396jgz2e1p9a3raedry3hy",
+        "id": "09nnttepz5jzxg5ytt4qg1xwmw",
         "revision": 5,
         "kind": "fragment",
         "status": "public",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 2,
         "contentMd": "A sharpened claim.",
         "dirty": true,
@@ -397,17 +434,30 @@
       }
     },
     {
+      "label": "syndication pins",
+      "status": 200,
+      "body": {
+        "entries": [
+          {
+            "url": "https://social.example/@tester/post/3lzexample22",
+            "version": 2
+          }
+        ],
+        "revision": 8
+      }
+    },
+    {
       "label": "create thread",
       "status": 201,
       "body": {
-        "id": "486zsv75kjnymc1efaq8y5aa6r",
+        "id": "2sytkecya0hv6gm771f8wxm104",
         "revision": 1,
         "kind": "thread",
         "status": "draft",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
-        "contentMd": "Intro to the thread.\n\n![[1bdkk1e2j56cq54t6c3k38v6yk]]\n\n![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]\n\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n\nSee also [[4zss0yg5f5zbh48e22s4f87003]] and [[1bdkk1e2j56cq54t6c3k38v6yk]].\n\n```\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n```",
+        "contentMd": "Intro to the thread.\n\n![[2tz502nrzcd4t1wpbhzb9f6rj6]]\n\n![[1vgtgz0gq5b2c9k7d3m8r4n6xy]]\n\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n\nSee also [[4zss0yg5f5zbh48e22s4f87003]] and [[2tz502nrzcd4t1wpbhzb9f6rj6]].\n\n```\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n```",
         "dirty": true,
         "stubOf": null,
         "forkedFrom": null,
@@ -440,12 +490,12 @@
       "label": "create stub",
       "status": 201,
       "body": {
-        "id": "6rqd49yg9sad7h6tybdg2mvk3h",
+        "id": "5b6rv9y8ggsge8bzcj0jx2edtm",
         "revision": 1,
         "kind": "thread",
         "status": "draft",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n\n",
         "dirty": true,
@@ -474,12 +524,12 @@
       "label": "create stub-partial",
       "status": 201,
       "body": {
-        "id": "6c6xn3pq2ctmj7aaekmrn4dyea",
+        "id": "47y4jksmhzqdxxb6d504e91yb0",
         "revision": 1,
         "kind": "thread",
         "status": "draft",
-        "created": "2026-11-20T04:51:10Z",
-        "updated": "2026-11-20T04:51:10Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n> Stigmergy is what a protocol looks like from inside\n\n",
         "dirty": true,
@@ -508,12 +558,12 @@
       "label": "create stub-url",
       "status": 201,
       "body": {
-        "id": "3ccv0v6hdgtfgqrp1y31jnr2am",
+        "id": "7xzn4mzwtp52zb1mnzhgv6pz3p",
         "revision": 1,
         "kind": "thread",
         "status": "draft",
-        "created": "2026-11-20T04:51:11Z",
-        "updated": "2026-11-20T04:51:11Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "A response to a plain web page: [the post](https://plain.example/post).",
         "dirty": true,
@@ -529,12 +579,12 @@
       "label": "stub-url set",
       "status": 200,
       "body": {
-        "id": "3ccv0v6hdgtfgqrp1y31jnr2am",
+        "id": "7xzn4mzwtp52zb1mnzhgv6pz3p",
         "revision": 2,
         "kind": "thread",
         "status": "draft",
-        "created": "2026-11-20T04:51:11Z",
-        "updated": "2026-11-20T04:51:11Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "A response to a plain web page: [the post](https://plain.example/post).",
         "dirty": true,
@@ -561,12 +611,12 @@
       "label": "create fork remote thread",
       "status": 201,
       "body": {
-        "id": "7vd302k8abp5566np0t281khe2",
+        "id": "29zmf505bcv9jk577wgtgp5gwv",
         "revision": 1,
         "kind": "thread",
         "status": "draft",
-        "created": "2026-11-20T04:51:11Z",
-        "updated": "2026-11-20T04:51:11Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "Opening line of a remote thread.\n\n> Stigmergy is what a protocol looks like from inside\n>\n> — quoted from [source.example · v2](https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/)\n\nClosing line with a link to [“धर्म और कर्म”](https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/).",
         "dirty": true,
@@ -581,7 +631,7 @@
           "author": "Source Author",
           "excerpt": "Opening line of a remote thread. Stigmergy is what a protocol looks like from in…",
           "url": "https://source.example/items/4zss0yg5f5zbh48e22s4f87003/v1.json",
-          "retrieved": "2026-11-20T04:51:11Z"
+          "retrieved": "2026-11-22T05:30:18Z"
         },
         "provenance": [],
         "responses": "default",
@@ -601,12 +651,12 @@
       "label": "create fork remote fragment",
       "status": 201,
       "body": {
-        "id": "7ad09vmcbahk1ev1n5r2v8x0ne",
+        "id": "17bxe0ccj16hmwkkmaj6mgsgd9",
         "revision": 1,
         "kind": "fragment",
         "status": "draft",
-        "created": "2026-11-20T04:51:11Z",
-        "updated": "2026-11-20T04:51:11Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.",
         "dirty": true,
@@ -621,7 +671,7 @@
           "author": "Source Author",
           "excerpt": "Stigmergy is what a protocol looks like from inside, and the reason it looks lik…",
           "url": "https://source.example/items/7c9wk2mhq0v3xj8tn5rzfd41bg/v1.json",
-          "retrieved": "2026-11-20T04:51:11Z"
+          "retrieved": "2026-11-22T05:30:18Z"
         },
         "provenance": [],
         "responses": "default",
@@ -641,26 +691,26 @@
       "label": "create fork own",
       "status": 201,
       "body": {
-        "id": "0vc5dax9rw5xfq4pevajdt5wz3",
+        "id": "5zt0s48q9bdsck1dz56wpykb6d",
         "revision": 1,
         "kind": "thread",
         "status": "draft",
-        "created": "2026-11-20T04:51:11Z",
-        "updated": "2026-11-20T04:51:11Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
-        "contentMd": "Intro to the thread.\n\n> Local source fragment about gardens and paths.\n>\n> — quoted from [studio.example · v1](https://studio.example/f/1bdkk1e2j56cq54t6c3k38v6yk/)\n\n> धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.\n>\n> — quoted from [source.example · v1](https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/)\n\n> Stigmergy is what a protocol looks like from inside\n>\n> — quoted from [source.example · v2](https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/)\n\nSee also [“Opening line of a remote thread. Stigmergy is what a protoco…”](https://source.example/t/4zss0yg5f5zbh48e22s4f87003/) and [“Local source fragment about gardens and paths.”](https://studio.example/f/1bdkk1e2j56cq54t6c3k38v6yk/).\n\n```\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n```",
+        "contentMd": "Intro to the thread.\n\n> Local source fragment about gardens and paths.\n>\n> — quoted from [studio.example · v1](https://studio.example/f/2tz502nrzcd4t1wpbhzb9f6rj6/)\n\n> धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.\n>\n> — quoted from [source.example · v1](https://source.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/)\n\n> Stigmergy is what a protocol looks like from inside\n>\n> — quoted from [source.example · v2](https://source.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/)\n\nSee also [“Opening line of a remote thread. Stigmergy is what a protoco…”](https://source.example/t/4zss0yg5f5zbh48e22s4f87003/) and [“Local source fragment about gardens and paths.”](https://studio.example/f/2tz502nrzcd4t1wpbhzb9f6rj6/).\n\n```\n![[7c9wk2mhq0v3xj8tn5rzfd41bg]]\n```",
         "dirty": true,
         "stubOf": null,
         "forkedFrom": {
           "origin": "https://studio.example/",
-          "id": "486zsv75kjnymc1efaq8y5aa6r",
+          "id": "2sytkecya0hv6gm771f8wxm104",
           "version": 1
         },
         "forkCite": {
           "source": "Studio Under Test",
           "excerpt": "Intro to the thread. Local source fragment about gardens and paths. धर्म और कर्म…",
-          "url": "https://studio.example/t/486zsv75kjnymc1efaq8y5aa6r/v1/",
-          "retrieved": "2026-11-20T04:51:11Z"
+          "url": "https://studio.example/t/2sytkecya0hv6gm771f8wxm104/v1/",
+          "retrieved": "2026-11-22T05:30:18Z"
         },
         "provenance": [],
         "responses": "default",
@@ -690,14 +740,14 @@
       "label": "create generated",
       "status": 201,
       "body": {
-        "id": "5s9g17212vna2rtkhamw1rz995",
+        "id": "2j6nz5hkqc08bswr0mmwhptyxq",
         "revision": 1,
         "kind": "thread",
         "status": "draft",
-        "created": "2026-11-20T04:51:11Z",
-        "updated": "2026-11-20T04:51:11Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
-        "contentMd": "[TK]Summarise ![[1bdkk1e2j56cq54t6c3k38v6yk]][/TK]\n\nAfterword by the author.",
+        "contentMd": "[TK]Summarise ![[2tz502nrzcd4t1wpbhzb9f6rj6]][/TK]\n\nAfterword by the author.",
         "dirty": true,
         "stubOf": null,
         "forkedFrom": null,
@@ -713,7 +763,7 @@
       "body": {
         "text": "Generated summary sentence from the fake provider.",
         "model": "claude-sonnet-5-5",
-        "contentMd": "[TK]Summarise ![[1bdkk1e2j56cq54t6c3k38v6yk]][=]Generated summary sentence from the fake provider.[/TK]\n\nAfterword by the author.",
+        "contentMd": "[TK]Summarise ![[2tz502nrzcd4t1wpbhzb9f6rj6]][=]Generated summary sentence from the fake provider.[/TK]\n\nAfterword by the author.",
         "revision": 2
       }
     },
@@ -740,12 +790,12 @@
       "label": "create impyrt",
       "status": 201,
       "body": {
-        "id": "0efnkfma6842f54yfjt52etmsd",
+        "id": "4e019hhbnstef6fhqzqbmfayfa",
         "revision": 1,
         "kind": "fragment",
         "status": "draft",
-        "created": "2026-11-20T04:51:11Z",
-        "updated": "2026-11-20T04:51:11Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "Pasted from elsewhere: [TK]impyrt other-model=Text another tool produced.[/TK]",
         "dirty": true,
@@ -770,12 +820,12 @@
       "label": "create withdrawn",
       "status": 201,
       "body": {
-        "id": "5gn7p6fq92syc7g95ze8e3mkr7",
+        "id": "14atfqrwdh5jj6n3kzenv90399",
         "revision": 1,
         "kind": "fragment",
         "status": "draft",
-        "created": "2026-11-20T04:51:11Z",
-        "updated": "2026-11-20T04:51:11Z",
+        "created": "2026-11-22T05:30:18Z",
+        "updated": "2026-11-22T05:30:18Z",
         "version": 0,
         "contentMd": "Soon to be withdrawn.",
         "dirty": true,
@@ -797,13 +847,26 @@
       }
     },
     {
+      "label": "syndication withdrawn",
+      "status": 200,
+      "body": {
+        "entries": [
+          {
+            "url": "https://social.example/@tester/post/3lzexample33",
+            "version": 1
+          }
+        ],
+        "revision": 3
+      }
+    },
+    {
       "label": "pin withdrawn v1",
       "status": 200,
       "body": {
         "ok": true,
         "version": 1,
         "already": false,
-        "revision": 3
+        "revision": 4
       }
     },
     {
@@ -812,7 +875,7 @@
       "body": {
         "ok": true,
         "version": 2,
-        "revision": 4
+        "revision": 5
       }
     },
     {

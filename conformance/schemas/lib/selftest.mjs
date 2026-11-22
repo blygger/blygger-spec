@@ -42,6 +42,13 @@ export function selftest(docs) {
   m("origin-uppercase-host", "an origin with an uppercase host (#103, §12.2)", [], docs.stub, (d) => (d.stub_of.origin = d.stub_of.origin.replace(/\/\/([^/]+)/, (m, h) => "//" + h.toUpperCase())));
   m("origin-default-port", "an origin with its default port (#103, §12.2)", [], docs.stub, (d) => (d.stub_of.origin = d.stub_of.origin.replace(/^(https?:\/\/[^/]+)/, (h) => h + (h.startsWith("https") ? ":443" : ":80"))));
   m("fragment-directive", "a directive line in a fragment (#102)", [], docs.fragment, (d) => (d.content_md += "\n\n![[" + d.id + "]]"));
+  const syn = (d) => (d.syndication = [{ url: "https://social.example/post/1", version: 1 }]);
+  m("syndication-not-https", "a syndication entry whose url is not https: (#98)", [], docs.fragment, (d) => { syn(d); d.syndication[0].url = "http://social.example/post/1"; });
+  m("syndication-extra-member", "a count in a syndication entry (#98, §16.8)", [], docs.fragment, (d) => { syn(d); d.syndication[0].likes = 12; });
+  m("syndication-future-version", "a syndication entry above the document's version (#98)", [], docs.fragment, (d) => { syn(d); d.syndication[0].version = d.version + 1; });
+  m("syndication-empty", "an empty syndication array (omitted when there is no copy, #98)", [], docs.fragment, (d) => (d.syndication = []));
+  m("syndication-on-endcap", "syndication on a withdrawal endcap (#98, §9)", [], docs.endcap, (d) => syn(d));
+  m("syndication-in-pinned", "syndication in a pinned file (#98, §8 rule 5)", [], docs.pinned, (d) => syn(d), "pinned");
   m("page-host-rooted", "page host-rooted (/f/…)", ["C-5.8-01"], docs.fragment, (d) => (d.page = "/" + d.page));
   m("page-absolute-not-url", "an absolute page that is not an http(s) URL", ["C-5.8-01"], docs.fragment, (d) => (d.page = "urn:blyg:" + d.id));
   m("pinned-endcap", "a pinned file for a withdrawal endcap", ["C-8-03"], docs.pinned, (d) => (d.kind = "withdrawn"), "pinned");

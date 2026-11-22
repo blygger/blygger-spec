@@ -17,13 +17,14 @@ Two decisions shape it (Aneesh Sathe's answers to the questions on #5):
 
 **Snapshot.** The fixtures were written against `spec/0.4/2026-10-18`, the
 only dated 0.4 snapshot, and the living text it grew into:
-`docs/protocol-v0.4.md` at blygger-spec `470f552` (eighteenth revision,
-2026-11-18). Revisions two to eighteen are not snapshotted, and what the
+`docs/protocol-v0.4.md` at blygger-spec `1166a97` (twenty-first revision,
+2026-11-21). Revisions two to twenty-one are not snapshotted, and what the
 fixtures check from them is: the label bake `data-blyg-label` (#81),
 `links[]` (#79), the blockquote's CommonMark extent (#76), LF/CRLF line
 endings (#76), the nine readings ruled by #102 (fourteenth revision), MathML
-in `content_html` (#105, sixteenth revision) and the published text of a
-tangled thread (#112, eighteenth revision). Every fixture records both.
+in `content_html` (#105, sixteenth revision), the published text of a
+tangled thread (#112, eighteenth revision) and list structure in a partial
+bake (#114, twenty-first revision). Every fixture records both.
 
 ## Running
 
@@ -105,7 +106,7 @@ comparison (`lib/html.mjs`, `project()`) keeps only the normative parts:
 |---|---|
 | Wire wrappers: `blockquote.blyg-transclusion`, `.blyg-partial`, `span.blyg-tk-gen`, `div.blyg-tk-gen`, their tag and wire classes | §10.2, §5.7, `docs/css-contract.md` §1 |
 | `data-blyg-id`, `data-blyg-version`, `data-blyg-origin` (only for remote sources), `data-blyg-label` (only with a label) | §10.2 |
-| A whole bake's text content (the target's HTML, verbatim); a partial bake's `<p>` lines (the selection's plain text) | §10.2 |
+| A whole bake's text content (the target's HTML, verbatim); a partial bake's lines, one block each (the selection's plain text), and the lists they sit in | §10.2 |
 | Anchors and their hrefs, in document order and tree position; anchor text where the author wrote a label | §10.1, §5.8 |
 | Every `href`/`src` in the output is absolute (a bare `#fragment` is a warning) | §5.2 |
 | Inert sequences appear as text | §10.1 |
@@ -133,11 +134,11 @@ synthetic; nothing is copied from a live blyg.
 
 | Group | Cases | Covers |
 |---|---|---|
-| `grammar` | 16 | §10.1 directive and link recognition, line endings, reserved `@vN`, what is not an id |
+| `grammar` | 17 | §10.1 directive and link recognition, line endings, reserved `@vN`, what is not an id |
 | `code` | 12 | §10.1 inert inside code spans, fences (backtick, tilde, unclosed, nested in quotes and lists) and indented code (#54) |
-| `label` | 21 | `[[id \| text]]` and `![[id \| text]]` (#70): trimming, pipes, empties, escaping, the first `]]`, `data-blyg-label` (#81) |
-| `partial` | 11 | partial transclusion (#49): selector, plain-text bake, emphasis, paragraphs, lazy continuation (#76), escaping, Unicode |
-| `resolution` | 13 | §10.2 order and errors: unknown, draft, withdrawn, pin-retained, ambiguous origin, local closure, nesting |
+| `label` | 22 | `[[id \| text]]` and `![[id \| text]]` (#70): trimming, pipes, empties, escaping, the first `]]`, `data-blyg-label` (#81) |
+| `partial` | 18 | partial transclusion (#49): selector, plain-text bake, emphasis, paragraphs, lazy continuation (#76), escaping, Unicode, mathematics (#105), list structure taken from the target (#114) |
+| `resolution` | 14 | §10.2 order and errors: unknown, draft, withdrawn, pin-retained, ambiguous origin, local closure, nesting, a whole quote's `<ol start>` |
 | `urls` | 9 | §5.2 absolute URLs and §5.8 pages: local, remote, absolute and missing `page`, relative markdown, baked HTML |
 | `disclosure` | 6 | §10.3 `transclusions[]` order and origin, §10.3a `links[]`, the silent markdown link |
 | `generation` | 12 | §5.7 `blyg-tk-gen` wrappers and `generated[]` sources, local and remote |
@@ -155,7 +156,7 @@ group with `--only` on the others.
 `adapters/studio/` drives the reference client.
 
 ```sh
-git clone --branch v0.65.0 https://github.com/blygger/blygger-studio.git /tmp/studio
+git clone --branch v0.69.0 https://github.com/blygger/blygger-studio.git /tmp/studio
 (cd /tmp/studio && npm ci && npm run build)
 STUDIO_DIR=/tmp/studio node run.mjs --adapter studio
 ```
@@ -195,29 +196,50 @@ items are retained past withdrawal only when curated into a hopper (a MAY in
 answer from Miniflare rather than DNS, and Miniflare 5 needs its options
 converted.
 
-## Results at blygger-studio 0.65.0
+## Results at blygger-studio 0.69.0
 
-100 pass, 3 fail, against 103 fixtures (2026-11-19; the same three as
-0.64.1, since 0.65.0 changed no publish path), with the #102 rulings
-in the fixtures: the nine cases once marked ambiguous now carry the ruled
-reading and none is marked ambiguous. Case 101 is a tangled thread's
-published text (tangling plan §4.4); 102 and 103 are the mathematics cases
-(a whole quote of an item carrying MathML bakes it verbatim; a partial
-selection of the prose beside a formula verifies against text content, #105).
-All three pass. The three failures are the three publisher changes #102
-asks of the studio (session-67 Opus brief, item 3 (a)–(c); ROADMAP row 122):
+110 pass, 0 fail, against 110 fixtures (2026-11-21, studio `27b5924`, tagged
+v0.69.0). The three failures of the 0.65.0 run
+are gone: 0.67.0 made the three publisher changes #102 asked for (a
+directive line in a fragment is a publish error, case 015; a link to an
+imported item with no `page` names its item document, 078; a baked quote in
+generated output sits outside `blyg-tk-gen`, 099).
 
-| Finding | Case | Spec |
-|---|---|---|
-| A directive line in a fragment publishes as literal text instead of refusing | 015 | §10.1, #102 (1) |
-| A link to an imported item with no `page` bakes the permalink convention (`f/{id}/`), not the item document | 078 | §10.1, §5.8, #85, #102 (5) |
-| A baked quote in generated output sits inside `div.blyg-tk-gen` | 099 | §5.7 rule 3, #102 (9), studio#105 |
+Cases 104 to 110 are new with the twenty-first revision (#114, a quoted
+list keeps its structure). The expectation of a list case shows the target's
+structure, and the comparison follows §10.2's keywords:
 
-The 0.63.0 run upstream (101 of 101) used the unruled fixtures, where 015,
-078 and 099 accepted the studio's reading. Earlier runs: 0.49.12 passed 72,
-0.57.0 passed 79; 0.50.0 fixed the lazy-continuation partial quote
-(blygger-studio#104) and the own-line `![[id]]` in a generated block (#60),
-0.57.0 bakes `data-blyg-label` (#81) and 0.63.0 emits `links[]` (#79).
+| What the renderer baked | Result |
+|---|---|
+| One block per line, each line's text as the selection has it | required: anything else fails |
+| A line the target has in a list item, as an `<li>` in a list of the same kind | pass |
+| The same line as a `<p>` | pass, with a note: the list shape is a MAY |
+| A line under a list, or a kind of list, the target does not have there | fail: the structure comes from the target, never from the quoter (109) |
+| An `<ol>` numbered differently from the source | warn: `start` is a SHOULD |
+| A whole quote of imported HTML that lost its `<ol start>` | warn: the sanitizer SHOULD keep it (110) |
+
+`--self-check` now also tests the comparison itself: every list case must
+still pass with its lists flattened to paragraphs, and every paragraph case
+must fail when its lines are wrapped in an invented list. The studio bakes
+real lists in 104 to 108 (`<ol start="2">`, a nested `<ul>`), so it passes
+on the structure and not on the MAY.
+
+One finding from writing these, not a fixture, **for Fable**: §2 says text
+content keeps "block boundaries" as line breaks and does not say which
+elements make one. In a tight nested list (`<li>second<ul><li>nested</li>…`)
+the studio reads `second nested` as one line, because it breaks only at
+closing tags and the nested `<ul>` opens inside the item; a reader that
+treats an opening block as a boundary reads two lines. The two disagree on
+whether a selection is a substring and on whether a bake's text is its
+selector. The list cases here use numbered and loose lists, where both
+readings agree.
+
+Earlier runs: 0.65.0 passed 100 of 103 with the #102 rulings in the
+fixtures; 0.63.0 upstream passed 101 of 101 on the unruled fixtures; 0.49.12
+passed 72, 0.57.0 passed 79; 0.50.0 fixed the lazy-continuation partial
+quote (blygger-studio#104) and the own-line `![[id]]` in a generated block
+(#60), 0.57.0 bakes `data-blyg-label` (#81) and 0.63.0 emits `links[]`
+(#79).
 
 ## Provenance
 

@@ -167,6 +167,9 @@ for (const s of sites) {
   }
 }
 
+// checks the scenario made while driving the implementation (what a snapshot of documents cannot show)
+for (const s of sites) for (const c of s.meta?.checks || []) add({ ...c, id: `schemas.${s.dir}.scenario.${c.id}`, title: `${s.title}: ${c.title}` });
+
 // grammar differential: one result per adapter that ran the corpus
 const GRAMMAR_CLAUSES = { "reserved-version": ["C-10.1-01"], "unknown-id": ["C-10.2-01"], "partial-not-in-target": ["C-10.2-02"] };
 const gIndex = (g) => Object.fromEntries((g?.results || []).map((r) => [r.case, r]));
@@ -201,7 +204,7 @@ for (const i of impls.filter((i) => i.static?.pinned)) {
 // self-test
 const studio = sites.find((s) => s.docs.some((d) => d.label === "thread")); // the reference scenario's labelled documents
 const pick = (label) => studio?.docs.find((d) => d.label === label)?.doc;
-const st = studio ? selftest({ thread: pick("thread"), stub: studio.docs.find((d) => d.label === "stubPartial")?.doc, fragment: pick("pins"), fork: pick("forkRemoteThread"), generated: pick("generated"), pinned: studio.docs.find((d) => d.type === "pinned")?.doc }) : [];
+const st = studio ? selftest({ thread: pick("thread"), stub: studio.docs.find((d) => d.label === "stubPartial")?.doc, fragment: pick("pins"), fork: pick("forkRemoteThread"), generated: pick("generated"), endcap: pick("withdrawn"), pinned: studio.docs.find((d) => d.type === "pinned")?.doc }) : [];
 for (const t of st) add({ id: `schemas.selftest.${t.id}`, title: `Self-test: checker catches ${t.title}`, status: t.caught ? "pass" : "fail", detail: t.caught ? `caught by ${t.by.join(" · ")}` : "NOT caught — the checker is too lenient here", spec_refs: [], decisions: ["#48"], clauses: t.clauses });
 
 const summary = { area: "schemas", title: "JSON Schemas, semantic rules and grammar differential", generated_at: new Date().toISOString(), checks };

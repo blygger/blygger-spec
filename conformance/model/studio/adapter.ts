@@ -92,7 +92,12 @@ export class Studio implements StudioAdapter {
    * a delete trigger writes into one already emptied.
    */
   async reset() {
-    const tables = (await db().prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'd1_%' AND name NOT LIKE '_cf_%'").all<{ name: string }>()).results.map((t) => t.name);
+    // Virtual tables (the FTS5 search index, studio 0.69.0) and their shadow tables are not
+    // reset by hand: SQLite refuses writes to a shadow table, and the index follows its
+    // content table through the studio's own triggers.
+    const master = (await db().prepare("SELECT name, sql FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE 'd1_%' AND name NOT LIKE '_cf_%'").all<{ name: string; sql: string | null }>()).results;
+    const virtual = master.filter((t) => /^\s*CREATE\s+VIRTUAL\s+TABLE/i.test(t.sql ?? "")).map((t) => t.name);
+    const tables = master.map((t) => t.name).filter((n) => !virtual.some((v) => n === v || n.startsWith(`${v}_`)));
     if (!this.baseline) {
       this.baseline = new Map();
       for (const t of tables) this.baseline.set(t, (await db().prepare(`SELECT * FROM "${t}"`).all<Record<string, unknown>>()).results);

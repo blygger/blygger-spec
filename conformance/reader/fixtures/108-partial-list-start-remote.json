@@ -1,0 +1,76 @@
+{
+  "id": "partial-list-start-remote",
+  "title": "A quoted item of an imported list that starts at 7 keeps the source's number",
+  "group": "partial",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 1166a97 (twenty-first revision, 2026-11-21)",
+  "note": "Revisions two to twenty-one of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) MathML in content_html (#105, sixteenth revision) the fold of tangled parts (#112, eighteenth revision) and list structure in a partial bake (#114, twenty-first revision) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§10.2"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#114",
+    "#49"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "![[5k5k5k5k5k5k5k5k5k5k5k5k5k]]\n> eighth",
+  "items": [
+    {
+      "id": "5k5k5k5k5k5k5k5k5k5k5k5k5k",
+      "origin": "https://remote.example/",
+      "local": false,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/5k5k5k5k5k5k5k5k5k5k5k5k5k/",
+      "content_md": "- a notebook\n\n- a pencil\n\n  - and a sharpener\n\n- patience\n\n7. seventh\n8. eighth",
+      "content_html": "<ul>\n<li><p>a notebook</p>\n</li>\n<li><p>a pencil</p>\n<ul>\n<li>and a sharpener</li>\n</ul>\n</li>\n<li><p>patience</p>\n</li>\n</ul>\n<ol start=\"7\">\n<li>seventh</li>\n<li>eighth</li>\n</ol>\n",
+      "content_hash": "sha256:3e5669760fb8e2f8af1bb72272b01adfed0cb64952ad269824f59b6e404c4e74"
+    }
+  ],
+  "expect": {
+    "error": false,
+    "content_html": "<blockquote class=\"blyg-transclusion blyg-partial\" data-blyg-id=\"5k5k5k5k5k5k5k5k5k5k5k5k5k\" data-blyg-version=\"1\" data-blyg-origin=\"https://remote.example/\">\n<ol start=\"8\">\n<li>eighth</li>\n</ol>\n</blockquote>\n",
+    "normative": [
+      {
+        "wrapper": "blockquote",
+        "classes": [
+          "blyg-transclusion",
+          "blyg-partial"
+        ],
+        "data": {
+          "data-blyg-id": "5k5k5k5k5k5k5k5k5k5k5k5k5k",
+          "data-blyg-version": "1",
+          "data-blyg-origin": "https://remote.example/"
+        },
+        "text": "eighth",
+        "lines": [
+          {
+            "text": "eighth",
+            "lists": [
+              {
+                "tag": "ol",
+                "ordinal": 8
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "transclusions": [
+      {
+        "id": "5k5k5k5k5k5k5k5k5k5k5k5k5k",
+        "version": 1,
+        "origin": "https://remote.example/",
+        "selector": {
+          "exact": "eighth"
+        }
+      }
+    ]
+  }
+}

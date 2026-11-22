@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://blygger.org/conformance/0.3/pinned.schema.json",
   "title": "Pinned version — items/{id}/v{n}.json",
-  "description": "§8: the irrevocable per-version file. Never an endcap (§8 rule 2). Carries that version's transclusions, generated, stub_of and forked_from (§8 rule 5); no media array (§8 rule 4).",
+  "description": "§8: the irrevocable per-version file. Never an endcap (§8 rule 2). Carries that version's transclusions, generated, stub_of and forked_from (§8 rule 5); no media array (§8 rule 4); never syndication (§8 rule 5, §5.10 rule 4).",
   "type": "object",
   "required": ["id", "kind", "version", "at", "pinned", "origin", "content_md", "content_html", "content_hash"],
   "properties": {
@@ -23,6 +23,7 @@
     "stub_of": { "$ref": "defs.schema.json#/$defs/stubOf", "description": "§8 rule 5: a pin carries its own citations (decision #27)." },
     "forked_from": { "$ref": "defs.schema.json#/$defs/absoluteReference", "description": "§8 rule 5 / §5.6 rule 3." }
   },
+  "not": { "required": ["syndication"] },
   "allOf": [
     { "if": { "properties": { "kind": { "const": "thread" } }, "required": ["kind"] }, "then": { "required": ["transclusions"] } },
     { "if": { "properties": { "kind": { "const": "fragment" } }, "required": ["kind"] }, "then": { "not": { "anyOf": [{ "required": ["transclusions"] }, { "required": ["stub_of"] }] } } }

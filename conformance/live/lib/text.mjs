@@ -63,22 +63,26 @@ export function bakedTransclusions(html) {
   let m;
   while ((m = re.exec(String(html || "")))) {
     const tag = m[0];
-    if (tag[1] === "/") { stack.pop(); continue; }
+    if (tag[1] === "/") { const top = stack.pop(); if (top && typeof top === "object") top.inner = String(html).slice(top.innerStart, m.index); continue; }
     const a = parseAttrs(tag);
     const classes = (a.class || "").split(/\s+/);
     const isT = classes.includes("blyg-transclusion");
     if (isT) {
       const depth = stack.filter(Boolean).length;
-      out.push({
+      const entry = {
         depth,
         id: a["data-blyg-id"] ?? null,
         version: a["data-blyg-version"] != null ? Number(a["data-blyg-version"]) : null,
         origin: a["data-blyg-origin"] ?? null,
         partial: classes.includes("blyg-partial"),
         classes: classes.filter(Boolean),
-      });
+        innerStart: re.lastIndex, // `inner` (the wrapper's own HTML) is set when it closes
+      };
+      out.push(entry);
+      stack.push(entry);
+      continue;
     }
-    stack.push(isT);
+    stack.push(false);
   }
   return out;
 }

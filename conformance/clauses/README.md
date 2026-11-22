@@ -2,7 +2,7 @@
 
 This directory pulls every RFC 2119 sentence out of the living spec
 (`docs/protocol-v0.4.md`), gives each one a stable id, and links it to the
-the locked decisions in `CLAUDE.md` (112 as of 2026-11-18), the four design invariants in §1, the
+the locked decisions in `CLAUDE.md` (116 as of 2026-11-21), the four design invariants in §1, the
 sections it cites, and, once other toolkit areas publish results, the tests
 that exercise it. It is a reading aid for the spec author, not a normative
 document. Nothing here edits `docs/`.
@@ -14,9 +14,10 @@ python3 conformance/clauses/build.py
 ```
 
 You need Python 3.10 or later, standard library only. The last run
-(2026-11-18, against 0.4's eighteenth revision) found 273 normative clauses
-(MUST 138, SHOULD 81, MAY 54) in 46 sections, 25 pending §16 sentences, and
-112 decisions. The 0.4 run of 2026-11-01 had 221 (107 / 65 / 49), 26 and 88; the
+(2026-11-21, against 0.4's twenty-first revision) found 289 normative clauses
+(MUST 145, SHOULD 84, MAY 60), 15 pending §16 sentences, and
+116 decisions. The run of 2026-11-18 (eighteenth revision) had 273
+(138 / 81 / 54), 25 and 112; the 0.4 run of 2026-11-01 had 221 (107 / 65 / 49), 26 and 88; the
 0.3 run of 2026-10-03 had 165 (82 / 52 / 31) and 58. The 2026-11-01 write-up, with the
 section map and the keyword-less sentences, is
 `conformance/reports/2026-11-01-clauses-0.4.md`. The command regenerates:

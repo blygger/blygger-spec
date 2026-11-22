@@ -49,6 +49,8 @@ export const CHECKS = {
   "live.md-text": { title: "`content_md` is text: no C0 control but tab, LF and CR, no unpaired surrogate (fail); NFC (warn)", spec_refs: ["§5.1"], decisions: ["#103"], clauses: [], kind: "invariant" },
   "live.origin-spelling": { title: "Every origin string written (documents, references, baked `data-blyg-origin`, manifest) has the §12.2 spelling", spec_refs: ["§12.2", "§5.9"], decisions: ["#103"], clauses: [], kind: "invariant" },
   "live.fragment-directive": { title: "No fragment carries a directive line outside code (a publish error since #102)", spec_refs: ["§10.1", "§10.3"], decisions: ["#60", "#100", "#102"], clauses: [], kind: "invariant" },
+  "live.partial-bake-text": { title: "A partial bake's text content is its entry's `selector.exact`, paragraphs or list items alike", spec_refs: ["§10.2", "§2"], decisions: ["#114", "#49"], clauses: [], kind: "invariant" },
+  "live.syndication": { title: "`syndication`: entries are an `https:` URL and a published version and nothing else; never on an endcap or a pinned file", spec_refs: ["§5.10", "§8", "§9"], decisions: ["#98"], clauses: [], kind: "invariant" },
   "live.fork-lineage-visible": { title: "A fork's public page links its source (origin / pinned version)", spec_refs: ["§5.6"], decisions: [], clauses: [], kind: "info" },
 };
 
@@ -282,11 +284,29 @@ export async function check(crawlPath = join(HERE, "out", "crawl.json")) {
         add("live.withdrawn-endcap", pr.length ? "fail" : "pass", pr.length ? pr.join("; ") : "endcap shape correct", at);
       }
 
+      // syndication (§5.10, #98): only where the member is present
+      if ("syndication" in d) {
+        const pr = [];
+        const sy = d.syndication;
+        if (d.kind === "withdrawn") pr.push("an endcap carries syndication (§9)");
+        if (!Array.isArray(sy) || !sy.length) pr.push("not a non-empty array (the member is omitted when there is no copy)");
+        else sy.forEach((e, i) => {
+          if (!e || typeof e !== "object") return pr.push(`[${i}] is not an object`);
+          if (typeof e.url !== "string" || !/^https:\/\/[^\s/]+/.test(e.url)) pr.push(`[${i}].url is not an absolute https: URL`);
+          if (!Number.isInteger(e.version) || e.version < 1) pr.push(`[${i}].version is not a version`);
+          else if (e.version > d.version) pr.push(`[${i}].version v${e.version} is above the document's v${d.version}`);
+          const extra = Object.keys(e).filter((k) => k !== "url" && k !== "version");
+          if (extra.length) pr.push(`[${i}] carries ${extra.join(", ")} (an entry is a URL and a version, and nothing else)`);
+        });
+        add("live.syndication", pr.length ? "fail" : "pass", pr.length ? pr.slice(0, 4).join("; ") : `${sy.length} cop${sy.length === 1 ? "y" : "ies"} named`, at);
+      }
+
       // pins served
       for (const c of (d.changelog || []).filter((c) => c && c.pinned)) {
         const k = `${id}/v${c.version}`;
         const pin = o.pins[k];
         if (!pin) continue;
+        if (pin.doc && "syndication" in pin.doc) add("live.syndication", "fail", `pinned file v${c.version} carries syndication (§8 rule 5: a frozen file would keep dead addresses)`, at);
         const w = d.kind === "withdrawn" ? " (item withdrawn)" : "";
         if (pin.status === 200 && pin.doc && pin.doc.version === c.version && pin.doc.id === id) add("live.pins-served", "pass", `v${c.version} served${w}`, at);
         else add("live.pins-served", "fail", `changelog says v${c.version} pinned but items/${k}.json → ${pin.status}${pin.doc ? ` (doc v${pin.doc.version})` : ""}${w}`, at);
@@ -354,6 +374,17 @@ export async function check(crawlPath = join(HERE, "out", "crawl.json")) {
           }
           if (dv?.partial && t.selector && normalizeLines(dv.selection) !== normalizeLines(t.selector.exact)) wr.push(`#${i + 1}: selector.exact differs from the content_md selection`);
         }
+        // §10.2 (twentieth revision, #114): the text content of a partial bake is its
+        // entry's selector.exact, checkable from the document alone.
+        if (T.length === B.length) T.forEach((t, i) => {
+          const b = B[i];
+          if (!t.selector || !b.partial || b.inner === undefined) return;
+          const got = textContent(b.inner), want = normalizeLines(t.selector.exact || "");
+          const shape = /<li[\s>]/i.test(b.inner) ? "list items" : "paragraphs";
+          if (got === want) add("live.partial-bake-text", "pass", `bake #${i + 1} (${shape}) reads as its selector`, at);
+          else if (flatText(got) === flatText(want)) add("live.partial-bake-text", "warn", `bake #${i + 1} (${shape}) matches its selector only when block boundaries are collapsed: the bake has ${got.split("\n").length} line(s), the selector ${want.split("\n").length}`, at);
+          else add("live.partial-bake-text", "fail", `bake #${i + 1} (${shape}) does not read as its selector.exact`, { ...at, data: { exact: short(want, 200), bake: short(got, 200) } });
+        });
         void n;
         const st = pr.length ? "fail" : wr.length ? "warn" : "pass";
         if (T.length || D.length || B.length || pr.length) add("live.transclusion-correspondence", st, [...pr, ...wr].slice(0, 4).join("; ") || `${T.length} entries ⇔ directives ⇔ bakes`, { ...at, data: { problems: pr, warnings: wr } });
