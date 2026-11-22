@@ -215,6 +215,19 @@
       "id": "6ce1frctcvb771b5s96ajsrswj",
       "version": 1,
       "source_sha256": "b856eac99a945491080b7273d52cc2c3ba8eb37b1f93236f6852fbe4c4858adb"
+    },
+    {
+      "file": "docs/posts/2026-11-22-tk-reads-your-links.md",
+      "model": "claude-opus-5-5",
+      "pin": false,
+      "footer": "post",
+      "notes": {
+        "first": "[TK] now reads the links you give it, and discloses what it read.",
+        "revision": "Post revised; see the source history."
+      },
+      "id": "6wxxgd8zc5rehzs2nvy8vkdhkn",
+      "version": 1,
+      "source_sha256": "5b333546af48781e78fae47824307783b36f2e3071b9810e6558b9a8862c9ced"
     }
   ]
 }
