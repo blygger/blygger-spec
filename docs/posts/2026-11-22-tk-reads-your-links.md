@@ -1,5 +1,7 @@
 # `[TK]` now reads the links you give it
 
+*Shipped in Blygger Studio 0.70.0, released 2026-11-22. The [release announcement](https://blyg.blygger.org/t/1p9ksqt0b69zhz24h6cvd1c1dk/) lists everything else in it and how to upgrade.*
+
 A `[TK]` scope used to write from what it was handed: your instruction, the items you named as sources with `![[id]]`, and the draft around it. A link was just text. If you wrote "summarize https://contraptions.venkateshrao.com/p/the-profligacy-principle", the model never saw the essay. Sometimes the result looked right anyway, because the model half-remembered the post from its training, or because the URL's slug told it enough to guess. That's worse than failing: you can't tell recall or a guess from reading, and when the essay is yours, the guess puts words in your mouth.
 
 So generation now reads the links you placed before it writes. That covers links in the instruction and links anywhere in the draft, because a link you already put in the draft is part of what you're writing about. Web pages are fetched. An `[[id]]` link, or a URL that names a blyg item your node already holds, is read from your node's own copy, as a source always has been.
