@@ -117,6 +117,13 @@ MCP is a transport for the contract, not a second one).
 5. **`same-story`** (mechanical first, decision second): entries across blygs that quote, link or
    copy the same item, then optionally a model's judgment for the rest.
 
+**Later: helpers inside [TK] generation** (Venkat, session 78). Today a TK scope is one model
+call over the instruction, its sources and the draft. Letting that call use helpers as tools
+(search the blyg and the reader's imports, catch up on a conversation, fetch a supplied page)
+turns it into a short tool-using loop under the same budget and disclosure: everything the
+model drew on that it was not handed becomes a `sources[]` entry (§5.7 rule 1, "whether the
+generator was handed them … or retrieved them itself"). Not scheduled.
+
 The resident Agentic feed assistant (`agentic-feed-plan.md` §5) is written as a caller of these
 helpers, not a monolith. That keeps it boring and makes it the worked example for power users.
 
