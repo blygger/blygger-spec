@@ -699,7 +699,8 @@ Rules:
       item's origin and id and linking to its page (§5.8) where the publisher
       can compute it, else to its item document. The line's wording is the
       client's. A partial transclusion flattens the same way, from its baked
-      paragraphs. **Partiality is read from the `blyg-partial` class in the
+      content, a baked list item as a markdown list item (revision of
+      2026-11-21, decision #114). **Partiality is read from the `blyg-partial` class in the
       pinned bake, never from `>` lines in `content_md`** (decision #62): a
       bake from a client that predates the partial grammar carries none, and
       the lines after its directive are the author's prose.
@@ -1659,15 +1660,25 @@ cap would be editorial convenience in the protocol. The bake is
 ```
 
 with `data-blyg-origin` for remote sources exactly as above. The content is
-the selection's **plain text, one `<p>` per line of it**, escaped — not a
+the selection's **plain text, one block per line of it**, escaped — not a
 carved sub-range of the source's inline HTML: the selection is defined on
 text, and cutting an HTML range faithfully is a second project. Emphasis in
-the source does not survive into the quote; that is the visible cost.
+the source does not survive into the quote; that is the visible cost. A line
+is a `<p>`, except that **a line that lies within a list item of the target
+snapshot MAY be baked as an `<li>`** in a `<ul>` or `<ol>` like the target's
+(revision of 2026-11-21, decision #114, promoted from §16.15). Nesting MAY be
+kept where the lines it joins are both in the selection, and an `<ol>` whose
+first baked item is not the target list's first SHOULD carry `start`, so the
+ordinal a reader sees is the source's. **The structure comes from the target,
+never from the quoter:** a publisher MUST NOT bake a line as a list item, or
+under a nesting, that it does not have in the target snapshot, and the
+quoter's own markup in the attached blockquote means nothing beyond its text.
+A reader's sanitizer SHOULD keep an integer `start` on `ol`.
 It follows, and is stated here so that a reader may rely on it (revision of
 2026-11-21, decision #114): **the text content of a partial bake, by the
-test above, is its entry's `selector.exact`.** A reader MAY check that from
-the document alone, with no fetch. §16.15 holds a ruled addition to the
-bake's block structure, not yet built.
+test above, is its entry's `selector.exact`**, whether its lines are
+paragraphs or list items. A reader MAY check that from the document alone,
+with no fetch.
 `blyg-partial` is a **permanent wire token** beside `blyg-transclusion`, so
 partiality is visible to any reader and survives import. A **plain-web
 target gets nothing**: quoting an ordinary web page under a `{url}` stub
@@ -3209,37 +3220,14 @@ fetches or shows from the other network. In-place change is the pin flag's
 class, not a general channel: a proposal citing this section for a member
 readers act on is refused.
 
-### 16.15 List structure in a partial bake (ruled 2026-11-21; awaiting a build)
+### 16.15 List structure in a partial bake (promoted to §10.2 and §5.6, 2026-11-21)
 
-Decision #114. A partial quote of list items publishes them today as bare
-paragraphs (§10.2), and no reader can put the bullets back. Ruled shape,
-normative when one publisher bakes it and a second client imports and shows
-it:
-
-- A line of the selection that lies within a list item of the target
-  snapshot MAY be baked as an `<li>` in a `<ul>` or `<ol>` like the
-  target's, instead of a `<p>`. Nesting MAY be kept where the lines it
-  joins are both in the selection. An `<ol>` whose first baked item is not
-  the target list's first SHOULD carry `start`, so the ordinal a reader
-  sees is the source's; a reader's sanitizer SHOULD keep an integer `start`
-  on `ol`, as a whole quote of such a list already needs.
-- **The structure comes from the target, never from the quoter.** A
-  publisher MUST NOT bake a line as a list item, or under a nesting, that
-  it does not have in the target snapshot. The quoter's own markup in the
-  attached blockquote (§10.1) keeps the meaning it has now, which is none
-  beyond its text; a quote written as plain lines over a list bakes as a
-  list, and one written with markers over prose bakes as paragraphs.
-- Content is unchanged: each line's plain text, escaped, no inline markup.
-  §10.2's invariant holds as written, since a list item is a block.
-- Nothing changes for a reader, which displays `content_html` and already
-  receives lists inside whole quotes. On promotion, §5.6's "from its baked
-  paragraphs" becomes "from its baked content", a list item flattening as
-  a markdown list item inside the blockquote.
-
-An **editorial layer** over a partial quote — marked ellipses, bracketed
-substitutions, a marked truncation — is a separate direction (decision
-#116) and goes to an RFC; it composes with this, and nothing here
-anticipates its shape.
+Decision #114, ruled and promoted the same day: the gate ran when
+blyg.blygger.org (blygger-studio 0.69.0) baked a partial quote of two
+numbered items from TN-8 as `<ol start="2">` and venkateshrao imported it
+and showed the list with the source's numbers. The rule is in §10.2; §5.6
+flattens baked list items as list items. An **editorial layer** over a
+partial quote (decision #116) is a separate direction and goes to RFC-8.
 
 ## 17. Revision history (non-normative)
 
@@ -3247,6 +3235,18 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-21, twenty-first revision** (Opus 5.5 under #58, session 78;
+  decision #114, its gate run; Fable review pending) — **a quoted list keeps
+  its structure**, promoted from §16.15: §10.2's partial bake is one block
+  per line, a line within a list item of the target MAY bake as an `<li>` in
+  a list like the target's, nesting kept where both lines are quoted, `start`
+  on an `ol` that does not begin at its first item, and the structure is the
+  target's, never the quoter's; §5.6 flattens a baked list item as a markdown
+  list item. Gate: blyg.blygger.org baked a quote of TN-8's rules 2 and 3 as
+  `<ol start="2">`, venkateshrao imported and showed it (blygger-studio
+  0.69.0). Additive: a reader that renders `content_html` already shows
+  lists. Not snapshotted.
 
 - **2026-11-21, twentieth revision** (Fable 5.2, session 78; decisions
   #114, #115) — **a correction is not generation; a partial bake's text is

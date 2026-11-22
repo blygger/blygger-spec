@@ -20,8 +20,11 @@ Staged by Opus at Venkat's request and taken the same day ([`v0.4-plan.md`](v0.4
   disagreement default) and one hardening (the owner's instruction first in the state).
 - TN-8 stands; v2 corrects rung 1's account of §16.8. **RFC-5 is promoted as tn-10.**
 
-**Left for the next round:** RFC-8 when drafted; a look at the 4b toggle when built; the
-§16.15 promotion when its gate runs (Opus under #58, you review).
+**Left for the next round:** **RFC-8, drafted** by Opus the same session
+(`docs/rfcs/rfc-8-editorialized-quotation.md`, not published) for your edit; the 4b toggle and
+hardening, **built** (studio 0.69.0); **review the §16.15 promotion**, done by Opus under #58 the
+same day as the twenty-first revision after the gate ran (blyg.blygger.org baked `<ol start="2">`,
+venkateshrao imported and showed it).
 
 ## This round's product: the spec as a book
 
