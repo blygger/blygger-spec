@@ -5,6 +5,47 @@ that ruled #107 and then turned into a change of direction. Earlier rewrites: se
 and 60. **Rewrite this file each Fable round.** It is the one place a Fable session
 starts.
 
+## Staged for this round (session 78, 2026-11-21, Opus, at Venkat's request)
+
+Venkat asked for a Fable round taking these together. In order of what each unblocks:
+
+1. **Partial quotes of lists (ROADMAP row 136, pending call #13, decided "fix it" in
+   session 76).** A partial quote of list items loses its bullets on every surface, because
+   §10's partial bake is normatively "the selection's plain text, one `<p>` per line".
+   No renderer can recover them; the published `content_html` has none. Proposed shape for
+   your ruling: when the quoted lines are list items in the source, the bake carries the
+   list markup (`<ul>`/`<ol>`/`<li>`, nesting kept) instead of `<p>`s; the text content is
+   unchanged, so the §10 faithfulness test passes as before, and it gains one check (a
+   quoted line written as a list item must be a list item in the source, so markers cannot
+   be invented). Questions: is this a revision under #43 (readers display `content_html`,
+   so a reader that renders it is unaffected); what it does to §5.6 fork flattening, which
+   reads "its baked paragraphs"; and the reader-suite fixtures that assert the `<p>` shape.
+   Opus builds after the ruling (studio `src/transclusion.ts`, the partial bake and
+   `selectionFromQuote`).
+2. **[blygger-spec#36](https://github.com/blygger/blygger-spec/issues/36): editing passes
+   as version-level provenance** (Venkat's proposal, 2026-11-21). Spellchecks, AI proofreads
+   and copyedits touch many small places in the author's own text; §5.7's span-level
+   `generated[]` either tints every fixed typo as machine-written or leaves a model's
+   corrections undisclosed. A wire question. Studio#155 (spellcheck with an AI proofread)
+   and studio#163 (an editorial desk for agents that edit) wait on it.
+3. **Batch review: Background 4b's note half** (`background-plan.md` §7.2). Venkat ruled
+   option (a) in session 78: the classifier reads another blyg's changelog note, and flags
+   a note that claims a small change against a large measured one, **only while the owner
+   has written a routing instruction**. Built on studio main. Check that it sits inside
+   #96 (no shipped rule, owner delegation, visible and revocable, nothing on the wire).
+4. **TN-8, "Where does my change belong?"** — the hackathon guide made a technical note
+   and published (blygger.org/notes/tn-8/, blyg.blygger.org item v1, pinned) in session 78
+   without a Fable edit. Read it for claims about the protocol (rung 1's account of §16.8
+   and the refusals above all) and revise as v2 if needed. **Its number took tn-8, which was
+   reserved for RFC-5**: RFC-5 is promoted as tn-10 at its close (below).
+5. **Dated, unchanged:** RFC-6 and RFC-7 close 2026-11-28 (§ The gates); RFC-5 closes
+   2026-12-03. Standing: tn-9's edit. The book still waits on Venkat's reading of the two
+   samples.
+
+Not for this round: the Agentic feed and helpers are the Studio's reference design and
+never go the RFC route (Venkat, session 77); studio#165 (claims blocks) is an extension
+convention, and a card rendering of claim blocks on public pages is its author's to raise.
+
 ## This round's product: the spec as a book
 
 **Read [`spec-refactor-plan.md`](spec-refactor-plan.md) in full before anything else.**
@@ -111,7 +152,8 @@ published on blyg.blygger.org on 2026-11-05 with an anchor issue on `blygger-spe
 linked in its header). F1–F5 are already ruled (#93); the comment period asks
 implementers the questions in its §7. **At close:** Opus scans the stubs under the item and
 the issue, as session 60's scan did for RFC-1 and RFC-2; Fable reads the originals,
-revises or rules, and **promotes it as `tn-8` under #90** — v2 of the same blyg item,
+revises or rules, and **promotes it as `tn-10` under #90** (renumbered session 78: tn-8
+went to the contributor guide; RFC-6's "to become tn-8" line wants the same fix at its close) — v2 of the same blyg item,
 pinned, a status line (*unbuilt*), a "Comments received" section. The issue stays open
 for late comments.
 

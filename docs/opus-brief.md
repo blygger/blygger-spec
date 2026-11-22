@@ -771,8 +771,9 @@ Read `CLAUDE.md` #102 and `v0.4-plan.md` §21 first.
    The note is not an endorsement and says so: one vendor, one implementation, early.
 
    *Process.* Draft at `plans/tn-9-common-fabric-draft.md`, **not** in `docs/notes/`,
-   which publishes on the next site build. It is `tn-9` because tn-8 is reserved for
-   RFC-5's promotion; tn-2 and tn-5 stay reserved. Fable reviews the draft (batch, #58).
+   which publishes on the next site build. It is `tn-9` because tn-8 was reserved for
+   RFC-5's promotion (session 78: tn-8 is now the contributor guide, RFC-5 becomes tn-10);
+   tn-2 and tn-5 stay reserved. Fable reviews the draft (batch, #58).
    Then, on Venkat's word: move it to `docs/notes/tn-9-common-fabric.md`, add it to the
    notes index and the doc map, publish to blygger.org and to blyg.blygger.org with
    `publish_blyg.py` (run `--dry-run` first; it publishes every changed entry), byline
@@ -938,7 +939,8 @@ published as v2 of their blyg items. Item e of the session-40 section is unblock
 - **b. RFC-5's comment period** runs to **2026-12-03** (published session 60 on
   blyg.blygger.org, anchor issue in the RFC header). Nothing to build; at close, scan the
   stubs and the issue the way session 60's scan did for RFC-1/RFC-2 (`fable-brief.md`) and
-  hand the scan to Fable, who promotes it as `tn-8` under #90.
+  hand the scan to Fable, who promotes it as `tn-10` under #90 (it was to be tn-8; session 78
+  gave tn-8 to the contributor guide by mistake, and notes are never renumbered).
 - **c. Private items** (`plans/private-items-proposal.md`): #94 rules the public counter
   starts at v1 and private history is studio history; when built, do not dress private
   versions in public "vN" chrome. Group visibility (§8.3) stays closed until the L3 round.
