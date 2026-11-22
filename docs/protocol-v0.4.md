@@ -220,11 +220,23 @@ paths; the one fixed filename is the manifest's own. Neither changes what a
   `![[…]]` (§10.1): the author's label for the target, ignored by resolution;
   anchor text on a link, `data-blyg-label` on a baked transclusion (§10.2).
   New in 0.4.
-- **Text content** — an item's `content_html` with tags stripped, whitespace
-  collapsed within a block and block boundaries kept as line breaks; what a
-  partial transclusion's selection is checked against (§10.2). There is no
-  exception for any element: mathematics (§5.2) contributes whatever
-  stripping its tags leaves.
+- **Text content** — what a partial transclusion's selection is checked
+  against (§10.2): an item's `content_html` read as lines by this procedure
+  (twenty-third revision, decision #118). (a) `script` and `style` elements
+  and comments are removed with their contents. (b) A **block boundary** lies
+  at the start tag and at the end tag of every `p`, `h1`–`h6`, `li`, `ul`,
+  `ol`, `dl`, `dt`, `dd`, `blockquote`, `pre`, `div`, `table`, `thead`,
+  `tbody`, `tfoot`, `tr`, `td`, `th`, `figure`, `figcaption`, `section`,
+  `article`, `aside`, `header`, `footer`, `details` and `summary`, and at
+  every `br` and `hr`. (c) Every other tag is stripped and its text stays in
+  place. (d) Character references are decoded. (e) Within each run of text
+  between boundaries, whitespace, the source's own newlines included,
+  collapses to one space, and the run is trimmed. (f) Empty runs are dropped.
+  (g) The runs are joined by a line feed. So a selection, its `prefix` and its
+  `suffix` contain a line feed only at a block boundary, and in a tight
+  nested list a parent item's text and its first nested item are two lines.
+  There is no exception for any element: mathematics (§5.2) contributes
+  whatever stripping its tags leaves.
 - **Identity change** — a reader adopting a new origin for an existing
   subscription, which MUST be user-confirmed (§12.2).
 - **Per-item curation** — a publisher's public display of the verified
@@ -1635,9 +1647,8 @@ token**, baked into published `content_html`; its styling is presentation.
 **Partial transclusion** (revision of 2026-10-03, decision #49). A directive
 with an attached blockquote (§10.1) resolves exactly as a whole directive —
 same order, same snapshot rule — and adds one check: at publish, the
-selection MUST be a substring of the target snapshot's **text content** —
-its `content_html` with tags stripped, whitespace collapsed within a block,
-block boundaries kept as line breaks — at the version being baked; otherwise
+selection MUST be a substring of the target snapshot's **text content**
+(§2, decision #118) at the version being baked; otherwise
 a publish error, as for an unresolvable directive. Any reader MAY re-check
 by the same test while the origin serves that version, live or pinned. That
 window closes when the origin stops serving the version — a quote baked from
@@ -3259,6 +3270,14 @@ One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-22, twenty-third revision** (Opus 5.5 recording Fable 5.1's
+  ruling, session 80; decision #118) — **text content defined**: §2 gives
+  the procedure (block boundaries at the start and end tags of a listed set
+  of elements and at `br`/`hr`; whitespace, source newlines included,
+  collapses within a run), and §10.2 points to it. A tight nested list reads
+  as two lines. Definitional: readers never resolve and re-checking stays a
+  MAY; live selectors measured at 0.69.0 lose no match. Not snapshotted.
 
 - **2026-11-22, twenty-second revision** (Opus 5.5 recording Fable 5.1's
   ruling, session 79; decision #117) — **a web page as a generation

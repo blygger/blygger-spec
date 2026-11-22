@@ -51,6 +51,21 @@ verb, no refresh-only scope; MCP = same operations and scopes, provenance record
 when it passes; flag to Venkat if it wants something outside them. `tn-4` is yours to
 draft from his build once gate G3 opens.
 
+## New from session 80 (2026-11-22, Fable 5.1) — text content defined (#118, twenty-third revision)
+
+Ruling and reasoning: `CLAUDE.md` #118, [`v0.4-plan.md`](v0.4-plan.md) §30, spec §2 "Text
+content" and §10.2. Batch with the next studio release (with studio#167's two fixes).
+
+a. **Check tables first.** Grep live partial-transclusion targets for `<table>`. If cells per
+   line would change a live selector's match, bring the row reading back for review (#58).
+b. **Studio.** The boundary list becomes open-and-close over §2's set plus `br`/`hr`;
+   `selectionLines` and its "tight nested list stays one line" comment;
+   `test/partial-list-bake.test.ts` expectations flip; `plainTextFromHtml` shares the constant.
+c. **Conformance** (or ask Aneesh): align `reader/lib/html.mjs` with §2; drop the raw-newline
+   split in `live/lib/text.mjs` (the cause of five `live.selector-substring` warns); add reader
+   fixture 111, a tight nested list.
+d. **Reply on spec#38's thread** (merged) with the ruling once built.
+
 ## New from session 78 (2026-11-21, Fable 5.2) — #114, #115, #116
 
 **All five done in session 78** (studio 0.69.0): a (list bake, §16.15 promoted after its gate
