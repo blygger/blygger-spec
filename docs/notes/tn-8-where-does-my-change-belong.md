@@ -6,7 +6,8 @@ published at [blygger.org/contribute/](https://blygger.org/contribute/); made a 
 that it is numbered, cited and announced like the others (Venkat, session 78). It maps
 where a change belongs across the four repositories, with the Studio as the worked
 example: the protocol decides nothing here, and other clients may draw their own ladder.
-Revised as the Studio changes; the studio file is now a pointer to this one.
+Revised as the Studio changes; the studio file is now a pointer to this one. **v2, the same
+day** (Fable 5.2 review): rung 1 no longer gives part of §16.8's list as the whole.
 
 You have an idea for a blyg: a feature, a fix, a tool, a different look. Before you write any code, decide where it goes. There are eight places, from a request for a protocol ruling to a client of your own. Each has a different cost to you and to everyone else, and a change built in the wrong place is usually rebuilt later.
 
@@ -33,7 +34,7 @@ The order matters. The cheapest place that works is the right one. A tool on a t
 
 This question comes first because **most ideas that sound like features are changes to the wire**: a reaction, a tag, a reply, a like, a follower count, a new field on an item. If another blyg would see it or have to understand it, it belongs to the protocol, and the protocol is decided in [blygger-spec](https://github.com/blygger/blygger-spec), not built first and argued about afterwards.
 
-Expect to hit these refusals in your first hour. [`protocol-v0.4.md` §16.8](https://github.com/blygger/blygger-spec/blob/main/docs/protocol-v0.4.md) lists what will never appear on the wire: reply primitives, follower graphs, addressable authors, metrics of any kind, and a relation that names a person. Identity is deliberately left out of the protocol. These refusals are not oversights. Blygger is a network of soapboxes, not a conversation medium. That said, a well-argued case against a locked decision is welcome, and several have won. File it with the **Protocol proposal** template and describe the problem before the solution.
+Expect to hit these refusals in your first hour. [`protocol-v0.4.md` §16.8](https://github.com/blygger/blygger-spec/blob/main/docs/protocol-v0.4.md) lists what will never appear on the wire, among them reply primitives, follower graphs, addressable authors, metrics of any kind, a relation that names a person, AI constructs beyond the provenance §5.7 already carries, and any markup for how much a version matters. Identity is deliberately left out of the protocol. These refusals are not oversights. Blygger is a network of soapboxes, not a conversation medium. That said, a well-argued case against a locked decision is welcome, and several have won. File it with the **Protocol proposal** template and describe the problem before the solution.
 
 **What a page looks like is not a spec question.** The project polices the wire, not the page. A layout, a theme, a reading view or a count shown on your own page belongs to the client. It might be a theme, a mod or the Studio's own style, which is written down (in draft) in [`studio-style.md`](https://github.com/blygger/blygger-studio/blob/main/docs/studio-style.md).
 

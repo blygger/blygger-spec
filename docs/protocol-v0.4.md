@@ -826,6 +826,27 @@ Rules:
    (§10.6's anti-pattern is content-free stubbing, not disclosure). Nothing
    in `content_html` marks a remote source beyond the `blyg-tk-gen` wrapper
    below; span-level source mapping remains deliberately unpromised.
+10. **A correction is not generation** (revision of 2026-11-21, decision
+    #115). The claim this section makes is about who composed the words.
+    A pass over the author's own text that restores what the author meant
+    to write — spelling, grammar, punctuation, the consistent form of a
+    name — leaves the words the author's, whether a dictionary or a model
+    proposed the change and whether the author accepted each one or let
+    the pass apply them; such a change is not a generated span and needs
+    no entry. A pass that composes — rephrases, restructures, summarizes,
+    translates — is generation, and rule 7 applies to what it wrote, as a
+    span or as the whole body. The test is not size: one substituted
+    phrase that says it a better way is composition, and forty corrected
+    typos are not. The judgement is the publisher's and, like the rest of
+    this section, self-asserted (rule 6). There is **no member for editing
+    passes** and there will not be one: a record of what was done to
+    produce a version is version-significance markup (§16.8), a count of
+    changes is a metric (§16.8), and by rule 7's own test no reader could
+    verify it and none may act on it (§5.2: no significance markers, at
+    any level). An author who wants to say a version was
+    proofread says so in its changelog note (§5.2), in words; what a
+    client shows on its own pages about how an item was edited is
+    presentation.
 
 Publishers additionally disclose generated spans in the rendered HTML: the
 renderer MUST wrap each generated span in `content_html` as
@@ -1642,6 +1663,11 @@ the selection's **plain text, one `<p>` per line of it**, escaped — not a
 carved sub-range of the source's inline HTML: the selection is defined on
 text, and cutting an HTML range faithfully is a second project. Emphasis in
 the source does not survive into the quote; that is the visible cost.
+It follows, and is stated here so that a reader may rely on it (revision of
+2026-11-21, decision #114): **the text content of a partial bake, by the
+test above, is its entry's `selector.exact`.** A reader MAY check that from
+the document alone, with no fetch. §16.15 holds a ruled addition to the
+bake's block structure, not yet built.
 `blyg-partial` is a **permanent wire token** beside `blyg-transclusion`, so
 partiality is visible to any reader and survives import. A **plain-web
 target gets nothing**: quoting an ordinary web page under a `{url}` stub
@@ -3183,12 +3209,58 @@ fetches or shows from the other network. In-place change is the pin flag's
 class, not a general channel: a proposal citing this section for a member
 readers act on is refused.
 
+### 16.15 List structure in a partial bake (ruled 2026-11-21; awaiting a build)
+
+Decision #114. A partial quote of list items publishes them today as bare
+paragraphs (§10.2), and no reader can put the bullets back. Ruled shape,
+normative when one publisher bakes it and a second client imports and shows
+it:
+
+- A line of the selection that lies within a list item of the target
+  snapshot MAY be baked as an `<li>` in a `<ul>` or `<ol>` like the
+  target's, instead of a `<p>`. Nesting MAY be kept where the lines it
+  joins are both in the selection. An `<ol>` whose first baked item is not
+  the target list's first SHOULD carry `start`, so the ordinal a reader
+  sees is the source's; a reader's sanitizer SHOULD keep an integer `start`
+  on `ol`, as a whole quote of such a list already needs.
+- **The structure comes from the target, never from the quoter.** A
+  publisher MUST NOT bake a line as a list item, or under a nesting, that
+  it does not have in the target snapshot. The quoter's own markup in the
+  attached blockquote (§10.1) keeps the meaning it has now, which is none
+  beyond its text; a quote written as plain lines over a list bakes as a
+  list, and one written with markers over prose bakes as paragraphs.
+- Content is unchanged: each line's plain text, escaped, no inline markup.
+  §10.2's invariant holds as written, since a list item is a block.
+- Nothing changes for a reader, which displays `content_html` and already
+  receives lists inside whole quotes. On promotion, §5.6's "from its baked
+  paragraphs" becomes "from its baked content", a list item flattening as
+  a markdown list item inside the blockquote.
+
+An **editorial layer** over a partial quote — marked ellipses, bracketed
+substitutions, a marked truncation — is a separate direction (decision
+#116) and goes to an RFC; it composes with this, and nothing here
+anticipates its shape.
+
 ## 17. Revision history (non-normative)
 
 One line per published change to this document, newest first. Snapshots are
 cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
+
+- **2026-11-21, twentieth revision** (Fable 5.2, session 78; decisions
+  #114, #115) — **a correction is not generation; a partial bake's text is
+  its selector**. §5.7 gains rule 10: a pass that restores what the author
+  meant to write is not a generated span, a pass that composes is, the test
+  is who composed the words and not how many, and there is no member for
+  editing passes (blygger-spec#36, declined as a wire construct: the
+  changelog note carries it in words). §10.2 states what was already true
+  by construction: the text content of a partial bake is its entry's
+  `selector.exact`, checkable from the document alone. §16.15 holds a
+  ruled shape awaiting a build: a quoted line that is a list item in the
+  target MAY bake as one, the structure taken from the target and never
+  from the quoter. No wire change in force; no reader obligation changes.
+  Not snapshotted.
 
 - **2026-11-20, nineteenth revision** (Fable 5.1, session 76; decision #98,
   its gate run) — **`syndication` promoted** from §16.14 now that its gate

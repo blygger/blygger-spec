@@ -5,7 +5,7 @@ Kyle Mathews' phase 3 was ruled (#52) and two queue items shipped. **Session 33*
 day, Fable) inserted item 5, fork flattening (#57); items 1–4 shipped in session 32.
 **Session 40** (2026-10-07, Fable) added the official-blyg section below (#66–#68).
 **Session 58** (2026-11-03, Fable) added the mods-mechanism section (#89). **Session 60**
-(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Session 61** (2026-11-07, Fable) added the Shelf section (studio#137). **Session 74** (2026-11-18, Fable 5.2) added the `/changes` and fold-by-link section (#111, #112), which is first. **Session 64** (2026-11-09, Fable 5.2) added the tn-4 and `syndication` section (#98) and the pointer to the Level 3 research brief (#99). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
+(2026-11-05, Fable) added the RFC-close section (#90–#94) and unblocked session 40's item e. **Session 61** (2026-11-07, Fable) added the Shelf section (studio#137). **Session 74** (2026-11-18, Fable 5.2) added the `/changes` and fold-by-link section (#111, #112). **Session 78** (2026-11-21, Fable 5.2) added #114–#116, which is first. **Session 64** (2026-11-09, Fable 5.2) added the tn-4 and `syndication` section (#98) and the pointer to the Level 3 research brief (#99). **Rewrite this file when the queue changes materially.** It is where an Opus or Sonnet
 session starts (`CLAUDE.md` → At Session Start, step 4).
 
 > **Read first:** this brief → `CLAUDE.md` locked decisions **#52–#57** (sessions 31, 33) and
@@ -50,6 +50,54 @@ mint-and-paste path; no `.well-known`, no manifest key; a read scope and a disti
 verb, no refresh-only scope; MCP = same operations and scopes, provenance recorded). Merge
 when it passes; flag to Venkat if it wants something outside them. `tn-4` is yours to
 draft from his build once gate G3 opens.
+
+## New from session 78 (2026-11-21, Fable 5.2) — #114, #115, #116; do these first
+
+Rulings and reasoning: `CLAUDE.md` #114–#116, [`v0.4-plan.md`](v0.4-plan.md) §28, spec
+§5.7 rule 10, §10.2 and §16.15 (the twentieth revision).
+
+- **a. The list bake (#114, ROADMAP row 136; studio `src/transclusion.ts`).** In the
+  partial branch, map each line of `selector.exact` to the block of the target's
+  `content_html` it lies in. A line inside an `<li>` bakes as `<li>` in a `<ul>` or `<ol>`
+  like the target's; consecutive lines from one list share one container; nesting is kept
+  when both lines are in the selection; an `<ol>` whose first baked item is not the list's
+  first carries `start`. Everything else stays `<p>`. Text stays plain and escaped. The
+  structure comes from the target only: do not read the quoter's markers, and a mismatch
+  is not an error. **Assert the invariant in a test:** `selectionText(bake) ===
+  selector.exact`, for list and paragraph bakes alike. Preview, `fork-flatten.ts` (a baked
+  `<li>` flattens as a markdown list item in the blockquote) and `stub-quote.ts` follow.
+  **Sanitizer:** admit an integer `start` on `ol` in `src/importer/sanitize.ts`; it is
+  dropped today, which misnumbers whole quotes too. Update the reader-suite fixtures that
+  assert the `<p>` shape with Aneesh (`conformance/reader/`), keeping a `<p>` fixture: the
+  list shape is a MAY. **Gate for promoting §16.15** (yours under #58, Fable reviews): one
+  node bakes a list quote, a second imports and shows it. Then §5.6's "from its baked
+  paragraphs" becomes "from its baked content".
+- **b. Corrections and the spellcheck extension (#115; studio#155, #156, #159).** A
+  correction the author accepts goes into the text bare: no `impyrt`, no `generated[]`
+  entry. The AI proofread may offer **only corrections** (prompt it so, and refuse a
+  suggestion that changes more than the corrected words: a rephrase is composition and
+  must go through `[TK]impyrt` or the generate endpoint). Offer a line for the changelog
+  note ("Proofread with {model}; {n} corrections accepted"), drafted, editable, never
+  required, and in words only. Revise `docs/mods.md` "Model text is disclosed" and the
+  #113 MUST to the same boundary: text a model *composes* is disclosed; corrections are
+  not model text. No `edited` member anywhere, in any spelling, including under `ext`.
+  Reply on blygger-spec#36 with the ruling and close it on Venkat's word.
+- **c. RFC-8 draft, editorialized quotation (#116).** `docs/rfcs/rfc-8-editorialized-quotation.md`,
+  not `docs/notes/`. Hold the three conditions of #116 exactly; work Venkat's Cato example
+  through, including the unmarked "Carthago" that condition 2 refuses. Propose answers to
+  §28.3's open questions (marker name and element, marks across block boundaries,
+  machine-written marks against #102, §5.6 flattening, the grammar an author types and a
+  source that itself contains brackets or an ellipsis). Measure first: how many live
+  blygs bake partial quotes, and what their bakes look like. Hand to Fable to edit before
+  it publishes (`rfc-publish-sequence`).
+- **d. Background 4b's two fixes** (`background-plan.md` §7.2, review outcome): the toggle
+  that lets the owner turn off the disagreement default (a `bg_rules`-style boolean, on by
+  default, shown only under a written instruction; off, the model's label decides and no
+  disagreement is recorded), and the owner's instruction placed first and delimited in
+  `instructedState`. Then the Settings list of disagreements when its read route is worth
+  adding.
+- **e. TN-8 v2** is in `docs/notes/`; republish with `publish_blyg.py --only` (dry run
+  first) and redeploy blygger.org. RFC-5 is promoted as **tn-10**.
 
 ## New from session 74 (2026-11-18, Fable 5.2) — `/changes` deprecated (#111), the fold by link (#112); do these first
 

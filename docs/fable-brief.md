@@ -5,46 +5,23 @@ that ruled #107 and then turned into a change of direction. Earlier rewrites: se
 and 60. **Rewrite this file each Fable round.** It is the one place a Fable session
 starts.
 
-## Staged for this round (session 78, 2026-11-21, Opus, at Venkat's request)
+## Session 78's quick round (2026-11-21, Fable 5.2) — ruled, so it is not reopened
 
-Venkat asked for a Fable round taking these together. In order of what each unblocks:
+Staged by Opus at Venkat's request and taken the same day ([`v0.4-plan.md`](v0.4-plan.md)
+§28, the twentieth revision):
 
-1. **Partial quotes of lists (ROADMAP row 136, pending call #13, decided "fix it" in
-   session 76).** A partial quote of list items loses its bullets on every surface, because
-   §10's partial bake is normatively "the selection's plain text, one `<p>` per line".
-   No renderer can recover them; the published `content_html` has none. Proposed shape for
-   your ruling: when the quoted lines are list items in the source, the bake carries the
-   list markup (`<ul>`/`<ol>`/`<li>`, nesting kept) instead of `<p>`s; the text content is
-   unchanged, so the §10 faithfulness test passes as before, and it gains one check (a
-   quoted line written as a list item must be a list item in the source, so markers cannot
-   be invented). Questions: is this a revision under #43 (readers display `content_html`,
-   so a reader that renders it is unaffected); what it does to §5.6 fork flattening, which
-   reads "its baked paragraphs"; and the reader-suite fixtures that assert the `<p>` shape.
-   Opus builds after the ruling (studio `src/transclusion.ts`, the partial bake and
-   `selectionFromQuote`).
-2. **[blygger-spec#36](https://github.com/blygger/blygger-spec/issues/36): editing passes
-   as version-level provenance** (Venkat's proposal, 2026-11-21). Spellchecks, AI proofreads
-   and copyedits touch many small places in the author's own text; §5.7's span-level
-   `generated[]` either tints every fixed typo as machine-written or leaves a model's
-   corrections undisclosed. A wire question. Studio#155 (spellcheck with an AI proofread)
-   and studio#163 (an editorial desk for agents that edit) wait on it.
-3. **Batch review: Background 4b's note half** (`background-plan.md` §7.2). Venkat ruled
-   option (a) in session 78: the classifier reads another blyg's changelog note, and flags
-   a note that claims a small change against a large measured one, **only while the owner
-   has written a routing instruction**. Built on studio main. Check that it sits inside
-   #96 (no shipped rule, owner delegation, visible and revocable, nothing on the wire).
-4. **TN-8, "Where does my change belong?"** — the hackathon guide made a technical note
-   and published (blygger.org/notes/tn-8/, blyg.blygger.org item v1, pinned) in session 78
-   without a Fable edit. Read it for claims about the protocol (rung 1's account of §16.8
-   and the refusals above all) and revise as v2 if needed. **Its number took tn-8, which was
-   reserved for RFC-5**: RFC-5 is promoted as tn-10 at its close (below).
-5. **Dated, unchanged:** RFC-6 and RFC-7 close 2026-11-28 (§ The gates); RFC-5 closes
-   2026-12-03. Standing: tn-9's edit. The book still waits on Venkat's reading of the two
-   samples.
+- **#114** a quoted list keeps its structure, taken from the target (§16.15, awaiting a
+  build); a partial bake's text is its `selector.exact` (§10.2, stated now).
+- **#115** a correction is not generation (§5.7 rule 10); no member for editing passes.
+  blygger-spec#36 is answered and closed on Venkat's word.
+- **#116** editorialized quotation, a direction: **RFC-8, Opus drafts, you edit and rule at
+  its close.** The open questions are listed in §28.3.
+- Background 4b's note half: confirmed against #96 with one amendment (a toggle for the
+  disagreement default) and one hardening (the owner's instruction first in the state).
+- TN-8 stands; v2 corrects rung 1's account of §16.8. **RFC-5 is promoted as tn-10.**
 
-Not for this round: the Agentic feed and helpers are the Studio's reference design and
-never go the RFC route (Venkat, session 77); studio#165 (claims blocks) is an extension
-convention, and a card rendering of claim blocks on public pages is its author's to raise.
+**Left for the next round:** RFC-8 when drafted; a look at the 4b toggle when built; the
+§16.15 promotion when its gate runs (Opus under #58, you review).
 
 ## This round's product: the spec as a book
 

@@ -364,6 +364,14 @@ Settings only, were set aside.
 - **Not built:** Settings listing the disagreements (it needs a read route, and so the oracle
   tool lists). The per-entry chip is the first half.
 
+**Fable's batch review, the same day (`v0.4-plan.md` §28.4): confirmed against #96, with one
+amendment and one hardening, both for Opus.** (1) §3.4 says the owner's instruction can
+override the flag-and-escalate default; as built it cannot, since the 10 % rule is fixed
+code. Add a toggle under the instruction, "keep an entry in view when its note understates
+the change", on by default while an instruction exists; off, the model's label decides.
+(2) Put the owner's instruction before the fetched texts and note in the model's state,
+delimited, so fetched text cannot pose as it.
+
 ## 8. Not in this plan
 
 - Anything on the wire, any public-page change, any change to the feed.
