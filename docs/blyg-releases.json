@@ -261,6 +261,66 @@
       "id": "713h9wrahpmdf56nbdwths31wr",
       "version": 1,
       "source_sha256": "98cfd0f1b69c8dc0b44bc9c4f92fe6cbf241296fb7a59bd46d2d44b86ba0c80c"
+    },
+    "0.68.0": {
+      "id": "0bmwvp32mftkb32hfqmtbbhhw7",
+      "version": 1,
+      "source_sha256": "612d989566f56ef8d662c62ea7c782c4de2559fc38b1a60f07d34b2f7a317a07",
+      "batch": [
+        "0.68.0",
+        "0.67.1",
+        "0.67.0",
+        "0.66.0",
+        "0.65.0"
+      ]
+    },
+    "0.67.1": {
+      "id": "0bmwvp32mftkb32hfqmtbbhhw7",
+      "version": 1,
+      "source_sha256": "3dd609682d187f586c1592bc84cfdbdf475a2ce0a8bcfa2dd28d6b9f60738b62",
+      "batch": [
+        "0.68.0",
+        "0.67.1",
+        "0.67.0",
+        "0.66.0",
+        "0.65.0"
+      ]
+    },
+    "0.67.0": {
+      "id": "0bmwvp32mftkb32hfqmtbbhhw7",
+      "version": 1,
+      "source_sha256": "df1ce3e4b3e73d2cc97f59c1a0399023529e0bcb86849a847340e5a9d760d6e5",
+      "batch": [
+        "0.68.0",
+        "0.67.1",
+        "0.67.0",
+        "0.66.0",
+        "0.65.0"
+      ]
+    },
+    "0.66.0": {
+      "id": "0bmwvp32mftkb32hfqmtbbhhw7",
+      "version": 1,
+      "source_sha256": "ebb2622ec9ef7213091252fe1707d9f24492f089017e6768de96b558795f87ac",
+      "batch": [
+        "0.68.0",
+        "0.67.1",
+        "0.67.0",
+        "0.66.0",
+        "0.65.0"
+      ]
+    },
+    "0.65.0": {
+      "id": "0bmwvp32mftkb32hfqmtbbhhw7",
+      "version": 1,
+      "source_sha256": "ff4f797d1b202cee90b2022fb89301d49d62f4050951d9166c5f9d17f3937b4e",
+      "batch": [
+        "0.68.0",
+        "0.67.1",
+        "0.67.0",
+        "0.66.0",
+        "0.65.0"
+      ]
     }
   }
 }
