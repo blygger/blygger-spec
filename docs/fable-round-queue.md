@@ -92,6 +92,12 @@ Items 6–8, 10–11, 13, 15–21 are ruled; numbers kept so references resolve.
     **First sitting done:** editorial sheet, inventory of reasons, disposition, cast,
     clause map, findings, and two sample chapters (Pins, Withdrawal). **Waiting on
     Venkat's reading** before any further chapter. Then Part I.
+34. **Where a block boundary falls in text read from `content_html`** (session 80, from
+    Aneesh's spec#38, merged). §2 does not say. The studio's `selectionText` breaks only
+    at closing tags, so in a tight nested list a parent item's text and its first nested
+    item read as one line; a reader that also breaks at the opening `<ul>` reads two and
+    fails to match the same `selector.exact`. Details: `conformance/reader/README.md`,
+    "Results at blygger-studio 0.69.0".
 
 28. *Taken session 66 (#101): Level 3's first feature is sealed content with locks and grants, a design direction that goes to RFC-6 (Opus drafts from `v0.5-plan.md`, Fable edits and rules); payments follow as RFC-7. Research reviewed; R8 not run.*
 
