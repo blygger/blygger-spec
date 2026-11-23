@@ -41,9 +41,19 @@ is absent from feed, index, search's public scope and sitemap-like lists. The en
 is the test's real value: a new public route that forgets the predicate fails it. Ships
 alone, with no visible change.
 
-**0b. Visibility.** Migration: `items.visibility` (`public` default), and a private
-version counter apart from the public one (#94: private history is studio history; the
-public counter starts at 1). Publish-privately, raise-to-public, no pins below public.
+**0b. Visibility: a status value, not a column** (Venkat, session 81; departs from
+private-items §8.1). A privately published item has `status = 'private'`. About 25 public
+queries are already allow-lists (`status = 'public'`, `IN ('public','withdrawn')`) and
+exclude it unchanged; with §8.1's `visibility` column each would serve a private item
+until it gained a second test. Only the six deny-lists (`status === 'draft'`: five routes
+in `index.ts`, the transclusion resolver) can fail open, and 0a converts them. The
+draft/visibility orthogonality of Venkat's model holds: a private item has versions, a
+working copy and `dirty` pending changes; *draft* still means never published.
+`items.status` has no `CHECK`, so no table rebuild; widening the TypeScript union makes
+the compiler list every switch on status. A private version counter apart from the public
+one (#94: private history is studio history; the public counter starts at 1).
+Publish-privately, raise-to-public, no pins below public. *Group* never becomes a status:
+it is a sealed item (§6), public on the wire.
 
 **0c. References.** Working copies (including a published item's pending changes) may name
 a private item; **publishing them is blocked** while they do (private-items §3.4). TK may
