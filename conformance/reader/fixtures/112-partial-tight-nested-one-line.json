@@ -1,0 +1,39 @@
+{
+  "id": "partial-tight-nested-one-line",
+  "title": "Quoting a tight parent item and its nested item as one line is not a substring of the text content: a publish error",
+  "group": "partial",
+  "snapshot": "spec/0.4/2026-10-18",
+  "text": "docs/protocol-v0.4.md at blygger-spec 1166a97 (twenty-first revision, 2026-11-21)",
+  "note": "Revisions two to twenty-one of 0.4 are not snapshotted; the label bake (data-blyg-label, #81), links[] (#79), CommonMark blockquote extent (#76), LF/CRLF line endings (#76) and the nine readings ruled by #102 (fourteenth revision) MathML in content_html (#105, sixteenth revision) the fold of tangled parts (#112, eighteenth revision) and list structure in a partial bake (#114, twenty-first revision) come from them, so those cases cite the living text.",
+  "spec_refs": [
+    "§2",
+    "§10.2"
+  ],
+  "clauses": [],
+  "decisions": [
+    "#118",
+    "#49"
+  ],
+  "kind": "thread",
+  "self": {
+    "id": "01j9zq3k4m5n6p7q8r9s0t1vzz",
+    "origin": "https://home.example/"
+  },
+  "content_md": "![[01j9zq3k4m5n6p7q8r9s0t1v8d]]\n> tools a pencil",
+  "items": [
+    {
+      "id": "01j9zq3k4m5n6p7q8r9s0t1v8d",
+      "origin": "https://home.example/",
+      "local": true,
+      "kind": "fragment",
+      "version": 1,
+      "state": "published",
+      "page": "f/01j9zq3k4m5n6p7q8r9s0t1v8d/",
+      "content_md": "- tools\n  - a pencil\n- patience",
+      "content_html": "<ul>\n<li>tools\n<ul>\n<li>a pencil</li>\n</ul>\n</li>\n<li>patience</li>\n</ul>\n"
+    }
+  ],
+  "expect": {
+    "error": true
+  }
+}

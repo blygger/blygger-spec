@@ -15,18 +15,20 @@ export function decodeEntities(s) {
   });
 }
 
-const BLOCK = "p|div|h[1-6]|li|ul|ol|blockquote|pre|tr|table|thead|tbody|section|article|header|footer|figure|figcaption|dd|dt|dl|hr|br|aside|details|summary";
+// Spec §2 "Text content" (decision #118): a boundary at the start and end tag
+// of each of these, and at every br and hr.
+const BLOCK = "p|h[1-6]|li|ul|ol|dl|dt|dd|blockquote|pre|div|table|thead|tbody|tfoot|tr|td|th|figure|figcaption|section|article|aside|header|footer|details|summary";
 
-// §10.2 / decision #49: content_html with tags stripped, whitespace collapsed
-// within a block, block boundaries kept as line breaks.
+// §2's procedure: boundaries are marked before whitespace collapses, so the
+// source's own newlines are whitespace within a run, never a line break.
 export function textContent(html) {
   let s = String(html || "");
   s = s.replace(/<!--[\s\S]*?-->/g, "");
   s = s.replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, "");
-  s = s.replace(new RegExp(`<\\/?(?:${BLOCK})\\b[^>]*>`, "gi"), "\n");
+  s = s.replace(new RegExp(`<\\/?(?:${BLOCK})\\b[^>]*>|<(?:br|hr)\\b[^>]*>`, "gi"), "\u0000");
   s = s.replace(/<[^>]+>/g, "");
   s = decodeEntities(s);
-  return normalizeLines(s);
+  return s.split("\u0000").map((l) => l.replace(/[\s\u00a0]+/g, " ").trim()).filter(Boolean).join("\n");
 }
 
 // Collapse whitespace within each line, drop empty lines.

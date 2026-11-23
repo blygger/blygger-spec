@@ -52,6 +52,7 @@ const RM = "3m3m3m3m3m3m3m3m3m3m3m3m3m"; // the same id at two origins
 const RF = "4e4e4e4e4e4e4e4e4e4e4e4e4e"; // fragment whose HTML carries a MathML formula (#105)
 const LL = "01j9zq3k4m5n6p7q8r9s0t1v8c"; // local fragment: a paragraph, a numbered list, a paragraph (#114)
 const RL = "5k5k5k5k5k5k5k5k5k5k5k5k5k"; // remote fragment: a loose nested bullet list, then a numbered list starting at 7 (#114)
+const LTN = "01j9zq3k4m5n6p7q8r9s0t1v8d"; // local fragment: a tight nested bullet list (#118)
 const UNKNOWN = "0zzzzzzzzzzzzzzzzzzzzzzzzz";
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -71,6 +72,8 @@ const RF_MD = "Euler's identity, $e^{i\\pi}+1=0$, ties five constants together."
 const RF_HTML = `<p>Euler's identity, <math><semantics><mrow><msup><mi>e</mi><mrow><mi>i</mi><mi>π</mi></mrow></msup><mo>+</mo><mn>1</mn><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">e^{i\\pi}+1=0</annotation></semantics></math>, ties five constants together.</p>\n`;
 const LL_MD = "Rules of thumb:\n\n1. Write it down.\n2. Keep it small.\n3. Read it back.\n\nThat is all.";
 const LL_HTML = "<p>Rules of thumb:</p>\n<ol>\n<li>Write it down.</li>\n<li>Keep it small.</li>\n<li>Read it back.</li>\n</ol>\n<p>That is all.</p>\n";
+const LTN_MD = "- tools\n  - a pencil\n- patience";
+const LTN_HTML = "<ul>\n<li>tools\n<ul>\n<li>a pencil</li>\n</ul>\n</li>\n<li>patience</li>\n</ul>\n";
 const RL_MD = "- a notebook\n\n- a pencil\n\n  - and a sharpener\n\n- patience\n\n7. seventh\n8. eighth";
 const RL_HTML = "<ul>\n<li><p>a notebook</p>\n</li>\n<li><p>a pencil</p>\n<ul>\n<li>and a sharpener</li>\n</ul>\n</li>\n<li><p>patience</p>\n</li>\n</ul>\n<ol start=\"7\">\n<li>seventh</li>\n<li>eighth</li>\n</ol>\n";
 const RC_MD = `Opening line of a remote thread.\n\n![[${RA}]]\n> Stigmergy is what a protocol looks like from inside\n\nClosing line with a link to [[${RB}]].`;
@@ -86,6 +89,7 @@ export const WORLD = {
   [LN]: local(LN, "fragment", LN_MD, `<p>Notebooks &amp; pencils are <em>slow</em> thinking.</p>\n`),
   [LT]: local(LT, "thread", LT_MD, `<p>A thread about notebooks.</p>\n${bq(LF, 1, `<p>${LF_MD}</p>\n`)}<p>Closing thought.</p>\n`, { transclusions: [{ id: LF, version: 1 }] }),
   [LL]: local(LL, "fragment", LL_MD, LL_HTML),
+  [LTN]: local(LTN, "fragment", LTN_MD, LTN_HTML),
   [LD]: local(LD, "fragment", "Not yet published.", "", { state: "draft", version: 0 }),
   [LG]: local(LG, "fragment", "", "", { state: "withdrawn", version: 2, kind: "withdrawn", page: `f/${LG}/`, history: [{ version: 1, content_md: "Words withdrawn later." }] }),
   [LLOOP]: local(LLOOP, "thread", `Looping back:\n\n![[${SELF}]]`, `<p>Looping back:</p>\n${bq(SELF, 1, "<p>First version of this thread.</p>\n")}`, { transclusions: [{ id: SELF, version: 1 }], needs_self: true }),
@@ -456,6 +460,13 @@ c("partial", "partial-quoter-list-marker", "The quoter's own list marker means n
   spec: ["§10.2"], decisions: ["#114", "#49"] });
 c("resolution", "whole-list-start-kept", "A whole transclusion of an imported numbered list: the bake is the source's HTML, and its <ol start> SHOULD survive the reader's sanitizer", {
   md: `![[${RL}]]`, items: [RL], html: Q(RL), tr: [TR(RL)], spec: ["§10.2", "§5.2"], decisions: ["#114", "#26"] });
+c("partial", "partial-tight-nested-lines", "In a tight nested list a parent item's text and its first nested item are two lines of text content", {
+  md: `![[${LTN}]]\n> tools\n>\n> a pencil`, items: [LTN],
+  html: QL(LTN, `<ul>\n<li><p>tools</p>\n<ul>\n<li>a pencil</li>\n</ul>\n</li>\n</ul>\n`), tr: [TR(LTN, { exact: "tools\na pencil" })],
+  spec: ["§2", "§10.2"], decisions: ["#118", "#114", "#49"] });
+c("partial", "partial-tight-nested-one-line", "Quoting a tight parent item and its nested item as one line is not a substring of the text content: a publish error", {
+  md: `![[${LTN}]]\n> tools a pencil`, items: [LTN], error: true,
+  spec: ["§2", "§10.2"], decisions: ["#118", "#49"] });
 
 // ── Write ───────────────────────────────────────────────────────────────────
 const strip = (html) => html.replace(/ data-x-[a-z-]+/g, "");

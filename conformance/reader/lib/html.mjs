@@ -77,7 +77,8 @@ export function parse(html) {
   return root;
 }
 
-const BLOCK = new Set(["p", "div", "blockquote", "li", "ul", "ol", "pre", "h1", "h2", "h3", "h4", "h5", "h6", "table", "tr", "figure", "figcaption", "hr", "br", "section", "article"]);
+// Spec §2 "Text content" (decision #118): a boundary at the start and end tag of each, and at every br and hr.
+const BLOCK = new Set(["p", "h1", "h2", "h3", "h4", "h5", "h6", "li", "ul", "ol", "dl", "dt", "dd", "blockquote", "pre", "div", "table", "thead", "tbody", "tfoot", "tr", "td", "th", "figure", "figcaption", "section", "article", "aside", "header", "footer", "details", "summary", "hr", "br"]);
 
 /** Text content with tags stripped, whitespace collapsed; block boundaries become a single space (`blocks: false`) or "\n" (`blocks: true`, the §2 "text content" rule). */
 export function textContent(node, { blocks = false } = {}) {
