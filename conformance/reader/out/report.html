@@ -12,8 +12,8 @@ table{border-collapse:collapse;width:100%;font-size:13.5px;background:var(--pape
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:6px}.probs{margin:6px 0;padding-left:18px}.amb{color:var(--warn);font-size:13px;margin-top:4px}
 summary{cursor:pointer;color:var(--accent);font-size:13px;margin-top:4px}
 </style></head><body><main>
-<h1>Reader suite: self-check fixtures</h1>
-<div class="sub">112 fixtures written from <b>spec/0.4/2026-10-18</b> (docs/protocol-v0.4.md at blygger-spec 1166a97 (twenty-first revision, 2026-11-21)). Generated 2026-11-23T07:53:02.097Z. Only the normative parts of <code>content_html</code> are compared: wire wrappers and their <code>data-blyg-*</code> attributes, anchors and hrefs, and absolute URLs (lib/html.mjs). A failing case whose text is ambiguous is a warning. A case that passed what was checked but whose renderer left out an expected array (<code>links[]</code>, <code>transclusions[]</code>, <code>generated[]</code>) is <i>unreported</i>, not a pass.</div>
+<h1>Reader suite: blygger-studio 0.71.0</h1>
+<div class="sub">112 fixtures written from <b>spec/0.4/2026-10-18</b> (docs/protocol-v0.4.md at blygger-spec 1166a97 (twenty-first revision, 2026-11-21)). Generated 2026-11-23T16:33:10.565Z. Only the normative parts of <code>content_html</code> are compared: wire wrappers and their <code>data-blyg-*</code> attributes, anchors and hrefs, and absolute URLs (lib/html.mjs). A failing case whose text is ambiguous is a warning. A case that passed what was checked but whose renderer left out an expected array (<code>links[]</code>, <code>transclusions[]</code>, <code>generated[]</code>) is <i>unreported</i>, not a pass.</div>
 <div class="tiles"><div class="tile"><b class="y">112</b>pass</div><div class="tile"><b>0</b>warn</div><div class="tile"><b>0</b>fail</div><div class="tile"><b>0</b>unreported</div></div>
 <h2>Grammar (§10.1) <span class="sub">17 pass · 0 warn · 0 fail · 0 unreported</span></h2><table><tr id="directive-local-whole"><td><span class="b pass">pass</span></td><td><b>An own-line directive naming a local fragment is a whole transclusion</b><div class="sub"><code>directive-local-whole</code> · §10.1, §10.2, §10.3 · #9 · C-10.2-01</div>
 
@@ -31,8 +31,10 @@ Outro.</pre></div>
 &lt;p&gt;Outro.&lt;/p&gt;
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;p&gt;Outro.&lt;/p&gt;
 </pre></div></div>
@@ -52,10 +54,10 @@ Outro.</pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
 &lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:08Z&quot;}}]</pre>
 
 </details></td></tr><tr id="directive-surrounding-whitespace"><td><span class="b pass">pass</span></td><td><b>Spaces and tabs around the directive are allowed</b><div class="sub"><code>directive-surrounding-whitespace</code> · §10.1 · #9</div>
 
@@ -70,10 +72,10 @@ Outro.</pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
 &lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:08Z&quot;}}]</pre>
 
 </details></td></tr><tr id="directive-between-prose-lines"><td><span class="b pass">pass</span></td><td><b>The grammar is line-based: a directive line between two prose lines with no blank line still transcludes</b><div class="sub"><code>directive-between-prose-lines</code> · §10.1 · #9</div>
 
@@ -89,8 +91,10 @@ Line after</pre></div>
 &lt;p&gt;Line after&lt;/p&gt;
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;p&gt;Line before&lt;/p&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;p&gt;Line after&lt;/p&gt;
 </pre></div></div>
@@ -116,7 +120,7 @@ Line after</pre></div>
 <div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg]] and [[1vgtgz0gq5b2c9k7d3m8r4n6xy]]</pre></div>
 <div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;![[7c9wk2mhq0v3xj8tn5rzfd41bg]] and &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;p&gt;![[7c9wk2mhq0v3xj8tn5rzfd41bg]] and &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+<div><div class="sub">got</div><pre>&lt;p&gt;![[7c9wk2mhq0v3xj8tn5rzfd41bg]] and &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;“धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the mess…”&lt;/a&gt;&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
@@ -143,7 +147,7 @@ Line after</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[7c9wk2mhq0v3xj8tn5rzfd41bg@v1]]</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[7c9wk2mhq0v3xj8tn5rzfd41bg@v1]]&quot;,&quot;reason&quot;:&quot;explicit-version references (@vN) are reserved, not supported in v0.1&quot;}]}}</pre></div></div>
 
 
 
@@ -180,17 +184,20 @@ Line after</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
 &lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
 &lt;/blockquote&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;},{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:08Z&quot;}},{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;,&quot;url&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:08Z&quot;}}]</pre>
 
 </details></td></tr><tr id="same-target-twice"><td><span class="b pass">pass</span></td><td><b>A target quoted twice has two transclusions[] entries</b><div class="sub"><code>same-target-twice</code> · §10.3 · #76</div>
 
@@ -211,12 +218,14 @@ Between.
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;p&gt;Between.&lt;/p&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
 
@@ -238,13 +247,14 @@ See [[1vgtgz0gq5b2c9k7d3m8r4n6xy]].
 &lt;p&gt;See &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;See &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;See &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;“धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the mess…”&lt;/a&gt;.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;lists&quot;:[]}]},{&quot;a&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;suffix&quot;:&quot;, and the reason it looks like n&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:08Z&quot;}}]</pre>
 <div class="sub">links[] got</div><pre class="wide">[{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
 </details></td></tr><tr id="uppercase-id-literal"><td><span class="b pass">pass</span></td><td><b>An id is lowercase (§5.1): uppercase brackets are literal text</b><div class="sub"><code>uppercase-id-literal</code> · §10.1, §5.1 · #70</div>
 
@@ -284,7 +294,7 @@ See [[01J9ZQ3K4M5N6P7Q8R9S0T1V2W]].</pre></div>
 
 Closing.</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&quot;,&quot;reason&quot;:&quot;a fragment can't quote another item: make this a thread, or link it with [[id]]&quot;}]}}</pre></div></div>
 
 
 
@@ -313,10 +323,10 @@ Closing.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;4e4e4e4e4e4e4e4e4e4e4e4e4e&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Euler's identity, &lt;math&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;msup&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;mrow&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mi&gt;π&lt;/mi&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;e^{i\pi}+1=0&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;, ties five constants together.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;4e4e4e4e4e4e4e4e4e4e4e4e4e&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Euler's identity, eiπ+1=0e^{i\\pi}+1=0, ties five constants together.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;4e4e4e4e4e4e4e4e4e4e4e4e4e&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;4e4e4e4e4e4e4e4e4e4e4e4e4e&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Euler's identity, $e^{i\\pi}+1=0$ , ties five constants together.&quot;,&quot;url&quot;:&quot;https://remote.example/f/4e4e4e4e4e4e4e4e4e4e4e4e4e/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:10Z&quot;}}]</pre>
 
 </details></td></tr></table>
 <h2>Inert in code (§10.1, #54) <span class="sub">12 pass · 0 warn · 0 fail · 0 unreported</span></h2><table><tr id="directive-in-code-span"><td><span class="b pass">pass</span></td><td><b>An own-line directive wrapped in a code span is inert</b><div class="sub"><code>directive-in-code-span</code> · §10.1 · #54</div>
@@ -359,7 +369,7 @@ Closing.</pre></div>
 &amp;gt; Stigmergy is what a protocol looks like from inside
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code&gt;![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
+<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code class=&quot;language-md&quot;&gt;![[7c9wk2mhq0v3xj8tn5rzfd41bg]]
 &amp;gt; Stigmergy is what a protocol looks like from inside
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div></div>
@@ -453,12 +463,13 @@ After.</pre></div>
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
 &lt;/blockquote&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+<div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code class=&quot;language-md&quot;&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
 &lt;/code&gt;&lt;/pre&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
 
@@ -481,8 +492,7 @@ After.</pre></div>
 <div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
 
-![[01j9zq3k4m5n6p7q8r9s0t1v2w@v2]]
-&lt;/code&gt;&lt;/pre&gt;
+![[01j9zq3k4m5n6p7q8r9s0t1v2w@v2]]&lt;/code&gt;&lt;/pre&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
@@ -508,10 +518,11 @@ After.</pre></div>
 &lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/blockquote&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
 
@@ -538,16 +549,16 @@ After.</pre></div>
 &lt;/blockquote&gt;
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;ol&gt;
-&lt;li&gt;step
-&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
+&lt;li&gt;step&lt;pre&gt;&lt;code&gt;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/li&gt;
 &lt;li&gt;next&lt;/li&gt;
 &lt;/ol&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
 
@@ -569,7 +580,7 @@ After.</pre></div>
 <div><div class="sub">got</div><pre>&lt;pre&gt;&lt;code&gt;[[0zzzzzzzzzzzzzzzzzzzzzzzzz]]
 ![[0zzzzzzzzzzzzzzzzzzzzzzzzz]]
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt;&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[]</pre>
@@ -630,7 +641,7 @@ After.</pre></div>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v2w | ]] and [[01j9zq3k4m5n6p7q8r9s0t1v2w |   ]].</pre></div>
 <div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt; and &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt; and &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt; and &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt;.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;},{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;}]</pre>
 
@@ -725,7 +736,7 @@ After.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>bad [[0zzzzzzzzzzzzzzzzzzzzzzzzz | a label]]</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[0zzzzzzzzzzzzzzzzzzzzzzzzz | a label]]&quot;,&quot;reason&quot;:&quot;unknown item&quot;}]}}</pre></div></div>
 
 
 
@@ -745,8 +756,10 @@ Outro.</pre></div>
 &lt;p&gt;Outro.&lt;/p&gt;
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot; data-blyg-label=&quot;note to self&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;p&gt;Outro.&lt;/p&gt;
 </pre></div></div>
@@ -768,14 +781,16 @@ That is all.</pre></div>
 &lt;p&gt;That is all.&lt;/p&gt;
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;p&gt;From a friend:&lt;/p&gt;
-&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot; data-blyg-label=&quot;a friend's line&quot;&gt;
+
+&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot; data-blyg-label=&quot;a friend&amp;#39;s line&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
 &lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;p&gt;That is all.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;,&quot;data-blyg-label&quot;:&quot;a friend's line&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="directive-label-escaped"><td><span class="b pass">pass</span></td><td><b>data-blyg-label is the label verbatim and HTML-escaped</b><div class="sub"><code>directive-label-escaped</code> · §10.2 · #81</div>
 
@@ -788,8 +803,8 @@ That is all.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot; data-blyg-label=&quot;Tom &amp;amp; &amp;quot;Jerry&amp;quot; &amp;lt;b&amp;gt;x&amp;lt;/b&amp;gt;&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-label&quot;:&quot;Tom &amp; \&quot;Jerry\&quot; &lt;b&gt;x&lt;/b&gt;&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
 
@@ -809,11 +824,13 @@ That is all.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
 
@@ -828,8 +845,8 @@ That is all.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot; data-blyg-label=&quot;a | b&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-label&quot;:&quot;a | b&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
 
@@ -852,7 +869,7 @@ My reply.</pre></div>
 &lt;p&gt;My reply.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-label&quot;:&quot;the tools line&quot;},&quot;text&quot;:&quot;Small tools, used daily&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Small tools, used daily&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools, used daily&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools, used daily&quot;,&quot;suffix&quot;:&quot;, beat big tools used rarely.&quot;}}]</pre>
 
 </details></td></tr><tr id="directive-label-inline-inert"><td><span class="b pass">pass</span></td><td><b>A labelled directive not alone on its line is inert</b><div class="sub"><code>directive-label-inline-inert</code> · §10.1 · #70</div>
 
@@ -872,7 +889,7 @@ My reply.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[0zzzzzzzzzzzzzzzzzzzzzzzzz | missing]]</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[0zzzzzzzzzzzzzzzzzzzzzzzzz | missing]]&quot;,&quot;reason&quot;:&quot;unknown item&quot;}]}}</pre></div></div>
 
 
 
@@ -898,11 +915,15 @@ Middle words, and [[01j9zq3k4m5n6p7q8r9s0t1v2w | an idea for later]].
 &lt;p&gt;Middle words, and &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;an idea for later&lt;/a&gt;.&lt;/p&gt;
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;p&gt;Opening words.&lt;/p&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot; data-blyg-label=&quot;Small tools, used daily, beat…&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v6a&quot; data-blyg-version=&quot;1&quot; data-blyg-label=&quot;Notebooks and pencils&quot;&gt;
 &lt;p&gt;Notebooks &amp;amp; pencils are &lt;em&gt;slow&lt;/em&gt; thinking.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;p&gt;Middle words, and &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;an idea for later&lt;/a&gt;.&lt;/p&gt;
 </pre></div></div>
@@ -927,13 +948,14 @@ Mine.</pre></div>
 &lt;p&gt;Mine.&lt;/p&gt;
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;p&gt;Intro.&lt;/p&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;used daily, beat big tools&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Mine.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;used daily, beat big tools&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;used daily, beat big tools&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;used daily, beat big tools&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;used daily, beat big tools&quot;,&quot;prefix&quot;:&quot;Small tools, &quot;,&quot;suffix&quot;:&quot; used rarely.&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-remote"><td><span class="b pass">pass</span></td><td><b>A partial transclusion of an imported item carries data-blyg-origin and a selector</b><div class="sub"><code>partial-remote</code> · §10.2, §10.3 · #49 · C-10.2-02, C-10.3-01</div>
 
@@ -954,7 +976,7 @@ Commentary.</pre></div>
 &lt;p&gt;Commentary.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;suffix&quot;:&quot;, and the reason it looks like n&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-emphasis-dropped"><td><span class="b pass">pass</span></td><td><b>The selection is plain text: emphasis in the quote does not survive into the bake</b><div class="sub"><code>partial-emphasis-dropped</code> · §10.2 · #49</div>
 
@@ -968,10 +990,9 @@ Commentary.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;A second paragraph about emphasis and traces&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;A second paragraph about emphasis and traces&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;A second paragraph about emphasis and traces&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;A second paragraph about emphasis and traces&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;A second paragraph about emphasis and traces&quot;,&quot;prefix&quot;:&quot;ke nothing at all is the point.\n&quot;,&quot;suffix&quot;:&quot; left in the environment.&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-two-paragraphs"><td><span class="b pass">pass</span></td><td><b>A selection spanning two paragraphs: one &lt;p&gt; per line, the block boundary kept as a line break</b><div class="sub"><code>partial-two-paragraphs</code> · §10.2, §10.3, §2 · #49</div>
 
@@ -989,10 +1010,9 @@ Commentary.</pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
 &lt;p&gt;A second paragraph about emphasis and traces&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&quot;,&quot;lists&quot;:[]},{&quot;text&quot;:&quot;A second paragraph about emphasis and traces&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\nA second paragraph about emphasis and traces&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.\nA second paragraph about emphasis and traces&quot;,&quot;suffix&quot;:&quot; left in the environment.&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-detached"><td><span class="b pass">pass</span></td><td><b>A blank line detaches the blockquote: a whole transclusion, then the author's own quotation</b><div class="sub"><code>partial-detached</code> · §10.1 · #49</div>
 
@@ -1015,6 +1035,7 @@ Commentary.</pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
 &lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;My own quotation, not theirs.&lt;/p&gt;
@@ -1022,7 +1043,7 @@ Commentary.</pre></div>
 &lt;p&gt;Commentary.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-not-in-target"><td><span class="b pass">pass</span></td><td><b>A selection that is not a substring of the target's text content is a publish error</b><div class="sub"><code>partial-not-in-target</code> · §10.2 · #49 · C-10.2-02</div>
 
@@ -1033,7 +1054,7 @@ Commentary.</pre></div>
 
 After.</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v2w]]&quot;,&quot;reason&quot;:&quot;quoted passage not found in the target's version 1&quot;}]}}</pre></div></div>
 
 
 
@@ -1057,7 +1078,7 @@ Commentary.</pre></div>
 &lt;p&gt;Commentary.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;suffix&quot;:&quot;, and the reason it looks like n&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-escaped"><td><span class="b pass">pass</span></td><td><b>The selection is escaped plain text in the bake</b><div class="sub"><code>partial-escaped</code> · §10.2 · #49</div>
 
@@ -1071,10 +1092,9 @@ Commentary.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v6a&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Notebooks &amp;amp; pencils&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v6a&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Notebooks &amp; pencils&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Notebooks &amp; pencils&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v6a&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Notebooks &amp; pencils&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v6a&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Notebooks &amp; pencils&quot;,&quot;suffix&quot;:&quot; are slow thinking.&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-devanagari"><td><span class="b pass">pass</span></td><td><b>A Unicode (Devanagari) selection</b><div class="sub"><code>partial-devanagari</code> · §10.2 · #49</div>
 
@@ -1088,10 +1108,9 @@ Commentary.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;धर्म और कर्म — यह माध्यम ही संदेश है।&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है।&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है।&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है।&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है।&quot;,&quot;suffix&quot;:&quot; The medium is the message.&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;,&quot;url&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-then-whole"><td><span class="b pass">pass</span></td><td><b>A partial transclusion followed by a whole one</b><div class="sub"><code>partial-then-whole</code> · §10.2, §10.3 · #49</div>
 
@@ -1112,13 +1131,14 @@ Commentary.</pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools&lt;/p&gt;
 &lt;/blockquote&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
 &lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Small tools&quot;,&quot;lists&quot;:[]}]},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools&quot;}},{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools&quot;,&quot;suffix&quot;:&quot;, used daily, beat big tools use&quot;}},{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-of-thread-reaches-its-quote"><td><span class="b pass">pass</span></td><td><b>A thread's text content includes the words it baked, so a selection may come from them</b><div class="sub"><code>partial-of-thread-reaches-its-quote</code> · §10.2, §2 · #49</div>
 
@@ -1132,10 +1152,9 @@ Commentary.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Small tools, used daily&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools, used daily&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools, used daily&quot;,&quot;prefix&quot;:&quot;A thread about notebooks.\n&quot;,&quot;suffix&quot;:&quot;, beat big tools used rarely.\nCl&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-beside-formula"><td><span class="b pass">pass</span></td><td><b>A selection of the prose beside a formula verifies against text content; the formula is not part of it</b><div class="sub"><code>partial-beside-formula</code> · §10.2, §2, §5.2 · #49, #105</div>
 
@@ -1149,10 +1168,9 @@ Commentary.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;4e4e4e4e4e4e4e4e4e4e4e4e4e&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;ties five constants together.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;4e4e4e4e4e4e4e4e4e4e4e4e4e&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;ties five constants together.&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;ties five constants together.&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;4e4e4e4e4e4e4e4e4e4e4e4e4e&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;ties five constants together.&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;4e4e4e4e4e4e4e4e4e4e4e4e4e&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;ties five constants together.&quot;,&quot;prefix&quot;:&quot; identity, eiπ+1=0e^{i\\pi}+1=0, &quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Euler's identity, $e^{i\\pi}+1=0$ , ties five constants together.&quot;,&quot;url&quot;:&quot;https://remote.example/f/4e4e4e4e4e4e4e4e4e4e4e4e4e/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:10Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-list-ordered-run"><td><span class="b pass">pass</span></td><td><b>Two quoted items of a numbered list MAY bake as list items, numbered as the source numbers them</b><div class="sub"><code>partial-list-ordered-run</code> · §10.2, §10.3, §2 · #114, #49</div>
 
@@ -1174,10 +1192,9 @@ Commentary.</pre></div>
 &lt;li&gt;Keep it small.&lt;/li&gt;
 &lt;li&gt;Read it back.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8c&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Keep it small. Read it back.&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Keep it small.&quot;,&quot;lists&quot;:[{&quot;tag&quot;:&quot;ol&quot;,&quot;ordinal&quot;:2}]},{&quot;text&quot;:&quot;Read it back.&quot;,&quot;lists&quot;:[{&quot;tag&quot;:&quot;ol&quot;,&quot;ordinal&quot;:3}]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8c&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Keep it small.\nRead it back.&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8c&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Keep it small.\nRead it back.&quot;,&quot;prefix&quot;:&quot;Rules of thumb:\nWrite it down.\n&quot;,&quot;suffix&quot;:&quot;\nThat is all.&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-list-with-paragraph"><td><span class="b pass">pass</span></td><td><b>A selection across a paragraph and a list item: the paragraph is a &lt;p&gt;, the item MAY be an &lt;li&gt;</b><div class="sub"><code>partial-list-with-paragraph</code> · §10.2, §10.3 · #114, #49</div>
 
@@ -1199,10 +1216,9 @@ Commentary.</pre></div>
 &lt;ol&gt;
 &lt;li&gt;Write it down.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8c&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Rules of thumb: Write it down.&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Rules of thumb:&quot;,&quot;lists&quot;:[]},{&quot;text&quot;:&quot;Write it down.&quot;,&quot;lists&quot;:[{&quot;tag&quot;:&quot;ol&quot;,&quot;ordinal&quot;:1}]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8c&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Rules of thumb:\nWrite it down.&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8c&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Rules of thumb:\nWrite it down.&quot;,&quot;suffix&quot;:&quot;\nKeep it small.\nRead it back.\nTh&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-list-within-item"><td><span class="b pass">pass</span></td><td><b>A selection inside one list item is still a line within that item</b><div class="sub"><code>partial-list-within-item</code> · §10.2 · #114, #49</div>
 
@@ -1220,10 +1236,9 @@ Commentary.</pre></div>
 &lt;ol start=&quot;2&quot;&gt;
 &lt;li&gt;it small&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8c&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;it small&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;it small&quot;,&quot;lists&quot;:[{&quot;tag&quot;:&quot;ol&quot;,&quot;ordinal&quot;:2}]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8c&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;it small&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8c&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;it small&quot;,&quot;prefix&quot;:&quot;s of thumb:\nWrite it down.\nKeep &quot;,&quot;suffix&quot;:&quot;.\nRead it back.\nThat is all.&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-list-nested"><td><span class="b pass">pass</span></td><td><b>Nesting MAY be kept where both of the lines it joins are quoted</b><div class="sub"><code>partial-list-nested</code> · §10.2, §10.3 · #114, #49, #26</div>
 
@@ -1248,13 +1263,11 @@ Commentary.</pre></div>
 &lt;li&gt;&lt;p&gt;a pencil&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;and a sharpener&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;5k5k5k5k5k5k5k5k5k5k5k5k5k&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;a pencil and a sharpener&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;a pencil&quot;,&quot;lists&quot;:[{&quot;tag&quot;:&quot;ul&quot;,&quot;ordinal&quot;:1}]},{&quot;text&quot;:&quot;and a sharpener&quot;,&quot;lists&quot;:[{&quot;tag&quot;:&quot;ul&quot;,&quot;ordinal&quot;:1},{&quot;tag&quot;:&quot;ul&quot;,&quot;ordinal&quot;:1}]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;5k5k5k5k5k5k5k5k5k5k5k5k5k&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;a pencil\nand a sharpener&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;5k5k5k5k5k5k5k5k5k5k5k5k5k&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;a pencil\nand a sharpener&quot;,&quot;prefix&quot;:&quot;a notebook\n&quot;,&quot;suffix&quot;:&quot;\npatience\nseventh\neighth&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;a notebook a pencil and a sharpener patience seventh eighth&quot;,&quot;url&quot;:&quot;https://remote.example/f/5k5k5k5k5k5k5k5k5k5k5k5k5k/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:10Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-list-start-remote"><td><span class="b pass">pass</span></td><td><b>A quoted item of an imported list that starts at 7 keeps the source's number</b><div class="sub"><code>partial-list-start-remote</code> · §10.2 · #114, #49</div>
 
@@ -1272,10 +1285,9 @@ Commentary.</pre></div>
 &lt;ol start=&quot;8&quot;&gt;
 &lt;li&gt;eighth&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;5k5k5k5k5k5k5k5k5k5k5k5k5k&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;eighth&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;eighth&quot;,&quot;lists&quot;:[{&quot;tag&quot;:&quot;ol&quot;,&quot;ordinal&quot;:8}]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;5k5k5k5k5k5k5k5k5k5k5k5k5k&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;eighth&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;5k5k5k5k5k5k5k5k5k5k5k5k5k&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;selector&quot;:{&quot;exact&quot;:&quot;eighth&quot;,&quot;prefix&quot;:&quot;nd a sharpener\npatience\nseventh\n&quot;},&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;a notebook a pencil and a sharpener patience seventh eighth&quot;,&quot;url&quot;:&quot;https://remote.example/f/5k5k5k5k5k5k5k5k5k5k5k5k5k/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:10Z&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-quoter-list-marker"><td><span class="b pass">pass</span></td><td><b>The quoter's own list marker means nothing: a line that is a paragraph in the target MUST NOT bake as a list item</b><div class="sub"><code>partial-quoter-list-marker</code> · §10.2 · #114, #49</div>
 
@@ -1289,10 +1301,9 @@ Commentary.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion blyg-partial&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Small tools&quot;,&quot;lists&quot;:[]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;Small tools&quot;,&quot;suffix&quot;:&quot;, used daily, beat big tools use&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-tight-nested-lines"><td><span class="b pass">pass</span></td><td><b>In a tight nested list a parent item's text and its first nested item are two lines of text content</b><div class="sub"><code>partial-tight-nested-lines</code> · §2, §10.2 · #118, #114, #49</div>
 
@@ -1317,13 +1328,11 @@ Commentary.</pre></div>
 &lt;li&gt;&lt;p&gt;tools&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;a pencil&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8d&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;tools a pencil&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;tools&quot;,&quot;lists&quot;:[{&quot;tag&quot;:&quot;ul&quot;,&quot;ordinal&quot;:1}]},{&quot;text&quot;:&quot;a pencil&quot;,&quot;lists&quot;:[{&quot;tag&quot;:&quot;ul&quot;,&quot;ordinal&quot;:1},{&quot;tag&quot;:&quot;ul&quot;,&quot;ordinal&quot;:1}]}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8d&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;tools\na pencil&quot;}}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v8d&quot;,&quot;version&quot;:1,&quot;selector&quot;:{&quot;exact&quot;:&quot;tools\na pencil&quot;,&quot;suffix&quot;:&quot;\npatience&quot;}}]</pre>
 
 </details></td></tr><tr id="partial-tight-nested-one-line"><td><span class="b pass">pass</span></td><td><b>Quoting a tight parent item and its nested item as one line is not a substring of the text content: a publish error</b><div class="sub"><code>partial-tight-nested-one-line</code> · §2, §10.2 · #118, #49</div>
 
@@ -1332,7 +1341,7 @@ Commentary.</pre></div>
 <div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v8d]]
 &gt; tools a pencil</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v8d]]&quot;,&quot;reason&quot;:&quot;quoted passage not found in the target's version 1&quot;}]}}</pre></div></div>
 
 
 
@@ -1347,7 +1356,7 @@ Commentary.</pre></div>
 
 After.</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[0zzzzzzzzzzzzzzzzzzzzzzzzz]]&quot;,&quot;reason&quot;:&quot;unknown item&quot;}]}}</pre></div></div>
 
 
 
@@ -1357,7 +1366,7 @@ After.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v4y]]</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v4y]]&quot;,&quot;reason&quot;:&quot;item is a draft, not published&quot;}]}}</pre></div></div>
 
 
 
@@ -1367,7 +1376,7 @@ After.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[01j9zq3k4m5n6p7q8r9s0t1v5z]]</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v5z]]&quot;,&quot;reason&quot;:&quot;item is withdrawn&quot;}]}}</pre></div></div>
 
 
 
@@ -1377,7 +1386,7 @@ After.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[9x9x9x9x9x9x9x9x9x9x9x9x9x]]</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[9x9x9x9x9x9x9x9x9x9x9x9x9x]]&quot;,&quot;reason&quot;:&quot;source withdrawn by origin&quot;}]}}</pre></div></div>
 
 
 
@@ -1392,10 +1401,10 @@ After.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;8w8w8w8w8w8w8w8w8w8w8w8w8w&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Pinned words that outlive withdrawal.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;8w8w8w8w8w8w8w8w8w8w8w8w8w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Pinned words that outlive withdrawal.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;8w8w8w8w8w8w8w8w8w8w8w8w8w&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;8w8w8w8w8w8w8w8w8w8w8w8w8w&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Pinned words that outlive withdrawal.&quot;,&quot;url&quot;:&quot;https://remote.example/f/8w8w8w8w8w8w8w8w8w8w8w8w8w/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="ambiguous-imported-id"><td><span class="b pass">pass</span></td><td><b>The same id imported from two origins is a publish error, never a guess</b><div class="sub"><code>ambiguous-imported-id</code> · §10.2, §5.1 · #17, #26 · C-10.2-01</div>
 
@@ -1403,7 +1412,7 @@ After.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (thread)</div><pre>![[3m3m3m3m3m3m3m3m3m3m3m3m3m]]</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[3m3m3m3m3m3m3m3m3m3m3m3m3m]]&quot;,&quot;reason&quot;:&quot;ambiguous id: imported from more than one origin&quot;}]}}</pre></div></div>
 
 
 
@@ -1415,7 +1424,7 @@ After.</pre></div>
 
 ![[01j9zq3k4m5n6p7q8r9s0t1v7b]]</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;![[01j9zq3k4m5n6p7q8r9s0t1v7b]]&quot;,&quot;reason&quot;:&quot;circular transclusion: that thread already quotes this one&quot;}]}}</pre></div></div>
 
 
 
@@ -1425,7 +1434,7 @@ After.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[0zzzzzzzzzzzzzzzzzzzzzzzzz]].</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[0zzzzzzzzzzzzzzzzzzzzzzzzz]]&quot;,&quot;reason&quot;:&quot;unknown item&quot;}]}}</pre></div></div>
 
 
 
@@ -1435,7 +1444,7 @@ After.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v4y]].</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[01j9zq3k4m5n6p7q8r9s0t1v4y]]&quot;,&quot;reason&quot;:&quot;item is a draft, not published&quot;}]}}</pre></div></div>
 
 
 
@@ -1445,7 +1454,7 @@ After.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v5z]].</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[01j9zq3k4m5n6p7q8r9s0t1v5z]]&quot;,&quot;reason&quot;:&quot;item is withdrawn&quot;}]}}</pre></div></div>
 
 
 
@@ -1455,7 +1464,7 @@ After.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[3m3m3m3m3m3m3m3m3m3m3m3m3m]].</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more references do not resolve&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;directive&quot;:&quot;[[3m3m3m3m3m3m3m3m3m3m3m3m3m]]&quot;,&quot;reason&quot;:&quot;ambiguous id: imported from more than one origin&quot;}]}}</pre></div></div>
 
 
 
@@ -1474,12 +1483,14 @@ After.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;A thread about notebooks.&lt;/p&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;p&gt;Closing thought.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;A thread about notebooks. Small tools, used daily, beat big tools used rarely. Closing thought.&quot;,&quot;children&quot;:[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v3x&quot;,&quot;version&quot;:1}]</pre>
 
@@ -1502,10 +1513,10 @@ After.</pre></div>
 &lt;p&gt;Stigmergy is what a protocol looks like from inside&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Closing line with a link to &lt;a href=&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;&gt;the medium&lt;/a&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;4zss0yg5f5zbh48e22s4f87003&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Opening line of a remote thread. Stigmergy is what a protocol looks like from inside Closing line with a link to the medium.&quot;,&quot;children&quot;:[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;,&quot;blyg-partial&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;lines&quot;:[{&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside&quot;,&quot;lists&quot;:[]}]},{&quot;a&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;,&quot;text&quot;:&quot;the medium&quot;}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;4zss0yg5f5zbh48e22s4f87003&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;4zss0yg5f5zbh48e22s4f87003&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Opening line of a remote thread. Stigmergy is what a protocol looks like from in…&quot;,&quot;url&quot;:&quot;https://remote.example/t/4zss0yg5f5zbh48e22s4f87003/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 <div class="sub">links[] got</div><pre class="wide">[]</pre>
 </details></td></tr><tr id="whole-list-start-kept"><td><span class="b pass">pass</span></td><td><b>A whole transclusion of an imported numbered list: the bake is the source's HTML, and its &lt;ol start&gt; SHOULD survive the reader's sanitizer</b><div class="sub"><code>whole-list-start-kept</code> · §10.2, §5.2 · #114, #26</div>
 
@@ -1546,10 +1557,10 @@ After.</pre></div>
 &lt;li&gt;seventh&lt;/li&gt;
 &lt;li&gt;eighth&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;5k5k5k5k5k5k5k5k5k5k5k5k5k&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;a notebook a pencil and a sharpener patience seventh eighth&quot;,&quot;starts&quot;:[7]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;5k5k5k5k5k5k5k5k5k5k5k5k5k&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;5k5k5k5k5k5k5k5k5k5k5k5k5k&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;a notebook a pencil and a sharpener patience seventh eighth&quot;,&quot;url&quot;:&quot;https://remote.example/f/5k5k5k5k5k5k5k5k5k5k5k5k5k/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:10Z&quot;}}]</pre>
 
 </details></td></tr></table>
 <h2>Absolute URLs and pages (§5.2, §5.8) <span class="sub">9 pass · 0 warn · 0 fail · 0 unreported</span></h2><table><tr id="link-local-page"><td><span class="b pass">pass</span></td><td><b>[[id]] renders as an anchor to the absolute URL of the target's page</b><div class="sub"><code>link-local-page</code> · §10.1, §5.2, §5.8 · #53, #79 · C-5.2-03</div>
@@ -1559,7 +1570,7 @@ After.</pre></div>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v2w]] for context.</pre></div>
 <div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt; for context.&lt;/p&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt; for context.&lt;/p&gt;
+<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt; for context.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;}]</pre>
 
@@ -1571,7 +1582,7 @@ After.</pre></div>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v3x]].</pre></div>
 <div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/t/01j9zq3k4m5n6p7q8r9s0t1v3x/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/t/01j9zq3k4m5n6p7q8r9s0t1v3x/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/t/01j9zq3k4m5n6p7q8r9s0t1v3x/&quot;&gt;“A thread about notebooks. Small tools, used daily, beat big…”&lt;/a&gt;.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/t/01j9zq3k4m5n6p7q8r9s0t1v3x/&quot;}]</pre>
 
@@ -1583,7 +1594,7 @@ After.</pre></div>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[7c9wk2mhq0v3xj8tn5rzfd41bg]]</pre></div>
 <div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;“Stigmergy is what a protocol looks like from inside, and the…”&lt;/a&gt;&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;}]</pre>
 
@@ -1595,7 +1606,7 @@ After.</pre></div>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[5d6e7f8g9h0j1k2m3n4p5q6r7s]]</pre></div>
 <div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://www.remote.example/2026/pencils/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://www.remote.example/2026/pencils/&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://www.remote.example/2026/pencils/&quot;&gt;“Pencils, again.”&lt;/a&gt;&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://www.remote.example/2026/pencils/&quot;}]</pre>
 
@@ -1607,7 +1618,7 @@ After.</pre></div>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[6a7b8c9d0e1f2g3h4j5k6m7n8p]]</pre></div>
 <div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/items/6a7b8c9d0e1f2g3h4j5k6m7n8p.json&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/items/6a7b8c9d0e1f2g3h4j5k6m7n8p.json&quot;&gt;…&lt;/a&gt;&lt;/p&gt;
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/items/6a7b8c9d0e1f2g3h4j5k6m7n8p.json&quot;&gt;“A fragment whose document names no page.”&lt;/a&gt;&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://remote.example/items/6a7b8c9d0e1f2g3h4j5k6m7n8p.json&quot;}]</pre>
 
@@ -1647,10 +1658,10 @@ After.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;2h2h2h2h2h2h2h2h2h2h2h2h2h&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Thinking with a &lt;a href=&quot;https://pencils.example/&quot;&gt;pencil&lt;/a&gt; is &lt;em&gt;slow&lt;/em&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;2h2h2h2h2h2h2h2h2h2h2h2h2h&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Thinking with a pencil is slow.&quot;,&quot;children&quot;:[{&quot;a&quot;:&quot;https://pencils.example/&quot;,&quot;text&quot;:&quot;pencil&quot;}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;2h2h2h2h2h2h2h2h2h2h2h2h2h&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;2h2h2h2h2h2h2h2h2h2h2h2h2h&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Thinking with a pencil is slow.&quot;,&quot;url&quot;:&quot;https://remote.example/f/2h2h2h2h2h2h2h2h2h2h2h2h2h/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 <div class="sub">links[] got</div><pre class="wide">[]</pre>
 </details></td></tr><tr id="baked-remote-relative-url"><td><span class="b pass">pass</span></td><td><b>A relative URL in an imported item's HTML is resolved against the source's origin before the bake</b><div class="sub"><code>baked-remote-relative-url</code> · §5.2, §10.2 · #53, #102 · C-5.2-03, C-5.2-04</div>
 
@@ -1663,10 +1674,10 @@ After.</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;2r2r2r2r2r2r2r2r2r2r2r2r2r&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;See &lt;a href=&quot;https://remote.example/notes/&quot;&gt;the notes&lt;/a&gt; for more.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;2r2r2r2r2r2r2r2r2r2r2r2r2r&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;See the notes for more.&quot;,&quot;children&quot;:[{&quot;a&quot;:&quot;https://remote.example/notes/&quot;,&quot;text&quot;:&quot;the notes&quot;}]}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;2r2r2r2r2r2r2r2r2r2r2r2r2r&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;2r2r2r2r2r2r2r2r2r2r2r2r2r&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;See the notes for more.&quot;,&quot;url&quot;:&quot;https://remote.example/f/2r2r2r2r2r2r2r2r2r2r2r2r2r/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr></table>
 <h2>Disclosure (§10.3, §10.3a) <span class="sub">6 pass · 0 warn · 0 fail · 0 unreported</span></h2><table><tr id="transclusions-order-and-origin"><td><span class="b pass">pass</span></td><td><b>transclusions[] is in directive order; origin is omitted for own-origin sources and present for remote ones</b><div class="sub"><code>transclusions-order-and-origin</code> · §10.3 · #26, #76 · C-10.3-03</div>
@@ -1697,19 +1708,23 @@ After.</pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
 &lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
 &lt;/blockquote&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;plain quote&lt;/p&gt;
 &lt;/blockquote&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot; data-blyg-version=&quot;1&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;},{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}},{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1},{&quot;id&quot;:&quot;1vgtgz0gq5b2c9k7d3m8r4n6xy&quot;,&quot;version&quot;:1,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;धर्म और कर्म — यह माध्यम ही संदेश है। The medium is the message.&quot;,&quot;url&quot;:&quot;https://remote.example/f/1vgtgz0gq5b2c9k7d3m8r4n6xy/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:09Z&quot;}}]</pre>
 
 </details></td></tr><tr id="thread-without-directives"><td><span class="b pass">pass</span></td><td><b>A thread with no directives still carries transclusions: []</b><div class="sub"><code>thread-without-directives</code> · §10.3 · #26</div>
 
@@ -1730,7 +1745,7 @@ After.</pre></div>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>See [[01j9zq3k4m5n6p7q8r9s0t1v2w]] and [[7c9wk2mhq0v3xj8tn5rzfd41bg]].</pre></div>
 <div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt; and &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt; and &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+<div><div class="sub">got</div><pre>&lt;p&gt;See &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt; and &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;“Stigmergy is what a protocol looks like from inside, and the…”&lt;/a&gt;.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;},{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;}]</pre>
 
@@ -1742,7 +1757,7 @@ After.</pre></div>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>[[7c9wk2mhq0v3xj8tn5rzfd41bg]], then [[01j9zq3k4m5n6p7q8r9s0t1v2w]], then [[7c9wk2mhq0v3xj8tn5rzfd41bg]] again.</pre></div>
 <div><div class="sub">expected content_html (normative parts compared)</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt;, then &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;, then &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt; again.&lt;/p&gt;
 </pre></div>
-<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt;, then &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;, then &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;…&lt;/a&gt; again.&lt;/p&gt;
+<div><div class="sub">got</div><pre>&lt;p&gt;&lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;“Stigmergy is what a protocol looks like from inside, and the…”&lt;/a&gt;, then &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt;, then &lt;a href=&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;&gt;“Stigmergy is what a protocol looks like from inside, and the…”&lt;/a&gt; again.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;},{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;},{&quot;a&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;}]</pre>
 
@@ -1773,8 +1788,9 @@ See also [[01j9zq3k4m5n6p7q8r9s0t1v2w]].</pre></div>
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
-&lt;p&gt;See also &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;…&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;See also &lt;a href=&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;&gt;“Small tools, used daily, beat big tools used rarely.”&lt;/a&gt;.&lt;/p&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;},{&quot;a&quot;:&quot;https://home.example/f/01j9zq3k4m5n6p7q8r9s0t1v2w/&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
@@ -1877,12 +1893,13 @@ Outro.</pre></div>
 <div><div class="sub">got</div><pre>&lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot; data-blyg-version=&quot;2&quot; data-blyg-origin=&quot;https://remote.example/&quot;&gt;
 &lt;p&gt;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point.&lt;/p&gt;
 &lt;p&gt;A second paragraph about &lt;em&gt;emphasis&lt;/em&gt; and traces left in the environment.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;A bridge.&lt;/p&gt;
 &lt;/div&gt;
 </pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;data-blyg-version&quot;:&quot;2&quot;,&quot;data-blyg-origin&quot;:&quot;https://remote.example/&quot;},&quot;text&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks like nothing at all is the point. A second paragraph about emphasis and traces left in the environment.&quot;},{&quot;wrapper&quot;:&quot;div&quot;,&quot;classes&quot;:[&quot;blyg-tk-gen&quot;],&quot;data&quot;:{},&quot;text&quot;:&quot;A bridge.&quot;}]</pre>
-<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;}]</pre>
+<div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;7c9wk2mhq0v3xj8tn5rzfd41bg&quot;,&quot;version&quot;:2,&quot;origin&quot;:&quot;https://remote.example/&quot;,&quot;cited&quot;:{&quot;source&quot;:&quot;Fake remote.example&quot;,&quot;author&quot;:&quot;Remote Author&quot;,&quot;excerpt&quot;:&quot;Stigmergy is what a protocol looks like from inside, and the reason it looks lik…&quot;,&quot;url&quot;:&quot;https://remote.example/f/7c9wk2mhq0v3xj8tn5rzfd41bg/&quot;,&quot;retrieved&quot;:&quot;2026-11-23T16:33:10Z&quot;}}]</pre>
 
 </details></td></tr><tr id="tk-in-code-not-a-scope"><td><span class="b pass">pass</span></td><td><b>[TK] inside code is an example of the notation, not a scope</b><div class="sub"><code>tk-in-code-not-a-scope</code> · §5.7, §10.1 · #20, #54</div>
 
@@ -1897,10 +1914,11 @@ Outro.</pre></div>
 &lt;/blockquote&gt;
 </pre></div>
 <div><div class="sub">got</div><pre>&lt;p&gt;&lt;code&gt;[TK]x[=]y[/TK]&lt;/code&gt;&lt;/p&gt;
+
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
-&lt;/blockquote&gt;
-</pre></div></div>
+
+&lt;/blockquote&gt;</pre></div></div>
 <div class="sub">normative projection, expected</div><pre class="wide">[{&quot;wrapper&quot;:&quot;blockquote&quot;,&quot;classes&quot;:[&quot;blyg-transclusion&quot;],&quot;data&quot;:{&quot;data-blyg-id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;data-blyg-version&quot;:&quot;1&quot;},&quot;text&quot;:&quot;Small tools, used daily, beat big tools used rarely.&quot;}]</pre>
 <div class="sub">transclusions[] got</div><pre class="wide">[{&quot;id&quot;:&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot;,&quot;version&quot;:1}]</pre>
 
@@ -1968,6 +1986,7 @@ Outro.</pre></div>
 &lt;/div&gt;
 &lt;blockquote class=&quot;blyg-transclusion&quot; data-blyg-id=&quot;01j9zq3k4m5n6p7q8r9s0t1v2w&quot; data-blyg-version=&quot;1&quot;&gt;
 &lt;p&gt;Small tools, used daily, beat big tools used rarely.&lt;/p&gt;
+
 &lt;/blockquote&gt;
 &lt;div class=&quot;blyg-tk-gen&quot;&gt;&lt;p&gt;After the quote.&lt;/p&gt;
 &lt;/div&gt;
@@ -1982,7 +2001,7 @@ Outro.</pre></div>
 <details><summary>input and output</summary>
 <div class="grid"><div><div class="sub">content_md (fragment)</div><pre>Before [TK]summarise the argument[/TK] after.</pre></div>
 <div><div class="sub">expected </div><pre>publish error</pre></div>
-<div><div class="sub">got</div><pre>publish error: expected publish error</pre></div></div>
+<div><div class="sub">got</div><pre>publish error: HTTP 400: {&quot;code&quot;:&quot;invalid-input&quot;,&quot;message&quot;:&quot;one or more TK scopes are not publish-ready&quot;,&quot;details&quot;:{&quot;errors&quot;:[{&quot;at&quot;:7,&quot;reason&quot;:&quot;scope has no output (never generated)&quot;}]}}</pre></div></div>
 
 
 

@@ -1,7 +1,7 @@
 {
   "area": "schemas",
   "title": "JSON Schemas, semantic rules and grammar differential",
-  "generated_at": "2026-11-22T05:31:20.647Z",
+  "generated_at": "2026-11-23T16:31:52.209Z",
   "checks": [
     {
       "spec_refs": [
@@ -11,7 +11,7 @@
         "#48"
       ],
       "id": "schemas.studio.schema.manifest",
-      "title": "blygger-studio 0.69.0 (in-process harness): manifest documents against manifest.schema.json",
+      "title": "blygger-studio 0.71.0 (in-process harness): manifest documents against manifest.schema.json",
       "status": "pass",
       "detail": "1/1 valid",
       "clauses": [
@@ -28,7 +28,7 @@
         "#48"
       ],
       "id": "schemas.studio.advisory.manifest",
-      "title": "blygger-studio 0.69.0 (in-process harness): manifest documents against the advisory (SHOULD) layer",
+      "title": "blygger-studio 0.71.0 (in-process harness): manifest documents against the advisory (SHOULD) layer",
       "status": "pass",
       "detail": "no advisory warnings",
       "clauses": [
@@ -44,7 +44,7 @@
         "#48"
       ],
       "id": "schemas.studio.schema.index",
-      "title": "blygger-studio 0.69.0 (in-process harness): index documents against index.schema.json",
+      "title": "blygger-studio 0.71.0 (in-process harness): index documents against index.schema.json",
       "status": "pass",
       "detail": "1/1 valid",
       "clauses": [
@@ -60,7 +60,7 @@
         "#48"
       ],
       "id": "schemas.studio.schema.item",
-      "title": "blygger-studio 0.69.0 (in-process harness): item documents against item.schema.json",
+      "title": "blygger-studio 0.71.0 (in-process harness): item documents against item.schema.json",
       "status": "pass",
       "detail": "13/13 valid",
       "clauses": [
@@ -88,7 +88,7 @@
         "#48"
       ],
       "id": "schemas.studio.advisory.item",
-      "title": "blygger-studio 0.69.0 (in-process harness): item documents against the advisory (SHOULD) layer",
+      "title": "blygger-studio 0.71.0 (in-process harness): item documents against the advisory (SHOULD) layer",
       "status": "warn",
       "detail": "1/13 warn: impyrt: /generated/0 must have required property 'at': at",
       "clauses": [
@@ -107,7 +107,7 @@
         "#48"
       ],
       "id": "schemas.studio.schema.pinned",
-      "title": "blygger-studio 0.69.0 (in-process harness): pinned documents against pinned.schema.json",
+      "title": "blygger-studio 0.71.0 (in-process harness): pinned documents against pinned.schema.json",
       "status": "pass",
       "detail": "5/5 valid",
       "clauses": [
@@ -126,7 +126,7 @@
         "#48"
       ],
       "id": "schemas.studio.advisory.pinned",
-      "title": "blygger-studio 0.69.0 (in-process harness): pinned documents against the advisory (SHOULD) layer",
+      "title": "blygger-studio 0.71.0 (in-process harness): pinned documents against the advisory (SHOULD) layer",
       "status": "pass",
       "detail": "no advisory warnings",
       "clauses": [
@@ -144,7 +144,7 @@
         "#88"
       ],
       "id": "schemas.studio.rule.manifest.origin.one-spelling",
-      "title": "blygger-studio 0.69.0 (in-process harness): every origin string written has the §12.2 spelling",
+      "title": "blygger-studio 0.71.0 (in-process harness): every origin string written has the §12.2 spelling",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -155,7 +155,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.index.order",
-      "title": "blygger-studio 0.69.0 (in-process harness): index ordered by updated descending",
+      "title": "blygger-studio 0.71.0 (in-process harness): index ordered by updated descending",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -169,7 +169,7 @@
         "#18"
       ],
       "id": "schemas.studio.rule.index.agrees-with-docs",
-      "title": "blygger-studio 0.69.0 (in-process harness): index entries agree with item documents",
+      "title": "blygger-studio 0.71.0 (in-process harness): index entries agree with item documents",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -182,7 +182,7 @@
         "#2"
       ],
       "id": "schemas.studio.rule.hash.matches-content_md",
-      "title": "blygger-studio 0.69.0 (in-process harness): content_hash = sha256 of content_md",
+      "title": "blygger-studio 0.71.0 (in-process harness): content_hash = sha256 of content_md",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -195,7 +195,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.updated.equals-last-changelog",
-      "title": "blygger-studio 0.69.0 (in-process harness): updated equals the latest changelog entry's at",
+      "title": "blygger-studio 0.71.0 (in-process harness): updated equals the latest changelog entry's at",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -210,7 +210,7 @@
         "#19"
       ],
       "id": "schemas.studio.rule.changelog.contiguous",
-      "title": "blygger-studio 0.69.0 (in-process harness): changelog covers versions 1..version, +1 each",
+      "title": "blygger-studio 0.71.0 (in-process harness): changelog covers versions 1..version, +1 each",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -222,7 +222,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.changelog.at-monotonic",
-      "title": "blygger-studio 0.69.0 (in-process harness): changelog timestamps non-decreasing with version",
+      "title": "blygger-studio 0.71.0 (in-process harness): changelog timestamps non-decreasing with version",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -236,7 +236,7 @@
         "#53"
       ],
       "id": "schemas.studio.rule.html.absolute-urls",
-      "title": "blygger-studio 0.69.0 (in-process harness): every URL in content_html is absolute",
+      "title": "blygger-studio 0.71.0 (in-process harness): every URL in content_html is absolute",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -252,7 +252,7 @@
         "#20"
       ],
       "id": "schemas.studio.rule.md.no-tk-grammar",
-      "title": "blygger-studio 0.69.0 (in-process harness): no TK authoring grammar reaches the wire",
+      "title": "blygger-studio 0.71.0 (in-process harness): no TK authoring grammar reaches the wire",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -265,7 +265,7 @@
         "#9"
       ],
       "id": "schemas.studio.rule.md.no-reserved-directive",
-      "title": "blygger-studio 0.69.0 (in-process harness): no reserved ![[id@vN]] in published content_md",
+      "title": "blygger-studio 0.71.0 (in-process harness): no reserved ![[id@vN]] in published content_md",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -283,7 +283,7 @@
         "#102"
       ],
       "id": "schemas.studio.rule.fragment.no-directive",
-      "title": "blygger-studio 0.69.0 (in-process harness): a fragment's content_md has no directive line outside code",
+      "title": "blygger-studio 0.71.0 (in-process harness): a fragment's content_md has no directive line outside code",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -296,7 +296,7 @@
         "#103"
       ],
       "id": "schemas.studio.rule.md.is-text",
-      "title": "blygger-studio 0.69.0 (in-process harness): content_md has no C0 control but tab, LF and CR, and no unpaired surrogate",
+      "title": "blygger-studio 0.71.0 (in-process harness): content_md has no C0 control but tab, LF and CR, and no unpaired surrogate",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -309,7 +309,7 @@
         "#103"
       ],
       "id": "schemas.studio.rule.md.no-noncharacters",
-      "title": "blygger-studio 0.69.0 (in-process harness): content_md has no U+FFFE or U+FFFF",
+      "title": "blygger-studio 0.71.0 (in-process harness): content_md has no U+FFFE or U+FFFF",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -322,7 +322,7 @@
         "#103"
       ],
       "id": "schemas.studio.rule.md.nfc",
-      "title": "blygger-studio 0.69.0 (in-process harness): content_md is in Unicode Normalization Form C",
+      "title": "blygger-studio 0.71.0 (in-process harness): content_md is in Unicode Normalization Form C",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -336,7 +336,7 @@
         "#103"
       ],
       "id": "schemas.studio.rule.origin.one-spelling",
-      "title": "blygger-studio 0.69.0 (in-process harness): every origin string written has the §12.2 spelling",
+      "title": "blygger-studio 0.71.0 (in-process harness): every origin string written has the §12.2 spelling",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -351,7 +351,7 @@
         "#49"
       ],
       "id": "schemas.studio.rule.transclusions.match-directives",
-      "title": "blygger-studio 0.69.0 (in-process harness): transclusions[] matches the directives in content_md, in order",
+      "title": "blygger-studio 0.71.0 (in-process harness): transclusions[] matches the directives in content_md, in order",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -368,7 +368,7 @@
         "#49"
       ],
       "id": "schemas.studio.rule.transclusions.baked-wrappers",
-      "title": "blygger-studio 0.69.0 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
+      "title": "blygger-studio 0.71.0 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -384,7 +384,7 @@
         "#49"
       ],
       "id": "schemas.studio.rule.selector.matches-bake",
-      "title": "blygger-studio 0.69.0 (in-process harness): a partial's baked <p> lines equal selector.exact",
+      "title": "blygger-studio 0.71.0 (in-process harness): a partial's baked <p> lines equal selector.exact",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -399,7 +399,7 @@
         "#26"
       ],
       "id": "schemas.studio.rule.transclusions.own-origin-omitted",
-      "title": "blygger-studio 0.69.0 (in-process harness): own-origin entries omit origin",
+      "title": "blygger-studio 0.71.0 (in-process harness): own-origin entries omit origin",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -414,7 +414,7 @@
         "#27"
       ],
       "id": "schemas.studio.rule.stub_of.version-agreement",
-      "title": "blygger-studio 0.69.0 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
+      "title": "blygger-studio 0.71.0 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -431,9 +431,9 @@
         "#30"
       ],
       "id": "schemas.studio.rule.forked_from.cited-url-is-page",
-      "title": "blygger-studio 0.69.0 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
+      "title": "blygger-studio 0.71.0 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
       "status": "warn",
-      "detail": "2 finding(s): forkRemoteFragment: cited.url = https://source.example/items/7c9wk2mhq0v3xj8tn5rzfd41bg/v1.json — §5.9 says \"the target's page as it stood\"; for a pin that is {page}v{n}/ (#24) · forkRemoteThread: cited.url = https://source.example/items/4zss0yg5f5zbh48e22s4f87003/v1.json — §5.9 says \"the target's page as it stood\"; for a pin that is {page}v{n}/ (#24)",
+      "detail": "2 finding(s): forkRemoteThread: cited.url = https://source.example/items/4zss0yg5f5zbh48e22s4f87003/v1.json — §5.9 says \"the target's page as it stood\"; for a pin that is {page}v{n}/ (#24) · forkRemoteFragment: cited.url = https://source.example/items/7c9wk2mhq0v3xj8tn5rzfd41bg/v1.json — §5.9 says \"the target's page as it stood\"; for a pin that is {page}v{n}/ (#24)",
       "clauses": [
         "C-5.9-05"
       ]
@@ -446,7 +446,7 @@
         "#26"
       ],
       "id": "schemas.studio.rule.fork.carries-directives",
-      "title": "blygger-studio 0.69.0 (in-process harness): a fork's content_md carries the source's directives, which re-resolve at the forker",
+      "title": "blygger-studio 0.71.0 (in-process harness): a fork's content_md carries the source's directives, which re-resolve at the forker",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -461,7 +461,7 @@
         "#51"
       ],
       "id": "schemas.studio.rule.page.origin-relative",
-      "title": "blygger-studio 0.69.0 (in-process harness): page is origin-relative (no scheme, no leading /)",
+      "title": "blygger-studio 0.71.0 (in-process harness): page is origin-relative (no scheme, no leading /)",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -477,7 +477,7 @@
         "#51"
       ],
       "id": "schemas.studio.rule.page.absolute-is-url",
-      "title": "blygger-studio 0.69.0 (in-process harness): an absolute page is an http(s) URL",
+      "title": "blygger-studio 0.71.0 (in-process harness): an absolute page is an http(s) URL",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -493,7 +493,7 @@
         "#25"
       ],
       "id": "schemas.studio.rule.generated.wrappers",
-      "title": "blygger-studio 0.69.0 (in-process harness): generated spans are wrapped in blyg-tk-gen",
+      "title": "blygger-studio 0.71.0 (in-process harness): generated spans are wrapped in blyg-tk-gen",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -508,7 +508,35 @@
         "#20"
       ],
       "id": "schemas.studio.rule.generated.disjoint-from-transclusions",
-      "title": "blygger-studio 0.69.0 (in-process harness): generation sources never appear in transclusions[]",
+      "title": "blygger-studio 0.71.0 (in-process harness): generation sources never appear in transclusions[]",
+      "status": "pass",
+      "detail": "held on 13 document(s)",
+      "clauses": []
+    },
+    {
+      "spec_refs": [
+        "§16.16",
+        "§5.9"
+      ],
+      "decisions": [
+        "#117",
+        "#30"
+      ],
+      "id": "schemas.studio.rule.generated.url-source-cited",
+      "title": "blygger-studio 0.71.0 (in-process harness): a web-page generation source carries cited, with retrieved",
+      "status": "pass",
+      "detail": "held on 13 document(s)",
+      "clauses": []
+    },
+    {
+      "spec_refs": [
+        "§16.16"
+      ],
+      "decisions": [
+        "#117"
+      ],
+      "id": "schemas.studio.rule.generated.url-source-not-held-item",
+      "title": "blygger-studio 0.71.0 (in-process harness): a URL naming the publisher's own item is written as a reference, not {url}",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -523,7 +551,7 @@
         "#54"
       ],
       "id": "schemas.studio.rule.links.rendered-absolute",
-      "title": "blygger-studio 0.69.0 (in-process harness): [[id]] links render as anchors with absolute hrefs",
+      "title": "blygger-studio 0.71.0 (in-process harness): [[id]] links render as anchors with absolute hrefs",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -538,7 +566,7 @@
         "#54"
       ],
       "id": "schemas.studio.rule.code.inert",
-      "title": "blygger-studio 0.69.0 (in-process harness): directive/link syntax inside code is left literal",
+      "title": "blygger-studio 0.71.0 (in-process harness): directive/link syntax inside code is left literal",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -550,9 +578,9 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.media.referenced",
-      "title": "blygger-studio 0.69.0 (in-process harness): every media[] entry is referenced by content_html",
+      "title": "blygger-studio 0.71.0 (in-process harness): every media[] entry is referenced by content_html",
       "status": "warn",
-      "detail": "1 finding(s): media: media media/8as682jx/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png not referenced by content_html",
+      "detail": "1 finding(s): media: media media/90p0td92/63ef318d96b5d0d0ceba6e04a4e622b1158335cdc67c49e27839132c6f655058.png not referenced by content_html",
       "clauses": []
     },
     {
@@ -564,7 +592,7 @@
         "#29"
       ],
       "id": "schemas.studio.rule.withdrawn.keeps-page",
-      "title": "blygger-studio 0.69.0 (in-process harness): an endcap keeps page",
+      "title": "blygger-studio 0.71.0 (in-process harness): an endcap keeps page",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -576,7 +604,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.id.matches-url",
-      "title": "blygger-studio 0.69.0 (in-process harness): document id equals the id in its URL",
+      "title": "blygger-studio 0.71.0 (in-process harness): document id equals the id in its URL",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -593,7 +621,7 @@
         "#28"
       ],
       "id": "schemas.studio.rule.origin.matches-fetch",
-      "title": "blygger-studio 0.69.0 (in-process harness): document origin equals the origin it was fetched from",
+      "title": "blygger-studio 0.71.0 (in-process harness): document origin equals the origin it was fetched from",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -607,7 +635,7 @@
         "#8"
       ],
       "id": "schemas.studio.rule.pins.served",
-      "title": "blygger-studio 0.69.0 (in-process harness): every changelog pinned:true version is served as v{n}.json and nothing else is",
+      "title": "blygger-studio 0.71.0 (in-process harness): every changelog pinned:true version is served as v{n}.json and nothing else is",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": [
@@ -623,7 +651,7 @@
         "#98"
       ],
       "id": "schemas.studio.rule.syndication.version-published",
-      "title": "blygger-studio 0.69.0 (in-process harness): every syndication entry names a published version of the item",
+      "title": "blygger-studio 0.71.0 (in-process harness): every syndication entry names a published version of the item",
       "status": "pass",
       "detail": "held on 13 document(s)",
       "clauses": []
@@ -635,7 +663,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.pinned.hash",
-      "title": "blygger-studio 0.69.0 (in-process harness): pinned content_hash = sha256(content_md)",
+      "title": "blygger-studio 0.71.0 (in-process harness): pinned content_hash = sha256(content_md)",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": [
@@ -648,7 +676,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.pinned.at-matches-changelog",
-      "title": "blygger-studio 0.69.0 (in-process harness): pinned at/note match the item's changelog entry",
+      "title": "blygger-studio 0.71.0 (in-process harness): pinned at/note match the item's changelog entry",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": []
@@ -660,7 +688,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.pinned.forked_from-immutable",
-      "title": "blygger-studio 0.69.0 (in-process harness): a pin of a forked item carries the same forked_from",
+      "title": "blygger-studio 0.71.0 (in-process harness): a pin of a forked item carries the same forked_from",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": [
@@ -676,7 +704,7 @@
         "#53"
       ],
       "id": "schemas.studio.rule.pinned.html.absolute-urls",
-      "title": "blygger-studio 0.69.0 (in-process harness): every URL in content_html is absolute",
+      "title": "blygger-studio 0.71.0 (in-process harness): every URL in content_html is absolute",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": [
@@ -692,7 +720,7 @@
         "#20"
       ],
       "id": "schemas.studio.rule.pinned.md.no-tk-grammar",
-      "title": "blygger-studio 0.69.0 (in-process harness): no TK authoring grammar reaches the wire",
+      "title": "blygger-studio 0.71.0 (in-process harness): no TK authoring grammar reaches the wire",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": []
@@ -705,7 +733,7 @@
         "#103"
       ],
       "id": "schemas.studio.rule.pinned.md.is-text",
-      "title": "blygger-studio 0.69.0 (in-process harness): content_md has no C0 control but tab, LF and CR, and no unpaired surrogate",
+      "title": "blygger-studio 0.71.0 (in-process harness): content_md has no C0 control but tab, LF and CR, and no unpaired surrogate",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": []
@@ -718,7 +746,7 @@
         "#103"
       ],
       "id": "schemas.studio.rule.pinned.md.nfc",
-      "title": "blygger-studio 0.69.0 (in-process harness): content_md is in Unicode Normalization Form C",
+      "title": "blygger-studio 0.71.0 (in-process harness): content_md is in Unicode Normalization Form C",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": []
@@ -732,7 +760,7 @@
         "#103"
       ],
       "id": "schemas.studio.rule.pinned.origin.one-spelling",
-      "title": "blygger-studio 0.69.0 (in-process harness): every origin string written has the §12.2 spelling",
+      "title": "blygger-studio 0.71.0 (in-process harness): every origin string written has the §12.2 spelling",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": []
@@ -747,7 +775,7 @@
         "#49"
       ],
       "id": "schemas.studio.rule.pinned.transclusions.match-directives",
-      "title": "blygger-studio 0.69.0 (in-process harness): transclusions[] matches the directives in content_md, in order",
+      "title": "blygger-studio 0.71.0 (in-process harness): transclusions[] matches the directives in content_md, in order",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": [
@@ -764,7 +792,7 @@
         "#49"
       ],
       "id": "schemas.studio.rule.pinned.transclusions.baked-wrappers",
-      "title": "blygger-studio 0.69.0 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
+      "title": "blygger-studio 0.71.0 (in-process harness): each entry has a matching baked blockquote (classes, data attributes)",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": [
@@ -780,7 +808,7 @@
         "#27"
       ],
       "id": "schemas.studio.rule.pinned.stub_of.version-agreement",
-      "title": "blygger-studio 0.69.0 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
+      "title": "blygger-studio 0.71.0 (in-process harness): stub_of.version equals the baked version when the body quotes the target",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": [
@@ -797,7 +825,7 @@
         "#30"
       ],
       "id": "schemas.studio.rule.pinned.forked_from.cited-url-is-page",
-      "title": "blygger-studio 0.69.0 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
+      "title": "blygger-studio 0.71.0 (in-process harness): forked_from.cited.url names a human page, not the v{n}.json document",
       "status": "pass",
       "detail": "held on 5 document(s)",
       "clauses": [
@@ -812,7 +840,7 @@
         "#22"
       ],
       "id": "schemas.studio.rule.feed.rss2-namespace",
-      "title": "blygger-studio 0.69.0 (in-process harness): RSS 2.0 root declaring the permanent blyg namespace",
+      "title": "blygger-studio 0.71.0 (in-process harness): RSS 2.0 root declaring the permanent blyg namespace",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -826,7 +854,7 @@
         "#17"
       ],
       "id": "schemas.studio.rule.feed.manifest-hook",
-      "title": "blygger-studio 0.69.0 (in-process harness): <blyg:manifest> present and absolute",
+      "title": "blygger-studio 0.71.0 (in-process harness): <blyg:manifest> present and absolute",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -841,7 +869,7 @@
         "#16"
       ],
       "id": "schemas.studio.rule.feed.entry-vocabulary",
-      "title": "blygger-studio 0.69.0 (in-process harness): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
+      "title": "blygger-studio 0.71.0 (in-process harness): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -857,7 +885,7 @@
         "#8"
       ],
       "id": "schemas.studio.rule.feed.withdrawn-single-entry",
-      "title": "blygger-studio 0.69.0 (in-process harness): a withdrawn item contributes exactly one empty 'withdrawn' entry",
+      "title": "blygger-studio 0.71.0 (in-process harness): a withdrawn item contributes exactly one empty 'withdrawn' entry",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -870,7 +898,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.feed.latest-content",
-      "title": "blygger-studio 0.69.0 (in-process harness): entries render the item's latest content_html",
+      "title": "blygger-studio 0.71.0 (in-process harness): entries render the item's latest content_html",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -883,7 +911,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.feed.newest-first",
-      "title": "blygger-studio 0.69.0 (in-process harness): one entry per publish event, newest first",
+      "title": "blygger-studio 0.71.0 (in-process harness): one entry per publish event, newest first",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -894,7 +922,7 @@
       ],
       "decisions": [],
       "id": "schemas.studio.rule.feed.window",
-      "title": "blygger-studio 0.69.0 (in-process harness): window bounded (RECOMMENDED 50)",
+      "title": "blygger-studio 0.71.0 (in-process harness): window bounded (RECOMMENDED 50)",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -909,7 +937,7 @@
         "#11"
       ],
       "id": "schemas.studio.rule.feed.dc-creator",
-      "title": "blygger-studio 0.69.0 (in-process harness): dc:creator emitted when author.name present",
+      "title": "blygger-studio 0.71.0 (in-process harness): dc:creator emitted when author.name present",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -924,7 +952,7 @@
         "#48"
       ],
       "id": "schemas.live-venkateshrao.schema.manifest",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): manifest documents against manifest.schema.json",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): manifest documents against manifest.schema.json",
       "status": "pass",
       "detail": "1/1 valid",
       "clauses": [
@@ -941,7 +969,7 @@
         "#48"
       ],
       "id": "schemas.live-venkateshrao.advisory.manifest",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): manifest documents against the advisory (SHOULD) layer",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): manifest documents against the advisory (SHOULD) layer",
       "status": "pass",
       "detail": "no advisory warnings",
       "clauses": [
@@ -957,7 +985,7 @@
         "#48"
       ],
       "id": "schemas.live-venkateshrao.schema.index",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): index documents against index.schema.json",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): index documents against index.schema.json",
       "status": "pass",
       "detail": "1/1 valid",
       "clauses": [
@@ -973,7 +1001,7 @@
         "#48"
       ],
       "id": "schemas.live-venkateshrao.schema.item",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): item documents against item.schema.json",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): item documents against item.schema.json",
       "status": "pass",
       "detail": "200/200 valid",
       "clauses": [
@@ -1001,9 +1029,9 @@
         "#48"
       ],
       "id": "schemas.live-venkateshrao.advisory.item",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): item documents against the advisory (SHOULD) layer",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): item documents against the advisory (SHOULD) layer",
       "status": "warn",
-      "detail": "2/200 warn: items/5ds3kggcnqgv3r5z0vsd1byzpa.json: /generated/1 must have required property 'at': at; items/6w6w8g37v0t13q6dj7be4sf7bf.json: /generated/0 must have required property 'at': at",
+      "detail": "4/200 warn: items/3f8xg1spnsgf5xqg976aaawdev.json: /generated/0 must have required property 'at': at; items/4b8w1gayzwzhrn53dvcst11nhd.json: /generated/0 must have required property 'at': at; items/5ds3kggcnqgv3r5z0vsd1byzpa.json: /generated/1 must have required property 'at': at; items/6w6w8g37v0t13q6dj7be4sf7bf.json: /generated/0 must have required property 'at': at",
       "clauses": [
         "C-5.4-01",
         "C-5.3-02",
@@ -1020,7 +1048,7 @@
         "#48"
       ],
       "id": "schemas.live-venkateshrao.schema.pinned",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): pinned documents against pinned.schema.json",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): pinned documents against pinned.schema.json",
       "status": "pass",
       "detail": "6/6 valid",
       "clauses": [
@@ -1039,7 +1067,7 @@
         "#48"
       ],
       "id": "schemas.live-venkateshrao.advisory.pinned",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): pinned documents against the advisory (SHOULD) layer",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): pinned documents against the advisory (SHOULD) layer",
       "status": "pass",
       "detail": "no advisory warnings",
       "clauses": [
@@ -1057,7 +1085,7 @@
         "#88"
       ],
       "id": "schemas.live-venkateshrao.rule.manifest.origin.one-spelling",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): every origin string written has the §12.2 spelling",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): every origin string written has the §12.2 spelling",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -1068,7 +1096,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.index.order",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): index ordered by updated descending",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): index ordered by updated descending",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -1082,7 +1110,7 @@
         "#18"
       ],
       "id": "schemas.live-venkateshrao.rule.index.agrees-with-docs",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): index entries agree with item documents",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): index entries agree with item documents",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -1095,7 +1123,7 @@
         "#2"
       ],
       "id": "schemas.live-venkateshrao.rule.hash.matches-content_md",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): content_hash = sha256 of content_md",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): content_hash = sha256 of content_md",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1108,7 +1136,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.updated.equals-last-changelog",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): updated equals the latest changelog entry's at",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): updated equals the latest changelog entry's at",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1123,7 +1151,7 @@
         "#19"
       ],
       "id": "schemas.live-venkateshrao.rule.changelog.contiguous",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): changelog covers versions 1..version, +1 each",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): changelog covers versions 1..version, +1 each",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1135,7 +1163,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.changelog.at-monotonic",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): changelog timestamps non-decreasing with version",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): changelog timestamps non-decreasing with version",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1149,7 +1177,7 @@
         "#53"
       ],
       "id": "schemas.live-venkateshrao.rule.html.absolute-urls",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): every URL in content_html is absolute",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): every URL in content_html is absolute",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1165,7 +1193,7 @@
         "#20"
       ],
       "id": "schemas.live-venkateshrao.rule.md.no-tk-grammar",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): no TK authoring grammar reaches the wire",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): no TK authoring grammar reaches the wire",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1178,7 +1206,7 @@
         "#9"
       ],
       "id": "schemas.live-venkateshrao.rule.md.no-reserved-directive",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): no reserved ![[id@vN]] in published content_md",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): no reserved ![[id@vN]] in published content_md",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1196,7 +1224,7 @@
         "#102"
       ],
       "id": "schemas.live-venkateshrao.rule.fragment.no-directive",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): a fragment's content_md has no directive line outside code",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): a fragment's content_md has no directive line outside code",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1209,7 +1237,7 @@
         "#103"
       ],
       "id": "schemas.live-venkateshrao.rule.md.is-text",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): content_md has no C0 control but tab, LF and CR, and no unpaired surrogate",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): content_md has no C0 control but tab, LF and CR, and no unpaired surrogate",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1222,7 +1250,7 @@
         "#103"
       ],
       "id": "schemas.live-venkateshrao.rule.md.no-noncharacters",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): content_md has no U+FFFE or U+FFFF",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): content_md has no U+FFFE or U+FFFF",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1235,7 +1263,7 @@
         "#103"
       ],
       "id": "schemas.live-venkateshrao.rule.md.nfc",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): content_md is in Unicode Normalization Form C",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): content_md is in Unicode Normalization Form C",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1249,7 +1277,7 @@
         "#103"
       ],
       "id": "schemas.live-venkateshrao.rule.origin.one-spelling",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): every origin string written has the §12.2 spelling",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): every origin string written has the §12.2 spelling",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1264,7 +1292,7 @@
         "#49"
       ],
       "id": "schemas.live-venkateshrao.rule.transclusions.match-directives",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): transclusions[] matches the directives in content_md, in order",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): transclusions[] matches the directives in content_md, in order",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1281,7 +1309,7 @@
         "#49"
       ],
       "id": "schemas.live-venkateshrao.rule.transclusions.baked-wrappers",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): each entry has a matching baked blockquote (classes, data attributes)",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): each entry has a matching baked blockquote (classes, data attributes)",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1297,7 +1325,7 @@
         "#49"
       ],
       "id": "schemas.live-venkateshrao.rule.selector.matches-bake",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): a partial's baked <p> lines equal selector.exact",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): a partial's baked <p> lines equal selector.exact",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1312,7 +1340,7 @@
         "#26"
       ],
       "id": "schemas.live-venkateshrao.rule.transclusions.own-origin-omitted",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): own-origin entries omit origin",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): own-origin entries omit origin",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1327,7 +1355,7 @@
         "#27"
       ],
       "id": "schemas.live-venkateshrao.rule.stub_of.version-agreement",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): stub_of.version equals the baked version when the body quotes the target",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): stub_of.version equals the baked version when the body quotes the target",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1344,7 +1372,7 @@
         "#30"
       ],
       "id": "schemas.live-venkateshrao.rule.forked_from.cited-url-is-page",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): forked_from.cited.url names a human page, not the v{n}.json document",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): forked_from.cited.url names a human page, not the v{n}.json document",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1359,7 +1387,7 @@
         "#26"
       ],
       "id": "schemas.live-venkateshrao.rule.fork.carries-directives",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): a fork's content_md carries the source's directives, which re-resolve at the forker",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): a fork's content_md carries the source's directives, which re-resolve at the forker",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1374,7 +1402,7 @@
         "#51"
       ],
       "id": "schemas.live-venkateshrao.rule.page.origin-relative",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): page is origin-relative (no scheme, no leading /)",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): page is origin-relative (no scheme, no leading /)",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1390,7 +1418,7 @@
         "#51"
       ],
       "id": "schemas.live-venkateshrao.rule.page.absolute-is-url",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): an absolute page is an http(s) URL",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): an absolute page is an http(s) URL",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1406,7 +1434,7 @@
         "#25"
       ],
       "id": "schemas.live-venkateshrao.rule.generated.wrappers",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): generated spans are wrapped in blyg-tk-gen",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): generated spans are wrapped in blyg-tk-gen",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1421,7 +1449,35 @@
         "#20"
       ],
       "id": "schemas.live-venkateshrao.rule.generated.disjoint-from-transclusions",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): generation sources never appear in transclusions[]",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): generation sources never appear in transclusions[]",
+      "status": "pass",
+      "detail": "held on 200 document(s)",
+      "clauses": []
+    },
+    {
+      "spec_refs": [
+        "§16.16",
+        "§5.9"
+      ],
+      "decisions": [
+        "#117",
+        "#30"
+      ],
+      "id": "schemas.live-venkateshrao.rule.generated.url-source-cited",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): a web-page generation source carries cited, with retrieved",
+      "status": "pass",
+      "detail": "held on 200 document(s)",
+      "clauses": []
+    },
+    {
+      "spec_refs": [
+        "§16.16"
+      ],
+      "decisions": [
+        "#117"
+      ],
+      "id": "schemas.live-venkateshrao.rule.generated.url-source-not-held-item",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): a URL naming the publisher's own item is written as a reference, not {url}",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1436,7 +1492,7 @@
         "#54"
       ],
       "id": "schemas.live-venkateshrao.rule.links.rendered-absolute",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): [[id]] links render as anchors with absolute hrefs",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): [[id]] links render as anchors with absolute hrefs",
       "status": "warn",
       "detail": "1 finding(s): items/4tbqw37kqn33arb2xtvtb92e5s.json: [[5vt4cvsxvs6h2m5yqzk2hn4d4v]] has no absolute anchor in content_html",
       "clauses": [
@@ -1451,7 +1507,7 @@
         "#54"
       ],
       "id": "schemas.live-venkateshrao.rule.code.inert",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): directive/link syntax inside code is left literal",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): directive/link syntax inside code is left literal",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1463,7 +1519,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.media.referenced",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): every media[] entry is referenced by content_html",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): every media[] entry is referenced by content_html",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1477,7 +1533,7 @@
         "#29"
       ],
       "id": "schemas.live-venkateshrao.rule.withdrawn.keeps-page",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): an endcap keeps page",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): an endcap keeps page",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1489,7 +1545,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.id.matches-url",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): document id equals the id in its URL",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): document id equals the id in its URL",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1506,7 +1562,7 @@
         "#28"
       ],
       "id": "schemas.live-venkateshrao.rule.origin.matches-fetch",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): document origin equals the origin it was fetched from",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): document origin equals the origin it was fetched from",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1520,7 +1576,7 @@
         "#8"
       ],
       "id": "schemas.live-venkateshrao.rule.pins.served",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): every changelog pinned:true version is served as v{n}.json and nothing else is",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): every changelog pinned:true version is served as v{n}.json and nothing else is",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": [
@@ -1536,7 +1592,7 @@
         "#98"
       ],
       "id": "schemas.live-venkateshrao.rule.syndication.version-published",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): every syndication entry names a published version of the item",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): every syndication entry names a published version of the item",
       "status": "pass",
       "detail": "held on 200 document(s)",
       "clauses": []
@@ -1548,7 +1604,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.pinned.hash",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): pinned content_hash = sha256(content_md)",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): pinned content_hash = sha256(content_md)",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": [
@@ -1561,7 +1617,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.pinned.at-matches-changelog",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): pinned at/note match the item's changelog entry",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): pinned at/note match the item's changelog entry",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": []
@@ -1573,7 +1629,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.pinned.forked_from-immutable",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): a pin of a forked item carries the same forked_from",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): a pin of a forked item carries the same forked_from",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": [
@@ -1589,7 +1645,7 @@
         "#53"
       ],
       "id": "schemas.live-venkateshrao.rule.pinned.html.absolute-urls",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): every URL in content_html is absolute",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): every URL in content_html is absolute",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": [
@@ -1605,7 +1661,7 @@
         "#20"
       ],
       "id": "schemas.live-venkateshrao.rule.pinned.md.no-tk-grammar",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): no TK authoring grammar reaches the wire",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): no TK authoring grammar reaches the wire",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": []
@@ -1618,7 +1674,7 @@
         "#103"
       ],
       "id": "schemas.live-venkateshrao.rule.pinned.md.is-text",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): content_md has no C0 control but tab, LF and CR, and no unpaired surrogate",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): content_md has no C0 control but tab, LF and CR, and no unpaired surrogate",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": []
@@ -1631,7 +1687,7 @@
         "#103"
       ],
       "id": "schemas.live-venkateshrao.rule.pinned.md.nfc",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): content_md is in Unicode Normalization Form C",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): content_md is in Unicode Normalization Form C",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": []
@@ -1645,7 +1701,7 @@
         "#103"
       ],
       "id": "schemas.live-venkateshrao.rule.pinned.origin.one-spelling",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): every origin string written has the §12.2 spelling",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): every origin string written has the §12.2 spelling",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": []
@@ -1660,7 +1716,7 @@
         "#49"
       ],
       "id": "schemas.live-venkateshrao.rule.pinned.transclusions.match-directives",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): transclusions[] matches the directives in content_md, in order",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): transclusions[] matches the directives in content_md, in order",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": [
@@ -1677,7 +1733,7 @@
         "#49"
       ],
       "id": "schemas.live-venkateshrao.rule.pinned.transclusions.baked-wrappers",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): each entry has a matching baked blockquote (classes, data attributes)",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): each entry has a matching baked blockquote (classes, data attributes)",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": [
@@ -1693,7 +1749,7 @@
         "#27"
       ],
       "id": "schemas.live-venkateshrao.rule.pinned.stub_of.version-agreement",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): stub_of.version equals the baked version when the body quotes the target",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): stub_of.version equals the baked version when the body quotes the target",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": [
@@ -1710,7 +1766,7 @@
         "#30"
       ],
       "id": "schemas.live-venkateshrao.rule.pinned.forked_from.cited-url-is-page",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): forked_from.cited.url names a human page, not the v{n}.json document",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): forked_from.cited.url names a human page, not the v{n}.json document",
       "status": "pass",
       "detail": "held on 6 document(s)",
       "clauses": [
@@ -1725,7 +1781,7 @@
         "#22"
       ],
       "id": "schemas.live-venkateshrao.rule.feed.rss2-namespace",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): RSS 2.0 root declaring the permanent blyg namespace",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): RSS 2.0 root declaring the permanent blyg namespace",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -1739,7 +1795,7 @@
         "#17"
       ],
       "id": "schemas.live-venkateshrao.rule.feed.manifest-hook",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): <blyg:manifest> present and absolute",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): <blyg:manifest> present and absolute",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -1754,7 +1810,7 @@
         "#16"
       ],
       "id": "schemas.live-venkateshrao.rule.feed.entry-vocabulary",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): every entry carries well-formed blyg:id/kind/version/created/item and a per-version guid",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -1770,7 +1826,7 @@
         "#8"
       ],
       "id": "schemas.live-venkateshrao.rule.feed.withdrawn-single-entry",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): a withdrawn item contributes exactly one empty 'withdrawn' entry",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): a withdrawn item contributes exactly one empty 'withdrawn' entry",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -1783,9 +1839,9 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.feed.injected-presentation",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): descriptions carry injected presentation lines (permitted by §7)",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): descriptions carry injected presentation lines (permitted by §7)",
       "status": "info",
-      "detail": "1 finding(s): feed.xml: 29 entries carry injected citation/provenance <p> elements inside or before content_html",
+      "detail": "1 finding(s): feed.xml: 24 entries carry injected citation/provenance <p> elements inside or before content_html",
       "clauses": [
         "C-7-06"
       ]
@@ -1796,7 +1852,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.feed.latest-content",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): entries render the item's latest content_html",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): entries render the item's latest content_html",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -1809,7 +1865,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.feed.newest-first",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): one entry per publish event, newest first",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): one entry per publish event, newest first",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": []
@@ -1820,7 +1876,7 @@
       ],
       "decisions": [],
       "id": "schemas.live-venkateshrao.rule.feed.window",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): window bounded (RECOMMENDED 50)",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): window bounded (RECOMMENDED 50)",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -1835,7 +1891,7 @@
         "#11"
       ],
       "id": "schemas.live-venkateshrao.rule.feed.dc-creator",
-      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.69.0 (live, 200 items, fetched 2026-11-22): dc:creator emitted when author.name present",
+      "title": "https://venkateshrao.com/blyg/ — blygger-studio/0.71.0 (live, 200 items, fetched 2026-11-23): dc:creator emitted when author.name present",
       "status": "pass",
       "detail": "held on 1 document(s)",
       "clauses": [
@@ -2354,6 +2410,34 @@
     },
     {
       "spec_refs": [
+        "§16.16",
+        "§5.9"
+      ],
+      "decisions": [
+        "#117",
+        "#30"
+      ],
+      "id": "schemas.fake-remote.rule.generated.url-source-cited",
+      "title": "fake remote origin (hand-built fixture): a web-page generation source carries cited, with retrieved",
+      "status": "pass",
+      "detail": "held on 3 document(s)",
+      "clauses": []
+    },
+    {
+      "spec_refs": [
+        "§16.16"
+      ],
+      "decisions": [
+        "#117"
+      ],
+      "id": "schemas.fake-remote.rule.generated.url-source-not-held-item",
+      "title": "fake remote origin (hand-built fixture): a URL naming the publisher's own item is written as a reference, not {url}",
+      "status": "pass",
+      "detail": "held on 3 document(s)",
+      "clauses": []
+    },
+    {
+      "spec_refs": [
         "§10.1"
       ],
       "decisions": [
@@ -2764,7 +2848,7 @@
         "#98"
       ],
       "id": "schemas.studio.scenario.syndication-in-place",
-      "title": "blygger-studio 0.69.0 (in-process harness): recording a syndication entry rewrites the item document in place",
+      "title": "blygger-studio 0.71.0 (in-process harness): recording a syndication entry rewrites the item document in place",
       "status": "pass",
       "detail": "entry on the live document; version, updated, content_hash, content, changelog, feed.xml, items/index.json and the pinned file unchanged"
     },
@@ -3280,7 +3364,7 @@
       "id": "schemas.selftest.updated-mismatch",
       "title": "Self-test: checker catches updated ≠ last changelog at",
       "status": "pass",
-      "detail": "caught by updated.equals-last-changelog: updated 2020-01-01T00:00:00Z ≠ changelog v3.at 2026-11-22T05:30:18Z",
+      "detail": "caught by updated.equals-last-changelog: updated 2020-01-01T00:00:00Z ≠ changelog v3.at 2026-11-23T16:30:36Z",
       "clauses": [
         "C-5.2-02"
       ]
@@ -3363,6 +3447,28 @@
       "clauses": [
         "C-5.7-05"
       ]
+    },
+    {
+      "spec_refs": [],
+      "decisions": [
+        "#48"
+      ],
+      "id": "schemas.selftest.url-source-extra-member",
+      "title": "Self-test: checker catches a {url} generation source with an id beside it (#117)",
+      "status": "pass",
+      "detail": "caught by schema /generated/0/sources/1 must NOT be valid · schema /generated/0/sources/1 must NOT have additional properties: id · schema /generated/0/sources/1 must NOT have additional properties: version",
+      "clauses": []
+    },
+    {
+      "spec_refs": [],
+      "decisions": [
+        "#48"
+      ],
+      "id": "schemas.selftest.url-source-cited-no-retrieved",
+      "title": "Self-test: checker catches a {url} generation source whose cited lacks retrieved (§5.9, #117)",
+      "status": "pass",
+      "detail": "caught by schema /generated/0/sources/1 must NOT be valid · schema /generated/0/sources/1 must have required property 'id': id · schema /generated/0/sources/1 must have required property 'version': version",
+      "clauses": []
     },
     {
       "spec_refs": [],
@@ -3462,7 +3568,7 @@
       "id": "schemas.selftest.fragment-directive",
       "title": "Self-test: checker catches a directive line in a fragment (#102)",
       "status": "pass",
-      "detail": "caught by hash.matches-content_md: content_hash sha256:6913c91099b… ≠ sha256(content_md) sha256:9279033a647… · fragment.no-directive: directive line(s) 3 in a fragment: a publish error since #102",
+      "detail": "caught by hash.matches-content_md: content_hash sha256:6913c91099b… ≠ sha256(content_md) sha256:ddf2519e992… · fragment.no-directive: directive line(s) 3 in a fragment: a publish error since #102",
       "clauses": []
     },
     {
@@ -3539,7 +3645,7 @@
       "id": "schemas.selftest.page-host-rooted",
       "title": "Self-test: checker catches page host-rooted (/f/…)",
       "status": "pass",
-      "detail": "caught by page.origin-relative: page \"/f/09nnttepz5jzxg5ytt4qg1xwmw/\" is host-rooted; it would break a path-mounted origin (#14)",
+      "detail": "caught by page.origin-relative: page \"/f/73rbkzvcb9hrex79wka7n9hy76/\" is host-rooted; it would break a path-mounted origin (#14)",
       "clauses": [
         "C-5.8-01"
       ]
@@ -3552,7 +3658,7 @@
       "id": "schemas.selftest.page-absolute-not-url",
       "title": "Self-test: checker catches an absolute page that is not an http(s) URL",
       "status": "pass",
-      "detail": "caught by page.absolute-is-url: page \"urn:blyg:09nnttepz5jzxg5ytt4qg1xwmw\" is absolute but not an http(s) URL",
+      "detail": "caught by page.absolute-is-url: page \"urn:blyg:73rbkzvcb9hrex79wka7n9hy76\" is absolute but not an http(s) URL",
       "clauses": [
         "C-5.8-01"
       ]
@@ -3578,7 +3684,7 @@
       "id": "schemas.selftest.reserved-directive",
       "title": "Self-test: checker catches ![[id@vN]] published",
       "status": "pass",
-      "detail": "caught by hash.matches-content_md: content_hash sha256:59753d6ee05… ≠ sha256(content_md) sha256:ba8ca5cc61b… · md.no-reserved-directive: reserved directive on line(s) 16",
+      "detail": "caught by hash.matches-content_md: content_hash sha256:9bd625a202d… ≠ sha256(content_md) sha256:e93fa852707… · md.no-reserved-directive: reserved directive on line(s) 16",
       "clauses": [
         "C-10.1-01"
       ]

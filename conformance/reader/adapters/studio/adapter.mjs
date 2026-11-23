@@ -162,6 +162,17 @@ for (const c of cases) {
       // The scope list comes from the preview operation, given the working
       // copy's markdown (given only an itemId, 0.49.12 previews nothing).
       const pv = await s.api("POST", "/preview", { itemId: id, kind, contentMd: (await s.api("GET", `/items/${id}`)).json.contentMd });
+      // Generate from the draft as an author has it before generating: each
+      // scope's instruction only. Since 0.70.0 (#117) the studio reads every
+      // link in the draft, so leaving the expected output in place would make
+      // it read links that, in real use, only the model's output contains.
+      // Only real scopes, matched in order by instruction against the
+      // preview's list: TK syntax inside code is literal and stays as written.
+      const real = (pv.json.scopes || []).filter((x) => x.hasOutput && !x.imported).map((x) => x.instruction);
+      let k = 0;
+      const bare = mapIn(c.content_md).replace(/\[TK\]((?:(?!\[TK\]|\[\/TK\])[\s\S])*?)\[=\](?:(?!\[TK\])[\s\S])*?\[\/TK\]/g,
+        (m, instr) => (k < real.length && instr.trim() === String(real[k]).trim() ? (k++, `[TK]${instr}[/TK]`) : m));
+      if (bare !== mapIn(c.content_md)) await edit(id, bare);
       for (const scope of pv.json.scopes || []) {
         if (scope.output === null || scope.imported) continue;
         remote.state.gen.push(scope.output);

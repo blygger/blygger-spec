@@ -44,6 +44,7 @@ export const CHECKS = {
   "live.webmention-advertised": { title: "Which origins advertise a Webmention endpoint (manifest key / rel=webmention)", spec_refs: ["§15.1"], decisions: ["#28"], clauses: ["C-6.1-02","C-15.1-01"], kind: "info" },
   "live.webmention-reachability": { title: "Cross-origin references whose sender would find an endpoint at the target", spec_refs: ["§15.1", "§15.2"], decisions: ["#28"], clauses: ["C-6.1-02","C-15.1-01","C-15.2-01"], kind: "info" },
   "live.generated-sources": { title: "`generated[].sources[]`: own sources omit `origin`, remote sources carry it (0.4)", spec_refs: ["§5.7", "§5.9"], decisions: ["#20", "#44"], clauses: ["C-5.7-08", "C-5.9-01"], kind: "invariant" },
+  "live.generated-url-sources": { title: "`generated[].sources[]` web pages: `{url, cited}` with `retrieved`; a held item is a reference, not a URL (§16.16, ruled)", spec_refs: ["§16.16", "§5.9", "§10.6"], decisions: ["#117", "#30"], clauses: ["P-16.16-01"], kind: "invariant" },
   "live.updated-changelog": { title: "`updated` equals the latest changelog entry's `at`", spec_refs: ["§5.2"], decisions: [], clauses: ["C-5.2-02"], kind: "invariant" },
   "live.fork-reresolution": { title: "Fork content vs. source pin: directives, selectors, baked versions, origins", spec_refs: ["§5.6", "§10.2"], decisions: ["#26", "#49"], clauses: ["C-10.2-01","C-5.6-08"], kind: "info" },
   "live.md-text": { title: "`content_md` is text: no C0 control but tab, LF and CR, no unpaired surrogate (fail); NFC (warn)", spec_refs: ["§5.1"], decisions: ["#103"], clauses: [], kind: "invariant" },
@@ -316,6 +317,16 @@ export async function check(crawlPath = join(HERE, "out", "crawl.json")) {
 
       // generated sources
       for (const g of d.generated || []) for (const s of g.sources || []) {
+        // §16.16 (#117): a web page the generator read, in §10.6's plain-web shape.
+        if (s && typeof s.url === "string" && !s.id) {
+          const extra = Object.keys(s).filter((k) => k !== "url" && k !== "cited");
+          if (extra.length) add("live.generated-url-sources", "fail", `{url} source carries ${extra.join(", ")} (§10.6 plain-web shape is url and cited only)`, at);
+          else if (s.cited && !s.cited.retrieved) add("live.generated-url-sources", "fail", `{url} source ${s.url}: cited without retrieved (§5.9)`, at);
+          else if (!s.cited) add("live.generated-url-sources", "warn", `{url} source ${s.url} has no cited (§16.16: retrieved RECOMMENDED)`, at);
+          else if (s.url.startsWith(o.identity) && /[0-9abcdefghjkmnpqrstvwxyz]{26}/.test(s.url.slice(o.identity.length))) add("live.generated-url-sources", "warn", `{url} source ${s.url} names an item at the publisher's own origin; §16.16 writes it as a reference`, at);
+          else add("live.generated-url-sources", "pass", `web page ${s.url} (§16.16)`, at);
+          continue;
+        }
         // 0.4 §5.7 (C-5.7-08, #44): a remote source is a reference carrying its
         // origin. Until the 0.4 text this warned as a 0.4 construct (§16.3).
         if (s.origin && !sameOrigin(s.origin, o.identity)) add("live.generated-sources", "pass", `remote generation source ${s.origin} ${s.id} (0.4 §5.7)`, at);
@@ -419,7 +430,7 @@ export async function check(crawlPath = join(HERE, "out", "crawl.json")) {
       if (d.stub_of && !d.stub_of.url) refs.push(["stub", d.stub_of]);
       if (d.stub_of && d.stub_of.url) refs.push(["stub-url", d.stub_of]);
       for (const t of d.transclusions || []) refs.push(["transclusion", t]);
-      for (const g of d.generated || []) for (const s of g.sources || []) refs.push(["source", s]);
+      for (const g of d.generated || []) for (const s of g.sources || []) if (s && s.id) refs.push(["source", s]); // {url} sources are web pages, not references (§16.16)
       for (const [rel, ref] of refs) {
         if (rel === "stub-url") {
           refInstances.push({ from: o.identity, item: id, rel: "stub", url: ref.url, flags: ["url-target"] });

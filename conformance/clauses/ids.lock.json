@@ -836,7 +836,7 @@
    "text": "Each directive MUST resolve, in this order, to:"
   },
   "C-10.2-02": {
-   "fp": "409e65c71c50",
+   "fp": "c36f5f29bdab",
    "section": "10.2",
    "text": "A directive with an attached blockquote (§10.1) resolves exactly as a whole directive — same order, same snapshot rule — and adds one check: at publish, the sel"
   },
@@ -1769,6 +1769,11 @@
    "section": "16.14",
    "text": "An additive OPTIONAL member; 0.4 text by #43.",
    "retired": true
+  },
+  "P-16.16-01": {
+   "fp": "49376f3ef0c5",
+   "section": "16.16",
+   "text": "`cited` follows §5.9's rules; `retrieved` is RECOMMENDED, since the page has no version."
   }
  }
 }
