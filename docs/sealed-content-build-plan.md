@@ -1,0 +1,141 @@
+# Sealed content and private items in the reference client — build plan
+
+**Plan of record for blygger-studio · session 81, 2026-11-22 · Opus 5.5 with Venkat.**
+RFC-6 ([`docs/rfcs/rfc-6-sealed-content.md`](rfcs/rfc-6-sealed-content.md)) in the studio,
+preceded by the owner-only private items of
+[`plans/private-items-proposal.md`](../plans/private-items-proposal.md) §8. Like
+[`mentions-build-plan.md`](mentions-build-plan.md), this is the build order and the
+client's choices; the wire is RFC-6's, and where this plan needs a wire answer it says
+which RFC item it waits on.
+
+## 0. Gates and what Venkat decided
+
+- **RFC-6 is open for comment until 2026-11-28.** v0.5-plan §0: nothing of it is built in
+  the studio before the close, when Fable revises the rulings and promotes it as a note
+  (#90). Phases 1–4 below start after that, and are re-read against the revised RFC first.
+- **Venkat, session 81:** (1) run the **R8 probe now**, before the close, throwaway, so the
+  suite (item 3) and padding (item 4) are ruled on measurements; (2) **start Phase 0 now**:
+  private items are ruled (#94) and not gated by RFC-6; (3) this plan lives here.
+- **Model routing (#58).** Phase 0 is client contract and Opus's. Phases 1–4 build ruled
+  wire; any question the build raises about the wire goes to Fable as a finding, not a
+  guess.
+
+## 1. Phase 0 — private items (owner-only), buildable now
+
+Venkat's model (private-items §8, memory of session 59): visibility is `private` (the
+owner), `group` (later: it *is* a sealed item, §6 below) or `public`, **orthogonal to the
+draft lifecycle**. A private item has versions, a working copy and pending changes; it is
+never pinned; raising to public is a publish event whose first public version is **v1**
+(#94); lowering is not offered (withdrawal is the only exit, #8).
+
+**0a. The allow-list refactor — the gate.** Today the public surface refuses by deny-list:
+about 70 status comparisons across 26 server files (`pages.ts`, `public-feed.ts`,
+`read-api.ts`, `index.ts`, `front-page.ts`, `transclusion.ts`, `mentions/receive.ts`,
+`syndication.ts`, `feeds/history.ts`, …; some test imported items' status and are out of
+scope). Each own-item check on a public path becomes one predicate,
+`servedPublicly(item)` (visibility `public` and status `public` or `withdrawn`), and the
+SQL forms one shared fragment. Then a test that **enumerates the public routes** (pages,
+pinned pages, item documents, pins, feed, index, hopper feeds, front page, mention
+receipt's target check) and asserts a private item with versions 404s on every one, and
+is absent from feed, index, search's public scope and sitemap-like lists. The enumeration
+is the test's real value: a new public route that forgets the predicate fails it. Ships
+alone, with no visible change.
+
+**0b. Visibility.** Migration: `items.visibility` (`public` default), and a private
+version counter apart from the public one (#94: private history is studio history; the
+public counter starts at 1). Publish-privately, raise-to-public, no pins below public.
+
+**0c. References.** Working copies (including a published item's pending changes) may name
+a private item; **publishing them is blocked** while they do (private-items §3.4). TK may
+draw on a private source only for private output.
+
+**0d. Search, picker, tokens.** Private items are in the owner's own search and the
+picker; a **private-read scope** distinct from draft access (§8.3, Opus's part); publishing
+scopes imply private-write. Group-scoped tokens wait for Phase 3 (they name membership).
+
+**0e. Leak tests** (private-items §4): feed, index, mentions sent, `links[]`,
+`transclusions[]`, search, Agentic feed editions, catch-up, the MCP surface, exports and
+backups' public half.
+
+## 2. The R8 probe — now, throwaway
+
+v0.5-plan §10 item 4, RFC-6 §9 items 3, 4 and 28. Read `Code/devops/security-policy.md`
+first; probe keys are generated in memory and never written outside the probe directory.
+
+- **What:** seal and open one item with a span and a nested span, two wraps on one entry,
+  and a whole-item seal; HPKE grant to an X25519 key; the commitment check, including a
+  crafted second key that must fail (item 2); the request MAC (item 28).
+- **Where:** Chromium, WebKit and Firefox (WebCrypto, via Playwright), a Worker
+  (`wrangler dev`), Go (stdlib, `crypto/hpke` from 1.26 if available), Python
+  (`cryptography`). Cross-decrypt: each sealer's output opened by every other.
+- **Measure:** document bytes per span by plaintext length and bucket; seal and open
+  times; whether X25519 is in each WebCrypto without a flag.
+- **Output:** `plans/l3/r8-probe.md` (findings, with numbers) and the probe code beside
+  it; nothing in blygger-studio. Fable reads it at the close.
+
+## 3. Phase 1 — spans and sealed items, keys handed over by hand
+
+Starts after the close. This alone exercises a Level 3 construct and opens the 0.5
+document (#21, #43; Fable's).
+
+**Authoring.** A studio-private mark, rewritten before publish (#70, #20's two-layer
+split). *Proposal:* the TK grammar's balanced form, `[SEAL lock]sealed words[=]cover[/SEAL]`,
+inline or block, nesting allowed (TK forbids it; seals need it, §3.5). The whole-item seal
+is an editor setting, not a mark. A composer chip shows the lock and the cover; the full
+editor shows the sealed words and the cover side by side.
+
+**Locks.** A `locks` table (id, name, epoch, home, key), keys encrypted at rest under a
+new Worker secret registered per `security-policy.md`. Phase 1 homes nothing: `home` is
+the owner's origin, unused until Phase 2. **Hand-over:** export a lock key at an epoch as
+one string; a reader's studio imports it into `held_keys`. That is the whole of "by hand".
+
+**Publish.** Per entry: plaintext object (§3.2), padding (§3.3), entry key, AAD, wraps,
+commitment; bake `blyg-sealed`; selector for spans. **Carry-over (§3.6):** the studio
+keeps, per item and entry, a private digest of the plaintext and description and the
+entry's stored `nonce`, `ct`, `commit` and key, so an unchanged entry is re-emitted byte
+for byte and re-wrapping is maintenance. References inside sealed text default to
+*inside* for a span and *clear* for a sealed item (item 6, Fable's recommendation), with a
+per-reference switch. Changelog notes: a warning when a note quotes sealed words (§3.7).
+
+**Reading.** The importer stores `sealed` as received. At display, a held key that opens a
+wrap decrypts in the Worker; the commitment is checked before anything shows (§4 step 6);
+a mismatch shows an error, never content. Decrypted `content_html` goes through the
+sanitizer like any import: **`sanitize.ts` must admit `blyg-sealed` and
+`data-blyg-entry`**, or sealed spans vanish from thread displays (the sanitizer runs on
+every thread display, reader and preview). Covers show for everything without a key.
+Plaintext never enters public search, the Agentic feed's shared surfaces or any page.
+
+**What the owner sees on their own public pages:** covers. Preview shows both.
+
+## 4. Phases 2–4, after Phase 1 ships
+
+2. **Origin key, home document, grant files** (§3.10): the manifest key, a static home
+   document, grant files at derived paths; readers probe them.
+3. **The request endpoint and the ladder** (§3.11): the uniform first answer, the
+   `proof` MAC, pre-approved / automatic (OPML rosters) / exception queue for the owner or
+   their delegate under §4's delegate rules. This is where **group** (private-items §8.3)
+   arrives as a lock with a roster; group-scoped tokens with it.
+4. **Lock-to-lock grants and epochs** (§3.12), rotation, lapse notices (§5).
+
+RFC-7 (payments) rides on Phase 3's endpoint and adds no studio wire.
+
+## 5. Open questions, for the build or the close
+
+1. The authoring spelling (§3): `[SEAL …]` is a proposal; the picker and the composer
+   need it settled before Phase 1's UI.
+2. Encrypted media (§3.8) in Phase 1 or later? Recommended later: text first, media
+   refused inside a seal until then.
+3. TK over sealed sources (item 14, client policy): output is sealed under the same locks
+   by default, or refused?
+4. Whether a reader studio decrypts in the Worker (proposed: the owner's own Worker is the
+   owner's machine) or also offers browser-only decryption for readers who distrust their
+   host (§7's disclosure).
+
+## 6. How the two halves meet
+
+Private (owner-only) never reaches the wire, so it needs no cryptography: it is Phase 0.
+Group visibility **is** a sealed item under a lock whose roster is the group, which is why
+it waits for Phase 3 and is not built as a studio-only gate (#93: C2 refused, C3 is where
+L3 starts). The allow-list predicate of Phase 0 is reused: a sealed item is
+`servedPublicly`, and the leak tests grow a second question, "is any sealed plaintext on
+this surface?"
