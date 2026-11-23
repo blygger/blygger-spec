@@ -7,6 +7,39 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 81 — 2026-11-22/23 — Studio 0.71.0 released and rolled out (#118 built, studio#167, #168, #172, #173); private items built oracle-first for 0.72.0; the R8 probe; sealed-content build plan
+**Model:** Opus 5.5 · **Time:** ~15:42 (11-22)–09:00 PT (11-23), with a long break · **Committed:** yes (studio, spec, org) · **Deployed:** studio 0.71.0 to venkateshrao, PI and blyg.blygger.org (0058); release announced on blyg.blygger.org
+
+**What & why:**
+1. **Merges.** #172 (Kyle, 0058 reader work; fixes #169), #168 (Kyle, editor oracles, after the evidence was cut) and #173 (picker sources) merged to main.
+2. **The sealed-content build plan** (`docs/sealed-content-build-plan.md`, plan of record): RFC-6 in the studio, preceded by owner-only private items. Venkat's calls: run the R8 probe now, start Phase 0 now (private items are ruled by #94 and are not gated by RFC-6's close), and keep the plan here. Phases 1–4 wait for the close on 2026-11-28.
+3. **The R8 probe** (`plans/l3/r8-probe.md`, throwaway, nothing in the studio). It sealed and opened a span, a nested span, two wraps, a whole-item seal, an HPKE grant and the request MAC in Node, Chromium, WebKit, workerd and Python. Every runtime opened every other runtime's bundle, and the negative checks (commitment, AAD transplant, wrong key) failed as they should. These are inputs to RFC-6 §9 items 2, 3, 4, 11 and 28 for Fable at the close.
+4. **Private items, Phase 0a–0b** (branch `feat/private-items`, oracle-first with `@tanstack/oracles`):
+   - **0a:** a public-route enumeration test as the allow-list gate.
+   - **0b:** visibility is a **status value** (`status = 'private'`), not a column. This departs from private-items §8.1, on Venkat's call, because about 25 public queries are already allow-lists and exclude it unchanged. Private versions live in their own table, `private_versions` (0059), which no public query names. `items.version` stays the public counter, so raising to public is an ordinary publish and v1 falls out (#94). `POST /items/{id}/publish` takes `visibility`; this is private contract 6.4.0.
+   - **Laws and oracles.** Venkat approved four laws: public surface, raise to public, publish block, and the media-visibility change.
+   - **Default visibility, added the same session.** A blyg can be set to default private (a notebook that occasionally shares): the API follows the setting, the editor has a public/private radio beside one **add version** button (Venkat's wording), and the owner's blyg is in their own reader's sources with private items marked. Laws 5 and 6 were approved and are oracles.
+   - **Tests:** Worker 1990 pass, UI 327 pass, oracles 151/151.
+   - **Gap check:** it finds gaps in `resolveTarget`, `discardDraft` and `publishPrivately`'s conflict branch. The `resolveTarget` gaps are mostly pre-existing. All three are 0.72.0 work.
+5. **0.71.0, one batch** (Venkat: "bundle it all in 0.71 so 0.72 can introduce the private feature carefully"):
+   - **#118 built** in `src/markdown.ts`. `BLOCK_BOUNDARY` is now §2's set, open and close tags plus `br`/`hr`.
+   - **studio#167:** the suite blanks the operator's AI keys; `fail()` is guarded by `status = 'pending'`. RED then GREEN, and djinna's repro passes.
+   - **Conformance:** brought into line with §2 (spec `b53599c`, with fixtures 111 and 112).
+   - **Tables gate (opus-brief § session 80 a).** On one fresh crawl, `live.selector-substring` went from 125/21/0 to 130/16/0. No match was lost, so no ruling was needed.
+   - **Release.** PR #174 was green (31 checks) and merged as `ff8eb07`; the tag was pushed and 0058 applied on three nodes before deploy. All three serve 0.71.0.
+   - **The Release run's preflight timed out.** It waits up to 60 minutes for main's Check, which took about 62. The workflow's remedy was to re-run Release after Check passed, and the downloads then published.
+   - **Announcement and replies.** The release is announced at `blyg.blygger.org/t/1q976g30abrhm6ganez7sbpdzd/`. #167 has a reply and is closed; spec#38 has a reply with the ruling as built.
+6. **Flakes seen.** The main Check on `aafd541` failed on the known oracle-gaps start-up error (exit 3) and on a nondeterministic `editor-navigation` oracle ("two runs … recorded different traces at observation 4, departureSave"). Both passed elsewhere.
+
+**State after:** studio 0.71.0 is released and live on the three nodes this project manages (New Nature is its own project's). `feat/private-items` has Phase 0a–0b plus default visibility. It is pushed to `4c5fa11`, with two commits local (`752e658`, `46edfdc`), not merged and not released. ROADMAP: 150 and 151 shipped; 105 in progress. Spec 0.4 is unchanged at its twenty-third revision.
+
+**Open threads:**
+- **0.72.0 (private items):** push the two commits and close the oracle gaps above. Then add the p1/p2/p3 private-versions list and merge origin/main. Then run e2e and open the PR. 0d (owner search, compose list) and 0e (leak tests) follow.
+- **`tk-link-inside-span`** fails in the reader suite on 0.70.0 and 0.71.0. It is probably a fixture written before #117; asked of Aneesh on spec#38.
+- **The Release preflight's 60-minute wait is shorter than Check (~62 min).** Every release will need a re-run until the wait is raised or Check gets faster (studio#73, Kyle).
+- **The `editor-navigation` determinism flake** came in with #168. Raise it with Kyle.
+- **RFC-6/7 close 2026-11-28:** Fable reads `r8-probe.md`, then Phases 1–4.
+
 ## Session 80 — 2026-11-22 — Studio 0.70.0 released and rolled out; text content defined (#118, twenty-third revision); spec#38 merged; reviews of #168 and #172
 **Model:** Opus 5.5, Fable 5.1 by sub-agent for one ruling · **Time:** ~14:18–15:35 PT · **Committed:** yes (spec, org) · **Deployed:** studio 0.70.0 to PI and blyg.blygger.org (0056, 0057) and venkateshrao (version bump only); blygger.org (revision 23, ROADMAP)
 

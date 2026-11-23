@@ -69,6 +69,16 @@ and the media-visibility law change ("media used only by private versions stays
 private"). Left for 0d: the owner's search (`read-api.ts`, `status IN ('public','draft')`)
 drops private items, and the compose list files them under *drafts* with their own dot.
 
+*Also built (session 81, same branch, local commits `752e658`, `46edfdc`):* a
+**default-visibility** setting (`default_visibility`, public or private), so a blyg can
+be a private notebook that occasionally shares. An unpublished item's publish follows the
+setting unless the API call names `visibility`. The editor shows a public/private radio
+next to one **add version** button, and confirms before anything goes public. The
+owner's own blyg appears in their reader's sources, with private items marked. Two more
+approved laws became oracles: *default visibility* and *owner reader*. Private versions
+are numbered apart from the public counter (p1, p2, …), and a list view of them is
+proposed for 0.72.0. Shipping is planned as **0.72.0 alone**, after 0.71.0.
+
 **0c. References.** Working copies (including a published item's pending changes) may name
 a private item; **publishing them is blocked** while they do (private-items §3.4). TK may
 draw on a private source only for private output.
