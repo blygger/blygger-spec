@@ -55,6 +55,20 @@ one (#94: private history is studio history; the public counter starts at 1).
 Publish-privately, raise-to-public, no pins below public. *Group* never becomes a status:
 it is a sealed item (§6), public on the wire.
 
+*Built (session 81, branch `feat/private-items`, not yet merged):* private versions
+live in their own table, `private_versions` (migration 0059), which no public query
+names, so a route that forgot the status would still find nothing to serve. The public
+counter is `items.version`, untouched by a private publish, so raising is an ordinary
+publish and v1 falls out. The API is `POST /items/{id}/publish` with
+`visibility: "private"` (private contract 6.4.0). A private publish resolves and
+renders nothing, sends no mentions and publishes no tangled parts. Pins need a row in
+`versions`, so a private item has nothing to pin. Discard deletes a private item with
+its private versions. Venkat approved four laws (2026-11-22), now oracles: *public
+surface*, *raise to public* and *publish block* (`test/private-items.oracle.test.ts`),
+and the media-visibility law change ("media used only by private versions stays
+private"). Left for 0d: the owner's search (`read-api.ts`, `status IN ('public','draft')`)
+drops private items, and the compose list files them under *drafts* with their own dot.
+
 **0c. References.** Working copies (including a published item's pending changes) may name
 a private item; **publishing them is blocked** while they do (private-items §3.4). TK may
 draw on a private source only for private output.
