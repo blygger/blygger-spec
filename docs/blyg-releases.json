@@ -326,6 +326,11 @@
       "id": "1p9ksqt0b69zhz24h6cvd1c1dk",
       "version": 1,
       "source_sha256": "917f8a17b81c6379a02cfb7327a1b11732fe771fed83f33ac68b263d1e2baeff"
+    },
+    "0.71.0": {
+      "id": "1q976g30abrhm6ganez7sbpdzd",
+      "version": 1,
+      "source_sha256": "333a004fbfa293fe4855298d2aec618eba6be5c294e24144c54c2869ff3ba0c9"
     }
   }
 }
