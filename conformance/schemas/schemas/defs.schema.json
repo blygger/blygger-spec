@@ -108,6 +108,30 @@
         }
       ]
     },
+    "generationSource": {
+      "description": "One generated[].sources[] entry: an item reference {id, version, origin?} (§5.7 rule 1) or a web page {url, cited?} (§16.16, #117). A URL naming a blyg item the publisher holds is that item and is written as a reference; that is a semantic check, not a shape.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["id", "version"],
+          "properties": {
+            "id": { "$ref": "#/$defs/id" },
+            "version": { "$ref": "#/$defs/version" },
+            "origin": { "$ref": "#/$defs/absoluteUrl" }
+          },
+          "not": { "required": ["url"] }
+        },
+        {
+          "type": "object",
+          "required": ["url"],
+          "properties": {
+            "url": { "$ref": "#/$defs/absoluteUrl", "description": "§16.16: the page the generator read." },
+            "cited": { "$ref": "#/$defs/cited", "description": "§16.16: follows §5.9's rules, so retrieved is REQUIRED when cited is present (§5.9); a cited block itself is RECOMMENDED (advisory layer)." }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
     "generatedEntry": {
       "type": "object",
       "description": "§5.7 (decision #20, #37): one generated span's provenance. MUST NOT carry instruction text or other pre-generation authoring state (rule 2).",
@@ -115,16 +139,8 @@
       "properties": {
         "sources": {
           "type": "array",
-          "description": "§5.7 rule 1: exact published versions of the items drawn on; MAY be empty (no sources declared). An own-origin source carries no origin member; a remote source carries its origin (0.4 §5.7 rules 1, 8, 9, decision #44; until the 0.4 text this schema refused origin as a 0.4 construct).",
-          "items": {
-            "type": "object",
-            "required": ["id", "version"],
-            "properties": {
-              "id": { "$ref": "#/$defs/id" },
-              "version": { "$ref": "#/$defs/version" },
-              "origin": { "$ref": "#/$defs/absoluteUrl" }
-            }
-          }
+          "description": "§5.7 rule 1: exact published versions of the items drawn on; MAY be empty (no sources declared). An own-origin source carries no origin member; a remote source carries its origin (0.4 §5.7 rules 1, 8, 9, decision #44; until the 0.4 text this schema refused origin as a 0.4 construct). A web page the generator read is a {url, cited} entry in §10.6's plain-web shape (§16.16, decision #117; ruled, accepted here before its promotion, as {url} stubs were under §16.1a).",
+          "items": { "$ref": "#/$defs/generationSource" }
         },
         "model": { "type": "string", "description": "§5.7 rule 1: RECOMMENDED." },
         "at": { "$ref": "#/$defs/utc", "description": "§5.7 rule 1: RECOMMENDED." }

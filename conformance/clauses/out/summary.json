@@ -1,13 +1,13 @@
 {
  "area": "clauses",
  "title": "Clause register & traceability",
- "generated_at": "2026-11-22T05:57:40+00:00",
+ "generated_at": "2026-11-23T17:23:35+00:00",
  "checks": [
   {
    "id": "register.counts",
    "title": "Clause register extracted",
    "status": "info",
-   "detail": "289 normative clauses (MUST 145, SHOULD 84, MAY 60) in 47 sections; 15 pending §16 sentences; 116 decisions; 450 tests joined from other areas. Side split: publisher 151, reader 85, client 23, sender 15, receiver 14, unknown 1",
+   "detail": "289 normative clauses (MUST 145, SHOULD 84, MAY 60) in 47 sections; 16 pending §16 sentences; 118 decisions; 461 tests joined from other areas. Side split: publisher 151, reader 85, client 23, sender 15, receiver 14, unknown 1",
    "spec_refs": [],
    "decisions": []
   },
@@ -463,7 +463,7 @@
    "id": "refs.dangling.document",
    "title": "§ references to headings that do not exist (whole document)",
    "status": "warn",
-   "detail": "§19.2 on line 3200",
+   "detail": "§19.2 on line 3211",
    "spec_refs": [
     "§19.2"
    ],
@@ -473,7 +473,7 @@
    "id": "decisions.cited",
    "title": "Decision numbers cited in normative text exist",
    "status": "pass",
-   "detail": "The spec cites 36 decisions by number in keyword sentences: #19, #29, #32, #40, #46, #49, #53, #54, #55, #56, #57, #59, #61, #62, #64, #65, #69, #70, #71, #73, #74, #76, #77, #78, #79, #80, #81, #82, #83, #84, #85, #86, #87, #95, #96, #98. The other 80 are linked only through the sections their records name.",
+   "detail": "The spec cites 36 decisions by number in keyword sentences: #19, #29, #32, #40, #46, #49, #53, #54, #55, #56, #57, #59, #61, #62, #64, #65, #69, #70, #71, #73, #74, #76, #77, #78, #79, #80, #81, #82, #83, #84, #85, #86, #87, #95, #96, #98. The other 82 are linked only through the sections their records name.",
    "spec_refs": [],
    "decisions": [
     "#19",
@@ -518,7 +518,7 @@
    "id": "decisions.grounding",
    "title": "How each locked decision reaches the living spec",
    "status": "info",
-   "detail": "normative 90, pending (§16 only) 8, token-only 9, none 9. A decision is 'normative' when a normative clause cites it or sits in a section its record names; 'token-only' when the only link is a shared wire token such as `stub_of`.",
+   "detail": "normative 92, pending (§16 only) 8, token-only 9, none 9. A decision is 'normative' when a normative clause cites it or sits in a section its record names; 'token-only' when the only link is a shared wire token such as `stub_of`.",
    "spec_refs": [],
    "decisions": []
   },
@@ -754,7 +754,7 @@
    "id": "decisions.unground.101",
    "title": "#101 Level 3's first feature is sealed content with locks and grants, taken — token-only",
    "status": "warn",
-   "detail": "no clause, no §16 entry, no classification: is it in the spec at all?. Shares tokens with C-10.2-02, C-10.2-10, C-13.1-05, C-13.3-03, C-13.5-08, C-13.7-05.",
+   "detail": "no clause, no §16 entry, no classification: is it in the spec at all?. Shares tokens with C-10.2-10, C-13.1-05, C-13.3-03, C-13.5-08, C-13.7-05, C-14-02.",
    "spec_refs": [],
    "decisions": [
     "#101"
@@ -996,7 +996,7 @@
    "id": "pending.shapes",
    "title": "§16 ruled / deferred / reserved constructs",
    "status": "info",
-   "detail": "promoted 12, closed 3, never 3, reserved 1, ruled 3. Ruled-but-unbuilt: §16.9 Pinned-entry members — `pinned_at` and `cid` (rule, §16.10 Author-sized images (ruled 2026-10-17; awaiting a , §16.13 Origin succession — `moved_from` (ruled 2026-11-01",
+   "detail": "promoted 12, closed 3, never 3, reserved 1, ruled 4. Ruled-but-unbuilt: §16.9 Pinned-entry members — `pinned_at` and `cid` (rule, §16.10 Author-sized images (ruled 2026-10-17; awaiting a , §16.13 Origin succession — `moved_from` (ruled 2026-11-01, §16.16 A web page as a generation source (ruled 2026-11-2",
    "spec_refs": [],
    "decisions": []
   }
