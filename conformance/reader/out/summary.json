@@ -1,8 +1,8 @@
 {
   "area": "reader",
   "title": "Reader suite: content_md → content_html fixtures",
-  "generated_at": "2026-11-23T07:53:02.097Z",
-  "renderer": "self-check fixtures",
+  "generated_at": "2026-11-23T16:33:10.565Z",
+  "renderer": "blygger-studio 0.71.0",
   "snapshot": "spec/0.4/2026-10-18",
   "text": "docs/protocol-v0.4.md at blygger-spec 1166a97 (twenty-first revision, 2026-11-21)",
   "fixtures": 112,
@@ -14,8 +14,8 @@
   },
   "checks": [
     {
-      "id": "reader.self-check.census",
-      "title": "self-check fixtures: 112 fixtures against spec/0.4/2026-10-18",
+      "id": "reader.blygger-studio.census",
+      "title": "blygger-studio 0.71.0: 112 fixtures against spec/0.4/2026-10-18",
       "status": "info",
       "detail": "112 pass, 0 warn (ambiguous text or fragment-only URLs), 0 fail, 0 unreported (passed what was checked, but left out an array the fixture expects)",
       "spec_refs": [
@@ -37,8 +37,8 @@
       }
     },
     {
-      "id": "reader.self-check.directive-local-whole",
-      "title": "self-check fixtures: An own-line directive naming a local fragment is a whole transclusion",
+      "id": "reader.blygger-studio.directive-local-whole",
+      "title": "blygger-studio 0.71.0: An own-line directive naming a local fragment is a whole transclusion",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -55,8 +55,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-remote-whole",
-      "title": "self-check fixtures: An own-line directive naming an imported item bakes it with data-blyg-origin",
+      "id": "reader.blygger-studio.directive-remote-whole",
+      "title": "blygger-studio 0.71.0: An own-line directive naming an imported item bakes it with data-blyg-origin",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -73,8 +73,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-surrounding-whitespace",
-      "title": "self-check fixtures: Spaces and tabs around the directive are allowed",
+      "id": "reader.blygger-studio.directive-surrounding-whitespace",
+      "title": "blygger-studio 0.71.0: Spaces and tabs around the directive are allowed",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -87,8 +87,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-between-prose-lines",
-      "title": "self-check fixtures: The grammar is line-based: a directive line between two prose lines with no blank line still transcludes",
+      "id": "reader.blygger-studio.directive-between-prose-lines",
+      "title": "blygger-studio 0.71.0: The grammar is line-based: a directive line between two prose lines with no blank line still transcludes",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -101,8 +101,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-inline-inert",
-      "title": "self-check fixtures: A directive that is not alone on its line is inert text, and not a link",
+      "id": "reader.blygger-studio.directive-inline-inert",
+      "title": "blygger-studio 0.71.0: A directive that is not alone on its line is inert text, and not a link",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected · links: 0 entries as expected",
       "spec_refs": [
@@ -115,8 +115,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-inline-beside-link",
-      "title": "self-check fixtures: On one line, ![[a]] is inert and [[b]] is a link",
+      "id": "reader.blygger-studio.directive-inline-beside-link",
+      "title": "blygger-studio 0.71.0: On one line, ![[a]] is inert and [[b]] is a link",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 1 URL(s), all absolute · transclusions: 0 entries as expected · links: 1 entry as expected",
       "spec_refs": [
@@ -131,8 +131,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-in-blockquote-line",
-      "title": "self-check fixtures: A directive behind a blockquote marker is not alone on its line: inert",
+      "id": "reader.blygger-studio.directive-in-blockquote-line",
+      "title": "blygger-studio 0.71.0: A directive behind a blockquote marker is not alone on its line: inert",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected",
       "spec_refs": [
@@ -145,10 +145,10 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-reserved-version",
-      "title": "self-check fixtures: ![[id@vN]] is reserved: a publisher MUST reject it",
+      "id": "reader.blygger-studio.directive-reserved-version",
+      "title": "blygger-studio 0.71.0: ![[id@vN]] is reserved: a publisher MUST reject it",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[7c9wk2mhq0v3xj8tn5rzfd41bg@v1]]\",\"reas",
       "spec_refs": [
         "§10.1"
       ],
@@ -161,8 +161,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-reserved-version-inline",
-      "title": "self-check fixtures: The reserved form inline in prose is inert text (#102: the reservation covers the own-line form)",
+      "id": "reader.blygger-studio.directive-reserved-version-inline",
+      "title": "blygger-studio 0.71.0: The reserved form inline in prose is inert text (#102: the reservation covers the own-line form)",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected",
       "spec_refs": [
@@ -176,8 +176,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directives-in-order",
-      "title": "self-check fixtures: Several directives, adjacent and separated, bake in directive order",
+      "id": "reader.blygger-studio.directives-in-order",
+      "title": "blygger-studio 0.71.0: Several directives, adjacent and separated, bake in directive order",
       "status": "pass",
       "detail": "outcome: published · normative: 3 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 3 entries as expected",
       "spec_refs": [
@@ -192,8 +192,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.same-target-twice",
-      "title": "self-check fixtures: A target quoted twice has two transclusions[] entries",
+      "id": "reader.blygger-studio.same-target-twice",
+      "title": "blygger-studio 0.71.0: A target quoted twice has two transclusions[] entries",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 2 entries as expected",
       "spec_refs": [
@@ -206,8 +206,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.crlf-line-endings",
-      "title": "self-check fixtures: A line ends at LF or CRLF alike: partial transclusion and link with CRLF",
+      "id": "reader.blygger-studio.crlf-line-endings",
+      "title": "blygger-studio 0.71.0: A line ends at LF or CRLF alike: partial transclusion and link with CRLF",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 1 URL(s), all absolute · transclusions: 1 entry as expected · links: 1 entry as expected",
       "spec_refs": [
@@ -221,8 +221,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.uppercase-id-literal",
-      "title": "self-check fixtures: An id is lowercase (§5.1): uppercase brackets are literal text",
+      "id": "reader.blygger-studio.uppercase-id-literal",
+      "title": "blygger-studio 0.71.0: An id is lowercase (§5.1): uppercase brackets are literal text",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 2 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected · links: 0 entries as expected",
       "spec_refs": [
@@ -236,8 +236,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.bracketed-non-ids-literal",
-      "title": "self-check fixtures: Brackets whose first 26 characters are not an id, or an id not followed by ]] or |, are literal",
+      "id": "reader.blygger-studio.bracketed-non-ids-literal",
+      "title": "blygger-studio 0.71.0: Brackets whose first 26 characters are not an id, or an id not followed by ]] or |, are literal",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 4 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected · links: 0 entries as expected",
       "spec_refs": [
@@ -250,10 +250,10 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-in-fragment",
-      "title": "self-check fixtures: A directive line in a fragment is a publish error",
+      "id": "reader.blygger-studio.directive-in-fragment",
+      "title": "blygger-studio 0.71.0: A directive line in a fragment is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[01j9zq3k4m5n6p7q8r9s0t1v2w]]\",\"reason\"",
       "spec_refs": [
         "§10",
         "§10.1",
@@ -270,8 +270,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-tab-indented",
-      "title": "self-check fixtures: A tab-indented directive line at the start of a document is indented code: code wins (#102)",
+      "id": "reader.blygger-studio.directive-tab-indented",
+      "title": "blygger-studio 0.71.0: A tab-indented directive line at the start of a document is indented code: code wins (#102)",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected",
       "spec_refs": [
@@ -286,8 +286,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.directive-in-code-span",
-      "title": "self-check fixtures: An own-line directive wrapped in a code span is inert",
+      "id": "reader.blygger-studio.directive-in-code-span",
+      "title": "blygger-studio 0.71.0: An own-line directive wrapped in a code span is inert",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected",
       "spec_refs": [
@@ -300,8 +300,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.directive-in-backtick-fence",
-      "title": "self-check fixtures: An own-line directive inside a backtick fence is inert",
+      "id": "reader.blygger-studio.directive-in-backtick-fence",
+      "title": "blygger-studio 0.71.0: An own-line directive inside a backtick fence is inert",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected",
       "spec_refs": [
@@ -314,8 +314,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.partial-in-tilde-fence",
-      "title": "self-check fixtures: A directive and its blockquote inside a tilde fence are inert",
+      "id": "reader.blygger-studio.partial-in-tilde-fence",
+      "title": "blygger-studio 0.71.0: A directive and its blockquote inside a tilde fence are inert",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected",
       "spec_refs": [
@@ -329,8 +329,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.directive-in-indented-code",
-      "title": "self-check fixtures: An own-line directive in an indented code block is inert",
+      "id": "reader.blygger-studio.directive-in-indented-code",
+      "title": "blygger-studio 0.71.0: An own-line directive in an indented code block is inert",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected",
       "spec_refs": [
@@ -343,8 +343,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.link-in-code-span",
-      "title": "self-check fixtures: [[id]] inside a code span is inert and not disclosed",
+      "id": "reader.blygger-studio.link-in-code-span",
+      "title": "blygger-studio 0.71.0: [[id]] inside a code span is inert and not disclosed",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · links: 0 entries as expected",
       "spec_refs": [
@@ -359,8 +359,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.link-in-fence",
-      "title": "self-check fixtures: [[id]] inside a fenced block is inert and not disclosed",
+      "id": "reader.blygger-studio.link-in-fence",
+      "title": "blygger-studio 0.71.0: [[id]] inside a fenced block is inert and not disclosed",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · links: 0 entries as expected",
       "spec_refs": [
@@ -375,8 +375,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.link-in-indented-code",
-      "title": "self-check fixtures: [[id]] inside an indented code block is inert",
+      "id": "reader.blygger-studio.link-in-indented-code",
+      "title": "blygger-studio 0.71.0: [[id]] inside an indented code block is inert",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · links: 0 entries as expected",
       "spec_refs": [
@@ -389,8 +389,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.fence-then-real-directive",
-      "title": "self-check fixtures: A fenced example followed by the real directive: one quote",
+      "id": "reader.blygger-studio.fence-then-real-directive",
+      "title": "blygger-studio 0.71.0: A fenced example followed by the real directive: one quote",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -403,8 +403,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.unclosed-fence-to-end",
-      "title": "self-check fixtures: An unclosed fence runs to the end of the document: nothing after it resolves, and the reserved form inside is not rejected",
+      "id": "reader.blygger-studio.unclosed-fence-to-end",
+      "title": "blygger-studio 0.71.0: An unclosed fence runs to the end of the document: nothing after it resolves, and the reserved form inside is not rejected",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 2 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected",
       "spec_refs": [
@@ -418,8 +418,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.fence-in-blockquote",
-      "title": "self-check fixtures: A fence inside a blockquote is code: the directive in it is inert",
+      "id": "reader.blygger-studio.fence-in-blockquote",
+      "title": "blygger-studio 0.71.0: A fence inside a blockquote is code: the directive in it is inert",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -432,8 +432,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.fence-in-list-item",
-      "title": "self-check fixtures: A fence inside a list item is code: the directive in it is inert",
+      "id": "reader.blygger-studio.fence-in-list-item",
+      "title": "blygger-studio 0.71.0: A fence inside a list item is code: the directive in it is inert",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -446,8 +446,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.unknown-ids-in-code-publish",
-      "title": "self-check fixtures: Unknown ids inside code are not resolved, so they are not publish errors",
+      "id": "reader.blygger-studio.unknown-ids-in-code-publish",
+      "title": "blygger-studio 0.71.0: Unknown ids inside code are not resolved, so they are not publish errors",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 1 URL(s), all absolute · transclusions: 0 entries as expected · links: 1 entry as expected",
       "spec_refs": [
@@ -461,8 +461,8 @@
       "group": "code"
     },
     {
-      "id": "reader.self-check.link-label",
-      "title": "self-check fixtures: A labelled link renders the label as its anchor text",
+      "id": "reader.blygger-studio.link-label",
+      "title": "blygger-studio 0.71.0: A labelled link renders the label as its anchor text",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -477,8 +477,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.link-label-tight",
-      "title": "self-check fixtures: No whitespace around the pipe",
+      "id": "reader.blygger-studio.link-label-tight",
+      "title": "blygger-studio 0.71.0: No whitespace around the pipe",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -491,8 +491,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.link-label-trimmed",
-      "title": "self-check fixtures: Whitespace around the pipe and the label is trimmed",
+      "id": "reader.blygger-studio.link-label-trimmed",
+      "title": "blygger-studio 0.71.0: Whitespace around the pipe and the label is trimmed",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -505,8 +505,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.link-label-with-pipe",
-      "title": "self-check fixtures: The label is everything after the first pipe, so it may contain a pipe",
+      "id": "reader.blygger-studio.link-label-with-pipe",
+      "title": "blygger-studio 0.71.0: The label is everything after the first pipe, so it may contain a pipe",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -519,8 +519,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.link-label-empty",
-      "title": "self-check fixtures: An empty label is no label: the anchor text is the publisher's choice",
+      "id": "reader.blygger-studio.link-label-empty",
+      "title": "blygger-studio 0.71.0: An empty label is no label: the anchor text is the publisher's choice",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 2 URL(s), all absolute · links: 2 entries as expected",
       "spec_refs": [
@@ -533,8 +533,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.link-label-remote",
-      "title": "self-check fixtures: A labelled link to an imported item",
+      "id": "reader.blygger-studio.link-label-remote",
+      "title": "blygger-studio 0.71.0: A labelled link to an imported item",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 2 URL(s), all absolute · links: 2 entries as expected",
       "spec_refs": [
@@ -549,8 +549,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.link-label-text-escaped",
-      "title": "self-check fixtures: A label with & and quotes is text in the anchor",
+      "id": "reader.blygger-studio.link-label-text-escaped",
+      "title": "blygger-studio 0.71.0: A label with & and quotes is text in the anchor",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -563,8 +563,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.link-label-markup",
-      "title": "self-check fixtures: Markdown and HTML in a link label are plain text (#102)",
+      "id": "reader.blygger-studio.link-label-markup",
+      "title": "blygger-studio 0.71.0: Markdown and HTML in a link label are plain text (#102)",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 2 URL(s), all absolute · links: 2 entries as expected",
       "spec_refs": [
@@ -579,8 +579,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.link-label-ends-at-first-close",
-      "title": "self-check fixtures: A label ends at the first ]]: the rest of the line is literal",
+      "id": "reader.blygger-studio.link-label-ends-at-first-close",
+      "title": "blygger-studio 0.71.0: A label ends at the first ]]: the rest of the line is literal",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -593,8 +593,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.directive-label-ends-at-first-close",
-      "title": "self-check fixtures: A directive whose label would contain ]] is not alone on its line: inert",
+      "id": "reader.blygger-studio.directive-label-ends-at-first-close",
+      "title": "blygger-studio 0.71.0: A directive whose label would contain ]] is not alone on its line: inert",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected · links: 0 entries as expected",
       "spec_refs": [
@@ -607,8 +607,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.label-first-literal",
-      "title": "self-check fixtures: The label before the id is not the grammar: literal text",
+      "id": "reader.blygger-studio.label-first-literal",
+      "title": "blygger-studio 0.71.0: The label before the id is not the grammar: literal text",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · links: 0 entries as expected",
       "spec_refs": [
@@ -622,8 +622,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.label-in-code",
-      "title": "self-check fixtures: A labelled link inside a code span is inert",
+      "id": "reader.blygger-studio.label-in-code",
+      "title": "blygger-studio 0.71.0: A labelled link inside a code span is inert",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · links: 0 entries as expected",
       "spec_refs": [
@@ -637,10 +637,10 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.link-label-unresolvable",
-      "title": "self-check fixtures: A labelled link to an unknown id is a publish error, as an unlabelled one is",
+      "id": "reader.blygger-studio.link-label-unresolvable",
+      "title": "blygger-studio 0.71.0: A labelled link to an unknown id is a publish error, as an unlabelled one is",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"[[0zzzzzzzzzzzzzzzzzzzzzzzzz | a label]]\"",
       "spec_refs": [
         "§10.1"
       ],
@@ -651,8 +651,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.directive-label",
-      "title": "self-check fixtures: A labelled directive bakes data-blyg-label; the label reaches nothing else",
+      "id": "reader.blygger-studio.directive-label",
+      "title": "blygger-studio 0.71.0: A labelled directive bakes data-blyg-label; the label reaches nothing else",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -668,8 +668,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.directive-label-remote",
-      "title": "self-check fixtures: A labelled directive naming an imported item",
+      "id": "reader.blygger-studio.directive-label-remote",
+      "title": "blygger-studio 0.71.0: A labelled directive naming an imported item",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -684,8 +684,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.directive-label-escaped",
-      "title": "self-check fixtures: data-blyg-label is the label verbatim and HTML-escaped",
+      "id": "reader.blygger-studio.directive-label-escaped",
+      "title": "blygger-studio 0.71.0: data-blyg-label is the label verbatim and HTML-escaped",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -698,8 +698,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.directive-label-empty",
-      "title": "self-check fixtures: An empty label on a directive is no label: no data-blyg-label",
+      "id": "reader.blygger-studio.directive-label-empty",
+      "title": "blygger-studio 0.71.0: An empty label on a directive is no label: no data-blyg-label",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 2 entries as expected",
       "spec_refs": [
@@ -714,8 +714,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.directive-label-pipe",
-      "title": "self-check fixtures: A directive label may contain a pipe",
+      "id": "reader.blygger-studio.directive-label-pipe",
+      "title": "blygger-studio 0.71.0: A directive label may contain a pipe",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -728,8 +728,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.directive-label-partial",
-      "title": "self-check fixtures: A labelled partial transclusion",
+      "id": "reader.blygger-studio.directive-label-partial",
+      "title": "blygger-studio 0.71.0: A labelled partial transclusion",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -746,8 +746,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.directive-label-inline-inert",
-      "title": "self-check fixtures: A labelled directive not alone on its line is inert",
+      "id": "reader.blygger-studio.directive-label-inline-inert",
+      "title": "blygger-studio 0.71.0: A labelled directive not alone on its line is inert",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected · links: 0 entries as expected",
       "spec_refs": [
@@ -760,10 +760,10 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.directive-label-unresolvable",
-      "title": "self-check fixtures: A labelled directive naming an unknown id is a publish error",
+      "id": "reader.blygger-studio.directive-label-unresolvable",
+      "title": "blygger-studio 0.71.0: A labelled directive naming an unknown id is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[0zzzzzzzzzzzzzzzzzzzzzzzzz | missing]]",
       "spec_refs": [
         "§10.2"
       ],
@@ -774,8 +774,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.partial-local",
-      "title": "self-check fixtures: A directive with an attached blockquote is a partial transclusion",
+      "id": "reader.blygger-studio.partial-local",
+      "title": "blygger-studio 0.71.0: A directive with an attached blockquote is a partial transclusion",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -793,8 +793,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-remote",
-      "title": "self-check fixtures: A partial transclusion of an imported item carries data-blyg-origin and a selector",
+      "id": "reader.blygger-studio.partial-remote",
+      "title": "blygger-studio 0.71.0: A partial transclusion of an imported item carries data-blyg-origin and a selector",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -811,8 +811,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-emphasis-dropped",
-      "title": "self-check fixtures: The selection is plain text: emphasis in the quote does not survive into the bake",
+      "id": "reader.blygger-studio.partial-emphasis-dropped",
+      "title": "blygger-studio 0.71.0: The selection is plain text: emphasis in the quote does not survive into the bake",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -825,8 +825,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-two-paragraphs",
-      "title": "self-check fixtures: A selection spanning two paragraphs: one <p> per line, the block boundary kept as a line break",
+      "id": "reader.blygger-studio.partial-two-paragraphs",
+      "title": "blygger-studio 0.71.0: A selection spanning two paragraphs: one <p> per line, the block boundary kept as a line break",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -841,8 +841,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-detached",
-      "title": "self-check fixtures: A blank line detaches the blockquote: a whole transclusion, then the author's own quotation",
+      "id": "reader.blygger-studio.partial-detached",
+      "title": "blygger-studio 0.71.0: A blank line detaches the blockquote: a whole transclusion, then the author's own quotation",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -855,10 +855,10 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-not-in-target",
-      "title": "self-check fixtures: A selection that is not a substring of the target's text content is a publish error",
+      "id": "reader.blygger-studio.partial-not-in-target",
+      "title": "blygger-studio 0.71.0: A selection that is not a substring of the target's text content is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[01j9zq3k4m5n6p7q8r9s0t1v2w]]\",\"reason\"",
       "spec_refs": [
         "§10.2"
       ],
@@ -871,8 +871,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-lazy-continuation",
-      "title": "self-check fixtures: The blockquote's extent is CommonMark's: a lazy continuation line belongs to the selection",
+      "id": "reader.blygger-studio.partial-lazy-continuation",
+      "title": "blygger-studio 0.71.0: The blockquote's extent is CommonMark's: a lazy continuation line belongs to the selection",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -887,8 +887,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-escaped",
-      "title": "self-check fixtures: The selection is escaped plain text in the bake",
+      "id": "reader.blygger-studio.partial-escaped",
+      "title": "blygger-studio 0.71.0: The selection is escaped plain text in the bake",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -901,8 +901,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-devanagari",
-      "title": "self-check fixtures: A Unicode (Devanagari) selection",
+      "id": "reader.blygger-studio.partial-devanagari",
+      "title": "blygger-studio 0.71.0: A Unicode (Devanagari) selection",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -915,8 +915,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-then-whole",
-      "title": "self-check fixtures: A partial transclusion followed by a whole one",
+      "id": "reader.blygger-studio.partial-then-whole",
+      "title": "blygger-studio 0.71.0: A partial transclusion followed by a whole one",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 2 entries as expected",
       "spec_refs": [
@@ -930,8 +930,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-of-thread-reaches-its-quote",
-      "title": "self-check fixtures: A thread's text content includes the words it baked, so a selection may come from them",
+      "id": "reader.blygger-studio.partial-of-thread-reaches-its-quote",
+      "title": "blygger-studio 0.71.0: A thread's text content includes the words it baked, so a selection may come from them",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -945,10 +945,10 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.unknown-id",
-      "title": "self-check fixtures: An unresolvable directive is a publish error",
+      "id": "reader.blygger-studio.unknown-id",
+      "title": "blygger-studio 0.71.0: An unresolvable directive is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[0zzzzzzzzzzzzzzzzzzzzzzzzz]]\",\"reason\"",
       "spec_refs": [
         "§10.2"
       ],
@@ -961,10 +961,10 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.draft-target",
-      "title": "self-check fixtures: A draft is a publish error",
+      "id": "reader.blygger-studio.draft-target",
+      "title": "blygger-studio 0.71.0: A draft is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[01j9zq3k4m5n6p7q8r9s0t1v4y]]\",\"reason\"",
       "spec_refs": [
         "§10.2"
       ],
@@ -977,10 +977,10 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.local-withdrawn-target",
-      "title": "self-check fixtures: A withdrawn local item with nothing retained is a publish error",
+      "id": "reader.blygger-studio.local-withdrawn-target",
+      "title": "blygger-studio 0.71.0: A withdrawn local item with nothing retained is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[01j9zq3k4m5n6p7q8r9s0t1v5z]]\",\"reason\"",
       "spec_refs": [
         "§10.2"
       ],
@@ -993,10 +993,10 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.remote-withdrawn-unretained",
-      "title": "self-check fixtures: An imported item withdrawn at its origin, with no pin, is a publish error",
+      "id": "reader.blygger-studio.remote-withdrawn-unretained",
+      "title": "blygger-studio 0.71.0: An imported item withdrawn at its origin, with no pin, is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[9x9x9x9x9x9x9x9x9x9x9x9x9x]]\",\"reason\"",
       "spec_refs": [
         "§10.2",
         "§13.4"
@@ -1011,8 +1011,8 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.remote-withdrawn-pin-retained",
-      "title": "self-check fixtures: An imported item withdrawn at its origin but pin-retained bakes the retained version; a reader that retained nothing publish-errors",
+      "id": "reader.blygger-studio.remote-withdrawn-pin-retained",
+      "title": "blygger-studio 0.71.0: An imported item withdrawn at its origin but pin-retained bakes the retained version; a reader that retained nothing publish-errors",
       "status": "pass",
       "detail": "outcome: published (accepted) · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1031,10 +1031,10 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.ambiguous-imported-id",
-      "title": "self-check fixtures: The same id imported from two origins is a publish error, never a guess",
+      "id": "reader.blygger-studio.ambiguous-imported-id",
+      "title": "blygger-studio 0.71.0: The same id imported from two origins is a publish error, never a guess",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[3m3m3m3m3m3m3m3m3m3m3m3m3m]]\",\"reason\"",
       "spec_refs": [
         "§10.2",
         "§5.1"
@@ -1049,10 +1049,10 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.closure-contains-self",
-      "title": "self-check fixtures: A thread may not transclude a local thread whose local closure contains the publishing thread",
+      "id": "reader.blygger-studio.closure-contains-self",
+      "title": "blygger-studio 0.71.0: A thread may not transclude a local thread whose local closure contains the publishing thread",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[01j9zq3k4m5n6p7q8r9s0t1v7b]]\",\"reason\"",
       "spec_refs": [
         "§10.2"
       ],
@@ -1066,10 +1066,10 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.link-unknown",
-      "title": "self-check fixtures: An unresolvable [[id]] link is a publish error",
+      "id": "reader.blygger-studio.link-unknown",
+      "title": "blygger-studio 0.71.0: An unresolvable [[id]] link is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"[[0zzzzzzzzzzzzzzzzzzzzzzzzz]]\",\"reason\":",
       "spec_refs": [
         "§10.1"
       ],
@@ -1080,10 +1080,10 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.link-draft",
-      "title": "self-check fixtures: A link to a draft is a publish error",
+      "id": "reader.blygger-studio.link-draft",
+      "title": "blygger-studio 0.71.0: A link to a draft is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"[[01j9zq3k4m5n6p7q8r9s0t1v4y]]\",\"reason\":",
       "spec_refs": [
         "§10.1",
         "§10.2"
@@ -1095,10 +1095,10 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.link-local-withdrawn",
-      "title": "self-check fixtures: A link to a withdrawn local item with nothing retained is a publish error",
+      "id": "reader.blygger-studio.link-local-withdrawn",
+      "title": "blygger-studio 0.71.0: A link to a withdrawn local item with nothing retained is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"[[01j9zq3k4m5n6p7q8r9s0t1v5z]]\",\"reason\":",
       "spec_refs": [
         "§10.1",
         "§10.2"
@@ -1110,10 +1110,10 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.link-ambiguous",
-      "title": "self-check fixtures: A link to an id held from two origins is a publish error",
+      "id": "reader.blygger-studio.link-ambiguous",
+      "title": "blygger-studio 0.71.0: A link to an id held from two origins is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"[[3m3m3m3m3m3m3m3m3m3m3m3m3m]]\",\"reason\":",
       "spec_refs": [
         "§10.1",
         "§10.2"
@@ -1125,8 +1125,8 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.local-nested-thread",
-      "title": "self-check fixtures: Transcluding a local thread nests its baked quote; provenance is direct only",
+      "id": "reader.blygger-studio.local-nested-thread",
+      "title": "blygger-studio 0.71.0: Transcluding a local thread nests its baked quote; provenance is direct only",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1140,8 +1140,8 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.remote-nested-thread",
-      "title": "self-check fixtures: Transcluding an imported thread nests its baked partial quote verbatim; its link is not this item's link",
+      "id": "reader.blygger-studio.remote-nested-thread",
+      "title": "blygger-studio 0.71.0: Transcluding an imported thread nests its baked partial quote verbatim; its link is not this item's link",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · transclusions: 1 entry as expected · links: 0 entries as expected",
       "spec_refs": [
@@ -1157,8 +1157,8 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.link-local-page",
-      "title": "self-check fixtures: [[id]] renders as an anchor to the absolute URL of the target's page",
+      "id": "reader.blygger-studio.link-local-page",
+      "title": "blygger-studio 0.71.0: [[id]] renders as an anchor to the absolute URL of the target's page",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -1176,8 +1176,8 @@
       "group": "urls"
     },
     {
-      "id": "reader.self-check.link-local-thread-page",
-      "title": "self-check fixtures: A link to a local thread uses the thread's page",
+      "id": "reader.blygger-studio.link-local-thread-page",
+      "title": "blygger-studio 0.71.0: A link to a local thread uses the thread's page",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -1193,8 +1193,8 @@
       "group": "urls"
     },
     {
-      "id": "reader.self-check.link-remote-page",
-      "title": "self-check fixtures: A link to an imported item resolves its relative page against the item's origin",
+      "id": "reader.blygger-studio.link-remote-page",
+      "title": "blygger-studio 0.71.0: A link to an imported item resolves its relative page against the item's origin",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -1211,8 +1211,8 @@
       "group": "urls"
     },
     {
-      "id": "reader.self-check.link-remote-absolute-page",
-      "title": "self-check fixtures: A link to an imported item whose page is absolute uses it as given",
+      "id": "reader.blygger-studio.link-remote-absolute-page",
+      "title": "blygger-studio 0.71.0: A link to an imported item whose page is absolute uses it as given",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -1228,8 +1228,8 @@
       "group": "urls"
     },
     {
-      "id": "reader.self-check.link-remote-no-page",
-      "title": "self-check fixtures: A link to an imported item whose document names no page names the item document, never the convention",
+      "id": "reader.blygger-studio.link-remote-no-page",
+      "title": "blygger-studio 0.71.0: A link to an imported item whose document names no page names the item document, never the convention",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected",
       "spec_refs": [
@@ -1247,8 +1247,8 @@
       "group": "urls"
     },
     {
-      "id": "reader.self-check.markdown-relative-links",
-      "title": "self-check fixtures: Relative markdown links resolve against the identity origin (RFC 3986)",
+      "id": "reader.blygger-studio.markdown-relative-links",
+      "title": "blygger-studio 0.71.0: Relative markdown links resolve against the identity origin (RFC 3986)",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 2 URL(s), all absolute",
       "spec_refs": [
@@ -1264,8 +1264,8 @@
       "group": "urls"
     },
     {
-      "id": "reader.self-check.markdown-relative-image",
-      "title": "self-check fixtures: A relative image source is made absolute in content_html",
+      "id": "reader.blygger-studio.markdown-relative-image",
+      "title": "blygger-studio 0.71.0: A relative image source is made absolute in content_html",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · absolute-urls: 1 URL(s), all absolute",
       "spec_refs": [
@@ -1281,8 +1281,8 @@
       "group": "urls"
     },
     {
-      "id": "reader.self-check.baked-remote-markup",
-      "title": "self-check fixtures: A baked quote carries the source's own HTML verbatim, its links included, with no link added",
+      "id": "reader.blygger-studio.baked-remote-markup",
+      "title": "blygger-studio 0.71.0: A baked quote carries the source's own HTML verbatim, its links included, with no link added",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · transclusions: 1 entry as expected · links: 0 entries as expected",
       "spec_refs": [
@@ -1297,8 +1297,8 @@
       "group": "urls"
     },
     {
-      "id": "reader.self-check.baked-remote-relative-url",
-      "title": "self-check fixtures: A relative URL in an imported item's HTML is resolved against the source's origin before the bake",
+      "id": "reader.blygger-studio.baked-remote-relative-url",
+      "title": "blygger-studio 0.71.0: A relative URL in an imported item's HTML is resolved against the source's origin before the bake",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1316,8 +1316,8 @@
       "group": "urls"
     },
     {
-      "id": "reader.self-check.transclusions-order-and-origin",
-      "title": "self-check fixtures: transclusions[] is in directive order; origin is omitted for own-origin sources and present for remote ones",
+      "id": "reader.blygger-studio.transclusions-order-and-origin",
+      "title": "blygger-studio 0.71.0: transclusions[] is in directive order; origin is omitted for own-origin sources and present for remote ones",
       "status": "pass",
       "detail": "outcome: published · normative: 3 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 3 entries as expected",
       "spec_refs": [
@@ -1333,8 +1333,8 @@
       "group": "disclosure"
     },
     {
-      "id": "reader.self-check.thread-without-directives",
-      "title": "self-check fixtures: A thread with no directives still carries transclusions: []",
+      "id": "reader.blygger-studio.thread-without-directives",
+      "title": "blygger-studio 0.71.0: A thread with no directives still carries transclusions: []",
       "status": "pass",
       "detail": "outcome: published · normative: 0 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected",
       "spec_refs": [
@@ -1347,8 +1347,8 @@
       "group": "disclosure"
     },
     {
-      "id": "reader.self-check.links-in-fragment",
-      "title": "self-check fixtures: A fragment's [[id]] links are disclosed in links[], in document order, origin only for remote targets",
+      "id": "reader.blygger-studio.links-in-fragment",
+      "title": "blygger-studio 0.71.0: A fragment's [[id]] links are disclosed in links[], in document order, origin only for remote targets",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 2 URL(s), all absolute · links: 2 entries as expected",
       "spec_refs": [
@@ -1361,8 +1361,8 @@
       "group": "disclosure"
     },
     {
-      "id": "reader.self-check.links-one-per-link",
-      "title": "self-check fixtures: One links[] entry per link: a target linked twice appears twice",
+      "id": "reader.blygger-studio.links-one-per-link",
+      "title": "blygger-studio 0.71.0: One links[] entry per link: a target linked twice appears twice",
       "status": "pass",
       "detail": "outcome: published · normative: 3 normative node(s) match · absolute-urls: 3 URL(s), all absolute · links: 3 entries as expected",
       "spec_refs": [
@@ -1375,8 +1375,8 @@
       "group": "disclosure"
     },
     {
-      "id": "reader.self-check.markdown-link-is-silent",
-      "title": "self-check fixtures: A markdown link to a blyg page renders the same anchor and is not disclosed",
+      "id": "reader.blygger-studio.markdown-link-is-silent",
+      "title": "blygger-studio 0.71.0: A markdown link to a blyg page renders the same anchor and is not disclosed",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 0 entries as expected",
       "spec_refs": [
@@ -1390,8 +1390,8 @@
       "group": "disclosure"
     },
     {
-      "id": "reader.self-check.quote-and-link-same-target",
-      "title": "self-check fixtures: Quoting and linking one target: one transclusions[] entry and one links[] entry",
+      "id": "reader.blygger-studio.quote-and-link-same-target",
+      "title": "blygger-studio 0.71.0: Quoting and linking one target: one transclusions[] entry and one links[] entry",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 1 URL(s), all absolute · transclusions: 1 entry as expected · links: 1 entry as expected",
       "spec_refs": [
@@ -1405,8 +1405,8 @@
       "group": "disclosure"
     },
     {
-      "id": "reader.self-check.tk-inline",
-      "title": "self-check fixtures: An inline generated span is wrapped in span.blyg-tk-gen",
+      "id": "reader.blygger-studio.tk-inline",
+      "title": "blygger-studio 0.71.0: An inline generated span is wrapped in span.blyg-tk-gen",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · generated: 1 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1421,8 +1421,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-block",
-      "title": "self-check fixtures: A block generated span is wrapped in div.blyg-tk-gen",
+      "id": "reader.blygger-studio.tk-block",
+      "title": "blygger-studio 0.71.0: A block generated span is wrapped in div.blyg-tk-gen",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · generated: 1 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1437,8 +1437,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-local-source",
-      "title": "self-check fixtures: A generation source is disclosed in generated[].sources and never produces a transclusion",
+      "id": "reader.blygger-studio.tk-local-source",
+      "title": "blygger-studio 0.71.0: A generation source is disclosed in generated[].sources and never produces a transclusion",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected · generated: 1 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1452,8 +1452,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-remote-source",
-      "title": "self-check fixtures: A remote generation source carries its origin (new in 0.4)",
+      "id": "reader.blygger-studio.tk-remote-source",
+      "title": "blygger-studio 0.71.0: A remote generation source carries its origin (new in 0.4)",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected · generated: 1 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1466,8 +1466,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-labelled-source",
-      "title": "self-check fixtures: A label on a source directive reaches nothing on the wire",
+      "id": "reader.blygger-studio.tk-labelled-source",
+      "title": "blygger-studio 0.71.0: A label on a source directive reaches nothing on the wire",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 0 entries as expected · generated: 1 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1482,8 +1482,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-beside-transclusion",
-      "title": "self-check fixtures: A transclusion and a generated span in one thread: one quote, one source",
+      "id": "reader.blygger-studio.tk-beside-transclusion",
+      "title": "blygger-studio 0.71.0: A transclusion and a generated span in one thread: one quote, one source",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected · generated: 1 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1497,8 +1497,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-in-code-not-a-scope",
-      "title": "self-check fixtures: [TK] inside code is an example of the notation, not a scope",
+      "id": "reader.blygger-studio.tk-in-code-not-a-scope",
+      "title": "blygger-studio 0.71.0: [TK] inside code is an example of the notation, not a scope",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · literals: 1 inert sequence(s) present as text · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected · generated: 0 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1513,8 +1513,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-link-inside-span",
-      "title": "self-check fixtures: A [[id]] link inside generated text is an anchor inside the wrapper, and is disclosed",
+      "id": "reader.blygger-studio.tk-link-inside-span",
+      "title": "blygger-studio 0.71.0: A [[id]] link inside generated text is an anchor inside the wrapper, and is disclosed",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 1 URL(s), all absolute · links: 1 entry as expected · generated: 1 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1530,8 +1530,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-several-spans",
-      "title": "self-check fixtures: Each generated span is wrapped, and generated[] has one entry per span in order",
+      "id": "reader.blygger-studio.tk-several-spans",
+      "title": "blygger-studio 0.71.0: Each generated span is wrapped, and generated[] has one entry per span in order",
       "status": "pass",
       "detail": "outcome: published · normative: 2 normative node(s) match · absolute-urls: 0 URL(s), all absolute · generated: 2 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1544,8 +1544,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-markup-inside-span",
-      "title": "self-check fixtures: Markdown inside an inline generated span renders inside the wrapper",
+      "id": "reader.blygger-studio.tk-markup-inside-span",
+      "title": "blygger-studio 0.71.0: Markdown inside an inline generated span renders inside the wrapper",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · generated: 1 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1558,8 +1558,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-output-own-line-directive",
-      "title": "self-check fixtures: An own-line directive in generated output transcludes at publish (#60), outside the wrapper, which reopens after it; one generated[] entry",
+      "id": "reader.blygger-studio.tk-output-own-line-directive",
+      "title": "blygger-studio 0.71.0: An own-line directive in generated output transcludes at publish (#60), outside the wrapper, which reopens after it; one generated[] entry",
       "status": "pass",
       "detail": "outcome: published · normative: 3 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected · generated: 1 generated span(s) disclosed as expected",
       "spec_refs": [
@@ -1575,10 +1575,10 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tk-ungenerated-scope",
-      "title": "self-check fixtures: A scope with no output is a publish error",
+      "id": "reader.blygger-studio.tk-ungenerated-scope",
+      "title": "blygger-studio 0.71.0: A scope with no output is a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more TK scopes are not publish-ready\",\"details\":{\"errors\":[{\"at\":7,\"reason\":\"scope has no output (never gene",
       "spec_refs": [
         "§5.7"
       ],
@@ -1589,8 +1589,8 @@
       "group": "generation"
     },
     {
-      "id": "reader.self-check.tangled-thread-output",
-      "title": "self-check fixtures: A tangled thread's published text is ordinary wire: labelled directives, each followed by a blank line, and a labelled link (tangling plan §4.4)",
+      "id": "reader.blygger-studio.tangled-thread-output",
+      "title": "blygger-studio 0.71.0: A tangled thread's published text is ordinary wire: labelled directives, each followed by a blank line, and a labelled link (tangling plan §4.4)",
       "status": "pass",
       "detail": "outcome: published · normative: 3 normative node(s) match · absolute-urls: 1 URL(s), all absolute · transclusions: 2 entries as expected · links: 1 entry as expected",
       "spec_refs": [
@@ -1608,8 +1608,8 @@
       "group": "label"
     },
     {
-      "id": "reader.self-check.whole-with-formula",
-      "title": "self-check fixtures: A whole transclusion of an item whose HTML carries MathML bakes that HTML verbatim, formula and annotation included",
+      "id": "reader.blygger-studio.whole-with-formula",
+      "title": "blygger-studio 0.71.0: A whole transclusion of an item whose HTML carries MathML bakes that HTML verbatim, formula and annotation included",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1624,8 +1624,8 @@
       "group": "grammar"
     },
     {
-      "id": "reader.self-check.partial-beside-formula",
-      "title": "self-check fixtures: A selection of the prose beside a formula verifies against text content; the formula is not part of it",
+      "id": "reader.blygger-studio.partial-beside-formula",
+      "title": "blygger-studio 0.71.0: A selection of the prose beside a formula verifies against text content; the formula is not part of it",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1641,8 +1641,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-list-ordered-run",
-      "title": "self-check fixtures: Two quoted items of a numbered list MAY bake as list items, numbered as the source numbers them",
+      "id": "reader.blygger-studio.partial-list-ordered-run",
+      "title": "blygger-studio 0.71.0: Two quoted items of a numbered list MAY bake as list items, numbered as the source numbers them",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1658,8 +1658,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-list-with-paragraph",
-      "title": "self-check fixtures: A selection across a paragraph and a list item: the paragraph is a <p>, the item MAY be an <li>",
+      "id": "reader.blygger-studio.partial-list-with-paragraph",
+      "title": "blygger-studio 0.71.0: A selection across a paragraph and a list item: the paragraph is a <p>, the item MAY be an <li>",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1674,8 +1674,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-list-within-item",
-      "title": "self-check fixtures: A selection inside one list item is still a line within that item",
+      "id": "reader.blygger-studio.partial-list-within-item",
+      "title": "blygger-studio 0.71.0: A selection inside one list item is still a line within that item",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1689,8 +1689,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-list-nested",
-      "title": "self-check fixtures: Nesting MAY be kept where both of the lines it joins are quoted",
+      "id": "reader.blygger-studio.partial-list-nested",
+      "title": "blygger-studio 0.71.0: Nesting MAY be kept where both of the lines it joins are quoted",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1706,8 +1706,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-list-start-remote",
-      "title": "self-check fixtures: A quoted item of an imported list that starts at 7 keeps the source's number",
+      "id": "reader.blygger-studio.partial-list-start-remote",
+      "title": "blygger-studio 0.71.0: A quoted item of an imported list that starts at 7 keeps the source's number",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1721,8 +1721,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-quoter-list-marker",
-      "title": "self-check fixtures: The quoter's own list marker means nothing: a line that is a paragraph in the target MUST NOT bake as a list item",
+      "id": "reader.blygger-studio.partial-quoter-list-marker",
+      "title": "blygger-studio 0.71.0: The quoter's own list marker means nothing: a line that is a paragraph in the target MUST NOT bake as a list item",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1736,8 +1736,8 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.whole-list-start-kept",
-      "title": "self-check fixtures: A whole transclusion of an imported numbered list: the bake is the source's HTML, and its <ol start> SHOULD survive the reader's sanitizer",
+      "id": "reader.blygger-studio.whole-list-start-kept",
+      "title": "blygger-studio 0.71.0: A whole transclusion of an imported numbered list: the bake is the source's HTML, and its <ol start> SHOULD survive the reader's sanitizer",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1752,8 +1752,8 @@
       "group": "resolution"
     },
     {
-      "id": "reader.self-check.partial-tight-nested-lines",
-      "title": "self-check fixtures: In a tight nested list a parent item's text and its first nested item are two lines of text content",
+      "id": "reader.blygger-studio.partial-tight-nested-lines",
+      "title": "blygger-studio 0.71.0: In a tight nested list a parent item's text and its first nested item are two lines of text content",
       "status": "pass",
       "detail": "outcome: published · normative: 1 normative node(s) match · absolute-urls: 0 URL(s), all absolute · transclusions: 1 entry as expected",
       "spec_refs": [
@@ -1769,10 +1769,10 @@
       "group": "partial"
     },
     {
-      "id": "reader.self-check.partial-tight-nested-one-line",
-      "title": "self-check fixtures: Quoting a tight parent item and its nested item as one line is not a substring of the text content: a publish error",
+      "id": "reader.blygger-studio.partial-tight-nested-one-line",
+      "title": "blygger-studio 0.71.0: Quoting a tight parent item and its nested item as one line is not a substring of the text content: a publish error",
       "status": "pass",
-      "detail": "outcome: publish error: expected publish error",
+      "detail": "outcome: publish error: HTTP 400: {\"code\":\"invalid-input\",\"message\":\"one or more references do not resolve\",\"details\":{\"errors\":[{\"directive\":\"![[01j9zq3k4m5n6p7q8r9s0t1v8d]]\",\"reason\"",
       "spec_refs": [
         "§2",
         "§10.2"

@@ -4907,7 +4907,7 @@
     "Venkat"
    ],
    "line": 178,
-   "text": "**Editorialized quotation: a direction, not wire text — a partial quote may carry marked editorial changes over a verified raw passage** (session 78, 2026-11-21, Fable 5.2, from Venkat's proposal; goes to RFC-8 with a comment period, ruled at its close; reasoning `v0.4-plan.md` §28): one primitive, the **editorial mark**, which at one place replaces a run of the source's text (possibly empty) with the quoter's visible text — `…` for a skip, `[T]` for \"t\", `[Cato]` for \"He\", `[truncated]`, `[sic]`. Three conditions make it sound: (1) `selector.exact` stays the whole contiguous raw passage, substring-verified as now, so the document carries both forms; (2) every character in the quote is the source's, in order, or inside a mark, and every omission has a mark at its place — checkable from the document alone (strip the marks; what remains is `exact` minus the marked gaps), so nothing unmarked is invented and nothing is dropped silently; (3) marks are literal text inside a marker element, so a reader that strips the element still shows an honestly marked quote. A client that renders them SHOULD offer the raw passage on inspection. It does not prevent misleading elision (§10.2 already concedes that) but puts the omitted words one inspection away, where today two quotes leave them nowhere. Composes with #114; with no marks condition 2 is #114's invariant. The marker is a new permanent `content_html` token, hence the RFC. **Where releases are announced** (Venkat, 2026-11-14): blygger releases (studio, spec, tools) go on the official blyg `blyg.blygger.org` only, through `blygger-org/publish_releases.py`. Never on the PI or venkateshrao blygs. Recorded beside #66, which made the official blyg the home for announcements.",
+   "text": "**Editorialized quotation: a direction, not wire text — a partial quote may carry marked editorial changes over a verified raw passage** (session 78, 2026-11-21, Fable 5.2, from Venkat's proposal; goes to RFC-8 with a comment period, ruled at its close; reasoning `v0.4-plan.md` §28): one primitive, the **editorial mark**, which at one place replaces a run of the source's text (possibly empty) with the quoter's visible text — `…` for a skip, `[T]` for \"t\", `[Cato]` for \"He\", `[truncated]`, `[sic]`. Three conditions make it sound: (1) `selector.exact` stays the whole contiguous raw passage, substring-verified as now, so the document carries both forms; (2) every character in the quote is the source's, in order, or inside a mark, and every omission has a mark at its place — checkable from the document alone (strip the marks; what remains is `exact` minus the marked gaps), so nothing unmarked is invented and nothing is dropped silently; (3) marks are literal text inside a marker element, so a reader that strips the element still shows an honestly marked quote. A client that renders them SHOULD offer the raw passage on inspection. It does not prevent misleading elision (§10.2 already concedes that) but puts the omitted words one inspection away, where today two quotes leave them nowhere. Composes with #114; with no marks condition 2 is #114's invariant. The marker is a new permanent `content_html` token, hence the RFC.",
    "spec_sections": [
     {
      "section": "10.2",
@@ -4921,19 +4921,126 @@
     }
    ],
    "relations": [],
-   "mentions": [
-    66
-   ],
+   "mentions": [],
    "tokens": [
     " for \"He\", ",
     " for \"t\", ",
     " for a skip, ",
     ", ",
     ". Three conditions make it sound: (1) ",
-    "blyg.blygger.org",
-    "blygger-org/publish_releases.py",
     "content_html",
     "exact",
+    "v0.4-plan.md"
+   ]
+  },
+  {
+   "number": 117,
+   "title": "Generation reads the links its author placed; what it reads is disclosed, a web page as `{url, cited}`",
+   "session": 79,
+   "session_inferred": false,
+   "date": "2026-11-22",
+   "by": [
+    "Fable",
+    "Venkat"
+   ],
+   "line": 179,
+   "text": "**Generation reads the links its author placed; what it reads is disclosed, a web page as `{url, cited}`** (session 79, 2026-11-22, Fable 5.1 by sub-agent, Venkat's framing and three calls; reasoning `v0.4-plan.md` §29; ruled shape §16.16). §5.7 rule 8's \"never a live fetch\" is about **items** (version + snapshot); a web page has neither, so a studio may fetch URLs the author placed, in the instruction or anywhere in the draft, with no spec sentence needed: what the studio reads is studio-private. Venkat: it is **hydration from a dehydrated start**, no new intention, capped only for budget or context cost. Fable split that: no new intention, yes; no new input, no: the page's words are someone else's, fed and transformed, so rule 1 discloses them. **Disclosure:** a page read goes in `generated[].sources[]` as §10.6's plain-web shape `{url, cited}` (`retrieved` RECOMMENDED, since there is no version), not a §5.9 reference; it sends **no mention** (rule 9 fires on `origin`). A URL that names a held blyg item is that item (reference, rule 8's snapshot, rule 9's mention). `[[id]]` links in the draft are in scope as item sources, so a remote one becomes a notifying `source`. **Fed = disclosed**, built from what was read, never inferred from output; unread links are not listed. Venkat's calls: (a) fetch and show (the TK panel lists what was read and which will notify), (b) on by default, capped (8 pages, ~30k characters each, 8 linked items), (c) no browser user-agent spoofing and no RSS fallback; a link that cannot be read stops generation at a **checkpoint** (\"n of m links could not be read, proceed?\", with details) instead of being guessed at. Delegating hydration to an on-device helper is the next step (planned, not ruled).",
+   "spec_sections": [
+    {
+     "section": "16.16",
+     "via": "spec?"
+    },
+    {
+     "section": "5.7",
+     "via": "spec?"
+    },
+    {
+     "section": "10.6",
+     "via": "spec?"
+    },
+    {
+     "section": "5.9",
+     "via": "spec?"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "29",
+     "via": "other"
+    }
+   ],
+   "relations": [],
+   "mentions": [],
+   "tokens": [
+    "[[id]]",
+    "generated[].sources[]",
+    "origin",
+    "retrieved",
+    "source",
+    "v0.4-plan.md",
+    "{url, cited}"
+   ]
+  },
+  {
+   "number": 118,
+   "title": "Text content is defined: block boundaries at the start and end tags of a listed set of block elements, whitespace collapsed within each run",
+   "session": 80,
+   "session_inferred": false,
+   "date": "2026-11-22",
+   "by": [
+    "Fable"
+   ],
+   "line": 180,
+   "text": "**Text content is defined: block boundaries at the start and end tags of a listed set of block elements, whitespace collapsed within each run** (session 80, 2026-11-22, Fable 5.1 by sub-agent, from Aneesh's spec#38; reasoning `v0.4-plan.md` §30; spec §2, §10.2, twenty-third revision). §2 said only \"block boundaries kept as line breaks\", and three implementations read it three ways: the studio's `selectionText` broke only at closing tags, so a tight nested list's parent and first child read as one line; the conformance reader broke at open and close tags; the live toolkit also broke on raw source newlines. Now a procedure: drop `script`/`style`/comments; a boundary at the start **and** end tag of `p`, `h1`–`h6`, `li`, `ul`, `ol`, `dl`, `dt`, `dd`, `blockquote`, `pre`, `div`, the table elements (cells included), `figure`, `figcaption`, the sectioning elements, `details`, `summary`, and at every `br`/`hr`; strip other tags; decode references; collapse whitespace, source newlines included, within each run; drop empty runs; join by line feed. A block is a box, and text on either side of its edge is on different lines; a one-regex stdlib reading agrees with the DOM, so the rule is satisfiable from a stdlib (the session-29 no-vendoring ruling). Revision-grade by #43: a definition, readers never resolve, re-check stays a MAY. **No tolerance rule:** live selectors re-measured at 0.69.0 lose no match (125 pass, 21 warn, 0 fail; the five checkable warns match under the rule and come from the toolkit's newline split). **Reversible under #58:** one line per table cell (`td`/`th` in the set, Fable's preference) rather than per row; Opus checks live targets for `<table>` before building. Opus-buildable: studio boundary list and `selectionLines`, conformance reader and live toolkit aligned, reader fixture 111. **Where releases are announced** (Venkat, 2026-11-14): blygger releases (studio, spec, tools) go on the official blyg `blyg.blygger.org` only, through `blygger-org/publish_releases.py`. Never on the PI or venkateshrao blygs. Recorded beside #66, which made the official blyg the home for announcements.",
+   "spec_sections": [
+    {
+     "section": "2",
+     "via": "spec"
+    },
+    {
+     "section": "10.2",
+     "via": "spec"
+    }
+   ],
+   "other_refs": [
+    {
+     "section": "30",
+     "via": "other"
+    }
+   ],
+   "relations": [],
+   "mentions": [
+    43,
+    58,
+    66
+   ],
+   "tokens": [
+    ", ",
+    "<table>",
+    "blockquote",
+    "blyg.blygger.org",
+    "blygger-org/publish_releases.py",
+    "br",
+    "dd",
+    "details",
+    "div",
+    "dl",
+    "dt",
+    "figcaption",
+    "figure",
+    "h6",
+    "hr",
+    "li",
+    "ol",
+    "pre",
+    "script",
+    "selectionLines",
+    "selectionText",
+    "style",
+    "summary",
+    "td",
+    "th",
+    "ul",
     "v0.4-plan.md"
    ]
   }

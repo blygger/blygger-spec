@@ -7,8 +7,12 @@ that supplies an adapter ([ADAPTERS.md](ADAPTERS.md)). It was written against
 checks, it follows 0.4: absolute `page` (C-5.8-01), relocatable manifest paths
 (C-4-14), remote generation sources (C-5.7-08), the author's label (#70), and
 a partial quote's CommonMark extent and LF/CRLF line endings (#76),
-the fragment directive as a publish error (#102), and Unicode on the wire
-(#103: `content_md` is text, NFC as a warning, an origin's one spelling).
+the fragment directive as a publish error (#102), Unicode on the wire
+(#103: `content_md` is text, NFC as a warning, an origin's one spelling), and
+a web page as a generation source (§16.16, #117, a ruled shape accepted before
+its promotion: a `generated[].sources[]` entry is an item reference or
+`{url, cited}`, with `retrieved` REQUIRED inside `cited` by §5.9 and `cited`
+itself a warning when missing).
 Nothing here is normative: where the checker had to choose a
 reading the spec leaves open, the choice is listed under **For Fable** in the
 report.

@@ -33,6 +33,8 @@ export function selftest(docs) {
   m("selector-dropped", "partial directive but selector dropped (the Blynger fork loss)", ["C-10.3-01", "C-10.2-02"], docs.thread, (d) => d.transclusions.forEach((t) => delete t.selector));
   m("partial-class-missing", "selector present but bake lacks blyg-partial", ["C-10.2-02"], docs.thread, (d) => (d.content_html = d.content_html.replace(/ blyg-partial/g, "")));
   m("instruction-leaked", "generated[] entry carrying instruction text", ["C-5.7-05"], docs.generated, (d) => (d.generated[0].instruction = "Summarise"));
+  m("url-source-extra-member", "a {url} generation source with an id beside it (#117)", [], docs.generated, (d) => d.generated[0].sources.push({ url: "https://example.org/page", id: d.id, version: 1 }));
+  m("url-source-cited-no-retrieved", "a {url} generation source whose cited lacks retrieved (§5.9, #117)", [], docs.generated, (d) => d.generated[0].sources.push({ url: "https://example.org/page", cited: { source: "Example" } }));
   m("tk-on-wire", "TK grammar left in content_md", ["C-5.7-05"], docs.fragment, (d) => { d.content_md = "[TK]x[=]y[/TK]"; });
   m("endcap-with-content", "withdrawn endcap with content", [], docs.fragment, (d) => (d.kind = "withdrawn"));
   m("fragment-transclusions", "a fragment carrying transclusions", [], docs.fragment, (d) => (d.transclusions = []));

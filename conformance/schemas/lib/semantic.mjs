@@ -253,7 +253,18 @@ rule("generated.wrappers", "generated spans are wrapped in blyg-tk-gen", ["§5.7
 rule("generated.disjoint-from-transclusions", "generation sources never appear in transclusions[]", ["§5.7"], ["#20"], "warn", (d) => {
   if (!d.generated || !d.transclusions) return [];
   const t = new Set(d.transclusions.filter((e) => !e.origin).map((e) => e.id));
-  return d.generated.flatMap((g) => g.sources.filter((s) => t.has(s.id)).map((s) => `source ${s.id} is also transcluded`));
+  return d.generated.flatMap((g) => g.sources.filter((s) => s.id && t.has(s.id)).map((s) => `source ${s.id} is also transcluded`));
+});
+
+// §16.16 (decision #117): a web page the generator read is {url, cited}.
+const urlSources = (d) => (d.generated || []).flatMap((g) => (g.sources || []).filter((s) => s && typeof s.url === "string"));
+rule("generated.url-source-cited", "a web-page generation source carries cited, with retrieved", ["§16.16", "§5.9"], ["#117", "#30"], "warn", (d) =>
+  urlSources(d).filter((s) => !s.cited).map((s) => `source ${s.url} has no cited (§16.16: retrieved is RECOMMENDED, since the page has no version)`));
+rule("generated.url-source-not-held-item", "a URL naming the publisher's own item is written as a reference, not {url}", ["§16.16"], ["#117"], "warn", (d) => {
+  if (!d.origin) return [];
+  const re = /(?:^|\/)(?:items\/)?([0-9abcdefghjkmnpqrstvwxyz]{26})(?:\.json|\/|$)/;
+  return urlSources(d).filter((s) => s.url.startsWith(d.origin) && re.test(s.url.slice(d.origin.length)))
+    .map((s) => `source ${s.url} names an item at the publisher's own origin; §16.16 writes it as a reference fed from the snapshot`);
 });
 
 rule("links.rendered-absolute", "[[id]] links render as anchors with absolute hrefs", ["§10.1"], ["#32", "#53", "#54"], "warn", (d) => {

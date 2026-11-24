@@ -95,7 +95,8 @@ per instance (MUST → fail, SHOULD → warn); info checks never fail.
 | `live.unpinned-404` | unpinned versions are 404 |
 | `live.cors` | ACAO `*` on manifest, index, feed, items |
 | `live.webmention-advertised` / `-reachability` | who advertises an endpoint; which cross-origin references can never notify |
-| `live.generated-sources` | generation sources stay own-origin at 0.3 |
+| `live.generated-sources` | item sources: own-origin ones omit `origin`, remote ones carry it (0.4 §5.7) |
+| `live.generated-url-sources` | web-page sources (§16.16, #117): `{url, cited}` and nothing else, `retrieved` in `cited`; a URL naming an own item warns. `{url}` entries are not references and skip `live.reference-target` |
 | `live.fork-reresolution` | source pin vs fork: lost selectors, re-resolved origins, re-baked versions |
 | `live.fork-lineage-visible` | the fork's page links its source pin |
 

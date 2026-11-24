@@ -156,7 +156,7 @@ group with `--only` on the others.
 `adapters/studio/` drives the reference client.
 
 ```sh
-git clone --branch v0.69.0 https://github.com/blygger/blygger-studio.git /tmp/studio
+git clone --branch v0.71.0 https://github.com/blygger/blygger-studio.git /tmp/studio
 (cd /tmp/studio && npm ci && npm run build)
 STUDIO_DIR=/tmp/studio node run.mjs --adapter studio
 ```
@@ -171,8 +171,12 @@ contract (`src/contract/routes.ts`), subscribes to the remote origins so
 their items are imported, creates and publishes each case, and reads the
 result from the published item document, `items/{id}.json`. Generation
 cases are generated through the contract's `generate` operation against a
-fake provider, then given back the fixture's output, as an author editing
-generated text would.
+fake provider, from a draft holding each scope's instruction only (as an
+author's draft does before generating), then given back the fixture's output,
+as an author editing generated text would. The instruction-only step matters
+from 0.70.0: the studio reads every link in the draft before generating
+(#117), so a draft that already held the expected output would make it read
+links that only the model's output contains (case 096 failed that way).
 
 **Why this adapter, and not an internals bundle.** The alternative was to
 bundle studio internals (`markdown.ts`, `transclusion.ts`, `tk.ts` …) and
@@ -195,6 +199,14 @@ items are retained past withdrawal only when curated into a hopper (a MAY in
 §13.4), outbound fetches need `ALLOW_PRIVATE_FETCH` because the fake origins
 answer from Miniflare rather than DNS, and Miniflare 5 needs its options
 converted.
+
+## Results at blygger-studio 0.71.0
+
+112 pass, 0 fail, against 112 fixtures (2026-11-23, studio `ff8eb07`, tagged
+v0.71.0). Cases 111 and 112 are new with the twenty-third revision (#118:
+text content is defined, and a tight nested list reads as two lines). The
+first run failed case 096 (a link inside a generated span) with one
+`generated[].sources` entry too many: the adapter, not the studio; see above.
 
 ## Results at blygger-studio 0.69.0
 
