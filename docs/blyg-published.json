@@ -228,6 +228,19 @@
       "id": "6wxxgd8zc5rehzs2nvy8vkdhkn",
       "version": 2,
       "source_sha256": "573cec407c9b024de2144c0bf68d7cc398bac3b172f4b9394377c4749b19cabe"
+    },
+    {
+      "file": "docs/posts/2026-11-23-private-posts-and-notebook-mode.md",
+      "model": "claude-opus-5-5",
+      "pin": false,
+      "footer": "post",
+      "notes": {
+        "first": "Studio 0.72.0 adds private posts and Notebook mode, the first step toward Level 3.",
+        "revision": "Post revised; see the source history."
+      },
+      "id": "04gwc1bh8qqda24szsawe6xjtk",
+      "version": 1,
+      "source_sha256": "156f847edc6db79bbb7ac24f309140c1ed432a9a82b1b3260adc8de96ef26d77"
     }
   ]
 }
