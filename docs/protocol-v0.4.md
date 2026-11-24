@@ -3255,8 +3255,10 @@ plain-web shape, not a §5.9 reference:
              "retrieved": "2026-11-22T18:00:00Z" } }
 ```
 
-`cited` follows §5.9's rules; `retrieved` is RECOMMENDED, since the page has
-no version. Such an entry sends no mention (rule 9 fires on `origin`). A URL
+`cited` is RECOMMENDED on such an entry — the page has no version, so the
+frozen label and its date are the only record of what was read — and when
+present it follows §5.9's rules unchanged, `retrieved` REQUIRED (twenty-fourth
+revision, decision #119). Such an entry sends no mention (rule 9 fires on `origin`). A URL
 that names a blyg item the publisher holds is that item: a reference, fed
 from the snapshot, notifying if remote. The list is built from what was
 read, never inferred from the output, and a URL that could not be read is not
@@ -3271,6 +3273,14 @@ cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
 
+- **2026-11-23, twenty-fourth revision** (Opus 5.5 recording Fable 5.1's
+  ruling by sub-agent, session 83; decision #119) — **§16.16's `cited`
+  sentence corrected**: a dated citation is RECOMMENDED on a web-page
+  generation source, and `cited`, when present, follows §5.9 unchanged with
+  `retrieved` REQUIRED, as §10.6 already says for a `{url}` stub. The old
+  wording read as an exception to §5.9 that was never meant (Aneesh Sathe,
+  blygger-spec#39). Wording only: nothing on the wire or in any checker
+  changes. Not snapshotted.
 - **2026-11-22, twenty-third revision** (Opus 5.5 recording Fable 5.1's
   ruling, session 80; decision #118) — **text content defined**: §2 gives
   the procedure (block boundaries at the start and end tags of a listed set

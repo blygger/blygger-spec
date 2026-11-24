@@ -95,6 +95,8 @@ draw on a private source only for private output.
 picker; a **private-read scope** distinct from draft access (§8.3, Opus's part); publishing
 scopes imply private-write. Group-scoped tokens wait for Phase 3 (they name membership).
 
+*Built (session 83, studio [#178](https://github.com/blygger/blygger-studio/pull/178), in review):* 0c's TK half (an own private item is a source for a caller that may see it; a public publish is refused while provenance names one); 0d's `owner:private` scope (owner:read does not imply it; tokens minted before lose private access, Venkat's call), a per-resource guard in the operation runner, private items left out of every list for tokens without it, compose search over private working copies (migration 0061); the hopper fix. Laws approved session 83: *private source*, *owner search* (draft, private or public items, private marked; corrected from a draft that also said withdrawn, which search never listed), *private scope*, *no leak*, *hopper visibility*. Left: the `[[` picker (ROADMAP row 157), and 0e's non-route surfaces as tests (mentions, `links[]`, Agentic editions, catch-up, exports), which read only public versions or imports today.
+
 **0e. Leak tests** (private-items §4): feed, index, mentions sent, `links[]`,
 `transclusions[]`, search, Agentic feed editions, catch-up, the MCP surface, exports and
 backups' public half.
