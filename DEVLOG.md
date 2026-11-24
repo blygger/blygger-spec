@@ -7,6 +7,30 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 82 — 2026-11-23 — Private items, Notebook mode, setup and what's new shipped as the 0.72.0 batch (#175, live on three nodes); release PR #176 open; blygs.json carries authors; multi-author plan queued
+**Model:** Opus 5.5 · **Time:** ~09:24–18:35 PT · **Committed:** yes (studio, spec, com) · **Deployed:** studio main `3f46fce` (0.72.0's code, still reporting 0.71.0) to venkateshrao, PI and blyg.blygger.org (0059, 0060); blygger.com `a11d8ca`; a branch test deploy to venkateshrao first
+
+**What & why:**
+1. **Oracle gaps from session 81 closed** (laws approved by Venkat): *private history* (the p1…pn list, kept after raising, gone on discard), *private conflict* (a private publish racing an edit or a public publish gets 409 and adds nothing, held D1 batch), and the *publish block* widened to draft and withdrawn targets. `draft-authority-security` now claims `discardDraft`. RED then GREEN.
+2. **The private-versions list:** `GET /items/{id}/private-versions` and p1, p2, … rows in the history panel (view only, Venkat's choice).
+3. **Setup and Discover** (Venkat): a Mode step (**Publish mode / Notebook mode**, his names), a Reading step, newer settings in Look, Writing and Others, and a numbered **Read** step after Review that opens Discover (after the save, so "nothing written until Review" holds). A text-helpers model chosen in setup had been silently dropped; fixed. Discover shows **author and client**, from `blygs.json`'s new `author`/`generatorUrl` (blygger-com `a11d8ca`, deployed).
+4. **What's new after an upgrade** (Venkat asked whether one existed; it did not): `setupSeenVersion` (migration 0060 marks nodes past setup as 0.71.0), `SINCE` tags and `HIGHLIGHTS` in `src/ui/whats-new.ts`, a once-per-release banner, and `/setup?new=1`, which walks only the new steps. The README release steps now say to write the highlights.
+5. **Notebook-mode tweaks** (Venkat): a **private** tab above compose (reader `sub=private`, `counts.private`); a **reader view** link in a private item's editor where public items have the permalink; private reader cards badged, with no public URL or stub (session 81's owner reader had both, pointing at a 404). Tweak 3 (compose and my blyg as one tabbed view) deferred to 0.73, in `docs/backlog.md`.
+6. **CI, three runs.** (a) Stale anchors from session 81: the mount oracle's contract version, and two security mutants whose media queries moved. (b) Two inventory oracles lacked the new route (I had not run all 50 oracle files; now done, 1322/1322). (c) `reader-browse` failed in CI's full run only; the likely cause was a second full scan for the private count on every summary, folded into one grouped query. (d) The known oracle-gaps start-up flake hit the search oracles; one rerun went green.
+7. **Gap runner crash:** `run-oracle-gaps` dies at start-up ("Message received from Worker before initialisation") whenever the held-batch oracle files run in it (3/3 runs), and completes without them. So `publishPrivately`'s conflict and `discardDraft`'s race can't be scored by the gate. Raised with Kyle on studio#73.
+8. **Deploys.** Branch to venkateshrao first, with a live leak probe: a private item 404'd on every public route and was discarded. Then after merge, main to all three nodes. Venkat tested private posts and Notebook mode on his node.
+9. **Release 0.72.0 started:** PR #176 (bump, SDK 0.26.0, CHANGELOG heading, AGENTS entry), CI running.
+10. **Writing:** the post *Private posts and Notebook mode: the first step toward Level 3* (`docs/posts/2026-11-23-…`), approved by Venkat to go out **as is when the release is tagged**. The backlog has the notebook-feel to-do and the tabbed-view row.
+11. **Answers given:** the smart digest's status (foundations live since 0.69.0; waits on Kyle's scopes and Venkat's sectional design); the permissions system (RFC-6 is still gated by the 11-28 close and Fable's revision; Phase 0's remaining 0c–0e are unblocked); multi-author blygs (unblocked: tn-6 is the ruled design).
+
+**State after:** main `3f46fce` live on three nodes; release PR #176 open (bump only); blygger.com serves authors. ROADMAP 105 shipped in 0.72.0's code (the release commit is pending). Spec unchanged.
+
+**Open threads:**
+- **Release 0.72.0:** #176 green → merge → main's Check → tag `v0.72.0`. Expect a Release rerun (60-minute preflight). Then `publish_releases.py` and the private-posts post via `publish_blyg.py`, dry-run both first.
+- **Next session first:** the multi-author plan, with PI as the test case, flat partner byline accounts, and possibly email-code login (carry-over in CLAUDE.md).
+- **0.73:** private items 0c–0e; the tabbed compose and reader view; the notebook feel.
+- **Kyle (studio#73):** the gap-runner crash with held-batch files; the 60-minute preflight.
+
 ## Session 81 — 2026-11-22/23 — Studio 0.71.0 released and rolled out (#118 built, studio#167, #168, #172, #173); private items built oracle-first for 0.72.0; the R8 probe; sealed-content build plan
 **Model:** Opus 5.5 · **Time:** ~15:42 (11-22)–09:00 PT (11-23), with a long break · **Committed:** yes (studio, spec, org) · **Deployed:** studio 0.71.0 to venkateshrao, PI and blyg.blygger.org (0058); release announced on blyg.blygger.org
 

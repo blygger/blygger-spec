@@ -79,6 +79,14 @@ approved laws became oracles: *default visibility* and *owner reader*. Private v
 are numbered apart from the public counter (p1, p2, …), and a list view of them is
 proposed for 0.72.0. Shipping is planned as **0.72.0 alone**, after 0.71.0.
 
+*Shipped (session 82, studio 0.72.0, merged #175, live on three nodes):* the above, plus
+the p1/p2/… list (`GET /items/{id}/private-versions`, the history panel), *Publish mode*
+and *Notebook mode* as the names of the two defaults, a **private** tab above compose in
+Notebook mode (the reader's `private` source), the editor's *reader view* link for private
+items, and private reader cards without public links. Oracles added: *private history*,
+*private conflict* (409 on a raced private publish), and the publish block widened to
+draft and withdrawn targets. 0d's owner search and compose-list items remain.
+
 **0c. References.** Working copies (including a published item's pending changes) may name
 a private item; **publishing them is blocked** while they do (private-items §3.4). TK may
 draw on a private source only for private output.
