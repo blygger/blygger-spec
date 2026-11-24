@@ -142,6 +142,9 @@ working copy** is the tainted working copy of a public or withdrawn item.
    or publishing a draft) names the public hoppers it is in before it goes; for a
    restricted caller, hidden members are absent, and a membership cursor expires only
    when a member's visibility to that caller changes, not on an unrelated edit.
+   The reader's hopper lens is a hopper view, so it shows draft members, marked
+   (Venkat, session 85, studio#175/#178 V9); the reader's other lenses and *my blyg*
+   stay draft-free, as the session-81 *owner reader* law says.
 
 *Stated limit (**Q3**, session 85):* "hidden is not gone" stops at content. Revisions,
 ETags, cursor expiry and `dirty` flags may change when the owner edits or shelves a
