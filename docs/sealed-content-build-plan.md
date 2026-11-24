@@ -101,6 +101,53 @@ scopes imply private-write. Group-scoped tokens wait for Phase 3 (they name memb
 `transclusions[]`, search, Agentic feed editions, catch-up, the MCP surface, exports and
 backups' public half.
 
+**0f. The laws as "For every" sentences** (session 85, 2026-11-24, after #178's
+independent review found the session-83 laws held only where a test had been written
+for them). These are the statements the oracles enumerate; each names its domain so a
+new route, field or surface falls inside it by default. Venkat's session-84 rulings
+(*private taint*, *hidden is not gone*) and session-85 rulings (Q1–Q3 below) are folded in.
+
+*Terms.* A caller **sees private** when it is the owner's browser session or a token
+holding `owner:private`; every other token is **restricted**. A working copy is
+**tainted** when its server-written provenance names a private snapshot. For a
+restricted caller, a **hidden item** is a private item, or a draft whose working copy is
+tainted (it has no public version, so the working copy is the whole item); a **hidden
+working copy** is the tainted working copy of a public or withdrawn item.
+
+1. **Private scope.** For every restricted caller, every hidden item and every
+   `/items/{id}` operation (REST and MCP), the answer equals the answer for an id that
+   does not exist (status, error code and message), and no write takes effect.
+2. **No leak.** For every response to a restricted caller (lists, counts, search,
+   reader, hopper members and feeds, shelf, Agentic editions, catch-up, freshness,
+   preview, MCP tool output, error bodies), no hidden item's id, title or text appears,
+   no hidden working copy's text or provenance appears, and no message says an item is
+   private: a reference to one reads as a reference to an unknown item. A public item
+   with a hidden working copy stays visible as its latest public version (**Q2**,
+   session 85: taint hides the working copy, not the item).
+3. **Private source.** For every TK generation, a private snapshot is a source only if
+   the caller sees private, and every output that drew on one is tainted.
+4. **Taint is the server's.** For every working copy, only the server writes
+   provenance `sources` and `private` (**Q1**, session 85). No client body (PATCH,
+   publish, MCP), hand edit of the TK markers, raise or discard of the source, or
+   regeneration from tainted input clears the mark; discarding the working copy removes
+   it with the text. Client-supplied provenance never decides a refusal, so no answer
+   differs between a private id and one that does not exist.
+5. **Publish block.** For every tainted working copy, a public publish is refused with
+   one answer whatever the source is; a draft may still be published privately.
+6. **Owner search.** For every search by a caller who sees private, results cover draft,
+   private and public items, private ones marked; for a restricted caller, hidden items
+   and hidden working copies are absent.
+7. **Hopper visibility.** For every hopper, a caller who sees private sees every member
+   (draft, private, public), each marked; every action that makes an item public (raise,
+   or publishing a draft) names the public hoppers it is in before it goes; for a
+   restricted caller, hidden members are absent, and a membership cursor expires only
+   when a member's visibility to that caller changes, not on an unrelated edit.
+
+*Stated limit (**Q3**, session 85):* "hidden is not gone" stops at content. Revisions,
+ETags, cursor expiry and `dirty` flags may change when the owner edits or shelves a
+hidden item, so a restricted caller can learn *that* something changed, never what.
+`docs/api.md` says so beside its absence-is-not-deletion text.
+
 ## 2. The R8 probe — now, throwaway
 
 v0.5-plan §10 item 4, RFC-6 §9 items 3, 4 and 28. Read `Code/devops/security-policy.md`
