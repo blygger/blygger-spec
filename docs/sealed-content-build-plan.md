@@ -146,6 +146,16 @@ working copy** is the tainted working copy of a public or withdrawn item.
    (Venkat, session 85, studio#175/#178 V9); the reader's other lenses and *my blyg*
    stay draft-free, as the session-81 *owner reader* law says.
 
+8. **Shelf and avatar** (Venkat, session 85, for Kyle's coverage follow-up on #178). The
+   shelf has no product cap, only a technical ceiling of 1,000 entries on the stored list.
+   For every replace by a restricted caller, the hidden entries it cannot see keep their
+   places and any overflow past the ceiling comes off the end of its own list; the owner
+   can always save back the list it reads. For every avatar choice, the medium must exist
+   and be visible to the caller: a restricted caller naming a private item's medium gets
+   the answer for a medium that does not exist, and the avatar does not change. The
+   owner (or a token with `owner:private`) may choose such a medium deliberately, which
+   publishes those bytes.
+
 *Stated limit (**Q3**, session 85):* "hidden is not gone" stops at content. Revisions,
 ETags, cursor expiry and `dirty` flags may change when the owner edits or shelves a
 hidden item, so a restricted caller can learn *that* something changed, never what.
