@@ -1,10 +1,11 @@
 # Multi-author blygs in the reference client — plan
 
 **Status:** PLAN, building (session 83, 2026-11-23, Opus 5.5 with Venkat; second draft, after
-Venkat pointed at the PI site's login). M0 is in review as studio#178 (not ready after session 84's
-independent review; three rulings open); M1 is built on the local branch `feat/stored-bylines` (commit `4379b14`, tests
-updated), waiting on #178. M1 departs from §4 on one point, for Venkat to confirm: no backfill — versions published
-before migration 0062 keep being served from settings, because the default byline URL is the request origin. Target: studio 0.73. This is
+Venkat pointed at the PI site's login). M0 is in review as studio#178 (session 85: rulings taken,
+reworked oracle-first, independent review pending); M1 is built on the local branch `feat/stored-bylines` (commit `4379b14`, tests
+updated), waiting on #178. M1 departs from §4 on one point, **confirmed by Venkat (session 85, 2026-11-24): no backfill** —
+versions published before M1's migration keep being served from settings, because the default byline URL is the request
+origin, which a migration cannot see. #178 took migration 0062, so M1's becomes **0063**. Target: studio 0.73. This is
 `docs/mentions-build-plan.md` step 6 ("member roster and per-token bylines").
 
 Design already ruled:
