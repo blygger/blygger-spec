@@ -57,6 +57,8 @@ threads, and the next Fable pass files them.
 | **Read-side faithfulness check for partial quotes** — re-run the §10.2 substring test against a target still serving the version | Decision #49 (session 28); partial transclusion normative since session 31 | Idea | A reader wanting to show "this quote still matches" on an imported partial |
 | **`cited` on `{url}` stubs in the studio** — emit the §5.9 object on plain-web stubs (the pour-over-links affordance, studio#17, is the natural producer) | Decision #55 (session 31), spec §16.1a | Ruled; Opus-buildable | Opens gate G10 once an import across nodes retains it |
 
+- **On-device generation through a local helper** (Venkat, session 86). Burrow runs TK generation through `claude -p` on the device's Claude plan login; the Studio, being a browser page, cannot start a process. The options are a localhost helper (Burrow could be it; Chrome now asks a local-network permission), an extension with native messaging, or Claude Code writing over MCP (works today, but text arrives as `impyrt`, with no sources or private mark). The constraint any build keeps is Q1: the server assembles the prompt and records sources, the device only runs it, and the server installs the completion against a one-time handle. Check Anthropic's terms for using a plan login this way first. One helper could also serve the Substack fetch block (#117).
+
 ## 3. Program questions (not protocol; Venkat's or a tracks session's)
 
 - **Known-latest table for other people's clients** (tracks § Open questions): publishing our own client's latest is a fact; publishing someone else's is a claim that can go stale. Options: opt-in only, from GitHub releases where a repo is known, or observed-version-only for third parties. Undecided.

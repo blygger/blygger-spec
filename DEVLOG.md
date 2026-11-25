@@ -7,6 +7,45 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 86 — 2026-11-25 — #177 and 0.72.1 shipped; the CI and thank-you posts; #178's row 5 oracle, then an independent review found five more leaks, fixed oracle-first
+**Model:** Opus 5.5 · **Time:** ~08:41–15:30 PT · **Committed:** yes (spec, local; studio #178 branch local) · **Deployed:** 0.72.1 to venkateshrao, PI, blyg.blygger.org; two posts on blyg.blygger.org
+
+**What & why:**
+1. **#177 merged** (Kyle's parallel Check, ~13.5 min). **#179's e2e cancellation** wasn't slowness. The upgrade test hard-coded `0.72.0` and, failing, left the shared node in Notebook mode, so every later spec failed. It's fixed with `afterEach` resets, and #179 merged. **0.72.1** was tagged, released and published, and deployed with migration 0061 to three nodes; the update flag cleared. New Nature's session owns its node.
+2. **The official blyg is agent-authored** (Venkat): author *Blygger Project*, the about text names Venkat as supervisor, and posts publish there without asking. Venkat is referred to in the third person and is in the address book. Two posts:
+   - **How Blygger Studio is tested now**: CI and Kyle's oracles in plain terms, with the codebase-size numbers.
+   - **Thank you to everyone building Blygger**: 26 h-card mentions; asks anyone missed to stub a reply and everyone to add a GitHub link.
+
+   ROADMAP row 158 (*who builds what*, tracked by the directory) records the to-do Venkat asked for.
+3. **#178 row 5** (Venkat's rulings): names as of the dialog opening; a failed read refuses with an error; one publication per accepted confirmation.
+   - `browser-publish-confirm` (99 plans) was RED on 26, which came down to five faults. The worst: a draft publish sent no visibility, so a default flipped mid-dialog made it private. In Notebook mode the row and Quick Edit named public hoppers before a private version. The editor's second press during a slow read opened a second dialog. All fixed. Opus ruled the row label: "add version".
+   - Fixing it also caught a mistake from the shelf-ceiling commit: the UI typecheck was pulling D1 types through `data.ts`, fixed by moving `SHELF_MAX` to its own module.
+   - Main merged into the branch; migrations renumbered to 0062/0063 (M1 → 0064).
+4. **More oracles for Kyle's table:**
+   - `mcp-notebook`: 63 MCP scope subsets × every item tool, compared raw.
+   - `browser-search-marks`, plus a search lifecycle history in `private-scope`.
+   - Shelf and Agentic histories where visibility changes after the fact.
+   - Browser gap controls: 7 of 7 killed.
+5. **Independent review (step 4, three sub-agents, Venkat's go).** The enforcement pass confirmed **F1–F4 by probe**:
+   - **F1–F3:** the `/items/{id}` write and AI handlers loaded rows unmasked, so a restricted PATCH, generate or note-draft returned a hidden working copy, or sent it to the model.
+   - **F4:** `/browse` showed private items' ids and titles.
+   - **F5:** a restricted publish named the private source.
+
+   Venkat ruled that a restricted token acts on the masked view. Every handler now loads through `getItemAs`: a restricted text edit replaces the hidden copy, mark included; a restricted publish discards the copy first. The Agentic draft is now marked by a trigger in 0063 when an item it names turns hidden (RED first). The trigger was proved on a throwaway remote D1, then deleted.
+   The audit pass corrected the reply and the CHANGELOG: coverage histories are not fixes, and the media guards predate this round. The mutant-search pass was stopped at wrap-up before reporting.
+6. **Mishap, repaired:** `npm ci` in the worktree went through its `node_modules` symlink and emptied the main studio checkout's packages. They were reinstalled from the same lockfile and a memory was saved.
+7. **Venkat's questions answered:**
+   - **Do the leaks matter only for multi-author?** No. Every token minted before this release becomes restricted, so a single-author blyg already depends on these laws.
+   - **Can the Studio use a Claude plan session as Burrow does?** Not directly from a browser. The options are a localhost helper, an extension with native messaging, or Claude Code over MCP. The server must still assemble prompts and record provenance, and Anthropic's terms need checking. The idea went to the backlog.
+
+**State after:** studio `feat/private-items-0c-0e` at `859c0e2`, local, 12 commits past `95bd73f`:
+- `private-scope` 75/75, browser publish oracle 109/109;
+- Worker suite 2,023 passed, UI suite 340 passed.
+
+A final worker gap run (510 mutants on changed lines, 23 oracles) was still running at wrap-up. Reports land under `os.tmpdir()`; the log is at the session-86 scratchpad's `gaps-86f.txt`. Spec: `b607211` and this session's wrap-up commit, plus session 85's four, local.
+
+**Open threads:** triage the final gap run; resume or redo the mutant-search review pass; fill the reply's `{HEAD}`, `{READY}`, `{MUTANT_REVIEW}`, `{GAPS_WORKER}`; push #178, post the reply, wait for Kyle's re-review; a CI lane for the browser publish oracles (asked of Kyle in the reply).
+
 ## Session 85 — 2026-11-24 — #178 reworked oracle-first: laws as sentences, three rulings, gap checks; seven more notebook leaks closed; 0.72.1 hotfix for the reader order
 **Model:** Opus 5.5 · **Time:** ~13:07–21:10 PT · **Committed:** yes (spec, local; studio branches local; hotfix branch pushed) · **Deployed:** —
 
