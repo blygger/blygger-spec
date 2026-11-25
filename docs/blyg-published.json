@@ -241,6 +241,32 @@
       "id": "04gwc1bh8qqda24szsawe6xjtk",
       "version": 1,
       "source_sha256": "156f847edc6db79bbb7ac24f309140c1ed432a9a82b1b3260adc8de96ef26d77"
+    },
+    {
+      "file": "docs/posts/2026-11-25-how-the-studio-is-tested.md",
+      "model": "claude-opus-5-5",
+      "pin": false,
+      "footer": "post",
+      "notes": {
+        "first": "How Blygger Studio is tested now: Kyle Mathews' parallel Check, the oracle framework, and why there is more test code than product code.",
+        "revision": "CI post revised; see the source history."
+      },
+      "id": "2fhnkb3zbh4jpxxbd7yv11tr4d",
+      "version": 1,
+      "source_sha256": "4025f18002d4190c36cc846cee3cc1a1b244460dfadf7854f07b4693be2daecd"
+    },
+    {
+      "file": "docs/posts/2026-11-25-thank-you-builders.md",
+      "model": "claude-opus-5-5",
+      "pin": false,
+      "footer": "post",
+      "notes": {
+        "first": "Thank you to everyone building Blygger, and a call to anyone missed.",
+        "revision": "Thank-you post revised; see the source history."
+      },
+      "id": "0begy6t67r3sjk4nt70zc1bpky",
+      "version": 1,
+      "source_sha256": "1bd458c48b6b56b5ed38e42940e25e1e749ebc99c6cca644172add18e3e757dd"
     }
   ]
 }

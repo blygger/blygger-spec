@@ -336,6 +336,11 @@
       "id": "7012p8fpsxj4ck1547srm5jd0q",
       "version": 1,
       "source_sha256": "e3e4fb311621358b33847b652ed13ef60156a24e56e88817fee269c11bcd30fb"
+    },
+    "0.72.1": {
+      "id": "5k1ytcz21e7s3d2aqjz5bc8r9e",
+      "version": 1,
+      "source_sha256": "d797fc99e552ff2b3bcacc5ede0482c137b7310ddc53b4a4e94e962efb43ba3b"
     }
   }
 }
