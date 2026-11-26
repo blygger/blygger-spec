@@ -237,7 +237,6 @@ Venkat, session 88: every issue, PR, branch and worktree in flight gets a short 
 | Alias | Issue / PR | Branch | Where | State |
 |---|---|---|---|---|
 | **privacy leaks** | studio PR 178 | `feat/private-items-0c-0e` | `wt-m0` (session-84 scratchpad) | split done session 88; main (0.72.3) merged in, migrations renumbered; gap triage in progress; local, not pushed |
-| **the patches** | studio PR 186 (0.72.3), merged | `fix/superseded-window` (merged) | — | deployed on three nodes session 88; tag `v0.72.3` pushed; Release waits on main's Check rerun (apt 403); then announce. Drop the row once announced |
 | **privacy follow-up** | — (not opened) | — | — | hopper-lens drafts on their own path; the review's oracle extensions |
 | **access layer** | — | — | — | decision 2 of session 87: one visibility function; after *privacy leaks* |
 | **notebook narrowing** | — | — | — | decision 3: law delta for Venkat's approval |
