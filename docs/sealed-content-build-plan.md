@@ -16,6 +16,29 @@ which RFC item it waits on.
 - **Venkat, session 81:** (1) run the **R8 probe now**, before the close, throwaway, so the
   suite (item 3) and padding (item 4) are ruled on measurements; (2) **start Phase 0 now**:
   private items are ruled (#94) and not gated by RFC-6; (3) this plan lives here.
+- **Venkat, session 87 (2026-11-25): #178 is reshaped by three decisions, acted on from
+  session 88.** Its review rounds kept finding real leaks (Kyle's 16, then 5, then 5, then
+  a mutant search's 3 live bugs), and the cost traced to the feature, not the oracles: law 1
+  is a claim about every path that can name an item, taint makes privacy flow through
+  generation, and each feature filters hidden items by hand.
+  1. **Split #178.** Ship what is proven (0c–0e, the hopper fix, the laws and the oracles
+     that pass with their gaps triaged) and move the Agentic-edition and hopper-lens-draft
+     interactions, with the mutant search's three live findings, to a follow-up PR.
+  2. **One access layer.** Every read of an own item goes through one visibility function
+     (`visibleItemsSql` and its row form); the shelf, Agentic editions, reader, search and
+     extensions stop filtering by hand (`readEditionAs`, `withoutHiddenRefs`, `shelfAs` and
+     kin go). A refactor under the existing oracles: they are its review.
+  3. **Narrow the law in Notebook mode.** There, a token without `owner:private` gets no
+     notebook access at all, rather than item-by-item hiding. The exact law delta to §1 0f
+     laws 1–2 is drafted in session 88 for Venkat's approval before any oracle changes.
+- **Design for CI (Venkat, session 87).** Learn from Phase 0 before Phases 1–4 and the
+  multi-author permissions (`multi-author-plan.md` §2), which are more complex still:
+  design each so its laws are few and checkable at one choke point. One access function
+  every read goes through, a small closed set of states, no per-feature filtering, derived
+  properties (like taint) kept to a minimum and stated before the first feature uses them,
+  and an oracle written with the law, before the code. Like design for manufacturability:
+  a design that is cheap to verify is the design. Each phase's plan states its choke point
+  and its laws before building, and its review counts the surfaces a law must hold on.
 - **Model routing (#58).** Phase 0 is client contract and Opus's. Phases 1–4 build ruled
   wire; any question the build raises about the wire goes to Fable as a finding, not a
   guess.

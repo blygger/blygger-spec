@@ -137,9 +137,30 @@ went to the contributor guide; RFC-6's "to become tn-8" line wants the same fix 
 pinned, a status line (*unbuilt*), a "Comments received" section. The issue stays open
 for late comments.
 
+## New from session 87 — document-level passes (Venkat; reopens part of #115)
+
+Venkat, after studio#184 (he wrapped a whole pasted-from-ChatGPT post in `[TK]impyrt=…[/TK]`,
+which nested the post's one real TK scope and failed): **marking a whole item as generated is
+not what TK is for.** Two ways of using AI, two constructs:
+- **TK scopes are atomic blocks**: an instruction, its sources, its output, inside the text.
+- **Document scopes are passes over the whole item**, of various types, with **"first draft"
+  as one type of pass** (a pasted model draft is a first-draft pass). They must not interfere
+  with the TK scopes inside, and they're the construct blykker's planned editing passes need.
+- **Nested TK scopes are cleanly refused**, as they are now, with an error that names the scope
+  and *offers* (never applies by itself) the split: `impyrt` around the parts outside it.
+
+The question for Fable: #115 declined any `edited[]` member (§16.8, #83: a per-version
+record of passes is version-significance markup). A first-draft pass is generation under §5.7
+("span or whole body"), so the disclosure half already exists in principle. What's new is a
+whole-item shape that sits beside `generated[]` spans, and a typed list of passes that would
+include non-generating ones. Rule which half, if either, reopens #115, and in what shape.
+Until then the Studio refuses nesting and does not offer whole-item `impyrt` around scopes.
+
 ## Review first — decisions Opus ruled (#58)
 
-Nothing pending. The fold by link (session 74, [`v0.4-plan.md`](v0.4-plan.md) §26) was
+**#120 (session 87, the twenty-fifth revision, [`v0.4-plan.md`](v0.4-plan.md) §32):** §15.4 step 1 now says the alternate link is located by HTML's attribute rules (quoted or unquoted), from Dylan Fitzgerald's blygger-spec#40; the issue's publisher-side SHOULD to quote was declined. Look at the decline.
+
+Before that, nothing was pending. The fold by link (session 74, [`v0.4-plan.md`](v0.4-plan.md) §26) was
 reviewed the same day: confirmed, with the test tightened from time to text (#112, the
 eighteenth revision, §27). #95 was confirmed in session 61 (§18.10).
 

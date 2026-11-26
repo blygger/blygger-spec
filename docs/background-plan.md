@@ -67,7 +67,7 @@ new one are in hand: the importer keeps only the latest state.
 | `quotes-refreshed` | the new version's `content_hash` equals the held one's and its `transclusions[]` name newer versions: the author refreshed stale quotes and wrote nothing new. Unless the owner's **material quote change** toggle is on and a refreshed quote's text changed beyond near-same (§2.1) | each version | #38, #77, §13.2 |
 | `near-same` | changed ≤ 2 % of the text and ≤ 40 characters, on `content_md` | each version | #83, §13.2 |
 | `minor` | the change classifier calls the version `typo`, `minor` or `refresh` (§3) | each version | #83; §18.8 for the note |
-| `superseded` | the same blyg published a newer item within the **superseded window** after this item's latest activity | when a sibling arrives; cleared by a new version of this item | §13.7 ¶1: ordering is the reader's own; no text needed, and not recommended to other clients (a 15-minute window is one client's taste, #73's logic) — Fable, session 61 |
+| `superseded` | the same blyg published a newer item within the **superseded window** after this item's latest activity | when a sibling arrives; cleared by a new version of this item | §13.7 ¶1: ordering is the reader's own; no text needed, and not recommended to other clients (a 3-minute window, 15 until session 87, is one client's taste, #73's logic) — Fable, session 61 |
 | `burst` | an item of either kind from blyg O (widened from "a fragment" in session 66: tangled parts are threads, `tangling-plan.md`) named in the `transclusions[]` of a thread from O whose publishing version falls within the **burst window** after the item's `created` | when the thread arrives; cleared by a later version of the fragment | #78, §13.7 |
 | `wordless` | `content_md` with every directive line, attached `>` selection, label and whitespace stripped is empty | each version | #80, §13.2 |
 
@@ -96,7 +96,7 @@ default. The cases:
 The home-page order treats the same version as maintenance (RFC-3 R2, #97): it climbs zero.
 
 **Constants** are reader-local (#83: never on the wire, never in a public API). Two are
-settings because Venkat wants to tune them: the **superseded window** (default 15 minutes)
+settings because Venkat wants to tune them: the **superseded window** (default 3 minutes since session 87, studio#183; was 15)
 and the **burst window** (default 15 minutes). The near-same threshold stays a documented
 constant; one word can negate a sentence, so it stays small.
 
@@ -306,7 +306,7 @@ client choice:
   top level, by `data-blyg-id`) and counts only while `quotes-refreshed` does. It is on by
   default, which is §2.1's default: such refreshes go to Background. Turning it off is the
   plan's *material quote change* toggle. One settings object, no new key.
-- **The superseded window is a constant** (`SUPERSEDED_WINDOW_MS`, 15 minutes), like the burst
+- **The superseded window is a constant** (`SUPERSEDED_WINDOW_MS`, 3 minutes since session 87 — 15 caught unrelated posts, studio#183), like the burst
   window since session 72. A tunable window needs the first numeric settings field. The
   stored reason is a fact taken on arrival, so a changed window could only act on new
   arrivals anyway.

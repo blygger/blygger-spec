@@ -2664,7 +2664,12 @@ protection, not a nicety (§14).
 1. `GET source`. If the response is JSON with a `blyg` key, it is the item
    document. If it is HTML, find `<link rel="alternate"
    type="application/json">` (§5.8) and fetch that; it MUST be a blyg item
-   document. Anything else → **failed**.
+   document. Anything else → **failed**. The element is located by HTML's
+   own attribute rules: a value may be double-quoted, single-quoted or
+   unquoted, attribute names match case-insensitively, `rel` is a
+   space-separated token list, and `type` is compared as a media type with
+   its parameters aside. A pattern that requires quotes refuses valid pages:
+   static-site minifiers write `href=https://…` by default.
 2. **The item document's final URL MUST be exactly `{origin}items/{id}.json`
    for the document's own `origin` and `id`** (revision of 2026-10-06,
    decision #61; scheme and host compared case-insensitively, default port
@@ -3273,6 +3278,13 @@ cut at `blygger.org/spec/0.4/{date}/` and each carries a diff link to the one
 before it. Version 0.3's own history is in its document, frozen at its
 eleventh revision.
 
+- **2026-11-25, twenty-fifth revision** (Opus 5.5, session 87; decision
+  #120, Fable review pending) — **§15.4 step 1 says how the alternate link
+  is found**: by HTML's attribute rules, so quoted, single-quoted and
+  unquoted values all count. Two receivers had matched quoted values only
+  and failed every mention from a Hugo-minified blyg (Dylan Fitzgerald,
+  blygger-spec#40). It clarifies what HTML already says. Publishers are
+  asked for nothing new. Not snapshotted.
 - **2026-11-23, twenty-fourth revision** (Opus 5.5 recording Fable 5.1's
   ruling by sub-agent, session 83; decision #119) — **§16.16's `cited`
   sentence corrected**: a dated citation is RECOMMENDED on a web-page

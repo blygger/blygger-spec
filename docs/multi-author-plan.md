@@ -66,6 +66,14 @@ received forms (#71). OIDC is the standard form of the same delegation.
 
 ## 2. The permissions model this plan commits to
 
+> **Design for CI (Venkat, session 87; `sealed-content-build-plan.md` §0).** Private items
+> took four review rounds because their law holds on every surface and each feature filtered
+> by hand. Before building this model, name its one choke point (one function every
+> permission decision goes through), its closed set of roles and states, and its laws as
+> "For every" sentences, and write the oracle with the law. A permission that cannot be
+> decided at that choke point is a design finding, not a build task.
+
+
 The plan is small, but it is the first time the studio has more than one person in it, so it
 fixes the shape that RFC-6 Phase 3 (group visibility) and later roles will extend. Five
 parts, each usable on its own:

@@ -7,6 +7,40 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 87 — 2026-11-25/26 — 0.72.2 hotfix (a free-plan D1 outage, unquoted links); Background vs pace-layered, discard with TK; #178's review done and the feature reshaped; two design rules
+**Model:** Opus 5.5 (one Opus sub-agent for #178's mutant search) · **Time:** ~18:38 PT 11-25 – 09:05 PT 11-26 · **Committed:** yes (studio: 0.72.2 and #185 merged on `main`; patch branch `fix/superseded-window` local; spec local) · **Deployed:** studio 0.72.2 to venkateshrao, PI, blyg.blygger.org; the release thread on blyg.blygger.org
+
+**What & why:**
+1. **studio#180, a free-plan outage (fredcy).** blyg.fredcy.com ran out of D1's 5M daily rows two hours after upgrading 0.60 → 0.72. Cause: since 0.65.0 (#152) the Studio refreshes by conditional reads, and `listReading`/`getReadingSummary` are deliberately off the revision shortcut, because the mention index moves no counter (`derived-validators`; Kyle's authored `unsafe-listReading-counter-shortcut` mutant confirms the shortcut is unsafe). So each 15 s poll ran both full scans, ~16k rows, and a visible tab polls whether anyone is there or not. **0.72.2:** `watchAttention` drives Query Core's focus (visible, focused, input within 5 min), and Reading polls every 5 minutes. Kyle is asked for the server side on #180: own-item `bg_reasons` writes move no counter, so a non-mentions shortcut needs a migration, and the identity scan reads ~8k rows. Thirteen live Studio nodes run 0.65–0.72.
+2. **studio#181 / spec#40 (arubis).** Verification read `href` only when quoted, so Hugo-minified pages failed §15.4 silently. One attribute reader, `src/html-attr.ts`, serves verification, discovery and peek: all three quoting forms, no `data-href` match, `&amp;` decoded. It also stops peek taking an oEmbed alternate. Spec: **decision #120, twenty-fifth revision**, Opus under #58, Fable review pending. §15.4 now says the element is found by HTML's attribute rules; the publisher-side SHOULD to quote is declined.
+3. **0.72.2's CI.** Three cold-load tests timed out on three consecutive Checks. Their files import `./helpers.ts` lazily (deferred since #177), so the one HTTP test pays the Worker load inside 5 s, already at 4.2–4.7 s on the last green run. #185 gives exactly those tests 30 s, merged on Venkat's word after auto mode refused it. Tagged on `80bb6fa`; Release green; deployed (no migration); announced.
+4. **Two design rules (Venkat):**
+   - **The Studio stays inside D1's free tier for a median blyg.** A change that adds reads per poll, page or cron states its row cost.
+   - **Design for CI**, like design for manufacturability: one choke point per cross-cutting property, a closed set of states, laws and oracle before code, no per-feature filtering. It applies first to the multi-author permissions and the RFC-6/7 builds.
+   Recorded in `AGENTS.md`, `sealed-content-build-plan.md` §0, `multi-author-plan.md` §2 and `v0.5-plan.md` §11.
+5. **studio#183, the pace-layered Feed vs Background (Venkat).** Background's version reasons (`near-same`, `maintenance`, `quotes-*`, `minor`) are the same judgements the order already counts as climb-0, but they sit on the item, so a small edit made it vanish from the Feed. `superseded`'s 15-minute window backgrounded unrelated posts, which unlike tangle parts fold under nothing. Proposed: version reasons order, item reasons place, and an item never splits. Done on the patch branch: `SUPERSEDED_WINDOW_MS` = 3 minutes, plus migration **0062**, which recomputes the stored facts. Research item: burst detection as n items in m minutes.
+6. **studio#184, discard with TK (Venkat's live case).** Publish strips scopes; the working copy keeps them. Discard copied back the stripped text, lost the scope's instruction and the comments to self, cleared the provenance, and stayed dirty for good on any version with `generated_json`. Nested `impyrt` around an existing scope is a parse error by design.
+   - **Law approved:** for every published version, discarding leaves the working copy exactly as published, and clean. Built oracle-first in `item-lifecycle`: `impyrt` and real generated scopes, with a provider fixture. RED 7/40 on the old code, GREEN 46/46.
+   - Migration **0063** adds `versions.source_md` (stored only where it differs from the published text) and `source_provenance_json` (always written; NULL marks a pre-0063 row).
+   - **Limit tightened** (Venkat): a pre-0063 version that disclosed generated text stays dirty on discard, so nothing republishes its stripped text undisclosed. The drop-disclosure publish confirm is deferred.
+   - The nested-scope refusal names the way out. *Mark as generated* over a scope asks and offers `markImportedAround`, never applying it unasked.
+   - Venkat: whole-item marking is a **document-level pass** ("first draft" as a type), on the Fable agenda; it reopens part of #115.
+7. **The full view leads with its actions** (Venkat): the bar and its history panel now sit under the byline. Checked at desktop and phone width.
+8. **#178.**
+   - Gap triage: 103 of session 86's 177 gaps were unowned code that private-scope's histories already ran. With the owns extended, **100** remain (`gaps-s87/`).
+   - The **mutant-search review** (75 author-independent mutants, 62 killed) found no leak on unmutated code, but three live bugs: a 500 from an ungenerated TK scope in a hopper draft, a draft rendered in the Agentic lens, and a restricted round trip dropping hidden Agentic entries. It also found six mutants that would leak if introduced.
+   - Venkat asked where the complexity comes from. Mostly the feature: law 1 holds on every path that names an item, taint makes privacy flow, and each feature filters by hand. Oracle overhead is perhaps a third of the effort.
+   - **Three decisions, acted on next session:** split #178; one access layer; narrow the law in Notebook mode (the delta to be drafted for approval).
+
+**State after:**
+- studio `main` = `80bb6fa` (0.72.2, tagged, released, live on three nodes).
+- Patch branch `fix/superseded-window` at `11910ac`, local, main merged: #183's window, the actions bar, #184 with migrations 0062/0063, the design-for-CI principle. Its suites were running at wrap-up.
+- #178: branch at `859c0e2`, local; owns extended in `wt-m0`, uncommitted; ledger, gap reports and review in `.session-notes/studio-178/`. Its migrations 0062/0063 collide with the patch branch's.
+- Spec: decision #120, the twenty-fifth revision, plan §32, background-plan's window, the fable-brief items (#120 review, document passes), ROADMAP rows 159–164, the release map, carry-overs; local.
+- blygger-org: botference listed, Blynger's generator fixed, census refreshed; local.
+
+**Open threads:** #178's split, access layer and Notebook-mode law delta; the patch branch's PR and 0.72.3; #180's server side (Kyle); #183's reasons split (ruling) and burst research; #184's drop-disclosure confirm and a lifecycle history for pre-0063 rows; Fable: document-level passes and #120's review.
+
 ## Session 86 — 2026-11-25 — #177 and 0.72.1 shipped; the CI and thank-you posts; #178's row 5 oracle, then an independent review found five more leaks, fixed oracle-first
 **Model:** Opus 5.5 · **Time:** ~08:41–15:30 PT · **Committed:** yes (spec, local; studio #178 branch local) · **Deployed:** 0.72.1 to venkateshrao, PI, blyg.blygger.org; two posts on blyg.blygger.org
 
