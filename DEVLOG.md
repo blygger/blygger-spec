@@ -7,6 +7,28 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 88 — 2026-11-26 — PR 178 split and pushed; 0.72.3 released and live; work aliases
+**Model:** Opus 5.5 · **Time:** ~09:20–15:45 PT (paused ~11:45–14:25 for tokens) · **Committed:** yes (studio PR 178 pushed; 0.72.3 merged and tagged; spec local) · **Deployed:** studio 0.72.3 to venkateshrao, PI, blyg.blygger.org (migrations 0062, 0063); the 0.72.3 release thread on blyg.blygger.org
+
+**What & why:**
+1. **PR 178 (privacy leaks) split** (session 87's decision 1). Venkat chose option B for the Agentic feed: refused whole (403) to a token without `owner:private`, declared in the route policies so REST admission and MCP's tool list agree. `rest-permissions` gains its one conjunctive group (`owner:manage+owner:private`, `putAgentic`). `readEditionAs` and `withoutHiddenRefs` are deleted. The reader half of `5ccf599` is reverted, so the hopper lens stays draft-free. The mutant review's three live findings went with the code: the 500 from an ungenerated TK scope in a hopper draft, the Agentic lens rendering a draft, and the lossy restricted Agentic round trip. Oracle first: RED 2/75, GREEN 75/75; with the policies reverted, 48 of 484 fail.
+2. **Gaps, oracle first.** A rerun on the split head: 79 of session 87's 100 gaps mapped to 84 mutants (21 went with the deleted code), leaving 75.
+   - Eight were a real oracle flake. The owner's hopper-lens cursor history sometimes had one member and no cursor, because Background classification is asynchronous. Members are now pinned, and page 1 must have a cursor (40/40 runs).
+   - New histories: the Notebook-mode REST refusal of a default-private publish, which had none (4/4); restricted tangle publishes and the pre-flight (14/16); the browse log's owner side; the shelf when a token names a hidden entry; absolute refusal bodies for media and the avatar; the owner's publish reason; the composed Agentic draft's existence (the draft check had been vacuous); TK provenance naming its source.
+   - **Final:** of 78 mutants, 36 killed and 42 left, all classified in the PR body: 10 equivalent, 27 pre-existing arguments on touched lines, 5 owner-only.
+3. **PR 186 (the patches) fixed, merged, released, deployed.** Its Check failed twice, and session 87's local green run had missed both:
+   - 0063 added two `versions` columns without recreating `change_versions_update`, which the polling-cache oracle requires.
+   - A stale mutation anchor on #184's rewritten restore bind.
+   Merged as `ed731cd`. Main's Check then failed on infrastructure (packages.microsoft.com 403 during a formatting partition), and the whole run was rerun. Release green on attempt 2. Deployed per node with migrations; all three report `blygger-studio/0.72.3`. Announced (`0d9kvjem2420wbnvv9tc6p5nsf`). studio#184 replied and closed; studio#183 told what shipped.
+4. **PR 178 takes main.** Migrations renumbered to `0064_search_private` and `0065_private_taint`. One semantic conflict, in `restoreVersion`: #184's discard restores the published source and its provenance, and #178's clears `private_taint`. Both kept, since a public version was never published from a tainted copy. CI-check fixes: `mcp-notebook` added to the oracle manifest, the publish gap runner added to the lint block, stale owns removed. Pushed `d305c06`; body and reply posted.
+5. **Work aliases (Venkat).** Every issue, PR, branch, worktree, migration and other numbered thing gets a legible alias, held in a table in `CLAUDE.md` § Work aliases, read at startup step S6b. To be promoted to `Code/devops/` if it works.
+6. **Kyle's suggestion** (design-grammar and TLA+), ruled for after PR 178: design-grammar becomes the method for PR (access layer) and PR (notebook narrowing); TLA+ for the temporal claims, then RFC-6/7 and multi-author.
+7. **Cleanup.** Four stale worktrees removed (their `node_modules` symlinks unlinked first) and 50 merged local branches deleted. blygger-org's uncommitted regenerated pages trace to an unlogged `deploy.sh` at 09:14, after session 87; they are already live.
+
+**State after:** studio `main` = `ed731cd` (0.72.3, released, live). PR 178 at `d305c06`: Check attempt 1 failed on a latent formatting-oracle defect, not #178's (`editor-browser-workflows` random seed `-1321030585` entered `trackerFragmentBoundary-cancel`, a state `test-ui/editor-oracles/workflow-model-oracle.ts:158` generates but the property does not declare); attempt 2 (whole run) was running at wrap-up. Spec local: aliases, plan §0 and laws 2 and 7, ROADMAP 105/162/163, carry-overs.
+
+**Open threads:** PR 178's review and merge, then 0.73.0 with 0064–0065; PR (privacy follow-up); design-grammar, then TLA+; Venkat's calls on the blygger.org deploy, studio#187, the 21 unmerged branches, and `www.venkateshrao.com` 522.
+
 ## Session 87 — 2026-11-25/26 — 0.72.2 hotfix (a free-plan D1 outage, unquoted links); Background vs pace-layered, discard with TK; #178's review done and the feature reshaped; two design rules
 **Model:** Opus 5.5 (one Opus sub-agent for #178's mutant search) · **Time:** ~18:38 PT 11-25 – 09:05 PT 11-26 · **Committed:** yes (studio: 0.72.2 and #185 merged on `main`; patch branch `fix/superseded-window` local; spec local) · **Deployed:** studio 0.72.2 to venkateshrao, PI, blyg.blygger.org; the release thread on blyg.blygger.org
 
