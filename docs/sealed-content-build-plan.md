@@ -31,6 +31,11 @@ which RFC item it waits on.
   3. **Narrow the law in Notebook mode.** There, a token without `owner:private` gets no
      notebook access at all, rather than item-by-item hiding. The exact law delta to §1 0f
      laws 1–2 is drafted in session 88 for Venkat's approval before any oracle changes.
+- **Venkat, session 88 (2026-11-26): the split's Agentic call is B.** The Agentic feed is
+  refused whole (403) to a token without `owner:private`, not filtered per entry (law 2's
+  *refused whole* clause); `readEditionAs` and `withoutHiddenRefs` are deleted. No one has
+  written an assistant against the feed and OAuth has seen little use outside Burrow, so
+  no legacy token is stranded. The hopper lens's drafts leave #178 for a follow-up (law 7).
 - **Design for CI (Venkat, session 87).** Learn from Phase 0 before Phases 1–4 and the
   multi-author permissions (`multi-author-plan.md` §2), which are more complex still:
   design each so its laws are few and checkable at one choke point. One access function
@@ -141,12 +146,16 @@ working copy** is the tainted working copy of a public or withdrawn item.
    `/items/{id}` operation (REST and MCP), the answer equals the answer for an id that
    does not exist (status, error code and message), and no write takes effect.
 2. **No leak.** For every response to a restricted caller (lists, counts, search,
-   reader, hopper members and feeds, shelf, Agentic editions, catch-up, freshness,
+   reader, hopper members and feeds, shelf, catch-up, freshness,
    preview, MCP tool output, error bodies), no hidden item's id, title or text appears,
    no hidden working copy's text or provenance appears, and no message says an item is
    private: a reference to one reads as a reference to an unknown item. A public item
    with a hidden working copy stays visible as its latest public version (**Q2**,
-   session 85: taint hides the working copy, not the item).
+   session 85: taint hides the working copy, not the item). *Refused whole:* the Agentic
+   feed (`/agentic`, `/agentic/{feed}`, read and write) answers 403 to a restricted
+   caller, since an edition may name any own item (Venkat, session 88; it was filtered
+   per entry, and a restricted read-then-write dropped hidden entries). Its composed draft
+   is an item and stays under laws 1 and 4.
 3. **Private source.** For every TK generation, a private snapshot is a source only if
    the caller sees private, and every output that drew on one is tainted.
 4. **Taint is the server's.** For every working copy, only the server writes
@@ -167,7 +176,10 @@ working copy** is the tainted working copy of a public or withdrawn item.
    when a member's visibility to that caller changes, not on an unrelated edit.
    The reader's hopper lens is a hopper view, so it shows draft members, marked
    (Venkat, session 85, studio#175/#178 V9); the reader's other lenses and *my blyg*
-   stay draft-free, as the session-81 *owner reader* law says.
+   stay draft-free, as the session-81 *owner reader* law says. *Deferred (session 88):*
+   #178 ships with the hopper lens draft-free. Its first build went through the reader's
+   shared entry path, so drafts reached the Agentic lens and an ungenerated [TK] scope
+   gave a 500; it returns in a follow-up pull request on a draft path of its own.
 
 8. **Shelf and avatar** (Venkat, session 85, for Kyle's coverage follow-up on #178). The
    shelf has no product cap, only a technical ceiling of 1,000 entries on the stored list.

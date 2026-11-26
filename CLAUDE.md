@@ -227,7 +227,31 @@ Base steps run first (S1–S4); the list below is the local config.
   - **New blygger.com listings:** `curl -s https://blygger.com/listings.xml` (Atom, newest first); report every entry `published` since the last DEVLOG entry's date (title, link). Pending submissions sit behind the admin login, so ask Venkat whether any wait in `/admin` rather than guessing.
   - **Ecosystem census:** from `blygger-org/`, `/opt/homebrew/bin/python3 sync_ecosystem.py` (no key needed without `--summaries`). Report its console lines: repos found and NOT curated (propose adding or `skip` in `ecosystem/projects.toml`), and how many live nodes run an older build than the latest release. It rewrites `content/ecosystem/index.md` and `ecosystem/cache.json`; commit them with the session's blygger-org work or `git restore` them.
 - **S6** Raise the carry-overs below, if any are still listed (Venkat asked 2026-09-25 to be reminded at session start).
+- **S6b (local) Aliases:** read the work aliases table below; add a row for anything new found in S3/S5b. From here on, name work by its alias (see the table's rules).
 - **S7** One-line orientation: date, session number, where things stand, proposed focus. Then wait for Venkat.
+
+### Work aliases
+
+Venkat, session 88: every issue, PR, branch and worktree in flight gets a short legible alias, so a report reads "PR 178 (privacy leaks)" or "`wt-m0` (privacy leaks)" and not a bare number or hash. **Anything numbered gets a parseable name** (Venkat, same session): issues, PRs, migrations, decisions, laws, findings, releases and commits. Migrations are listed below with their owning work; a commit hash never appears bare (write what it did, e.g. "the Agentic gate commit `671ef57`"); a decision, law or finding is named by its content ("law 7, hopper visibility"). **Rules:** one row per piece of work, joining its issue, PR, branch, worktree and migrations; the alias is 2–4 plain words describing *what it is*, kept for the work's whole life; in reports and questions always write *number or name + alias* on first mention in a message; add the row when the work starts (or when S3/S5b find it); delete it when merged and its worktree removed. Scratchpad worktree paths change per session, so the Where column names the worktree by its folder only.
+
+| Alias | Issue / PR | Branch | Where | State |
+|---|---|---|---|---|
+| **privacy leaks** | studio PR 178 | `feat/private-items-0c-0e` | `wt-m0` (session-84 scratchpad) | split done session 88; main (0.72.3) merged in, migrations renumbered; gap triage in progress; local, not pushed |
+| **the patches** | studio PR 186 (0.72.3), merged | `fix/superseded-window` (merged) | — | deployed on three nodes session 88; tag `v0.72.3` pushed; Release waits on main's Check rerun (apt 403); then announce. Drop the row once announced |
+| **privacy follow-up** | — (not opened) | — | — | hopper-lens drafts on their own path; the review's oracle extensions |
+| **access layer** | — | — | — | decision 2 of session 87: one visibility function; after *privacy leaks* |
+| **notebook narrowing** | — | — | — | decision 3: law delta for Venkat's approval |
+| **stored bylines** | M1 | `feat/stored-bylines` | `wt-m1` | waits on *privacy leaks* and *the patches* (migration 0066) |
+
+**Migrations in flight** (numbers are provisional until merged; whichever PR merges second renumbers):
+
+| Migration | Alias | Owner | Note |
+|---|---|---|---|
+| `0062_superseded_window` (shipped 0.72.3) | **superseded recompute** | *the patches* | recomputes the stored "superseded" background facts at the 3-minute window |
+| `0063_version_source` (shipped 0.72.3) | **published source** | *the patches* | each version keeps the text it was published from, so discard restores it |
+| `0064_search_private` | **private search** | *privacy leaks* | owner search covers private items |
+| `0065_private_taint` | **private taint** | *privacy leaks* | the server-only private mark, and the Agentic-draft trigger |
+| `0066` (not yet written) | **stored bylines** | *stored bylines* | renumbers after both PRs |
 
 ### Carry-overs to raise at session start
 
