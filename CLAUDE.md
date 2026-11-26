@@ -236,7 +236,7 @@ Delete an entry once it is done or Venkat says to drop it. An empty list means s
   1. **studio#178** (branch `feat/private-items-0c-0e` at `859c0e2`, **local, not pushed**; worktree `wt-m0` under the session-84 scratchpad).
      - Session 86: main merged; migrations 0062/0063; row 5's publish oracle; `mcp-notebook`; search marks; five review leaks fixed (F1–F5, Agentic trigger). `private-scope` 75/75, worker suite 2,023, UI suite 340.
      - Left:
-       - (a) triage the **final worker gap run** (510 mutants on changed lines across 8 sources, 23 oracles; started session 86, its log at the session-86 scratchpad's `gaps-86f.txt`, report under `os.tmpdir()`). Reuse `list-mutants.mjs` and `--only`; pre-existing arguments on lines #178 only touched are classified, not claimed.
+       - (a) triage the **final worker gap run** (510 mutants on changed lines across 8 sources, 23 oracles; finished after session 86's wrap-up: **177 gaps**, baseline green and stable; report copied to `.session-notes/studio-178/gaps-s86f/`, `summary.md`, `results.json`, `run.log`). Reuse `list-mutants.mjs` and `--only`; pre-existing arguments on lines #178 only touched are classified, not claimed.
        - (b) the **mutant-search review pass**, stopped at wrap-up: rerun it, with Venkat's go (sub-agents need it). Its checkout `wt-review` is under the session-86 scratchpad.
        - (c) fill `reply-178-draft.md`'s placeholders, then **push and post** (Venkat said "do it all", session 86), then Kyle's re-review and the merge.
      - Recheck #178 and the other repos for new comments before each step.
