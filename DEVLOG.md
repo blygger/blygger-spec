@@ -7,6 +7,23 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 91 — 2026-11-27 — Commerce in the Thicket: technical review, v5, PDF on protocol-institute.org, tangle on the PI blyg
+**Model:** Opus 5.5 · **Time:** ~14:26–15:12 PT · **Committed:** yes (spec: 3 local commits, `analysis/`; PI website: PR #25, merged by Venkat) · **Deployed:** PDF to `pi-assets` R2 (PI account); page `/commerce-in-the-thicket/` via website#25; tangle published on blyg.protocol-institute.org
+
+**What & why:** Venkat seeded `analysis/` with a ChatGPT-drafted hackathon briefing (*Commerce in the Thicket*, v4: md, PDF, blyg zip) carrying 14 technical-review markers (TR-01–14), and asked for a review against the real project, a final version, a PDF hosted beside the PI media, and a tangle on the PI blyg.
+- **First pass** (`analysis/review-pass-1.md`): the TR register plus 15 accuracy findings. The ones that would mislead a builder: relational opacity was scoped wrongly (incorporation is public and mappable by design, per blygger.org/thicket's explorer; only reading is opaque, #13/#107); only the origin pins, and forks need a pin (§5.6); no expiry exists on the wire and quotes outlive withdrawal (#9, RFC-7 §10); the Agentic-feed evidence was reversed (the tab bar is Studio's; Studio 0.73.1's tab is a placeholder; Burrow 0.29 writes editions); Background is built, not speculative; pace-layering (RFC-3) rewards pins and revisions, so it is a commercial lever.
+- **Venkat's calls:** "the Protocol Institute hosts the Blygger project"; planned work may be mentioned, no dates; write now against RFC-6/7 v2 (closing 2026-11-28) and revise later, since the document is meant to evolve; default byline.
+- **v5** (`commerce-in-the-thicket-v5.md`, ~18k words): every Blygger claim labelled Protocol / Shipped / Proposed / Absent / Hypothesis; markers resolved; new tables (exit §31, flood bounds §33, delegate rules §37, §41 sorted by where a defense lives, §43 per-track feasibility); Appendix D became dated Sources and status; three new request-path SVGs (`planes`, `mention`, `door`) replace generic boxes. Spec cited at 25th revision, commit `6647c28`.
+- **PDF:** `build_pdf.sh` (pandoc → weasyprint, `pdf.css`), 68 pages. Studio media takes images only and serves only rows it knows, so on Venkat's word it went to the PI website instead: `pi-assets/commerce-in-the-thicket-v5.pdf`, a **versioned key** because the site's edge cache served stale bytes for in-place replacements (website CLAUDE.md), and a static page via website#25.
+- **Tangle:** `make_blyg.py` writes the root (executive summary + PDF link) with 10 `![[+ …]]` spans (Parts I–VIII, Conclusion, Appendices = exactly `TANGLE_MAX`), checked with Studio's own `parseTangles` (0 issues). A span cannot hold attached media, so figures went in as each part's v2, then the root was republished so its quotes re-bake at v2. Transport: the local file attached to a temporary file input in Venkat's logged-in tab and read in-page (hash-checked), then the same-origin owner API (`POST /api/items`, `/publish` with `tangle: true`, `POST /api/media` inline, `PATCH`). Before each figure swap the live part text was compared to the figureless text exactly (7/7). **Auto mode refused the publish call, even as a dry run, until Venkat approved publishing in chat.**
+
+**State after:** root `6swdex9b0hqjh2p7mc0m6m60fa` at v2; seven parts at v2 with 12 figures, three at v1; ids in `analysis/blyg-published.md`. All images and the page answer 200; the feed lists every event with its note. PI website `main` clean.
+
+**Open threads:**
+- Figure captions show only as alt text on the blyg; an italic caption line per figure would be a v3 of seven parts.
+- Revise §25–26, §35 after RFC-6/7 close (2026-11-28) and RFC-3 (2026-12-10); next PDF is `-v6.pdf` with the page link updated.
+- The structured-offer, sponsor-disclosure and agent-negotiation gaps the briefing names are candidate hackathon RFCs.
+
 ## Session 90 — 2026-11-27 — Access layer steps 1–2; the built-in Agentic digest, test-deployed on venkateshrao; file attachments planned
 **Model:** Opus 5.5 · **Time:** ~07:35–14:15 PT · **Committed:** yes (studio: `feat/access-layer` 3 local commits; `feat/agentic-digest` 2 local commits plus a third at wrap-up; `main` one commit, AGENTS.md; spec at wrap-up) · **Deployed:** `feat/agentic-digest` (2 commits, the two-choice switch) to venkateshrao only, version `48ef2c97`, still reporting 0.73.1; the later changes are not deployed
 
