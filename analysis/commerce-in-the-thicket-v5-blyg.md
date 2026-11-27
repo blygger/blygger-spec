@@ -6,6 +6,8 @@ Briefing for the Protocol Institute AI-Native Marketing Hackathon, Q1 2027 (date
 
 Version 5 · 27 November 2026 · An evolving document
 
+PDF edition: [https://protocol-institute.org/commerce-in-the-thicket/](https://protocol-institute.org/commerce-in-the-thicket/)
+
 ## Executive summary
 
 This briefing is for people interested in the future of AI-native marketing who plan to attend the Protocol Institute AI-Native Marketing Hackathon (Q1 2027, date to be announced). The Institute hosts the Blygger project, a decentralized publishing protocol and its reference client, which will serve as the hackathon's experimental environment. The subject of this briefing is broader than that protocol: how to develop and demonstrate strategies and tactics for successful, healthy commerce in emerging AI-native media. No prior knowledge of Blygger is assumed. Appendix A offers a practical orientation for marketers and shoppers.
