@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 620" font-family="Helvetica, Arial, sans-serif" font-size="21">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#555f68" stroke-width="1.6"/></marker></defs>
+<rect width="1240" height="620" fill="#ffffff"/>
+<text x="40" y="40" font-weight="bold">Proposed (RFC-6, RFC-7) — not built</text>
+<rect x="40" y="64" width="300" height="80" rx="12" fill="#fff" stroke="#555f68" stroke-width="2.5"/><text x="190" y="98" text-anchor="middle">Item with a cover</text><text x="190" y="126" text-anchor="middle" font-size="17" fill="#444">sealed entry names a lock</text>
+<path d="M340,104 L418,104" stroke="#555f68" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="420" y="64" width="380" height="80" rx="12" fill="#fff" stroke="#2a6a55" stroke-width="2.5"/><text x="610" y="98" text-anchor="middle">1. Hold: already have the key?</text><text x="610" y="126" text-anchor="middle" font-size="17" fill="#444">open locally — no request at all</text>
+<path d="M610,144 L610,196" stroke="#555f68" stroke-width="2.2" marker-end="url(#a)"/><text x="626" y="178" font-size="17" fill="#555f68">no</text>
+<rect x="420" y="198" width="380" height="80" rx="12" fill="#fff" stroke="#3e6d8e" stroke-width="2.5"/><text x="610" y="232" text-anchor="middle">2. Probe: GET computed grant paths</text><text x="610" y="260" text-anchor="middle" font-size="17" fill="#444">a file there is a grant</text>
+<path d="M610,278 L610,330" stroke="#555f68" stroke-width="2.2" marker-end="url(#a)"/><text x="626" y="312" font-size="17" fill="#555f68">none</text>
+<rect x="420" y="332" width="380" height="80" rx="12" fill="#fff" stroke="#3e6d8e" stroke-width="2.5"/><text x="610" y="366" text-anchor="middle">3. Ask the home, proving recipient</text><text x="610" y="394" text-anchor="middle" font-size="17" fill="#444">roster, sign-on, person, AI delegate…</text>
+<path d="M610,412 L610,464" stroke="#555f68" stroke-width="2.2" marker-end="url(#a)"/><text x="626" y="446" font-size="17" fill="#555f68">for sale</text>
+<rect x="420" y="466" width="380" height="80" rx="12" fill="#fff" stroke="#a35b2e" stroke-width="2.5"/><text x="610" y="500" text-anchor="middle">4. Door: HTTP 402 in a rail's format</text><text x="610" y="528" text-anchor="middle" font-size="17" fill="#444">pay externally, present proof</text>
+<path d="M800,506 L878,506" stroke="#555f68" stroke-width="2.2" marker-end="url(#a)"/>
+<rect x="880" y="466" width="320" height="80" rx="12" fill="#fff" stroke="#2a6a55" stroke-width="2.5"/><text x="1040" y="500" text-anchor="middle">5. Grant file appears</text><text x="1040" y="528" text-anchor="middle" font-size="17" fill="#444">check commitment, then read</text>
+<rect x="880" y="64" width="320" height="380" rx="12" fill="#f6f1ec" stroke="#a35b2e" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="1040" y="98" text-anchor="middle" font-weight="bold">What leaks</text>
+<text x="900" y="134" font-size="17">To everyone: the item exists,</text>
+<text x="900" y="158" font-size="17">its timing, size class, versions,</text>
+<text x="900" y="182" font-size="17">citations, shared locks.</text>
+<text x="900" y="222" font-size="17">To the home at step 2:</text>
+<text x="900" y="246" font-size="17">which entries were looked at.</text>
+<text x="900" y="286" font-size="17">At step 3: interest and identity</text>
+<text x="900" y="310" font-size="17">of the recipient.</text>
+<text x="900" y="350" font-size="17">At step 4: whatever the rail</text>
+<text x="900" y="374" font-size="17">reveals (wallet, customer record).</text>
+<text x="900" y="414" font-size="17">At step 1: nothing.</text>
+<text x="40" y="200" font-size="18" fill="#444">No price, currency, rail</text>
+<text x="40" y="226" font-size="18" fill="#444">or for-sale flag appears in</text>
+<text x="40" y="252" font-size="18" fill="#444">any protocol document.</text>
+<text x="40" y="300" font-size="18" fill="#444">No expiry or metering</text>
+<text x="40" y="326" font-size="18" fill="#444">after delivery: nothing</text>
+<text x="40" y="352" font-size="18" fill="#444">recalls what was opened.</text>
+<text x="40" y="590" font-size="18" fill="#444">Physical fulfillment, refunds and disputes stay outside the protocol.</text>
+</svg>

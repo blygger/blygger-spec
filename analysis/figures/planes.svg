@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 560" font-family="Helvetica, Arial, sans-serif" font-size="22">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#555f68" stroke-width="1.6"/></marker></defs>
+<rect width="1240" height="560" fill="#ffffff"/>
+<text x="40" y="44" font-weight="bold" fill="#222">Publisher's origin (public files)</text>
+<rect x="40" y="64" width="520" height="430" rx="16" fill="none" stroke="#a35b2e" stroke-width="3"/>
+<rect x="70" y="94" width="460" height="56" rx="12" fill="#fff" stroke="#555f68" stroke-width="2.5"/><text x="300" y="130" text-anchor="middle">blyg.json — the manifest</text>
+<rect x="70" y="170" width="460" height="76" rx="12" fill="#fff" stroke="#3e6d8e" stroke-width="2.5"/><text x="300" y="203" text-anchor="middle">feed.xml — notification plane</text><text x="300" y="231" text-anchor="middle" font-size="18" fill="#444">ordinary RSS; a lossy signal</text>
+<rect x="70" y="266" width="460" height="104" rx="12" fill="#fff" stroke="#2a6a55" stroke-width="2.5"/><text x="300" y="299" text-anchor="middle">items/{id}.json — state plane</text><text x="300" y="327" text-anchor="middle" font-size="18" fill="#444">full text, version, changelog,</text><text x="300" y="351" text-anchor="middle" font-size="18" fill="#444">references by origin, id, version</text>
+<rect x="70" y="390" width="460" height="76" rx="12" fill="#fff" stroke="#2a6a55" stroke-width="2.5"/><text x="300" y="423" text-anchor="middle">items/{id}/v{n}.json — pins</text><text x="300" y="451" text-anchor="middle" font-size="18" fill="#444">served forever, even after withdrawal</text>
+<text x="700" y="44" font-weight="bold" fill="#222">Readers' clients (private)</text>
+<rect x="700" y="94" width="500" height="96" rx="12" fill="#fff" stroke="#3e6d8e" stroke-width="2.5"/><text x="950" y="130" text-anchor="middle">Reader A's client</text><text x="950" y="160" text-anchor="middle" font-size="18" fill="#444">subscriptions, Feed, Background, edition</text>
+<rect x="700" y="230" width="500" height="96" rx="12" fill="#fff" stroke="#3e6d8e" stroke-width="2.5"/><text x="950" y="266" text-anchor="middle">Reader B's client</text><text x="950" y="296" text-anchor="middle" font-size="18" fill="#444">subscriptions, Feed, Background, edition</text>
+<path d="M700,142 L534,205" fill="none" stroke="#555f68" stroke-width="2" marker-end="url(#a)"/>
+<path d="M700,278 L534,312" fill="none" stroke="#555f68" stroke-width="2" marker-end="url(#a)"/>
+<text x="628" y="158" font-size="17" fill="#555f68" text-anchor="middle">polls</text>
+<text x="628" y="284" font-size="17" fill="#555f68" text-anchor="middle">polls</text>
+<rect x="700" y="372" width="500" height="122" rx="12" fill="#f6f1ec" stroke="#a35b2e" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="950" y="406" text-anchor="middle" font-weight="bold">What the publisher sees</text>
+<text x="950" y="436" text-anchor="middle" font-size="18">fetches in its server logs; often only "a Studio"</text>
+<text x="950" y="462" text-anchor="middle" font-size="18">no subscriber list, no count, no address</text>
+<text x="620" y="536" text-anchor="middle" font-size="18" fill="#444">Any RSS reader can follow the feed; a Blygger client reconciles against the archive index.</text>
+</svg>

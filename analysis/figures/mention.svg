@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 600" font-family="Helvetica, Arial, sans-serif" font-size="21">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill="none" stroke="#555f68" stroke-width="1.6"/></marker></defs>
+<rect width="1240" height="600" fill="#ffffff"/>
+<rect x="60" y="30" width="400" height="70" rx="14" fill="#fff" stroke="#3e6d8e" stroke-width="3"/><text x="260" y="64" text-anchor="middle" font-weight="bold">Mechanic's blyg (citer)</text><text x="260" y="89" text-anchor="middle" font-size="17" fill="#444">a repair notebook</text>
+<rect x="780" y="30" width="400" height="70" rx="14" fill="#fff" stroke="#a35b2e" stroke-width="3"/><text x="980" y="64" text-anchor="middle" font-weight="bold">Bicycle maker's blyg</text><text x="980" y="89" text-anchor="middle" font-size="17" fill="#444">the specification, version 3</text>
+<line x1="260" y1="100" x2="260" y2="580" stroke="#c9ced3" stroke-width="2" stroke-dasharray="6 6"/>
+<line x1="980" y1="100" x2="980" y2="580" stroke="#c9ced3" stroke-width="2" stroke-dasharray="6 6"/>
+<text x="290" y="148">1. Holds v3 from polling; writes  ![[id]]</text>
+<text x="290" y="182">2. Publishes: v3 is baked in, frozen, with {origin, id, version 3}</text>
+<path d="M262,226 L976,226" stroke="#555f68" stroke-width="2.2" marker-end="url(#a)"/><text x="620" y="216" text-anchor="middle">3. Webmention: source = notebook page, target = spec page</text>
+<path d="M976,288 L264,288" stroke="#555f68" stroke-width="2.2" marker-end="url(#a)"/><text x="620" y="278" text-anchor="middle">4. Receiver fetches the notebook's own item document (bounded)</text>
+<text x="955" y="340" text-anchor="end" font-size="20">5. Checks: served from the origin it claims,</text>
+<text x="955" y="368" text-anchor="end" font-size="20">and it really names this item</text>
+<rect x="640" y="396" width="560" height="84" rx="12" fill="#fff" stroke="#2a6a55" stroke-width="2.5"/><text x="920" y="430" text-anchor="middle">6. Stores a pointer: a "response" signal</text><text x="920" y="460" text-anchor="middle" font-size="18" fill="#444">in the maker's studio, private by default</text>
+<rect x="640" y="500" width="560" height="70" rx="12" fill="#f6f1ec" stroke="#a35b2e" stroke-width="2" stroke-dasharray="7 5"/><text x="920" y="532" text-anchor="middle">7. Optional: the maker shows it on a public</text><text x="920" y="557" text-anchor="middle">responses list (its own curation)</text>
+<rect x="40" y="420" width="520" height="150" rx="12" fill="#fff" stroke="#555f68" stroke-width="2"/>
+<text x="300" y="452" text-anchor="middle" font-weight="bold">Later</text>
+<text x="300" y="484" text-anchor="middle" font-size="18">The maker revises to v4 or withdraws:</text>
+<text x="300" y="510" text-anchor="middle" font-size="18">the notebook still shows v3, unchanged.</text>
+<text x="300" y="540" text-anchor="middle" font-size="18">A plain markdown link would have sent</text>
+<text x="300" y="562" text-anchor="middle" font-size="18">no notification at all.</text>
+</svg>
