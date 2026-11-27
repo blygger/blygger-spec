@@ -36,6 +36,12 @@ which RFC item it waits on.
   *refused whole* clause); `readEditionAs` and `withoutHiddenRefs` are deleted. No one has
   written an assistant against the feed and OAuth has seen little use outside Burrow, so
   no legacy token is stranded. The hopper lens's drafts leave #178 for a follow-up (law 7).
+- **Venkat, session 89 (2026-11-26), from the design-grammar pass**
+  (`private-items-design-grammar.md`): (1) **law 1 widens** to every operation that names an
+  own item, in its path or its body; (2) **notebook narrowing is reading (b)**: in Notebook
+  mode a restricted token keeps working with public items as it did before private items
+  existed, is refused only on the private-only surfaces, and hidden items stay hidden item
+  by item. Decision 3 above is read this way.
 - **Design for CI (Venkat, session 87).** Learn from Phase 0 before Phases 1–4 and the
   multi-author permissions (`multi-author-plan.md` §2), which are more complex still:
   design each so its laws are few and checkable at one choke point. One access function
@@ -142,8 +148,9 @@ restricted caller, a **hidden item** is a private item, or a draft whose working
 tainted (it has no public version, so the working copy is the whole item); a **hidden
 working copy** is the tainted working copy of a public or withdrawn item.
 
-1. **Private scope.** For every restricted caller, every hidden item and every
-   `/items/{id}` operation (REST and MCP), the answer equals the answer for an id that
+1. **Private scope.** For every restricted caller, every hidden item and every operation
+   that names an own item, in its path or its body (REST and MCP; widened from `/items/{id}`
+   operations by Venkat, session 89), the answer equals the answer for an id that
    does not exist (status, error code and message), and no write takes effect.
 2. **No leak.** For every response to a restricted caller (lists, counts, search,
    reader, hopper members and feeds, shelf, catch-up, freshness,
@@ -156,13 +163,22 @@ working copy** is the tainted working copy of a public or withdrawn item.
    caller, since an edition may name any own item (Venkat, session 88; it was filtered
    per entry, and a restricted read-then-write dropped hidden entries). Its composed draft
    is an item and stays under laws 1 and 4.
+   *Stated limit (Venkat, session 89, PR 189's independent review):* an untainted
+   draft's working copy is the owner's own text, which `owner:read` grants, so a hidden
+   item's id written in it (`[[P]]`, `![[P]]`, plain text, an ungenerated scope's
+   instruction) reaches a restricted caller wherever the working copy does, `GET
+   /items/{id}` and the hopper lens alike; none of the hidden item's text does. Revisit
+   with PR (access layer).
 3. **Private source.** For every TK generation, a private snapshot is a source only if
    the caller sees private, and every output that drew on one is tainted.
 4. **Taint is the server's.** For every working copy, only the server writes
    provenance `sources` and `private` (**Q1**, session 85). No client body (PATCH,
    publish, MCP), hand edit of the TK markers, raise or discard of the source, or
    regeneration from tainted input clears the mark; discarding the working copy removes
-   it with the text. Client-supplied provenance never decides a refusal, so no answer
+   it with the text. *Two clears go with the text they mark* (amended by Venkat, session 89,
+   from the design-grammar pass): a restricted caller's text edit replaces a hidden working
+   copy, and the mark goes with it (session 86); an Agentic composed draft's mark is
+   recomputed at each composition (session 85). Client-supplied provenance never decides a refusal, so no answer
    differs between a private id and one that does not exist.
 5. **Publish block.** For every tainted working copy, a public publish is refused with
    one answer whatever the source is; a draft may still be published privately.
@@ -179,7 +195,9 @@ working copy** is the tainted working copy of a public or withdrawn item.
    stay draft-free, as the session-81 *owner reader* law says. *Deferred (session 88):*
    #178 ships with the hopper lens draft-free. Its first build went through the reader's
    shared entry path, so drafts reached the Agentic lens and an ungenerated [TK] scope
-   gave a 500; it returns in a follow-up pull request on a draft path of its own.
+   gave a 500; it returns in a follow-up pull request on a draft path of its own. *Built session 89* on
+   branch `feat/hopper-lens-drafts` (`hopperEntries` in `src/reading-data.ts`; the Agentic edition keeps
+   the shared, draft-free path).
 
 8. **Shelf and avatar** (Venkat, session 85, for Kyle's coverage follow-up on #178). The
    shelf has no product cap, only a technical ceiling of 1,000 entries on the stored list.

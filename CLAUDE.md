@@ -236,11 +236,9 @@ Venkat, session 88: every issue, PR, branch and worktree in flight gets a short 
 
 | Alias | Issue / PR | Branch | Where | State |
 |---|---|---|---|---|
-| **privacy leaks** | studio PR 178 | `feat/private-items-0c-0e` | `wt-m0` (session-84 scratchpad) | split, gaps triaged (42 left, all classified), pushed `d305c06` session 88; body and reply posted; Check running; then Kyle's review and merge |
-| **privacy follow-up** | — (not opened) | — | — | hopper-lens drafts on their own path; the review's oracle extensions |
-| **access layer** | — | — | — | decision 2 of session 87: one visibility function; after *privacy leaks* |
-| **notebook narrowing** | — | — | — | decision 3: law delta for Venkat's approval |
-| **stored bylines** | M1 | `feat/stored-bylines` | `wt-m1` | waits on *privacy leaks* and *the patches* (migration 0066) |
+| **access layer** | — (not opened) | `feat/access-layer` | `wt-f1` (session-89 scratchpad) | step 1 committed locally `3119342` (law 1 widened to ids in a query or body, owner precondition; 3 of 11 routes discriminating); plan `docs/private-items-design-grammar.md` §6–§9; shapes B + C approved |
+| **gap job** | studio#188 | — | — | filed session 89 for Kyle: Check runs the gap check on a PR's changed owned lines |
+| **stored bylines** | M1 | `feat/stored-bylines` | `wt-m1` | unblocked: both PRs it waited on shipped (0.72.3, 0.73.0); its migration is 0066 |
 
 **Migrations in flight** (numbers are provisional until merged; whichever PR merges second renumbers):
 
@@ -248,22 +246,20 @@ Venkat, session 88: every issue, PR, branch and worktree in flight gets a short 
 |---|---|---|---|
 | `0062_superseded_window` (shipped 0.72.3) | **superseded recompute** | *the patches* | recomputes the stored "superseded" background facts at the 3-minute window |
 | `0063_version_source` (shipped 0.72.3) | **published source** | *the patches* | each version keeps the text it was published from, so discard restores it |
-| `0064_search_private` | **private search** | *privacy leaks* | owner search covers private items |
-| `0065_private_taint` | **private taint** | *privacy leaks* | the server-only private mark, and the Agentic-draft trigger |
-| `0066` (not yet written) | **stored bylines** | *stored bylines* | renumbers after both PRs |
+| `0064_search_private` (shipped 0.73.0) | **private search** | *privacy leaks* | owner search covers private items |
+| `0065_private_taint` (shipped 0.73.0) | **private taint** | *privacy leaks* | the server-only private mark, and the Agentic-draft trigger |
+| `0066` (not yet written) | **stored bylines** | *stored bylines* | next free number |
 
 ### Carry-overs to raise at session start
 
 Delete an entry once it is done or Venkat says to drop it. An empty list means say nothing.
 
-- **Next session first (from session 88, 2026-11-26): PR 178 (privacy leaks)**, pushed at `d305c06`, body and reply posted. Check attempt 1 failed on a latent formatting-oracle defect, not #178's: `editor-browser-workflows` random seed `-1321030585` entered `trackerFragmentBoundary-cancel`, which `test-ui/editor-oracles/workflow-model-oracle.ts:158` can generate but the property does not declare. **First:** read attempt 2's result (run 45912007982); Kyle is told on studio#73 (session 88, with the seed and the replay line). Then Kyle's review; the merge is Venkat's. After merge: release 0.73.0 with migrations 0064 (private search) and 0065 (private taint) on three nodes (New Nature's session owns its own).
-  - **Then, in this order** (Venkat, session 88): PR (privacy follow-up), drafts in the hopper lens on a path of their own plus the mutant review's proposed oracle extensions; a **design-grammar pass** (Kyle's `@tanstack/oracles` `docs/instruments/design-grammar.md`) on the private-items laws, which becomes the plan for PR (access layer) and PR (notebook narrowing); a **TLA+ check** of the temporal claims (taint, cursors, visibility changing mid-replace; TLC needs a Java runtime); then RFC-6/7 and multi-author.
-  - Notes, gap reports and drafts: `blygger-protocol/.session-notes/studio-178/` (ledger "Session 88", `gaps-s88-final/`). 42 gaps left, all classified in the PR body.
-  - Never `npm ci` in a worktree without removing its `node_modules` symlink first.
+- **Next session first (from session 89, 2026-11-26): PR (access layer)** on `feat/access-layer` in `wt-f1` (step 1 committed locally, `3119342`, not pushed). Plan: `docs/private-items-design-grammar.md` (§6 simplifications, §8 shapes; Venkat chose B + C). Next steps, in order: (1) give P the data the eight non-discriminating body-reference routes would reveal (a thumb, a mention, catch-up history, fork options, a front-page thread), so law 1's widened check can fail there; (2) routes declare their own-item fields (form C) with an inventory check, and the runner substitutes them; (3) the access object (form B) as a refactor under the oracle; (4) the Saved lens shows shelved private items (red first); (5) per-feature status lists removed site by site; (6) the batch: a `data:` image in the hopper-lens draft history (the sanitizer probe found it), TLA+ models into `blygger-studio/formal/` (now in the session-89 scratchpad `tla/`), CONTRIBUTING.md's CI time (~13 min, not ~50), PR 189's body without "equivalent". **Oracle rules I broke this session** (studio `AGENTS.md` § Oracle tests): never call a survivor equivalent; three or more gaps in one function trigger design grammar before histories; run oracles through the gap check, not Vitest alone. Then RFC-6/7's close (2026-11-28, two days) and multi-author (M1 unblocked).
+  - Never `npm ci` in a worktree without removing its `node_modules` symlink first. `wt-m0` (session-84 scratchpad) still exists with an untracked `scripts/zz-e2e-server.ts`; its branch is merged.
 - **From session 88's "yes to all":** studio#187 accepted as ROADMAP rows 165 (mount-scoped owner cookie) and 166 (gated origin setting), labelled `roadmap`; Kyle told on studio#73 about the formatting-oracle defect; blygger.org's deploy (regenerated pages, ROADMAP) approved. **Branches:** 19 deleted (their PRs are on GitHub); `feat/math` was deleted by mistake with 4 unpushed commits and restored at `400e1db` (an abandoned rebase of PR #149's work, two of its patches on main verbatim): Venkat to decide whether to drop it. `proto/ai-integrations` kept (the AI-budget prototype). **`www.venkateshrao.com` answers 522 site-wide** (the bare domain works): most likely a proxied `www` record still pointing at the GitHub Pages host decommissioned 2026-08-03. Fix in the personal Cloudflare account: add `www.venkateshrao.com` as a custom domain of the site's Pages project, or a redirect rule `www` → apex. It belongs to `venkateshrao.com/`; nothing changed from here.
 - **Carried from session 86:**
-  1. **After #178 merges:** file the PR-scoped gap-job issue (`issue-pr-gap-job-draft.md`), asking Kyle to build it; ask Kyle for a CI lane for `test:oracles:browser:publish` (about 5 minutes plain, 25 as a gap run). Mention the `editor-browser-mixed` 120 s timeout on main to him (studio#73).
-  2. **M1** (`feat/stored-bylines`, `4379b14`, local): no-backfill confirmed; its migration renumbers after #178 and the patch branch (0066 if both land first); it waits on #178. **website#24** (PI host API): Venkat generates `HOST_API_SECRET`, backs up `pi-members`, applies migration 067, creates the posting role; M4 waits on it.
+  1. ~~After #178 merges~~ **done session 89:** studio#188 (gap job) filed for Kyle; the `test:oracles:browser:publish` lane and the `editor-browser-mixed` timeout raised on studio#73. Drop once Kyle answers.
+  2. **M1** (`feat/stored-bylines`, `4379b14`, local): no-backfill confirmed; unblocked session 89 (#178 and the patches shipped), so its migration is 0066. **website#24** (PI host API): Venkat generates `HOST_API_SECRET`, backs up `pi-members`, applies migration 067, creates the posting role; M4 waits on it.
   3. **Ask Venkat** whether to open a blygger-com issue for ROADMAP row 158 (who builds what).
 - **#183 research:** better burst detection (n items in m minutes; tune n and m against live blygs' histories); the reasons-split design (version reasons order, item reasons place) awaits a ruling on the issue.
 - **Fable agenda:** document-level passes ("first draft" as a pass; reopens part of #115), in `docs/fable-brief.md`; #120 (spec#40) review pending.
@@ -273,7 +269,7 @@ Delete an entry once it is done or Venkat says to drop it. An empty list means s
   2. **`oracle-gaps` crashes intermittently in CI** ("Message received from Worker before initialisation", the search oracle's gap step, twice in three runs on 2026-11-21; a rerun passed; not reproducible locally, even built as CI builds). Raise with Kyle; until fixed, rerun the failed job before suspecting the code.
   3. **The false update badge** (fixed in 0.69.0) clears on each node at its next daily check; other operators' nodes clear within a day of upgrading.
   4. **New Nature's session** owns its rollout from 0.65.0: migrations 0049–0055.
-  5. **Release tags are lightweight** (`git tag vX.Y.Z <sha>`), only after Check passes on the commit; Check takes ~52 min (studio#73 with Kyle). Run `publish_releases.py` after each release.
+  5. **Release tags are lightweight** (`git tag vX.Y.Z <sha>`), only after Check passes on the commit; Check takes ~13 min since #177 (was ~52). Run `publish_releases.py` after each release.
   6. **Shannon:** her colour-token, font and spacing-ramp PR when it comes. **Supply chain: [studio#153](https://github.com/blygger/blygger-studio/issues/153)** waits on Kyle's review.
   7. **Census:** hygercard and philippnagel/blygs as `in_development`? kinocomputing-lab? botference? (undecided since session 77).
 - **TN-8, the contributor guide** (session 78; was `blygger-studio/docs/where-does-it-go.md`, now a pointer): about 2,400 words; trim toward 2,000 when Venkat has read it, as v3. Drop once he has.
