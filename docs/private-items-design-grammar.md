@@ -193,6 +193,32 @@ can check. Not ranked, as the card asks; I will recommend if you want one.
   trivially on every refused route. *Changes* the contract: a reading client such as Burrow
   loses access. *Costs* a revise, and it overlaps §7(a).
 
+**C as built: an inventory, not a substitution (session 90; Venkat chose it; for Kyle's review,
+flagged in the release post).** Step 2 first built C as specified: routes declared their
+own-item fields and the runner substituted a hidden id in each. The gap check then showed the
+substitution was dead code. Of 233 mutants over `operation-runner.ts`, about 28 gaps sat in the
+new code, and no legal history could see them, because every declared route already answers a
+hidden id as an unknown one (step 1's finding: a hidden item is at version 0 and was never
+public, so the data those routes read cannot name it). Only the upload's `itemId` was
+load-bearing, and only because its handler's own check had been removed for it. Studio's oracle
+rules allow no equivalent mutants, so the choice was to make the runner the only enforcement
+(delete the handlers' own hiding) or to drop the substitution. Venkat chose the second.
+
+What ships: each route declares its own-item fields outside the path (`itemReferences`, 21
+fields in 19 routes and two extensions), and nothing reads them at run time. The private-scope
+oracle's route inventory fails on an id-shaped field no route declares, and on a declared field
+that the body-reference history does not ask, except three named with their reason (the upload,
+asked by the hidden history; proofread, asked by the references history; peek, which reads only
+the public surface over the network). So a new route that takes an own-item id gets an
+oracle history the day it lands. A substitution would only have hidden its leak.
+
+The build taught two things, kept here because they bear on B (step 3). A field the handler
+**stores** (a stub's citation, a shelf entry, a read mark, a browse step) cannot be substituted:
+the substitute is kept and read back, and substituting the shelf's entries moved a hidden entry
+(law 8 went red). And an answer that **echoes** the id (a fork's refusal, "no v1 of …") makes a
+substitute visible unless the runner maps it back. A mention-target lookup also cost a read
+batch an eighth binding call against a cap of seven.
+
 ## 9. PR 189's leftovers under the no-equivalence rule
 
 Studio's oracle rules say there are no equivalent mutants: a survivor shows a missing
