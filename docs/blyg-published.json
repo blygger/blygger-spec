@@ -267,6 +267,19 @@
       "id": "0begy6t67r3sjk4nt70zc1bpky",
       "version": 1,
       "source_sha256": "1bd458c48b6b56b5ed38e42940e25e1e749ebc99c6cca644172add18e3e757dd"
+    },
+    {
+      "file": "docs/posts/2026-11-28-the-agentic-feed.md",
+      "model": "claude-opus-5-5",
+      "pin": false,
+      "footer": "post",
+      "notes": {
+        "first": "The Agentic feed explained: the built-in digest, the outside sections in review, and the fuller form planned.",
+        "revision": "Post revised; see the source history."
+      },
+      "id": "6mb6jxrz3nnexk0w6q7y4t8yqs",
+      "version": 1,
+      "source_sha256": "0556b80bcd357212ae197d5631840eb1df67d02b2a9acd291c683fb72246b034"
     }
   ]
 }
