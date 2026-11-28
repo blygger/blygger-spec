@@ -7,6 +7,42 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > historical and are **not** retroactively edited: sessions before 6 correctly say
 > `ygg` because that was the name at the time.
 
+## Session 92 — 2026-11-27 — Dependency PRs merged, Kyle reminded, ten ecosystem listings; the Agentic digest's laws 3–4 (PR 206)
+**Model:** Opus 5.5 · **Time:** ~18:10–23:20 PT · **Committed:** yes (studio PR 206 (outside digest) pushed; blygger-org `b0dac3e` deployed; spec at wrap-up) · **Deployed:** blygger.org (ecosystem and contributors pages); no studio deploy
+
+**What & why:**
+- **Startup sweep.** All four repos clean. New since session 91: Kyle's studio PR 194 (dependency updates) and seven Renovate PRs; blygger-org#6 (botference) unanswered; spec#40 waits on Fable only.
+- **Simple maintenance merged** (Venkat: "merge things that are simple maintenance"):
+  - Studio PR 194 merged (`3b8d17d`), and closed PRs 191, 192, 196 and 197, which it covers.
+  - PRs 198 (markdown-it) and 199 (TypeScript) merged after their rebased Checks passed.
+  - The Renovate config PRs merged too: spec 41 and blygger-com 2.
+  - Main's first Check after 194 failed on two desktop e2e flakes (`reader-browse`, `shelf`). A rerun of the failed job passed, and main is green at `008abe7`.
+  - Note: 194 moved Playwright to 1.65, so local e2e needs `npx playwright install chromium` once.
+- **Kyle reminded** in one comment on studio#73, covering:
+  - #73's CI items;
+  - row 74 (oauth-interop placement);
+  - #188 (gap job);
+  - #190 (order rewrites);
+  - #153 (supply chain, using his own decision note's options).
+- **Ecosystem** (Venkat: "add all"): ten repos listed.
+  - Tools: Blyggdrasil, logseq-blyg, ThirdMind, hygercard, Kinocomputing lab, Pothole Portolan.
+  - Readers: Grove, Night Walk, Reverse Angle, Blygs Explorer.
+  - `patwater/pothole-portolan-blyg` skipped as a vanilla Studio node.
+  - The contributors page credits them, plus botference. Venkat confirmed ThirdMind is Mike Travers's.
+  - blygger.org deployed; blygger-org#6 replied and closed.
+- **The Agentic digest's laws 3–4** ("do the rules for the agentic reader"). Probe on venkateshrao (read-only): 57 directory blygs (46 active in 14 days) and 13 unfollowed met origins, the most-met being the node's own origin (381). Venkat's rulings: law 4 bounded and daily; form B (`met_origins`, migration 0066); hidden receipts shown. Recorded in `docs/agentic-digest-plan.md`.
+  - **Built (PR 206):** `src/agentic-discovery.ts` (≤ 14 fetches: the directory, then feeds in rank order, stopping at five active), and the `outsideSections` of `agentic-digest.ts`. Also the `mention` and `remote` entry kinds (contract 7.3.0), their resolution and thread links, and the tab's mention and remote cards (Open via /peek, Subscribe). Discovery runs on the 07:00 tick or Regenerate now.
+  - **Oracle-first:** `test/agentic-outside.oracle.test.ts`, red on inert stubs, then green. Four properties: laws 3 and 4, the resolution law, and the edition layout and thread.
+  - **Gaps:** an earlier run had 136; the final run has 27, none in a changed function (they sit in unchanged functions and the known session-90 gaps). The design-grammar trigger fired twice. The fixes:
+    - production lost dead guards, comparator tie-breaks and an unused column;
+    - the histories widened (directory duplicates and junk, failing feeds, ties, follow-between-editions, a later edition, held entries, every optional word);
+    - both drivers record response-contract failures as observations, which also killed the digest oracle's old crash mutant.
+  - **The rest of the suite:** Worker 2,039, UI 344, lint and the migration check pass. The backup test caught `met_origins` unclassified (now in `DERIVED_TABLES`). A new e2e test (outside cards, desktop and mobile) passes, and screenshots of the tab look right.
+
+**State after:** studio `main` at `008abe7` (three dependency PRs). PR 206 (outside digest) open on `feat/digest-laws-3-4` in `wt-d2` (session-92 scratchpad), Check pending at this entry. Migration 0066 is now met origins, so M1 (stored bylines) takes 0067. blygger.org live with the ten listings.
+
+**Open threads:** merge PR 206 when its Check passes, then release (0.75.0) and deploy with migration 0066 on three nodes. Discovery runs only at 07:00 or on Regenerate now, so the first New blygs appear the next morning. Also open: the digest/feed switch, the AI layer, narrow scopes and the outside agent; PR (access layer) step 3; and the 27 older gaps in `agentic.ts`'s unchanged functions (`sectionsOf` 11 and others) for a later pass.
+
 ## Session 91 — 2026-11-27 — Commerce in the Thicket: technical review, v5, PDF on protocol-institute.org, tangle on the PI blyg
 **Model:** Opus 5.5 · **Time:** ~14:26–15:12 PT · **Committed:** yes (spec: 3 local commits, `analysis/`; PI website: PR #25, merged by Venkat) · **Deployed:** PDF to `pi-assets` R2 (PI account); page `/commerce-in-the-thicket/` via website#25; tangle published on blyg.protocol-institute.org
 

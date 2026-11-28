@@ -288,3 +288,22 @@ its rows.
    over Highlights), a section with no candidates is absent, and the same held data and window
    give the same edition. An unchanged edition is not written again (added by Venkat, session 90,
    so an idle node spends no writes).
+
+**Laws 3 and 4 as built (Venkat, session 92, 2026-11-27).** Probe (venkateshrao, read-only): 57 blygs
+in the directory (46 posted in the last 14 days); 13 unfollowed origins met in the reading, of which the
+most met (381 references) was the node's own origin, and several were old addresses of blygs that
+have moved. Rulings:
+
+- **Bounded, daily.** Discovery runs once a day (the 07:00 tick in the owner's timezone, whatever the
+  frequency, or Regenerate now) and spends at most 14 fetches: the directory, then up to 13 feeds.
+  Hourly editions reuse the day's result. The queue: met origins neither followed nor the owner's own,
+  less listed ones whose directory `lastPost` is missing or 14 or more days old; most met first, then
+  newest `lastPost`, then origin; one feed fetch each (a listing's `feed`, else `{origin}feed.xml`),
+  stopping once five are active. Active means a feed item, not withdrawn, whose `blyg:created` is in the
+  last 14 days; the newest is the sample.
+- **Form B:** the discovery writes `met_origins` (migration 0066), which every edition and the
+  resolution of `remote` entries read, so neither touches the network.
+- **Hidden receipts are listed** in Mentions: the digest is private.
+- Added rules, marked as such in the oracle: the own origin is never a new blyg; a directory listing
+  makes an origin met but adds nothing to how often it is met.
+- Owned by `blygger-studio/test/agentic-outside.oracle.test.ts` (laws 3, 4 and the resolution law).
