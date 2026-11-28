@@ -8,7 +8,7 @@ Per-session development log. Non-skippable: every coding session appends an entr
 > `ygg` because that was the name at the time.
 
 ## Session 92 — 2026-11-27 — Dependency PRs merged, Kyle reminded, ten ecosystem listings; the Agentic digest's laws 3–4 (PR 206)
-**Model:** Opus 5.5 · **Time:** ~18:10–23:20 PT · **Committed:** yes (studio PR 206 (outside digest) pushed; blygger-org `b0dac3e` deployed; spec at wrap-up) · **Deployed:** blygger.org (ecosystem and contributors pages); no studio deploy
+**Model:** Opus 5.5 · **Time:** ~18:10–00:05 PT · **Committed:** yes (studio PR 206 merged `3e018c4`, tagged `v0.75.0`; blygger-org `b0dac3e`; spec pushed) · **Deployed:** studio 0.75.0 to venkateshrao, PI and blyg.blygger.org (migration 0066); blygger.org (ecosystem and contributors); the release thread and an explainer post on blyg.blygger.org
 
 **What & why:**
 - **Startup sweep.** All four repos clean. New since session 91: Kyle's studio PR 194 (dependency updates) and seven Renovate PRs; blygger-org#6 (botference) unanswered; spec#40 waits on Fable only.
@@ -39,9 +39,17 @@ Per-session development log. Non-skippable: every coding session appends an entr
     - both drivers record response-contract failures as observations, which also killed the digest oracle's old crash mutant.
   - **The rest of the suite:** Worker 2,039, UI 344, lint and the migration check pass. The backup test caught `met_origins` unclassified (now in `DERIVED_TABLES`). A new e2e test (outside cards, desktop and mobile) passes, and screenshots of the tab look right.
 
-**State after:** studio `main` at `008abe7` (three dependency PRs). PR 206 (outside digest) open on `feat/digest-laws-3-4` in `wt-d2` (session-92 scratchpad), Check pending at this entry. Migration 0066 is now met origins, so M1 (stored bylines) takes 0067. blygger.org live with the ten listings.
+- **Released 0.75.0** (Venkat: "yes" to merge, release, deploy):
+  - The release bump went into PR 206 after its first green Check, which cost a second PR Check. Venkat ruled that a feature headed for release carries its bump from the first push (memory).
+  - Merged as `3e018c4`; main's Check passed; tagged; Release green (5 assets).
+  - Migration 0066 applied and deployed on three nodes; all report `blygger-studio/0.75.0`.
+  - Announced `03y0whgms570g6a47jr3zmn697`.
+- **Explainer post** on blyg.blygger.org: "The Agentic feed: an assistant that edits your reading" (`6mb6jxrz3nnexk0w6q7y4t8yqs`, `docs/posts/2026-11-28-the-agentic-feed.md`). It covers what's built and the full form planned.
+- **Kyle:** proposal on studio#73 that the Release preflight accept a PR Check whose merge tree equals the tag commit's tree, saving main's duplicate ~13-minute run when main has not moved.
 
-**Open threads:** merge PR 206 when its Check passes, then release (0.75.0) and deploy with migration 0066 on three nodes. Discovery runs only at 07:00 or on Regenerate now, so the first New blygs appear the next morning. Also open: the digest/feed switch, the AI layer, narrow scopes and the outside agent; PR (access layer) step 3; and the 27 older gaps in `agentic.ts`'s unchanged functions (`sectionsOf` 11 and others) for a later pass.
+**State after:** studio 0.75.0 released and live on three nodes; `main` = `3e018c4`; `wt-d2` and its branch removed. M1 (stored bylines) takes migration 0067, and its branch `4379b14` survives, but its `wt-m1` scratchpad is gone (as is `wt-m0`'s), so both worktrees show as prunable. blygger.org lists the ten new projects; its roadmap page has not been redeployed with row 168's update.
+
+**Open threads:** the first Newly active blygs appear at each node's next 07:00 tick (or on Regenerate now); check one. Redeploy blygger.org for the roadmap row. Also open: the digest/feed switch, the AI layer, narrow scopes and the outside agent; PR (access layer) step 3; and the 27 older gaps in `agentic.ts`'s unchanged functions (`sectionsOf` 11 and others) for a later pass.
 
 ## Session 91 — 2026-11-27 — Commerce in the Thicket: technical review, v5, PDF on protocol-institute.org, tangle on the PI blyg
 **Model:** Opus 5.5 · **Time:** ~14:26–15:12 PT · **Committed:** yes (spec: 3 local commits, `analysis/`; PI website: PR #25, merged by Venkat) · **Deployed:** PDF to `pi-assets` R2 (PI account); page `/commerce-in-the-thicket/` via website#25; tangle published on blyg.protocol-institute.org
