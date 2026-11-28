@@ -24,6 +24,21 @@ Per-session development log. Non-skippable: every coding session appends an entr
 - Revise §25–26, §35 after RFC-6/7 close (2026-11-28) and RFC-3 (2026-12-10); next PDF is `-v6.pdf` with the page link updated.
 - The structured-offer, sponsor-disclosure and agent-negotiation gaps the briefing names are candidate hackathon RFCs.
 
+## Session 91 — 2026-11-27 — 0.74.0 released: the built-in Agentic digest
+**Model:** Opus 5.5 · **Time:** ~14:46–16:15 PT · **Committed:** yes (studio: PR 195 merged, `v0.74.0` tagged; spec and blygger-org local) · **Deployed:** studio 0.74.0 to venkateshrao, PI and blyg.blygger.org (no migrations); the release thread on blyg.blygger.org (`6p40ak8xj5c6pfte8y05e6rkfb`)
+
+**What & why:**
+- **Scope (Venkat): the digest alone.** The tab's digest/feed switch and access-layer steps 1–2 stay out. That kept one review and one Check.
+- **The release bump went into the PR**, not into a commit on `main` after the merge. This covered the version 0.74.0, private contract 7.2.0 (three settings and `regenerateAgentic`: minor), SDK 0.28.0, the CHANGELOG section, a what's-new highlight and the AGENTS.md status. `check-release.ts` already says "bump the version before merging". Main's Check on the merge commit gates the tag, which saves one ~13-minute run against the 0.73 pattern (merge, release commit, second Check). Also fixed: the new settings had been inserted between `agenticTitle`'s doc comment and its field, in both `types.ts` and `model.ts`.
+- **PR 195's first Check failed on my what's-new line.** `e2e/setup.spec.ts` pinned "New in 0.72.0", and the banner is headed by the newest release with highlights. The test now reads `HIGHLIGHTS[0].version`, so a release that adds a highlight no longer breaks it. The same shard's mobile shelf failure was a knock-on: the setup test died before it reset Notebook mode, the leak its own comment warns of. Both specs passed locally on both projects, and the second Check passed 42/42. `read-wake` and `reader-browse` were flaky on mobile (passed on retry).
+- **Merged** `090006e`; main's Check green; tagged; Release green (5 assets). Deployed per node (`deploy:vgr`, `deploy:pi`, the blyggerOrg spelling) with no prompts. All three serve `blygger-studio/0.74.0`, and the verify paths answer 200 (blyg.blygger.org has no blogroll in its list).
+- **Upgrade behaviour:** `agenticDriver` defaults to `external`, so an existing node changes nothing until its owner picks the built-in digest.
+- studio#73: the `reader-cache-validity` seed noted for Kyle (it fails on `main` too).
+
+**State after:** studio 0.74.0 released and live on three nodes; `main` = `090006e`. `feat/agentic-digest` and `wt-d1` removed. ROADMAP 168: part 1 shipped.
+
+**Open threads:** the digest/feed switch (asked for in the brief, not built); laws 3–4, the AI layer, narrow scopes, the reference agent; PR (access layer) step 3; Kyle's Renovate PRs (studio 194, 191, 192, spec 41, blygger-com 2) await review; four repos new in the census (Fishbiscuit/blyggdrasil, Haml3t/logseq-blyg, Marcobene97/blyg-agora, hyperphor/thirdmind); `gh run watch` hung after its run had completed (use `gh pr checks --watch` or poll `gh run view`).
+
 ## Session 90 — 2026-11-27 — Access layer steps 1–2; the built-in Agentic digest, test-deployed on venkateshrao; file attachments planned
 **Model:** Opus 5.5 · **Time:** ~07:35–14:15 PT · **Committed:** yes (studio: `feat/access-layer` 3 local commits; `feat/agentic-digest` 2 local commits plus a third at wrap-up; `main` one commit, AGENTS.md; spec at wrap-up) · **Deployed:** `feat/agentic-digest` (2 commits, the two-choice switch) to venkateshrao only, version `48ef2c97`, still reporting 0.73.1; the later changes are not deployed
 
